@@ -9,6 +9,6 @@ namespace OregonTrail
     public interface IVehicle : IEntity
     {
         uint DistanceTraveled { get; }
-        ReadOnlyCollection<Item> Parts { get; }
+        ReadOnlyCollection<ItemBase> Parts { get; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace OregonTrail
 {
-    public class Part : Item
+    public class Part : ItemBase
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:OregonTrail.Part" /> class.

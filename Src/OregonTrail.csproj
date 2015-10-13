@@ -45,19 +45,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Health\Condition.cs" />
+    <Compile Include="Common\People\PersonTier.cs" />
+    <Compile Include="Entity\Locations\FortLocation.cs" />
+    <Compile Include="Entity\Locations\RoadLocation.cs" />
     <Compile Include="Entity\Travel\DerelictEvent.cs" />
     <Compile Include="Common\Health\Disease.cs" />
-    <Compile Include="Entity\Entity\Entity.cs" />
+    <Compile Include="Entity\Entity\EntityBase.cs" />
     <Compile Include="Entity\Item\Food.cs" />
     <Compile Include="Common\Interfaces\IEntity.cs" />
     <Compile Include="Common\Interfaces\IItem.cs" />
     <Compile Include="Common\Interfaces\ILocation.cs" />
-    <Compile Include="Common\Interfaces\IParty.cs" />
-    <Compile Include="Common\Interfaces\IPerson.cs" />
-    <Compile Include="Entity\Item\Item.cs" />
+    <Compile Include="Common\People\IParty.cs" />
+    <Compile Include="Common\People\IPerson.cs" />
+    <Compile Include="Entity\Item\ItemBase.cs" />
     <Compile Include="Common\Travel\ITravelEvent.cs" />
-    <Compile Include="Entity\Entity\Location.cs" />
-    <Compile Include="Common\Travel\LocationType.cs" />
+    <Compile Include="Entity\Locations\LocationBase.cs" />
+    <Compile Include="Common\Travel\LocationFlag.cs" />
     <Compile Include="Entity\Travel\MedicalEvent.cs" />
     <Compile Include="Entity\Item\Part.cs" />
     <Compile Include="Entity\Entity\Party.cs" />
@@ -67,7 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entity\Travel\ThiefEvent.cs" />
     <Compile Include="Entity\Travel\TombstoneEvent.cs" />
-    <Compile Include="Entity\Travel\TravelEvent.cs" />
+    <Compile Include="Entity\Travel\RandomEventBase.cs" />
     <Compile Include="Common\Travel\RandomEvent.cs" />
     <Compile Include="Common\Interfaces\IVehicle.cs" />
     <Compile Include="Entity\Entity\Vehicle.cs" />

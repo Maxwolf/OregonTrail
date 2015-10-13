@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 
 namespace OregonTrail
 {
-    public class Party : Entity, IParty
+    public class Party : EntityBase, IParty
     {
-        private LocationType _currentLocation;
+        private LocationFlag _currentLocation;
         private List<Person> _members;
         private Vehicle _vessel;
 
@@ -13,7 +13,7 @@ namespace OregonTrail
         ///     Initializes a new instance of the <see cref="T:OregonTrail.Party" /> class.
         /// </summary>
         public Party(Condition condition, string name, List<Person> members, Vehicle vessel,
-            LocationType currentLocation) : base(condition, name)
+            LocationFlag currentLocation) : base(condition, name)
         {
             _members = members;
             _vessel = vessel;
@@ -30,7 +30,7 @@ namespace OregonTrail
             get { return _vessel; }
         }
 
-        public LocationType CurrentLocation
+        public LocationFlag CurrentLocation
         {
             get { return _currentLocation; }
         }

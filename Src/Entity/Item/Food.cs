@@ -1,6 +1,6 @@
 ﻿namespace OregonTrail
 {
-    public class Food : Item
+    public class Food : ItemBase
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:OregonTrail.Food" /> class.

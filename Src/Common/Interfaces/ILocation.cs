@@ -11,8 +11,8 @@ namespace OregonTrail
     {
         Weather Weather { get; }
         ReadOnlyCollection<Party> Parties { get; }
-        LocationType Description { get; }
-        ReadOnlyCollection<TravelEvent> Actions { get; }
+        LocationFlag Description { get; }
+        ReadOnlyCollection<RandomEventBase> Actions { get; }
         float ActionChance { get; }
     }
 }

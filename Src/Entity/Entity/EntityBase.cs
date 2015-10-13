@@ -1,6 +1,6 @@
 ﻿namespace OregonTrail
 {
-    public abstract class Entity : IEntity
+    public abstract class EntityBase : IEntity
     {
         private Condition _condition;
         private string _name;
@@ -8,7 +8,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:OregonTrail.Entity" /> class.
         /// </summary>
-        protected Entity(Condition condition, string name)
+        protected EntityBase(Condition condition, string name)
         {
             _condition = condition;
             _name = name;

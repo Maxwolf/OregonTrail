@@ -1,13 +1,13 @@
 ﻿namespace OregonTrail
 {
-    public abstract class TravelEvent : ITravelEvent
+    public abstract class RandomEventBase : ITravelEvent
     {
         private RandomEvent _action;
         private string _name;
         private float _rollChance;
         private uint _rollCount;
 
-        protected TravelEvent(RandomEvent action, string name, float rollChance, uint rollCount)
+        protected RandomEventBase(RandomEvent action, string name, float rollChance, uint rollCount)
         {
             _action = action;
             _name = name;

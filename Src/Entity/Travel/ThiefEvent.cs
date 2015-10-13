@@ -5,9 +5,9 @@
     ///     to murder one of the party members if it is determined they tried to resist. The chance of this happening is very
     ///     low though.
     /// </summary>
-    public class ThiefEvent : TravelEvent
+    public class ThiefEvent : RandomEventBase
     {
-        private readonly bool _murderer;
+        private bool _murderer;
 
         public ThiefEvent(RandomEvent action, string name, float rollChance, uint rollCount, bool murderer)
             : base(action, name, rollChance, rollCount)

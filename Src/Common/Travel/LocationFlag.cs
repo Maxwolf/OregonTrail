@@ -4,7 +4,7 @@
     ///     Defines all of the possible points in a given list of locations that the party of players will iterate through,
     ///     every game should have the start point be the beginning and the end point be at the end.
     /// </summary>
-    public enum LocationType
+    public enum LocationFlag
     {
         /// <summary>
         ///     Beginning of the game, offers up chance to buy supplies and name party players.

@@ -10,5 +10,6 @@ namespace OregonTrail
     {
         uint Money { get; }
         ReadOnlyCollection<Disease> Ailments { get; }
+        PersonTier SocialStatus { get; }
     }
 }

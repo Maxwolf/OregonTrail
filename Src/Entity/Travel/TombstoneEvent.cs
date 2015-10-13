@@ -4,7 +4,7 @@
     ///     Informs the player that there is a grave site here with an epitaph they can read the other player left. There are
     ///     no items or parts or any diseases here, it serves as purely a marker of others travels.
     /// </summary>
-    public class TombstoneEvent : TravelEvent
+    public class TombstoneEvent : RandomEventBase
     {
         private string _epitaph;
 

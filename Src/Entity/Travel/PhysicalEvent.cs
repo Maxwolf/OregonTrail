@@ -4,7 +4,7 @@
     ///     Physical event that messes with the vessel that carries the entire party, if roll chance passes harm will come to
     ///     the vehicle and the parts inside of it.
     /// </summary>
-    public class PhysicalEvent : TravelEvent
+    public class PhysicalEvent : RandomEventBase
     {
         private int _damageParty;
         private int _damageVehicle;

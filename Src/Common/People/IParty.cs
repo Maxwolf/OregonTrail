@@ -10,6 +10,6 @@ namespace OregonTrail
     {
         ReadOnlyCollection<Person> Members { get; }
         Vehicle Vessel { get; }
-        LocationType CurrentLocation { get; }
+        LocationFlag CurrentLocation { get; }
     }
 }

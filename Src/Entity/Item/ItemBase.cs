@@ -1,6 +1,6 @@
 ﻿namespace OregonTrail
 {
-    public abstract class Item : Entity, IItem
+    public abstract class ItemBase : EntityBase, IItem
     {
         private int _cost;
         private int _quantity;
@@ -8,7 +8,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:OregonTrail.Item" /> class.
         /// </summary>
-        protected Item(Condition condition, string name, int cost, int quantity) : base(condition, name)
+        protected ItemBase(Condition condition, string name, int cost, int quantity) : base(condition, name)
         {
             _cost = cost;
             _quantity = quantity;
