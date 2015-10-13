@@ -1,10 +1,10 @@
-﻿namespace OregonTrail
+﻿namespace OregonTrail.Common
 {
     /// <summary>
     ///     Overall health indicator for all entities in the simulation, we do not track health as a numeric value but as a
     ///     enum state that has a roll chance of lowering to the lowest possible state over time.
     /// </summary>
-    public enum Condition
+    public enum ConditionTier
     {
         /// <summary>
         ///     Best and starting health of all entities in the simulation.

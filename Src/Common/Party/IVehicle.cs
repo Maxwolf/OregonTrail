@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using OregonTrail.Entity;
 
-namespace OregonTrail
+namespace OregonTrail.Common
 {
     /// <summary>
     ///     Defines a basic vessel to carry parties of people. It's presence is defined by a current location, the amount of

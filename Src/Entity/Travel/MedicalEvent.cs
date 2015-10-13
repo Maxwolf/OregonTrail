@@ -1,4 +1,6 @@
-﻿namespace OregonTrail
+﻿using OregonTrail.Common;
+
+namespace OregonTrail.Entity
 {
     /// <summary>
     ///     Medical event that will affect the party members if the roll chance triggers it will randomly select someone from
@@ -9,7 +11,8 @@
         private Disease _disease;
         private uint _infectionCount;
 
-        public MedicalEvent(RandomEvent action, string name, float rollChance, uint rollCount, Disease disease, uint infectionCount)
+        public MedicalEvent(RandomEvent action, string name, float rollChance, uint rollCount, Disease disease,
+            uint infectionCount)
             : base(action, name, rollChance, rollCount)
         {
             _disease = disease;

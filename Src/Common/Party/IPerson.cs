@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace OregonTrail
+namespace OregonTrail.Common
 {
     /// <summary>
     ///     Person entity that is one of the players, can be given a name, ailments, money. The money on the person contributes

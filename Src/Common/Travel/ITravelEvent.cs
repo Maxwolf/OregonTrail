@@ -1,4 +1,4 @@
-﻿namespace OregonTrail
+﻿namespace OregonTrail.Common
 {
     /// <summary>
     ///     Base travel event that will be used in the creation of other variations of the event such as a medical event,

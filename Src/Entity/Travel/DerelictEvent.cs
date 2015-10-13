@@ -1,4 +1,6 @@
-﻿namespace OregonTrail
+﻿using OregonTrail.Common;
+
+namespace OregonTrail.Entity
 {
     /// <summary>
     ///     Defines all of the logic for the player discovering a derelict vessel that can contain parts, food, and if they are

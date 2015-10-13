@@ -1,4 +1,4 @@
-﻿namespace OregonTrail
+﻿namespace OregonTrail.Common
 {
     /// <summary>
     ///     Defines all the possible events that can occur to a party, depending on the roll chance and what type of event is

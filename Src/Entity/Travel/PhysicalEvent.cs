@@ -1,4 +1,6 @@
-﻿namespace OregonTrail
+﻿using OregonTrail.Common;
+
+namespace OregonTrail.Entity
 {
     /// <summary>
     ///     Physical event that messes with the vessel that carries the entire party, if roll chance passes harm will come to

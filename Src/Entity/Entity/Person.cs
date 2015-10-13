@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using OregonTrail.Common;
 
-namespace OregonTrail
+namespace OregonTrail.Entity
 {
     public class Person : EntityBase, IPerson
     {
+        private readonly PersonTier _socialStatus;
         private List<Disease> _ailments;
         private uint _money;
-        private readonly PersonTier _socialStatus;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:OregonTrail.Person" /> class.
+        ///     Initializes a new instance of the <see cref="T:OregonTrail.Entity.Person" /> class.
         /// </summary>
-        public Person(Condition condition, string name, uint money, PersonTier socialStatus) : base(condition, name)
+        public Person(ConditionTier condition, string name, uint money, PersonTier socialStatus) : base(condition, name)
         {
             _ailments = new List<Disease>();
             _money = money;

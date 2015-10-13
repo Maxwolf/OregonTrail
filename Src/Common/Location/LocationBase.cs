@@ -1,28 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using OregonTrail.Entity;
 
-namespace OregonTrail
+namespace OregonTrail.Common
 {
     public abstract class LocationBase : EntityBase, ILocation
     {
         private float _actionChance;
         private List<RandomEventBase> _actions = new List<RandomEventBase>();
-        private LocationFlag _description;
+        private LocationCategory _description;
         private List<Party> _parties = new List<Party>();
-        private Weather _weather;
+        private WeatherTier _weather;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:OregonTrail.Location" /> class.
         /// </summary>
-        protected LocationBase(Condition condition, string name, float actionChance, LocationFlag description,
-            Weather weather) : base(condition, name)
+        protected LocationBase(ConditionTier condition, string name, float actionChance, LocationCategory description,
+            WeatherTier weather) : base(condition, name)
         {
             _actionChance = actionChance;
             _description = description;
             _weather = weather;
         }
 
-        public Weather Weather
+        public WeatherTier Weather
         {
             get { return _weather; }
         }
@@ -32,7 +33,7 @@ namespace OregonTrail
             get { return new ReadOnlyCollection<Party>(_parties); }
         }
 
-        public LocationFlag Description
+        public LocationCategory Description
         {
             get { return _description; }
         }

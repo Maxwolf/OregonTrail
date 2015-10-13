@@ -1,14 +1,16 @@
-﻿namespace OregonTrail
+﻿using OregonTrail.Common;
+
+namespace OregonTrail.Entity
 {
     public abstract class EntityBase : IEntity
     {
-        private Condition _condition;
+        private ConditionTier _condition;
         private string _name;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:OregonTrail.Entity" /> class.
         /// </summary>
-        protected EntityBase(Condition condition, string name)
+        protected EntityBase(ConditionTier condition, string name)
         {
             _condition = condition;
             _name = name;
@@ -19,7 +21,7 @@
             get { return _name; }
         }
 
-        public Condition Condition
+        public ConditionTier Condition
         {
             get { return _condition; }
         }

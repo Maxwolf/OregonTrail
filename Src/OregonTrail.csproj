@@ -33,7 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>OregonTrail.Program</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -44,25 +45,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Health\Condition.cs" />
-    <Compile Include="Common\People\PersonTier.cs" />
-    <Compile Include="Entity\Locations\FortLocation.cs" />
-    <Compile Include="Entity\Locations\RoadLocation.cs" />
+    <Compile Include="Common\Health\ConditionTier.cs" />
+    <Compile Include="Common\Item\ItemCategory.cs" />
+    <Compile Include="Common\Party\FoodRations.cs" />
+    <Compile Include="Common\Party\PersonTier.cs" />
+    <Compile Include="Common\Party\TravelPace.cs" />
+    <Compile Include="Entity\Item\BulletItem.cs" />
+    <Compile Include="Entity\Item\ClothingItem.cs" />
+    <Compile Include="Common\Location\EndLocation.cs" />
+    <Compile Include="Common\Location\FortLocation.cs" />
+    <Compile Include="Common\Location\LandmarkLocation.cs" />
+    <Compile Include="Common\Location\RoadLocation.cs" />
+    <Compile Include="Common\Location\StartLocation.cs" />
     <Compile Include="Entity\Travel\DerelictEvent.cs" />
     <Compile Include="Common\Health\Disease.cs" />
     <Compile Include="Entity\Entity\EntityBase.cs" />
-    <Compile Include="Entity\Item\Food.cs" />
-    <Compile Include="Common\Interfaces\IEntity.cs" />
-    <Compile Include="Common\Interfaces\IItem.cs" />
-    <Compile Include="Common\Interfaces\ILocation.cs" />
-    <Compile Include="Common\People\IParty.cs" />
-    <Compile Include="Common\People\IPerson.cs" />
+    <Compile Include="Entity\Item\FoodItem.cs" />
+    <Compile Include="Common\IEntity.cs" />
+    <Compile Include="Common\Item\IItem.cs" />
+    <Compile Include="Common\Location\ILocation.cs" />
+    <Compile Include="Common\Party\IParty.cs" />
+    <Compile Include="Common\Party\IPerson.cs" />
     <Compile Include="Entity\Item\ItemBase.cs" />
     <Compile Include="Common\Travel\ITravelEvent.cs" />
-    <Compile Include="Entity\Locations\LocationBase.cs" />
-    <Compile Include="Common\Travel\LocationFlag.cs" />
+    <Compile Include="Common\Location\LocationBase.cs" />
+    <Compile Include="Common\Location\LocationCategory.cs" />
     <Compile Include="Entity\Travel\MedicalEvent.cs" />
-    <Compile Include="Entity\Item\Part.cs" />
+    <Compile Include="Entity\Item\PartItem.cs" />
     <Compile Include="Entity\Entity\Party.cs" />
     <Compile Include="Entity\Entity\Person.cs" />
     <Compile Include="Entity\Travel\PhysicalEvent.cs" />
@@ -72,15 +81,16 @@
     <Compile Include="Entity\Travel\TombstoneEvent.cs" />
     <Compile Include="Entity\Travel\RandomEventBase.cs" />
     <Compile Include="Common\Travel\RandomEvent.cs" />
-    <Compile Include="Common\Interfaces\IVehicle.cs" />
+    <Compile Include="Common\Party\IVehicle.cs" />
     <Compile Include="Entity\Entity\Vehicle.cs" />
-    <Compile Include="Common\Travel\Weather.cs" />
+    <Compile Include="Common\Travel\WeatherTier.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="OregonTrail.cd" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Entity\Locations\" />
     <Folder Include="Game\Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

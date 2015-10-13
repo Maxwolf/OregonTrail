@@ -1,4 +1,4 @@
-﻿namespace OregonTrail
+﻿namespace OregonTrail.Common
 {
     /// <summary>
     ///     Ailments which the player entities may come under the influence given enough of a roll chance to infect.

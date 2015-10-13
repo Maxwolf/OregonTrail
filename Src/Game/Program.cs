@@ -1,4 +1,4 @@
-﻿namespace OregonTrail
+﻿namespace OregonTrail.Game
 {
     internal class Program
     {

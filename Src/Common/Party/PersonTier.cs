@@ -1,4 +1,4 @@
-﻿namespace OregonTrail
+﻿namespace OregonTrail.Common
 {
     public enum PersonTier
     {

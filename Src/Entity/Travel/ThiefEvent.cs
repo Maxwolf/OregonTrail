@@ -1,4 +1,6 @@
-﻿namespace OregonTrail
+﻿using OregonTrail.Common;
+
+namespace OregonTrail.Entity
 {
     /// <summary>
     ///     Logic for controlling a thief that will take food and part items from the party. It is also possible for the thief

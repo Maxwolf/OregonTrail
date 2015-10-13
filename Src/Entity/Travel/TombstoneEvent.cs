@@ -1,4 +1,6 @@
-﻿namespace OregonTrail
+﻿using OregonTrail.Common;
+
+namespace OregonTrail.Entity
 {
     /// <summary>
     ///     Informs the player that there is a grave site here with an epitaph they can read the other player left. There are

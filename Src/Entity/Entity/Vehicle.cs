@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using OregonTrail.Common;
 
-namespace OregonTrail
+namespace OregonTrail.Entity
 {
     public class Vehicle : EntityBase, IVehicle
     {
@@ -9,9 +10,9 @@ namespace OregonTrail
         private List<ItemBase> _parts;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:OregonTrail.Vehicle" /> class.
+        ///     Initializes a new instance of the <see cref="T:OregonTrail.Entity.Vehicle" /> class.
         /// </summary>
-        public Vehicle(Condition condition, string name, uint distanceTraveled, List<ItemBase> parts)
+        public Vehicle(ConditionTier condition, string name, uint distanceTraveled, List<ItemBase> parts)
             : base(condition, name)
         {
             _distanceTraveled = distanceTraveled;

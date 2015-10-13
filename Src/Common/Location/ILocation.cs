@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
+using OregonTrail.Entity;
 
-namespace OregonTrail
+namespace OregonTrail.Common
 {
     /// <summary>
     ///     Defines a place in the game where a vessel, party, and persons are allowed it exist at any given time. A location
@@ -9,9 +10,9 @@ namespace OregonTrail
     /// </summary>
     public interface ILocation : IEntity
     {
-        Weather Weather { get; }
+        WeatherTier Weather { get; }
         ReadOnlyCollection<Party> Parties { get; }
-        LocationFlag Description { get; }
+        LocationCategory Description { get; }
         ReadOnlyCollection<RandomEventBase> Actions { get; }
         float ActionChance { get; }
     }
