@@ -33,6 +33,12 @@
         ///     Section of the game that requires traversing manually, there is a total distance it equals. Since it is made of
         ///     linked list there is possibility to see what location comes before and after the current trip.
         /// </summary>
-        Road
+        Road,
+
+        /// <summary>
+        ///     Town or city that is not a military fort or landmark but instead a rich trading hub. There are also other people to
+        ///     trade with, and advice to get from them. Players can also rest here without fear of getting robbed.
+        /// </summary>
+        Settlement
     }
 }

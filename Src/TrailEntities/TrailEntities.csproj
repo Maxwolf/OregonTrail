@@ -40,20 +40,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityBase.cs" />
-    <Compile Include="Item\BulletItem.cs" />
-    <Compile Include="Item\ClothingItem.cs" />
-    <Compile Include="Item\FoodItem.cs" />
-    <Compile Include="Item\ItemBase.cs" />
-    <Compile Include="Item\PartItem.cs" />
+    <Compile Include="Items\BulletItem.cs" />
+    <Compile Include="Items\ClothingItem.cs" />
+    <Compile Include="Items\FoodItem.cs" />
+    <Compile Include="Items\ItemBase.cs" />
+    <Compile Include="Items\PartItem.cs" />
     <Compile Include="Party.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Travel\DerelictEvent.cs" />
-    <Compile Include="Travel\MedicalEvent.cs" />
-    <Compile Include="Travel\PhysicalEvent.cs" />
-    <Compile Include="Travel\RandomEventBase.cs" />
-    <Compile Include="Travel\ThiefEvent.cs" />
-    <Compile Include="Travel\TombstoneEvent.cs" />
+    <Compile Include="Travel Events\DerelictEvent.cs" />
+    <Compile Include="Travel Events\MedicalEvent.cs" />
+    <Compile Include="Travel Events\PhysicalEvent.cs" />
+    <Compile Include="Travel Events\RandomEventBase.cs" />
+    <Compile Include="Travel Events\ThiefEvent.cs" />
+    <Compile Include="Travel Events\TombstoneEvent.cs" />
     <Compile Include="Vehicle.cs" />
   </ItemGroup>
   <ItemGroup>
