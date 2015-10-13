@@ -1,0 +1,64 @@
+----------[STATUS]----------
+Weather: cool, hot, warm, very rainy, rainy
+Health: good, fair, poor
+Pace: steady
+Rations: filling
+
+----------[1. CONTINUE ON THE TRAIL.]----------
+"From X it is Y miles to the Z"
+
+Date: May 2, 1848
+Weather: hot
+Health: good
+Food: 985 pounds
+Next landmark: 102 miles
+Miles traveled: 0 miles
+
+----------[2. CHECK SUPPLIES.]----------
+-oxen = 6
+-sets of clothing = 5
+-bullets = 1000
+-wagon wheels = 3
+-wagon axles = 1
+-wagon tongues = 2
+-pounds of food = 985
+-money left = $270.00
+
+----------[3. LOOK AT MAP.]----------
+# = Start/End points
+* = Forts
++ = Landmark
+- = Location
+
+#Independence
+-Matt's General Store
+*Fort Kearney
++Chimney Rock
+*Laramie
++Independence Rock
++South Pass
++Soda Springs
+*Fort Bridger
+*Fort Hall
+*Fort Boise
+*Fort Walla Walla
++Blue Mountains
++The Dalles
+#Oregon City
+
+----------[4. CHANGE PACE.]----------
+-The pace at which you travel can change.
+steady pace - 8 hours a day, taking frequent rests. You take care not to get too tired.
+strenuous pace - 12 hours a day, stopping only when necessary. Finish each day feeling very tired.
+grueling pace - 16 hours a day, you never rest and barley sleep. You are absolutley exhausted, and your health suffers.
+
+----------[5. CHANGE FOOD RATIONS]----------
+-Amount of food people in party eat each day can change.
+filling - meals are large and generous.
+meager - meals are small, but adequate.
+bare bones - meals are very small; everyone stays hungry.
+
+----------[6. STOP TO REST.]----------
+----------[7. ATTEMPT TO TRADE.]----------
+----------[8. TALK TO PEOPLE.]----------
+----------[9. BUY SUPPLIES.]----------

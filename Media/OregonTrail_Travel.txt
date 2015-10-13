@@ -1,0 +1,32 @@
+----------[LOCATION GET]----------
+-Forces interaction on the player (such as river crossing, fork in road).
+-Player is given chance to look around.
+-Let the player talk to people in the area.
+-Chance to trade with other people, sometimes no one wants to trade.
+
+----------[RANDOM EVENTS]----------
+-Occur while traveling, can be positive or negative.
+*Wrong trail. Lose 5 days.
+*Heavy fox. Lose 1 day.
+*Find wild fruit.
+*A thief comes during the night and steals 4 oxen.
+*You pass a gravesite. Would you like to look closer?
+"Here lies Voland, hey hey hey! Come out and play!"
+*X has a broken arm.
+*Find abandoned wagon with supplies.
+*X has dysentery.
+*X has snakebite.
+*X has measles.
+*X has cholera.
+*X has a fever.
+*X has died.
+*Broken wagon tongue, would you like to try and repair?
+
+----------[WARNINGS]----------
+-Important things the player should know about before they get worse.
+*Very little water.
+*Bad water.
+*Very little food.
+*No food.
+*Rough trail.
+*Heavy fog.
