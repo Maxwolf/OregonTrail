@@ -7,7 +7,7 @@
 ----------[RANDOM EVENTS]----------
 -Occur while traveling, can be positive or negative.
 *Wrong trail. Lose 5 days.
-*Heavy fox. Lose 1 day.
+*Heavy fog. Lose 1 day.
 *Find wild fruit.
 *A thief comes during the night and steals 4 oxen.
 *You pass a gravesite. Would you like to look closer?

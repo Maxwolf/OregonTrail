@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="OregonTrail.MedicalEvent">
+    <Position X="9.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Travel\MedicalEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OregonTrail.PhysicalEvent">
+    <Position X="11.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Travel\PhysicalEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OregonTrail.ThiefEvent">
+    <Position X="12.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Entity\Travel\ThiefEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OregonTrail.DerelictEvent">
+    <Position X="14.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Entity\Travel\DerelictEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OregonTrail.TravelEvent">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Travel\TravelEvent.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OregonTrail.TombstoneEvent">
+    <Position X="14.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Travel\TombstoneEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OregonTrail.Entity">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAACAAAAAAAAAAAQAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Entity.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OregonTrail.Food">
+    <Position X="12.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Item\Food.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OregonTrail.Part">
+    <Position X="12.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Item\Part.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OregonTrail.Vehicle">
+    <Position X="5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQgAAAAAAAAgAABAAAAgAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Entity\Vehicle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OregonTrail.Party">
+    <Position X="7.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAABAAAAAAAAAAAAAAAAIAAAEAAAAAAA=</HashCode>
+      <FileName>Entity\Party.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OregonTrail.Person">
+    <Position X="3" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAIAAAAAAAAiAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Person.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OregonTrail.Location">
+    <Position X="9.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAIAAgAAAEAAAAAgAAAAAABAAQACAAABAAAEA=</HashCode>
+      <FileName>Entity\Location\Location.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OregonTrail.Item">
+    <Position X="12.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAABAAAAABAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Entity\Item.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="OregonTrail.IEntity">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\IEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OregonTrail.IPerson">
+    <Position X="2" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\IPerson.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OregonTrail.IVehicle">
+    <Position X="3.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAABAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\IVehicle.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OregonTrail.IItem">
+    <Position X="5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Common\IItem.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OregonTrail.IParty">
+    <Position X="6.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Common\IParty.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OregonTrail.ILocation">
+    <Position X="8" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAIAAgAAAAAAAAAAAAAAAAAAAQACAAAAAAAAA=</HashCode>
+      <FileName>Common\ILocation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OregonTrail.ITravelEvent">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAIAAAAAAAAQ=</HashCode>
+      <FileName>Common\Travel\ITravelEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="OregonTrail.Condition">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAACAAAAIAAAAAAAAACAAAAAE=</HashCode>
+      <FileName>Common\Condition.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OregonTrail.Disease">
+    <Position X="2" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgASAAAAIAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Common\Disease.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OregonTrail.TravelingEvent">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAoAAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAA=</HashCode>
+      <FileName>Common\Travel\TravelingEvent.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OregonTrail.Weather">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAQBAAAAIAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Travel\Weather.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OregonTrail.LocationType">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAKAAAAAACAAAAAAIAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Entity\Location\LocationType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
