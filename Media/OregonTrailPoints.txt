@@ -1,0 +1,149 @@
+----------[POINTS]----------
+-People are most important resource.
+-Points for each member who arrives safely.
+-More points if they arrive in good health.
+-Resources give points for each item you bring safely.
+-Points for occupation on arrival because ship needs crew.
+
+----------[NOTES]----------
+*Banker has more money for supplies and services than a capenter or a farmer.
+*The harder you have to try, the more points you deserve! So farmer gets the most and banker earns the least.
+*Decide when to leave, earlier means less supplies, later means harsher environment, middle is just right.
+*Equipment and supplies must be purchased. You have $800.00 in cash, no need to spend it all now.
+
+----------STORE]----------
+-A team of oxen to pull your wagon.
+-Clothing for both summer and winter.
+-Plenty of food for the trip.
+-Ammunition for your rifles.
+-Spare parts for your wagon.
+
+----------[SUPPLIES]----------
+-2 ox per yoke, recommend 3 for $40 for $120 basic ox setup.
+-200 pounds of food per person. Need flour, sugar, bacon, and coffee. 0.20 cents a pound ($200 for 1000 pounds).
+-2 sets of clothes per person, $10 for set. $50 for 5 sets or 10 pairs of clothes.
+-20 bullets for $2 ($100 for 1000 bullets) for hunting.
+-spare parts are a good idea, see section below...
+
+----------[LOCATION GET]----------
+-Forces interaction on the player (such as river crossing, fork in road).
+-Player is given chance to look around.
+-Let the player talk to people in the area.
+-Chance to trade with other people, sometimes no one wants to trade.
+
+----------[RANDOM EVENTS]----------
+-Occur while traveling, can be positive or negative.
+*Wrong trail. Lose 5 days.
+*Heavy fox. Lose 1 day.
+*Find wild fruit.
+*A thief comes during the night and steals 4 oxen.
+*You pass a gravesite. Would you like to look closer?
+"Here lies Voland, hey hey hey! Come out and play!"
+*X has a broken arm.
+*Find abandoned wagon with supplies.
+*X has dysentery.
+*X has snakebite.
+*X has measles.
+*X has cholera.
+*X has a fever.
+*X has died.
+*Broken wagon tongue, would you like to try and repair?
+
+----------[WARNINGS]----------
+-Important things the player should know about before they get worse.
+*Very little water.
+*Bad water.
+*Very little food.
+*No food.
+*Rough trail.
+*Heavy fog.
+
+----------[SPARE PARTS]----------
+wagon wheel - $10 each
+wagon axle - $10 each
+wagon tongue - $10 each
+
+----------[STATUS]----------
+Weather: cool, hot, warm, very rainy, rainy
+Health: good, fair, poor
+Pace: steady
+Rations: filling
+
+----------[1. CONTINUE ON THE TRAIL.]----------
+"From X it is Y miles to the Z"
+
+Date: May 2, 1848
+Weather: hot
+Health: good
+Food: 985 pounds
+Next landmark: 102 miles
+Miles traveled: 0 miles
+
+----------[2. CHECK SUPPLIES.]----------
+-oxen = 6
+-sets of clothing = 5
+-bullets = 1000
+-wagon wheels = 3
+-wagon axles = 1
+-wagon tongues = 2
+-pounds of food = 985
+-money left = $270.00
+
+----------[3. LOOK AT MAP.]----------
+# = Start/End points
+* = Forts
++ = Landmark
+- = Location
+
+#Independence
+-Matt's General Store
+*Fort Kearney
++Chimney Rock
+*Laramie
++Independence Rock
++South Pass
++Soda Springs
+*Fort Bridger
+*Fort Hall
+*Fort Boise
+*Fort Walla Walla
++Blue Mountains
++The Dalles
+#Oregon City
+
+----------[4. CHANGE PACE.]----------
+-The pace at which you travel can change.
+steady pace - 8 hours a day, taking frequent rests. You take care not to get too tired.
+strenuous pace - 12 hours a day, stopping only when necessary. Finish each day feeling very tired.
+grueling pace - 16 hours a day, you never rest and barley sleep. You are absolutley exhausted, and your health suffers.
+
+----------[5. CHANGE FOOD RATIONS]----------
+-Amount of food people in party eat each day can change.
+filling - meals are large and generous.
+meager - meals are small, but adequate.
+bare bones - meals are very small; everyone stays hungry.
+
+----------[6. STOP TO REST.]----------
+----------[7. ATTEMPT TO TRADE.]----------
+----------[8. TALK TO PEOPLE.]----------
+----------[9. BUY SUPPLIES.]----------
+
+----------[HEALTH - POINTS PER PERSON]----------
+good - 500
+fair - 400
+poor - 300
+very poor - 200
+
+----------[RESOURCES OF PARTY - POINTS PER ITEM]----------
+wagon - 50
+ox - 4
+spare wagon part - 2
+set of clothing - 2
+bullets (each 50) - 1
+food (each 25) - 1
+cash (each 5 dollars) - 1
+
+----------[OCCUPATION - POINTS]----------
+banker - x0
+capenter - x2
+farmer - x3
