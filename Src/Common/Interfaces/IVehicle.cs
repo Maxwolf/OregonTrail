@@ -10,6 +10,5 @@ namespace OregonTrail
     {
         uint DistanceTraveled { get; }
         ReadOnlyCollection<Item> Parts { get; }
-        LocationType CurrentLocation { get; }
     }
 }

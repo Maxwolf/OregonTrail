@@ -5,15 +5,17 @@ namespace OregonTrail
 {
     public class Vehicle : Entity, IVehicle
     {
-        private LocationType _currentLocation;
         private uint _distanceTraveled;
         private List<Item> _parts;
 
-        public Vehicle(uint distanceTraveled, List<Item> parts, LocationType currentLocation)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:OregonTrail.Vehicle" /> class.
+        /// </summary>
+        public Vehicle(Condition condition, string name, uint distanceTraveled, List<Item> parts)
+            : base(condition, name)
         {
             _distanceTraveled = distanceTraveled;
             _parts = parts;
-            _currentLocation = currentLocation;
         }
 
         public uint DistanceTraveled
@@ -24,11 +26,6 @@ namespace OregonTrail
         public ReadOnlyCollection<Item> Parts
         {
             get { return new ReadOnlyCollection<Item>(_parts); }
-        }
-
-        public LocationType CurrentLocation
-        {
-            get { return _currentLocation; }
         }
     }
 }

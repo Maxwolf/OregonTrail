@@ -8,7 +8,7 @@
     {
         string Name { get; }
         uint RollCount { get; }
-        TravelingEvent Action { get; }
+        RandomEvent Action { get; }
         float RollChance { get; }
     }
 }

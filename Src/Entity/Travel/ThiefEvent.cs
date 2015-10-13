@@ -9,7 +9,7 @@
     {
         private readonly bool _murderer;
 
-        public ThiefEvent(TravelingEvent action, string name, float rollChance, uint rollCount, bool murderer)
+        public ThiefEvent(RandomEvent action, string name, float rollChance, uint rollCount, bool murderer)
             : base(action, name, rollChance, rollCount)
         {
             _murderer = murderer;

@@ -44,34 +44,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Condition.cs" />
+    <Compile Include="Common\Health\Condition.cs" />
     <Compile Include="Entity\Travel\DerelictEvent.cs" />
-    <Compile Include="Common\Disease.cs" />
-    <Compile Include="Entity\Entity.cs" />
+    <Compile Include="Common\Health\Disease.cs" />
+    <Compile Include="Entity\Entity\Entity.cs" />
     <Compile Include="Entity\Item\Food.cs" />
-    <Compile Include="Common\IEntity.cs" />
-    <Compile Include="Common\IItem.cs" />
-    <Compile Include="Common\ILocation.cs" />
-    <Compile Include="Common\IParty.cs" />
-    <Compile Include="Common\IPerson.cs" />
+    <Compile Include="Common\Interfaces\IEntity.cs" />
+    <Compile Include="Common\Interfaces\IItem.cs" />
+    <Compile Include="Common\Interfaces\ILocation.cs" />
+    <Compile Include="Common\Interfaces\IParty.cs" />
+    <Compile Include="Common\Interfaces\IPerson.cs" />
     <Compile Include="Entity\Item\Item.cs" />
     <Compile Include="Common\Travel\ITravelEvent.cs" />
-    <Compile Include="Entity\Location\Location.cs" />
-    <Compile Include="Entity\Location\LocationType.cs" />
+    <Compile Include="Entity\Entity\Location.cs" />
+    <Compile Include="Common\Travel\LocationType.cs" />
     <Compile Include="Entity\Travel\MedicalEvent.cs" />
     <Compile Include="Entity\Item\Part.cs" />
-    <Compile Include="Entity\Party.cs" />
-    <Compile Include="Entity\Person.cs" />
+    <Compile Include="Entity\Entity\Party.cs" />
+    <Compile Include="Entity\Entity\Person.cs" />
     <Compile Include="Entity\Travel\PhysicalEvent.cs" />
     <Compile Include="Game\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entity\Travel\RandomEvent.cs" />
     <Compile Include="Entity\Travel\ThiefEvent.cs" />
     <Compile Include="Entity\Travel\TombstoneEvent.cs" />
     <Compile Include="Entity\Travel\TravelEvent.cs" />
-    <Compile Include="Common\Travel\TravelingEvent.cs" />
-    <Compile Include="Common\IVehicle.cs" />
-    <Compile Include="Entity\Vehicle.cs" />
+    <Compile Include="Common\Travel\RandomEvent.cs" />
+    <Compile Include="Common\Interfaces\IVehicle.cs" />
+    <Compile Include="Entity\Entity\Vehicle.cs" />
     <Compile Include="Common\Travel\Weather.cs" />
   </ItemGroup>
   <ItemGroup>

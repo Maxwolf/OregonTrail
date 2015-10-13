@@ -6,7 +6,7 @@
     /// </summary>
     public interface IEntity
     {
-        string Name { get; set; }
-        Condition Condition { get; set; }
+        string Name { get; }
+        Condition Condition { get; }
     }
 }

@@ -11,7 +11,11 @@ namespace OregonTrail
         private List<Party> _parties = new List<Party>();
         private Weather _weather;
 
-        protected Location(float actionChance, LocationType description, Weather weather)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:OregonTrail.Location" /> class.
+        /// </summary>
+        protected Location(Condition condition, string name, float actionChance, LocationType description,
+            Weather weather) : base(condition, name)
         {
             _actionChance = actionChance;
             _description = description;

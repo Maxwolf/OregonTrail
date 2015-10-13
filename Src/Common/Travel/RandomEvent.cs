@@ -4,7 +4,7 @@
     ///     Defines all the possible events that can occur to a party, depending on the roll chance and what type of event is
     ///     specified a class can be constructed to change the behavior.
     /// </summary>
-    public enum TravelingEvent
+    public enum RandomEvent
     {
         /// <summary>
         ///     Affects party players and not items. Could be a simple fever or something crazy like a death.

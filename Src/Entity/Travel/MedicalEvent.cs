@@ -8,7 +8,7 @@
     {
         private Disease _disease;
 
-        public MedicalEvent(TravelingEvent action, string name, float rollChance, uint rollCount, Disease disease)
+        public MedicalEvent(RandomEvent action, string name, float rollChance, uint rollCount, Disease disease)
             : base(action, name, rollChance, rollCount)
         {
             _disease = disease;

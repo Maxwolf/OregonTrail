@@ -8,10 +8,13 @@ namespace OregonTrail
         private List<Disease> _ailments;
         private uint _money;
 
-        public Person(uint money)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:OregonTrail.Person" /> class.
+        /// </summary>
+        public Person(Condition condition, string name, List<Disease> ailments, uint money) : base(condition, name)
         {
+            _ailments = ailments;
             _money = money;
-            _ailments = new List<Disease>();
         }
 
         public uint Money

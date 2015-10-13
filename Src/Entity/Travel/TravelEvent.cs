@@ -2,12 +2,12 @@
 {
     public abstract class TravelEvent : ITravelEvent
     {
-        private TravelingEvent _action;
+        private RandomEvent _action;
         private string _name;
         private float _rollChance;
         private uint _rollCount;
 
-        protected TravelEvent(TravelingEvent action, string name, float rollChance, uint rollCount)
+        protected TravelEvent(RandomEvent action, string name, float rollChance, uint rollCount)
         {
             _action = action;
             _name = name;
@@ -25,7 +25,7 @@
             get { return _rollCount; }
         }
 
-        public TravelingEvent Action
+        public RandomEvent Action
         {
             get { return _action; }
         }

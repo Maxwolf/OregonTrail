@@ -9,7 +9,7 @@
         private readonly bool _containsDisease;
         private readonly bool _containsFood;
 
-        public DerelictEvent(TravelingEvent action, string name, float rollChance, uint rollCount, bool containsDisease,
+        public DerelictEvent(RandomEvent action, string name, float rollChance, uint rollCount, bool containsDisease,
             bool containsFood) : base(action, name, rollChance, rollCount)
         {
             _containsDisease = containsDisease;
