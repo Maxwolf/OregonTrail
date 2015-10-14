@@ -5,5 +5,6 @@
         void ChooseProfession();
         void BuyInitialItems();
         void StartGame();
+        void Tick();
     }
 }

@@ -1,4 +1,6 @@
-﻿using TrailEntities;
+﻿using System;
+using System.Threading;
+using TrailEntities;
 
 namespace TrailGame
 {
@@ -6,10 +8,13 @@ namespace TrailGame
     {
         private static void Main(string[] args)
         {
-            InitializeGame oregonTrailGame = new InitializeGame();
-            oregonTrailGame.ChooseProfession();
-            oregonTrailGame.BuyInitialItems();
-            oregonTrailGame.StartGame();
+            Console.WriteLine("Starting...");
+            var oregonTrail = new GameplayModel();
+            while (oregonTrail.Instance != null)
+            {
+                Thread.Sleep(1);
+            }
+            Console.WriteLine("Closing...");
         }
     }
 }

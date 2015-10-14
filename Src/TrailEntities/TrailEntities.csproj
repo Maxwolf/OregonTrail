@@ -41,10 +41,17 @@
   <ItemGroup>
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\Oxen.cs" />
+    <Compile Include="Model\GameplayModel.cs" />
+    <Compile Include="Model\HuntModel.cs" />
+    <Compile Include="Model\LandmarkModel.cs" />
+    <Compile Include="Model\RandomEventModel.cs" />
+    <Compile Include="Model\RiverCrossingModel.cs" />
+    <Compile Include="Model\SettlementModel.cs" />
+    <Compile Include="Model\StoreModel.cs" />
+    <Compile Include="Model\TradeModel.cs" />
     <Compile Include="Party\Person.cs" />
     <Compile Include="Prefabs\Gameplay.cs" />
     <Compile Include="Prefabs\Hunt.cs" />
-    <Compile Include="Prefabs\InitializeGame.cs" />
     <Compile Include="Prefabs\Landmark.cs" />
     <Compile Include="Prefabs\River.cs" />
     <Compile Include="Prefabs\RiverCrossing.cs" />

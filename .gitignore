@@ -221,3 +221,4 @@ Bin/OregonTrail.vshost.exe.manifest
 Bin/TrailCommon.dll
 Bin/TrailEntities.dll
 Bin/TrailGame.exe
+Bin/TrailGame.vshost.exe

@@ -7,18 +7,24 @@ namespace TrailEntities
     ///     Handles core interaction of the game, all other game types are inherited from this game mode. Deals with weather,
     ///     parties, random events, keeping track of beginning and end of the game.
     /// </summary>
-    public abstract class Gameplay : IGameplay
+    public abstract class Gameplay : IGameplay, IInitializeGame
     {
         private RandomEvent _randomEvent;
         private Trail _trail;
         private uint _turn;
         private Vehicle _vehicle;
+        private static Gameplay _instance;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Gameplay" /> class.
         /// </summary>
         protected Gameplay()
         {
+            if (_instance == null)
+            {
+                _instance = this;
+            }
+
             Climate = new Climate();
             _trail = new Trail();
             _turn = 0;
@@ -46,6 +52,19 @@ namespace TrailEntities
         public uint Turn
         {
             get { return _turn; }
+        }
+
+        public Gameplay Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    throw new InvalidOperationException("Cannot get instance for gameplay controller since it is null!");
+                }
+
+                return _instance;
+            }
         }
 
         public void TakeTurn()
@@ -91,6 +110,26 @@ namespace TrailEntities
         private void UpdateVehiclePosition()
         {
             _vehicle.DistanceTraveled += (uint) _vehicle.Pace;
+        }
+
+        public void ChooseProfession()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BuyInitialItems()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StartGame()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Tick()
+        {
+            throw new NotImplementedException();
         }
     }
 }
