@@ -1,6 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface IInitializeGame
+    public interface IGameInitializer
     {
         void ChooseProfession();
         void BuyInitialItems();

@@ -8,13 +8,12 @@ namespace TrailGame
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine("Starting...");
-            var oregonTrail = new GameplayModel();
-            while (oregonTrail.Instance != null)
+            GameInitializer.Create();
+            while (GameInitializer.Instance != null)
             {
                 Thread.Sleep(1);
+                GameInitializer.Instance.Tick();
             }
-            Console.WriteLine("Closing...");
         }
     }
 }

@@ -222,3 +222,4 @@ Bin/TrailCommon.dll
 Bin/TrailEntities.dll
 Bin/TrailGame.exe
 Bin/TrailGame.vshost.exe
+Bin/TrailGame.vshost.exe.manifest

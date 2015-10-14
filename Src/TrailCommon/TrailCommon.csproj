@@ -42,34 +42,32 @@
     <Compile Include="Climate\Climate.cs" />
     <Compile Include="Climate\Date.cs" />
     <Compile Include="Climate\IClimate.cs" />
-    <Compile Include="Controllers\Location\IRiver.cs" />
+    <Compile Include="Model\Location\IRiver.cs" />
     <Compile Include="Health\RepairStatus.cs" />
     <Compile Include="Health\Disease.cs" />
     <Compile Include="Item\IItem.cs" />
     <Compile Include="Location\IPointOfInterest.cs" />
     <Compile Include="Location\PointOfInterest.cs" />
-    <Compile Include="Controllers\Game\IGameplay.cs" />
-    <Compile Include="Controllers\Interaction\IHunt.cs" />
-    <Compile Include="Controllers\Game\IInitializeGame.cs" />
-    <Compile Include="Controllers\Location\ILandmark.cs" />
-    <Compile Include="Controllers\Interaction\IRiverCrossing.cs" />
-    <Compile Include="Controllers\Location\ISettlement.cs" />
-    <Compile Include="Controllers\Interaction\IStore.cs" />
-    <Compile Include="Controllers\Interaction\ITrade.cs" />
-    <Compile Include="Controllers\Game\ITrail.cs" />
-    <Compile Include="Controllers\Game\Trail.cs" />
+    <Compile Include="Model\Game\IGameplay.cs" />
+    <Compile Include="Model\Interaction\IHunt.cs" />
+    <Compile Include="Model\Game\IGameInitializer.cs" />
+    <Compile Include="Model\Location\ILandmark.cs" />
+    <Compile Include="Model\Interaction\IRiverCrossing.cs" />
+    <Compile Include="Model\Location\ISettlement.cs" />
+    <Compile Include="Model\Interaction\IStore.cs" />
+    <Compile Include="Model\Interaction\ITrade.cs" />
+    <Compile Include="Model\Game\ITrail.cs" />
+    <Compile Include="Model\Game\Trail.cs" />
     <Compile Include="Vehicle\FoodRations.cs" />
     <Compile Include="Vehicle\IPerson.cs" />
     <Compile Include="Vehicle\IVehicle.cs" />
     <Compile Include="Vehicle\Profession.cs" />
     <Compile Include="Vehicle\TravelPace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\Game\IRandomEvent.cs" />
+    <Compile Include="Model\Game\IRandomEvent.cs" />
     <Compile Include="Climate\WeatherCondition.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Trail\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

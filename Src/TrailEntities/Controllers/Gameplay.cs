@@ -7,64 +7,60 @@ namespace TrailEntities
     ///     Handles core interaction of the game, all other game types are inherited from this game mode. Deals with weather,
     ///     parties, random events, keeping track of beginning and end of the game.
     /// </summary>
-    public abstract class Gameplay : IGameplay, IInitializeGame
+    public class Gameplay : IGameplay
     {
-        private RandomEvent _randomEvent;
-        private Trail _trail;
-        private uint _turn;
-        private Vehicle _vehicle;
         private static Gameplay _instance;
+        private Climate _climate;
+        private RandomEvent _randomEvent;
+        private uint _turn;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Gameplay" /> class.
         /// </summary>
-        protected Gameplay()
+        public Gameplay()
         {
-            if (_instance == null)
-            {
-                _instance = this;
-            }
+            if (GameInitializer.Instance == null)
+                throw new InvalidOperationException("Unable to create gameplay instance without using game initializer!");
 
-            Climate = new Climate();
-            _trail = new Trail();
+            _climate = new Climate();
+            Trail = new Trail();
             _turn = 0;
-            _vehicle = new Vehicle();
+            Vehicle = new Vehicle();
             _randomEvent = new RandomEvent(Vehicle);
         }
 
-        public Trail Trail
+        public static void Create()
         {
-            get { return _trail; }
+            _instance = new Gameplay();
         }
 
-        public Vehicle Vehicle
+        public static void Destroy()
         {
-            get { return _vehicle; }
+            _instance = null;
         }
+
+        public Trail Trail { get; }
+
+        public Vehicle Vehicle { get; }
 
         public RandomEvent RandomEvent
         {
             get { return _randomEvent; }
         }
 
-        public Climate Climate { get; }
+        public Climate Climate
+        {
+            get { return _climate; }
+        }
 
         public uint Turn
         {
             get { return _turn; }
         }
 
-        public Gameplay Instance
+        public static Gameplay Instance
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    throw new InvalidOperationException("Cannot get instance for gameplay controller since it is null!");
-                }
-
-                return _instance;
-            }
+            get { return _instance; }
         }
 
         public void TakeTurn()
@@ -94,12 +90,12 @@ namespace TrailEntities
 
         private void UpdateVehicle()
         {
-            _vehicle.UpdateVehicle();
+            Vehicle.UpdateVehicle();
         }
 
         private void UpdateTrail()
         {
-            _trail.ReachedPointOfInterest();
+            Trail.ReachedPointOfInterest();
         }
 
         private void UpdateClimate()
@@ -109,22 +105,7 @@ namespace TrailEntities
 
         private void UpdateVehiclePosition()
         {
-            _vehicle.DistanceTraveled += (uint) _vehicle.Pace;
-        }
-
-        public void ChooseProfession()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void BuyInitialItems()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StartGame()
-        {
-            throw new NotImplementedException();
+            Vehicle.DistanceTraveled += (uint) Vehicle.Pace;
         }
 
         public void Tick()
