@@ -4,10 +4,12 @@ namespace TrailCommon
     ///     Item that can be purchased by party, there is also a quantity associated with it. If zero that means there is no
     ///     more of that item even if it still exists in a collection.
     /// </summary>
-    public interface IItem : IEntity
+    public interface IItem
     {
-        ItemCategory Description { get; }
-        int Cost { get; }
-        int Quantity { get; }
+        string Name { get; }
+        uint Weight { get; }
+        uint Quantity { get; }
+        void Buy(int amount);
+        uint TotalWeight();
     }
 }

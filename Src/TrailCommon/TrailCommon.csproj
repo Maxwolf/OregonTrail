@@ -39,34 +39,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\GameplayController.cs" />
-    <Compile Include="Controllers\HuntController.cs" />
-    <Compile Include="Controllers\RiverCrossingController.cs" />
-    <Compile Include="Controllers\StoreController.cs" />
-    <Compile Include="Controllers\TradeController.cs" />
-    <Compile Include="Health\ConditionTier.cs" />
+    <Compile Include="Climate\Climate.cs" />
+    <Compile Include="Climate\Date.cs" />
+    <Compile Include="Climate\IClimate.cs" />
+    <Compile Include="Controllers\Location\IRiver.cs" />
+    <Compile Include="Health\RepairStatus.cs" />
     <Compile Include="Health\Disease.cs" />
-    <Compile Include="IEntity.cs" />
     <Compile Include="Item\IItem.cs" />
-    <Compile Include="Item\ItemCategory.cs" />
-    <Compile Include="Location\EndLocation.cs" />
-    <Compile Include="Location\FortLocation.cs" />
-    <Compile Include="Location\ILocation.cs" />
-    <Compile Include="Location\LandmarkLocation.cs" />
-    <Compile Include="Location\LocationBase.cs" />
-    <Compile Include="Location\LocationCategory.cs" />
-    <Compile Include="Location\RoadLocation.cs" />
-    <Compile Include="Location\StartLocation.cs" />
-    <Compile Include="Party\FoodRations.cs" />
-    <Compile Include="Party\IParty.cs" />
-    <Compile Include="Party\IPerson.cs" />
-    <Compile Include="Party\IVehicle.cs" />
-    <Compile Include="Party\PersonTier.cs" />
-    <Compile Include="Party\TravelPace.cs" />
+    <Compile Include="Location\IPointOfInterest.cs" />
+    <Compile Include="Location\PointOfInterest.cs" />
+    <Compile Include="Controllers\Game\IGameplay.cs" />
+    <Compile Include="Controllers\Interaction\IHunt.cs" />
+    <Compile Include="Controllers\Game\IInitializeGame.cs" />
+    <Compile Include="Controllers\Location\ILandmark.cs" />
+    <Compile Include="Controllers\Interaction\IRiverCrossing.cs" />
+    <Compile Include="Controllers\Location\ISettlement.cs" />
+    <Compile Include="Controllers\Interaction\IStore.cs" />
+    <Compile Include="Controllers\Interaction\ITrade.cs" />
+    <Compile Include="Controllers\Game\ITrail.cs" />
+    <Compile Include="Controllers\Game\Trail.cs" />
+    <Compile Include="Vehicle\FoodRations.cs" />
+    <Compile Include="Vehicle\IPerson.cs" />
+    <Compile Include="Vehicle\IVehicle.cs" />
+    <Compile Include="Vehicle\Profession.cs" />
+    <Compile Include="Vehicle\TravelPace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Travel\IRandomEvent.cs" />
-    <Compile Include="Travel\RandomEvent.cs" />
-    <Compile Include="Climate\WeatherTier.cs" />
+    <Compile Include="Controllers\Game\IRandomEvent.cs" />
+    <Compile Include="Climate\WeatherCondition.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Trail\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
