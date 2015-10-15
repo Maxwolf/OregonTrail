@@ -8,11 +8,11 @@ namespace TrailGame
     {
         private static void Main(string[] args)
         {
-            GameInitializer.Create();
-            while (GameInitializer.Instance != null)
+            GameManager.Create();
+            while (GameManager.Instance != null)
             {
                 Thread.Sleep(1);
-                GameInitializer.Instance.Tick();
+                GameManager.Instance.Tick();
             }
         }
     }

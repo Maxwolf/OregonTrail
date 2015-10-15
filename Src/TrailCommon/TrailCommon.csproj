@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Climate\Date.cs" />
     <Compile Include="Climate\IClimate.cs" />
+    <Compile Include="Model\Game\IGameWindow.cs" />
+    <Compile Include="Trail\IForkInRoad.cs" />
     <Compile Include="Trail\IRiver.cs" />
     <Compile Include="Trail\PointOfInterest.cs" />
     <Compile Include="Vehicle\RepairStatus.cs" />
@@ -48,7 +50,7 @@
     <Compile Include="Vehicle\IItem.cs" />
     <Compile Include="Model\Game\IGameplay.cs" />
     <Compile Include="Model\Interaction\IHunt.cs" />
-    <Compile Include="Model\Game\IGameInitializer.cs" />
+    <Compile Include="Model\Game\IGameManager.cs" />
     <Compile Include="Trail\ILandmark.cs" />
     <Compile Include="Model\Interaction\IRiverCrossing.cs" />
     <Compile Include="Trail\ISettlement.cs" />
