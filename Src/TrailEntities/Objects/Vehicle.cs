@@ -11,7 +11,7 @@ namespace TrailEntities
         private SortedSet<IItem> _inventory;
         private TravelPace _pace;
         private SortedSet<IPerson> _people;
-        private FoodRations _ration;
+        private RationLevel _ration;
         private RepairStatus _repairStatus;
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace TrailEntities
             _inventory = new SortedSet<IItem>();
             _balance = 0;
             _people = new SortedSet<IPerson>();
-            _ration = FoodRations.Filling;
+            _ration = RationLevel.Filling;
             _pace = TravelPace.Steady;
             _repairStatus = RepairStatus.Good;
             _distanceTraveled = 0;
@@ -43,7 +43,7 @@ namespace TrailEntities
             get { return _people; }
         }
 
-        public FoodRations Ration
+        public RationLevel Ration
         {
             get { return _ration; }
         }

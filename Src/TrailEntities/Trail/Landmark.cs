@@ -7,9 +7,9 @@ namespace TrailEntities
         private bool _canRest;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:TrailCommon.LocationBase"/> class.
+        /// Initializes a new instance of the <see cref="T:TrailEntities.PointOfInterest"/> class.
         /// </summary>
-        public Landmark(string name, bool canRest) : base(name)
+        public Landmark(string name, ulong distanceLength, bool canRest) : base(name, distanceLength)
         {
             _canRest = canRest;
         }

@@ -3,7 +3,7 @@
     /// <summary>
     ///     Amount of food people in party eat each day can change.
     /// </summary>
-    public enum FoodRations
+    public enum RationLevel
     {
         /// <summary>
         ///     Meals are large and generous.

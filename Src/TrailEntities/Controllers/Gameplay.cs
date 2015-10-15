@@ -9,39 +9,33 @@ namespace TrailEntities
     /// </summary>
     public class Gameplay : IGameplay
     {
-        private static Gameplay _instance;
         private Climate _climate;
         private RandomEvent _randomEvent;
         private uint _turn;
+        private Vehicle _vehicle;
+        private Trail _trail;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Gameplay" /> class.
         /// </summary>
         public Gameplay()
         {
-            if (GameInitializer.Instance == null)
-                throw new InvalidOperationException("Unable to create gameplay instance without using game initializer!");
-
             _climate = new Climate();
-            Trail = new Trail();
+            _trail = new Trail();
             _turn = 0;
-            Vehicle = new Vehicle();
+            _vehicle = new Vehicle();
             _randomEvent = new RandomEvent(Vehicle);
         }
 
-        public static void Create()
+        public Trail Trail
         {
-            _instance = new Gameplay();
+            get { return _trail; }
         }
 
-        public static void Destroy()
+        public Vehicle Vehicle
         {
-            _instance = null;
+            get { return _vehicle; }
         }
-
-        public Trail Trail { get; }
-
-        public Vehicle Vehicle { get; }
 
         public RandomEvent RandomEvent
         {
@@ -56,11 +50,6 @@ namespace TrailEntities
         public uint Turn
         {
             get { return _turn; }
-        }
-
-        public static Gameplay Instance
-        {
-            get { return _instance; }
         }
 
         public void TakeTurn()

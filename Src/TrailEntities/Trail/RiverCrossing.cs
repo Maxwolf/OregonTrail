@@ -8,21 +8,23 @@ namespace TrailEntities
     ///     trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how
     ///     bad it is.
     /// </summary>
-    public abstract class RiverCrossing : PointOfInterest, IRiverCrossing
+    public class RiverCrossing : River, IRiverCrossing
     {
-        private readonly IVehicle _vehicle;
+        private IVehicle _vehicle;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailCommon.LocationBase" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.RiverCrossing" /> class.
         /// </summary>
-        protected RiverCrossing(string name, IVehicle vehicle) : base(name)
+        public RiverCrossing(string name, ulong distanceLength, uint depth, uint ferryCost)
+            : base(name, distanceLength, depth, ferryCost)
         {
-            _vehicle = vehicle;
+            _vehicle = null;
         }
 
         public IVehicle Vehicle
         {
             get { return _vehicle; }
+            set { _vehicle = value; }
         }
 
         public void CaulkVehicle()

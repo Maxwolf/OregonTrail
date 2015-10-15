@@ -8,18 +8,18 @@ namespace TrailEntities
     ///     are run
     ///     by the military and always have a source of funding to perform maintenance and upkeep.
     /// </summary>
-    public abstract class Settlement : PointOfInterest, ISettlement
+    public class Settlement : PointOfInterest, ISettlement
     {
         private bool _canRest;
         private Store _store;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Settlement" /> class.
+        /// Initializes a new instance of the <see cref="T:TrailEntities.Settlement"/> class.
         /// </summary>
-        protected Settlement(string name, bool canRest, Store store) : base(name)
+        public Settlement(string name, ulong distanceLength, bool canRest) : base(name, distanceLength)
         {
             _canRest = canRest;
-            _store = store;
+            _store = null;
         }
 
         public bool CanRest
@@ -34,6 +34,7 @@ namespace TrailEntities
 
         public void GoToStore()
         {
+            // TODO: Create instance of store.
             throw new NotImplementedException();
         }
     }

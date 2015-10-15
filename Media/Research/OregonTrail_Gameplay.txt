@@ -28,26 +28,25 @@ Miles traveled: 0 miles
 -money left = $270.00
 
 ----------[3. LOOK AT MAP.]----------
-# = Start/End points
-* = Forts
-+ = Landmark
-- = Location
-
-#Independence
--Matt's General Store
-*Fort Kearney
-+Chimney Rock
-*Laramie
-+Independence Rock
-+South Pass
-+Soda Springs
-*Fort Bridger
-*Fort Hall
-*Fort Boise
-*Fort Walla Walla
-+Blue Mountains
-+The Dalles
-#Oregon City
+Independence = Settlement (0)
+Kansas River Crossing = River Crossing (102)
+Big Blue River Crossing = River Crossing (185)
+Fort Kearney = Settlement (304)
+Chimney Rock = Landmark (554)
+Fort Laramie = Settlement (640)
+Independence Rock = Landmark (830)
+South Pass = Trail Splits (932)
+Green River Crossing (1,057)
+Fort Bridger = Optional Settlement (989)
+Soda Springs = Landmark (1,201)
+Fort Hall = Settlement (1,258)
+Snake River Crossing = River Crossing (1,440)
+Fort Boise = Settlement (1,554)
+Blue Mountains = Trail Fork (1,714)
+The Dalles = Trail Fork (1,717)
+Barlow Toll Road = Shortcut (94)
+Fort Walla Walla = Settlement (1,863)
+Oregon City = Settlement (1,983)
 
 ----------[4. CHANGE PACE.]----------
 -The pace at which you travel can change.

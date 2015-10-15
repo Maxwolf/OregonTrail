@@ -6,7 +6,7 @@ namespace TrailEntities
 {
     public class Person : IPerson
     {
-        private FoodRations _ration;
+        private RationLevel _ration;
         private RepairStatus _health;
         private uint _daysStarving;
         private Profession _profession;
@@ -23,10 +23,10 @@ namespace TrailEntities
             _isLeader = isLeader;
             _daysStarving = 0;
             _health = RepairStatus.Good;
-            _ration = FoodRations.Filling;
+            _ration = RationLevel.Filling;
         }
 
-        public FoodRations Ration
+        public RationLevel Ration
         {
             get { return _ration; }
         }
@@ -56,7 +56,7 @@ namespace TrailEntities
             get { return _isLeader; }
         }
 
-        public void Eat(FoodRations amount)
+        public void Eat(RationLevel amount)
         {
             throw new System.NotImplementedException();
         }

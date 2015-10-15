@@ -6,6 +6,7 @@ namespace TrailEntities
     public class GameInitializer : IGameInitializer
     {
         private static GameInitializer _instance;
+        private static Gameplay _gamePlay;
 
         private ulong _tickCount;
 
@@ -37,13 +38,13 @@ namespace TrailEntities
 
         public void StartGame()
         {
-            Gameplay.Create();
+            _gamePlay = new Gameplay();
         }
 
         public static void Create()
         {
             // Complain if gameplay instance is not null.
-            if (Gameplay.Instance != null)
+            if (_gamePlay != null)
             {
                 throw new InvalidOperationException(
                     "Unable to create gameplay initializer because gameplay instance is not null. Perhaps a game already been created.");
@@ -59,8 +60,18 @@ namespace TrailEntities
 
         public void Tick()
         {
+            OnTick();
+        }
+
+        protected virtual void OnTick()
+        {
             // Increase the tick count.
             _tickCount++;
+
+            // Fire tick event for any subscribers to see.
+            TickEvent?.Invoke(_tickCount);
         }
+
+        public event Tick TickEvent;
     }
 }

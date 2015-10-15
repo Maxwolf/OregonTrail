@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 
 namespace TrailCommon
 {
     public interface ITrail
     {
-        SortedSet<PointOfInterest> PointsOfInterest { get; }
+        ReadOnlyCollection<PointOfInterest> PointsOfInterest { get; }
         int VehicleLocation { get; }
         void ReachedPointOfInterest();
     }

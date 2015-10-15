@@ -6,13 +6,13 @@ namespace TrailCommon
     /// </summary>
     public interface IPerson
     {
-        FoodRations Ration { get; }
+        RationLevel Ration { get; }
         RepairStatus Health { get; }
         uint DaysStarving { get; }
         Profession Profession { get; }
         string Name { get; }
         bool IsLeader { get; }
-        void Eat(FoodRations amount);
+        void Eat(RationLevel amount);
         void Rest();
         void RepairVehicle();
         bool IsStarving();

@@ -5,13 +5,13 @@ namespace TrailEntities
 {
     public class River : PointOfInterest, IRiver
     {
-        private readonly uint _depth;
-        private readonly uint _ferryCost;
+        private uint _depth;
+        private uint _ferryCost;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailCommon.LocationBase" /> class.
+        /// Initializes a new instance of the <see cref="T:TrailEntities.PointOfInterest"/> class.
         /// </summary>
-        public River(string name, uint depth, uint ferryCost) : base(name)
+        public River(string name, ulong distanceLength, uint depth, uint ferryCost) : base(name, distanceLength)
         {
             _depth = depth;
             _ferryCost = ferryCost;

@@ -2,7 +2,7 @@
 {
     public interface IRiverCrossing
     {
-        IVehicle Vehicle { get; }
+        IVehicle Vehicle { get; set; }
         void CaulkVehicle();
         void Ford();
         void UseFerry();

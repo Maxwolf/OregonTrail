@@ -39,8 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Climate.cs" />
     <Compile Include="Objects\Item.cs" />
     <Compile Include="Objects\Oxen.cs" />
+    <Compile Include="Trail\TrailPrefabs.cs" />
+    <Compile Include="Trail\ForkInRoad.cs" />
+    <Compile Include="Trail\Trail.cs" />
     <Compile Include="View\GameplayModel.cs" />
     <Compile Include="View\HuntModel.cs" />
     <Compile Include="View\GameInitializer.cs" />
@@ -53,10 +57,10 @@
     <Compile Include="Objects\Person.cs" />
     <Compile Include="Controllers\Gameplay.cs" />
     <Compile Include="Controllers\Hunt.cs" />
-    <Compile Include="Controllers\Landmark.cs" />
-    <Compile Include="Controllers\River.cs" />
-    <Compile Include="Controllers\RiverCrossing.cs" />
-    <Compile Include="Controllers\Settlement.cs" />
+    <Compile Include="Trail\Landmark.cs" />
+    <Compile Include="Trail\River.cs" />
+    <Compile Include="Trail\RiverCrossing.cs" />
+    <Compile Include="Trail\Settlement.cs" />
     <Compile Include="Controllers\Store.cs" />
     <Compile Include="Controllers\Trade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

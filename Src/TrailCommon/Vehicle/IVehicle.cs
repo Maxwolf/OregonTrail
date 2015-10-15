@@ -11,7 +11,7 @@ namespace TrailCommon
         SortedSet<IItem> Inventory { get; }
         uint Balance { get; }
         SortedSet<IPerson> People { get; }
-        FoodRations Ration { get; }
+        RationLevel Ration { get; }
         TravelPace Pace { get; }
         RepairStatus RepairStatus { get; }
         uint DistanceTraveled { get; }
