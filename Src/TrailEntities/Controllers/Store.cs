@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using TrailCommon;
 
 namespace TrailEntities
@@ -9,17 +10,18 @@ namespace TrailEntities
     /// </summary>
     public abstract class Store : IStore
     {
-        private uint _balance;
-        private SortedSet<IItem> _inventory;
+        private uint _storeBalance;
+        private List<IItem> _inventory;
         private IVehicle _vehicle;
+        private string _storeName;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Store" /> class.
         /// </summary>
         protected Store(IVehicle vehicle)
         {
-            _balance = 0;
-            _inventory = new SortedSet<IItem>();
+            _storeBalance = 0;
+            _inventory = new List<IItem>();
             _vehicle = vehicle;
         }
 
@@ -28,14 +30,19 @@ namespace TrailEntities
             get { return _vehicle; }
         }
 
-        public SortedSet<IItem> Inventory
+        public ReadOnlyCollection<IItem> Inventory
         {
-            get { return _inventory; }
+            get { return new ReadOnlyCollection<IItem>(_inventory); }
         }
 
-        public uint Balance
+        public string StoreName
         {
-            get { return _balance; }
+            get { return _storeName; }
+        }
+
+        public uint StoreBalance
+        {
+            get { return _storeBalance; }
         }
 
         public void BuyItems(IItem item)

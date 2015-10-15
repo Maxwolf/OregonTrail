@@ -96,10 +96,5 @@ namespace TrailEntities
         {
             Vehicle.DistanceTraveled += (uint) Vehicle.Pace;
         }
-
-        public void Tick()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

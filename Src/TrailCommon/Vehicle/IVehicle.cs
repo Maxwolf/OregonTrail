@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace TrailCommon
 {
@@ -8,9 +9,9 @@ namespace TrailCommon
     /// </summary>
     public interface IVehicle
     {
-        SortedSet<IItem> Inventory { get; }
+        ReadOnlyCollection<IItem> Inventory { get;}
         uint Balance { get; }
-        SortedSet<IPerson> People { get; }
+        ReadOnlyCollection<IPerson> People { get; }
         RationLevel Ration { get; }
         TravelPace Pace { get; }
         RepairStatus RepairStatus { get; }
@@ -18,6 +19,7 @@ namespace TrailCommon
         void AddPerson(IPerson person);
         void AddItem(IItem item);
         void BuyItem(IItem item);
+        void SellItem(IItem item);
         void UpdateVehicle();
     }
 }

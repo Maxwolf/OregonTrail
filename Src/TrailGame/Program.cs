@@ -8,6 +8,7 @@ namespace TrailGame
     {
         private static void Main(string[] args)
         {
+            Console.Title = "Oregon Trail Clone";
             GameManager.Create();
             while (GameManager.Instance != null)
             {

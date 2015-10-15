@@ -41,7 +41,7 @@
   <ItemGroup>
     <Compile Include="Climate\Date.cs" />
     <Compile Include="Climate\IClimate.cs" />
-    <Compile Include="Model\Game\IGameWindow.cs" />
+    <Compile Include="Model\Game\IGameMode.cs" />
     <Compile Include="Trail\IForkInRoad.cs" />
     <Compile Include="Trail\IRiver.cs" />
     <Compile Include="Trail\PointOfInterest.cs" />

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using TrailCommon;
 
 namespace TrailEntities
 {
     public class Vehicle : IVehicle
     {
-        private uint _balance;
         private uint _distanceTraveled;
-        private SortedSet<IItem> _inventory;
+        private List<IItem> _inventory;
         private TravelPace _pace;
-        private SortedSet<IPerson> _people;
+        private List<IPerson> _people;
         private RationLevel _ration;
         private RepairStatus _repairStatus;
 
@@ -19,28 +19,25 @@ namespace TrailEntities
         /// </summary>
         public Vehicle()
         {
-            _inventory = new SortedSet<IItem>();
-            _balance = 0;
-            _people = new SortedSet<IPerson>();
+            _inventory = new List<IItem>();
+            Balance = 0;
+            _people = new List<IPerson>();
             _ration = RationLevel.Filling;
             _pace = TravelPace.Steady;
             _repairStatus = RepairStatus.Good;
             _distanceTraveled = 0;
         }
 
-        public SortedSet<IItem> Inventory
+        public ReadOnlyCollection<IItem> Inventory
         {
-            get { return _inventory; }
+            get { return new ReadOnlyCollection<IItem>(_inventory); }
         }
 
-        public uint Balance
-        {
-            get { return _balance; }
-        }
+        public uint Balance { get; private set; }
 
-        public SortedSet<IPerson> People
+        public ReadOnlyCollection<IPerson> People
         {
-            get { return _people; }
+            get { return new ReadOnlyCollection<IPerson>(_people); }
         }
 
         public RationLevel Ration
@@ -66,17 +63,35 @@ namespace TrailEntities
 
         public void AddPerson(IPerson person)
         {
-            throw new NotImplementedException();
+            _people.Add(person);
         }
 
         public void AddItem(IItem item)
         {
-            throw new NotImplementedException();
+            _inventory.Add(item);
         }
 
+        /// <summary>
+        ///     Adds the item to the inventory of the vehicle and subtracts it's cost multiplied by quantity from balance.
+        /// </summary>
         public void BuyItem(IItem item)
         {
-            throw new NotImplementedException();
+            var totalCost = item.Cost*item.Quantity;
+            if (Balance >= totalCost)
+            {
+                Balance -= totalCost;
+                _inventory.Add(item);
+            }
+        }
+
+        /// <summary>
+        ///     Removes the item from the inventory of the vehicle and adds it's cost multiplied by quantity to balance.
+        /// </summary>
+        public void SellItem(IItem item)
+        {
+            var totalEarnings = item.Cost*item.Quantity;
+            Balance += totalEarnings;
+            _inventory.Remove(item);
         }
 
         public void UpdateVehicle()
