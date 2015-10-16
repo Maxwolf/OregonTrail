@@ -4,7 +4,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public class Trail : ITrail
+    public class TrailSimulation : ITrail
     {
         private ReadOnlyCollection<PointOfInterest> _pointsOfInterest;
         private int _vehicleLocation;
@@ -12,7 +12,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Trail" /> class.
         /// </summary>
-        public Trail()
+        public TrailSimulation()
         {
             _pointsOfInterest = new ReadOnlyCollection<PointOfInterest>(TrailPrefabs.OregonTrail);
             _vehicleLocation = 0;

@@ -4,30 +4,35 @@ using TrailEntities;
 
 namespace TrailGame
 {
-    public abstract class TrailMode : ITrailMode
+    public abstract class Mode : IGameMode
     {
-        protected TrailVehicle _trailVehicle;
+        protected Vehicle _vehicle;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.TrailMode" /> class.
         /// </summary>
-        protected TrailMode(TrailVehicle trailVehicle)
+        protected Mode(Vehicle vehicle)
         {
             // Complain if game manager does not exist.
             if (SimulationApp.Instance == null)
                 throw new InvalidOperationException("Called game window constructor when game manager is null!");
 
-            _trailVehicle = trailVehicle;
+            _vehicle = vehicle;
 
             // Hook events that all game windows will want.
             SimulationApp.Instance.TickEvent += Simulation_TickEvent;
         }
 
-        public abstract TrailModeType Mode { get; }
+        public abstract GameMode ModeType { get; }
 
-        public ITrailVehicle TrailVehicle
+        public void TickMode()
         {
-            get { return _trailVehicle; }
+            throw new NotImplementedException();
+        }
+
+        public IVehicle Vehicle
+        {
+            get { return _vehicle; }
         }
 
         /// <summary>
@@ -38,7 +43,7 @@ namespace TrailGame
         /// </returns>
         public override string ToString()
         {
-            return Mode.ToString();
+            return ModeType.ToString();
         }
 
         private void Simulation_TickEvent(uint tickCount)

@@ -1,10 +1,8 @@
 ﻿namespace TrailCommon
 {
-    public interface ISimulationTime
+    public interface ITimeSimulation
     {
         Date Date { get; }
-        uint GrassAvaliable { get; }
-        Climate Weather { get; }
         Months CurrentMonth { get; }
         TravelPace CurrentSpeed { get; }
         uint CurrentDay { get; }
@@ -13,8 +11,6 @@
         uint TotalMonths { get; }
         uint TotalDays { get; }
         int TotalDaysThisYear { get; }
-        Climate CalculateWeather();
-        void UpdateClimate();
         void TickTime();
         void SetSpeed(TravelPace castedSpeed);
         void ResumeTick();

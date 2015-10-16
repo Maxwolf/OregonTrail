@@ -39,23 +39,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\SimulationTime.cs" />
+    <Compile Include="Simulations\ClimateSimulation.cs" />
+    <Compile Include="Simulations\TimeSimulation.cs" />
     <Compile Include="Objects\Item.cs" />
     <Compile Include="Objects\Oxen.cs" />
-    <Compile Include="Trail\TrailPrefabs.cs" />
-    <Compile Include="Trail\ForkInRoad.cs" />
-    <Compile Include="Trail\Trail.cs" />
+    <Compile Include="Points of Interest\TrailPrefabs.cs" />
+    <Compile Include="Points of Interest\ForkInRoad.cs" />
+    <Compile Include="Points of Interest\TrailSimulation.cs" />
     <Compile Include="Objects\Person.cs" />
     <Compile Include="Controllers\Hunt.cs" />
-    <Compile Include="Trail\Landmark.cs" />
-    <Compile Include="Trail\River.cs" />
-    <Compile Include="Trail\RiverCrossing.cs" />
-    <Compile Include="Trail\Settlement.cs" />
+    <Compile Include="Points of Interest\Landmark.cs" />
+    <Compile Include="Points of Interest\River.cs" />
+    <Compile Include="Points of Interest\RiverCrossing.cs" />
+    <Compile Include="Points of Interest\Settlement.cs" />
     <Compile Include="Controllers\Store.cs" />
     <Compile Include="Controllers\Trade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\RandomEvent.cs" />
-    <Compile Include="Objects\TrailVehicle.cs" />
+    <Compile Include="Objects\Vehicle.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

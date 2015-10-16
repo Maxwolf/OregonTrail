@@ -50,10 +50,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\ForkInRoadMode.cs" />
-    <Compile Include="TrailMode.cs" />
+    <Compile Include="Mode.cs" />
     <Compile Include="View\HuntMode.cs" />
     <Compile Include="View\LandmarkMode.cs" />
-    <Compile Include="View\NewTrailMode.cs" />
+    <Compile Include="View\NewMode.cs" />
     <Compile Include="View\RandomEventMode.cs" />
     <Compile Include="View\RiverCrossingMode.cs" />
     <Compile Include="View\SettlementMode.cs" />

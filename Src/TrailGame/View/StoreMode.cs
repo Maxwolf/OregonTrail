@@ -4,18 +4,18 @@ using TrailEntities;
 
 namespace TrailGame
 {
-    public class StoreMode : TrailMode, IStore
+    public class StoreMode : Mode, IStore
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public StoreMode(TrailVehicle trailVehicle) : base(trailVehicle)
+        public StoreMode(Vehicle vehicle) : base(vehicle)
         {
         }
 
-        public override TrailModeType Mode
+        public override TrailCommon.GameMode ModeType
         {
-            get { return TrailModeType.Store; }
+            get { return TrailCommon.GameMode.Store; }
         }
 
         public ReadOnlyCollection<IItem> StoreInventory

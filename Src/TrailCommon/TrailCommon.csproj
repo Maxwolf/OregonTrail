@@ -39,19 +39,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Climate\Date.cs" />
-    <Compile Include="Climate\ISimulationTime.cs" />
-    <Compile Include="Climate\Months.cs" />
-    <Compile Include="Model\Game\TrailModeType.cs" />
+    <Compile Include="Climate Simulation\ClimateClassification.cs" />
+    <Compile Include="Climate Simulation\ClimateData.cs" />
+    <Compile Include="Model\Game\Randomizer.cs" />
+    <Compile Include="Time Simulation\Date.cs" />
+    <Compile Include="Climate Simulation\IClimateSimulation.cs" />
+    <Compile Include="Time Simulation\ITimeSimulation.cs" />
+    <Compile Include="Time Simulation\Months.cs" />
+    <Compile Include="Model\Game\GameMode.cs" />
     <Compile Include="Model\Game\ISimulationInitializer.cs" />
-    <Compile Include="Model\Game\ITrailMode.cs" />
+    <Compile Include="Model\Game\IGameMode.cs" />
     <Compile Include="Trail\IForkInRoad.cs" />
     <Compile Include="Trail\IRiver.cs" />
     <Compile Include="Trail\PointOfInterest.cs" />
     <Compile Include="Vehicle\RepairStatus.cs" />
     <Compile Include="Vehicle\Disease.cs" />
     <Compile Include="Vehicle\IItem.cs" />
-    <Compile Include="Model\Game\IGameplay.cs" />
+    <Compile Include="Model\Game\IGameSimulation.cs" />
     <Compile Include="Model\Interaction\IHunt.cs" />
     <Compile Include="Model\Game\ISimulation.cs" />
     <Compile Include="Trail\ILandmark.cs" />
@@ -62,12 +66,12 @@
     <Compile Include="Trail\ITrail.cs" />
     <Compile Include="Vehicle\RationLevel.cs" />
     <Compile Include="Vehicle\IPerson.cs" />
-    <Compile Include="Vehicle\ITrailVehicle.cs" />
+    <Compile Include="Vehicle\IVehicle.cs" />
     <Compile Include="Vehicle\Profession.cs" />
     <Compile Include="Vehicle\TravelPace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Interaction\IRandomEvent.cs" />
-    <Compile Include="Climate\Climate.cs" />
+    <Compile Include="Climate Simulation\WeatherCondition.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

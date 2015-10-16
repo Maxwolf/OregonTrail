@@ -3,18 +3,18 @@ using TrailEntities;
 
 namespace TrailGame
 {
-    public class TravelMode : TrailMode
+    public class TravelMode : Mode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.TravelMode" /> class.
         /// </summary>
-        public TravelMode(TrailVehicle trailVehicle) : base(trailVehicle)
+        public TravelMode(Vehicle vehicle) : base(vehicle)
         {
         }
 
-        public override TrailModeType Mode
+        public override TrailCommon.GameMode ModeType
         {
-            get { return TrailModeType.Travel; }
+            get { return TrailCommon.GameMode.Travel; }
         }
     }
 }

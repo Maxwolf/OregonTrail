@@ -1,6 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface IRiverCrossing : ITrailMode
+    public interface IRiverCrossing : IGameMode
     {
         void CaulkVehicle();
         void Ford();

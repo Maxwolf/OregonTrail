@@ -5,48 +5,49 @@ namespace TrailGame
 {
     public abstract class SimulationApp : ISimulation
     {
-        private Random _random = new Random();
-        private string _tickPhase = "*";
-        private uint _totalTicks = 0;
+        private Randomizer _random;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
+        /// </summary>
+        protected SimulationApp()
+        {
+            _random = new Randomizer((int) DateTime.Now.Ticks & 0x0000FFF);
+            TotalTicks = 0;
+            TickPhase = "*";
+        }
 
         public static SimulationApp Instance { get; private set; }
 
-        public Random Random
-        {
-            get { return _random; }
-        }
+        public string TickPhase { get; private set; }
 
-        public string TickPhase
-        {
-            get { return _tickPhase; }
-        }
+        public abstract void ChooseProfession();
 
-        public void ChooseProfession()
-        {
-        }
+        public abstract void BuyInitialItems();
 
-        public void BuyInitialItems()
-        {
-        }
-
-        public void ChooseNames()
-        {
-        }
+        public abstract void ChooseNames();
 
         public void StartGame()
         {
             NewgameEvent?.Invoke();
         }
 
-        public uint TotalTicks
+        public Randomizer Random
         {
-            get { return _totalTicks; }
+            get { return _random; }
         }
 
-        public void SetMode(ITrailMode mode)
+        public uint TotalTicks { get; private set; }
+
+        public void SetMode(IGameMode mode)
         {
-            ModeChangedEvent?.Invoke(mode.Mode);
+            ModeChangedEvent?.Invoke(mode.ModeType);
         }
+
+        public event NewGame NewgameEvent;
+        public event EndGame EndgameEvent;
+        public event ModeChanged ModeChangedEvent;
+        public event TickSim TickEvent;
 
         public void Tick()
         {
@@ -55,20 +56,15 @@ namespace TrailGame
                 throw new InvalidOperationException("Attempted to tick game initializer when instance is null!");
 
             // Increase the tick count.
-            _totalTicks++;
+            TotalTicks++;
 
-            _tickPhase = TickVisualizer(_tickPhase);
+            TickPhase = TickVisualizer(TickPhase);
 
             // Fire tick event for any subscribers to see.
-            TickEvent?.Invoke(_totalTicks);
+            TickEvent?.Invoke(TotalTicks);
 
             OnTick();
         }
-
-        public event NewGame NewgameEvent;
-        public event EndGame EndgameEvent;
-        public event ModeChanged ModeChangedEvent;
-        public event TickTimeHandler TickEvent;
 
         /// <summary>
         ///     Used for showing player that simulation is ticking on main view.
@@ -121,8 +117,6 @@ namespace TrailGame
             EndgameEvent?.Invoke();
         }
 
-        protected virtual void OnTick()
-        {
-        }
+        protected abstract void OnTick();
     }
 }

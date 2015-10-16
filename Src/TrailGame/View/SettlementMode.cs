@@ -3,18 +3,18 @@ using TrailEntities;
 
 namespace TrailGame
 {
-    public class SettlementMode : TrailMode
+    public class SettlementMode : Mode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public SettlementMode(TrailVehicle trailVehicle) : base(trailVehicle)
+        public SettlementMode(Vehicle vehicle) : base(vehicle)
         {
         }
 
-        public override TrailModeType Mode
+        public override TrailCommon.GameMode ModeType
         {
-            get { return TrailModeType.Settlement; }
+            get { return TrailCommon.GameMode.Settlement; }
         }
     }
 }

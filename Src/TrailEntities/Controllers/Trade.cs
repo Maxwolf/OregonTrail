@@ -11,12 +11,17 @@ namespace TrailEntities
     /// </summary>
     public abstract class Trade : ITrade
     {
-        public TrailModeType Mode
+        public GameMode ModeType
         {
             get { throw new NotImplementedException(); }
         }
 
-        public ITrailVehicle TrailVehicle
+        public void TickMode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IVehicle Vehicle
         {
             get { throw new NotImplementedException(); }
         }

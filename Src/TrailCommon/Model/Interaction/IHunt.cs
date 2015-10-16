@@ -1,6 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface IHunt : ITrailMode
+    public interface IHunt : IGameMode
     {
         void UseBullets(uint amount);
         void AddFood(uint amount);

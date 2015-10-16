@@ -9,12 +9,17 @@ namespace TrailEntities
     /// </summary>
     public abstract class Hunt : IHunt
     {
-        public TrailModeType Mode
+        public GameMode ModeType
         {
-            get { throw new System.NotImplementedException(); }
+            get { return GameMode.Hunt; }
         }
 
-        public ITrailVehicle TrailVehicle
+        public void TickMode()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IVehicle Vehicle
         {
             get { throw new System.NotImplementedException(); }
         }

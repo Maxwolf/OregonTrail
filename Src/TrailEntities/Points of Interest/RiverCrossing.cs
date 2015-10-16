@@ -17,12 +17,17 @@ namespace TrailEntities
         {
         }
 
-        public TrailModeType Mode
+        public GameMode ModeType
         {
-            get { throw new NotImplementedException(); }
+            get { return GameMode.RiverCrossing; }
         }
 
-        public ITrailVehicle TrailVehicle
+        public void TickMode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IVehicle Vehicle
         {
             get { throw new NotImplementedException(); }
         }

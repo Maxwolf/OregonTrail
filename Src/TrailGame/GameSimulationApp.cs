@@ -8,44 +8,102 @@ namespace TrailGame
     ///     Handles core interaction of the game, all other game types are inherited from this game mode. Deals with weather,
     ///     parties, random events, keeping track of beginning and end of the game.
     /// </summary>
-    public class GameSimulationApp : SimulationApp, IGameplay
+    public class GameSimulationApp : SimulationApp, IGameSimulation
     {
-        private SimulationTime _simulationTime;
+        private ClimateSimulation _climate;
         private RandomEvent _randomEvent;
+        private TimeSimulation _time;
+        private TrailSimulation _trailSimulation;
+        private Vehicle _vehicle;
         private uint _turn;
-        private TrailVehicle _trailVehicle;
-        private Trail _trail;
+        private Mode _currentMode;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
         /// </summary>
         public GameSimulationApp()
         {
-            _simulationTime = new SimulationTime(1985, Months.May, 1, TravelPace.Paused);
-            _trail = new Trail();
+            _time = new TimeSimulation(1985, Months.May, 5, TravelPace.Paused);
+            _time.DayEndEvent += TimeSimulation_DayEndEvent;
+            _time.MonthEndEvent += TimeSimulation_MonthEndEvent;
+            _time.YearEndEvent += TimeSimulation_YearEndEvent;
+            _time.SpeedChangeEvent += TimeSimulation_SpeedChangeEvent;
+
+            _climate = new ClimateSimulation(this, ClimateClassification.Moderate);
+            _trailSimulation = new TrailSimulation();
             _turn = 0;
-            _trailVehicle = new TrailVehicle();
-            _randomEvent = new RandomEvent(TrailVehicle);
+            _vehicle = new Vehicle();
+            _randomEvent = new RandomEvent(Vehicle);
         }
 
-        public Trail Trail
+        public override void ChooseProfession()
         {
-            get { return _trail; }
+            throw new NotImplementedException();
         }
 
-        public TrailVehicle TrailVehicle
+        public override void BuyInitialItems()
         {
-            get { return _trailVehicle; }
+            throw new NotImplementedException();
+        }
+
+        public override void ChooseNames()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            // Unhook delegates from events.
+            _time.DayEndEvent -= TimeSimulation_DayEndEvent;
+            _time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
+            _time.YearEndEvent -= TimeSimulation_YearEndEvent;
+            _time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
+
+            // Destroy all instances.
+            _time = null;
+            _climate = null;
+            _trailSimulation = null;
+            _turn = 0;
+            _vehicle = null;
+            _randomEvent = null;
+            _currentMode = null;
+        }
+
+        private void TimeSimulation_SpeedChangeEvent()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void TimeSimulation_YearEndEvent(uint yearCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void TimeSimulation_DayEndEvent(uint dayCount)
+        {
+            _climate.TickClimate();
+        }
+
+        private void TimeSimulation_MonthEndEvent(uint monthCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TrailSimulation TrailSimulation
+        {
+            get { return _trailSimulation; }
+        }
+
+        public Vehicle Vehicle
+        {
+            get { return _vehicle; }
         }
 
         public RandomEvent RandomEvent
         {
             get { return _randomEvent; }
-        }
-
-        public SimulationTime SimulationTime
-        {
-            get { return _simulationTime; }
         }
 
         public uint Turn
@@ -73,29 +131,39 @@ namespace TrailGame
             throw new NotImplementedException();
         }
 
-        private void Restart()
+        public ITimeSimulation Time
         {
-            throw new NotImplementedException();
+            get { return _time; }
+        }
+
+        public IClimateSimulation Climate
+        {
+            get { return _climate; }
+        }
+
+        protected override void OnTick()
+        {
+            _time.TickTime();            
         }
 
         private void UpdateVehicle()
         {
-            TrailVehicle.UpdateVehicle();
+            Vehicle.UpdateVehicle();
         }
 
         private void UpdateTrail()
         {
-            Trail.ReachedPointOfInterest();
+            TrailSimulation.ReachedPointOfInterest();
         }
 
         private void UpdateClimate()
         {
-            SimulationTime.UpdateClimate();
+            _climate.UpdateClimate();
         }
 
         private void UpdateVehiclePosition()
         {
-            TrailVehicle.DistanceTraveled += (uint) TrailVehicle.Pace;
+            Vehicle.DistanceTraveled += (uint) Vehicle.Pace;
         }
     }
 }

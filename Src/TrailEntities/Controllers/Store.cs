@@ -15,20 +15,25 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Store" /> class.
         /// </summary>
-        protected Store(string storeName, uint storeBalance, ITrailVehicle trailVehicle, List<IItem> inventory)
+        protected Store(string storeName, uint storeBalance, IVehicle vehicle, List<IItem> inventory)
         {
             _inventory = inventory;
             StoreBalance = storeBalance;
             _storeName = storeName;
-            TrailVehicle = trailVehicle;
+            Vehicle = vehicle;
         }
 
-        public TrailModeType Mode
+        public GameMode ModeType
         {
-            get { return TrailModeType.Store; }
+            get { return GameMode.Store; }
         }
 
-        public ITrailVehicle TrailVehicle { get; }
+        public void TickMode()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IVehicle Vehicle { get; }
 
         public ReadOnlyCollection<IItem> StoreInventory
         {
@@ -45,11 +50,11 @@ namespace TrailEntities
         public void BuyItems(IItem item)
         {
             var playerCost = item.Cost*item.Quantity;
-            if (TrailVehicle.Balance >= playerCost)
+            if (Vehicle.Balance >= playerCost)
             {
                 // Store earns the money from vehicle.
                 StoreBalance += playerCost;
-                TrailVehicle.BuyItem(item);
+                Vehicle.BuyItem(item);
             }
         }
 

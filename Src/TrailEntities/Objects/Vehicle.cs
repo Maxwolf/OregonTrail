@@ -5,7 +5,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public class TrailVehicle : ITrailVehicle
+    public class Vehicle : IVehicle
     {
         private uint _distanceTraveled;
         private List<IItem> _inventory;
@@ -17,7 +17,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Vehicle" /> class.
         /// </summary>
-        public TrailVehicle()
+        public Vehicle()
         {
             _inventory = new List<IItem>();
             Balance = 0;

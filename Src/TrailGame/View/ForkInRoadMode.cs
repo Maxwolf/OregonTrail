@@ -3,18 +3,18 @@ using TrailEntities;
 
 namespace TrailGame
 {
-    public class ForkInRoadMode : TrailMode
+    public class ForkInRoadMode : Mode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public ForkInRoadMode(TrailVehicle trailVehicle) : base(trailVehicle)
+        public ForkInRoadMode(Vehicle vehicle) : base(vehicle)
         {
         }
 
-        public override TrailModeType Mode
+        public override TrailCommon.GameMode ModeType
         {
-            get { return TrailModeType.ForkInRoad; }
+            get { return TrailCommon.GameMode.ForkInRoad; }
         }
     }
 }

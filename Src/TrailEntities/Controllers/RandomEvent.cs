@@ -6,15 +6,15 @@ namespace TrailEntities
     public class RandomEvent : IRandomEvent
     {
         private string _name;
-        private ITrailVehicle _trailVehicle;
+        private IVehicle _vehicle;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.RandomEvent" /> class.
         /// </summary>
-        public RandomEvent(ITrailVehicle trailVehicle)
+        public RandomEvent(IVehicle vehicle)
         {
             _name = "Unknown Random Event";
-            _trailVehicle = trailVehicle;
+            _vehicle = vehicle;
         }
 
         public string Name
@@ -22,14 +22,19 @@ namespace TrailEntities
             get { return _name; }
         }
 
-        public TrailModeType Mode
+        public GameMode ModeType
         {
-            get { return TrailModeType.RandomEvent; }
+            get { return GameMode.RandomEvent; }
         }
 
-        public ITrailVehicle TrailVehicle
+        public void TickMode()
         {
-            get { return _trailVehicle; }
+            throw new NotImplementedException();
+        }
+
+        public IVehicle Vehicle
+        {
+            get { return _vehicle; }
         }
 
         public event ModeChanged ModeChangedEvent;

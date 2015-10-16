@@ -5,7 +5,7 @@ using TrailEntities;
 
 namespace TrailGame
 {
-    public class NewTrailMode : TrailMode, ISimulationInitializer
+    public class NewMode : Mode, ISimulationInitializer
     {
         private bool _hasChosenNames;
         private bool _hasChosenProfession;
@@ -13,14 +13,14 @@ namespace TrailGame
         private bool _hasStartedGame;
         private List<string> _playerNames;
         private Profession _playerProfession;
-        private TrailVehicle _playerTrailVehicle;
+        private Vehicle _playerVehicle;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.NewGameMode" /> class.
         /// </summary>
-        public NewTrailMode(TrailVehicle trailVehicle) : base(trailVehicle)
+        public NewMode(Vehicle vehicle) : base(vehicle)
         {
-            _playerTrailVehicle = trailVehicle;
+            _playerVehicle = vehicle;
         }
 
         public void ChooseProfession()
@@ -134,13 +134,13 @@ namespace TrailGame
             {
                 // First name in list in leader.
                 var isLeader = _playerNames.IndexOf(name) == 0;
-                _playerTrailVehicle.AddPerson(new Person(_playerProfession, name, isLeader));
+                _playerVehicle.AddPerson(new Person(_playerProfession, name, isLeader));
             }
         }
 
-        public override TrailModeType Mode
+        public override TrailCommon.GameMode ModeType
         {
-            get { return TrailModeType.NewGame; }
+            get { return TrailCommon.GameMode.NewGame; }
         }
 
         protected override void OnTick()

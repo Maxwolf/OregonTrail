@@ -3,18 +3,18 @@ using TrailEntities;
 
 namespace TrailGame
 {
-    public class TradeMode : TrailMode
+    public class TradeMode : Mode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public TradeMode(TrailVehicle trailVehicle) : base(trailVehicle)
+        public TradeMode(Vehicle vehicle) : base(vehicle)
         {
         }
 
-        public override TrailModeType Mode
+        public override TrailCommon.GameMode ModeType
         {
-            get { return TrailModeType.Trade; }
+            get { return TrailCommon.GameMode.Trade; }
         }
     }
 }
