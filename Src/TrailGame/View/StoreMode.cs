@@ -1,70 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using TrailCommon;
 using TrailEntities;
 
 namespace TrailGame
 {
-    public class StoreMode : GameMode, IStore
+    public class StoreMode : TrailMode, IStore
     {
-        private List<IItem> _inventory;
-        private readonly string _storeName;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public StoreMode(Vehicle vehicle, List<IItem> inventory, string storeName, uint storeBalance) : base(vehicle)
+        public StoreMode(TrailVehicle trailVehicle) : base(trailVehicle)
         {
-            _inventory = inventory;
-            _storeName = storeName;
-            StoreBalance = storeBalance;
-
-            Console.WriteLine("Welcome to " + storeName);
         }
 
-        public override string Name
+        public override TrailModeType Mode
         {
-            get { return "Store"; }
+            get { return TrailModeType.Store; }
         }
 
-        public ReadOnlyCollection<IItem> Inventory
+        public ReadOnlyCollection<IItem> StoreInventory
         {
-            get { return new ReadOnlyCollection<IItem>(_inventory); }
+            get { return StoreController.StoreInventory; }
         }
 
         public string StoreName
         {
-            get { return _storeName; }
+            get { return StoreController.StoreName; }
         }
 
-        public uint StoreBalance { get; private set; }
+        public uint StoreBalance
+        {
+            get { return StoreController.StoreBalance; }
+        }
 
-        /// <summary>
-        ///     Remove the item from store, give to vehicle.
-        /// </summary>
         public void BuyItems(IItem item)
         {
-            var playerCost = item.Cost*item.Quantity;
-            if (_vehicle.Balance >= playerCost)
-            {
-                // Store earns the money from vehicle.
-                StoreBalance += playerCost;
-                _vehicle.BuyItem(item);
-            }
+            StoreController.BuyItems(item);
         }
 
-        /// <summary>
-        ///     Give the item to store, remove from vehicle.
-        /// </summary>
         public void SellItem(IItem item)
         {
-            var storeCost = item.Cost*item.Quantity;
-            if (StoreBalance >= storeCost)
-            {
-                StoreBalance -= storeCost;
-                BuyItems(item);
-            }
+            StoreController.SellItem(item);
         }
+
+        public IStore StoreController { get; }
     }
 }

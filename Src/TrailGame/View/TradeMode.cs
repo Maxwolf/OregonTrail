@@ -1,19 +1,20 @@
-﻿using TrailEntities;
+﻿using TrailCommon;
+using TrailEntities;
 
 namespace TrailGame
 {
-    public class TradeMode : GameMode
+    public class TradeMode : TrailMode
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.TradeWindow" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public TradeMode(Vehicle vehicle) : base(vehicle)
+        public TradeMode(TrailVehicle trailVehicle) : base(trailVehicle)
         {
         }
 
-        public override string Name
+        public override TrailModeType Mode
         {
-            get { return "Trading"; }
+            get { return TrailModeType.Trade; }
         }
     }
 }

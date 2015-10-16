@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TrailCommon;
 
@@ -8,29 +7,30 @@ namespace TrailEntities
     /// <summary>
     ///     Manages a general store where the player can buy food, clothes, bullets, and parts for their vehicle.
     /// </summary>
-    public abstract class Store : IStore
+    public class Store : IStore
     {
-        private uint _storeBalance;
+        private readonly string _storeName;
         private List<IItem> _inventory;
-        private IVehicle _vehicle;
-        private string _storeName;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Store" /> class.
         /// </summary>
-        protected Store(IVehicle vehicle)
+        protected Store(string storeName, uint storeBalance, ITrailVehicle trailVehicle, List<IItem> inventory)
         {
-            _storeBalance = 0;
-            _inventory = new List<IItem>();
-            _vehicle = vehicle;
+            _inventory = inventory;
+            StoreBalance = storeBalance;
+            _storeName = storeName;
+            TrailVehicle = trailVehicle;
         }
 
-        public IVehicle Vehicle
+        public TrailModeType Mode
         {
-            get { return _vehicle; }
+            get { return TrailModeType.Store; }
         }
 
-        public ReadOnlyCollection<IItem> Inventory
+        public ITrailVehicle TrailVehicle { get; }
+
+        public ReadOnlyCollection<IItem> StoreInventory
         {
             get { return new ReadOnlyCollection<IItem>(_inventory); }
         }
@@ -40,19 +40,32 @@ namespace TrailEntities
             get { return _storeName; }
         }
 
-        public uint StoreBalance
-        {
-            get { return _storeBalance; }
-        }
+        public uint StoreBalance { get; private set; }
 
         public void BuyItems(IItem item)
         {
-            throw new NotImplementedException();
+            var playerCost = item.Cost*item.Quantity;
+            if (TrailVehicle.Balance >= playerCost)
+            {
+                // Store earns the money from vehicle.
+                StoreBalance += playerCost;
+                TrailVehicle.BuyItem(item);
+            }
         }
 
         public void SellItem(IItem item)
         {
-            throw new NotImplementedException();
+            var storeCost = item.Cost*item.Quantity;
+            if (StoreBalance >= storeCost)
+            {
+                StoreBalance -= storeCost;
+                BuyItems(item);
+            }
+        }
+
+        public IStore StoreController
+        {
+            get { return this; }
         }
     }
 }

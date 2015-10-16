@@ -1,19 +1,20 @@
-﻿using TrailEntities;
+﻿using TrailCommon;
+using TrailEntities;
 
 namespace TrailGame
 {
-    public class LandmarkMode : GameMode
+    public class LandmarkMode : TrailMode
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.LandmarkWindow" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public LandmarkMode(Vehicle vehicle) : base(vehicle)
+        public LandmarkMode(TrailVehicle trailVehicle) : base(trailVehicle)
         {
         }
 
-        public override string Name
+        public override TrailModeType Mode
         {
-            get { return "Landmark"; }
+            get { return TrailModeType.Landmark; }
         }
     }
 }

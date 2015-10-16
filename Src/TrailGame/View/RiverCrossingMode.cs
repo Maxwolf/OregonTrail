@@ -1,19 +1,20 @@
-﻿using TrailEntities;
+﻿using TrailCommon;
+using TrailEntities;
 
 namespace TrailGame
 {
-    public class RiverCrossingMode : GameMode
+    public class RiverCrossingMode : TrailMode
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.RiverCrossingWindow" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public RiverCrossingMode(Vehicle vehicle) : base(vehicle)
+        public RiverCrossingMode(TrailVehicle trailVehicle) : base(trailVehicle)
         {
         }
 
-        public override string Name
+        public override TrailModeType Mode
         {
-            get { return "River Crossing"; }
+            get { return TrailModeType.RiverCrossing; }
         }
     }
 }

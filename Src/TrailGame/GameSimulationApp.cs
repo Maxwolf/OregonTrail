@@ -1,30 +1,31 @@
 ﻿using System;
 using TrailCommon;
+using TrailEntities;
 
-namespace TrailEntities
+namespace TrailGame
 {
     /// <summary>
     ///     Handles core interaction of the game, all other game types are inherited from this game mode. Deals with weather,
     ///     parties, random events, keeping track of beginning and end of the game.
     /// </summary>
-    public class Gameplay : IGameplay
+    public class GameSimulationApp : SimulationApp, IGameplay
     {
-        private Climate _climate;
+        private SimulationTime _simulationTime;
         private RandomEvent _randomEvent;
         private uint _turn;
-        private Vehicle _vehicle;
+        private TrailVehicle _trailVehicle;
         private Trail _trail;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Gameplay" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
         /// </summary>
-        public Gameplay()
+        public GameSimulationApp()
         {
-            _climate = new Climate();
+            _simulationTime = new SimulationTime(1985, Months.May, 1, TravelPace.Paused);
             _trail = new Trail();
             _turn = 0;
-            _vehicle = new Vehicle();
-            _randomEvent = new RandomEvent(Vehicle);
+            _trailVehicle = new TrailVehicle();
+            _randomEvent = new RandomEvent(TrailVehicle);
         }
 
         public Trail Trail
@@ -32,9 +33,9 @@ namespace TrailEntities
             get { return _trail; }
         }
 
-        public Vehicle Vehicle
+        public TrailVehicle TrailVehicle
         {
-            get { return _vehicle; }
+            get { return _trailVehicle; }
         }
 
         public RandomEvent RandomEvent
@@ -42,9 +43,9 @@ namespace TrailEntities
             get { return _randomEvent; }
         }
 
-        public Climate Climate
+        public SimulationTime SimulationTime
         {
-            get { return _climate; }
+            get { return _simulationTime; }
         }
 
         public uint Turn
@@ -79,7 +80,7 @@ namespace TrailEntities
 
         private void UpdateVehicle()
         {
-            Vehicle.UpdateVehicle();
+            TrailVehicle.UpdateVehicle();
         }
 
         private void UpdateTrail()
@@ -89,12 +90,12 @@ namespace TrailEntities
 
         private void UpdateClimate()
         {
-            Climate.UpdateClimate();
+            SimulationTime.UpdateClimate();
         }
 
         private void UpdateVehiclePosition()
         {
-            Vehicle.DistanceTraveled += (uint) Vehicle.Pace;
+            TrailVehicle.DistanceTraveled += (uint) TrailVehicle.Pace;
         }
     }
 }

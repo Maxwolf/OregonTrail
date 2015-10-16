@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace TrailCommon
 {
-    public interface IStore
+    public interface IStore : ITrailMode
     {
-        IVehicle Vehicle { get; }
-        ReadOnlyCollection<IItem> Inventory { get; }
+        ReadOnlyCollection<IItem> StoreInventory { get; }
         string StoreName { get; }
         uint StoreBalance { get; }
+        IStore StoreController { get; }
         void BuyItems(IItem item);
         void SellItem(IItem item);
     }

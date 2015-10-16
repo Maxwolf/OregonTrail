@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using TrailEntities;
 
 namespace TrailGame
 {
@@ -8,12 +7,12 @@ namespace TrailGame
     {
         private static void Main(string[] args)
         {
-            Console.Title = "Oregon Trail Clone";
-            GameManager.Create();
-            while (GameManager.Instance != null)
+            SimulationApp.Create(new GameSimulationApp());
+            while (SimulationApp.Instance != null)
             {
                 Thread.Sleep(1);
-                GameManager.Instance.Tick();
+                Console.Title = "Oregon Trail Clone - " + SimulationApp.Instance.TickPhase;
+                SimulationApp.Instance.Tick();
             }
         }
     }

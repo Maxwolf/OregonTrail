@@ -9,6 +9,16 @@ namespace TrailEntities
     /// </summary>
     public abstract class Hunt : IHunt
     {
+        public TrailModeType Mode
+        {
+            get { throw new System.NotImplementedException(); }
+        }
+
+        public ITrailVehicle TrailVehicle
+        {
+            get { throw new System.NotImplementedException(); }
+        }
+
         public void UseBullets(uint amount)
         {
             throw new System.NotImplementedException();

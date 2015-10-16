@@ -1,21 +1,20 @@
-﻿using TrailEntities;
+﻿using TrailCommon;
+using TrailEntities;
 
 namespace TrailGame
 {
-    public class ForkInRoadMode : GameMode
+    public class ForkInRoadMode : TrailMode
     {
-        private string _name;
-
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ForkInRoadWindow" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public ForkInRoadMode(Vehicle vehicle) : base(vehicle)
+        public ForkInRoadMode(TrailVehicle trailVehicle) : base(trailVehicle)
         {
         }
 
-        public override string Name
+        public override TrailModeType Mode
         {
-            get { return "Fork In Road"; }
+            get { return TrailModeType.ForkInRoad; }
         }
     }
 }

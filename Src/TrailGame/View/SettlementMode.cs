@@ -1,19 +1,20 @@
-﻿using TrailEntities;
+﻿using TrailCommon;
+using TrailEntities;
 
 namespace TrailGame
 {
-    public class SettlementMode : GameMode
+    public class SettlementMode : TrailMode
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.SettlementWindow" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public SettlementMode(Vehicle vehicle) : base(vehicle)
+        public SettlementMode(TrailVehicle trailVehicle) : base(trailVehicle)
         {
         }
 
-        public override string Name
+        public override TrailModeType Mode
         {
-            get { return "Settlement"; }
+            get { return TrailModeType.Settlement; }
         }
     }
 }

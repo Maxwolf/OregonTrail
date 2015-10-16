@@ -1,42 +1,33 @@
 ﻿using System;
 using TrailCommon;
+using TrailEntities;
 
-namespace TrailEntities
+namespace TrailGame
 {
-    public abstract class GameMode : IGameMode
+    public abstract class TrailMode : ITrailMode
     {
-        protected Vehicle _vehicle;
+        protected TrailVehicle _trailVehicle;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        protected GameMode(Vehicle vehicle)
+        protected TrailMode(TrailVehicle trailVehicle)
         {
             // Complain if game manager does not exist.
-            if (GameManager.Instance == null)
+            if (SimulationApp.Instance == null)
                 throw new InvalidOperationException("Called game window constructor when game manager is null!");
 
-            _vehicle = vehicle;
+            _trailVehicle = trailVehicle;
 
             // Hook events that all game windows will want.
-            GameManager.Instance.TickEvent += Instance_TickEvent;
+            SimulationApp.Instance.TickEvent += Simulation_TickEvent;
         }
 
-        public virtual string Name
-        {
-            get { return "Unknown"; }
-        }
+        public abstract TrailModeType Mode { get; }
 
-        public void ModeChange()
+        public ITrailVehicle TrailVehicle
         {
-            ModeChangedEvent?.Invoke();
-        }
-
-        public event ModeChanged ModeChangedEvent;
-
-        public IVehicle Vehicle
-        {
-            get { return _vehicle; }
+            get { return _trailVehicle; }
         }
 
         /// <summary>
@@ -47,10 +38,10 @@ namespace TrailEntities
         /// </returns>
         public override string ToString()
         {
-            return Name;
+            return Mode.ToString();
         }
 
-        private void Instance_TickEvent(ulong tickCount)
+        private void Simulation_TickEvent(uint tickCount)
         {
             OnTick();
         }
@@ -58,7 +49,7 @@ namespace TrailEntities
         protected virtual void OnTick()
         {
             // Complain if game manager does not exist.
-            if (GameManager.Instance == null)
+            if (SimulationApp.Instance == null)
                 throw new InvalidOperationException("Unable to continue to tick game window since game manager is null!");
         }
     }

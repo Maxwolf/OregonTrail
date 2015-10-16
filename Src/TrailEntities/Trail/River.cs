@@ -5,26 +5,21 @@ namespace TrailEntities
 {
     public class River : PointOfInterest, IRiver
     {
-        private uint _depth;
-        private uint _ferryCost;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:TrailEntities.PointOfInterest"/> class.
+        /// Initializes a new instance of the <see cref="T:TrailCommon.PointOfInterest"/> class.
         /// </summary>
-        public River(string name, ulong distanceLength, uint depth, uint ferryCost) : base(name, distanceLength)
+        public River(string name, ulong distanceLength) : base(name, distanceLength)
         {
-            _depth = depth;
-            _ferryCost = ferryCost;
         }
 
         public uint Depth
         {
-            get { return _depth; }
+            get { throw new NotImplementedException(); }
         }
 
         public uint FerryCost
         {
-            get { return _ferryCost; }
+            get { throw new NotImplementedException(); }
         }
 
         public void CrossRiver()

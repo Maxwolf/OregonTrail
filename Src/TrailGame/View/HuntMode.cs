@@ -1,19 +1,20 @@
-﻿using TrailEntities;
+﻿using TrailCommon;
+using TrailEntities;
 
 namespace TrailGame
 {
-    public class HuntMode : GameMode
+    public class HuntMode : TrailMode
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.HuntWindow" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public HuntMode(Vehicle vehicle) : base(vehicle)
+        public HuntMode(TrailVehicle trailVehicle) : base(trailVehicle)
         {
         }
 
-        public override string Name
+        public override TrailModeType Mode
         {
-            get { return "Hunting"; }
+            get { return TrailModeType.Hunt; }
         }
     }
 }

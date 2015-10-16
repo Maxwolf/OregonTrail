@@ -1,8 +1,7 @@
 ﻿namespace TrailCommon
 {
-    public interface IRiverCrossing
+    public interface IRiverCrossing : ITrailMode
     {
-        IVehicle Vehicle { get; set; }
         void CaulkVehicle();
         void Ford();
         void UseFerry();

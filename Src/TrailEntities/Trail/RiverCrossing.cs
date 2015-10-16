@@ -10,21 +10,21 @@ namespace TrailEntities
     /// </summary>
     public class RiverCrossing : River, IRiverCrossing
     {
-        private IVehicle _vehicle;
-
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.RiverCrossing" /> class.
+        /// Initializes a new instance of the <see cref="T:TrailCommon.PointOfInterest"/> class.
         /// </summary>
-        public RiverCrossing(string name, ulong distanceLength, uint depth, uint ferryCost)
-            : base(name, distanceLength, depth, ferryCost)
+        public RiverCrossing(string name, ulong distanceLength) : base(name, distanceLength)
         {
-            _vehicle = null;
         }
 
-        public IVehicle Vehicle
+        public TrailModeType Mode
         {
-            get { return _vehicle; }
-            set { _vehicle = value; }
+            get { throw new NotImplementedException(); }
+        }
+
+        public ITrailVehicle TrailVehicle
+        {
+            get { throw new NotImplementedException(); }
         }
 
         public void CaulkVehicle()

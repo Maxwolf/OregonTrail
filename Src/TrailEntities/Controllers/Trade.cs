@@ -11,26 +11,19 @@ namespace TrailEntities
     /// </summary>
     public abstract class Trade : ITrade
     {
-        private List<IItem> _possibleTrades;
-        private IVehicle _vehicle;
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Trade" /> class.
-        /// </summary>
-        protected Trade(IVehicle vehicle)
+        public TrailModeType Mode
         {
-            _possibleTrades = new List<IItem>();
-            _vehicle = vehicle;
+            get { throw new NotImplementedException(); }
+        }
+
+        public ITrailVehicle TrailVehicle
+        {
+            get { throw new NotImplementedException(); }
         }
 
         public ReadOnlyCollection<IItem> PossibleTrades
         {
-            get { return new ReadOnlyCollection<IItem>(_possibleTrades); }
-        }
-
-        public IVehicle Vehicle
-        {
-            get { return _vehicle; }
+            get { throw new NotImplementedException(); }
         }
 
         public void TradeAttempt(IItem item)

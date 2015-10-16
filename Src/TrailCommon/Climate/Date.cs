@@ -2,33 +2,22 @@
 {
     public class Date
     {
-        private uint _day;
-        private uint _month;
-        private uint _year;
+        public const uint NumberOfDaysInMonth = 30;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailCommon.Date" /> class.
-        /// </summary>
-        public Date(uint day, uint month, uint year)
+        public Date(uint dueYear, Months dueMonth, uint dueDay)
         {
-            _day = day;
-            _month = month;
-            _year = year;
+            Day = dueDay;
+            Month = dueMonth;
+            Year = dueYear;
         }
 
-        private uint Month
-        {
-            get { return _month; }
-        }
+        public Months Month { get; set; }
+        public uint Year { get; set; }
+        public uint Day { get; set; }
 
-        private uint Day
+        public override string ToString()
         {
-            get { return _day; }
-        }
-
-        private uint Year
-        {
-            get { return _year; }
+            return $"{Month}, {Year}";
         }
     }
 }

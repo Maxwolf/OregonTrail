@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace TrailCommon
 {
-    public interface ITrade
+    public interface ITrade : ITrailMode
     {
         ReadOnlyCollection<IItem> PossibleTrades { get; }
-        IVehicle Vehicle { get; }
         void TradeAttempt(IItem item);
     }
 }
