@@ -2,11 +2,14 @@
 {
     public interface IGameSimulation : ISimulation
     {
+        ITimeSimulation Time { get; }
+        IClimateSimulation Climate { get; }
         void TakeTurn();
         void Hunt();
         void Rest();
         void Trade();
-        ITimeSimulation Time { get; }
-        IClimateSimulation Climate { get; }
+        event ModeChanged ModeChangedEvent;
     }
+
+    public delegate void ModeChanged(GameMode mode);
 }

@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace TrailCommon
 {
     public interface IClimateSimulation
     {
         ClimateClassification ClimateClassificationType { get; }
-        float DisasterChance { get;}
+        float DisasterChance { get; }
         int InsideTemperature { get; }
         ReadOnlyCollection<ClimateData> AverageTemperatures { get; }
         WeatherCondition CurrentWeather { get; }

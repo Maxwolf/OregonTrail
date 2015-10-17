@@ -13,9 +13,9 @@ namespace TrailGame
         {
         }
 
-        public override TrailCommon.GameMode ModeType
+        public override GameMode ModeType
         {
-            get { return TrailCommon.GameMode.Store; }
+            get { return GameMode.Store; }
         }
 
         public ReadOnlyCollection<IItem> StoreInventory

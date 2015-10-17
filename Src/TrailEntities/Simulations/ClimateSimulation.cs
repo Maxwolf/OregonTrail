@@ -143,7 +143,6 @@ namespace TrailEntities
 
         public void UpdateClimate()
         {
-            _currentWeather = CalculateWeather();
             _grassAvaliable = 42;
         }
 
@@ -195,11 +194,6 @@ namespace TrailEntities
         public double NextWeatherChance
         {
             get { return _nextWeatherChance; }
-        }
-
-        private WeatherCondition CalculateWeather()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -384,7 +378,14 @@ namespace TrailEntities
                 // If temp is above 10 and there is snow convert it to rain.
                 if (OutsideTemperature > 10)
                 {
-                    if (CurrentWeather == WeatherCondition.Hail || CurrentWeather == WeatherCondition.LightSnow || CurrentWeather == WeatherCondition.Flurries || CurrentWeather == WeatherCondition.SnowShowers || CurrentWeather == WeatherCondition.Icy || CurrentWeather == WeatherCondition.Snow || CurrentWeather == WeatherCondition.Sleet || CurrentWeather == WeatherCondition.FreezingDrizzle)
+                    if (CurrentWeather == WeatherCondition.Hail ||
+                        CurrentWeather == WeatherCondition.LightSnow ||
+                        CurrentWeather == WeatherCondition.Flurries || 
+                        CurrentWeather == WeatherCondition.SnowShowers || 
+                        CurrentWeather == WeatherCondition.Icy || 
+                        CurrentWeather == WeatherCondition.Snow || 
+                        CurrentWeather == WeatherCondition.Sleet || 
+                        CurrentWeather == WeatherCondition.FreezingDrizzle)
                     {
                         // Randomly select another type to replace it with because of temp being to high!
                         switch (_game.Random.Next(5))

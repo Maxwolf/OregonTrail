@@ -53,7 +53,7 @@
     <Compile Include="Mode.cs" />
     <Compile Include="View\HuntMode.cs" />
     <Compile Include="View\LandmarkMode.cs" />
-    <Compile Include="View\NewMode.cs" />
+    <Compile Include="View\NewGameMode.cs" />
     <Compile Include="View\RandomEventMode.cs" />
     <Compile Include="View\RiverCrossingMode.cs" />
     <Compile Include="View\SettlementMode.cs" />

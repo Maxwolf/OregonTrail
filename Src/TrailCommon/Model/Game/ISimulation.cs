@@ -1,16 +1,11 @@
-﻿using System;
-
-namespace TrailCommon
+﻿namespace TrailCommon
 {
     public interface ISimulation : ISimulationInitializer
     {
         Randomizer Random { get; }
         uint TotalTicks { get; }
-        int FPS { get; }
-        void SetMode(IGameMode mode);
         event NewGame NewgameEvent;
         event EndGame EndgameEvent;
-        event ModeChanged ModeChangedEvent;
         event TickSim TickEvent;
     }
 
@@ -19,6 +14,4 @@ namespace TrailCommon
     public delegate void EndGame();
 
     public delegate void NewGame();
-
-    public delegate void ModeChanged(GameMode mode);
 }

@@ -12,9 +12,9 @@ namespace TrailGame
         {
         }
 
-        public override TrailCommon.GameMode ModeType
+        public override GameMode ModeType
         {
-            get { return TrailCommon.GameMode.Trade; }
+            get { return GameMode.Trade; }
         }
     }
 }

@@ -34,6 +34,7 @@ namespace TrailGame
             _turn = 0;
             _vehicle = new Vehicle();
             _randomEvent = new RandomEvent(Vehicle);
+            _currentMode = null;
         }
 
         public override void ChooseProfession()
@@ -73,12 +74,10 @@ namespace TrailGame
 
         private void TimeSimulation_SpeedChangeEvent()
         {
-            //throw new NotImplementedException();
         }
 
         private void TimeSimulation_YearEndEvent(uint yearCount)
         {
-            //throw new NotImplementedException();
         }
 
         private void TimeSimulation_DayEndEvent(uint dayCount)
@@ -88,7 +87,6 @@ namespace TrailGame
 
         private void TimeSimulation_MonthEndEvent(uint monthCount)
         {
-            //throw new NotImplementedException();
         }
 
         public TrailSimulation TrailSimulation
@@ -113,7 +111,7 @@ namespace TrailGame
 
         public void TakeTurn()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Hunt()
@@ -131,6 +129,8 @@ namespace TrailGame
             throw new NotImplementedException();
         }
 
+        public event ModeChanged ModeChangedEvent;
+
         public ITimeSimulation Time
         {
             get { return _time; }
@@ -139,6 +139,19 @@ namespace TrailGame
         public IClimateSimulation Climate
         {
             get { return _climate; }
+        }
+
+        public Mode CurrentMode
+        {
+            get { return _currentMode; }
+            set
+            {
+                if (_currentMode == value)
+                    return;
+
+                _currentMode = value;
+                ModeChangedEvent?.Invoke(_currentMode.ModeType);
+            }
         }
 
         protected override void OnTick()
