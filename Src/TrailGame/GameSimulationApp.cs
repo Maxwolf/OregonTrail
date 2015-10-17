@@ -16,7 +16,7 @@ namespace TrailGame
         private TrailSimulation _trailSimulation;
         private Vehicle _vehicle;
         private uint _turn;
-        private Mode _currentMode;
+        
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
@@ -34,7 +34,7 @@ namespace TrailGame
             _turn = 0;
             _vehicle = new Vehicle();
             _randomEvent = new RandomEvent(Vehicle);
-            _currentMode = null;
+            
         }
 
         public override void ChooseProfession()
@@ -69,7 +69,6 @@ namespace TrailGame
             _turn = 0;
             _vehicle = null;
             _randomEvent = null;
-            _currentMode = null;
         }
 
         private void TimeSimulation_SpeedChangeEvent()
@@ -129,8 +128,6 @@ namespace TrailGame
             throw new NotImplementedException();
         }
 
-        public event ModeChanged ModeChangedEvent;
-
         public ITimeSimulation Time
         {
             get { return _time; }
@@ -139,19 +136,6 @@ namespace TrailGame
         public IClimateSimulation Climate
         {
             get { return _climate; }
-        }
-
-        public Mode CurrentMode
-        {
-            get { return _currentMode; }
-            set
-            {
-                if (_currentMode == value)
-                    return;
-
-                _currentMode = value;
-                ModeChangedEvent?.Invoke(_currentMode.ModeType);
-            }
         }
 
         protected override void OnTick()

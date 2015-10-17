@@ -39,17 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Points of Interest\TrailPrefabs.cs" />
     <Compile Include="Simulations\ClimateSimulation.cs" />
     <Compile Include="Simulations\TimeSimulation.cs" />
     <Compile Include="Objects\Item.cs" />
     <Compile Include="Objects\Oxen.cs" />
-    <Compile Include="Points of Interest\TrailPrefabs.cs" />
     <Compile Include="Points of Interest\ForkInRoad.cs" />
-    <Compile Include="Points of Interest\TrailSimulation.cs" />
+    <Compile Include="Simulations\TrailSimulation.cs" />
     <Compile Include="Objects\Person.cs" />
     <Compile Include="Controllers\Hunt.cs" />
     <Compile Include="Points of Interest\Landmark.cs" />
-    <Compile Include="Points of Interest\River.cs" />
     <Compile Include="Points of Interest\RiverCrossing.cs" />
     <Compile Include="Points of Interest\Settlement.cs" />
     <Compile Include="Controllers\Store.cs" />

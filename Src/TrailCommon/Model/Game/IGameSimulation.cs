@@ -8,8 +8,5 @@
         void Hunt();
         void Rest();
         void Trade();
-        event ModeChanged ModeChangedEvent;
     }
-
-    public delegate void ModeChanged(GameMode mode);
 }

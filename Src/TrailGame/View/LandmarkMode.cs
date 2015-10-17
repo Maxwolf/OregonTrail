@@ -3,7 +3,7 @@ using TrailEntities;
 
 namespace TrailGame
 {
-    public class LandmarkMode : Mode
+    public class LandmarkMode : GameMode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
@@ -12,9 +12,9 @@ namespace TrailGame
         {
         }
 
-        public override GameMode ModeType
+        public override SimulationMode Mode
         {
-            get { return GameMode.Landmark; }
+            get { return SimulationMode.Landmark; }
         }
     }
 }

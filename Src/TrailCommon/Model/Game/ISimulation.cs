@@ -7,7 +7,10 @@
         event NewGame NewgameEvent;
         event EndGame EndgameEvent;
         event TickSim TickEvent;
+        event ModeChanged ModeChangedEvent;
     }
+
+    public delegate void ModeChanged(SimulationMode mode);
 
     public delegate void TickSim(uint tickCount);
 

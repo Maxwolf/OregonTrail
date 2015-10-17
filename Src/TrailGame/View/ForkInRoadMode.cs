@@ -3,7 +3,7 @@ using TrailEntities;
 
 namespace TrailGame
 {
-    public class ForkInRoadMode : Mode
+    public class ForkInRoadMode : GameMode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
@@ -12,9 +12,9 @@ namespace TrailGame
         {
         }
 
-        public override GameMode ModeType
+        public override SimulationMode Mode
         {
-            get { return GameMode.ForkInRoad; }
+            get { return SimulationMode.ForkInRoad; }
         }
     }
 }

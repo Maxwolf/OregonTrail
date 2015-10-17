@@ -22,9 +22,9 @@ namespace TrailEntities
             get { return _name; }
         }
 
-        public GameMode ModeType
+        public SimulationMode Mode
         {
-            get { return GameMode.RandomEvent; }
+            get { return SimulationMode.RandomEvent; }
         }
 
         public void TickMode()
@@ -36,8 +36,6 @@ namespace TrailEntities
         {
             get { return _vehicle; }
         }
-
-        public event ModeChanged ModeChangedEvent;
 
         public void MakeEvent()
         {

@@ -3,7 +3,7 @@ using TrailEntities;
 
 namespace TrailGame
 {
-    public class TradeMode : Mode
+    public class TradeMode : GameMode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
@@ -12,9 +12,9 @@ namespace TrailGame
         {
         }
 
-        public override GameMode ModeType
+        public override SimulationMode Mode
         {
-            get { return GameMode.Trade; }
+            get { return SimulationMode.Trade; }
         }
     }
 }

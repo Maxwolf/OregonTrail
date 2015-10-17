@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 
 namespace TrailCommon
 {
     public interface IForkInRoad
     {
-        List<PointOfInterest> SkipChoices { get; }
+        ReadOnlyCollection<PointOfInterest> SkipChoices { get; }
     }
 }

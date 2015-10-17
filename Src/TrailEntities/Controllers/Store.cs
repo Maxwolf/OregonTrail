@@ -23,9 +23,9 @@ namespace TrailEntities
             Vehicle = vehicle;
         }
 
-        public GameMode ModeType
+        public SimulationMode Mode
         {
-            get { return GameMode.Store; }
+            get { return SimulationMode.Store; }
         }
 
         public void TickMode()

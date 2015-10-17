@@ -46,7 +46,7 @@
     <Compile Include="Climate Simulation\IClimateSimulation.cs" />
     <Compile Include="Time Simulation\ITimeSimulation.cs" />
     <Compile Include="Time Simulation\Months.cs" />
-    <Compile Include="Model\Game\GameMode.cs" />
+    <Compile Include="Model\Game\SimulationMode.cs" />
     <Compile Include="Model\Game\ISimulationInitializer.cs" />
     <Compile Include="Model\Game\IGameMode.cs" />
     <Compile Include="Trail\IForkInRoad.cs" />

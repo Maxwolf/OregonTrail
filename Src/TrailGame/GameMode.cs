@@ -4,14 +4,14 @@ using TrailEntities;
 
 namespace TrailGame
 {
-    public abstract class Mode : IGameMode
+    public abstract class GameMode : IGameMode
     {
         protected Vehicle _vehicle;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.TrailMode" /> class.
         /// </summary>
-        protected Mode(Vehicle vehicle)
+        protected GameMode(Vehicle vehicle)
         {
             // Complain if game manager does not exist.
             if (SimulationApp.Instance == null)
@@ -23,7 +23,7 @@ namespace TrailGame
             SimulationApp.Instance.TickEvent += Simulation_TickEvent;
         }
 
-        public abstract GameMode ModeType { get; }
+        public abstract SimulationMode Mode { get; }
 
         public void TickMode()
         {
@@ -43,7 +43,7 @@ namespace TrailGame
         /// </returns>
         public override string ToString()
         {
-            return ModeType.ToString();
+            return Mode.ToString();
         }
 
         private void Simulation_TickEvent(uint tickCount)

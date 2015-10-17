@@ -18,5 +18,10 @@ namespace TrailEntities
         {
             get { return _canRest; }
         }
+
+        public override SimulationMode Mode
+        {
+            get { return SimulationMode.Landmark; }
+        }
     }
 }

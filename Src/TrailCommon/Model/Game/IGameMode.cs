@@ -2,7 +2,7 @@
 {
     public interface IGameMode
     {
-        GameMode ModeType { get; }
+        SimulationMode Mode { get; }
         void TickMode();
         IVehicle Vehicle { get; }
     }

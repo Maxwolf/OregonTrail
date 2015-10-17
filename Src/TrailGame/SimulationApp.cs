@@ -7,7 +7,7 @@ namespace TrailGame
     public abstract class SimulationApp : ISimulation
     {
         private Randomizer _random;
-
+        private GameMode _currentMode;
         private Timer _tickTimer;
 
         /// <summary>
@@ -18,6 +18,7 @@ namespace TrailGame
             _random = new Randomizer((int) DateTime.Now.Ticks & 0x0000FFF);
             TotalTicks = 0;
             TickPhase = "*";
+            _currentMode = null;
 
             // Create timer for every second, enabled by default, hook elapsed event.
             _tickTimer = new Timer(1000);
@@ -26,6 +27,19 @@ namespace TrailGame
             // Do not allow timer to automatically tick, this prevents it spawning multiple threads, enable the timer.
             _tickTimer.AutoReset = false;
             _tickTimer.Enabled = true;
+        }
+
+        public GameMode CurrentMode
+        {
+            get { return _currentMode; }
+            set
+            {
+                if (_currentMode == value)
+                    return;
+
+                _currentMode = value;
+                ModeChangedEvent?.Invoke(_currentMode.Mode);
+            }
         }
 
         public static SimulationApp Instance { get; private set; }
@@ -53,6 +67,7 @@ namespace TrailGame
         public event NewGame NewgameEvent;
         public event EndGame EndgameEvent;
         public event TickSim TickEvent;
+        public event ModeChanged ModeChangedEvent;
 
         private void OnTickTimerFired(object Sender, ElapsedEventArgs e)
         {
@@ -126,6 +141,7 @@ namespace TrailGame
 
         protected virtual void OnDestroy()
         {
+            _currentMode = null;
             EndgameEvent?.Invoke();
         }
 

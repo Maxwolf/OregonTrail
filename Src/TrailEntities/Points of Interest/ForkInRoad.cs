@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using TrailCommon;
 
 namespace TrailEntities
@@ -16,9 +17,14 @@ namespace TrailEntities
             _skipChoices = skipChoices;
         }
 
-        public List<PointOfInterest> SkipChoices
+        public override SimulationMode Mode
         {
-            get { return _skipChoices; }
+            get { return SimulationMode.ForkInRoad; }
+        }
+
+        public ReadOnlyCollection<PointOfInterest> SkipChoices
+        {
+            get { return new ReadOnlyCollection<PointOfInterest>(_skipChoices); }
         }
     }
 }

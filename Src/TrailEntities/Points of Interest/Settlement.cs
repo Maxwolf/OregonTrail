@@ -37,5 +37,10 @@ namespace TrailEntities
             // TODO: Create instance of store.
             throw new NotImplementedException();
         }
+
+        public override SimulationMode Mode
+        {
+            get { return SimulationMode.Settlement; }
+        }
     }
 }

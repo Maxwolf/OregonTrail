@@ -11,9 +11,9 @@ namespace TrailEntities
     /// </summary>
     public abstract class Trade : ITrade
     {
-        public GameMode ModeType
+        public SimulationMode Mode
         {
-            get { throw new NotImplementedException(); }
+            get { return SimulationMode.Trade; }
         }
 
         public void TickMode()

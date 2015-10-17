@@ -9,9 +9,9 @@ namespace TrailEntities
     /// </summary>
     public abstract class Hunt : IHunt
     {
-        public GameMode ModeType
+        public SimulationMode Mode
         {
-            get { return GameMode.Hunt; }
+            get { return SimulationMode.Hunt; }
         }
 
         public void TickMode()

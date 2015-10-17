@@ -4,7 +4,7 @@ using TrailEntities;
 
 namespace TrailGame
 {
-    public class StoreMode : Mode, IStore
+    public class StoreMode : GameMode, IStore
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
@@ -13,9 +13,9 @@ namespace TrailGame
         {
         }
 
-        public override GameMode ModeType
+        public override SimulationMode Mode
         {
-            get { return GameMode.Store; }
+            get { return SimulationMode.Store; }
         }
 
         public ReadOnlyCollection<IItem> StoreInventory
