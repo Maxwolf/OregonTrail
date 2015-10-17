@@ -202,9 +202,16 @@ namespace TrailEntities
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Returns average temperature for given climate classification and month.
+        /// </summary>
         private ClimateData GetTemperatureByMonth(Months whichMonth)
         {
-            throw new NotImplementedException();
+            foreach (ClimateData data in AverageTemperatures)
+            {
+                if (data.ClimateMonth == whichMonth) return data;
+            }
+            return null;
         }
 
         public void TickClimate()

@@ -6,6 +6,7 @@ namespace TrailCommon
     {
         Randomizer Random { get; }
         uint TotalTicks { get; }
+        int FPS { get; }
         void SetMode(IGameMode mode);
         event NewGame NewgameEvent;
         event EndGame EndgameEvent;

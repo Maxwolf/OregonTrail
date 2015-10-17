@@ -73,12 +73,12 @@ namespace TrailGame
 
         private void TimeSimulation_SpeedChangeEvent()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void TimeSimulation_YearEndEvent(uint yearCount)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void TimeSimulation_DayEndEvent(uint dayCount)
@@ -88,7 +88,7 @@ namespace TrailGame
 
         private void TimeSimulation_MonthEndEvent(uint monthCount)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public TrailSimulation TrailSimulation
