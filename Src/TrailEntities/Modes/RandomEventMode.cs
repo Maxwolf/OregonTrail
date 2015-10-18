@@ -10,7 +10,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.RandomEventMode" /> class.
         /// </summary>
-        public RandomEventMode(IGameSimulation game) : base(game)
+        public RandomEventMode(IGameServer game) : base(game)
         {
             _name = "Unknown Random Event";
         }

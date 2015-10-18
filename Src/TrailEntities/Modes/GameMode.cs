@@ -1,30 +1,28 @@
-﻿using System;
-using TrailCommon;
+﻿using TrailCommon;
 
 namespace TrailEntities
 {
     public abstract class GameMode : IMode
     {
-        private readonly IGameSimulation _game;
+        private readonly IGameServer _game;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        protected GameMode(IGameSimulation game)
+        protected GameMode(IGameServer game)
         {
             _game = game;
         }
 
         public abstract ModeType Mode { get; }
 
-        public IGameSimulation Game
+        public IGameServer Game
         {
             get { return _game; }
         }
 
         public virtual void TickMode()
         {
-
         }
 
         /// <summary>

@@ -16,7 +16,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public NewGameMode(IGameSimulation game) : base(game)
+        public NewGameMode(IGameServer game) : base(game)
         {
         }
 
@@ -147,9 +147,9 @@ namespace TrailEntities
             }
         }
 
-        private void OnTick()
+        public override void TickMode()
         {
-            // TODO: PIPE ME PLEASE
+            base.TickMode();
 
             // Every new game has you picking names, profession, and starting items.
             if (!_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)

@@ -8,8 +8,9 @@ namespace TrailGame
     {
         private static void Main(string[] args)
         {
-            var gameServer = new GameSimulationApp();
-            while (!gameServer.IsClosing)
+            var gameServer = new GameServerApp();
+            var gameClient = new GameClientApp();
+            while (!gameServer.IsClosing || !gameClient.IsClosing)
             {
                 Thread.Sleep(1);
                 Console.Title =

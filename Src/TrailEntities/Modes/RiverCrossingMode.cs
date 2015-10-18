@@ -16,7 +16,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public RiverCrossingMode(IGameSimulation game) : base(game)
+        public RiverCrossingMode(IGameServer game) : base(game)
         {
             _depth = (uint) game.Random.Next(1, 20);
             _ferryCost = (uint) game.Random.Next(3, 8);

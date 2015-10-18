@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.IO.Pipes;
 using System.Threading;
 using System.Timers;
 using TrailCommon;
@@ -12,26 +10,24 @@ namespace TrailEntities
 {
     public abstract class SimulationApp : ISimulation
     {
-        private const string servername = ".";
-        private const string ServerPipeName = "ToSrvPipe";
-        private const string ClientPipeName = "FromSrvPipe";
-        private readonly object _commandQueueLock = new object();
-        private readonly Queue<Tuple<string, string>> _queuedCommands = new Queue<Tuple<string, string>>();
-
-        private readonly Thread _receiver;
-        private readonly Thread _sender;
+        /// <summary>
+        ///     Used in the pipe system to help identify the correct address, this should not be changed unless you know what you
+        ///     are doing.
+        /// </summary>
+        protected const string SimulationName = ".";
 
         /// <summary>
         ///     To wait till a response is received for a request and THEN proceed
         /// </summary>
-        private readonly AutoResetEvent _waitForResponse = new AutoResetEvent(false);
+        protected readonly AutoResetEvent _waitForResponse = new AutoResetEvent(false);
 
         /// <summary>
         ///     Equivalent to receiving a "quit" on the console
         /// </summary>
-        private bool _cancelRequested;
+        protected bool _cancelRequested;
 
-        private string _currentId;
+        protected string _currentId;
+
         private List<IMode> _modes;
         private Randomizer _random;
         private Timer _tickTimer;
@@ -53,81 +49,6 @@ namespace TrailEntities
             // Do not allow timer to automatically tick, this prevents it spawning multiple threads, enable the timer.
             _tickTimer.AutoReset = false;
             _tickTimer.Enabled = true;
-
-            _sender = new Thread(syncClientServer =>
-            {
-                // Body of thread
-                var waitForResponse = (AutoResetEvent) syncClientServer;
-
-                using (
-                    var pipeStream = new NamedPipeClientStream(servername, ServerPipeName, PipeDirection.Out,
-                        PipeOptions.None)
-                    )
-                {
-                    pipeStream.Connect();
-
-                    using (var sw = new StreamWriter(pipeStream) {AutoFlush = true})
-                        // Do this till Cancel() is called
-                        while (!_cancelRequested)
-                        {
-                            // No commands? Keep waiting
-                            // This is a tight loop, perhaps a Thread.Yield or something?
-                            if (_queuedCommands.Count == 0)
-                                continue;
-
-                            Tuple<string, string> _currentCommand = null;
-
-                            // We're going to modify the command queue, lock it
-                            lock (_commandQueueLock)
-                                // Check to see if someone else stole our command
-                                // before we got here
-                                if (_queuedCommands.Count > 0)
-                                    _currentCommand = _queuedCommands.Dequeue();
-
-                            // Was a command dequeued above?
-                            if (_currentCommand != null)
-                            {
-                                _currentId = _currentCommand.Item1;
-                                sw.WriteLine(_currentCommand.Item2);
-
-                                // Wait for the response to this command
-                                waitForResponse.WaitOne();
-                            }
-                        }
-                }
-            });
-
-            _receiver = new Thread(syncClientServer =>
-            {
-                var waitForResponse = (AutoResetEvent) syncClientServer;
-
-                using (
-                    var pipeStream = new NamedPipeClientStream(servername, ClientPipeName, PipeDirection.In,
-                        PipeOptions.None)
-                    )
-                {
-                    pipeStream.Connect();
-
-                    using (var sr = new StreamReader(pipeStream))
-                        // Do this till Cancel() is called
-                        // Again, this is a tight loop, perhaps a Thread.Yield or something?
-                        while (!_cancelRequested)
-                            // If there's anything in the stream
-                            if (!sr.EndOfStream)
-                            {
-                                // Read it
-                                var response = sr.ReadLine();
-                                // Raise the event for processing
-                                // Note that this event is being raised from the
-                                // receiver thread and you can't access UI here
-                                // You will need to Control.BeginInvoke or some such
-                                RaiseResponseReceived(_currentId, response);
-
-                                // Proceed with sending subsequent commands
-                                waitForResponse.Set();
-                            }
-                }
-            });
         }
 
         public string TickPhase { get; private set; }
@@ -161,7 +82,7 @@ namespace TrailEntities
             get
             {
                 if (_modes.Count <= 0)
-                    return "Starting";
+                    return "None";
 
                 var lastMode = _modes[_modes.Count - 1];
                 return lastMode.Mode.ToString();
@@ -204,30 +125,6 @@ namespace TrailEntities
             OnDestroy();
         }
 
-        /// <summary>
-        ///     Raises an event when a response is received
-        /// </summary>
-        private void RaiseResponseReceived(string id, string message)
-        {
-            ResponseReceived?.Invoke(this, new ResponseReceivedEventArgs(id, message));
-        }
-
-        /// <summary>
-        ///     Add a command to queue of outgoing commands.
-        /// </summary>
-        /// <returns>ID of the enqueued command so the user can relate it with the corresponding response.</returns>
-        public string EnqueueCommand(string command)
-        {
-            var resultId = Guid.NewGuid().ToString();
-            lock (_commandQueueLock)
-            {
-                _queuedCommands.Enqueue(Tuple.Create(resultId, command));
-            }
-            return resultId;
-        }
-
-        public event ResponseReceived ResponseReceived;
-
         protected abstract GameMode OnModeChanging(ModeType mode);
 
         private void OnTickTimerFired(object Sender, ElapsedEventArgs e)
@@ -255,11 +152,7 @@ namespace TrailEntities
             OnTick();
         }
 
-        protected virtual void OnFirstTick()
-        {
-            _sender.Start(_waitForResponse);
-            _receiver.Start(_waitForResponse);
-        }
+        protected abstract void OnFirstTick();
 
         /// <summary>
         ///     Used for showing player that simulation is ticking on main view.

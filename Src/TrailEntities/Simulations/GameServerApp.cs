@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Threading;
@@ -10,16 +11,20 @@ namespace TrailEntities
     ///     Handles core interaction of the game, all other game types are inherited from this game mode. Deals with weather,
     ///     parties, random events, keeping track of beginning and end of the game.
     /// </summary>
-    public sealed class GameSimulationApp : SimulationApp, IGameSimulation
+    public sealed class GameServerApp : SimulationApp, IGameServer
     {
         private ClimateSimulation _climate;
         private TimeSimulation _time;
         private Vehicle _vehicle;
+        private const string ServerPipeName = "ToSrvPipe";
+        private readonly Thread _sender;
+        private readonly Queue<Tuple<string, string>> _queuedCommands = new Queue<Tuple<string, string>>();
+        private readonly object _commandQueueLock = new object();
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailGame.GameServerApp" /> class.
         /// </summary>
-        public GameSimulationApp()
+        public GameServerApp()
         {
             _time = new TimeSimulation(1985, Months.May, 5, TravelPace.Paused);
             _time.DayEndEvent += TimeSimulation_DayEndEvent;
@@ -31,7 +36,52 @@ namespace TrailEntities
             TrailSimulation = new TrailSimulation();
             TotalTurns = 0;
             Vehicle = new Vehicle();
+
+            _sender = new Thread(syncClientServer =>
+            {
+                // Body of thread
+                var waitForResponse = (AutoResetEvent)syncClientServer;
+
+                using (
+                    var pipeStream = new NamedPipeClientStream(SimulationName, ServerPipeName, PipeDirection.Out,
+                        PipeOptions.None)
+                    )
+                {
+                    pipeStream.Connect();
+
+                    using (var sw = new StreamWriter(pipeStream) { AutoFlush = true })
+                        // Do this till Cancel() is called
+                        while (!_cancelRequested)
+                        {
+                            // No commands? Keep waiting
+                            // This is a tight loop, perhaps a Thread.Yield or something?
+                            if (_queuedCommands.Count == 0)
+                                continue;
+
+                            Tuple<string, string> _currentCommand = null;
+
+                            // We're going to modify the command queue, lock it
+                            lock (_commandQueueLock)
+                                // Check to see if someone else stole our command
+                                // before we got here
+                                if (_queuedCommands.Count > 0)
+                                    _currentCommand = _queuedCommands.Dequeue();
+
+                            // Was a command dequeued above?
+                            if (_currentCommand != null)
+                            {
+                                _currentId = _currentCommand.Item1;
+                                sw.WriteLine(_currentCommand.Item2);
+
+                                // Wait for the response to this command
+                                waitForResponse.WaitOne();
+                            }
+                        }
+                }
+            });
         }
+
+
 
         public TrailSimulation TrailSimulation { get; private set; }
 
@@ -163,12 +213,26 @@ namespace TrailEntities
             }
         }
 
+        /// <summary>
+        ///     Add a command to queue of outgoing commands.
+        /// </summary>
+        /// <returns>ID of the enqueued command so the user can relate it with the corresponding response.</returns>
+        public string EnqueueCommand(string command)
+        {
+            var resultId = Guid.NewGuid().ToString();
+            lock (_commandQueueLock)
+            {
+                _queuedCommands.Enqueue(Tuple.Create(resultId, command));
+            }
+            return resultId;
+        }
+
         protected override void OnFirstTick()
         {
-            base.OnFirstTick();
+            _sender.Start(_waitForResponse);
 
             // TODO: FIX ME
-            AddMode(ModeType.NewGame);
+            //AddMode(ModeType.NewGame);
         }
 
         private void TimeSimulation_SpeedChangeEvent()

@@ -3,7 +3,7 @@
     public interface IMode
     {
         ModeType Mode { get; }
-        IGameSimulation Game { get; }
+        IGameServer Game { get; }
         void TickMode();
     }
 }

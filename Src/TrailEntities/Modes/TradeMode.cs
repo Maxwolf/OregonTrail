@@ -15,7 +15,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public TradeMode(IGameSimulation game) : base(game)
+        public TradeMode(IGameServer game) : base(game)
         {
             _possibleTrades = new List<IItem>();
         }
