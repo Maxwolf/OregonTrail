@@ -144,6 +144,30 @@ namespace TrailEntities
 
         public bool IsClosing { get; private set; }
 
+        public IMode ActiveMode
+        {
+            get
+            {
+                if (_modes.Count <= 0)
+                    return null;
+
+                var lastMode = _modes[_modes.Count - 1];
+                return lastMode;
+            }
+        }
+
+        public string ActiveModeName
+        {
+            get
+            {
+                if (_modes.Count <= 0)
+                    return "Starting";
+
+                var lastMode = _modes[_modes.Count - 1];
+                return lastMode.Mode.ToString();
+            }
+        }
+
         public ReadOnlyCollection<IMode> Modes
         {
             get { return new ReadOnlyCollection<IMode>(_modes); }

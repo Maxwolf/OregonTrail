@@ -24,7 +24,7 @@ namespace TrailEntities
 
         public virtual void TickMode()
         {
-            Console.WriteLine("Ticking " + Mode);
+
         }
 
         /// <summary>

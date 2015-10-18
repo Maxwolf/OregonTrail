@@ -13,8 +13,9 @@ namespace TrailGame
             {
                 Thread.Sleep(1);
                 Console.Title =
-                    "Oregon Trail Clone -" +
-                    $" Turns: {gameServer.TotalTurns.ToString("D4")} - " +
+                    "Oregon Trail Clone - " +
+                    $"Turns: {gameServer.TotalTurns.ToString("D4")} - " +
+                    $"Mode: {gameServer.ActiveModeName} - " +
                     $"[{gameServer.TickPhase}]";
             }
         }

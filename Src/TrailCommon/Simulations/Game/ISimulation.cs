@@ -4,6 +4,8 @@ namespace TrailCommon
 {
     public interface ISimulation
     {
+        IMode ActiveMode { get; }
+        string ActiveModeName { get; }
         ReadOnlyCollection<IMode> Modes { get; }
         Randomizer Random { get; }
         uint TotalTicks { get; }
