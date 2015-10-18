@@ -8,6 +8,7 @@
         event EndGame EndgameEvent;
         event TickSim TickEvent;
         event ModeChanged ModeChangedEvent;
+        void SetMode(ModeType mode);
     }
 
     public delegate void ModeChanged(ModeType mode);

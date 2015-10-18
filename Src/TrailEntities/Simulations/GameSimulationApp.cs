@@ -82,9 +82,44 @@ namespace TrailEntities
             get { return _climate; }
         }
 
-        protected override void OnSimulationCreated()
+        /// <summary>
+        ///     Change to new view mode when told that internal logic wants to display view options to player for a specific set of
+        ///     data in the simulation.
+        /// </summary>
+        /// <param name="mode">Enumeration of the game mode that requested to be attached.</param>
+        /// <returns>New game mode instance based on the mode input parameter.</returns>
+        protected override GameMode OnModeChanging(ModeType mode)
         {
-            throw new NotImplementedException();
+            switch (mode)
+            {
+                case ModeType.Travel:
+                    return new TradeModeView(Vehicle);
+                case ModeType.ForkInRoad:
+                    return new ForkInRoadModeView(Vehicle);
+                case ModeType.Hunt:
+                    return new HuntModeView(Vehicle);
+                case ModeType.Landmark:
+                    return new LandmarkModeView(Vehicle);
+                case ModeType.NewGame:
+                    return new NewGameModeView(Vehicle);
+                case ModeType.RandomEvent:
+                    return new RandomEventModeView(Vehicle);
+                case ModeType.RiverCrossing:
+                    return new RiverCrossingModeView(Vehicle);
+                case ModeType.Settlement:
+                    return new SettlementModeView(Vehicle);
+                case ModeType.Store:
+                    return new StoreModeView(Vehicle);
+                case ModeType.Trade:
+                    return new TradeModeView(Vehicle);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+            }
+        }
+
+        protected override void OnCreate()
+        {
+            SetMode(ModeType.NewGame);
         }
 
         protected override void OnDestroy()

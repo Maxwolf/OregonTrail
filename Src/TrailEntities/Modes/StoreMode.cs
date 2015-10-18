@@ -8,7 +8,7 @@ namespace TrailEntities
     /// <summary>
     ///     Manages a general store where the player can buy food, clothes, bullets, and parts for their vehicle.
     /// </summary>
-    public class StoreMode : IStore
+    public abstract class StoreMode : IStore
     {
         private readonly string _storeName;
         private List<IItem> _inventory;

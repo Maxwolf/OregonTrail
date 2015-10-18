@@ -1,8 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using TrailCommon;
-using TrailEntities;
 
-namespace TrailGame
+namespace TrailEntities
 {
     public class StoreModeView : GameMode, IStore
     {

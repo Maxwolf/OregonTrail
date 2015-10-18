@@ -1,20 +1,19 @@
 ﻿using TrailCommon;
-using TrailEntities;
 
-namespace TrailGame
+namespace TrailEntities
 {
-    public class RandomEventModeView : GameMode
+    public class LandmarkModeView : GameMode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public RandomEventModeView(Vehicle vehicle) : base(vehicle)
+        public LandmarkModeView(Vehicle vehicle) : base(vehicle)
         {
         }
 
         public override ModeType Mode
         {
-            get { return ModeType.RandomEvent; }
+            get { return ModeType.Landmark; }
         }
     }
 }

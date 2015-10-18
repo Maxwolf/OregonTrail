@@ -1,20 +1,19 @@
 ﻿using TrailCommon;
-using TrailEntities;
 
-namespace TrailGame
+namespace TrailEntities
 {
-    public class LandmarkModeView : GameMode
+    public class SettlementModeView : GameMode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public LandmarkModeView(Vehicle vehicle) : base(vehicle)
+        public SettlementModeView(Vehicle vehicle) : base(vehicle)
         {
         }
 
         public override ModeType Mode
         {
-            get { return ModeType.Landmark; }
+            get { return ModeType.Settlement; }
         }
     }
 }

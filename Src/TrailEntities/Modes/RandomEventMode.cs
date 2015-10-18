@@ -3,7 +3,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public class RandomEventMode : IRandomEvent
+    public abstract class RandomEventMode : IRandomEvent
     {
         private string _name;
         private IVehicle _vehicle;
@@ -11,7 +11,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.RandomEvent" /> class.
         /// </summary>
-        public RandomEventMode(IVehicle vehicle)
+        protected RandomEventMode(IVehicle vehicle)
         {
             _name = "Unknown Random Event";
             _vehicle = vehicle;

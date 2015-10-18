@@ -1,7 +1,6 @@
 ﻿using TrailCommon;
-using TrailEntities;
 
-namespace TrailGame
+namespace TrailEntities
 {
     public class TravelModeView : GameMode
     {

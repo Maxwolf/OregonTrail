@@ -47,16 +47,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="View\ForkInRoadModeView.cs" />
-    <Compile Include="View\HuntModeView.cs" />
-    <Compile Include="View\LandmarkModeView.cs" />
-    <Compile Include="View\NewGameModeView.cs" />
-    <Compile Include="View\RandomEventModeView.cs" />
-    <Compile Include="View\RiverCrossingModeView.cs" />
-    <Compile Include="View\SettlementModeView.cs" />
-    <Compile Include="View\StoreModeView.cs" />
-    <Compile Include="View\TradeModeView.cs" />
-    <Compile Include="View\TravelModeView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrailCommon\TrailCommon.csproj">

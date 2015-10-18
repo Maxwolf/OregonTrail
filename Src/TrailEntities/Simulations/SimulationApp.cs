@@ -29,19 +29,6 @@ namespace TrailEntities
             _tickTimer.Enabled = true;
         }
 
-        public GameMode CurrentMode
-        {
-            get { return _currentMode; }
-            set
-            {
-                if (_currentMode == value)
-                    return;
-
-                _currentMode = value;
-                ModeChangedEvent?.Invoke(_currentMode.Mode);
-            }
-        }
-
         public static SimulationApp Instance { get; private set; }
 
         public string TickPhase { get; private set; }
@@ -69,6 +56,18 @@ namespace TrailEntities
         public event TickSim TickEvent;
         public event ModeChanged ModeChangedEvent;
 
+        public void SetMode(ModeType mode)
+        {
+            if (_currentMode != null &&
+                _currentMode.Mode == mode)
+                return;
+
+            _currentMode = OnModeChanging(mode);
+            ModeChangedEvent?.Invoke(_currentMode.Mode);
+        }
+
+        protected abstract GameMode OnModeChanging(ModeType mode);
+
         private void OnTickTimerFired(object Sender, ElapsedEventArgs e)
         {
             Tick();
@@ -88,7 +87,7 @@ namespace TrailEntities
 
             if (TotalTicks == 1)
             {
-                OnSimulationCreated();
+                OnCreate();
             }
 
             TickPhase = TickVisualizer(TickPhase);
@@ -98,7 +97,7 @@ namespace TrailEntities
             OnTick();
         }
 
-        protected abstract void OnSimulationCreated();
+        protected abstract void OnCreate();
 
         /// <summary>
         ///     Used for showing player that simulation is ticking on main view.

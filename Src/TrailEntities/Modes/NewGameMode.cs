@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using TrailCommon;
-using TrailEntities;
 
-namespace TrailGame
+namespace TrailEntities
 {
-    public class NewGameModeView : GameMode, ISimulationInitializer
+    public abstract class NewGameMode : GameMode, ISimulationInitializer
     {
         private bool _hasChosenNames;
         private bool _hasChosenProfession;
@@ -18,7 +17,7 @@ namespace TrailGame
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.NewGameMode" /> class.
         /// </summary>
-        public NewGameModeView(Vehicle vehicle) : base(vehicle)
+        protected NewGameMode(Vehicle vehicle) : base(vehicle)
         {
             _playerVehicle = vehicle;
         }
@@ -75,7 +74,7 @@ namespace TrailGame
 
         public void BuyInitialItems()
         {
-            //SimulationApp.Instance.SetMode(new Store("Matt's General Store", 9000, ));
+            SimulationApp.Instance.SetMode(ModeType.Store);
         }
 
         public void ChooseNames()

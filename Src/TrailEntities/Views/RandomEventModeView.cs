@@ -1,20 +1,19 @@
 ﻿using TrailCommon;
-using TrailEntities;
 
-namespace TrailGame
+namespace TrailEntities
 {
-    public class RiverCrossingModeView : GameMode
+    public class RandomEventModeView : GameMode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public RiverCrossingModeView(Vehicle vehicle) : base(vehicle)
+        public RandomEventModeView(Vehicle vehicle) : base(vehicle)
         {
         }
 
         public override ModeType Mode
         {
-            get { return ModeType.RiverCrossing; }
+            get { return ModeType.RandomEvent; }
         }
     }
 }

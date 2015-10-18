@@ -59,6 +59,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Modes\RandomEventMode.cs" />
     <Compile Include="Entities\Vehicle.cs" />
+    <Compile Include="Views\ForkInRoadModeView.cs" />
+    <Compile Include="Views\HuntModeView.cs" />
+    <Compile Include="Views\LandmarkModeView.cs" />
+    <Compile Include="Modes\NewGameMode.cs" />
+    <Compile Include="Views\RandomEventModeView.cs" />
+    <Compile Include="Views\RiverCrossingModeView.cs" />
+    <Compile Include="Views\SettlementModeView.cs" />
+    <Compile Include="Views\StoreModeView.cs" />
+    <Compile Include="Views\TradeModeView.cs" />
+    <Compile Include="Views\TravelModeView.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

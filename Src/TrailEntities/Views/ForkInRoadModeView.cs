@@ -1,20 +1,19 @@
 ﻿using TrailCommon;
-using TrailEntities;
 
-namespace TrailGame
+namespace TrailEntities
 {
-    public class TradeModeView : GameMode
+    public class ForkInRoadModeView : GameMode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
         /// </summary>
-        public TradeModeView(Vehicle vehicle) : base(vehicle)
+        public ForkInRoadModeView(Vehicle vehicle) : base(vehicle)
         {
         }
 
         public override ModeType Mode
         {
-            get { return ModeType.Trade; }
+            get { return ModeType.ForkInRoad; }
         }
     }
 }
