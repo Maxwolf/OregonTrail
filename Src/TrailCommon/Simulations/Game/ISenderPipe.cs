@@ -8,7 +8,7 @@ namespace TrailCommon
     {
         Queue<Tuple<string, string>> QueuedCommands { get; }
         object CommandQueueLock { get; }
-        string EnqueueCommand(string command);
         NamedPipeClientStream PipeStream { get; }
+        string EnqueueCommand(string command);
     }
 }

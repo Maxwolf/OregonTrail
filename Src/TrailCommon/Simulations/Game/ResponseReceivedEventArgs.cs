@@ -3,7 +3,7 @@
 namespace TrailCommon
 {
     /// <summary>
-    /// Awesome IPC using pipes.
+    ///     Awesome IPC using pipes.
     /// </summary>
     /// <remarks>http://stackoverflow.com/a/10434708</remarks>
     public sealed class ResponseReceivedEventArgs : EventArgs
