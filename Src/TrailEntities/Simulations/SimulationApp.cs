@@ -21,11 +21,6 @@ namespace TrailEntities
         /// </summary>
         protected readonly AutoResetEvent _waitForResponse = new AutoResetEvent(false);
 
-        /// <summary>
-        ///     Equivalent to receiving a "quit" on the console
-        /// </summary>
-        protected bool _cancelRequested;
-
         protected string _currentId;
 
         private List<IMode> _modes;
@@ -178,7 +173,6 @@ namespace TrailEntities
 
         public virtual void OnDestroy()
         {
-            _cancelRequested = true;
             _modes.Clear();
             EndgameEvent?.Invoke();
         }

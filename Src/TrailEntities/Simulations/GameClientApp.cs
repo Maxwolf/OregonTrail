@@ -32,7 +32,7 @@ namespace TrailEntities
                     using (var sr = new StreamReader(pipeStream))
                         // Do this till Cancel() is called
                         // Again, this is a tight loop, perhaps a Thread.Yield or something?
-                        while (!_cancelRequested)
+                        while (!IsClosing)
                             // If there's anything in the stream
                             if (!sr.EndOfStream)
                             {
@@ -49,6 +49,11 @@ namespace TrailEntities
                             }
                 }
             });
+        }
+
+        protected override void OnTick()
+        {
+            base.OnTick();
         }
 
         protected override void OnFirstTick()

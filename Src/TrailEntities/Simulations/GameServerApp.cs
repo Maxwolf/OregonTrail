@@ -51,7 +51,7 @@ namespace TrailEntities
 
                     using (var sw = new StreamWriter(pipeStream) { AutoFlush = true })
                         // Do this till Cancel() is called
-                        while (!_cancelRequested)
+                        while (!IsClosing)
                         {
                             // No commands? Keep waiting
                             // This is a tight loop, perhaps a Thread.Yield or something?
@@ -81,7 +81,10 @@ namespace TrailEntities
             });
         }
 
-
+        protected override void OnTick()
+        {
+            base.OnTick();
+        }
 
         public TrailSimulation TrailSimulation { get; private set; }
 
