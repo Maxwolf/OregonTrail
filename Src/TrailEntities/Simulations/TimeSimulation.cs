@@ -45,11 +45,6 @@ namespace TrailEntities
 
         public int TotalDaysThisYear { get; private set; }
 
-        public WeatherCondition CalculateWeather()
-        {
-            return WeatherCondition.Sunny;
-        }
-
         /// <summary>
         ///     Advances the tick of the game forward firing off events for new eras, years, months and days.
         /// </summary>
@@ -133,6 +128,11 @@ namespace TrailEntities
         public Date Date
         {
             get { return new Date(CurrentYear, CurrentMonth, CurrentDay); }
+        }
+
+        public WeatherCondition CalculateWeather()
+        {
+            return WeatherCondition.Sunny;
         }
     }
 }

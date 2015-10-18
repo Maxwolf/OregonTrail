@@ -1,4 +1,5 @@
-﻿using TrailCommon;
+﻿using System;
+using TrailCommon;
 
 namespace TrailEntities
 {
@@ -16,27 +17,27 @@ namespace TrailEntities
 
         public void TickMode()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public IVehicle Vehicle
         {
-            get { throw new System.NotImplementedException(); }
+            get { throw new NotImplementedException(); }
         }
 
         public void UseBullets(uint amount)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void AddFood(uint amount)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void UpdateVehicle()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

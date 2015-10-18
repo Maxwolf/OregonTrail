@@ -10,11 +10,7 @@ namespace TrailEntities
     public class GameSimulationApp : SimulationApp, IGameSimulation
     {
         private ClimateSimulation _climate;
-        private RandomEventMode _randomEventMode;
         private TimeSimulation _time;
-        private TrailSimulation _trailSimulation;
-        private Vehicle _vehicle;
-        private uint _turn;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
@@ -28,12 +24,19 @@ namespace TrailEntities
             _time.SpeedChangeEvent += TimeSimulation_SpeedChangeEvent;
 
             _climate = new ClimateSimulation(this, ClimateClassification.Moderate);
-            _trailSimulation = new TrailSimulation();
-            _turn = 0;
-            _vehicle = new Vehicle();
-            _randomEventMode = new TrailEntities.RandomEventMode(Vehicle);
-            
+            TrailSimulation = new TrailSimulation();
+            Turn = 0;
+            Vehicle = new Vehicle();
+            RandomEventMode = new RandomEventMode(Vehicle);
         }
+
+        public TrailSimulation TrailSimulation { get; private set; }
+
+        public Vehicle Vehicle { get; private set; }
+
+        public RandomEventMode RandomEventMode { get; private set; }
+
+        public uint Turn { get; private set; }
 
         public override void ChooseProfession()
         {
@@ -50,65 +53,8 @@ namespace TrailEntities
             throw new NotImplementedException();
         }
 
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-
-            // Unhook delegates from events.
-            _time.DayEndEvent -= TimeSimulation_DayEndEvent;
-            _time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
-            _time.YearEndEvent -= TimeSimulation_YearEndEvent;
-            _time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
-
-            // Destroy all instances.
-            _time = null;
-            _climate = null;
-            _trailSimulation = null;
-            _turn = 0;
-            _vehicle = null;
-            _randomEventMode = null;
-        }
-
-        private void TimeSimulation_SpeedChangeEvent()
-        {
-        }
-
-        private void TimeSimulation_YearEndEvent(uint yearCount)
-        {
-        }
-
-        private void TimeSimulation_DayEndEvent(uint dayCount)
-        {
-            _climate.TickClimate();
-        }
-
-        private void TimeSimulation_MonthEndEvent(uint monthCount)
-        {
-        }
-
-        public TrailSimulation TrailSimulation
-        {
-            get { return _trailSimulation; }
-        }
-
-        public Vehicle Vehicle
-        {
-            get { return _vehicle; }
-        }
-
-        public TrailEntities.RandomEventMode RandomEventMode
-        {
-            get { return _randomEventMode; }
-        }
-
-        public uint Turn
-        {
-            get { return _turn; }
-        }
-
         public void TakeTurn()
         {
-            
         }
 
         public void Hunt()
@@ -136,9 +82,50 @@ namespace TrailEntities
             get { return _climate; }
         }
 
+        protected override void OnSimulationCreated()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            // Unhook delegates from events.
+            _time.DayEndEvent -= TimeSimulation_DayEndEvent;
+            _time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
+            _time.YearEndEvent -= TimeSimulation_YearEndEvent;
+            _time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
+
+            // Destroy all instances.
+            _time = null;
+            _climate = null;
+            TrailSimulation = null;
+            Turn = 0;
+            Vehicle = null;
+            RandomEventMode = null;
+        }
+
+        private void TimeSimulation_SpeedChangeEvent()
+        {
+        }
+
+        private void TimeSimulation_YearEndEvent(uint yearCount)
+        {
+        }
+
+        private void TimeSimulation_DayEndEvent(uint dayCount)
+        {
+            _climate.TickClimate();
+        }
+
+        private void TimeSimulation_MonthEndEvent(uint monthCount)
+        {
+        }
+
         protected override void OnTick()
         {
-            _time.TickTime();            
+            _time.TickTime();
         }
 
         private void UpdateVehicle()

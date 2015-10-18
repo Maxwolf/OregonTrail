@@ -6,8 +6,8 @@ namespace TrailEntities
 {
     public abstract class SimulationApp : ISimulation
     {
-        private Randomizer _random;
         private GameMode _currentMode;
+        private Randomizer _random;
         private Timer _tickTimer;
 
         /// <summary>
@@ -86,12 +86,19 @@ namespace TrailEntities
             // Increase the tick count.
             TotalTicks++;
 
+            if (TotalTicks == 1)
+            {
+                OnSimulationCreated();
+            }
+
             TickPhase = TickVisualizer(TickPhase);
 
             // Fire tick event for any subscribers to see and overrides for inheriting classes.
             TickEvent?.Invoke(TotalTicks);
             OnTick();
         }
+
+        protected abstract void OnSimulationCreated();
 
         /// <summary>
         ///     Used for showing player that simulation is ticking on main view.

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace TrailCommon
 {
@@ -9,7 +8,7 @@ namespace TrailCommon
     /// </summary>
     public interface IVehicle
     {
-        ReadOnlyCollection<IItem> Inventory { get;}
+        ReadOnlyCollection<IItem> Inventory { get; }
         uint Balance { get; }
         ReadOnlyCollection<IPerson> People { get; }
         RationLevel Ration { get; }

@@ -6,6 +6,6 @@
         Dry,
         Moderate,
         Continental,
-        Polar,
+        Polar
     }
 }

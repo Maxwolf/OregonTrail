@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TrailCommon;
 
@@ -30,7 +31,7 @@ namespace TrailEntities
 
         public void TickMode()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public IVehicle Vehicle { get; }

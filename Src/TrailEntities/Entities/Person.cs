@@ -1,20 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using TrailCommon;
 
 namespace TrailEntities
 {
     public class Person : IPerson
     {
-        private RationLevel _ration;
-        private RepairStatus _health;
         private uint _daysStarving;
-        private Profession _profession;
-        private string _name;
+        private RepairStatus _health;
         private bool _isLeader;
+        private string _name;
+        private Profession _profession;
+        private RationLevel _ration;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:TrailEntities.Person"/> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Person" /> class.
         /// </summary>
         public Person(Profession profession, string name, bool isLeader)
         {
@@ -58,27 +57,27 @@ namespace TrailEntities
 
         public void Eat(RationLevel amount)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Rest()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void RepairVehicle()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public bool IsStarving()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public bool IsDead()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

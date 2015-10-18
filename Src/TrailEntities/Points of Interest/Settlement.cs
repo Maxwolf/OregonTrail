@@ -14,12 +14,17 @@ namespace TrailEntities
         private StoreMode _storeMode;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:TrailEntities.Settlement"/> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Settlement" /> class.
         /// </summary>
         public Settlement(string name, ulong distanceLength, bool canRest) : base(name, distanceLength)
         {
             _canRest = canRest;
             _storeMode = null;
+        }
+
+        public override ModeType Mode
+        {
+            get { return ModeType.Settlement; }
         }
 
         public bool CanRest
@@ -36,11 +41,6 @@ namespace TrailEntities
         {
             // TODO: Create instance of store.
             throw new NotImplementedException();
-        }
-
-        public override ModeType Mode
-        {
-            get { return ModeType.Settlement; }
         }
     }
 }
