@@ -61,6 +61,8 @@ namespace TrailEntities
 
             using (var sw = new StreamWriter(PipeStream) {AutoFlush = true})
             {
+                Console.WriteLine("Tick Sender Pipe");
+
                 // No commands? Keep waiting
                 if (QueuedCommands.Count <= 0)
                     return;

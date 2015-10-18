@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Pipes;
 using TrailCommon;
 
@@ -37,6 +38,8 @@ namespace TrailEntities
 
             using (var sr = new StreamReader(pipeStream))
             {
+                Console.WriteLine("Tick Receiver Pipe");
+
                 // If there's anything in the stream
                 if (sr.EndOfStream)
                     return;
