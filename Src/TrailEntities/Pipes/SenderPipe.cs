@@ -19,32 +19,8 @@ namespace TrailEntities
         /// </summary>
         public SenderPipe()
         {
-            PipeStream = new NamedPipeClientStream(
-                SimulationName,
-                ServerPipeName,
-                PipeDirection.Out,
-                PipeOptions.None);
+
         }
-
-        public Queue<Tuple<string, string>> QueuedCommands { get; } = new Queue<Tuple<string, string>>();
-
-        public object CommandQueueLock { get; } = new object();
-
-        /// <summary>
-        ///     Add a command to queue of outgoing commands.
-        /// </summary>
-        /// <returns>ID of the enqueued command so the user can relate it with the corresponding response.</returns>
-        public string EnqueueCommand(string command)
-        {
-            var resultId = Guid.NewGuid().ToString();
-            lock (CommandQueueLock)
-            {
-                QueuedCommands.Enqueue(Tuple.Create(resultId, command));
-            }
-            return resultId;
-        }
-
-        public NamedPipeClientStream PipeStream { get; }
 
         public override bool Connected
         {
@@ -56,38 +32,15 @@ namespace TrailEntities
             if (!_connected)
                 return;
 
-            if (ShouldStop)
-                return;
-
-            // No commands? Keep waiting
-            if (QueuedCommands.Count <= 0)
+            if (IsStopping)
                 return;
 
             Console.WriteLine("Tick Sender Pipe");
-
-            using (var sw = new StreamWriter(PipeStream) {AutoFlush = true})
-            {
-                // We're going to modify the command queue, lock it
-                Tuple<string, string> _currentCommand = null;
-                lock (CommandQueueLock)
-                {
-                    // Check to see if someone else stole our command before we got here
-                    if (QueuedCommands.Count > 0)
-                        _currentCommand = QueuedCommands.Dequeue();
-                }
-
-                // Was a command dequeued above?
-                if (_currentCommand == null)
-                    return;
-
-                CurrentID = _currentCommand.Item1;
-                sw.WriteLine(_currentCommand.Item2);
-            }
         }
 
         public override void Start()
         {
-            PipeStream.Connect(100);
+
             _connected = true;
         }
     }

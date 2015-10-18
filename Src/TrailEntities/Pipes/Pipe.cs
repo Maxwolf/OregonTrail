@@ -12,17 +12,10 @@ namespace TrailEntities
 
         protected const string ServerPipeName = "ToSrvPipe";
         protected const string ClientPipeName = "FromSrvPipe";
-        private string _currentID;
 
         public abstract bool Connected { get; }
 
-        public string CurrentID
-        {
-            get { return _currentID; }
-            set { _currentID = value; }
-        }
-
-        public bool ShouldStop { get; private set; }
+        public bool IsStopping { get; private set; }
 
         public abstract void TickPipe();
 
@@ -30,7 +23,7 @@ namespace TrailEntities
 
         public void Stop()
         {
-            ShouldStop = true;
+            IsStopping = true;
         }
     }
 }
