@@ -59,6 +59,24 @@ namespace TrailEntities
             get { return _climate; }
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            // Unhook delegates from events.
+            _time.DayEndEvent -= TimeSimulation_DayEndEvent;
+            _time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
+            _time.YearEndEvent -= TimeSimulation_YearEndEvent;
+            _time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
+
+            // Destroy all instances.
+            _time = null;
+            _climate = null;
+            TrailSimulation = null;
+            TotalTurns = 0;
+            Vehicle = null;
+        }
+
         /// <summary>
         ///     Change to new view mode when told that internal logic wants to display view options to player for a specific set of
         ///     data in the simulation.
@@ -97,16 +115,16 @@ namespace TrailEntities
         public void ThreadSenderStartClient(object obj)
         {
             // Ensure that we only start the client after the server has created the pipe
-            ManualResetEvent SyncClientServer = (ManualResetEvent)obj;
+            var SyncClientServer = (ManualResetEvent) obj;
 
-            using (NamedPipeClientStream pipeStream = new NamedPipeClientStream(".", "ToSrvPipe", PipeDirection.Out, PipeOptions.None))
+            using (var pipeStream = new NamedPipeClientStream(".", "ToSrvPipe", PipeDirection.Out, PipeOptions.None))
             {
                 // The connect function will indefinitely wait for the pipe to become available
                 // If that is not acceptable specify a maximum waiting time (in ms)
                 pipeStream.Connect();
 
                 Console.WriteLine("[Client] Pipe connection established");
-                using (StreamWriter sw = new StreamWriter(pipeStream))
+                using (var sw = new StreamWriter(pipeStream))
                 {
                     sw.AutoFlush = true;
                     string temp;
@@ -123,9 +141,9 @@ namespace TrailEntities
         public void ThreadStartReceiverClient(object obj)
         {
             // Ensure that we only start the client after the server has created the pipe
-            ManualResetEvent SyncClientServer = (ManualResetEvent)obj;
+            var SyncClientServer = (ManualResetEvent) obj;
 
-            using (NamedPipeClientStream pipeStream = new NamedPipeClientStream(".", "FromSrvPipe", PipeDirection.In, PipeOptions.None))
+            using (var pipeStream = new NamedPipeClientStream(".", "FromSrvPipe", PipeDirection.In, PipeOptions.None))
             {
                 // The connect function will indefinitely wait for the pipe to become available
                 // If that is not acceptable specify a maximum waiting time (in ms)
@@ -133,7 +151,7 @@ namespace TrailEntities
 
                 Console.WriteLine("[ClientReceiver] Pipe connection established");
 
-                using (StreamReader sr = new StreamReader(pipeStream))
+                using (var sr = new StreamReader(pipeStream))
                 {
                     // Display the read text to the console
                     string temp;
@@ -153,24 +171,6 @@ namespace TrailEntities
             AddMode(ModeType.NewGame);
         }
 
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-
-            // Unhook delegates from events.
-            _time.DayEndEvent -= TimeSimulation_DayEndEvent;
-            _time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
-            _time.YearEndEvent -= TimeSimulation_YearEndEvent;
-            _time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
-
-            // Destroy all instances.
-            _time = null;
-            _climate = null;
-            TrailSimulation = null;
-            TotalTurns = 0;
-            Vehicle = null;
-        }
-
         private void TimeSimulation_SpeedChangeEvent()
         {
         }
@@ -184,7 +184,7 @@ namespace TrailEntities
             _climate.TickClimate();
             Vehicle.UpdateVehicle();
             TrailSimulation.ReachedPointOfInterest();
-            _vehicle.DistanceTraveled += (uint)Vehicle.Pace;
+            _vehicle.DistanceTraveled += (uint) Vehicle.Pace;
         }
 
         private void TimeSimulation_MonthEndEvent(uint monthCount)

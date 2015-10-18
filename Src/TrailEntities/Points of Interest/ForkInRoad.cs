@@ -11,7 +11,8 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ForkInRoad" /> class.
         /// </summary>
-        public ForkInRoad(string name, ulong distanceLength, List<PointOfInterest> skipChoices) : base(name, distanceLength)
+        public ForkInRoad(string name, ulong distanceLength, List<PointOfInterest> skipChoices)
+            : base(name, distanceLength)
         {
             _skipChoices = skipChoices;
         }

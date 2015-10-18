@@ -32,11 +32,6 @@ namespace TrailEntities
             get { return _ferryCost; }
         }
 
-        public void CrossRiver()
-        {
-            throw new NotImplementedException();
-        }
-
         public void CaulkVehicle()
         {
             throw new NotImplementedException();
@@ -60,6 +55,11 @@ namespace TrailEntities
         public override ModeType Mode
         {
             get { return ModeType.RiverCrossing; }
+        }
+
+        public void CrossRiver()
+        {
+            throw new NotImplementedException();
         }
     }
 }

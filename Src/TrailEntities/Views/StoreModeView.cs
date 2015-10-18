@@ -1,9 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using TrailCommon;
-
-namespace TrailEntities
+﻿namespace TrailEntities
 {
-    public class StoreModeView 
-    { 
+    public class StoreModeView
+    {
     }
 }

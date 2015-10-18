@@ -1,9 +1,6 @@
-﻿using TrailCommon;
-
-namespace TrailEntities
+﻿namespace TrailEntities
 {
-    public class LandmarkModeView 
+    public class LandmarkModeView
     {
-
     }
 }

@@ -20,7 +20,6 @@ namespace TrailEntities
         {
         }
 
-
         public override ModeType Mode
         {
             get { return ModeType.NewGame; }

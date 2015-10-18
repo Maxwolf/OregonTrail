@@ -1,10 +1,6 @@
-﻿using TrailCommon;
-
-namespace TrailEntities
+﻿namespace TrailEntities
 {
     public class HuntModeView
     {
-
-
     }
 }
