@@ -4,19 +4,19 @@ namespace TrailEntities
 {
     public abstract class GameMode : IMode
     {
-        private readonly IGameServer _game;
+        private readonly IGameSimulation _game;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        protected GameMode(IGameServer game)
+        protected GameMode(IGameSimulation game)
         {
             _game = game;
         }
 
         public abstract ModeType Mode { get; }
 
-        public IGameServer Game
+        public IGameSimulation Game
         {
             get { return _game; }
         }

@@ -15,7 +15,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public StoreMode(IGameServer game) : base(game)
+        public StoreMode(IGameSimulation game) : base(game)
         {
             _storeName = "Unknown General Store";
             _inventory = new List<IItem>();

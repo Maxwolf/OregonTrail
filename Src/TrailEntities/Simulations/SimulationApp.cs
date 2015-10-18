@@ -1,30 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading;
 using System.Timers;
 using TrailCommon;
-using Timer = System.Timers.Timer;
 
 namespace TrailEntities
 {
     public abstract class SimulationApp : ISimulation
     {
-        /// <summary>
-        ///     Used in the pipe system to help identify the correct address, this should not be changed unless you know what you
-        ///     are doing.
-        /// </summary>
-        protected const string SimulationName = ".";
-
-        /// <summary>
-        ///     To wait till a response is received for a request and THEN proceed
-        /// </summary>
-        protected readonly AutoResetEvent _waitForResponse = new AutoResetEvent(false);
-
-        protected string _currentId;
-
+        private ReceiverPipe _client;
         private List<IMode> _modes;
         private Randomizer _random;
+        private SenderPipe _server;
         private Timer _tickTimer;
 
         /// <summary>
@@ -44,6 +31,19 @@ namespace TrailEntities
             // Do not allow timer to automatically tick, this prevents it spawning multiple threads, enable the timer.
             _tickTimer.AutoReset = false;
             _tickTimer.Enabled = true;
+
+            _server = new SenderPipe();
+            _client = new ReceiverPipe();
+        }
+
+        public ISenderPipe Server
+        {
+            get { return _server; }
+        }
+
+        public IReceiverPipe Client
+        {
+            get { return _client; }
         }
 
         public string TickPhase { get; private set; }
@@ -147,7 +147,12 @@ namespace TrailEntities
             OnTick();
         }
 
-        protected abstract void OnFirstTick();
+        protected virtual void OnFirstTick()
+        {
+            // Server processes game logic, client sends command for server to process. Together they ward off thread-locking.
+            _server.Start();
+            _client.Start();
+        }
 
         /// <summary>
         ///     Used for showing player that simulation is ticking on main view.
@@ -173,11 +178,23 @@ namespace TrailEntities
 
         public virtual void OnDestroy()
         {
+            _server.Stop();
+            _client.Stop();
             _modes.Clear();
             EndgameEvent?.Invoke();
         }
 
         protected virtual void OnTick()
+        {
+            // Game mode server command listener, and view controller command sender.
+            _server.TickPipe();
+            _client.TickPipe();
+
+            // Process top-most game mode logic.
+            TickModes();
+        }
+
+        private void TickModes()
         {
             // Only tick if there are modes to tick.
             if (_modes.Count <= 0)

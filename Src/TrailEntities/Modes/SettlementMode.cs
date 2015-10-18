@@ -11,7 +11,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public SettlementMode(IGameServer game) : base(game)
+        public SettlementMode(IGameSimulation game) : base(game)
         {
             _canRest = true;
             _store = new StoreMode(game);

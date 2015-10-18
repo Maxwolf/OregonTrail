@@ -9,7 +9,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public LandmarkMode(IGameServer game) : base(game)
+        public LandmarkMode(IGameSimulation game) : base(game)
         {
             _canRest = true;
         }

@@ -8,14 +8,14 @@ namespace TrailEntities
     public sealed class ClimateSimulation : IClimateSimulation
     {
         private List<ClimateData> _averageTemperatures;
-        private IGameServer _game;
+        private IGameSimulation _game;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ClimateSimulation" /> class.
         /// </summary>
-        public ClimateSimulation(IGameServer serverReference, ClimateClassification climateClassificationType)
+        public ClimateSimulation(IGameSimulation simulationReference, ClimateClassification climateClassificationType)
         {
-            _game = serverReference;
+            _game = simulationReference;
             ClimateClassificationType = climateClassificationType;
 
             // Select climate and determine humidity and temperature based on it.

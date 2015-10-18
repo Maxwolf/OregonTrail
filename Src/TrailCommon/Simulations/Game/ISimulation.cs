@@ -4,6 +4,8 @@ namespace TrailCommon
 {
     public interface ISimulation
     {
+        ISenderPipe Server { get; }
+        IReceiverPipe Client { get; }
         IMode ActiveMode { get; }
         string ActiveModeName { get; }
         ReadOnlyCollection<IMode> Modes { get; }

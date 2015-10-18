@@ -1,6 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface IGameServer : ISimulation
+    public interface IGameSimulation : ISimulation
     {
         ITimeSimulation Time { get; }
         IClimateSimulation Climate { get; }

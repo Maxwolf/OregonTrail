@@ -40,6 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modes\INewGame.cs" />
+    <Compile Include="Simulations\Game\IPipe.cs" />
+    <Compile Include="Simulations\Game\IReceiverPipe.cs" />
+    <Compile Include="Simulations\Game\ISenderPipe.cs" />
     <Compile Include="Simulations\Game\ITravel.cs" />
     <Compile Include="Simulations\Game\ResponseReceivedEventArgs.cs" />
     <Compile Include="Simulations\Climate\ClimateClassification.cs" />
@@ -57,7 +60,7 @@
     <Compile Include="Entity Templates\Vehicle\RepairStatus.cs" />
     <Compile Include="Entity Templates\People\Disease.cs" />
     <Compile Include="Entity Templates\Item\IItem.cs" />
-    <Compile Include="Simulations\Game\IGameServer.cs" />
+    <Compile Include="Simulations\Game\IGameSimulation.cs" />
     <Compile Include="Modes\IHunt.cs" />
     <Compile Include="Simulations\Game\ISimulation.cs" />
     <Compile Include="Entity Templates\Trail\ILandmark.cs" />
