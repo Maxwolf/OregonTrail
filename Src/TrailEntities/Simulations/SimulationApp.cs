@@ -8,10 +8,10 @@ namespace TrailEntities
 {
     public abstract class SimulationApp : ISimulation
     {
-        private ReceiverPipe _client;
+        private ReceiverPipe _recieverPipe;
         private List<IMode> _modes;
         private Randomizer _random;
-        private SenderPipe _server;
+        private SenderPipe _senderPipe;
         private Timer _tickTimer;
 
         /// <summary>
@@ -32,18 +32,18 @@ namespace TrailEntities
             _tickTimer.AutoReset = false;
             _tickTimer.Enabled = true;
 
-            _server = new SenderPipe();
-            _client = new ReceiverPipe();
+            _senderPipe = new SenderPipe();
+            _recieverPipe = new ReceiverPipe();
         }
 
-        public ISenderPipe Server
+        public ISenderPipe SendPipe
         {
-            get { return _server; }
+            get { return _senderPipe; }
         }
 
-        public IReceiverPipe Client
+        public IReceiverPipe RecievePipe
         {
-            get { return _client; }
+            get { return _recieverPipe; }
         }
 
         public string TickPhase { get; private set; }
@@ -105,11 +105,11 @@ namespace TrailEntities
         {
             // Create new mode, check if it is in mode list.
             var changeMode = OnModeChanging(mode);
-            if (!_modes.Contains(changeMode))
-            {
-                _modes.Add(changeMode);
-                ModeChangedEvent?.Invoke(changeMode.Mode);
-            }
+            if (_modes.Contains(changeMode))
+                return;
+
+            _modes.Add(changeMode);
+            ModeChangedEvent?.Invoke(changeMode.Mode);
         }
 
         public void CloseSimulation()
@@ -150,8 +150,8 @@ namespace TrailEntities
         protected virtual void OnFirstTick()
         {
             // Server processes game logic, client sends command for server to process. Together they ward off thread-locking.
-            _server.Start();
-            _client.Start();
+            _senderPipe.Start();
+            _recieverPipe.Start();
         }
 
         /// <summary>
@@ -178,8 +178,8 @@ namespace TrailEntities
 
         public virtual void OnDestroy()
         {
-            _server.Stop();
-            _client.Stop();
+            _senderPipe.Stop();
+            _recieverPipe.Stop();
             _modes.Clear();
             EndgameEvent?.Invoke();
         }
@@ -187,8 +187,8 @@ namespace TrailEntities
         protected virtual void OnTick()
         {
             // Game mode server command listener, and view controller command sender.
-            _server.TickPipe();
-            _client.TickPipe();
+            _senderPipe.TickPipe();
+            _recieverPipe.TickPipe();
 
             // Process top-most game mode logic.
             TickModes();

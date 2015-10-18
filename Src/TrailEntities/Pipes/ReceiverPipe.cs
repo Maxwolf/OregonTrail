@@ -10,7 +10,6 @@ namespace TrailEntities
         private bool _connected;
         private NamedPipeClientStream pipeStream;
 
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.GameClientApp" /> class.
         /// </summary>
@@ -36,10 +35,10 @@ namespace TrailEntities
             if (ShouldStop)
                 return;
 
+            Console.WriteLine("Tick Receiver Pipe");
+
             using (var sr = new StreamReader(pipeStream))
             {
-                Console.WriteLine("Tick Receiver Pipe");
-
                 // If there's anything in the stream
                 if (sr.EndOfStream)
                     return;
@@ -57,7 +56,7 @@ namespace TrailEntities
 
         public override void Start()
         {
-            pipeStream.Connect();
+            pipeStream.Connect(100);
             _connected = true;
         }
 

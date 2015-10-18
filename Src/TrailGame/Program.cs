@@ -9,7 +9,7 @@ namespace TrailGame
         private static void Main(string[] args)
         {
             var game = new GameSimulationApp();
-            while (!game.IsClosing || !game.IsClosing)
+            while (!game.IsClosing)
             {
                 Thread.Sleep(1);
                 Console.Title =

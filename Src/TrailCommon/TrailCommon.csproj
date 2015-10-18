@@ -36,11 +36,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modes\INewGame.cs" />
-    <Compile Include="Simulations\Game\IPipe.cs" />
-    <Compile Include="Simulations\Game\IReceiverPipe.cs" />
-    <Compile Include="Simulations\Game\ISenderPipe.cs" />
+    <Compile Include="Pipe\IPipe.cs" />
+    <Compile Include="Pipe\IReceiverPipe.cs" />
+    <Compile Include="Pipe\ISenderPipe.cs" />
     <Compile Include="Simulations\Game\ITravel.cs" />
-    <Compile Include="Simulations\Game\ResponseReceivedEventArgs.cs" />
+    <Compile Include="Pipe\ResponseReceivedEventArgs.cs" />
     <Compile Include="Simulations\Climate\ClimateClassification.cs" />
     <Compile Include="Simulations\Climate\ClimateData.cs" />
     <Compile Include="Randomizer.cs" />

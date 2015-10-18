@@ -127,8 +127,10 @@ namespace TrailEntities
 
         protected override void OnFirstTick()
         {
+            base.OnFirstTick();
+
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            //AddMode(ModeType.NewGame);
+            AddMode(ModeType.NewGame);
         }
     }
 }

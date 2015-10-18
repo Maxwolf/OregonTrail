@@ -59,14 +59,14 @@ namespace TrailEntities
             if (ShouldStop)
                 return;
 
+            // No commands? Keep waiting
+            if (QueuedCommands.Count <= 0)
+                return;
+
+            Console.WriteLine("Tick Sender Pipe");
+
             using (var sw = new StreamWriter(PipeStream) {AutoFlush = true})
             {
-                Console.WriteLine("Tick Sender Pipe");
-
-                // No commands? Keep waiting
-                if (QueuedCommands.Count <= 0)
-                    return;
-
                 // We're going to modify the command queue, lock it
                 Tuple<string, string> _currentCommand = null;
                 lock (CommandQueueLock)
@@ -87,7 +87,7 @@ namespace TrailEntities
 
         public override void Start()
         {
-            PipeStream.Connect();
+            PipeStream.Connect(100);
             _connected = true;
         }
     }
