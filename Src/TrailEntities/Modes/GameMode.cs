@@ -13,13 +13,13 @@ namespace TrailEntities
         protected GameMode(Vehicle vehicle)
         {
             // Complain if game manager does not exist.
-            if (Simulation.Instance == null)
+            if (SimulationApp.Instance == null)
                 throw new InvalidOperationException("Called game window constructor when game manager is null!");
 
             _vehicle = vehicle;
 
             // Hook events that all game windows will want.
-            Simulation.Instance.TickEvent += Simulation_TickEvent;
+            SimulationApp.Instance.TickEvent += Simulation_TickEvent;
         }
 
         public abstract ModeType Mode { get; }
@@ -53,7 +53,7 @@ namespace TrailEntities
         protected virtual void OnTick()
         {
             // Complain if game manager does not exist.
-            if (Simulation.Instance == null)
+            if (SimulationApp.Instance == null)
                 throw new InvalidOperationException("Unable to continue to tick game window since game manager is null!");
         }
     }

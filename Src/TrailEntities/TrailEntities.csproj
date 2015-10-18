@@ -42,8 +42,8 @@
     <Compile Include="Modes\GameMode.cs" />
     <Compile Include="Trails.cs" />
     <Compile Include="Simulations\ClimateSimulation.cs" />
-    <Compile Include="Simulations\GameSimulation.cs" />
-    <Compile Include="Simulations\Simulation.cs" />
+    <Compile Include="Simulations\GameSimulationApp.cs" />
+    <Compile Include="Simulations\SimulationApp.cs" />
     <Compile Include="Simulations\TimeSimulation.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\Oxen.cs" />

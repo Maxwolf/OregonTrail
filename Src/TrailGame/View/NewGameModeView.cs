@@ -185,7 +185,7 @@ namespace TrailGame
 
             // Just return a random name if there is invalid input.
             string[] names = {"Bob", "Joe", "Sally", "Tim", "Steve"};
-            return names[Simulation.Instance.Random.Next(names.Length)];
+            return names[SimulationApp.Instance.Random.Next(names.Length)];
         }
     }
 }

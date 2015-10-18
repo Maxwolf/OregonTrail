@@ -7,7 +7,7 @@ namespace TrailEntities
     ///     Handles core interaction of the game, all other game types are inherited from this game mode. Deals with weather,
     ///     parties, random events, keeping track of beginning and end of the game.
     /// </summary>
-    public class GameSimulation : Simulation, IGameSimulation
+    public class GameSimulationApp : SimulationApp, IGameSimulation
     {
         private ClimateSimulation _climate;
         private RandomEventMode _randomEventMode;
@@ -19,7 +19,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
         /// </summary>
-        public GameSimulation()
+        public GameSimulationApp()
         {
             _time = new TimeSimulation(1985, Months.May, 5, TravelPace.Paused);
             _time.DayEndEvent += TimeSimulation_DayEndEvent;

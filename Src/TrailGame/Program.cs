@@ -8,11 +8,11 @@ namespace TrailGame
     {
         private static void Main(string[] args)
         {
-            Simulation.Create(new GameSimulation());
-            while (Simulation.Instance != null)
+            SimulationApp.Create(new GameSimulationApp());
+            while (SimulationApp.Instance != null)
             {
                 Thread.Sleep(1);
-                Console.Title = $"Oregon Trail Clone - {Simulation.Instance.TickPhase}";
+                Console.Title = $"Oregon Trail Clone - {SimulationApp.Instance.TickPhase}";
             }
         }
     }

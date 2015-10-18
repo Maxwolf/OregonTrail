@@ -4,7 +4,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public abstract class Simulation : ISimulation
+    public abstract class SimulationApp : ISimulation
     {
         private Randomizer _random;
         private GameMode _currentMode;
@@ -13,7 +13,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
         /// </summary>
-        protected Simulation()
+        protected SimulationApp()
         {
             _random = new Randomizer((int) DateTime.Now.Ticks & 0x0000FFF);
             TotalTicks = 0;
@@ -42,7 +42,7 @@ namespace TrailEntities
             }
         }
 
-        public static Simulation Instance { get; private set; }
+        public static SimulationApp Instance { get; private set; }
 
         public string TickPhase { get; private set; }
 
@@ -115,7 +115,7 @@ namespace TrailEntities
             }
         }
 
-        public static void Create(Simulation gameInstance)
+        public static void Create(SimulationApp gameInstance)
         {
             // Complain if the simulation app has already been created.
             if (Instance != null)
