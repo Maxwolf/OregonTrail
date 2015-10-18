@@ -8,17 +8,18 @@ namespace TrailEntities
     ///     trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how
     ///     bad it is.
     /// </summary>
-    public class RiverCrossing : PointOfInterest, IRiverCrossing, IRiver
+    public sealed class RiverCrossingMode : GameMode, IRiverCrossing
     {
         private uint _depth;
         private uint _ferryCost;
-        private IVehicle _vehicle;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailCommon.PointOfInterest" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public RiverCrossing(string name, ulong distanceLength) : base(name, distanceLength)
+        public RiverCrossingMode(IGameSimulation game) : base(game)
         {
+            _depth = (uint) game.Random.Next(1, 20);
+            _ferryCost = (uint) game.Random.Next(3, 8);
         }
 
         public uint Depth
@@ -34,16 +35,6 @@ namespace TrailEntities
         public void CrossRiver()
         {
             throw new NotImplementedException();
-        }
-
-        public void TickMode()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IVehicle Vehicle
-        {
-            get { return _vehicle; }
         }
 
         public void CaulkVehicle()

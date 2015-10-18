@@ -2,7 +2,7 @@
 
 namespace TrailEntities
 {
-    public class Landmark : PointOfInterest, ILandmark
+    public sealed class Landmark : PointOfInterest, ILandmark
     {
         private bool _canRest;
 

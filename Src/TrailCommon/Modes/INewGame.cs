@@ -1,10 +1,9 @@
 ﻿namespace TrailCommon
 {
-    public interface ISimulationInitializer
+    public interface INewGame
     {
         void ChooseProfession();
         void BuyInitialItems();
         void ChooseNames();
-        void StartGame();
     }
 }

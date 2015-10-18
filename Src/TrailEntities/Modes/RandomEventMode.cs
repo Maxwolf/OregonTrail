@@ -3,18 +3,16 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public abstract class RandomEventMode : IRandomEvent
+    public sealed class RandomEventMode : GameMode, IRandomEvent
     {
         private string _name;
-        private IVehicle _vehicle;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.RandomEvent" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.RandomEventMode" /> class.
         /// </summary>
-        protected RandomEventMode(IVehicle vehicle)
+        public RandomEventMode(IGameSimulation game) : base(game)
         {
             _name = "Unknown Random Event";
-            _vehicle = vehicle;
         }
 
         public string Name
@@ -22,19 +20,9 @@ namespace TrailEntities
             get { return _name; }
         }
 
-        public ModeType Mode
+        public override ModeType Mode
         {
             get { return ModeType.RandomEvent; }
-        }
-
-        public void TickMode()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IVehicle Vehicle
-        {
-            get { return _vehicle; }
         }
 
         public void MakeEvent()

@@ -5,10 +5,10 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public class ClimateSimulation : IClimateSimulation
+    public sealed class ClimateSimulation : IClimateSimulation
     {
         private List<ClimateData> _averageTemperatures;
-        protected IGameSimulation _game;
+        private IGameSimulation _game;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ClimateSimulation" /> class.
@@ -408,11 +408,6 @@ namespace TrailEntities
                 // Inside temp is less than outside temp!
                 InsideHumidity += 0.1f;
             }
-        }
-
-        public void UpdateClimate()
-        {
-            GrassAvaliable = 42;
         }
 
         /// <summary>

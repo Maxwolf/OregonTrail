@@ -4,7 +4,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public class TrailSimulation : ITrail
+    public sealed class TrailSimulation : ITrail
     {
         private ReadOnlyCollection<PointOfInterest> _pointsOfInterest;
         private int _vehicleLocation;

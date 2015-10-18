@@ -5,33 +5,26 @@ namespace TrailEntities
 {
     public abstract class GameMode : IMode
     {
-        protected Vehicle _vehicle;
+        private readonly IGameSimulation _game;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.TrailMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        protected GameMode(Vehicle vehicle)
+        protected GameMode(IGameSimulation game)
         {
-            // Complain if game manager does not exist.
-            if (SimulationApp.Instance == null)
-                throw new InvalidOperationException("Called game window constructor when game manager is null!");
-
-            _vehicle = vehicle;
-
-            // Hook events that all game windows will want.
-            SimulationApp.Instance.TickEvent += Simulation_TickEvent;
+            _game = game;
         }
 
         public abstract ModeType Mode { get; }
 
-        public void TickMode()
+        public IGameSimulation Game
         {
-            throw new NotImplementedException();
+            get { return _game; }
         }
 
-        public IVehicle Vehicle
+        public virtual void TickMode()
         {
-            get { return _vehicle; }
+            Console.WriteLine("Ticking " + Mode);
         }
 
         /// <summary>
@@ -43,18 +36,6 @@ namespace TrailEntities
         public override string ToString()
         {
             return Mode.ToString();
-        }
-
-        private void Simulation_TickEvent(uint tickCount)
-        {
-            OnTick();
-        }
-
-        protected virtual void OnTick()
-        {
-            // Complain if game manager does not exist.
-            if (SimulationApp.Instance == null)
-                throw new InvalidOperationException("Unable to continue to tick game window since game manager is null!");
         }
     }
 }

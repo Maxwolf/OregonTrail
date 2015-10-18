@@ -2,18 +2,8 @@
 
 namespace TrailEntities
 {
-    public class TravelModeView : GameMode
+    public class TravelModeView
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailGame.TravelMode" /> class.
-        /// </summary>
-        public TravelModeView(Vehicle vehicle) : base(vehicle)
-        {
-        }
 
-        public override ModeType Mode
-        {
-            get { return ModeType.Travel; }
-        }
     }
 }

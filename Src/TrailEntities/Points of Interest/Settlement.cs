@@ -8,7 +8,7 @@ namespace TrailEntities
     ///     are run
     ///     by the military and always have a source of funding to perform maintenance and upkeep.
     /// </summary>
-    public class Settlement : PointOfInterest, ISettlement
+    public sealed class Settlement : PointOfInterest, ISettlement
     {
         private bool _canRest;
         private StoreMode _storeMode;

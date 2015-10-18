@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.IO.Pipes;
+using System.Threading;
 using TrailCommon;
 
 namespace TrailEntities
@@ -7,10 +10,11 @@ namespace TrailEntities
     ///     Handles core interaction of the game, all other game types are inherited from this game mode. Deals with weather,
     ///     parties, random events, keeping track of beginning and end of the game.
     /// </summary>
-    public class GameSimulationApp : SimulationApp, IGameSimulation
+    public sealed class GameSimulationApp : SimulationApp, IGameSimulation
     {
         private ClimateSimulation _climate;
         private TimeSimulation _time;
+        private Vehicle _vehicle;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
@@ -25,51 +29,24 @@ namespace TrailEntities
 
             _climate = new ClimateSimulation(this, ClimateClassification.Moderate);
             TrailSimulation = new TrailSimulation();
-            Turn = 0;
+            TotalTurns = 0;
             Vehicle = new Vehicle();
-            RandomEventMode = new RandomEventMode(Vehicle);
         }
 
         public TrailSimulation TrailSimulation { get; private set; }
 
-        public Vehicle Vehicle { get; private set; }
-
-        public RandomEventMode RandomEventMode { get; private set; }
-
-        public uint Turn { get; private set; }
-
-        public override void ChooseProfession()
+        public IVehicle Vehicle
         {
-            throw new NotImplementedException();
+            get { return _vehicle; }
+            private set { _vehicle = value as Vehicle; }
         }
 
-        public override void BuyInitialItems()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ChooseNames()
-        {
-            throw new NotImplementedException();
-        }
+        public uint TotalTurns { get; private set; }
 
         public void TakeTurn()
         {
-        }
-
-        public void Hunt()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Rest()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Trade()
-        {
-            throw new NotImplementedException();
+            TotalTurns++;
+            _time.TickTime();
         }
 
         public ITimeSimulation Time
@@ -93,36 +70,90 @@ namespace TrailEntities
             switch (mode)
             {
                 case ModeType.Travel:
-                    return new TradeModeView(Vehicle);
+                    return new TravelMode(this);
                 case ModeType.ForkInRoad:
-                    return new ForkInRoadModeView(Vehicle);
+                    return new ForkInRoadMode(this);
                 case ModeType.Hunt:
-                    return new HuntModeView(Vehicle);
+                    return new HuntMode(this);
                 case ModeType.Landmark:
-                    return new LandmarkModeView(Vehicle);
+                    return new LandmarkMode(this);
                 case ModeType.NewGame:
-                    return new NewGameModeView(Vehicle);
+                    return new NewGameMode(this);
                 case ModeType.RandomEvent:
-                    return new RandomEventModeView(Vehicle);
+                    return new RandomEventMode(this);
                 case ModeType.RiverCrossing:
-                    return new RiverCrossingModeView(Vehicle);
+                    return new RiverCrossingMode(this);
                 case ModeType.Settlement:
-                    return new SettlementModeView(Vehicle);
+                    return new SettlementMode(this);
                 case ModeType.Store:
-                    return new StoreModeView(Vehicle);
+                    return new StoreMode(this);
                 case ModeType.Trade:
-                    return new TradeModeView(Vehicle);
+                    return new TradeMode(this);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
             }
         }
 
-        protected override void OnCreate()
+        public void ThreadSenderStartClient(object obj)
         {
-            SetMode(ModeType.NewGame);
+            // Ensure that we only start the client after the server has created the pipe
+            ManualResetEvent SyncClientServer = (ManualResetEvent)obj;
+
+            using (NamedPipeClientStream pipeStream = new NamedPipeClientStream(".", "ToSrvPipe", PipeDirection.Out, PipeOptions.None))
+            {
+                // The connect function will indefinitely wait for the pipe to become available
+                // If that is not acceptable specify a maximum waiting time (in ms)
+                pipeStream.Connect();
+
+                Console.WriteLine("[Client] Pipe connection established");
+                using (StreamWriter sw = new StreamWriter(pipeStream))
+                {
+                    sw.AutoFlush = true;
+                    string temp;
+                    Console.WriteLine("Please type a message and press [Enter], or type 'quit' to exit the program");
+                    while ((temp = Console.ReadLine()) != null)
+                    {
+                        if (temp == "quit") break;
+                        sw.WriteLine(temp);
+                    }
+                }
+            }
         }
 
-        protected override void OnDestroy()
+        public void ThreadStartReceiverClient(object obj)
+        {
+            // Ensure that we only start the client after the server has created the pipe
+            ManualResetEvent SyncClientServer = (ManualResetEvent)obj;
+
+            using (NamedPipeClientStream pipeStream = new NamedPipeClientStream(".", "FromSrvPipe", PipeDirection.In, PipeOptions.None))
+            {
+                // The connect function will indefinitely wait for the pipe to become available
+                // If that is not acceptable specify a maximum waiting time (in ms)
+                pipeStream.Connect();
+
+                Console.WriteLine("[ClientReceiver] Pipe connection established");
+
+                using (StreamReader sr = new StreamReader(pipeStream))
+                {
+                    // Display the read text to the console
+                    string temp;
+                    while ((temp = sr.ReadLine()) != null)
+                    {
+                        Console.WriteLine("Received from server: {0}", temp);
+                    }
+                }
+            }
+        }
+
+        protected override void OnFirstTick()
+        {
+            base.OnFirstTick();
+
+            // TODO: FIX ME
+            AddMode(ModeType.NewGame);
+        }
+
+        public override void OnDestroy()
         {
             base.OnDestroy();
 
@@ -136,9 +167,8 @@ namespace TrailEntities
             _time = null;
             _climate = null;
             TrailSimulation = null;
-            Turn = 0;
+            TotalTurns = 0;
             Vehicle = null;
-            RandomEventMode = null;
         }
 
         private void TimeSimulation_SpeedChangeEvent()
@@ -152,35 +182,13 @@ namespace TrailEntities
         private void TimeSimulation_DayEndEvent(uint dayCount)
         {
             _climate.TickClimate();
+            Vehicle.UpdateVehicle();
+            TrailSimulation.ReachedPointOfInterest();
+            _vehicle.DistanceTraveled += (uint)Vehicle.Pace;
         }
 
         private void TimeSimulation_MonthEndEvent(uint monthCount)
         {
-        }
-
-        protected override void OnTick()
-        {
-            _time.TickTime();
-        }
-
-        private void UpdateVehicle()
-        {
-            Vehicle.UpdateVehicle();
-        }
-
-        private void UpdateTrail()
-        {
-            TrailSimulation.ReachedPointOfInterest();
-        }
-
-        private void UpdateClimate()
-        {
-            _climate.UpdateClimate();
-        }
-
-        private void UpdateVehiclePosition()
-        {
-            Vehicle.DistanceTraveled += (uint) Vehicle.Pace;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace TrailEntities
     ///     Manages the weather for a given location, used to make randomizing and keeping track of the weather based on time
     ///     of year much easier.
     /// </summary>
-    public class TimeSimulation : ITimeSimulation
+    public sealed class TimeSimulation : ITimeSimulation
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.SimulationTime" /> class.

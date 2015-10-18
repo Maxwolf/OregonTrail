@@ -4,9 +4,9 @@
     {
         ITimeSimulation Time { get; }
         IClimateSimulation Climate { get; }
+        IVehicle Vehicle { get; }
+        uint TotalTurns { get; }
         void TakeTurn();
-        void Hunt();
-        void Rest();
-        void Trade();
+        void OnDestroy();
     }
 }

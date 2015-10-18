@@ -4,16 +4,16 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class ForkInRoad : PointOfInterest, IForkInRoad
+    public class ForkInRoadMode : GameMode, IForkInRoad
     {
-        private List<PointOfInterest> _skipChoices;
+        private readonly List<PointOfInterest> _skipChoices;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ForkInRoad" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public ForkInRoad(string name, ulong distanceLength, List<PointOfInterest> skipChoices) : base(name, distanceLength)
+        public ForkInRoadMode(IGameSimulation game) : base(game)
         {
-            _skipChoices = skipChoices;
+            _skipChoices = new List<PointOfInterest>();
         }
 
         public override ModeType Mode

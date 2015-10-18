@@ -2,18 +2,8 @@
 
 namespace TrailEntities
 {
-    public class SettlementModeView : GameMode
+    public class SettlementModeView
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameWindow" /> class.
-        /// </summary>
-        public SettlementModeView(Vehicle vehicle) : base(vehicle)
-        {
-        }
 
-        public override ModeType Mode
-        {
-            get { return ModeType.Settlement; }
-        }
     }
 }

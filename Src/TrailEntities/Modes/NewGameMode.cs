@@ -4,7 +4,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public abstract class NewGameMode : GameMode, ISimulationInitializer
+    public sealed class NewGameMode : GameMode, INewGame
     {
         private bool _hasChosenNames;
         private bool _hasChosenProfession;
@@ -12,15 +12,14 @@ namespace TrailEntities
         private bool _hasStartedGame;
         private List<string> _playerNames;
         private Profession _playerProfession;
-        private Vehicle _playerVehicle;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.NewGameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        protected NewGameMode(Vehicle vehicle) : base(vehicle)
+        public NewGameMode(IGameSimulation game) : base(game)
         {
-            _playerVehicle = vehicle;
         }
+
 
         public override ModeType Mode
         {
@@ -60,8 +59,7 @@ namespace TrailEntities
             Console.WriteLine("You selected " + _playerProfession);
             Console.WriteLine("Does this look correct? Y/N");
             var professionCorrectResponse = Console.ReadLine();
-            if (!string.IsNullOrEmpty(professionCorrectResponse) &&
-                !string.IsNullOrWhiteSpace(professionCorrectResponse))
+            if (!string.IsNullOrEmpty(professionCorrectResponse))
             {
                 professionCorrectResponse = professionCorrectResponse.Trim().ToLowerInvariant();
                 if (professionCorrectResponse.Equals("n"))
@@ -70,11 +68,15 @@ namespace TrailEntities
                     ChooseProfession();
                 }
             }
+            else
+            {
+                _playerProfession = Profession.Banker;
+                ChooseProfession();
+            }
         }
 
         public void BuyInitialItems()
         {
-            SimulationApp.Instance.SetMode(ModeType.Store);
         }
 
         public void ChooseNames()
@@ -119,8 +121,7 @@ namespace TrailEntities
 
             Console.WriteLine("Does this look correct? Y/N");
             var namesCorrectResponse = Console.ReadLine();
-            if (!string.IsNullOrEmpty(namesCorrectResponse) &&
-                !string.IsNullOrWhiteSpace(namesCorrectResponse))
+            if (!string.IsNullOrEmpty(namesCorrectResponse))
             {
                 namesCorrectResponse = namesCorrectResponse.Trim().ToLowerInvariant();
                 if (namesCorrectResponse.Equals("n"))
@@ -128,6 +129,11 @@ namespace TrailEntities
                     _playerNames.Clear();
                     ChooseNames();
                 }
+            }
+            else
+            {
+                _playerNames.Clear();
+                ChooseNames();
             }
         }
 
@@ -138,13 +144,13 @@ namespace TrailEntities
             {
                 // First name in list in leader.
                 var isLeader = _playerNames.IndexOf(name) == 0;
-                _playerVehicle.AddPerson(new Person(_playerProfession, name, isLeader));
+                Game.Vehicle.AddPerson(new Person(_playerProfession, name, isLeader));
             }
         }
 
-        protected override void OnTick()
+        private void OnTick()
         {
-            base.OnTick();
+            // TODO: PIPE ME PLEASE
 
             // Every new game has you picking names, profession, and starting items.
             if (!_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
@@ -184,7 +190,8 @@ namespace TrailEntities
 
             // Just return a random name if there is invalid input.
             string[] names = {"Bob", "Joe", "Sally", "Tim", "Steve"};
-            return names[SimulationApp.Instance.Random.Next(names.Length)];
+            //return names[SimulationApp.Instance.Random.Next(names.Length)];
+            return "CHANGEME";
         }
     }
 }

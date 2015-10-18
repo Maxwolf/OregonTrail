@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TrailCommon;
 
@@ -8,33 +7,25 @@ namespace TrailEntities
     /// <summary>
     ///     Manages a general store where the player can buy food, clothes, bullets, and parts for their vehicle.
     /// </summary>
-    public abstract class StoreMode : IStore
+    public sealed class StoreMode : GameMode, IStore
     {
         private readonly string _storeName;
         private List<IItem> _inventory;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Store" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        protected StoreMode(string storeName, uint storeBalance, IVehicle vehicle, List<IItem> inventory)
+        public StoreMode(IGameSimulation game) : base(game)
         {
-            _inventory = inventory;
-            StoreBalance = storeBalance;
-            _storeName = storeName;
-            Vehicle = vehicle;
+            _storeName = "Unknown General Store";
+            _inventory = new List<IItem>();
+            StoreBalance = (uint) game.Random.Next(100, 800);
         }
 
-        public ModeType Mode
+        public override ModeType Mode
         {
             get { return ModeType.Store; }
         }
-
-        public void TickMode()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IVehicle Vehicle { get; }
 
         public ReadOnlyCollection<IItem> StoreInventory
         {
@@ -51,11 +42,11 @@ namespace TrailEntities
         public void BuyItems(IItem item)
         {
             var playerCost = item.Cost*item.Quantity;
-            if (Vehicle.Balance >= playerCost)
+            if (Game.Vehicle.Balance >= playerCost)
             {
                 // Store earns the money from vehicle.
                 StoreBalance += playerCost;
-                Vehicle.BuyItem(item);
+                Game.Vehicle.BuyItem(item);
             }
         }
 
@@ -67,11 +58,6 @@ namespace TrailEntities
                 StoreBalance -= storeCost;
                 BuyItems(item);
             }
-        }
-
-        public IStore StoreController
-        {
-            get { return this; }
         }
     }
 }

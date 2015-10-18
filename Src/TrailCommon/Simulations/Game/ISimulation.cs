@@ -1,14 +1,22 @@
-﻿namespace TrailCommon
+﻿using System.Collections.ObjectModel;
+
+namespace TrailCommon
 {
-    public interface ISimulation : ISimulationInitializer
+    public interface ISimulation
     {
+        ReadOnlyCollection<IMode> Modes { get; }
         Randomizer Random { get; }
         uint TotalTicks { get; }
+        string TickPhase { get; }
+        bool IsClosing { get; }
         event NewGame NewgameEvent;
         event EndGame EndgameEvent;
         event TickSim TickEvent;
         event ModeChanged ModeChangedEvent;
-        void SetMode(ModeType mode);
+        void AddMode(ModeType mode);
+        void RemoveMode(ModeType mode);
+        void StartGame();
+        void CloseSimulation();
     }
 
     public delegate void ModeChanged(ModeType mode);

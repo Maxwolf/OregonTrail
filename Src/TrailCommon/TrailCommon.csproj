@@ -39,6 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modes\INewGame.cs" />
+    <Compile Include="Simulations\Game\ITravel.cs" />
+    <Compile Include="Simulations\Game\ResponseReceivedEventArgs.cs" />
     <Compile Include="Simulations\Climate\ClimateClassification.cs" />
     <Compile Include="Simulations\Climate\ClimateData.cs" />
     <Compile Include="Randomizer.cs" />
@@ -47,7 +50,6 @@
     <Compile Include="Simulations\Time\ITimeSimulation.cs" />
     <Compile Include="Simulations\Time\Months.cs" />
     <Compile Include="Modes\ModeType.cs" />
-    <Compile Include="Simulations\Game\ISimulationInitializer.cs" />
     <Compile Include="Modes\IMode.cs" />
     <Compile Include="Entity Templates\Trail\IForkInRoad.cs" />
     <Compile Include="Entity Templates\Trail\IRiver.cs" />

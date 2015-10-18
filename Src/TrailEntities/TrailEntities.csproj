@@ -39,7 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modes\ForkInRoadMode.cs" />
     <Compile Include="Modes\GameMode.cs" />
+    <Compile Include="Modes\LandmarkMode.cs" />
+    <Compile Include="Modes\SettlementMode.cs" />
+    <Compile Include="Modes\TravelMode.cs" />
+    <Compile Include="Points of Interest\River.cs" />
     <Compile Include="Trails.cs" />
     <Compile Include="Simulations\ClimateSimulation.cs" />
     <Compile Include="Simulations\GameSimulationApp.cs" />
@@ -52,7 +57,7 @@
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Modes\HuntMode.cs" />
     <Compile Include="Points of Interest\Landmark.cs" />
-    <Compile Include="Points of Interest\RiverCrossing.cs" />
+    <Compile Include="Modes\RiverCrossingMode.cs" />
     <Compile Include="Points of Interest\Settlement.cs" />
     <Compile Include="Modes\StoreMode.cs" />
     <Compile Include="Modes\TradeMode.cs" />
@@ -63,6 +68,7 @@
     <Compile Include="Views\HuntModeView.cs" />
     <Compile Include="Views\LandmarkModeView.cs" />
     <Compile Include="Modes\NewGameMode.cs" />
+    <Compile Include="Views\NewGameModeView.cs" />
     <Compile Include="Views\RandomEventModeView.cs" />
     <Compile Include="Views\RiverCrossingModeView.cs" />
     <Compile Include="Views\SettlementModeView.cs" />
