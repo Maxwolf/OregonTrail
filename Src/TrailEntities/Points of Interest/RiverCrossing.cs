@@ -66,9 +66,9 @@ namespace TrailEntities
             throw new NotImplementedException();
         }
 
-        public override SimulationMode Mode
+        public override ModeType Mode
         {
-            get { return SimulationMode.RiverCrossing; }
+            get { return ModeType.RiverCrossing; }
         }
     }
 }

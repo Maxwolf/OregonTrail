@@ -14,7 +14,7 @@ namespace TrailEntities
         /// </summary>
         public TrailSimulation()
         {
-            _pointsOfInterest = new ReadOnlyCollection<PointOfInterest>(TrailPrefabs.OregonTrail);
+            _pointsOfInterest = new ReadOnlyCollection<PointOfInterest>(Trails.OregonTrail);
             _vehicleLocation = 0;
         }
 

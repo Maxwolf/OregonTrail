@@ -11,7 +11,7 @@ namespace TrailEntities
     public class Settlement : PointOfInterest, ISettlement
     {
         private bool _canRest;
-        private Store _store;
+        private StoreMode _storeMode;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TrailEntities.Settlement"/> class.
@@ -19,7 +19,7 @@ namespace TrailEntities
         public Settlement(string name, ulong distanceLength, bool canRest) : base(name, distanceLength)
         {
             _canRest = canRest;
-            _store = null;
+            _storeMode = null;
         }
 
         public bool CanRest
@@ -29,7 +29,7 @@ namespace TrailEntities
 
         public IStore Store
         {
-            get { return _store; }
+            get { return _storeMode; }
         }
 
         public void GoToStore()
@@ -38,9 +38,9 @@ namespace TrailEntities
             throw new NotImplementedException();
         }
 
-        public override SimulationMode Mode
+        public override ModeType Mode
         {
-            get { return SimulationMode.Settlement; }
+            get { return ModeType.Settlement; }
         }
     }
 }

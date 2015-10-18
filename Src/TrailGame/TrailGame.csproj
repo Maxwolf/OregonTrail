@@ -45,21 +45,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameSimulationApp.cs" />
-    <Compile Include="SimulationApp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="View\ForkInRoadMode.cs" />
-    <Compile Include="GameMode.cs" />
-    <Compile Include="View\HuntMode.cs" />
-    <Compile Include="View\LandmarkMode.cs" />
-    <Compile Include="View\NewGameMode.cs" />
-    <Compile Include="View\RandomEventMode.cs" />
-    <Compile Include="View\RiverCrossingMode.cs" />
-    <Compile Include="View\SettlementMode.cs" />
-    <Compile Include="View\StoreMode.cs" />
-    <Compile Include="View\TradeMode.cs" />
-    <Compile Include="View\TravelMode.cs" />
+    <Compile Include="View\ForkInRoadModeView.cs" />
+    <Compile Include="View\HuntModeView.cs" />
+    <Compile Include="View\LandmarkModeView.cs" />
+    <Compile Include="View\NewGameModeView.cs" />
+    <Compile Include="View\RandomEventModeView.cs" />
+    <Compile Include="View\RiverCrossingModeView.cs" />
+    <Compile Include="View\SettlementModeView.cs" />
+    <Compile Include="View\StoreModeView.cs" />
+    <Compile Include="View\TradeModeView.cs" />
+    <Compile Include="View\TravelModeView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrailCommon\TrailCommon.csproj">
