@@ -70,6 +70,14 @@ namespace TrailEntities
             _time.TickTime();
         }
 
+        protected override void OnFirstTick()
+        {
+            base.OnFirstTick();
+
+            // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
+            AddMode(ModeType.NewGame);
+        }
+
         /// <summary>
         ///     Change to new view mode when told that internal logic wants to display view options to player for a specific set of
         ///     data in the simulation.
@@ -123,14 +131,6 @@ namespace TrailEntities
 
         private void TimeSimulation_MonthEndEvent(uint monthCount)
         {
-        }
-
-        protected override void OnFirstTick()
-        {
-            base.OnFirstTick();
-
-            // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            AddMode(ModeType.NewGame);
         }
     }
 }
