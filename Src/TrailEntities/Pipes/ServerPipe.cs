@@ -6,19 +6,18 @@ namespace TrailEntities
 {
     public sealed class ServerPipe : Pipe, IServerPipe
     {
-        private readonly NamedPipeServer<PipeMessage> _server;
         private bool _isClosing;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ServerPipe" /> class.
         /// </summary>
-        public ServerPipe()
+        public ServerPipe(ISimulation serverGame) : base(serverGame)
         {
-            _server = new NamedPipeServer<PipeMessage>(DefaultPipeName);
-            _server.ClientConnected += OnClientConnected;
-            _server.ClientDisconnected += OnClientDisconnected;
-            _server.ClientMessage += OnClientMessage;
-            _server.Error += OnError;
+            Server = new NamedPipeServer<PipeMessage>(DefaultPipeName);
+            Server.ClientConnected += OnClientConnected;
+            Server.ClientDisconnected += OnClientDisconnected;
+            Server.ClientMessage += OnClientMessage;
+            Server.Error += OnError;
         }
 
         public override bool IsClosing
@@ -26,20 +25,31 @@ namespace TrailEntities
             get { return _isClosing; }
         }
 
+        public NamedPipeServer<PipeMessage> Server { get; }
+
         public ISet<string> Clients { get; } = new HashSet<string>();
 
         public override void Start()
         {
-            _server.Start();
+            Server.Start();
         }
 
         public override void Stop()
         {
             _isClosing = true;
-            _server.ClientConnected -= OnClientConnected;
-            _server.ClientDisconnected -= OnClientDisconnected;
-            _server.ClientMessage -= OnClientMessage;
-            _server.Stop();
+            Server.ClientConnected -= OnClientConnected;
+            Server.ClientDisconnected -= OnClientDisconnected;
+            Server.ClientMessage -= OnClientMessage;
+            Server.Stop();
+        }
+
+        public override void TickPipe()
+        {
+            // Check if there are any clients to pump messages to.
+            if (Clients.Count <= 0)
+                return;
+
+
         }
 
         private void OnClientConnected(NamedPipeConnection<PipeMessage, PipeMessage> connection)
@@ -48,7 +58,7 @@ namespace TrailEntities
             Console.WriteLine("Client {0} is now connected!", connection.Id);
             connection.PushMessage(new PipeMessage
             {
-                Id = new Random().Next(),
+                ID = (int) Game.ActiveMode.Mode,
                 Text = "Welcome!"
             });
         }

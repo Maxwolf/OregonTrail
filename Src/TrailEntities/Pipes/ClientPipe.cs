@@ -5,18 +5,17 @@ namespace TrailEntities
 {
     public sealed class ClientPipe : Pipe, IClientPipe
     {
-        private readonly NamedPipeClient<PipeMessage> _client;
         private bool _isClosing;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ClientPipe" /> class.
         /// </summary>
-        public ClientPipe()
+        public ClientPipe(ISimulation clientGame) : base(clientGame)
         {
-            _client = new NamedPipeClient<PipeMessage>(DefaultPipeName);
-            _client.ServerMessage += OnServerMessage;
-            _client.Disconnected += OnDisconnected;
-            _client.Error += OnError;
+            Client = new NamedPipeClient<PipeMessage>(DefaultPipeName);
+            Client.ServerMessage += OnServerMessage;
+            Client.Disconnected += OnDisconnected;
+            Client.Error += OnError;
         }
 
         public override bool IsClosing
@@ -26,16 +25,23 @@ namespace TrailEntities
 
         public override void Start()
         {
-            _client.Start();
+            Client.Start();
         }
 
         public override void Stop()
         {
             _isClosing = true;
-            _client.ServerMessage -= OnServerMessage;
-            _client.Disconnected -= OnDisconnected;
-            _client.Stop();
+            Client.ServerMessage -= OnServerMessage;
+            Client.Disconnected -= OnDisconnected;
+            Client.Stop();
         }
+
+        public override void TickPipe()
+        {
+            throw new NotImplementedException();
+        }
+
+        public NamedPipeClient<PipeMessage> Client { get; }
 
         private void OnDisconnected(NamedPipeConnection<PipeMessage, PipeMessage> connection)
         {

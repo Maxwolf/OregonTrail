@@ -20,9 +20,8 @@ namespace TrailGame
         /// <param name="args"></param>
         private static void Main(string[] args)
         {
-            var commandLine = new ArgumentParser(args);
-
             // Check if there are any command line arguments at all.
+            var commandLine = new ArgumentParser(args);
             if (commandLine.IsEmpty())
             {
                 Console.WriteLine("Cannot start simulation without a flag, to play start with server flag it will spawn client instance automatically!");
@@ -51,12 +50,6 @@ namespace TrailGame
                 Thread.Sleep(1);
                 Console.Title = _game.ToString();
             }
-
-            // Close server client console helper if we spawned it in another process and this one closes.
-            if (_simulationType == SimulationType.Server)
-            {
-                _serverClientProcess.Close();
-            }
         }
 
         /// <summary>
@@ -66,7 +59,7 @@ namespace TrailGame
         {
             if (_simulationType == SimulationType.Server)
             {
-                _serverClientProcess = Process.Start(Assembly.GetExecutingAssembly().Location, "-client");
+                //_serverClientProcess = Process.Start(Assembly.GetExecutingAssembly().Location, "-client");
             }
         }
     }

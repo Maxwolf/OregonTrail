@@ -5,27 +5,32 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public class Vehicle : IVehicle
+    public sealed class Vehicle : IVehicle
     {
         private uint _distanceTraveled;
         private List<IItem> _inventory;
-        private TravelPace _pace;
         private List<IPerson> _people;
         private RationLevel _ration;
         private RepairStatus _repairStatus;
+        private readonly IGameSimulation _game;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Vehicle" /> class.
         /// </summary>
-        public Vehicle()
+        public Vehicle(IGameSimulation game)
         {
+            _game = game;
             _inventory = new List<IItem>();
             Balance = 0;
             _people = new List<IPerson>();
             _ration = RationLevel.Filling;
-            _pace = TravelPace.Steady;
             _repairStatus = RepairStatus.Good;
             _distanceTraveled = 0;
+        }
+
+        public IGameSimulation CurrentGame
+        {
+            get { return _game; }
         }
 
         public ReadOnlyCollection<IItem> Inventory
@@ -47,7 +52,7 @@ namespace TrailEntities
 
         public TravelPace Pace
         {
-            get { return _pace; }
+            get { return _game.Time.CurrentSpeed; }
         }
 
         public RepairStatus RepairStatus

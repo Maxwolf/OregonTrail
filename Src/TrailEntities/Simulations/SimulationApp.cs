@@ -11,9 +11,9 @@ namespace TrailEntities
         private readonly ClientPipe _client;
         private readonly Randomizer _random;
         private readonly ServerPipe _server;
+        private readonly SimulationType _simulationType;
         private readonly Timer _tickTimer;
         private List<IMode> _modes;
-        private readonly SimulationType _simulationType;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
@@ -37,10 +37,10 @@ namespace TrailEntities
             switch (simulationType)
             {
                 case SimulationType.Server:
-                    _server = new ServerPipe();
+                    _server = new ServerPipe(this);
                     break;
                 case SimulationType.Client:
-                    _client = new ClientPipe();
+                    _client = new ClientPipe(this);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(simulationType), simulationType, null);
@@ -133,6 +133,10 @@ namespace TrailEntities
 
         public void AddMode(ModeType mode)
         {
+            // Only servers can do this!
+            if (_simulationType == SimulationType.Client)
+                return;
+
             // Create new mode, check if it is in mode list.
             var changeMode = OnModeChanging(mode);
             if (_modes.Contains(changeMode))
@@ -157,7 +161,7 @@ namespace TrailEntities
                 switch (SimulationType)
                 {
                     case SimulationType.Server:
-                        return (uint)_server.Clients.Count;
+                        return (uint) _server.Clients.Count;
                     case SimulationType.Client:
                         return 0;
                     default:
@@ -255,10 +259,31 @@ namespace TrailEntities
 
         protected virtual void OnTick()
         {
-            // Process top-most game mode logic.
+            TickPipes();
             TickModes();
         }
 
+        /// <summary>
+        ///     Pump messages from server to client about valid commands, and screen data.
+        /// </summary>
+        private void TickPipes()
+        {
+            switch (SimulationType)
+            {
+                case SimulationType.Server:
+                    _server?.TickPipe();
+                    break;
+                case SimulationType.Client:
+                    _client?.TickPipe();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
+        ///     Process top-most game mode logic.
+        /// </summary>
         private void TickModes()
         {
             // Only tick if there are modes to tick.

@@ -44,6 +44,9 @@
     <Compile Include="Pipes\Pipe.cs" />
     <Compile Include="Pipes\ServerPipe.cs" />
     <Compile Include="Points of Interest\River.cs" />
+    <Compile Include="Simulations\Client\Command.cs" />
+    <Compile Include="Simulations\Client\ConcreteCommand.cs" />
+    <Compile Include="Simulations\Client\Receiver.cs" />
     <Compile Include="Simulations\GameSimulationApp.cs" />
     <Compile Include="Trails.cs" />
     <Compile Include="Simulations\ClimateSimulation.cs" />
@@ -75,7 +78,9 @@
     <Compile Include="Views\TradeModeView.cs" />
     <Compile Include="Views\TravelModeView.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Simulations\Server\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrailCommon\TrailCommon.csproj">
       <Project>{1409ac6c-985e-4b33-9e4f-2420ea2d3262}</Project>
