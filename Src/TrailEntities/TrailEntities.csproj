@@ -38,16 +38,18 @@
     <Compile Include="Modes\ForkInRoadMode.cs" />
     <Compile Include="Modes\GameMode.cs" />
     <Compile Include="Modes\LandmarkMode.cs" />
+    <Compile Include="Modes\NewGameMode\ChooseNamesView.cs" />
     <Compile Include="Modes\SettlementMode.cs" />
     <Compile Include="Modes\TravelMode.cs" />
     <Compile Include="Pipes\ClientPipe.cs" />
     <Compile Include="Pipes\Pipe.cs" />
     <Compile Include="Pipes\ServerPipe.cs" />
     <Compile Include="Points of Interest\River.cs" />
-    <Compile Include="Simulations\Client\Command.cs" />
-    <Compile Include="Simulations\Client\ConcreteCommand.cs" />
-    <Compile Include="Simulations\Client\Receiver.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\ConcreteCommand.cs" />
+    <Compile Include="Commands\Receiver.cs" />
     <Compile Include="Simulations\GameSimulationApp.cs" />
+    <Compile Include="Commands\Invoker.cs" />
     <Compile Include="Trails.cs" />
     <Compile Include="Simulations\ClimateSimulation.cs" />
     <Compile Include="Simulations\SimulationApp.cs" />
@@ -66,11 +68,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Modes\RandomEventMode.cs" />
     <Compile Include="Entities\Vehicle.cs" />
-    <Compile Include="Modes\NewGameMode.cs" />
+    <Compile Include="Modes\NewGameMode\NewGameMode.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Simulations\Server\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\TrailCommon\TrailCommon.csproj">
       <Project>{1409ac6c-985e-4b33-9e4f-2420ea2d3262}</Project>

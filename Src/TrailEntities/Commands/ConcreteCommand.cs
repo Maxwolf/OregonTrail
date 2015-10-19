@@ -1,4 +1,6 @@
-﻿namespace TrailEntities
+﻿using TrailCommon;
+
+namespace TrailEntities
 {
     /// <summary>
     ///     Defines a binding between a Receiver object and an action. Implements Execute by invoking the corresponding
@@ -9,9 +11,10 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ConcreteCommand" /> class.
         /// </summary>
-        protected ConcreteCommand(Receiver receiver) : base(receiver)
+        protected ConcreteCommand(IGameSimulation game) : base(game)
         {
         }
+
 
         public override void Execute()
         {

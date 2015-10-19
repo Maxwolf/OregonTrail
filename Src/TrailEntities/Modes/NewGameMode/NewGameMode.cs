@@ -10,14 +10,23 @@ namespace TrailEntities
         private bool _hasChosenProfession;
         private bool _hasChosenStartingItems;
         private bool _hasStartedGame;
-        private List<string> _playerNames;
+        
         private Profession _playerProfession;
+        private List<string> _playerNames;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
         public NewGameMode(IGameSimulation game) : base(game)
         {
+            _playerNames = new List<string>();
+            AddCommand(new Tuple<string, ICommand>("ChooseNames", new ChooseNamesView(game)));
+        }
+
+        public void ChooseNames()
+        {
+            // TODO: Make me get triggered by named pipe wrapper from client command name selection.
+            //ExecuteCommandByName("ChooseNames");
         }
 
         public override ModeType Mode
@@ -78,64 +87,6 @@ namespace TrailEntities
         {
         }
 
-        public void ChooseNames()
-        {
-            _playerNames = new List<string>();
-            Console.Clear();
-            Console.WriteLine("Party leader name?");
-            var playerName = GetPlayerName();
-            _playerNames.Add(playerName);
-            Console.WriteLine("Added: " + playerName);
-
-            Console.WriteLine("Party member two name?");
-            playerName = GetPlayerName();
-            _playerNames.Add(playerName);
-            Console.WriteLine("Added: " + playerName);
-
-            Console.WriteLine("Party member three name?");
-            playerName = GetPlayerName();
-            _playerNames.Add(playerName);
-            Console.WriteLine("Added: " + playerName);
-
-            Console.WriteLine("Party member four name?");
-            playerName = GetPlayerName();
-            _playerNames.Add(playerName);
-            Console.WriteLine("Added: " + playerName);
-
-            Console.WriteLine("Your Party Members:");
-            var crewNumber = 1;
-            foreach (var name in _playerNames)
-            {
-                var isLeader = _playerNames.IndexOf(name) == 0;
-                if (isLeader)
-                {
-                    Console.WriteLine(crewNumber + ")." + name + " (leader)");
-                }
-                else
-                {
-                    Console.WriteLine(crewNumber + ")." + name);
-                }
-                crewNumber++;
-            }
-
-            Console.WriteLine("Does this look correct? Y/N");
-            var namesCorrectResponse = Console.ReadLine();
-            if (!string.IsNullOrEmpty(namesCorrectResponse))
-            {
-                namesCorrectResponse = namesCorrectResponse.Trim().ToLowerInvariant();
-                if (namesCorrectResponse.Equals("n"))
-                {
-                    _playerNames.Clear();
-                    ChooseNames();
-                }
-            }
-            else
-            {
-                _playerNames.Clear();
-                ChooseNames();
-            }
-        }
-
         public void StartGame()
         {
             Console.WriteLine("Adding " + _playerNames.Count + " people to vehicle...");
@@ -172,25 +123,6 @@ namespace TrailEntities
                 _hasStartedGame = true;
                 StartGame();
             }
-        }
-
-        private static string GetPlayerName()
-        {
-            var readLine = Console.ReadLine();
-            if (readLine != null)
-            {
-                readLine = readLine.Trim();
-                if (!string.IsNullOrEmpty(readLine) &&
-                    !string.IsNullOrWhiteSpace(readLine))
-                {
-                    return readLine;
-                }
-            }
-
-            // Just return a random name if there is invalid input.
-            string[] names = {"Bob", "Joe", "Sally", "Tim", "Steve"};
-            //return names[SimulationApp.Instance.Random.Next(names.Length)];
-            return "CHANGEME";
         }
     }
 }

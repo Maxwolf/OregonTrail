@@ -3,18 +3,25 @@
 namespace TrailEntities
 {
     /// <summary>
-    /// Declares an interface for executing an operation.
+    ///     Declares an interface for executing an operation.
     /// </summary>
     public abstract class Command : ICommand
     {
-        private Receiver _receiver;
+        private readonly Receiver _receiver;
+        private readonly IGameSimulation _game;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Command" /> class.
         /// </summary>
-        protected Command(Receiver receiver)
+        protected Command(IGameSimulation game)
         {
-            _receiver = receiver;
+            _game = game;
+            _receiver = game.Server as Receiver;
+        }
+
+        public IGameSimulation Game
+        {
+            get { return _game; }
         }
 
         public IReceiver Receiver

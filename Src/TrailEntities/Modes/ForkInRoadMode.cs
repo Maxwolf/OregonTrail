@@ -4,7 +4,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public class ForkInRoadMode : GameMode, IForkInRoad
+    public sealed class ForkInRoadMode : GameMode, IForkInRoad
     {
         private readonly List<PointOfInterest> _skipChoices;
 

@@ -43,6 +43,11 @@ namespace TrailEntities
             Server.Stop();
         }
 
+        public override void Action()
+        {
+            Console.WriteLine("Called ServerPipe.Action()");
+        }
+
         public override void TickPipe()
         {
             // Check if there are any clients to pump messages to.

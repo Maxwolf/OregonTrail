@@ -36,6 +36,11 @@ namespace TrailEntities
             Client.Stop();
         }
 
+        public override void Action()
+        {
+            Console.WriteLine("Called ClientPipe.Action()");
+        }
+
         public override void TickPipe()
         {
             throw new NotImplementedException();

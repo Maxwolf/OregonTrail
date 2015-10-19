@@ -6,8 +6,20 @@ namespace TrailEntities
 {
     public sealed class GameSimulationApp : SimulationApp, IGameSimulation
     {
+        /// <summary>
+        ///     Manages weather, temperature, humidity, and current grazing level for living animals.
+        /// </summary>
         private ClimateSimulation _climate;
+
+        /// <summary>
+        ///     Manages time in a linear since from the provided ticks in base simulation class. Handles days, months, and years.
+        /// </summary>
         private TimeSimulation _time;
+
+        /// <summary>
+        ///     Current vessel which the player character and his party are traveling inside of, provides means of transportation
+        ///     other than walking.
+        /// </summary>
         private Vehicle _vehicle;
 
         /// <summary>
@@ -29,31 +41,6 @@ namespace TrailEntities
             TrailSimulation = new TrailSimulation();
             TotalTurns = 0;
             _vehicle = new Vehicle(this);
-        }
-
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        /// <returns>
-        /// A string that represents the current object.
-        /// </returns>
-        public override string ToString()
-        {
-            // Title and current game mode.
-            var title = new StringBuilder();
-            title.Append($"Oregon Trail {SimulationType} - ");
-            title.Append($"Mode: {ActiveModeName} - ");
-
-            // Server has some extra pieces of information in title.
-            if (SimulationType == SimulationType.Server)
-            {
-                title.Append($"Turns: {TotalTurns.ToString("D4")} - ");
-                title.Append($"Clients: {TotalClients} - ");
-            }
-
-            // Tick spinner phase to show program tick activity.
-            title.Append($"[{TickPhase}]");
-            return title.ToString();
         }
 
         public TrailSimulation TrailSimulation { get; private set; }
@@ -104,6 +91,31 @@ namespace TrailEntities
 
             TotalTurns++;
             _time.TickTime();
+        }
+
+        /// <summary>
+        ///     Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        ///     A string that represents the current object.
+        /// </returns>
+        public override string ToString()
+        {
+            // Title and current game mode.
+            var title = new StringBuilder();
+            title.Append($"Oregon Trail {SimulationType} - ");
+            title.Append($"Mode: {ActiveModeName} - ");
+
+            // Server has some extra pieces of information in title.
+            if (SimulationType == SimulationType.Server)
+            {
+                title.Append($"Turns: {TotalTurns.ToString("D4")} - ");
+                title.Append($"Clients: {TotalClients} - ");
+            }
+
+            // Tick spinner phase to show program tick activity.
+            title.Append($"[{TickPhase}]");
+            return title.ToString();
         }
 
         protected override void OnFirstTick()

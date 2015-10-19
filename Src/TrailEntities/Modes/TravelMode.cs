@@ -3,7 +3,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public class TravelMode : GameMode, ITravel
+    public sealed class TravelMode : GameMode, ITravel
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.

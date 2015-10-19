@@ -5,6 +5,7 @@
     /// </summary>
     public interface ICommand
     {
+        IGameSimulation Game { get; }
         IReceiver Receiver { get; }
         void Execute();
     }

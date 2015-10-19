@@ -6,13 +6,36 @@ using TrailCommon;
 
 namespace TrailEntities
 {
+    /// <summary>
+    ///     Base simulation class that deals with ticks, time, named pipes, and game modes.
+    /// </summary>
     public abstract class SimulationApp : ISimulation
     {
+        /// <summary>
+        ///     Client named pipe that gets a list of available commands and sends selection back to server.
+        /// </summary>
         private readonly ClientPipe _client;
+
+        /// <summary>
+        ///     Random singleton with some extra methods for making life easy when dealing with simulations.
+        /// </summary>
         private readonly Randomizer _random;
+
+        /// <summary>
+        ///     Server named pipe that processes active game mode logic and sends messages to client about commands and waits for
+        ///     responses.
+        /// </summary>
         private readonly ServerPipe _server;
-        private readonly SimulationType _simulationType;
-        private readonly Timer _tickTimer;
+
+        /// <summary>
+        ///     Non-threaded timer that waits for configured amount of time and fires events reliably.
+        /// </summary>
+        private readonly Timer _tick;
+
+        /// <summary>
+        ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
+        ///     of themselves like stores and trades.
+        /// </summary>
         private List<IMode> _modes;
 
         /// <summary>
@@ -20,19 +43,19 @@ namespace TrailEntities
         /// </summary>
         protected SimulationApp(SimulationType simulationType)
         {
-            _simulationType = simulationType;
+            SimulationType = simulationType;
             _random = new Randomizer((int) DateTime.Now.Ticks & 0x0000FFF);
             TotalTicks = 0;
             TickPhase = "*";
             _modes = new List<IMode>();
 
             // Create timer for every second, enabled by default, hook elapsed event.
-            _tickTimer = new Timer(1000);
-            _tickTimer.Elapsed += OnTickTimerFired;
+            _tick = new Timer(1000);
+            _tick.Elapsed += OnTickFired;
 
             // Do not allow timer to automatically tick, this prevents it spawning multiple threads, enable the timer.
-            _tickTimer.AutoReset = false;
-            _tickTimer.Enabled = true;
+            _tick.AutoReset = false;
+            _tick.Enabled = true;
 
             switch (simulationType)
             {
@@ -47,10 +70,7 @@ namespace TrailEntities
             }
         }
 
-        public SimulationType SimulationType
-        {
-            get { return _simulationType; }
-        }
+        public SimulationType SimulationType { get; }
 
         public IServerPipe Server
         {
@@ -134,7 +154,7 @@ namespace TrailEntities
         public void AddMode(ModeType mode)
         {
             // Only servers can do this!
-            if (_simulationType == SimulationType.Client)
+            if (SimulationType == SimulationType.Client)
                 return;
 
             // Create new mode, check if it is in mode list.
@@ -172,12 +192,12 @@ namespace TrailEntities
 
         protected abstract GameMode OnModeChanging(ModeType mode);
 
-        private void OnTickTimerFired(object Sender, ElapsedEventArgs e)
+        private void OnTickFired(object Sender, ElapsedEventArgs e)
         {
             Tick();
 
             // Allow the timer to tick again now that we have finished working.
-            _tickTimer.Enabled = true;
+            _tick.Enabled = true;
         }
 
         private void Tick()

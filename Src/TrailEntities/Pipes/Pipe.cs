@@ -2,7 +2,7 @@
 
 namespace TrailEntities
 {
-    public abstract class Pipe : IPipe
+    public abstract class Pipe : Receiver, IPipe
     {
         protected const string DefaultPipeName = "TrailGame";
         private readonly ISimulation _game;

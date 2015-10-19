@@ -3,7 +3,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public class Person : IPerson
+    public sealed class Person : IPerson
     {
         private uint _daysStarving;
         private RepairStatus _health;

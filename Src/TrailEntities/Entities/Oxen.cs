@@ -3,7 +3,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public class Oxen : Item
+    public sealed class Oxen : Item
     {
         private uint _grassAvaliable;
 

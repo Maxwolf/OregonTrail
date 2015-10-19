@@ -35,8 +35,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandLine Parser\ArgumentParser.cs" />
-    <Compile Include="CommandLine Parser\ArgumentSplitter.cs" />
+    <Compile Include="ArgumentParser.cs" />
     <Compile Include="Modes\INewGame.cs" />
     <Compile Include="Pipes\IClientPipe.cs" />
     <Compile Include="Pipes\IServerPipe.cs" />
@@ -50,13 +49,13 @@
     <Compile Include="Pipes\PipeMessage.cs" />
     <Compile Include="Pipes\Wrapper\PipeWorker.cs" />
     <Compile Include="Pipes\IPipe.cs" />
-    <Compile Include="Simulations\Game\Client\ICommand.cs" />
-    <Compile Include="Simulations\Game\Client\IReceiver.cs" />
+    <Compile Include="Command\ICommand.cs" />
+    <Compile Include="Command\IReceiver.cs" />
     <Compile Include="Simulations\Game\ITravel.cs" />
     <Compile Include="Simulations\Climate\ClimateClassification.cs" />
     <Compile Include="Simulations\Climate\ClimateData.cs" />
     <Compile Include="Randomizer.cs" />
-    <Compile Include="Simulations\Game\Server\IInvoker.cs" />
+    <Compile Include="Command\IInvoker.cs" />
     <Compile Include="Simulations\Game\SimulationType.cs" />
     <Compile Include="Simulations\Time\Date.cs" />
     <Compile Include="Simulations\Climate\IClimateSimulation.cs" />

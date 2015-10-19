@@ -2,7 +2,7 @@
 
 namespace TrailEntities
 {
-    public class LandmarkMode : GameMode, ILandmark
+    public sealed class LandmarkMode : GameMode, ILandmark
     {
         private readonly bool _canRest;
 
