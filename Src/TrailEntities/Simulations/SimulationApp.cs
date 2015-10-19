@@ -8,11 +8,11 @@ namespace TrailEntities
 {
     public abstract class SimulationApp : ISimulation
     {
-        private ReceiverPipe _recieverPipe;
         private List<IMode> _modes;
-        private Randomizer _random;
-        private SenderPipe _senderPipe;
-        private Timer _tickTimer;
+        private readonly Randomizer _random;
+        private readonly Timer _tickTimer;
+        private readonly ServerPipe _server;
+        private readonly ClientPipe _client;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
@@ -32,25 +32,29 @@ namespace TrailEntities
             _tickTimer.AutoReset = false;
             _tickTimer.Enabled = true;
 
-            _senderPipe = new SenderPipe();
-            _recieverPipe = new ReceiverPipe();
-        }
-
-        public ISenderPipe SendPipe
-        {
-            get { return _senderPipe; }
-        }
-
-        public IReceiverPipe RecievePipe
-        {
-            get { return _recieverPipe; }
+            _server = new ServerPipe();
+            _client = new ClientPipe();
         }
 
         public string TickPhase { get; private set; }
 
         public void RemoveMode(ModeType mode)
         {
-            throw new NotImplementedException();
+            // Ensure the mode exists as active mode.
+            if (ActiveMode != null &&
+                ActiveMode.Mode != mode)
+                return;
+
+            // Ensure modes list contains active mode.
+            if (!_modes.Contains(ActiveMode))
+                return;
+
+            // Remove the mode from list.
+            _modes.Remove(ActiveMode);
+
+            // Check if there are any modes after removal.
+            if (ActiveMode != null)
+                ModeChangedEvent?.Invoke(ActiveMode.Mode);
         }
 
         public void StartGame()
@@ -59,6 +63,16 @@ namespace TrailEntities
         }
 
         public bool IsClosing { get; private set; }
+
+        public IServerPipe Server
+        {
+            get { return _server; }
+        }
+
+        public IClientPipe Client
+        {
+            get { return _client; }
+        }
 
         public IMode ActiveMode
         {
@@ -150,8 +164,8 @@ namespace TrailEntities
         protected virtual void OnFirstTick()
         {
             // Server processes game logic, client sends command for server to process. Together they ward off thread-locking.
-            _senderPipe.Start();
-            _recieverPipe.Start();
+            _server.Start();
+            _client.Start();
         }
 
         /// <summary>
@@ -178,18 +192,14 @@ namespace TrailEntities
 
         public virtual void OnDestroy()
         {
-            _senderPipe.Stop();
-            _recieverPipe.Stop();
+            _server.Stop();
+            _client.Stop();
             _modes.Clear();
             EndgameEvent?.Invoke();
         }
 
         protected virtual void OnTick()
         {
-            // Game mode server command listener, and view controller command sender.
-            _senderPipe.TickPipe();
-            _recieverPipe.TickPipe();
-
             // Process top-most game mode logic.
             TickModes();
         }

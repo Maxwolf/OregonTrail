@@ -40,13 +40,13 @@
     <Compile Include="Modes\LandmarkMode.cs" />
     <Compile Include="Modes\SettlementMode.cs" />
     <Compile Include="Modes\TravelMode.cs" />
+    <Compile Include="Pipes\ClientPipe.cs" />
     <Compile Include="Pipes\Pipe.cs" />
+    <Compile Include="Pipes\ServerPipe.cs" />
     <Compile Include="Points of Interest\River.cs" />
-    <Compile Include="Pipes\ReceiverPipe.cs" />
     <Compile Include="Simulations\GameSimulationApp.cs" />
     <Compile Include="Trails.cs" />
     <Compile Include="Simulations\ClimateSimulation.cs" />
-    <Compile Include="Pipes\SenderPipe.cs" />
     <Compile Include="Simulations\SimulationApp.cs" />
     <Compile Include="Simulations\TimeSimulation.cs" />
     <Compile Include="Entities\Item.cs" />

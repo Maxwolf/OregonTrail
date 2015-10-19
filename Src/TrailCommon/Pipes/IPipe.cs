@@ -2,9 +2,7 @@
 {
     public interface IPipe
     {
-        bool Connected { get; }
-        bool IsStopping { get; }
-        void TickPipe();
+        bool IsClosing { get; }
         void Start();
         void Stop();
     }
