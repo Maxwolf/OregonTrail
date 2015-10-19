@@ -16,6 +16,7 @@ namespace TrailGame
                     "Oregon Trail Clone - " +
                     $"Turns: {game.TotalTurns.ToString("D4")} - " +
                     $"Mode: {game.ActiveModeName} - " +
+                    $"Clients: {game.TotalClients} - " +
                     $"[{game.TickPhase}]";
             }
         }

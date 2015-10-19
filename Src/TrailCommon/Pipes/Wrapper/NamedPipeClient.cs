@@ -5,13 +5,14 @@ using System.Threading;
 namespace TrailCommon
 {
     /// <summary>
-    /// Wraps a <see cref="NamedPipeClientStream"/>.
+    ///     Wraps a <see cref="NamedPipeClientStream" />.
     /// </summary>
     /// <typeparam name="TReadWrite">Reference type to read from and write to the named pipe</typeparam>
     public class NamedPipeClient<TReadWrite> : NamedPipeClient<TReadWrite, TReadWrite> where TReadWrite : class
     {
         /// <summary>
-        /// Constructs a new <c>NamedPipeClient</c> to connect to the <see cref="NamedPipeNamedPipeServer{TReadWrite}"/> specified by <paramref name="pipeName"/>.
+        ///     Constructs a new <c>NamedPipeClient</c> to connect to the <see cref="NamedPipeNamedPipeServer{TReadWrite}" />
+        ///     specified by <paramref name="pipeName" />.
         /// </summary>
         /// <param name="pipeName">Name of the server's pipe</param>
         public NamedPipeClient(string pipeName) : base(pipeName)
@@ -20,7 +21,7 @@ namespace TrailCommon
     }
 
     /// <summary>
-    /// Wraps a <see cref="NamedPipeClientStream"/>.
+    ///     Wraps a <see cref="NamedPipeClientStream" />.
     /// </summary>
     /// <typeparam name="TRead">Reference type to read from the named pipe</typeparam>
     /// <typeparam name="TWrite">Reference type to write to the named pipe</typeparam>
@@ -28,38 +29,17 @@ namespace TrailCommon
         where TRead : class
         where TWrite : class
     {
-        /// <summary>
-        /// Gets or sets whether the client should attempt to reconnect when the pipe breaks
-        /// due to an error or the other end terminating the connection.
-        /// Default value is <c>true</c>.
-        /// </summary>
-        public bool AutoReconnect { get; set; }
-
-        /// <summary>
-        /// Invoked whenever a message is received from the server.
-        /// </summary>
-        public event ConnectionMessageEventHandler<TRead, TWrite> ServerMessage;
-
-        /// <summary>
-        /// Invoked when the client disconnects from the server (e.g., the pipe is closed or broken).
-        /// </summary>
-        public event ConnectionEventHandler<TRead, TWrite> Disconnected;
-
-        /// <summary>
-        /// Invoked whenever an exception is thrown during a read or write operation on the named pipe.
-        /// </summary>
-        public event PipeExceptionEventHandler Error;
-
-        private readonly string _pipeName;
-        private NamedPipeConnection<TRead, TWrite> _connection;
-
         private readonly AutoResetEvent _connected = new AutoResetEvent(false);
         private readonly AutoResetEvent _disconnected = new AutoResetEvent(false);
 
+        private readonly string _pipeName;
+
         private volatile bool _closedExplicitly;
+        private NamedPipeConnection<TRead, TWrite> _connection;
 
         /// <summary>
-        /// Constructs a new <c>NamedPipeClient</c> to connect to the <see cref="NamedPipeServer{TRead, TWrite}"/> specified by <paramref name="pipeName"/>.
+        ///     Constructs a new <c>NamedPipeClient</c> to connect to the <see cref="NamedPipeServer{TRead, TWrite}" /> specified
+        ///     by <paramref name="pipeName" />.
         /// </summary>
         /// <param name="pipeName">Name of the server's pipe</param>
         public NamedPipeClient(string pipeName)
@@ -69,8 +49,30 @@ namespace TrailCommon
         }
 
         /// <summary>
-        /// Connects to the named pipe server asynchronously.
-        /// This method returns immediately, possibly before the connection has been established.
+        ///     Gets or sets whether the client should attempt to reconnect when the pipe breaks
+        ///     due to an error or the other end terminating the connection.
+        ///     Default value is <c>true</c>.
+        /// </summary>
+        public bool AutoReconnect { get; set; }
+
+        /// <summary>
+        ///     Invoked whenever a message is received from the server.
+        /// </summary>
+        public event ConnectionMessageEventHandler<TRead, TWrite> ServerMessage;
+
+        /// <summary>
+        ///     Invoked when the client disconnects from the server (e.g., the pipe is closed or broken).
+        /// </summary>
+        public event ConnectionEventHandler<TRead, TWrite> Disconnected;
+
+        /// <summary>
+        ///     Invoked whenever an exception is thrown during a read or write operation on the named pipe.
+        /// </summary>
+        public event PipeExceptionEventHandler Error;
+
+        /// <summary>
+        ///     Connects to the named pipe server asynchronously.
+        ///     This method returns immediately, possibly before the connection has been established.
         /// </summary>
         public void Start()
         {
@@ -91,7 +93,7 @@ namespace TrailCommon
         }
 
         /// <summary>
-        /// Closes the named pipe.
+        ///     Closes the named pipe.
         /// </summary>
         public void Stop()
         {
@@ -195,7 +197,7 @@ namespace TrailCommon
         #endregion
     }
 
-    static class PipeClientFactory
+    internal static class PipeClientFactory
     {
         public static PipeStreamWrapper<TRead, TWrite> Connect<TRead, TWrite>(string pipeName)
             where TRead : class
@@ -213,7 +215,8 @@ namespace TrailCommon
 
         private static NamedPipeClientStream CreatePipe(string pipeName)
         {
-            return new NamedPipeClientStream(".", pipeName, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.WriteThrough);
+            return new NamedPipeClientStream(".", pipeName, PipeDirection.InOut,
+                PipeOptions.Asynchronous | PipeOptions.WriteThrough);
         }
     }
 }

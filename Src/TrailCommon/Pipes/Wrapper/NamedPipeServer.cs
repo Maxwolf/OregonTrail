@@ -5,13 +5,14 @@ using System.IO.Pipes;
 namespace TrailCommon
 {
     /// <summary>
-    /// Wraps a <see cref="NamedPipeServerStream"/> and provides multiple simultaneous client connection handling.
+    ///     Wraps a <see cref="NamedPipeServerStream" /> and provides multiple simultaneous client connection handling.
     /// </summary>
     /// <typeparam name="TReadWrite">Reference type to read from and write to the named pipe</typeparam>
     public class NamedPipeServer<TReadWrite> : Server<TReadWrite, TReadWrite> where TReadWrite : class
     {
         /// <summary>
-        /// Constructs a new <c>NamedPipeServer</c> object that listens for client connections on the given <paramref name="pipeName"/>.
+        ///     Constructs a new <c>NamedPipeServer</c> object that listens for client connections on the given
+        ///     <paramref name="pipeName" />.
         /// </summary>
         /// <param name="pipeName">Name of the pipe to listen on</param>
         public NamedPipeServer(string pipeName) : base(pipeName)
@@ -20,7 +21,7 @@ namespace TrailCommon
     }
 
     /// <summary>
-    /// Wraps a <see cref="NamedPipeServerStream"/> and provides multiple simultaneous client connection handling.
+    ///     Wraps a <see cref="NamedPipeServerStream" /> and provides multiple simultaneous client connection handling.
     /// </summary>
     /// <typeparam name="TRead">Reference type to read from the named pipe</typeparam>
     /// <typeparam name="TWrite">Reference type to write to the named pipe</typeparam>
@@ -28,36 +29,19 @@ namespace TrailCommon
         where TRead : class
         where TWrite : class
     {
-        /// <summary>
-        /// Invoked whenever a client connects to the server.
-        /// </summary>
-        public event ConnectionEventHandler<TRead, TWrite> ClientConnected;
-
-        /// <summary>
-        /// Invoked whenever a client disconnects from the server.
-        /// </summary>
-        public event ConnectionEventHandler<TRead, TWrite> ClientDisconnected;
-
-        /// <summary>
-        /// Invoked whenever a client sends a message to the server.
-        /// </summary>
-        public event ConnectionMessageEventHandler<TRead, TWrite> ClientMessage;
-
-        /// <summary>
-        /// Invoked whenever an exception is thrown during a read or write operation.
-        /// </summary>
-        public event PipeExceptionEventHandler Error;
+        private readonly List<NamedPipeConnection<TRead, TWrite>> _connections =
+            new List<NamedPipeConnection<TRead, TWrite>>();
 
         private readonly string _pipeName;
-        private readonly List<NamedPipeConnection<TRead, TWrite>> _connections = new List<NamedPipeConnection<TRead, TWrite>>();
+        private volatile bool _isRunning;
 
         private int _nextPipeId;
 
         private volatile bool _shouldKeepRunning;
-        private volatile bool _isRunning;
 
         /// <summary>
-        /// Constructs a new <c>NamedPipeServer</c> object that listens for client connections on the given <paramref name="pipeName"/>.
+        ///     Constructs a new <c>NamedPipeServer</c> object that listens for client connections on the given
+        ///     <paramref name="pipeName" />.
         /// </summary>
         /// <param name="pipeName">Name of the pipe to listen on</param>
         public Server(string pipeName)
@@ -66,8 +50,28 @@ namespace TrailCommon
         }
 
         /// <summary>
-        /// Begins listening for client connections in a separate background thread.
-        /// This method returns immediately.
+        ///     Invoked whenever a client connects to the server.
+        /// </summary>
+        public event ConnectionEventHandler<TRead, TWrite> ClientConnected;
+
+        /// <summary>
+        ///     Invoked whenever a client disconnects from the server.
+        /// </summary>
+        public event ConnectionEventHandler<TRead, TWrite> ClientDisconnected;
+
+        /// <summary>
+        ///     Invoked whenever a client sends a message to the server.
+        /// </summary>
+        public event ConnectionMessageEventHandler<TRead, TWrite> ClientMessage;
+
+        /// <summary>
+        ///     Invoked whenever an exception is thrown during a read or write operation.
+        /// </summary>
+        public event PipeExceptionEventHandler Error;
+
+        /// <summary>
+        ///     Begins listening for client connections in a separate background thread.
+        ///     This method returns immediately.
         /// </summary>
         public void Start()
         {
@@ -78,8 +82,8 @@ namespace TrailCommon
         }
 
         /// <summary>
-        /// Sends a message to all connected clients asynchronously.
-        /// This method returns immediately, possibly before the message has been sent to all clients.
+        ///     Sends a message to all connected clients asynchronously.
+        ///     This method returns immediately, possibly before the message has been sent to all clients.
         /// </summary>
         /// <param name="message"></param>
         public void PushMessage(TWrite message)
@@ -94,7 +98,7 @@ namespace TrailCommon
         }
 
         /// <summary>
-        /// Closes all open client connections and stops listening for new ones.
+        ///     Closes all open client connections and stops listening for new ones.
         /// </summary>
         public void Stop()
         {
@@ -164,7 +168,7 @@ namespace TrailCommon
 
                 ClientOnConnected(connection);
             }
-            // Catch the IOException that is raised if the pipe is broken or disconnected.
+                // Catch the IOException that is raised if the pipe is broken or disconnected.
             catch (Exception e)
             {
                 Console.Error.WriteLine("Named pipe is broken or disconnected: {0}", e);
@@ -237,7 +241,7 @@ namespace TrailCommon
         #endregion
     }
 
-    static class PipeServerFactory
+    internal static class PipeServerFactory
     {
         public static NamedPipeServerStream CreateAndConnectPipe(string pipeName)
         {
@@ -248,7 +252,8 @@ namespace TrailCommon
 
         public static NamedPipeServerStream CreatePipe(string pipeName)
         {
-            return new NamedPipeServerStream(pipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous | PipeOptions.WriteThrough);
+            return new NamedPipeServerStream(pipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte,
+                PipeOptions.Asynchronous | PipeOptions.WriteThrough);
         }
     }
 }

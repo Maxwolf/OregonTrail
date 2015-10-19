@@ -32,6 +32,8 @@ namespace TrailEntities
         public override void Stop()
         {
             _isClosing = true;
+            _client.ServerMessage -= OnServerMessage;
+            _client.Disconnected -= OnDisconnected;
             _client.Stop();
         }
 

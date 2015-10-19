@@ -6,9 +6,8 @@ namespace TrailEntities
 {
     public sealed class ServerPipe : Pipe, IServerPipe
     {
-        private bool _isClosing;
         private readonly NamedPipeServer<PipeMessage> _server;
-        private readonly ISet<string> _clients = new HashSet<string>();
+        private bool _isClosing;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ServerPipe" /> class.
@@ -27,10 +26,7 @@ namespace TrailEntities
             get { return _isClosing; }
         }
 
-        public ISet<string> Clients
-        {
-            get { return _clients; }
-        }
+        public ISet<string> Clients { get; } = new HashSet<string>();
 
         public override void Start()
         {
@@ -40,12 +36,15 @@ namespace TrailEntities
         public override void Stop()
         {
             _isClosing = true;
+            _server.ClientConnected -= OnClientConnected;
+            _server.ClientDisconnected -= OnClientDisconnected;
+            _server.ClientMessage -= OnClientMessage;
             _server.Stop();
         }
 
         private void OnClientConnected(NamedPipeConnection<PipeMessage, PipeMessage> connection)
         {
-            _clients.Add(connection.Name);
+            Clients.Add(connection.Name);
             Console.WriteLine("Client {0} is now connected!", connection.Id);
             connection.PushMessage(new PipeMessage
             {
@@ -56,7 +55,7 @@ namespace TrailEntities
 
         private void OnClientDisconnected(NamedPipeConnection<PipeMessage, PipeMessage> connection)
         {
-            _clients.Remove(connection.Name);
+            Clients.Remove(connection.Name);
             Console.WriteLine("Client {0} disconnected", connection.Id);
         }
 

@@ -30,8 +30,6 @@ namespace TrailEntities
 
         public override void OnDestroy()
         {
-            base.OnDestroy();
-
             // Unhook delegates from events.
             _time.DayEndEvent -= TimeSimulation_DayEndEvent;
             _time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
@@ -44,6 +42,8 @@ namespace TrailEntities
             TrailSimulation = null;
             TotalTurns = 0;
             Vehicle = null;
+
+            base.OnDestroy();
         }
 
         public ITimeSimulation Time

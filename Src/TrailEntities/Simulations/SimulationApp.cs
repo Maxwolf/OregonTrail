@@ -8,11 +8,11 @@ namespace TrailEntities
 {
     public abstract class SimulationApp : ISimulation
     {
-        private List<IMode> _modes;
-        private readonly Randomizer _random;
-        private readonly Timer _tickTimer;
-        private readonly ServerPipe _server;
         private readonly ClientPipe _client;
+        private readonly Randomizer _random;
+        private readonly ServerPipe _server;
+        private readonly Timer _tickTimer;
+        private List<IMode> _modes;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
@@ -34,6 +34,16 @@ namespace TrailEntities
 
             _server = new ServerPipe();
             _client = new ClientPipe();
+        }
+
+        public IServerPipe Server
+        {
+            get { return _server; }
+        }
+
+        public IClientPipe Client
+        {
+            get { return _client; }
         }
 
         public string TickPhase { get; private set; }
@@ -63,16 +73,6 @@ namespace TrailEntities
         }
 
         public bool IsClosing { get; private set; }
-
-        public IServerPipe Server
-        {
-            get { return _server; }
-        }
-
-        public IClientPipe Client
-        {
-            get { return _client; }
-        }
 
         public IMode ActiveMode
         {
@@ -134,6 +134,11 @@ namespace TrailEntities
             OnDestroy();
         }
 
+        public uint TotalClients
+        {
+            get { return (uint) _server.Clients.Count; }
+        }
+
         protected abstract GameMode OnModeChanging(ModeType mode);
 
         private void OnTickTimerFired(object Sender, ElapsedEventArgs e)
@@ -192,8 +197,10 @@ namespace TrailEntities
 
         public virtual void OnDestroy()
         {
+            // Destroy named pipe inter-process communication system.
             _server.Stop();
             _client.Stop();
+
             _modes.Clear();
             EndgameEvent?.Invoke();
         }

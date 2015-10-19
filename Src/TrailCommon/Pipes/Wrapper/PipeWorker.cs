@@ -4,22 +4,9 @@ using System.Threading.Tasks;
 
 namespace TrailCommon
 {
-    class PipeWorker
+    internal class PipeWorker
     {
         private readonly TaskScheduler _callbackThread;
-
-        private static TaskScheduler CurrentTaskScheduler
-        {
-            get
-            {
-                return (SynchronizationContext.Current != null
-                            ? TaskScheduler.FromCurrentSynchronizationContext()
-                            : TaskScheduler.Default);
-            }
-        }
-
-        public event WorkerSucceededEventHandler Succeeded;
-        public event WorkerExceptionEventHandler Error;
 
         public PipeWorker() : this(CurrentTaskScheduler)
         {
@@ -29,6 +16,19 @@ namespace TrailCommon
         {
             _callbackThread = callbackThread;
         }
+
+        private static TaskScheduler CurrentTaskScheduler
+        {
+            get
+            {
+                return (SynchronizationContext.Current != null
+                    ? TaskScheduler.FromCurrentSynchronizationContext()
+                    : TaskScheduler.Default);
+            }
+        }
+
+        public event WorkerSucceededEventHandler Succeeded;
+        public event WorkerExceptionEventHandler Error;
 
         public void DoWork(Action action)
         {
@@ -68,5 +68,6 @@ namespace TrailCommon
     }
 
     internal delegate void WorkerSucceededEventHandler();
+
     internal delegate void WorkerExceptionEventHandler(Exception exception);
 }

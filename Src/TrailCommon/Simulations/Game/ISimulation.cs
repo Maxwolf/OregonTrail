@@ -6,6 +6,7 @@ namespace TrailCommon
     {
         IServerPipe Server { get; }
         IClientPipe Client { get; }
+        uint TotalClients { get; }
         IMode ActiveMode { get; }
         string ActiveModeName { get; }
         ReadOnlyCollection<IMode> Modes { get; }
