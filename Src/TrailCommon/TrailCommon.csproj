@@ -35,6 +35,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandLine Parser\ArgumentParser.cs" />
+    <Compile Include="CommandLine Parser\ArgumentSplitter.cs" />
+    <Compile Include="Design Patterns\Command Pattern\ICommand.cs" />
+    <Compile Include="Design Patterns\Command Pattern\Invoker.cs" />
+    <Compile Include="Design Patterns\Command Pattern\Receiver.cs" />
+    <Compile Include="Design Patterns\Command Pattern\ReceiverTest.cs" />
+    <Compile Include="Design Patterns\Command Pattern\TestOffCommand.cs" />
+    <Compile Include="Design Patterns\Command Pattern\TestOnCommand.cs" />
     <Compile Include="Modes\INewGame.cs" />
     <Compile Include="Pipes\IClientPipe.cs" />
     <Compile Include="Pipes\IServerPipe.cs" />
@@ -52,6 +60,7 @@
     <Compile Include="Simulations\Climate\ClimateClassification.cs" />
     <Compile Include="Simulations\Climate\ClimateData.cs" />
     <Compile Include="Randomizer.cs" />
+    <Compile Include="Simulations\Game\SimulationType.cs" />
     <Compile Include="Simulations\Time\Date.cs" />
     <Compile Include="Simulations\Climate\IClimateSimulation.cs" />
     <Compile Include="Simulations\Time\ITimeSimulation.cs" />

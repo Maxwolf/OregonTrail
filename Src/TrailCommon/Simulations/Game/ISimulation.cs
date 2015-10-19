@@ -4,6 +4,7 @@ namespace TrailCommon
 {
     public interface ISimulation
     {
+        SimulationType SimulationType { get; }
         IServerPipe Server { get; }
         IClientPipe Client { get; }
         uint TotalClients { get; }
@@ -17,6 +18,7 @@ namespace TrailCommon
         event NewGame NewgameEvent;
         event EndGame EndgameEvent;
         event TickSim TickEvent;
+        event FirstTick FirstTickEvent;
         event ModeChanged ModeChangedEvent;
         void AddMode(ModeType mode);
         void RemoveMode(ModeType mode);
@@ -27,6 +29,8 @@ namespace TrailCommon
     public delegate void ModeChanged(ModeType mode);
 
     public delegate void TickSim(uint tickCount);
+
+    public delegate void FirstTick();
 
     public delegate void EndGame();
 

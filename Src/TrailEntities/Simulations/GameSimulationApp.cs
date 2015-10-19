@@ -12,7 +12,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
         /// </summary>
-        public GameSimulationApp()
+        public GameSimulationApp(SimulationType simulationType) : base(simulationType)
         {
             _time = new TimeSimulation(1985, Months.May, 5, TravelPace.Paused);
             _time.DayEndEvent += TimeSimulation_DayEndEvent;
@@ -24,6 +24,21 @@ namespace TrailEntities
             TrailSimulation = new TrailSimulation();
             TotalTurns = 0;
             Vehicle = new Vehicle();
+        }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        public override string ToString()
+        {
+            return $"Oregon Trail {SimulationType} - " +
+                    $"Turns: {TotalTurns.ToString("D4")} - " +
+                    $"Mode: {ActiveModeName} - " +
+                    $"Clients: {TotalClients} - " +
+                    $"[{TickPhase}]";
         }
 
         public TrailSimulation TrailSimulation { get; private set; }

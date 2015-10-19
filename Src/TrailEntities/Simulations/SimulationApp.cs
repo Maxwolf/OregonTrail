@@ -13,12 +13,14 @@ namespace TrailEntities
         private readonly ServerPipe _server;
         private readonly Timer _tickTimer;
         private List<IMode> _modes;
+        private readonly SimulationType _simulationType;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
         /// </summary>
-        protected SimulationApp()
+        protected SimulationApp(SimulationType simulationType)
         {
+            _simulationType = simulationType;
             _random = new Randomizer((int) DateTime.Now.Ticks & 0x0000FFF);
             TotalTicks = 0;
             TickPhase = "*";
@@ -32,8 +34,22 @@ namespace TrailEntities
             _tickTimer.AutoReset = false;
             _tickTimer.Enabled = true;
 
-            _server = new ServerPipe();
-            _client = new ClientPipe();
+            switch (simulationType)
+            {
+                case SimulationType.Server:
+                    _server = new ServerPipe();
+                    break;
+                case SimulationType.Client:
+                    _client = new ClientPipe();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(simulationType), simulationType, null);
+            }
+        }
+
+        public SimulationType SimulationType
+        {
+            get { return _simulationType; }
         }
 
         public IServerPipe Server
@@ -51,8 +67,7 @@ namespace TrailEntities
         public void RemoveMode(ModeType mode)
         {
             // Ensure the mode exists as active mode.
-            if (ActiveMode != null &&
-                ActiveMode.Mode != mode)
+            if (ActiveMode != null && ActiveMode.Mode != mode)
                 return;
 
             // Ensure modes list contains active mode.
@@ -113,6 +128,7 @@ namespace TrailEntities
         public event NewGame NewgameEvent;
         public event EndGame EndgameEvent;
         public event TickSim TickEvent;
+        public event FirstTick FirstTickEvent;
         public event ModeChanged ModeChangedEvent;
 
         public void AddMode(ModeType mode)
@@ -136,7 +152,18 @@ namespace TrailEntities
 
         public uint TotalClients
         {
-            get { return (uint) _server.Clients.Count; }
+            get
+            {
+                switch (SimulationType)
+                {
+                    case SimulationType.Server:
+                        return (uint)_server.Clients.Count;
+                    case SimulationType.Client:
+                        return 0;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
         }
 
         protected abstract GameMode OnModeChanging(ModeType mode);
@@ -168,9 +195,21 @@ namespace TrailEntities
 
         protected virtual void OnFirstTick()
         {
+            // Fire event that delegate subs will be able to get notification about.
+            FirstTickEvent?.Invoke();
+
             // Server processes game logic, client sends command for server to process. Together they ward off thread-locking.
-            _server.Start();
-            _client.Start();
+            switch (SimulationType)
+            {
+                case SimulationType.Server:
+                    _server.Start();
+                    break;
+                case SimulationType.Client:
+                    _client.Start();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         /// <summary>
@@ -198,8 +237,17 @@ namespace TrailEntities
         public virtual void OnDestroy()
         {
             // Destroy named pipe inter-process communication system.
-            _server.Stop();
-            _client.Stop();
+            switch (SimulationType)
+            {
+                case SimulationType.Server:
+                    _server.Stop();
+                    break;
+                case SimulationType.Client:
+                    _client.Stop();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
             _modes.Clear();
             EndgameEvent?.Invoke();
