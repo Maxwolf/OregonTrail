@@ -15,7 +15,7 @@ namespace TrailEntities
         private readonly ClientPipe _client;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameController" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameClient" /> class.
         /// </summary>
         public GameClient()
         {
@@ -56,6 +56,11 @@ namespace TrailEntities
 
         protected override void OnTick()
         {
+        }
+
+        public void Create()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

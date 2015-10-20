@@ -3,6 +3,11 @@ using TrailCommon;
 
 namespace TrailEntities
 {
+    /// <summary>
+    ///     Facilitates the ability to control the entire simulation with the passes interface reference. Server simulation
+    ///     keeps track of all currently loaded game modes and will only tick the top-most one so they can be stacked and clear
+    ///     out until there are none.
+    /// </summary>
     public abstract class GameMode : Invoker, IMode
     {
         /// <summary>
