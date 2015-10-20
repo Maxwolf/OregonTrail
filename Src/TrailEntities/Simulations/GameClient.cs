@@ -7,7 +7,7 @@ namespace TrailEntities
     ///     Defines a binding between a Receiver object and an action. Implements Execute by invoking the corresponding
     ///     operation(s) on Receiver.
     /// </summary>
-    public sealed class GameController : TickSimulation, IGameController
+    public sealed class GameClient : TickSim, IGameController
     {
         /// <summary>
         ///     Client named pipe that gets a list of available commands and sends selection back to server.
@@ -17,16 +17,21 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameController" /> class.
         /// </summary>
-        public GameController()
+        public GameClient()
         {
             _client = new ClientPipe();
         }
 
+        public IClientPipe Client
+        {
+            get { return _client; }
+        }
+
         /// <summary>
-        /// Returns a string that represents the current object.
+        ///     Returns a string that represents the current object.
         /// </summary>
         /// <returns>
-        /// A string that represents the current object.
+        ///     A string that represents the current object.
         /// </returns>
         public override string ToString()
         {
@@ -35,11 +40,6 @@ namespace TrailEntities
             title.Append("Oregon Trail Client - ");
             title.Append($"[{TickPhase}]");
             return title.ToString();
-        }
-
-        public IClientPipe Client
-        {
-            get { return _client; }
         }
 
         protected override void OnFirstTick()

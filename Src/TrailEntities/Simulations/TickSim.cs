@@ -4,7 +4,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public abstract class TickSimulation : ITick
+    public abstract class TickSim : ITick
     {
         /// <summary>
         ///     Random singleton with some extra methods for making life easy when dealing with simulations.
@@ -19,7 +19,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.TickSimulation" /> class.
         /// </summary>
-        protected TickSimulation()
+        protected TickSim()
         {
             _random = new Randomizer((int) DateTime.Now.Ticks & 0x0000FFF);
 
@@ -46,13 +46,12 @@ namespace TrailEntities
 
         public uint TotalTicks { get; private set; }
 
-        public event TickSim TickEvent;
+        public event TrailCommon.TickSim TickEvent;
         public event FirstTick FirstTickEvent;
 
         public void CloseSimulation()
         {
             // Allow any data structures to save themselves.
-            Console.WriteLine("Closing...");
             IsClosing = true;
             OnDestroy();
         }

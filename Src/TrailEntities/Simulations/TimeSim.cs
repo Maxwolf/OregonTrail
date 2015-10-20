@@ -6,12 +6,12 @@ namespace TrailEntities
     ///     Manages the weather for a given location, used to make randomizing and keeping track of the weather based on time
     ///     of year much easier.
     /// </summary>
-    public sealed class TimeSimulation : ITimeSimulation
+    public sealed class TimeSim : ITimeSimulation
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.SimulationTime" /> class.
         /// </summary>
-        public TimeSimulation(uint startingYear, Months startingMonth, uint startingDay, TravelPace startingSpeed)
+        public TimeSim(uint startingYear, Months startingMonth, uint startingDay, TravelPace startingSpeed)
         {
             // Create a new time object for our simulation.
             CurrentYear = startingYear;

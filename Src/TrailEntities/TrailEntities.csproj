@@ -35,7 +35,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Simulations\GameController.cs" />
+    <Compile Include="Simulations\GameClient.cs" />
     <Compile Include="Modes\ForkInRoadMode.cs" />
     <Compile Include="Modes\GameMode.cs" />
     <Compile Include="Modes\LandmarkMode.cs" />
@@ -48,17 +48,17 @@
     <Compile Include="Points of Interest\River.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\Receiver.cs" />
-    <Compile Include="Simulations\GameSimulationHost.cs" />
+    <Compile Include="Simulations\GameServer.cs" />
     <Compile Include="Commands\Invoker.cs" />
-    <Compile Include="Simulations\TickSimulation.cs" />
+    <Compile Include="Simulations\TickSim.cs" />
     <Compile Include="Trails.cs" />
-    <Compile Include="Simulations\ClimateSimulation.cs" />
-    <Compile Include="Simulations\SimulationHost.cs" />
-    <Compile Include="Simulations\TimeSimulation.cs" />
+    <Compile Include="Simulations\ClimateSim.cs" />
+    <Compile Include="Simulations\ServerSim.cs" />
+    <Compile Include="Simulations\TimeSim.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\Oxen.cs" />
     <Compile Include="Points of Interest\ForkInRoad.cs" />
-    <Compile Include="Simulations\TrailSimulation.cs" />
+    <Compile Include="Simulations\TrailSim.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Modes\HuntMode.cs" />
     <Compile Include="Points of Interest\Landmark.cs" />

@@ -39,13 +39,13 @@ namespace TrailGame
         private static void StartClient()
         {
             Console.WriteLine("Starting client...");
-            var _gameController = new GameController();
+            var _gameClient = new GameClient();
 
             // Keep the console app alive during the duration the simulation is running, this is only thing keeping console app open.
-            while (!_gameController.IsClosing)
+            while (!_gameClient.IsClosing)
             {
                 Thread.Sleep(1);
-                Console.Title = _gameController.ToString();
+                Console.Title = _gameClient.ToString();
             }
         }
 
@@ -55,13 +55,13 @@ namespace TrailGame
         private static void StartServer()
         {
             Console.WriteLine("Starting server...");
-            var _gameHost = new GameSimulationHost();
+            var _gameServer = new GameServer();
 
             // Keep the console app alive during the duration the simulation is running, this is only thing keeping console app open.
-            while (!_gameHost.IsClosing)
+            while (!_gameServer.IsClosing)
             {
                 Thread.Sleep(1);
-                Console.Title = _gameHost.ToString();
+                Console.Title = _gameServer.ToString();
             }
         }
     }

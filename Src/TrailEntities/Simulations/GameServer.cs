@@ -4,17 +4,17 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class GameSimulationHost : SimulationHost, IGameSimulation
+    public sealed class GameServer : ServerSim, IGameSimulation
     {
         /// <summary>
         ///     Manages weather, temperature, humidity, and current grazing level for living animals.
         /// </summary>
-        private ClimateSimulation _climate;
+        private ClimateSim _climate;
 
         /// <summary>
         ///     Manages time in a linear since from the provided ticks in base simulation class. Handles days, months, and years.
         /// </summary>
-        private TimeSimulation _time;
+        private TimeSim _time;
 
         /// <summary>
         ///     Current vessel which the player character and his party are traveling inside of, provides means of transportation
@@ -25,21 +25,21 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
         /// </summary>
-        public GameSimulationHost()
+        public GameServer()
         {
-            _time = new TimeSimulation(1985, Months.May, 5, TravelPace.Paused);
+            _time = new TimeSim(1985, Months.May, 5, TravelPace.Paused);
             _time.DayEndEvent += TimeSimulation_DayEndEvent;
             _time.MonthEndEvent += TimeSimulation_MonthEndEvent;
             _time.YearEndEvent += TimeSimulation_YearEndEvent;
             _time.SpeedChangeEvent += TimeSimulation_SpeedChangeEvent;
 
-            _climate = new ClimateSimulation(this, ClimateClassification.Moderate);
-            TrailSimulation = new TrailSimulation();
+            _climate = new ClimateSim(this, ClimateClassification.Moderate);
+            TrailSim = new TrailSim();
             TotalTurns = 0;
             _vehicle = new Vehicle(this);
         }
 
-        public TrailSimulation TrailSimulation { get; private set; }
+        public TrailSim TrailSim { get; private set; }
 
         public override void OnDestroy()
         {
@@ -52,7 +52,7 @@ namespace TrailEntities
             // Destroy all instances.
             _time = null;
             _climate = null;
-            TrailSimulation = null;
+            TrailSim = null;
             TotalTurns = 0;
             _vehicle = null;
 
@@ -157,7 +157,7 @@ namespace TrailEntities
         {
             _climate.TickClimate();
             Vehicle.UpdateVehicle();
-            TrailSimulation.ReachedPointOfInterest();
+            TrailSim.ReachedPointOfInterest();
             _vehicle.DistanceTraveled += (uint) Vehicle.Pace;
 
             Console.WriteLine("Day end!");

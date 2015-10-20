@@ -7,7 +7,7 @@ namespace TrailEntities
     /// <summary>
     ///     Base simulation class that deals with ticks, time, named pipes, and game modes.
     /// </summary>
-    public abstract class SimulationHost : TickSimulation, ISimulation
+    public abstract class ServerSim : TickSim, ISimulation
     {
         /// <summary>
         ///     Server named pipe that processes active game mode logic and sends messages to client about commands and waits for
@@ -24,7 +24,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationHost" /> class.
         /// </summary>
-        protected SimulationHost()
+        protected ServerSim()
         {
             // References all of the active game modes that need to be ticked.
             _modes = new List<IMode>();

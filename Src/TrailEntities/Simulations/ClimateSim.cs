@@ -5,7 +5,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class ClimateSimulation : IClimateSimulation
+    public sealed class ClimateSim : IClimateSimulation
     {
         private List<ClimateData> _averageTemperatures;
         private IGameSimulation _game;
@@ -13,7 +13,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ClimateSimulation" /> class.
         /// </summary>
-        public ClimateSimulation(IGameSimulation simulationReference, ClimateClassification climateClassificationType)
+        public ClimateSim(IGameSimulation simulationReference, ClimateClassification climateClassificationType)
         {
             _game = simulationReference;
             ClimateClassificationType = climateClassificationType;
