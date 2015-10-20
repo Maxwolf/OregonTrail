@@ -1,4 +1,5 @@
-﻿using TrailCommon;
+﻿using System.Text;
+using TrailCommon;
 
 namespace TrailEntities
 {
@@ -19,6 +20,21 @@ namespace TrailEntities
         public GameController()
         {
             _client = new ClientPipe();
+        }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        public override string ToString()
+        {
+            // Title and current game mode.
+            var title = new StringBuilder();
+            title.Append("Oregon Trail Client - ");
+            title.Append($"[{TickPhase}]");
+            return title.ToString();
         }
 
         public IClientPipe Client
