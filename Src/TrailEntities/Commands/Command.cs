@@ -7,8 +7,8 @@ namespace TrailEntities
     /// </summary>
     public abstract class Command : ICommand
     {
-        private readonly Receiver _receiver;
         private readonly IGameSimulation _game;
+        private readonly Receiver _receiver;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Command" /> class.
@@ -29,6 +29,9 @@ namespace TrailEntities
             get { return _receiver; }
         }
 
-        public abstract void Execute();
+        public virtual void Execute()
+        {
+            _receiver.Action();
+        }
     }
 }

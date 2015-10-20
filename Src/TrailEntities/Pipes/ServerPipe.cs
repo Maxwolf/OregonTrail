@@ -11,8 +11,9 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ServerPipe" /> class.
         /// </summary>
-        public ServerPipe(ISimulation serverGame) : base(serverGame)
+        public ServerPipe(ISimulation serverGame)
         {
+            GameHost = serverGame;
             Server = new NamedPipeServer<PipeMessage>(DefaultPipeName);
             Server.ClientConnected += OnClientConnected;
             Server.ClientDisconnected += OnClientDisconnected;
@@ -24,6 +25,8 @@ namespace TrailEntities
         {
             get { return _isClosing; }
         }
+
+        public ISimulation GameHost { get; }
 
         public NamedPipeServer<PipeMessage> Server { get; }
 
@@ -43,18 +46,16 @@ namespace TrailEntities
             Server.Stop();
         }
 
-        public override void Action()
-        {
-            Console.WriteLine("Called ServerPipe.Action()");
-        }
-
-        public override void TickPipe()
+        public void TickPipe()
         {
             // Check if there are any clients to pump messages to.
             if (Clients.Count <= 0)
                 return;
+        }
 
-
+        public override void Action()
+        {
+            Console.WriteLine("Called ServerPipe.Action()");
         }
 
         private void OnClientConnected(NamedPipeConnection<PipeMessage, PipeMessage> connection)
@@ -63,7 +64,7 @@ namespace TrailEntities
             Console.WriteLine("Client {0} is now connected!", connection.Id);
             connection.PushMessage(new PipeMessage
             {
-                ID = (int) Game.ActiveMode.Mode,
+                ID = (int) GameHost.ActiveMode.Mode,
                 Text = "Welcome!"
             });
         }

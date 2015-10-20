@@ -4,7 +4,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class GameSimulationApp : SimulationApp, IGameSimulation
+    public sealed class GameSimulationHost : SimulationHost, IGameSimulation
     {
         /// <summary>
         ///     Manages weather, temperature, humidity, and current grazing level for living animals.
@@ -25,12 +25,8 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
         /// </summary>
-        public GameSimulationApp(SimulationType simulationType) : base(simulationType)
+        public GameSimulationHost()
         {
-            // Only setup game logic on server.
-            if (simulationType != SimulationType.Server)
-                return;
-
             _time = new TimeSimulation(1985, Months.May, 5, TravelPace.Paused);
             _time.DayEndEvent += TimeSimulation_DayEndEvent;
             _time.MonthEndEvent += TimeSimulation_MonthEndEvent;
@@ -47,21 +43,18 @@ namespace TrailEntities
 
         public override void OnDestroy()
         {
-            if (SimulationType == SimulationType.Server)
-            {
-                // Unhook delegates from events.
-                _time.DayEndEvent -= TimeSimulation_DayEndEvent;
-                _time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
-                _time.YearEndEvent -= TimeSimulation_YearEndEvent;
-                _time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
+            // Unhook delegates from events.
+            _time.DayEndEvent -= TimeSimulation_DayEndEvent;
+            _time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
+            _time.YearEndEvent -= TimeSimulation_YearEndEvent;
+            _time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
 
-                // Destroy all instances.
-                _time = null;
-                _climate = null;
-                TrailSimulation = null;
-                TotalTurns = 0;
-                _vehicle = null;
-            }
+            // Destroy all instances.
+            _time = null;
+            _climate = null;
+            TrailSimulation = null;
+            TotalTurns = 0;
+            _vehicle = null;
 
             base.OnDestroy();
         }
@@ -85,10 +78,6 @@ namespace TrailEntities
 
         public void TakeTurn()
         {
-            // Only servers can increment turns and tick time logic.
-            if (SimulationType != SimulationType.Server)
-                return;
-
             TotalTurns++;
             _time.TickTime();
         }
@@ -103,17 +92,10 @@ namespace TrailEntities
         {
             // Title and current game mode.
             var title = new StringBuilder();
-            title.Append($"Oregon Trail {SimulationType} - ");
+            title.Append("Oregon Trail Server - ");
             title.Append($"Mode: {ActiveModeName} - ");
-
-            // Server has some extra pieces of information in title.
-            if (SimulationType == SimulationType.Server)
-            {
-                title.Append($"Turns: {TotalTurns.ToString("D4")} - ");
-                title.Append($"Clients: {TotalClients} - ");
-            }
-
-            // Tick spinner phase to show program tick activity.
+            title.Append($"Turns: {TotalTurns.ToString("D4")} - ");
+            title.Append($"Clients: {TotalClients} - ");
             title.Append($"[{TickPhase}]");
             return title.ToString();
         }
@@ -123,10 +105,7 @@ namespace TrailEntities
             base.OnFirstTick();
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            if (SimulationType == SimulationType.Server)
-            {
-                AddMode(ModeType.NewGame);
-            }
+            AddMode(ModeType.NewGame);
         }
 
         /// <summary>
@@ -166,28 +145,16 @@ namespace TrailEntities
 
         private void TimeSimulation_SpeedChangeEvent()
         {
-            // Only servers process speed change events.
-            if (SimulationType != SimulationType.Server)
-                return;
-
             Console.WriteLine("Travel pace changed to " + _vehicle.Pace);
         }
 
         private void TimeSimulation_YearEndEvent(uint yearCount)
         {
-            // Only servers process logic at the end of the year.
-            if (SimulationType != SimulationType.Server)
-                return;
-
             Console.WriteLine("Year end!");
         }
 
         private void TimeSimulation_DayEndEvent(uint dayCount)
         {
-            // Only servers process logic at the end of the day.
-            if (SimulationType != SimulationType.Server)
-                return;
-
             _climate.TickClimate();
             Vehicle.UpdateVehicle();
             TrailSimulation.ReachedPointOfInterest();
@@ -198,10 +165,6 @@ namespace TrailEntities
 
         private void TimeSimulation_MonthEndEvent(uint monthCount)
         {
-            // Only servers process logic at the end of the month.
-            if (SimulationType != SimulationType.Server)
-                return;
-
             Console.WriteLine("Month end!");
         }
     }

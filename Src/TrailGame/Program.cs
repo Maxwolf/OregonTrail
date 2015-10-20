@@ -1,65 +1,67 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Reflection;
 using System.Threading;
-using TrailCommon;
-using TrailCommon.CommandLine_Parser;
 using TrailEntities;
 
 namespace TrailGame
 {
     internal class Program
     {
-        private static Process _serverClientProcess;
-        private static SimulationType _simulationType;
-        private static GameSimulationApp _game;
-
         /// <summary>
-        /// Create game simulation server.
+        ///     Create game simulation server or client depending on what the user wants.
         /// </summary>
         /// <param name="args"></param>
         private static void Main(string[] args)
         {
             // Check if there are any command line arguments at all.
-            var commandLine = new ArgumentParser(args);
-            if (commandLine.IsEmpty())
-            {
-                Console.WriteLine("Cannot start simulation without a flag, to play start with server flag it will spawn client instance automatically!");
-                Console.WriteLine("Press ANY key to close this window...");
-                Console.ReadKey();
-                return;
-            }
-            
-            if (commandLine["server"] != null)
-            {
-                // Server startup.
-                _simulationType = SimulationType.Server;
-                _game = new GameSimulationApp(_simulationType);
-                _game.FirstTickEvent += GameServer_FirstTickEvent;
-            }
-            else if (commandLine["client"] != null)
-            {
-                // Client startup.
-                _simulationType = SimulationType.Client;
-                _game = new GameSimulationApp(_simulationType);
-            }
+            Console.Title = "Oregon Trail Clone - Main Menu";
+            Console.WriteLine("What do you want to do?");
+            Console.WriteLine("1. Server");
+            Console.WriteLine("2. Client");
+            var keyPressed = Console.ReadLine();
 
-            // Keep the console app alive during the duration the simulation is running, this is only thing keeping console app open.
-            while (!_game.IsClosing)
+            Console.Clear();
+            switch (keyPressed)
             {
-                Thread.Sleep(1);
-                Console.Title = _game.ToString();
+                case "1":
+                    StartServer();
+                    break;
+                case "2":
+                    StartClient();
+                    break;
+                default:
+                    return;
             }
         }
 
         /// <summary>
-        /// Create another console process for client controls, but only if this is a server instance.
+        /// Client startup.
         /// </summary>
-        private static void GameServer_FirstTickEvent()
+        private static void StartClient()
         {
-            if (_simulationType == SimulationType.Server)
+            Console.WriteLine("Starting client...");
+            var _gameController = new GameController();
+
+            // Keep the console app alive during the duration the simulation is running, this is only thing keeping console app open.
+            while (!_gameController.IsClosing)
             {
-                //_serverClientProcess = Process.Start(Assembly.GetExecutingAssembly().Location, "-client");
+                Thread.Sleep(1);
+                Console.Title = _gameController.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Server startup.
+        /// </summary>
+        private static void StartServer()
+        {
+            Console.WriteLine("Starting server...");
+            var _gameHost = new GameSimulationHost();
+
+            // Keep the console app alive during the duration the simulation is running, this is only thing keeping console app open.
+            while (!_gameHost.IsClosing)
+            {
+                Thread.Sleep(1);
+                Console.Title = _gameHost.ToString();
             }
         }
     }

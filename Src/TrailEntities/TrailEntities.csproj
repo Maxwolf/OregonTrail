@@ -35,10 +35,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Simulations\GameController.cs" />
     <Compile Include="Modes\ForkInRoadMode.cs" />
     <Compile Include="Modes\GameMode.cs" />
     <Compile Include="Modes\LandmarkMode.cs" />
-    <Compile Include="Modes\NewGameMode\ChooseNamesView.cs" />
+    <Compile Include="Modes\NewGameMode\CommandChooseNames.cs" />
     <Compile Include="Modes\SettlementMode.cs" />
     <Compile Include="Modes\TravelMode.cs" />
     <Compile Include="Pipes\ClientPipe.cs" />
@@ -46,13 +47,13 @@
     <Compile Include="Pipes\ServerPipe.cs" />
     <Compile Include="Points of Interest\River.cs" />
     <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\ConcreteCommand.cs" />
     <Compile Include="Commands\Receiver.cs" />
-    <Compile Include="Simulations\GameSimulationApp.cs" />
+    <Compile Include="Simulations\GameSimulationHost.cs" />
     <Compile Include="Commands\Invoker.cs" />
+    <Compile Include="Simulations\TickSimulation.cs" />
     <Compile Include="Trails.cs" />
     <Compile Include="Simulations\ClimateSimulation.cs" />
-    <Compile Include="Simulations\SimulationApp.cs" />
+    <Compile Include="Simulations\SimulationHost.cs" />
     <Compile Include="Simulations\TimeSimulation.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\Oxen.cs" />

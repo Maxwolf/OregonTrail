@@ -20,7 +20,7 @@ namespace TrailEntities
         public NewGameMode(IGameSimulation game) : base(game)
         {
             _playerNames = new List<string>();
-            AddCommand(new Tuple<string, ICommand>("ChooseNames", new ChooseNamesView(game)));
+            AddCommand(new Tuple<string, ICommand>("ChooseNames", new CommandChooseNames(game)));
         }
 
         public void ChooseNames()
@@ -102,27 +102,27 @@ namespace TrailEntities
         {
             base.TickMode();
 
-            // Every new game has you picking names, profession, and starting items.
-            if (!_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
-            {
-                _hasChosenNames = true;
-                ChooseNames();
-            }
-            else if (_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
-            {
-                _hasChosenProfession = true;
-                ChooseProfession();
-            }
-            else if (_hasChosenNames && _hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
-            {
-                _hasChosenStartingItems = true;
-                BuyInitialItems();
-            }
-            else if (_hasChosenNames && _hasChosenProfession && _hasChosenStartingItems && !_hasStartedGame)
-            {
-                _hasStartedGame = true;
-                StartGame();
-            }
+            //// Every new game has you picking names, profession, and starting items.
+            //if (!_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
+            //{
+            //    _hasChosenNames = true;
+            //    ChooseNames();
+            //}
+            //else if (_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
+            //{
+            //    _hasChosenProfession = true;
+            //    ChooseProfession();
+            //}
+            //else if (_hasChosenNames && _hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
+            //{
+            //    _hasChosenStartingItems = true;
+            //    BuyInitialItems();
+            //}
+            //else if (_hasChosenNames && _hasChosenProfession && _hasChosenStartingItems && !_hasStartedGame)
+            //{
+            //    _hasStartedGame = true;
+            //    StartGame();
+            //}
         }
     }
 }

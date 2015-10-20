@@ -4,14 +4,14 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public class ChooseNamesView : ConcreteCommand
+    public sealed class CommandChooseNames : Command
     {
         private List<string> _playerNames;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ChooseNamesView" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Command" /> class.
         /// </summary>
-        public ChooseNamesView(IGameSimulation game) : base(game)
+        public CommandChooseNames(IGameSimulation game) : base(game)
         {
             _playerNames = new List<string>();
         }

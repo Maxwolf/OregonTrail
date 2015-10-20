@@ -10,7 +10,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ClientPipe" /> class.
         /// </summary>
-        public ClientPipe(ISimulation clientGame) : base(clientGame)
+        public ClientPipe()
         {
             Client = new NamedPipeClient<PipeMessage>(DefaultPipeName);
             Client.ServerMessage += OnServerMessage;
@@ -39,11 +39,6 @@ namespace TrailEntities
         public override void Action()
         {
             Console.WriteLine("Called ClientPipe.Action()");
-        }
-
-        public override void TickPipe()
-        {
-            throw new NotImplementedException();
         }
 
         public NamedPipeClient<PipeMessage> Client { get; }

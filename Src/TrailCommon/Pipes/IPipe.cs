@@ -5,7 +5,5 @@
         bool IsClosing { get; }
         void Start();
         void Stop();
-        void TickPipe();
-        ISimulation Game { get; }
     }
 }
