@@ -4,7 +4,7 @@
     {
         Randomizer Random { get; }
         event FirstTick FirstTickEvent;
-        event TickSim TickEvent;
+        event Tick TickEvent;
         bool IsClosing { get; }
         uint TotalTicks { get; }
         string TickPhase { get; }
@@ -15,5 +15,5 @@
 
     public delegate void FirstTick();
 
-    public delegate void TickSim(uint tickCount);
+    public delegate void Tick(uint tickCount);
 }

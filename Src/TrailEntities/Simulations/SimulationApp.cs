@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TrailCommon;
 
@@ -43,11 +42,10 @@ namespace TrailEntities
                 ModeChangedEvent?.Invoke(ActiveMode.Mode);
         }
 
-
-
         public void StartGame()
         {
             NewgameEvent?.Invoke();
+            // TODO: Remove all modes and attach travel mode, player is at first trail point.
         }
 
         public IMode ActiveMode
@@ -103,6 +101,8 @@ namespace TrailEntities
 
         public override void OnDestroy()
         {
+            base.OnDestroy();
+
             _modes.Clear();
             EndgameEvent?.Invoke();
         }

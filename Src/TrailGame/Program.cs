@@ -17,7 +17,6 @@ namespace TrailGame
         private static void Main()
         {
             // Create console with title, no cursor, make ctrl-c act as input.
-            Console.Title = "Oregon Trail Clone";
             Console.CursorVisible = false;
             Console.CancelKeyPress += Console_CancelKeyPress;
 
@@ -65,6 +64,7 @@ namespace TrailGame
                 }
 
                 // Write all text from objects to screen, prefix the string with return character so cursor resets to upper-left corner.
+                Console.Title = "Oregon Trail Clone - " + _game.TickPhase;
                 Console.Write("\r{0}", _game);
                 Thread.Sleep(1);
             }

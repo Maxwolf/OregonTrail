@@ -9,12 +9,12 @@ namespace TrailEntities
         /// <summary>
         ///     Random singleton with some extra methods for making life easy when dealing with simulations.
         /// </summary>
-        private readonly Randomizer _random;
+        private Randomizer _random;
 
         /// <summary>
         ///     Non-threaded timer that waits for configured amount of time and fires events reliably.
         /// </summary>
-        private readonly Timer _tick;
+        private Timer _tick;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.TickSimulation" /> class.
@@ -44,7 +44,9 @@ namespace TrailEntities
 
         public virtual void Destroy()
         {
+            // Allow any data structures to save themselves.
             IsClosing = true;
+            OnDestroy();
         }
 
         public virtual void SendCommand(string returnedLine)
@@ -52,6 +54,7 @@ namespace TrailEntities
             throw new NotImplementedException();
         }
 
+        public event Tick TickEvent;
         public bool IsClosing { get; private set; }
 
         public Randomizer Random
@@ -61,15 +64,7 @@ namespace TrailEntities
 
         public uint TotalTicks { get; private set; }
 
-        public event TrailCommon.TickSim TickEvent;
         public event FirstTick FirstTickEvent;
-
-        public void CloseSimulation()
-        {
-            // Allow any data structures to save themselves.
-            IsClosing = true;
-            OnDestroy();
-        }
 
         private void OnTickFired(object Sender, ElapsedEventArgs e)
         {
@@ -124,7 +119,11 @@ namespace TrailEntities
             }
         }
 
-        public abstract void OnDestroy();
+        public virtual void OnDestroy()
+        {
+            _tick = null;
+            _random = null;
+        }
 
         protected abstract void OnTick();
     }
