@@ -70,22 +70,21 @@ namespace TrailEntities
         {
             // Title and current game mode.
             var tui = new StringBuilder();
-            tui.Append("\r");
-            tui.Append($"[ {TimerTickPhase} ] - ");
+            tui.Append($"\r[ {TimerTickPhase} ] - ");
             tui.Append($"Mode: {ActiveModeName} - ");
-            tui.Append($"Turns: {TotalTurns.ToString("D4")}");
+            tui.Append($"Turns: {TotalTurns.ToString("D4")}\n");
 
             // Prints game mode specific text and options.
-            tui.Append(base.OnTickTUI());
+            tui.Append($"{base.OnTickTUI()}\n");
 
-            // Always add a new line at the very bottom of the TUI output.
-            tui.Append("\n");
+            // Allow user to see their input from buffer.
+            tui.Append($"User Input: {InputBuffer}");
 
             return tui.ToString();
         }
 
         /// <summary>
-        /// Creates new instance of game simulation. Complains if instance already exists.
+        ///     Creates new instance of game simulation. Complains if instance already exists.
         /// </summary>
         public static void Create()
         {

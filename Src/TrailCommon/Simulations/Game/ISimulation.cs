@@ -7,14 +7,14 @@ namespace TrailCommon
         IMode ActiveMode { get; }
         string ActiveModeName { get; }
         ReadOnlyCollection<IMode> Modes { get; }
+        string ScreenBuffer { get; }
+        string InputBuffer { get; }
         event NewGame NewgameEvent;
         event EndGame EndgameEvent;
         event ScreenBufferDirty ScreenBufferDirtyEvent;
         event ModeChanged ModeChangedEvent;
         void AddMode(ModeType mode);
         void RemoveActiveMode();
-        string ScreenBuffer { get; }
-        string InputBuffer { get; }
         void RemoteLastCharOfInputBuffer();
         void ProcessInputBuffer();
         void SendKeyCharString(char keyChar);

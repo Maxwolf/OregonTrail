@@ -62,14 +62,14 @@ namespace TrailEntities
             OnSystemTick();
         }
 
+        public uint TotalTimerTicks { get; private set; }
+
+        public event FirstTimerTick FirstTimerTickEvent;
+
         protected virtual void OnSystemTick()
         {
             SystemTickEvent?.Invoke(++TotalSystemTicks);
         }
-
-        public uint TotalTimerTicks { get; private set; }
-
-        public event FirstTimerTick FirstTimerTickEvent;
 
         private void OnTimerTickFired(object Sender, ElapsedEventArgs e)
         {

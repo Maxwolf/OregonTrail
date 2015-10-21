@@ -4,10 +4,10 @@
     {
         Randomizer Random { get; }
         bool IsClosing { get; }
-        void SystemTick();
         uint TotalTimerTicks { get; }
         uint TotalSystemTicks { get; }
         string TimerTickPhase { get; }
+        void SystemTick();
         event FirstTimerTick FirstTimerTickEvent;
         event TimerTick TimerTickEvent;
         event SystemTick SystemTickEvent;

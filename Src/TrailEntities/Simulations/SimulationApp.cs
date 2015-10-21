@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using TrailCommon;
 
 namespace TrailEntities
@@ -99,7 +98,8 @@ namespace TrailEntities
         }
 
         /// <summary>
-        /// Use screen buffer to only write to console when something actually changes to stop flickering from constant ticking.
+        ///     Use screen buffer to only write to console when something actually changes to stop flickering from constant
+        ///     ticking.
         /// </summary>
         public void TickTUI()
         {
@@ -111,21 +111,6 @@ namespace TrailEntities
             // Update the screen buffer with altered data.
             ScreenBuffer = tuiContent;
             ScreenBufferDirtyEvent?.Invoke(ScreenBuffer);
-        }
-
-        protected virtual string OnTickTUI()
-        {
-            // Prints game mode specific text and options.
-            var tui = new StringBuilder();
-            if (ActiveMode != null)
-            {
-                tui.Append("\n" + ActiveMode?.GetTUI());
-            }
-            else
-            {
-                tui.Append("\n" + GameMode.GAMEMODE_EMPTY_TUI);
-            }
-            return tui.ToString();
         }
 
         /// <summary>
@@ -188,6 +173,14 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Prints game mode specific text and options.
+        /// </summary>
+        protected virtual string OnTickTUI()
+        {
+            return ActiveMode != null ? ActiveMode?.GetTUI() : GameMode.GAMEMODE_EMPTY_TUI;
+        }
+
+        /// <summary>
         ///     Fired by messaging system or user interface that wants to interact with the simulation by sending string command
         ///     that should be able to be parsed into a valid command that can be run on the current game mode.
         /// </summary>
@@ -219,6 +212,8 @@ namespace TrailEntities
         {
             base.OnDestroy();
 
+            InputBuffer = string.Empty;
+            ScreenBuffer = string.Empty;
             _modes.Clear();
             EndgameEvent?.Invoke();
         }
@@ -231,7 +226,7 @@ namespace TrailEntities
         }
 
         /// <summary>
-        /// Ticked by the underlying operating system through singleton instance of game simulation.
+        ///     Ticked by the underlying operating system through singleton instance of game simulation.
         /// </summary>
         protected override void OnSystemTick()
         {
@@ -245,13 +240,7 @@ namespace TrailEntities
         /// </summary>
         private void TickModes()
         {
-            // Only tick if there are modes to tick.
-            if (_modes.Count <= 0)
-                return;
-
-            // Only top-most game mode gets ticking action.
-            var lastMode = _modes[_modes.Count - 1];
-            lastMode?.TickMode();
+            ActiveMode?.TickMode();
         }
     }
 }
