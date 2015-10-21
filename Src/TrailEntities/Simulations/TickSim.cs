@@ -40,7 +40,7 @@ namespace TrailEntities
             OnDestroy();
         }
 
-        public virtual void SendCommand(string returnedLine)
+        public virtual void SendMessage(string returnedLine)
         {
             throw new NotImplementedException();
         }

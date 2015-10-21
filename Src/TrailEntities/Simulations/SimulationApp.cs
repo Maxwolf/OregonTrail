@@ -94,11 +94,6 @@ namespace TrailEntities
 
         protected abstract GameMode OnModeChanging(ModeType mode);
 
-        protected override void OnFirstTick()
-        {
-            base.OnFirstTick();
-        }
-
         public override void OnDestroy()
         {
             base.OnDestroy();

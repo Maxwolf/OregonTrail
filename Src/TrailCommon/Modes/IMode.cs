@@ -1,8 +1,7 @@
 ﻿namespace TrailCommon
 {
-    public interface IMode
+    public interface IMode : IMessage
     {
-        void OnModeRemoved();
         string GetTUI();
         ModeType Mode { get; }
         IGameSimulation Game { get; }

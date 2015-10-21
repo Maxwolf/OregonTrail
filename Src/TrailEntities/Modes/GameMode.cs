@@ -10,7 +10,7 @@ namespace TrailEntities
     public abstract class GameMode : IMode
     {
         public const string GAMEMODE_DEFAULT_TUI = "[DEFAULT GAME MODE TEXT USER INTERFACE]";
-        public const string GAMEMODE_EMPTY_TUI = "No currently attached game mode...";
+        public const string GAMEMODE_EMPTY_TUI = "[NO GAME MODE ATTACHED]";
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
@@ -18,12 +18,11 @@ namespace TrailEntities
         protected GameMode(IGameSimulation game)
         {
             Game = game;
-
         }
 
         public virtual void OnModeRemoved()
         {
-
+            throw new System.NotImplementedException();
         }
 
         public virtual string GetTUI()
@@ -48,6 +47,11 @@ namespace TrailEntities
         public override string ToString()
         {
             return Mode.ToString();
+        }
+
+        public void SendMessage(string returnedLine)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

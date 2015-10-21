@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modes\INewGame.cs" />
+    <Compile Include="Simulations\Game\IMessage.cs" />
     <Compile Include="Simulations\Game\ITick.cs" />
     <Compile Include="Simulations\Game\ITravel.cs" />
     <Compile Include="Simulations\Climate\ClimateClassification.cs" />

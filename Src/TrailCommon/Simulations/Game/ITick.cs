@@ -1,6 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface ITick
+    public interface ITick : IMessage
     {
         string GetTUI();
         Randomizer Random { get; }
@@ -10,7 +10,6 @@
         uint TotalTicks { get; }
         string TickPhase { get; }
         void Destroy();
-        void SendCommand(string returnedLine);
     }
 
     public delegate void FirstTick();

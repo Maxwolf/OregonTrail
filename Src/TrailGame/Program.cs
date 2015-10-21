@@ -12,6 +12,7 @@ namespace TrailGame
         private static void Main()
         {
             // Create console with title, no cursor, make ctrl-c act as input.
+            Console.Title = "Oregon Trail Clone";
             Console.WriteLine("Starting...");
             Console.CursorVisible = false;
             Console.CancelKeyPress += Console_CancelKeyPress;
@@ -21,14 +22,11 @@ namespace TrailGame
 
             // Input buffer that we will use to hold characters until need to send them to simulation.
             var lineBuffer = string.Empty;
+            var screenBuffer = string.Empty;
 
             // Prevent console session from closing.
             while (GameSimulationApp.Instance != null)
             {
-                // Clear the screen and set cursor to upper-left corner.
-                Console.Clear();
-                Console.SetCursorPosition(0, 0);
-
                 // Check if a key is being pressed, without blocking thread.
                 if (Console.KeyAvailable)
                 {
@@ -36,39 +34,49 @@ namespace TrailGame
                     var key = Console.ReadKey(true);
 
                     // If enter is pressed, pass whatever we have to simulation.
-                    switch (key.Key)
+                    // ReSharper disable once ConvertIfStatementToSwitchStatement
+                    if (key.Key == ConsoleKey.Enter)
                     {
-                        case ConsoleKey.Enter:
-                            // Only process key press if something is there.
-                            var lineBufferTrimmed = lineBuffer.Trim();
-                            if (!string.IsNullOrEmpty(lineBufferTrimmed))
-                            {
-                                // Send trimmed line buffer to game simulation.
-                                if (GameSimulationApp.Instance != null)
-                                    GameSimulationApp.Instance.SendCommand(lineBufferTrimmed);
+                        // Only process key press if something is there.
+                        var lineBufferTrimmed = lineBuffer.Trim();
+                        if (!string.IsNullOrEmpty(lineBufferTrimmed))
+                        {
+                            // Send trimmed line buffer to game simulation.
+                            if (GameSimulationApp.Instance != null)
+                                GameSimulationApp.Instance.SendMessage(lineBufferTrimmed);
 
-                                // Clear line return for next line.
-                                lineBuffer = string.Empty;
-                            }
-                            break;
-                        case ConsoleKey.Backspace:
-                            // Remove the last character from input buffer if greater than zero.
-                            if (lineBuffer.Length > 0)
-                                lineBuffer = lineBuffer.Remove(lineBuffer.Length - 1);
-                            break;
-                        default:
-                            // Filter to prevent non-characters like delete, insert, scroll lock, etc.
-                            if (char.IsLetter(key.KeyChar) || char.IsNumber(key.KeyChar))
-                                lineBuffer += char.ToString(key.KeyChar);
-                            break;
+                            // Clear line return for next line.
+                            lineBuffer = string.Empty;
+                        }
+                    }
+                    else if (key.Key == ConsoleKey.Backspace)
+                    {
+                        // Remove the last character from input buffer if greater than zero.
+                        if (lineBuffer.Length > 0)
+                            lineBuffer = lineBuffer.Remove(lineBuffer.Length - 1);
+                    }
+                    else
+                    {
+                        // Filter to prevent non-characters like delete, insert, scroll lock, etc.
+                        if (char.IsLetter(key.KeyChar) || char.IsNumber(key.KeyChar))
+                            lineBuffer += char.ToString(key.KeyChar);
                     }
                 }
 
                 // Write all text from objects to screen, prefix the string with return character so cursor resets to upper-left corner.
                 if (GameSimulationApp.Instance != null)
                 {
-                    Console.Title = "Oregon Trail Clone - [" + GameSimulationApp.Instance.TickPhase + "]";
-                    Console.Write("\r{0}", GameSimulationApp.Instance.GetTUI());
+                    // Use screen buffer to only write to console when something actually changes to stop flickering from constant ticking.
+                    var simulationTUI = GameSimulationApp.Instance.GetTUI();
+                    if (!screenBuffer.Equals(simulationTUI, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        // Clear the screen and set cursor to upper-left corner.
+                        Console.Clear();
+                        Console.SetCursorPosition(0, 0);
+
+                        screenBuffer = simulationTUI;
+                        Console.Write("\r{0}", screenBuffer);
+                    }
                 }
 
                 // Do not consume all of the CPU, allow other messages to occur.
@@ -77,7 +85,6 @@ namespace TrailGame
 
             // Make user press any key to close out the simulation completely, this way they know it closed without error.
             Console.Clear();
-            Console.Title = "Oregon Trail Clone";
             Console.WriteLine("Goodbye!");
             Console.WriteLine("Press ANY key to close this window...");
             Console.ReadLine();
@@ -90,10 +97,6 @@ namespace TrailGame
 
             // Stop the operating system from killing the entire process.
             e.Cancel = true;
-
-            // Clear the screen, set cursor to upper-left corner.
-            Console.Clear();
-            Console.SetCursorPosition(0, 0);
         }
     }
 }
