@@ -14,15 +14,6 @@ namespace TrailEntities
 
         private Profession _playerProfession;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
-        /// </summary>
-        public NewGameMode(IGameSimulation game) : base(game)
-        {
-            _playerNames = new List<string>();
-            //AddCommand(new Tuple<string, ICommand>("ChooseNames", new CommandChooseNames(game)));
-        }
-
         public override ModeType Mode
         {
             get { return ModeType.NewGame; }
@@ -138,6 +129,15 @@ namespace TrailEntities
         {
         }
 
+        /// <summary>
+        ///     Fired by simulation when it wants to request latest text user interface data for the game mode, this is used to
+        ///     display to user console specific information about what the simulation wants.
+        /// </summary>
+        public override string GetTUI()
+        {
+            return "CHANGE ME";
+        }
+
         private string GetPlayerName()
         {
             var readLine = Console.ReadLine();
@@ -153,8 +153,7 @@ namespace TrailEntities
 
             // Just return a random name if there is invalid input.
             string[] names = {"Bob", "Joe", "Sally", "Tim", "Steve"};
-            //return names[Game.Random.Next(names.Length)];
-            return "CHANGEME";
+            return names[GameSimulationApp.Instance.Random.Next(names.Length)];
         }
 
         public void StartGame()
@@ -164,35 +163,51 @@ namespace TrailEntities
             {
                 // First name in list in leader.
                 var isLeader = _playerNames.IndexOf(name) == 0;
-                Game.Vehicle.AddPerson(new Person(_playerProfession, name, isLeader));
+                GameSimulationApp.Instance.Vehicle.AddPerson(new Person(_playerProfession, name, isLeader));
             }
         }
 
         public override void TickMode()
         {
-            base.TickMode();
+            // Every new game has you picking names, profession, and starting items.
+            if (!_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
+            {
+                _hasChosenNames = true;
+                ChooseNames();
+            }
+            else if (_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
+            {
+                _hasChosenProfession = true;
+                ChooseProfession();
+            }
+            else if (_hasChosenNames && _hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
+            {
+                _hasChosenStartingItems = true;
+                BuyInitialItems();
+            }
+            else if (_hasChosenNames && _hasChosenProfession && _hasChosenStartingItems && !_hasStartedGame)
+            {
+                _hasStartedGame = true;
+                StartGame();
+            }
+        }
 
-            //// Every new game has you picking names, profession, and starting items.
-            //if (!_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
-            //{
-            //    _hasChosenNames = true;
-            //    ChooseNames();
-            //}
-            //else if (_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
-            //{
-            //    _hasChosenProfession = true;
-            //    ChooseProfession();
-            //}
-            //else if (_hasChosenNames && _hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
-            //{
-            //    _hasChosenStartingItems = true;
-            //    BuyInitialItems();
-            //}
-            //else if (_hasChosenNames && _hasChosenProfession && _hasChosenStartingItems && !_hasStartedGame)
-            //{
-            //    _hasStartedGame = true;
-            //    StartGame();
-            //}
+        /// <summary>
+        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
+        ///     concrete handlers for game mode.
+        /// </summary>
+        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
+        protected override void OnReceiveCommand(string returnedLine)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
+        /// </summary>
+        public override void OnModeRemoved()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using TrailCommon;
+﻿using TrailCommon;
 
 namespace TrailEntities
 {
@@ -10,29 +9,29 @@ namespace TrailEntities
     /// </summary>
     public abstract class GameMode : IMode
     {
+        /// <summary>
+        ///     Default string used when game mode has nothing better to say.
+        /// </summary>
         public const string GAMEMODE_DEFAULT_TUI = "[DEFAULT GAME MODE TEXT USER INTERFACE]";
+
+        /// <summary>
+        ///     Default string used when there are no game modes at all.
+        /// </summary>
         public const string GAMEMODE_EMPTY_TUI = "[NO GAME MODE ATTACHED]";
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        ///     Fired by simulation when it wants to request latest text user interface data for the game mode, this is used to
+        ///     display to user console specific information about what the simulation wants.
         /// </summary>
-        protected GameMode(IGameSimulation game)
-        {
-            Game = game;
-        }
-
-        public virtual string GetTUI()
-        {
-            return GAMEMODE_DEFAULT_TUI;
-        }
+        public abstract string GetTUI();
 
         public abstract ModeType Mode { get; }
 
-        public IGameSimulation Game { get; }
-
-        public virtual void TickMode()
-        {
-        }
+        /// <summary>
+        ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
+        ///     top-most game mode.
+        /// </summary>
+        public abstract void TickMode();
 
         /// <summary>
         ///     Fired by messaging system or user interface that wants to interact with the simulation by sending string command
@@ -53,15 +52,12 @@ namespace TrailEntities
         ///     concrete handlers for game mode.
         /// </summary>
         /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
-        protected virtual void OnReceiveCommand(string returnedLine)
-        {
-            Console.WriteLine(returnedLine);
-        }
+        protected abstract void OnReceiveCommand(string returnedLine);
 
-        public virtual void OnModeRemoved()
-        {
-            // Move along, nothing to see here...
-        }
+        /// <summary>
+        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
+        /// </summary>
+        public abstract void OnModeRemoved();
 
         /// <summary>
         ///     Returns a string that represents the current object.

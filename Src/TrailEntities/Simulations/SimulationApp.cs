@@ -177,7 +177,13 @@ namespace TrailEntities
         /// </summary>
         protected virtual string OnTickTUI()
         {
-            return ActiveMode != null ? ActiveMode?.GetTUI() : GameMode.GAMEMODE_EMPTY_TUI;
+            // If TUI for active game mode is not null or empty then use it.
+            var activeModeTUI = ActiveMode?.GetTUI();
+            if (!string.IsNullOrEmpty(activeModeTUI))
+                return activeModeTUI;
+
+            // Otherwise, display default message if null for mode.
+            return ActiveMode == null ? GameMode.GAMEMODE_EMPTY_TUI : GameMode.GAMEMODE_DEFAULT_TUI;
         }
 
         /// <summary>

@@ -147,25 +147,25 @@ namespace TrailEntities
             switch (mode)
             {
                 case ModeType.Travel:
-                    return new TravelMode(this);
+                    return new TravelMode();
                 case ModeType.ForkInRoad:
-                    return new ForkInRoadMode(this);
+                    return new ForkInRoadMode();
                 case ModeType.Hunt:
-                    return new HuntMode(this);
+                    return new HuntMode();
                 case ModeType.Landmark:
-                    return new LandmarkMode(this);
+                    return new LandmarkMode();
                 case ModeType.NewGame:
-                    return new NewGameMode(this);
+                    return new NewGameMode();
                 case ModeType.RandomEvent:
-                    return new RandomEventMode(this);
+                    return new RandomEventMode();
                 case ModeType.RiverCrossing:
-                    return new RiverCrossingMode(this);
+                    return new RiverCrossingMode();
                 case ModeType.Settlement:
-                    return new SettlementMode(this);
+                    return new SettlementMode();
                 case ModeType.Store:
-                    return new StoreMode(this);
+                    return new StoreMode();
                 case ModeType.Trade:
-                    return new TradeMode(this);
+                    return new TradeMode();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
             }
