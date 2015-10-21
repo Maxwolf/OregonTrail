@@ -1,5 +1,4 @@
-﻿using System;
-using TrailCommon;
+﻿using TrailCommon;
 
 namespace TrailEntities
 {
@@ -10,6 +9,9 @@ namespace TrailEntities
     /// </summary>
     public abstract class GameMode : IMode
     {
+        public const string GAMEMODE_DEFAULT_TUI = "[DEFAULT GAME MODE TEXT USER INTERFACE]";
+        public const string GAMEMODE_EMPTY_TUI = "No currently attached game mode...";
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
@@ -22,6 +24,11 @@ namespace TrailEntities
         public virtual void OnModeRemoved()
         {
 
+        }
+
+        public virtual string GetTUI()
+        {
+            return GAMEMODE_DEFAULT_TUI;
         }
 
         public abstract ModeType Mode { get; }

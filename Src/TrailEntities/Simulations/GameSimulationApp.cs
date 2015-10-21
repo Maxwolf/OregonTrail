@@ -39,15 +39,28 @@ namespace TrailEntities
             _vehicle = new Vehicle(this);
         }
 
+        public static void Create()
+        {
+            // Complain if instance already exists.
+            if (Instance != null)
+                throw new InvalidOperationException("Unable to create new instance of game simulation app since it already exists!");
+
+            // Create new instance of game simulation.
+            Instance = new GameSimulationApp();
+        }
+
         public TrailSim TrailSim { get; private set; }
 
         public override void OnDestroy()
         {
             // Unhook delegates from events.
-            _time.DayEndEvent -= TimeSimulation_DayEndEvent;
-            _time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
-            _time.YearEndEvent -= TimeSimulation_YearEndEvent;
-            _time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
+            if (_time != null)
+            {
+                _time.DayEndEvent -= TimeSimulation_DayEndEvent;
+                _time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
+                _time.YearEndEvent -= TimeSimulation_YearEndEvent;
+                _time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
+            }
 
             // Destroy all instances.
             _time = null;
@@ -55,6 +68,7 @@ namespace TrailEntities
             TrailSim = null;
             TotalTurns = 0;
             _vehicle = null;
+            Instance = null;
 
             base.OnDestroy();
         }
@@ -76,19 +90,15 @@ namespace TrailEntities
 
         public uint TotalTurns { get; private set; }
 
+        public static GameSimulationApp Instance { get; private set; }
+
         public void TakeTurn()
         {
             TotalTurns++;
             _time.TickTime();
         }
 
-        /// <summary>
-        ///     Returns a string that represents the current object.
-        /// </summary>
-        /// <returns>
-        ///     A string that represents the current object.
-        /// </returns>
-        public override string ToString()
+        public override string GetTUI()
         {
             // Title and current game mode.
             var title = new StringBuilder();
@@ -97,11 +107,11 @@ namespace TrailEntities
             title.Append($"Turns: {TotalTurns.ToString("D4")}");
             if (ActiveMode != null)
             {
-                title.Append("\n" + ActiveMode?.Mode);
+                title.Append("\n" + ActiveMode?.GetTUI());
             }
             else
             {
-                title.Append("\nNo attached game mode to tick...");
+                title.Append("\n" + GameMode.GAMEMODE_EMPTY_TUI);
             }
 
             return title.ToString();

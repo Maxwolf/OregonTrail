@@ -2,13 +2,13 @@
 {
     public interface ITick
     {
+        string GetTUI();
         Randomizer Random { get; }
         event FirstTick FirstTickEvent;
         event Tick TickEvent;
         bool IsClosing { get; }
         uint TotalTicks { get; }
         string TickPhase { get; }
-        void Create();
         void Destroy();
         void SendCommand(string returnedLine);
     }

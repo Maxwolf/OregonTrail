@@ -7,25 +7,23 @@ namespace TrailGame
     internal class Program
     {
         /// <summary>
-        ///     Primary game simulation and control input system.
-        /// </summary>
-        private static GameSimulationApp _game;
-
-        /// <summary>
         ///     Create game simulation server or client depending on what the user wants.
         /// </summary>
         private static void Main()
         {
             // Create console with title, no cursor, make ctrl-c act as input.
+            Console.WriteLine("Starting...");
             Console.CursorVisible = false;
             Console.CancelKeyPress += Console_CancelKeyPress;
 
-            // Create game simulation.
-            _game = new GameSimulationApp();
+            // Create game simulation singleton instance, and start it.
+            GameSimulationApp.Create();
+
+            // Input buffer that we will use to hold characters until need to send them to simulation.
             var returnedLine = string.Empty;
 
             // Prevent console session from closing.
-            while (!_game.IsClosing)
+            while (GameSimulationApp.Instance != null)
             {
                 // Clear the screen and set cursor to upper-left corner.
                 Console.Clear();
@@ -46,7 +44,7 @@ namespace TrailGame
                             if (!string.IsNullOrEmpty(returnedLineTrimmed))
                             {
                                 // Clear line return for next line.
-                                _game.SendCommand(returnedLineTrimmed);
+                                GameSimulationApp.Instance.SendCommand(returnedLineTrimmed);
                                 returnedLine = string.Empty;
                             }
                             break;
@@ -64,16 +62,21 @@ namespace TrailGame
                 }
 
                 // Write all text from objects to screen, prefix the string with return character so cursor resets to upper-left corner.
-                Console.Title = "Oregon Trail Clone - " + _game.TickPhase;
-                Console.Write("\r{0}", _game);
+                Console.Title = "Oregon Trail Clone - [" + GameSimulationApp.Instance.TickPhase + "]";
+                Console.Write("\r{0}", GameSimulationApp.Instance.GetTUI());
                 Thread.Sleep(1);
             }
+
+            // Make user press any key to close out the simulation completely, this way they know it closed without error.
+            Console.Clear();
+            Console.WriteLine("Goodbye...");
+            Console.ReadLine();
         }
 
         private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
             // Destroy the simulation.
-            _game.Destroy();
+            GameSimulationApp.Instance.Destroy();
 
             // Stop the operating system from killing the entire process.
             e.Cancel = true;
@@ -81,7 +84,6 @@ namespace TrailGame
             // Clear the screen, set cursor to upper-left corner.
             Console.Clear();
             Console.SetCursorPosition(0, 0);
-            Console.WriteLine("Goodbye...");
         }
     }
 }

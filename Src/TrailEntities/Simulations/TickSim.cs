@@ -7,11 +7,6 @@ namespace TrailEntities
     public abstract class TickSim : ITick
     {
         /// <summary>
-        ///     Random singleton with some extra methods for making life easy when dealing with simulations.
-        /// </summary>
-        private Randomizer _random;
-
-        /// <summary>
         ///     Non-threaded timer that waits for configured amount of time and fires events reliably.
         /// </summary>
         private Timer _tick;
@@ -21,7 +16,7 @@ namespace TrailEntities
         /// </summary>
         protected TickSim()
         {
-            _random = new Randomizer((int) DateTime.Now.Ticks & 0x0000FFF);
+            Random = new Randomizer((int) DateTime.Now.Ticks & 0x0000FFF);
 
             TotalTicks = 0;
             TickPhase = "*";
@@ -29,6 +24,7 @@ namespace TrailEntities
             // Create timer for every second, enabled by default, hook elapsed event.
             _tick = new Timer(1000);
             _tick.Elapsed += OnTickFired;
+            _tick.Enabled = false;
 
             // Do not allow timer to automatically tick, this prevents it spawning multiple threads, enable the timer.
             _tick.AutoReset = false;
@@ -36,11 +32,6 @@ namespace TrailEntities
         }
 
         public string TickPhase { get; private set; }
-
-        public virtual void Create()
-        {
-            throw new NotImplementedException();
-        }
 
         public virtual void Destroy()
         {
@@ -55,12 +46,22 @@ namespace TrailEntities
         }
 
         public event Tick TickEvent;
+
+        /// <summary>
+        ///     Determines if the simulation is currently in the process of shutting down and cleaning up any resources it was
+        ///     using.
+        /// </summary>
         public bool IsClosing { get; private set; }
 
-        public Randomizer Random
+        public virtual string GetTUI()
         {
-            get { return _random; }
+            return string.Empty;
         }
+
+        /// <summary>
+        ///     Random singleton with some extra methods for making life easy when dealing with simulations.
+        /// </summary>
+        public Randomizer Random { get; private set; }
 
         public uint TotalTicks { get; private set; }
 
@@ -71,7 +72,8 @@ namespace TrailEntities
             Tick();
 
             // Allow the timer to tick again now that we have finished working.
-            _tick.Enabled = true;
+            if (_tick != null)
+                _tick.Enabled = true;
         }
 
         private void Tick()
@@ -122,7 +124,7 @@ namespace TrailEntities
         public virtual void OnDestroy()
         {
             _tick = null;
-            _random = null;
+            Random = null;
         }
 
         protected abstract void OnTick();
