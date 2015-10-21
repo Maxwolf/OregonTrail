@@ -66,34 +66,33 @@ namespace TrailEntities
             _time.TickTime();
         }
 
-        public override string GetTUI()
+        protected override string OnTickTUI()
         {
             // Title and current game mode.
-            var title = new StringBuilder();
-            title.Append($"[ {TickPhase} ] - ");
-            title.Append($"Mode: {ActiveModeName} - ");
-            title.Append($"Turns: {TotalTurns.ToString("D4")}");
-            if (ActiveMode != null)
-            {
-                title.Append("\n" + ActiveMode?.GetTUI());
-            }
-            else
-            {
-                title.Append("\n" + GameMode.GAMEMODE_EMPTY_TUI);
-            }
-            title.Append("\n");
+            var tui = new StringBuilder();
+            tui.Append("\r");
+            tui.Append($"[ {TimerTickPhase} ] - ");
+            tui.Append($"Mode: {ActiveModeName} - ");
+            tui.Append($"Turns: {TotalTurns.ToString("D4")}");
 
-            return title.ToString();
+            // Prints game mode specific text and options.
+            tui.Append(base.OnTickTUI());
+
+            // Always add a new line at the very bottom of the TUI output.
+            tui.Append("\n");
+
+            return tui.ToString();
         }
 
+        /// <summary>
+        /// Creates new instance of game simulation. Complains if instance already exists.
+        /// </summary>
         public static void Create()
         {
-            // Complain if instance already exists.
             if (Instance != null)
                 throw new InvalidOperationException(
                     "Unable to create new instance of game simulation app since it already exists!");
 
-            // Create new instance of game simulation.
             Instance = new GameSimulationApp();
         }
 
@@ -130,9 +129,9 @@ namespace TrailEntities
             base.OnDestroy();
         }
 
-        protected override void OnFirstTick()
+        protected override void OnFirstTimerTick()
         {
-            base.OnFirstTick();
+            base.OnFirstTimerTick();
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
             AddMode(ModeType.NewGame);

@@ -18,12 +18,12 @@ namespace TrailEntities
         {
             Random = new Randomizer((int) DateTime.Now.Ticks & 0x0000FFF);
 
-            TotalTicks = 0;
-            TickPhase = "*";
+            TotalTimerTicks = 0;
+            TimerTickPhase = "*";
 
             // Create timer for every second, enabled by default, hook elapsed event.
             _tick = new Timer(1000);
-            _tick.Elapsed += OnTickFired;
+            _tick.Elapsed += OnTimerTickFired;
             _tick.Enabled = false;
 
             // Do not allow timer to automatically tick, this prevents it spawning multiple threads, enable the timer.
@@ -31,7 +31,11 @@ namespace TrailEntities
             _tick.Enabled = true;
         }
 
-        public string TickPhase { get; private set; }
+        public uint TotalSystemTicks { get; private set; }
+
+        public string TimerTickPhase { get; private set; }
+
+        public event SystemTick SystemTickEvent;
 
         public virtual void Destroy()
         {
@@ -40,21 +44,7 @@ namespace TrailEntities
             OnDestroy();
         }
 
-        /// <summary>
-        ///     Fired by messaging system or user interface that wants to interact with the simulation by sending string command
-        ///     that should be able to be parsed into a valid command that can be run on the current game mode.
-        /// </summary>
-        /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
-        public virtual void SendCommand(string returnedLine)
-        {
-            if (!string.IsNullOrEmpty(returnedLine) ||
-                !string.IsNullOrWhiteSpace(returnedLine))
-            {
-                OnReceiveCommand(returnedLine);
-            }
-        }
-
-        public event Tick TickEvent;
+        public event TimerTick TimerTickEvent;
 
         /// <summary>
         ///     Determines if the simulation is currently in the process of shutting down and cleaning up any resources it was
@@ -62,63 +52,49 @@ namespace TrailEntities
         /// </summary>
         public bool IsClosing { get; private set; }
 
-        public virtual string GetTUI()
-        {
-            return string.Empty;
-        }
-
         /// <summary>
         ///     Random singleton with some extra methods for making life easy when dealing with simulations.
         /// </summary>
         public Randomizer Random { get; private set; }
 
-        public uint TotalTicks { get; private set; }
-
-        public event FirstTick FirstTickEvent;
-
-        /// <summary>
-        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
-        ///     concrete handlers for game mode.
-        /// </summary>
-        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
-        protected abstract void OnReceiveCommand(string returnedLine);
-
-        private void OnTickFired(object Sender, ElapsedEventArgs e)
+        public void SystemTick()
         {
-            Tick();
+            OnSystemTick();
+        }
+
+        protected virtual void OnSystemTick()
+        {
+            SystemTickEvent?.Invoke(++TotalSystemTicks);
+        }
+
+        public uint TotalTimerTicks { get; private set; }
+
+        public event FirstTimerTick FirstTimerTickEvent;
+
+        private void OnTimerTickFired(object Sender, ElapsedEventArgs e)
+        {
+            TimerTick();
 
             // Allow the timer to tick again now that we have finished working.
             if (_tick != null)
                 _tick.Enabled = true;
         }
 
-        private void Tick()
+        private void TimerTick()
         {
-            // Increase the tick count.
-            TotalTicks++;
-
-            if (TotalTicks == 1)
-            {
-                OnFirstTick();
-            }
-
-            TickPhase = TickVisualizer(TickPhase);
-
-            // Fire tick event for any subscribers to see and overrides for inheriting classes.
-            TickEvent?.Invoke(TotalTicks);
-            OnTick();
+            OnTimerTick();
         }
 
-        protected virtual void OnFirstTick()
+        protected virtual void OnFirstTimerTick()
         {
             // Fire event that delegate subs will be able to get notification about.
-            FirstTickEvent?.Invoke();
+            FirstTimerTickEvent?.Invoke();
         }
 
         /// <summary>
         ///     Used for showing player that simulation is ticking on main view.
         /// </summary>
-        private static string TickVisualizer(string currentPhase)
+        private static string TimerTickVisualizer(string currentPhase)
         {
             switch (currentPhase)
             {
@@ -143,6 +119,20 @@ namespace TrailEntities
             Random = null;
         }
 
-        protected abstract void OnTick();
+        protected virtual void OnTimerTick()
+        {
+            // Increase the tick count.
+            TotalTimerTicks++;
+
+            if (TotalTimerTicks == 1)
+            {
+                OnFirstTimerTick();
+            }
+
+            TimerTickPhase = TimerTickVisualizer(TimerTickPhase);
+
+            // Fire tick event for any subscribers to see and overrides for inheriting classes.
+            TimerTickEvent?.Invoke(TotalTimerTicks);
+        }
     }
 }

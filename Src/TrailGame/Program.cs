@@ -20,13 +20,15 @@ namespace TrailGame
             // Create game simulation singleton instance, and start it.
             GameSimulationApp.Create();
 
-            // Input buffer that we will use to hold characters until need to send them to simulation.
-            var lineBuffer = string.Empty;
-            var screenBuffer = string.Empty;
+            // Hook event to know when screen buffer wants to redraw the entire console screen.
+            GameSimulationApp.Instance.ScreenBufferDirtyEvent += Simulation_ScreenBufferDirtyEvent;
 
             // Prevent console session from closing.
             while (GameSimulationApp.Instance != null)
             {
+                // Tick the internal logic of the simulation. Mostly used for updating text user interface (TUI), and updating screen buffer.
+                GameSimulationApp.Instance.SystemTick();
+
                 // Check if a key is being pressed, without blocking thread.
                 if (Console.KeyAvailable)
                 {
@@ -34,48 +36,18 @@ namespace TrailGame
                     var key = Console.ReadKey(true);
 
                     // If enter is pressed, pass whatever we have to simulation.
-                    // ReSharper disable once ConvertIfStatementToSwitchStatement
-                    if (key.Key == ConsoleKey.Enter)
+                    // ReSharper disable once SwitchStatementMissingSomeCases
+                    switch (key.Key)
                     {
-                        // Only process key press if something is there.
-                        var lineBufferTrimmed = lineBuffer.Trim();
-                        if (!string.IsNullOrEmpty(lineBufferTrimmed))
-                        {
-                            // Send trimmed line buffer to game simulation.
-                            if (GameSimulationApp.Instance != null)
-                                GameSimulationApp.Instance.SendCommand(lineBufferTrimmed);
-
-                            // Clear line return for next line.
-                            lineBuffer = string.Empty;
-                        }
-                    }
-                    else if (key.Key == ConsoleKey.Backspace)
-                    {
-                        // Remove the last character from input buffer if greater than zero.
-                        if (lineBuffer.Length > 0)
-                            lineBuffer = lineBuffer.Remove(lineBuffer.Length - 1);
-                    }
-                    else
-                    {
-                        // Filter to prevent non-characters like delete, insert, scroll lock, etc.
-                        if (char.IsLetter(key.KeyChar) || char.IsNumber(key.KeyChar))
-                            lineBuffer += char.ToString(key.KeyChar);
-                    }
-                }
-
-                // Write all text from objects to screen, prefix the string with return character so cursor resets to upper-left corner.
-                if (GameSimulationApp.Instance != null)
-                {
-                    // Use screen buffer to only write to console when something actually changes to stop flickering from constant ticking.
-                    var simulationTUI = GameSimulationApp.Instance.GetTUI();
-                    if (!screenBuffer.Equals(simulationTUI, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        // Clear the screen and set cursor to upper-left corner.
-                        Console.Clear();
-                        Console.SetCursorPosition(0, 0);
-
-                        screenBuffer = simulationTUI;
-                        Console.Write("\r{0}", screenBuffer);
+                        case ConsoleKey.Enter:
+                            GameSimulationApp.Instance.ProcessInputBuffer();
+                            break;
+                        case ConsoleKey.Backspace:
+                            GameSimulationApp.Instance.RemoteLastCharOfInputBuffer();
+                            break;
+                        default:
+                            GameSimulationApp.Instance.SendKeyCharString(key.KeyChar);
+                            break;
                     }
                 }
 
@@ -88,6 +60,16 @@ namespace TrailGame
             Console.WriteLine("Goodbye!");
             Console.WriteLine("Press ANY key to close this window...");
             Console.ReadLine();
+        }
+
+        /// <summary>
+        ///     Write all text from objects to screen.
+        /// </summary>
+        private static void Simulation_ScreenBufferDirtyEvent(string tuiContent)
+        {
+            Console.Clear();
+            Console.SetCursorPosition(0, 0);
+            Console.Write("{0}", tuiContent);
         }
 
         private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text;
 using TrailCommon;
 
 namespace TrailEntities
@@ -16,23 +18,31 @@ namespace TrailEntities
         private List<IMode> _modes;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationHost" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
         /// </summary>
         protected SimulationApp()
         {
             // References all of the active game modes that need to be ticked.
             _modes = new List<IMode>();
+
+            // Start with a clear input and screen buffer.
+            InputBuffer = string.Empty;
+            ScreenBuffer = string.Empty;
         }
 
-        public void RemoveMode(ModeType mode)
+        /// <summary>
+        ///     Removes the active game mode from the list of available modes. The only requirements are that it exists, and is
+        ///     currently active.
+        /// </summary>
+        public void RemoveActiveMode()
         {
             // Ensure the mode exists as active mode.
-            if (ActiveMode != null && ActiveMode.Mode != mode)
-                return;
+            if (ActiveMode == null)
+                throw new InvalidOperationException("Attempted to remove active mode when it is null!");
 
             // Ensure modes list contains active mode.
             if (!_modes.Contains(ActiveMode))
-                return;
+                throw new InvalidOperationException("Active mode is not in list of current modes!");
 
             // Remove the mode from list.
             _modes.Remove(ActiveMode);
@@ -42,6 +52,85 @@ namespace TrailEntities
                 ModeChangedEvent?.Invoke(ActiveMode.Mode);
         }
 
+        /// <summary>
+        ///     Holds the last known representation of the game simulation and current mode text user interface, only pushes update
+        ///     when a change occurs.
+        /// </summary>
+        public string ScreenBuffer { get; internal set; }
+
+        /// <summary>
+        ///     Input buffer that we will use to hold characters until need to send them to simulation.
+        /// </summary>
+        public string InputBuffer { get; internal set; }
+
+        /// <summary>
+        ///     Removes the last character from input buffer if greater than zero.
+        /// </summary>
+        public void RemoteLastCharOfInputBuffer()
+        {
+            if (InputBuffer.Length > 0)
+                InputBuffer = InputBuffer.Remove(InputBuffer.Length - 1);
+        }
+
+        public void ProcessInputBuffer()
+        {
+            // Only process key press if something is there.
+            var lineBufferTrimmed = InputBuffer.Trim();
+            if (string.IsNullOrEmpty(lineBufferTrimmed))
+                return;
+
+            // Send trimmed line buffer to game simulation.
+            SendCommand(lineBufferTrimmed);
+            InputBuffer = string.Empty;
+        }
+
+        /// <summary>
+        ///     Populates an internal input buffer for the simulation that is used to eventually return a possible command string
+        ///     to active game mode.
+        /// </summary>
+        /// <param name="keyChar"></param>
+        public void SendKeyCharString(char keyChar)
+        {
+            // Filter to prevent non-characters like delete, insert, scroll lock, etc.
+            if (char.IsLetter(keyChar) || char.IsNumber(keyChar))
+            {
+                InputBuffer += char.ToString(keyChar);
+            }
+        }
+
+        /// <summary>
+        /// Use screen buffer to only write to console when something actually changes to stop flickering from constant ticking.
+        /// </summary>
+        public void TickTUI()
+        {
+            // Get the current text user interface data from inheriting class.
+            var tuiContent = OnTickTUI();
+            if (ScreenBuffer.Equals(tuiContent, StringComparison.InvariantCultureIgnoreCase))
+                return;
+
+            // Update the screen buffer with altered data.
+            ScreenBuffer = tuiContent;
+            ScreenBufferDirtyEvent?.Invoke(ScreenBuffer);
+        }
+
+        protected virtual string OnTickTUI()
+        {
+            // Prints game mode specific text and options.
+            var tui = new StringBuilder();
+            if (ActiveMode != null)
+            {
+                tui.Append("\n" + ActiveMode?.GetTUI());
+            }
+            else
+            {
+                tui.Append("\n" + GameMode.GAMEMODE_EMPTY_TUI);
+            }
+            return tui.ToString();
+        }
+
+        /// <summary>
+        ///     References the current active game mode, or the last attached game mode in the simulation.
+        /// </summary>
         public IMode ActiveMode
         {
             get
@@ -54,6 +143,9 @@ namespace TrailEntities
             }
         }
 
+        /// <summary>
+        ///     Returns the name of the currently active game mode, otherwise will return "None".
+        /// </summary>
         public string ActiveModeName
         {
             get
@@ -66,6 +158,10 @@ namespace TrailEntities
             }
         }
 
+        /// <summary>
+        ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
+        ///     of themselves like stores and trades.
+        /// </summary>
         public ReadOnlyCollection<IMode> Modes
         {
             get { return new ReadOnlyCollection<IMode>(_modes); }
@@ -73,8 +169,13 @@ namespace TrailEntities
 
         public event NewGame NewgameEvent;
         public event EndGame EndgameEvent;
+        public event ScreenBufferDirty ScreenBufferDirtyEvent;
         public event ModeChanged ModeChangedEvent;
 
+        /// <summary>
+        ///     Creates and adds the specified game mode to the simulation if it does not already exist in the list of modes.
+        /// </summary>
+        /// <param name="mode">Enumeration value of the mode which should be created.</param>
         public void AddMode(ModeType mode)
         {
             // Create new mode, check if it is in mode list.
@@ -86,10 +187,30 @@ namespace TrailEntities
             ModeChangedEvent?.Invoke(changeMode.Mode);
         }
 
+        /// <summary>
+        ///     Fired by messaging system or user interface that wants to interact with the simulation by sending string command
+        ///     that should be able to be parsed into a valid command that can be run on the current game mode.
+        /// </summary>
+        /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
+        public virtual void SendCommand(string returnedLine)
+        {
+            if (!string.IsNullOrEmpty(returnedLine) ||
+                !string.IsNullOrWhiteSpace(returnedLine))
+            {
+                OnReceiveCommand(returnedLine);
+            }
+        }
+
+        /// <summary>
+        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
+        ///     concrete handlers for game mode.
+        /// </summary>
+        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
+        protected abstract void OnReceiveCommand(string returnedLine);
+
         public void StartGame()
         {
             NewgameEvent?.Invoke();
-            // TODO: Remove all modes and attach travel mode, player is at first trail point.
         }
 
         protected abstract GameMode OnModeChanging(ModeType mode);
@@ -102,9 +223,21 @@ namespace TrailEntities
             EndgameEvent?.Invoke();
         }
 
-        protected override void OnTick()
+        protected override void OnTimerTick()
         {
+            base.OnTimerTick();
+
             TickModes();
+        }
+
+        /// <summary>
+        /// Ticked by the underlying operating system through singleton instance of game simulation.
+        /// </summary>
+        protected override void OnSystemTick()
+        {
+            base.OnSystemTick();
+
+            TickTUI();
         }
 
         /// <summary>

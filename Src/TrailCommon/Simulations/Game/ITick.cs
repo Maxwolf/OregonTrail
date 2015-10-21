@@ -1,18 +1,22 @@
 ﻿namespace TrailCommon
 {
-    public interface ITick : IMessage
+    public interface ITick
     {
         Randomizer Random { get; }
         bool IsClosing { get; }
-        uint TotalTicks { get; }
-        string TickPhase { get; }
-        string GetTUI();
-        event FirstTick FirstTickEvent;
-        event Tick TickEvent;
+        void SystemTick();
+        uint TotalTimerTicks { get; }
+        uint TotalSystemTicks { get; }
+        string TimerTickPhase { get; }
+        event FirstTimerTick FirstTimerTickEvent;
+        event TimerTick TimerTickEvent;
+        event SystemTick SystemTickEvent;
         void Destroy();
     }
 
-    public delegate void FirstTick();
+    public delegate void FirstTimerTick();
 
-    public delegate void Tick(uint tickCount);
+    public delegate void SystemTick(uint systemTickCount);
+
+    public delegate void TimerTick(uint timerTickCount);
 }
