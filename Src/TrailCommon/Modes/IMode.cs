@@ -1,6 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface IMode : IInvoker
+    public interface IMode
     {
         void OnModeRemoved();
         ModeType Mode { get; }

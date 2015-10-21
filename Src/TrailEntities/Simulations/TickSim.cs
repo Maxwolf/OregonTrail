@@ -37,6 +37,21 @@ namespace TrailEntities
 
         public string TickPhase { get; private set; }
 
+        public virtual void Create()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void Destroy()
+        {
+            IsClosing = true;
+        }
+
+        public virtual void SendCommand(string returnedLine)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool IsClosing { get; private set; }
 
         public Randomizer Random

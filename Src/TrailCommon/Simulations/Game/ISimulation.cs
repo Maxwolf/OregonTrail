@@ -4,8 +4,6 @@ namespace TrailCommon
 {
     public interface ISimulation : ITick
     {
-        IServerPipe Server { get; }
-        uint TotalClients { get; }
         IMode ActiveMode { get; }
         string ActiveModeName { get; }
         ReadOnlyCollection<IMode> Modes { get; }
@@ -14,7 +12,6 @@ namespace TrailCommon
         event ModeChanged ModeChangedEvent;
         void AddMode(ModeType mode);
         void RemoveMode(ModeType mode);
-        void StartGame();
     }
 
     public delegate void ModeChanged(ModeType mode);

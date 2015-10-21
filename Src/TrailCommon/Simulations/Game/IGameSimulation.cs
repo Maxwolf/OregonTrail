@@ -7,6 +7,5 @@
         IVehicle Vehicle { get; }
         uint TotalTurns { get; }
         void TakeTurn();
-        void OnDestroy();
     }
 }

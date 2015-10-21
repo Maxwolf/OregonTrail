@@ -8,7 +8,9 @@
         bool IsClosing { get; }
         uint TotalTicks { get; }
         string TickPhase { get; }
-        void CloseSimulation();
+        void Create();
+        void Destroy();
+        void SendCommand(string returnedLine);
     }
 
     public delegate void FirstTick();

@@ -35,25 +35,17 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Simulations\GameClient.cs" />
     <Compile Include="Modes\ForkInRoadMode.cs" />
     <Compile Include="Modes\GameMode.cs" />
     <Compile Include="Modes\LandmarkMode.cs" />
-    <Compile Include="Modes\NewGameMode\CommandChooseNames.cs" />
     <Compile Include="Modes\SettlementMode.cs" />
     <Compile Include="Modes\TravelMode.cs" />
-    <Compile Include="Pipes\ClientPipe.cs" />
-    <Compile Include="Pipes\Pipe.cs" />
-    <Compile Include="Pipes\ServerPipe.cs" />
     <Compile Include="Points of Interest\River.cs" />
-    <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\Receiver.cs" />
-    <Compile Include="Simulations\GameServer.cs" />
-    <Compile Include="Commands\Invoker.cs" />
+    <Compile Include="Simulations\GameSimulationApp.cs" />
     <Compile Include="Simulations\TickSim.cs" />
     <Compile Include="Trails.cs" />
     <Compile Include="Simulations\ClimateSim.cs" />
-    <Compile Include="Simulations\ServerSim.cs" />
+    <Compile Include="Simulations\SimulationApp.cs" />
     <Compile Include="Simulations\TimeSim.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\Oxen.cs" />
@@ -69,7 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Modes\RandomEventMode.cs" />
     <Compile Include="Entities\Vehicle.cs" />
-    <Compile Include="Modes\NewGameMode\NewGameMode.cs" />
+    <Compile Include="Modes\NewGameMode.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -35,28 +35,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Simulations\Game\IGameController.cs" />
     <Compile Include="Modes\INewGame.cs" />
-    <Compile Include="Pipes\IClientPipe.cs" />
-    <Compile Include="Pipes\IServerPipe.cs" />
-    <Compile Include="Pipes\Wrapper\IO\PipeStreamReader.cs" />
-    <Compile Include="Pipes\Wrapper\IO\PipeStreamWrapper.cs" />
-    <Compile Include="Pipes\Wrapper\IO\PipeStreamWriter.cs" />
-    <Compile Include="Pipes\Wrapper\NamedPipeClient.cs" />
-    <Compile Include="Pipes\Wrapper\NamedPipeConnection.cs" />
-    <Compile Include="Pipes\Wrapper\NamedPipeServer.cs" />
-    <Compile Include="Pipes\Wrapper\PipeExceptionEventHandler.cs" />
-    <Compile Include="Pipes\PipeMessage.cs" />
-    <Compile Include="Pipes\Wrapper\PipeWorker.cs" />
-    <Compile Include="Pipes\IPipe.cs" />
-    <Compile Include="Command\ICommand.cs" />
-    <Compile Include="Command\IReceiver.cs" />
     <Compile Include="Simulations\Game\ITick.cs" />
     <Compile Include="Simulations\Game\ITravel.cs" />
     <Compile Include="Simulations\Climate\ClimateClassification.cs" />
     <Compile Include="Simulations\Climate\ClimateData.cs" />
     <Compile Include="Randomizer.cs" />
-    <Compile Include="Command\IInvoker.cs" />
     <Compile Include="Simulations\Time\Date.cs" />
     <Compile Include="Simulations\Climate\IClimateSimulation.cs" />
     <Compile Include="Simulations\Time\ITimeSimulation.cs" />

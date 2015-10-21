@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
 using TrailEntities;
 
@@ -7,122 +6,82 @@ namespace TrailGame
 {
     internal class Program
     {
-        private static GameClient _gameClient;
-        private static GameServer _gameServer;
+        /// <summary>
+        ///     Primary game simulation and control input system.
+        /// </summary>
+        private static GameSimulationApp _game;
 
         /// <summary>
         ///     Create game simulation server or client depending on what the user wants.
         /// </summary>
-        /// <param name="args"></param>
-        private static void Main(string[] args)
+        private static void Main()
         {
-            // Present main menu.
-            Console.Title = "Oregon Trail Clone - Main Menu";
-            Console.WriteLine("What do you want to do?");
-            Console.WriteLine("1. Dedicated Server");
-            Console.WriteLine("2. ServerClient Hybrid");
-            Console.WriteLine("3. Server Spawned Client Process");
-            Console.WriteLine("4. Client Only");
+            // Create console with title, no cursor, make ctrl-c act as input.
+            Console.Title = "Oregon Trail Clone";
+            Console.CursorVisible = false;
+            Console.CancelKeyPress += Console_CancelKeyPress;
 
-            // Wait for user input, locks thread.
-            var keyPressed = Console.ReadLine();
+            // Create game simulation.
+            _game = new GameSimulationApp();
+            var returnedLine = string.Empty;
+
+            // Prevent console session from closing.
+            while (!_game.IsClosing)
+            {
+                // Clear the screen and set cursor to upper-left corner.
+                Console.Clear();
+                Console.SetCursorPosition(0, 0);
+
+                // Check if a key is being pressed, without blocking thread.
+                if (Console.KeyAvailable)
+                {
+                    // Get the key that was pressed, without printing it to console.
+                    var key = Console.ReadKey(true);
+
+                    // If enter is pressed, pass whatever we have to simulation.
+                    switch (key.Key)
+                    {
+                        case ConsoleKey.Enter:
+                            // Only process key press if something is there.
+                            var returnedLineTrimmed = returnedLine.Trim();
+                            if (!string.IsNullOrEmpty(returnedLineTrimmed))
+                            {
+                                // Clear line return for next line.
+                                _game.SendCommand(returnedLineTrimmed);
+                                returnedLine = string.Empty;
+                            }
+                            break;
+                        case ConsoleKey.Backspace:
+                            // Remove the last character from input buffer if greater than zero.
+                            if (returnedLine.Length > 0)
+                                returnedLine = returnedLine.Remove(returnedLine.Length - 1);
+                            break;
+                        default:
+                            // Filter to prevent non-characters like delete, insert, scroll lock, etc.
+                            if (char.IsLetter(key.KeyChar) || char.IsNumber(key.KeyChar))
+                                returnedLine += char.ToString(key.KeyChar);
+                            break;
+                    }
+                }
+
+                // Write all text from objects to screen, prefix the string with return character so cursor resets to upper-left corner.
+                Console.Write("\r{0}", _game);
+                Thread.Sleep(1);
+            }
+        }
+
+        private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+        {
+            // Destroy the simulation.
+            _game.Destroy();
+
+            // Stop the operating system from killing the entire process.
+            e.Cancel = true;
+
+            // Clear the screen, set cursor to upper-left corner.
             Console.Clear();
-            SimType simType;
-            switch (keyPressed)
-            {
-                case "1":
-                    simType = SimType.DedicatedServer;
-                    break;
-                case "2":
-                    simType = SimType.ServerClientHybrid;
-                    break;
-                case "3":
-                    simType = SimType.ServerSpawnedClientProcess;
-                    break;
-                case "4":
-                    simType = SimType.ClientOnly;
-                    break;
-                default:
-                    return;
-            }
-
-            // Setup simulations based on user selection.
-            switch (simType)
-            {
-                case SimType.DedicatedServer:
-                    DedicatedServer();
-                    break;
-                case SimType.ServerClientHybrid:
-                    ServerClientHybrid();
-                    break;
-                case SimType.ServerSpawnedClientProcess:
-                    ServerSpawnedClientProcess();
-                    break;
-                case SimType.ClientOnly:
-                    ClientOnly();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(simType), simType, null);
-            }
-
-            // Goodbye!
-            Console.WriteLine("Closing...");
-        }
-
-        private static void DedicatedServer()
-        {
-            Console.WriteLine("Starting dedicated server...");
-            _gameServer = new GameServer();
-
-            while (_gameServer != null && !_gameServer.IsClosing)
-            {
-                Thread.Sleep(1);
-                Console.Title = _gameServer.ToString();
-            }
-        }
-
-        private static void ServerClientHybrid()
-        {
-            Console.WriteLine("Starting server...");
-            _gameServer = new GameServer();
-            Console.WriteLine("Starting client...");
-            _gameClient = new GameClient();
-
-            while ((_gameServer != null && !_gameServer.IsClosing) &&
-                   (_gameClient != null && !_gameClient.IsClosing))
-            {
-                Thread.Sleep(1);
-                Console.Title = _gameServer.ToString();
-            }
-        }
-
-        private static void ServerSpawnedClientProcess()
-        {
-            Console.WriteLine("Starting server...");
-            _gameServer = new GameServer();
-            Console.WriteLine("Spawning client process...");
-            _gameClient = new GameClient();
-            var t = new Thread(_gameClient.Create);
-            t.Start();
-
-            while (_gameServer != null && !_gameServer.IsClosing)
-            {
-                Thread.Sleep(1);
-                Console.Title = _gameServer.ToString();
-            }
-
-        }
-
-        private static void ClientOnly()
-        {
-            Console.WriteLine("Starting client only...");
-            _gameClient = new GameClient();
-
-            while (_gameClient != null && !_gameClient.IsClosing)
-            {
-                Thread.Sleep(1);
-                Console.Title = _gameClient.ToString();
-            }
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("Goodbye...");
         }
     }
 }

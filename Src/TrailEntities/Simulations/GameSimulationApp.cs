@@ -4,7 +4,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class GameServer : ServerSim, IGameSimulation
+    public sealed class GameSimulationApp : SimulationApp, IGameSimulation
     {
         /// <summary>
         ///     Manages weather, temperature, humidity, and current grazing level for living animals.
@@ -25,7 +25,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
         /// </summary>
-        public GameServer()
+        public GameSimulationApp()
         {
             _time = new TimeSim(1985, Months.May, 5, TravelPace.Paused);
             _time.DayEndEvent += TimeSimulation_DayEndEvent;
@@ -92,11 +92,18 @@ namespace TrailEntities
         {
             // Title and current game mode.
             var title = new StringBuilder();
-            title.Append("Oregon Trail Server - ");
+            title.Append($"[ {TickPhase} ] - ");
             title.Append($"Mode: {ActiveModeName} - ");
-            title.Append($"Turns: {TotalTurns.ToString("D4")} - ");
-            title.Append($"Clients: {TotalClients} - ");
-            title.Append($"[{TickPhase}]");
+            title.Append($"Turns: {TotalTurns.ToString("D4")}");
+            if (ActiveMode != null)
+            {
+                title.Append("\n" + ActiveMode?.Mode);
+            }
+            else
+            {
+                title.Append("\nNo attached game mode to tick...");
+            }
+
             return title.ToString();
         }
 
@@ -145,12 +152,12 @@ namespace TrailEntities
 
         private void TimeSimulation_SpeedChangeEvent()
         {
-            Console.WriteLine("Travel pace changed to " + _vehicle.Pace);
+            //Console.WriteLine("Travel pace changed to " + _vehicle.Pace);
         }
 
         private void TimeSimulation_YearEndEvent(uint yearCount)
         {
-            Console.WriteLine("Year end!");
+            //Console.WriteLine("Year end!");
         }
 
         private void TimeSimulation_DayEndEvent(uint dayCount)
@@ -160,12 +167,12 @@ namespace TrailEntities
             TrailSim.ReachedPointOfInterest();
             _vehicle.DistanceTraveled += (uint) Vehicle.Pace;
 
-            Console.WriteLine("Day end!");
+            //Console.WriteLine("Day end!");
         }
 
         private void TimeSimulation_MonthEndEvent(uint monthCount)
         {
-            Console.WriteLine("Month end!");
+            //Console.WriteLine("Month end!");
         }
     }
 }
