@@ -2,6 +2,6 @@
 {
     public interface IMessage
     {
-        void SendMessage(string returnedLine);
+        void SendCommand(string returnedLine);
     }
 }

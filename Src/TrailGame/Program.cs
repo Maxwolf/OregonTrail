@@ -43,7 +43,7 @@ namespace TrailGame
                         {
                             // Send trimmed line buffer to game simulation.
                             if (GameSimulationApp.Instance != null)
-                                GameSimulationApp.Instance.SendMessage(lineBufferTrimmed);
+                                GameSimulationApp.Instance.SendCommand(lineBufferTrimmed);
 
                             // Clear line return for next line.
                             lineBuffer = string.Empty;

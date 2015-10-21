@@ -40,9 +40,18 @@ namespace TrailEntities
             OnDestroy();
         }
 
-        public virtual void SendMessage(string returnedLine)
+        /// <summary>
+        ///     Fired by messaging system or user interface that wants to interact with the simulation by sending string command
+        ///     that should be able to be parsed into a valid command that can be run on the current game mode.
+        /// </summary>
+        /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
+        public virtual void SendCommand(string returnedLine)
         {
-            throw new NotImplementedException();
+            if (!string.IsNullOrEmpty(returnedLine) ||
+                !string.IsNullOrWhiteSpace(returnedLine))
+            {
+                OnReceiveCommand(returnedLine);
+            }
         }
 
         public event Tick TickEvent;
@@ -66,6 +75,13 @@ namespace TrailEntities
         public uint TotalTicks { get; private set; }
 
         public event FirstTick FirstTickEvent;
+
+        /// <summary>
+        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
+        ///     concrete handlers for game mode.
+        /// </summary>
+        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
+        protected abstract void OnReceiveCommand(string returnedLine);
 
         private void OnTickFired(object Sender, ElapsedEventArgs e)
         {

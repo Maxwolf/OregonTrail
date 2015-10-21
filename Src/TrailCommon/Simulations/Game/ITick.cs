@@ -2,13 +2,13 @@
 {
     public interface ITick : IMessage
     {
-        string GetTUI();
         Randomizer Random { get; }
-        event FirstTick FirstTickEvent;
-        event Tick TickEvent;
         bool IsClosing { get; }
         uint TotalTicks { get; }
         string TickPhase { get; }
+        string GetTUI();
+        event FirstTick FirstTickEvent;
+        event Tick TickEvent;
         void Destroy();
     }
 

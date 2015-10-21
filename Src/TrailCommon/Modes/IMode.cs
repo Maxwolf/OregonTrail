@@ -2,9 +2,9 @@
 {
     public interface IMode : IMessage
     {
-        string GetTUI();
         ModeType Mode { get; }
         IGameSimulation Game { get; }
+        string GetTUI();
         void TickMode();
     }
 }

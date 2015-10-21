@@ -10,9 +10,9 @@ namespace TrailEntities
         private bool _hasChosenProfession;
         private bool _hasChosenStartingItems;
         private bool _hasStartedGame;
-        
-        private Profession _playerProfession;
         private List<string> _playerNames;
+
+        private Profession _playerProfession;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
@@ -21,6 +21,11 @@ namespace TrailEntities
         {
             _playerNames = new List<string>();
             //AddCommand(new Tuple<string, ICommand>("ChooseNames", new CommandChooseNames(game)));
+        }
+
+        public override ModeType Mode
+        {
+            get { return ModeType.NewGame; }
         }
 
         public void ChooseNames()
@@ -80,30 +85,6 @@ namespace TrailEntities
             }
         }
 
-        public override ModeType Mode
-        {
-            get { return ModeType.NewGame; }
-        }
-
-        private string GetPlayerName()
-        {
-            var readLine = Console.ReadLine();
-            if (readLine != null)
-            {
-                readLine = readLine.Trim();
-                if (!string.IsNullOrEmpty(readLine) &&
-                    !string.IsNullOrWhiteSpace(readLine))
-                {
-                    return readLine;
-                }
-            }
-
-            // Just return a random name if there is invalid input.
-            string[] names = { "Bob", "Joe", "Sally", "Tim", "Steve" };
-            //return names[Game.Random.Next(names.Length)];
-            return "CHANGEME";
-        }
-
         public void ChooseProfession()
         {
             _playerProfession = Profession.Banker;
@@ -155,7 +136,25 @@ namespace TrailEntities
 
         public void BuyInitialItems()
         {
+        }
 
+        private string GetPlayerName()
+        {
+            var readLine = Console.ReadLine();
+            if (readLine != null)
+            {
+                readLine = readLine.Trim();
+                if (!string.IsNullOrEmpty(readLine) &&
+                    !string.IsNullOrWhiteSpace(readLine))
+                {
+                    return readLine;
+                }
+            }
+
+            // Just return a random name if there is invalid input.
+            string[] names = {"Bob", "Joe", "Sally", "Tim", "Steve"};
+            //return names[Game.Random.Next(names.Length)];
+            return "CHANGEME";
         }
 
         public void StartGame()

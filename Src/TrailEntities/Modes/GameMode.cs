@@ -1,4 +1,5 @@
-﻿using TrailCommon;
+﻿using System;
+using TrailCommon;
 
 namespace TrailEntities
 {
@@ -20,11 +21,6 @@ namespace TrailEntities
             Game = game;
         }
 
-        public virtual void OnModeRemoved()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public virtual string GetTUI()
         {
             return GAMEMODE_DEFAULT_TUI;
@@ -39,6 +35,35 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Fired by messaging system or user interface that wants to interact with the simulation by sending string command
+        ///     that should be able to be parsed into a valid command that can be run on the current game mode.
+        /// </summary>
+        /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
+        public void SendCommand(string returnedLine)
+        {
+            if (!string.IsNullOrEmpty(returnedLine) ||
+                !string.IsNullOrWhiteSpace(returnedLine))
+            {
+                OnReceiveCommand(returnedLine);
+            }
+        }
+
+        /// <summary>
+        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
+        ///     concrete handlers for game mode.
+        /// </summary>
+        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
+        protected virtual void OnReceiveCommand(string returnedLine)
+        {
+            Console.WriteLine(returnedLine);
+        }
+
+        public virtual void OnModeRemoved()
+        {
+            // Move along, nothing to see here...
+        }
+
+        /// <summary>
         ///     Returns a string that represents the current object.
         /// </summary>
         /// <returns>
@@ -47,11 +72,6 @@ namespace TrailEntities
         public override string ToString()
         {
             return Mode.ToString();
-        }
-
-        public void SendMessage(string returnedLine)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

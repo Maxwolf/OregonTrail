@@ -39,39 +39,9 @@ namespace TrailEntities
             _vehicle = new Vehicle(this);
         }
 
-        public static void Create()
-        {
-            // Complain if instance already exists.
-            if (Instance != null)
-                throw new InvalidOperationException("Unable to create new instance of game simulation app since it already exists!");
-
-            // Create new instance of game simulation.
-            Instance = new GameSimulationApp();
-        }
-
         public TrailSim TrailSim { get; private set; }
 
-        public override void OnDestroy()
-        {
-            // Unhook delegates from events.
-            if (_time != null)
-            {
-                _time.DayEndEvent -= TimeSimulation_DayEndEvent;
-                _time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
-                _time.YearEndEvent -= TimeSimulation_YearEndEvent;
-                _time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
-            }
-
-            // Destroy all instances.
-            _time = null;
-            _climate = null;
-            TrailSim = null;
-            TotalTurns = 0;
-            _vehicle = null;
-            Instance = null;
-
-            base.OnDestroy();
-        }
+        public static GameSimulationApp Instance { get; private set; }
 
         public ITimeSimulation Time
         {
@@ -89,8 +59,6 @@ namespace TrailEntities
         }
 
         public uint TotalTurns { get; private set; }
-
-        public static GameSimulationApp Instance { get; private set; }
 
         public void TakeTurn()
         {
@@ -113,8 +81,53 @@ namespace TrailEntities
             {
                 title.Append("\n" + GameMode.GAMEMODE_EMPTY_TUI);
             }
+            title.Append("\n");
 
             return title.ToString();
+        }
+
+        public static void Create()
+        {
+            // Complain if instance already exists.
+            if (Instance != null)
+                throw new InvalidOperationException(
+                    "Unable to create new instance of game simulation app since it already exists!");
+
+            // Create new instance of game simulation.
+            Instance = new GameSimulationApp();
+        }
+
+        /// <summary>
+        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
+        ///     concrete handlers for game mode.
+        /// </summary>
+        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
+        protected override void OnReceiveCommand(string returnedLine)
+        {
+            // Pass command along to currently active game mode if it exists.
+            ActiveMode?.SendCommand(returnedLine);
+        }
+
+        public override void OnDestroy()
+        {
+            // Unhook delegates from events.
+            if (_time != null)
+            {
+                _time.DayEndEvent -= TimeSimulation_DayEndEvent;
+                _time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
+                _time.YearEndEvent -= TimeSimulation_YearEndEvent;
+                _time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
+            }
+
+            // Destroy all instances.
+            _time = null;
+            _climate = null;
+            TrailSim = null;
+            TotalTurns = 0;
+            _vehicle = null;
+            Instance = null;
+
+            base.OnDestroy();
         }
 
         protected override void OnFirstTick()

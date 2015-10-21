@@ -42,12 +42,6 @@ namespace TrailEntities
                 ModeChangedEvent?.Invoke(ActiveMode.Mode);
         }
 
-        public void StartGame()
-        {
-            NewgameEvent?.Invoke();
-            // TODO: Remove all modes and attach travel mode, player is at first trail point.
-        }
-
         public IMode ActiveMode
         {
             get
@@ -90,6 +84,12 @@ namespace TrailEntities
 
             _modes.Add(changeMode);
             ModeChangedEvent?.Invoke(changeMode.Mode);
+        }
+
+        public void StartGame()
+        {
+            NewgameEvent?.Invoke();
+            // TODO: Remove all modes and attach travel mode, player is at first trail point.
         }
 
         protected abstract GameMode OnModeChanging(ModeType mode);

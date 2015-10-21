@@ -12,14 +12,13 @@ namespace TrailEntities
         private List<IPerson> _people;
         private RationLevel _ration;
         private RepairStatus _repairStatus;
-        private readonly IGameSimulation _game;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Vehicle" /> class.
         /// </summary>
         public Vehicle(IGameSimulation game)
         {
-            _game = game;
+            CurrentGame = game;
             _inventory = new List<IItem>();
             Balance = 0;
             _people = new List<IPerson>();
@@ -28,10 +27,7 @@ namespace TrailEntities
             _distanceTraveled = 0;
         }
 
-        public IGameSimulation CurrentGame
-        {
-            get { return _game; }
-        }
+        public IGameSimulation CurrentGame { get; }
 
         public ReadOnlyCollection<IItem> Inventory
         {
@@ -52,7 +48,7 @@ namespace TrailEntities
 
         public TravelPace Pace
         {
-            get { return _game.Time.CurrentSpeed; }
+            get { return CurrentGame.Time.CurrentSpeed; }
         }
 
         public RepairStatus RepairStatus
