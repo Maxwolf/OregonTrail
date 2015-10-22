@@ -71,6 +71,10 @@ namespace TrailEntities
                 InputBuffer = InputBuffer.Remove(InputBuffer.Length - 1);
         }
 
+        /// <summary>
+        ///     Clears the input buffer and submits whatever was in there to the simulation for processing. Implementation is left
+        ///     up the game simulation itself entirely.
+        /// </summary>
         public void ProcessInputBuffer()
         {
             // Only process key press if something is there.
@@ -87,14 +91,15 @@ namespace TrailEntities
         ///     Populates an internal input buffer for the simulation that is used to eventually return a possible command string
         ///     to active game mode.
         /// </summary>
-        /// <param name="keyChar"></param>
         public void SendKeyCharString(char keyChar)
         {
             // Filter to prevent non-characters like delete, insert, scroll lock, etc.
-            if (char.IsLetter(keyChar) || char.IsNumber(keyChar))
-            {
-                InputBuffer += char.ToString(keyChar);
-            }
+            if (!char.IsLetter(keyChar) && !char.IsNumber(keyChar))
+                return;
+
+            // Convert character to string representation if itself.
+            var addedKeyString = char.ToString(keyChar);
+            OnKeyPress(addedKeyString);
         }
 
         /// <summary>
@@ -155,6 +160,7 @@ namespace TrailEntities
         public event NewGame NewgameEvent;
         public event EndGame EndgameEvent;
         public event ScreenBufferDirty ScreenBufferDirtyEvent;
+        public event InputBufferUpdated InputBufferUpdatedEvent;
         public event ModeChanged ModeChangedEvent;
 
         /// <summary>
@@ -170,6 +176,20 @@ namespace TrailEntities
 
             _modes.Add(changeMode);
             ModeChangedEvent?.Invoke(changeMode.Mode);
+        }
+
+        /// <summary>
+        ///     Fired when the simulation receives an individual character from then input system. Depending on what it is we will
+        ///     do something, or not!
+        /// </summary>
+        /// <param name="addedKeyString">Character converted into a string representation of itself.</param>
+        protected virtual void OnKeyPress(string addedKeyString)
+        {
+            // Add the character to the end of the input buffer.
+            InputBuffer += addedKeyString;
+
+            // Fire event for all subscribers to get total buffer and added character string.
+            InputBufferUpdatedEvent?.Invoke(InputBuffer, addedKeyString);
         }
 
         /// <summary>
@@ -207,6 +227,10 @@ namespace TrailEntities
         /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
         protected abstract void OnReceiveCommand(string returnedLine);
 
+        /// <summary>
+        ///     Attaches the traveling mode and removes the new game mode if it exists, this begins the simulation down the trail
+        ///     path and all the points of interest on it.
+        /// </summary>
         public void StartGame()
         {
             NewgameEvent?.Invoke();
@@ -214,6 +238,10 @@ namespace TrailEntities
 
         protected abstract GameMode OnModeChanging(ModeType mode);
 
+        /// <summary>
+        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
+        ///     exit cleanly.
+        /// </summary>
         public override void OnDestroy()
         {
             base.OnDestroy();
@@ -224,6 +252,9 @@ namespace TrailEntities
             EndgameEvent?.Invoke();
         }
 
+        /// <summary>
+        ///     Fired when the system timers timer elapses it's interval and fires event that this encompasses.
+        /// </summary>
         protected override void OnTimerTick()
         {
             base.OnTimerTick();

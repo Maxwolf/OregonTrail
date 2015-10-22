@@ -25,6 +25,10 @@ namespace TrailEntities
         /// </summary>
         public abstract string GetTUI();
 
+        /// <summary>
+        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     simulation.
+        /// </summary>
         public abstract ModeType Mode { get; }
 
         /// <summary>

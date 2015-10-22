@@ -12,6 +12,7 @@ namespace TrailCommon
         event NewGame NewgameEvent;
         event EndGame EndgameEvent;
         event ScreenBufferDirty ScreenBufferDirtyEvent;
+        event InputBufferUpdated InputBufferUpdatedEvent;
         event ModeChanged ModeChangedEvent;
         void AddMode(ModeType mode);
         void RemoveActiveMode();
@@ -26,6 +27,8 @@ namespace TrailCommon
     public delegate void EndGame();
 
     public delegate void ScreenBufferDirty(string tuiContent);
+
+    public delegate void InputBufferUpdated(string inputBuffer, string addedKeycharString);
 
     public delegate void NewGame();
 }
