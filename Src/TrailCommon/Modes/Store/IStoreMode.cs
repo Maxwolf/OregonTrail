@@ -2,7 +2,7 @@
 
 namespace TrailCommon
 {
-    public interface IStoreMode : IMode
+    public interface IStoreMode : IMode<StoreCommands>
     {
         ReadOnlyCollection<IItem> StoreInventory { get; }
         string StoreName { get; }

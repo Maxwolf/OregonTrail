@@ -3,7 +3,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class LandmarkMode : GameMode<LandmarkCommands>, ILandmarkPoint
+    public sealed class LandmarkMode : GameMode<LandmarkCommands>, ILandmarkMode
     {
         private readonly bool _canRest;
 

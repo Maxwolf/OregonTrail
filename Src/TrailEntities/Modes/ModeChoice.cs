@@ -8,9 +8,9 @@ namespace TrailEntities
     ///     wrapper for menu choices that aggregates all of the possible actions a given game mode can make while it is active
     ///     in the simulation.
     /// </summary>
-    public abstract class GameModeChoice<T> where T : struct, IComparable, IFormattable, IConvertible, IModeChoice<T>
+    public sealed class ModeChoice<T> : IModeChoice<T> where T : struct, IComparable, IFormattable, IConvertible
     {
-        protected GameModeChoice(Action action, string description, T command)
+        public ModeChoice(T command, Action action, string description)
         {
             // Complain the generics implemented is not of an enum type.
             if (!typeof (T).IsEnum)
@@ -19,8 +19,8 @@ namespace TrailEntities
             }
 
             Command = command;
-            Description = description;
             Action = action;
+            Description = description;
         }
 
         public T Command { get; set; }

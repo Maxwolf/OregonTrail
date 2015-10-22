@@ -1,6 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface IForkInRoadMode : IMode
+    public interface IForkInRoadMode : IMode<ForkInRoadCommands>
     {
          
     }

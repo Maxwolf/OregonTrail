@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using TrailCommon;
 
@@ -11,7 +13,7 @@ namespace TrailEntities
     ///     keeps track of all currently loaded game modes and will only tick the top-most one so they can be stacked and clear
     ///     out until there are none.
     /// </summary>
-    public abstract class GameMode<T> where T : struct, IComparable, IFormattable, IConvertible
+    public abstract class GameMode<T> : IMode<T> where T : struct, IComparable, IFormattable, IConvertible
     {
         /// <summary>
         ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
@@ -39,6 +41,15 @@ namespace TrailEntities
         ///     simulation.
         /// </summary>
         public abstract SimulationMode Mode { get; }
+
+        /// <summary>
+        ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
+        ///     spawned it.
+        /// </summary>
+        public ReadOnlyCollection<IModeChoice<T>> MenuChoices
+        {
+            get { return _menuChoices.ToList().AsReadOnly(); }
+        }
 
         /// <summary>
         ///     Fired by simulation when it wants to request latest text user interface data for the game mode, this is used to
@@ -99,11 +110,11 @@ namespace TrailEntities
         ///     Adds a new game mode menu selection that will be available to send as a command for this specific game mode.
         /// </summary>
         /// <param name="action">Method that will be run when the choice is made.</param>
-        /// <param name="command">Associated command text that will trigger the respective action in the active game mode.</param>
+        /// <param name="command">Associated command that will trigger the respective action in the active game mode.</param>
         /// <param name="description">Text that will be shown to user so they know what the choice means.</param>
         public void AddCommand(Action action, T command, string description)
         {
-            var menuChoice = new GameModeChoice(action, description, command);
+            var menuChoice = new ModeChoice<T>(command, action, description);
             if (!_menuChoices.Contains(menuChoice))
             {
                 _menuChoices.Add(menuChoice);

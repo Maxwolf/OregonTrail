@@ -35,13 +35,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Modes\GameModeChoice.cs" />
+    <Compile Include="Modes\ModeChoice.cs" />
     <Compile Include="Modes\ForkInRoadMode.cs" />
     <Compile Include="Modes\GameMode.cs" />
     <Compile Include="Modes\LandmarkMode.cs" />
+    <Compile Include="Modes\Modes.cs" />
     <Compile Include="Modes\SettlementMode.cs" />
     <Compile Include="Modes\TravelingMode.cs" />
-    <Compile Include="Points of Interest\RiverPoint.cs" />
+    <Compile Include="Trail Points\RiverPoint.cs" />
     <Compile Include="Simulations\GameSimulationApp.cs" />
     <Compile Include="Simulations\TickSim.cs" />
     <Compile Include="Trails.cs" />
@@ -50,13 +51,13 @@
     <Compile Include="Simulations\TimeSim.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\Oxen.cs" />
-    <Compile Include="Points of Interest\ForkInRoadPoint.cs" />
+    <Compile Include="Trail Points\ForkInRoadPoint.cs" />
     <Compile Include="Simulations\TrailSim.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Modes\HuntingMode.cs" />
-    <Compile Include="Points of Interest\LandmarkPoint.cs" />
+    <Compile Include="Trail Points\LandmarkPoint.cs" />
     <Compile Include="Modes\RiverCrossingMode.cs" />
-    <Compile Include="Points of Interest\SettlementPoint.cs" />
+    <Compile Include="Trail Points\SettlementPoint.cs" />
     <Compile Include="Modes\StoreMode.cs" />
     <Compile Include="Modes\TradingMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

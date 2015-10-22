@@ -1,6 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface ILandmarkMode : IMode
+    public interface ILandmarkMode : IMode<LandmarkCommands>
     {
          
     }

@@ -1,6 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface ITravelingMode : IMode
+    public interface ITravelingMode : IMode<TravelCommands>
     {
         void Hunt();
         void Rest();

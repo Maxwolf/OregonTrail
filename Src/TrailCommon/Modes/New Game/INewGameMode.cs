@@ -1,6 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface INewGameMode : IMode
+    public interface INewGameMode : IMode<NewGameCommands>
     {
         void ChooseProfession();
         void BuyInitialItems();
