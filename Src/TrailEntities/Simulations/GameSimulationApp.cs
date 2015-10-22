@@ -26,7 +26,7 @@ namespace TrailEntities
         private Vehicle _vehicle;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
         /// </summary>
         public GameSimulationApp()
         {
@@ -106,7 +106,7 @@ namespace TrailEntities
         protected override void OnReceiveCommand(string returnedLine)
         {
             // Pass command along to currently active game mode if it exists.
-            ActiveMode?.SendCommand(returnedLine);
+            ActiveMode?.ProcessCommand(returnedLine);
         }
 
         public override void OnDestroy()

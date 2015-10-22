@@ -1,4 +1,6 @@
-﻿namespace TrailCommon
+﻿using System.Collections.ObjectModel;
+
+namespace TrailCommon
 {
     /// <summary>
     ///     Underlying game mode interface, used by base simulation to keep track of what data should currently have control
@@ -27,6 +29,12 @@
         ///     into the input buffer. This is used when allowing the user to input custom strings like names for their party
         ///     members.
         /// </summary>
-        void SendCommand(string returnedLine);
+        void ProcessCommand(string returnedLine);
+
+        /// <summary>
+        ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
+        ///     spawned it.
+        /// </summary>
+        ReadOnlyCollection<IModeChoice> MenuChoices { get; }
     }
 }

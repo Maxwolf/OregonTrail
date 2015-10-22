@@ -48,7 +48,7 @@ namespace TrailEntities
         ///     concrete handlers for game mode.
         /// </summary>
         /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
-        protected override void OnReceiveCommand(string returnedLine)
+        protected override void OnReceiveInputBuffer(string returnedLine)
         {
             throw new NotImplementedException();
         }

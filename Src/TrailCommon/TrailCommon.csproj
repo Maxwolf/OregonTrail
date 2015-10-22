@@ -35,6 +35,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modes\IModeChoice.cs" />
     <Compile Include="Modes\INewGame.cs" />
     <Compile Include="Simulations\Game\ITick.cs" />
     <Compile Include="Simulations\Game\ITravel.cs" />
