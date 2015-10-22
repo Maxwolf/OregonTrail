@@ -15,29 +15,29 @@ namespace TrailEntities
             {
                 var _trail = new List<PointOfInterest>
                 {
-                    new Settlement("Independence", 0, true),
-                    new River("Kansas River Crossing", 83),
-                    new River("Big Blue River Crossing", 119),
-                    new Settlement("Fort Kearney", 250, true),
-                    new Landmark("Chimney Rock", 86, true),
-                    new Settlement("Fort Laramie", 190, true),
-                    new Landmark("Independence Rock", 152, true),
-                    new ForkInRoad("South Pass", 219, new List<PointOfInterest>
+                    new SettlementPoint("Independence", 0, true),
+                    new RiverPoint("Kansas River Crossing", 83),
+                    new RiverPoint("Big Blue River Crossing", 119),
+                    new SettlementPoint("Fort Kearney", 250, true),
+                    new LandmarkPoint("Chimney Rock", 86, true),
+                    new SettlementPoint("Fort Laramie", 190, true),
+                    new LandmarkPoint("Independence Rock", 152, true),
+                    new ForkInRoadPoint("South Pass", 219, new List<PointOfInterest>
                     {
-                        new Settlement("Fort Bridger", 162, true),
-                        new River("Green River Shortcut", 144)
+                        new SettlementPoint("Fort Bridger", 162, true),
+                        new RiverPoint("Green River Shortcut", 144)
                     }),
-                    new River("Green River Crossing", 94),
-                    new Landmark("Soda Springs", 57, true),
-                    new Settlement("Fort Hall", 182, true),
-                    new River("Snake River Crossing", 114),
-                    new Settlement("Fort Boise", 94, true),
-                    new ForkInRoad("Blue Mountains", 91, new List<PointOfInterest>
+                    new RiverPoint("Green River Crossing", 94),
+                    new LandmarkPoint("Soda Springs", 57, true),
+                    new SettlementPoint("Fort Hall", 182, true),
+                    new RiverPoint("Snake River Crossing", 114),
+                    new SettlementPoint("Fort Boise", 94, true),
+                    new ForkInRoadPoint("Blue Mountains", 91, new List<PointOfInterest>
                     {
-                        new Settlement("Fort Walla Walla", 120, true),
-                        new Landmark("The Dalles", 146, true)
+                        new SettlementPoint("Fort Walla Walla", 120, true),
+                        new LandmarkPoint("The Dalles", 146, true)
                     }),
-                    new Settlement("Oregon City", 85, false)
+                    new SettlementPoint("Oregon City", 85, false)
                 };
                 return new ReadOnlyCollection<PointOfInterest>(_trail);
             }

@@ -51,7 +51,7 @@
     <Compile Include="Modes\Trading\TradingCommands.cs" />
     <Compile Include="Modes\Traveling\TravelCommands.cs" />
     <Compile Include="Modes\Traveling\TravelMode.cs" />
-    <Compile Include="Points of Interest\River.cs" />
+    <Compile Include="Points of Interest\RiverPoint.cs" />
     <Compile Include="Simulations\GameSimulationApp.cs" />
     <Compile Include="Simulations\TickSim.cs" />
     <Compile Include="Trails.cs" />
@@ -60,13 +60,13 @@
     <Compile Include="Simulations\TimeSim.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\Oxen.cs" />
-    <Compile Include="Points of Interest\ForkInRoad.cs" />
+    <Compile Include="Points of Interest\ForkInRoadPoint.cs" />
     <Compile Include="Simulations\TrailSim.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Modes\Hunting\HuntMode.cs" />
-    <Compile Include="Points of Interest\Landmark.cs" />
+    <Compile Include="Points of Interest\LandmarkPoint.cs" />
     <Compile Include="Modes\River Crossing\RiverCrossingMode.cs" />
-    <Compile Include="Points of Interest\Settlement.cs" />
+    <Compile Include="Points of Interest\SettlementPoint.cs" />
     <Compile Include="Modes\Store\StoreMode.cs" />
     <Compile Include="Modes\Trading\TradeMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

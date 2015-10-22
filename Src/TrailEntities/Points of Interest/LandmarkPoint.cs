@@ -2,14 +2,14 @@
 
 namespace TrailEntities
 {
-    public sealed class Landmark : PointOfInterest, ILandmark
+    public sealed class LandmarkPoint : PointOfInterest, ILandmarkPoint
     {
         private bool _canRest;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.PointOfInterest" /> class.
         /// </summary>
-        public Landmark(string name, ulong distanceLength, bool canRest) : base(name, distanceLength)
+        public LandmarkPoint(string name, ulong distanceLength, bool canRest) : base(name, distanceLength)
         {
             _canRest = canRest;
         }

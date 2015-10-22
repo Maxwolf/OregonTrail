@@ -8,7 +8,7 @@ namespace TrailEntities
     ///     are run
     ///     by the military and always have a source of funding to perform maintenance and upkeep.
     /// </summary>
-    public sealed class Settlement : PointOfInterest, ISettlement
+    public sealed class SettlementPoint : PointOfInterest, ISettlementPoint
     {
         private bool _canRest;
         private StoreMode _storeMode;
@@ -16,7 +16,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Settlement" /> class.
         /// </summary>
-        public Settlement(string name, ulong distanceLength, bool canRest) : base(name, distanceLength)
+        public SettlementPoint(string name, ulong distanceLength, bool canRest) : base(name, distanceLength)
         {
             _canRest = canRest;
             _storeMode = null;

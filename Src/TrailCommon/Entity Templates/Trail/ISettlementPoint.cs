@@ -1,6 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface ISettlement
+    public interface ISettlementPoint
     {
         bool CanRest { get; }
         IStore Store { get; }

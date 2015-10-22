@@ -1,6 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface IRiver
+    public interface IRiverPoint
     {
         uint Depth { get; }
         uint FerryCost { get; }

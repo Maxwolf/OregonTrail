@@ -1,6 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface ILandmark
+    public interface ILandmarkPoint
     {
         bool CanRest { get; }
     }

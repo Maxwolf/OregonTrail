@@ -3,7 +3,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class SettlementMode : GameMode<SettlementCommands>, ISettlement
+    public sealed class SettlementMode : GameMode<SettlementCommands>, ISettlementPoint
     {
         private readonly bool _canRest;
         private readonly IStore _store;

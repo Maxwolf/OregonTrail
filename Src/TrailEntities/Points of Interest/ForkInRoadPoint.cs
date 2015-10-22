@@ -4,14 +4,14 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class ForkInRoad : PointOfInterest, IForkInRoad
+    public sealed class ForkInRoadPoint : PointOfInterest, IForkInRoadPoint
     {
         private List<PointOfInterest> _skipChoices;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ForkInRoad" /> class.
         /// </summary>
-        public ForkInRoad(string name, ulong distanceLength, List<PointOfInterest> skipChoices)
+        public ForkInRoadPoint(string name, ulong distanceLength, List<PointOfInterest> skipChoices)
             : base(name, distanceLength)
         {
             _skipChoices = skipChoices;

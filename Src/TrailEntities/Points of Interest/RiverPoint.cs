@@ -3,12 +3,12 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class River : PointOfInterest, IRiver
+    public sealed class RiverPoint : PointOfInterest, IRiverPoint
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailCommon.PointOfInterest" /> class.
         /// </summary>
-        public River(string name, ulong distanceLength) : base(name, distanceLength)
+        public RiverPoint(string name, ulong distanceLength) : base(name, distanceLength)
         {
         }
 

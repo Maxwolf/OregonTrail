@@ -2,7 +2,7 @@
 
 namespace TrailCommon
 {
-    public interface IForkInRoad
+    public interface IForkInRoadPoint
     {
         ReadOnlyCollection<PointOfInterest> SkipChoices { get; }
     }

@@ -48,8 +48,8 @@
     <Compile Include="Simulations\Time\Months.cs" />
     <Compile Include="Modes\ModeType.cs" />
     <Compile Include="Modes\IMode.cs" />
-    <Compile Include="Entity Templates\Trail\IForkInRoad.cs" />
-    <Compile Include="Entity Templates\Trail\IRiver.cs" />
+    <Compile Include="Entity Templates\Trail\IForkInRoadPoint.cs" />
+    <Compile Include="Entity Templates\Trail\IRiverPoint.cs" />
     <Compile Include="Entity Templates\Trail\PointOfInterest.cs" />
     <Compile Include="Entity Templates\Vehicle\RepairStatus.cs" />
     <Compile Include="Entity Templates\People\Disease.cs" />
@@ -57,9 +57,9 @@
     <Compile Include="Simulations\Game\IGameSimulation.cs" />
     <Compile Include="Modes\IHunt.cs" />
     <Compile Include="Simulations\Game\ISimulation.cs" />
-    <Compile Include="Entity Templates\Trail\ILandmark.cs" />
+    <Compile Include="Entity Templates\Trail\ILandmarkPoint.cs" />
     <Compile Include="Modes\IRiverCrossing.cs" />
-    <Compile Include="Entity Templates\Trail\ISettlement.cs" />
+    <Compile Include="Entity Templates\Trail\ISettlementPoint.cs" />
     <Compile Include="Modes\IStore.cs" />
     <Compile Include="Modes\ITrade.cs" />
     <Compile Include="Entity Templates\Trail\ITrail.cs" />
