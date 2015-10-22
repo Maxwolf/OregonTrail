@@ -145,7 +145,7 @@ namespace TrailEntities
         /// </summary>
         /// <param name="mode">Enumeration of the game mode that requested to be attached.</param>
         /// <returns>New game mode instance based on the mode input parameter.</returns>
-        protected override GameMode OnModeChanging(SimulationMode mode)
+        protected override IMode OnModeChanging(SimulationMode mode)
         {
             switch (mode)
             {

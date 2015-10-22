@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
-
-namespace TrailCommon
+﻿namespace TrailCommon
 {
     /// <summary>
     ///     Underlying game mode interface, used by base simulation to keep track of what data should currently have control
     ///     over the simulation details. Only top most game mode will ever be ticked.
     /// </summary>
-    public interface IMode<T> where T : struct, IComparable, IFormattable, IConvertible
+    public interface IMode
     {
         /// <summary>
         ///     Defines the type of game mode this is and what it's purpose will be intended for.
@@ -15,10 +12,10 @@ namespace TrailCommon
         SimulationMode Mode { get; }
 
         /// <summary>
-        ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
-        ///     spawned it.
+        ///     Because of how generics work in C# we need to have the ability to override a method in implementing classes to get
+        ///     back the correct commands for the implementation from abstract class inheritance chain.
         /// </summary>
-        ReadOnlyCollection<IModeChoice<T>> MenuChoices { get; }
+        object[] GetCommands();
 
         /// <summary>
         ///     Grabs the text user interface string that will be used for debugging on console application.
@@ -37,13 +34,5 @@ namespace TrailCommon
         ///     members.
         /// </summary>
         void ProcessCommand(string returnedLine);
-
-        /// <summary>
-        ///     Adds a new game mode menu selection that will be available to send as a command for this specific game mode.
-        /// </summary>
-        /// <param name="action">Method that will be run when the choice is made.</param>
-        /// <param name="command">Associated command that will trigger the respective action in the active game mode.</param>
-        /// <param name="description">Text that will be shown to user so they know what the choice means.</param>
-        void AddCommand(Action action, T command, string description);
     }
 }

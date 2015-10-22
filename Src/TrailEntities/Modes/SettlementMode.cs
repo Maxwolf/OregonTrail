@@ -17,11 +17,6 @@ namespace TrailEntities
             _storeMode = new StoreMode();
         }
 
-        public override SimulationMode Mode
-        {
-            get { return SimulationMode.Settlement; }
-        }
-
         public bool CanRest
         {
             get { return _canRest; }
@@ -32,9 +27,9 @@ namespace TrailEntities
             get { return _storeMode; }
         }
 
-        public void GoToStore()
+        public override SimulationMode Mode
         {
-            throw new NotImplementedException();
+            get { return SimulationMode.Settlement; }
         }
 
         /// <summary>
@@ -42,6 +37,11 @@ namespace TrailEntities
         ///     top-most game mode.
         /// </summary>
         public override void TickMode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GoToStore()
         {
             throw new NotImplementedException();
         }

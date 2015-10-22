@@ -139,6 +139,31 @@ namespace TrailEntities
         {
         }
 
+        public override void TickMode()
+        {
+            // Every new game has you picking names, profession, and starting items.
+            if (!_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
+            {
+                _hasChosenNames = true;
+                ChooseNames();
+            }
+            else if (_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
+            {
+                _hasChosenProfession = true;
+                ChooseProfession();
+            }
+            else if (_hasChosenNames && _hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
+            {
+                _hasChosenStartingItems = true;
+                BuyInitialItems();
+            }
+            else if (_hasChosenNames && _hasChosenProfession && _hasChosenStartingItems && !_hasStartedGame)
+            {
+                _hasStartedGame = true;
+                StartGame();
+            }
+        }
+
         private string GetPlayerName()
         {
             var readLine = Console.ReadLine();
@@ -165,31 +190,6 @@ namespace TrailEntities
                 // First name in list in leader.
                 var isLeader = _playerNames.IndexOf(name) == 0;
                 GameSimulationApp.Instance.Vehicle.AddPerson(new Person(_playerProfession, name, isLeader));
-            }
-        }
-
-        public override void TickMode()
-        {
-            // Every new game has you picking names, profession, and starting items.
-            if (!_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
-            {
-                _hasChosenNames = true;
-                ChooseNames();
-            }
-            else if (_hasChosenNames && !_hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
-            {
-                _hasChosenProfession = true;
-                ChooseProfession();
-            }
-            else if (_hasChosenNames && _hasChosenProfession && !_hasChosenStartingItems && !_hasStartedGame)
-            {
-                _hasChosenStartingItems = true;
-                BuyInitialItems();
-            }
-            else if (_hasChosenNames && _hasChosenProfession && _hasChosenStartingItems && !_hasStartedGame)
-            {
-                _hasStartedGame = true;
-                StartGame();
             }
         }
 

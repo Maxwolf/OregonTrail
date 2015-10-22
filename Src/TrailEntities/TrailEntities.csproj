@@ -39,7 +39,6 @@
     <Compile Include="Modes\ForkInRoadMode.cs" />
     <Compile Include="Modes\GameMode.cs" />
     <Compile Include="Modes\LandmarkMode.cs" />
-    <Compile Include="Modes\Modes.cs" />
     <Compile Include="Modes\SettlementMode.cs" />
     <Compile Include="Modes\TravelingMode.cs" />
     <Compile Include="Trail Points\RiverPoint.cs" />

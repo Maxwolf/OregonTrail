@@ -1,7 +1,6 @@
 ﻿namespace TrailCommon
 {
-    public interface ISettlementMode : IMode<SettlementCommands>
+    public interface ISettlementMode : IMode
     {
-         
     }
 }

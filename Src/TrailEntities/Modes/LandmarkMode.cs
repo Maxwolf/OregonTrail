@@ -15,14 +15,14 @@ namespace TrailEntities
             _canRest = true;
         }
 
-        public override SimulationMode Mode
-        {
-            get { return SimulationMode.Landmark; }
-        }
-
         public bool CanRest
         {
             get { return _canRest; }
+        }
+
+        public override SimulationMode Mode
+        {
+            get { return SimulationMode.Landmark; }
         }
 
         /// <summary>

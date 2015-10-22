@@ -246,7 +246,7 @@ namespace TrailEntities
             NewgameEvent?.Invoke();
         }
 
-        protected abstract GameMode OnModeChanging(SimulationMode mode);
+        protected abstract IMode OnModeChanging(SimulationMode mode);
 
         /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can

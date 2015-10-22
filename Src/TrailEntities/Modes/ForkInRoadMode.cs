@@ -17,14 +17,14 @@ namespace TrailEntities
             _skipChoices = new List<PointOfInterest>();
         }
 
-        public override SimulationMode Mode
-        {
-            get { return SimulationMode.ForkInRoad; }
-        }
-
         public ReadOnlyCollection<PointOfInterest> SkipChoices
         {
             get { return new ReadOnlyCollection<PointOfInterest>(_skipChoices); }
+        }
+
+        public override SimulationMode Mode
+        {
+            get { return SimulationMode.ForkInRoad; }
         }
 
         /// <summary>

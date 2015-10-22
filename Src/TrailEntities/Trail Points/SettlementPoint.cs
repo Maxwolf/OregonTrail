@@ -24,7 +24,7 @@ namespace TrailEntities
 
         public override SimulationMode Mode
         {
-            get { return TrailCommon.SimulationMode.Settlement; }
+            get { return SimulationMode.Settlement; }
         }
 
         public bool CanRest

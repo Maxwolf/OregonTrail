@@ -13,7 +13,7 @@ namespace TrailEntities
     ///     keeps track of all currently loaded game modes and will only tick the top-most one so they can be stacked and clear
     ///     out until there are none.
     /// </summary>
-    public abstract class GameMode<T> : IMode<T> where T : struct, IComparable, IFormattable, IConvertible
+    public abstract class GameMode<T> : IMode where T : struct, IComparable, IFormattable, IConvertible
     {
         /// <summary>
         ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
@@ -37,18 +37,27 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
-        ///     simulation.
-        /// </summary>
-        public abstract SimulationMode Mode { get; }
-
-        /// <summary>
         ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
         ///     spawned it.
         /// </summary>
         public ReadOnlyCollection<IModeChoice<T>> MenuChoices
         {
             get { return _menuChoices.ToList().AsReadOnly(); }
+        }
+
+        /// <summary>
+        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     simulation.
+        /// </summary>
+        public abstract SimulationMode Mode { get; }
+
+        /// <summary>
+        ///     Calls the abstract methods with generics using this override.
+        /// </summary>
+        /// <returns>Formatted list of command enumeration values in an array (since I cannot return System.Enum directly).</returns>
+        object[] IMode.GetCommands()
+        {
+            return new object[] {GetCommands()};
         }
 
         /// <summary>
@@ -98,6 +107,23 @@ namespace TrailEntities
             {
                 OnReceiveInputBuffer(returnedLine);
             }
+        }
+
+        /// <summary>
+        ///     Because of how generics work in C# we need to have the ability to override a method in implementing classes to get
+        ///     back the correct commands for the implementation from abstract class inheritance chain. On the bright side it
+        ///     enforces the commands returned to be of the specified enum in generics.
+        /// </summary>
+        /// <remarks>http://stackoverflow.com/a/5042675</remarks>
+        private static T[] GetCommands()
+        {
+            // Complain the generics implemented is not of an enum type.
+            if (!typeof (T).IsEnum)
+            {
+                throw new InvalidCastException("T must be an enumerated type!");
+            }
+
+            return Enum.GetValues(typeof (T)) as T[];
         }
 
         /// <summary>
