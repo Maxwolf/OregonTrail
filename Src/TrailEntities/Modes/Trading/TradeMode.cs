@@ -9,7 +9,7 @@ namespace TrailEntities
     ///     Handles the interaction of the player party and another AI controlled party that offers up items for trading which
     ///     the player can choose to accept or not.
     /// </summary>
-    public sealed class TradeMode : GameMode, ITrade
+    public sealed class TradeMode : GameMode<TradingCommands>, ITrade
     {
         private readonly List<IItem> _possibleTrades;
 
@@ -18,13 +18,9 @@ namespace TrailEntities
             _possibleTrades = new List<IItem>();
         }
 
-        /// <summary>
-        ///     Fired by simulation when it wants to request latest text user interface data for the game mode, this is used to
-        ///     display to user console specific information about what the simulation wants.
-        /// </summary>
-        public override string GetTUI()
+        public override ModeType Mode
         {
-            throw new NotImplementedException();
+            get { return ModeType.Trade; }
         }
 
         /// <summary>
@@ -34,11 +30,6 @@ namespace TrailEntities
         public override void TickMode()
         {
             throw new NotImplementedException();
-        }
-
-        public override ModeType Mode
-        {
-            get { return ModeType.Trade; }
         }
 
         public ReadOnlyCollection<IItem> PossibleTrades
@@ -54,11 +45,10 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
-        ///     concrete handlers for game mode.
+        ///     Called by the active game mode when the text user interface is called. This will create a string builder with all
+        ///     the data and commands that represent the concrete handler for this game mode.
         /// </summary>
-        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
-        protected override void OnReceiveInputBuffer(string returnedLine)
+        protected override string OnGetModeTUI()
         {
             throw new NotImplementedException();
         }

@@ -11,6 +11,16 @@ namespace TrailEntities
     public abstract class SimulationApp : TickSim, ISimulation
     {
         /// <summary>
+        ///     Default string used when game mode has nothing better to say.
+        /// </summary>
+        public const string GAMEMODE_DEFAULT_TUI = "[DEFAULT GAME MODE TEXT USER INTERFACE]";
+
+        /// <summary>
+        ///     Default string used when there are no game modes at all.
+        /// </summary>
+        public const string GAMEMODE_EMPTY_TUI = "[NO GAME MODE ATTACHED]";
+
+        /// <summary>
         ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
         ///     of themselves like stores and trades.
         /// </summary>
@@ -203,7 +213,7 @@ namespace TrailEntities
                 return activeModeTUI;
 
             // Otherwise, display default message if null for mode.
-            return ActiveMode == null ? GameMode.GAMEMODE_EMPTY_TUI : GameMode.GAMEMODE_DEFAULT_TUI;
+            return ActiveMode == null ? GAMEMODE_EMPTY_TUI : GAMEMODE_DEFAULT_TUI;
         }
 
         /// <summary>

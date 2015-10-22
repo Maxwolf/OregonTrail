@@ -5,7 +5,7 @@ using TrailCommon;
 namespace TrailEntities
 {
     /// <summary>
-    /// Receiver - The main logic will be implemented here and it knows how to perform the necessary actions.
+    ///     Receiver - The main logic will be implemented here and it knows how to perform the necessary actions.
     /// </summary>
     public sealed class GameSimulationApp : SimulationApp, IGameSimulation
     {

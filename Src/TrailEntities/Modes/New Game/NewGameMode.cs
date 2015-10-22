@@ -4,7 +4,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class NewGameMode : GameMode, INewGame
+    public sealed class NewGameMode : GameMode<NewGameCommands>, INewGame
     {
         private bool _hasChosenNames;
         private bool _hasChosenProfession;
@@ -14,19 +14,19 @@ namespace TrailEntities
 
         private Profession _playerProfession;
 
-        public override ModeType Mode
-        {
-            get { return ModeType.NewGame; }
-        }
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:TrailEntities.NewGameMode"/> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.NewGameMode" /> class.
         /// </summary>
         public NewGameMode()
         {
-            AddCommand(ChooseNames, "ChooseNames", "Pick names for your party.");
-            AddCommand(ChooseProfession, "ChooseProfession", "Pick party leader profession.");
-            AddCommand(BuyInitialItems, "BuyInitialItems", "Buy initial items for journey.");
+            AddCommand(ChooseNames, NewGameCommands.ChooseNames, "Pick names for your party.");
+            AddCommand(ChooseProfession, NewGameCommands.ChooseProfession, "Pick party leader profession.");
+            AddCommand(BuyInitialItems, NewGameCommands.BuyInitialItems, "Buy initial items for journey.");
+        }
+
+        public override ModeType Mode
+        {
+            get { return ModeType.NewGame; }
         }
 
         public void ChooseNames()

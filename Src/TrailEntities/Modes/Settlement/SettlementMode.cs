@@ -3,21 +3,23 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class LandmarkMode : GameMode, ILandmark
+    public sealed class SettlementMode : GameMode<SettlementCommands>, ISettlement
     {
         private readonly bool _canRest;
+        private readonly IStore _store;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public LandmarkMode()
+        public SettlementMode()
         {
             _canRest = true;
+            _store = new StoreMode();
         }
 
         public override ModeType Mode
         {
-            get { return ModeType.Landmark; }
+            get { return ModeType.Settlement; }
         }
 
         public bool CanRest
@@ -25,11 +27,12 @@ namespace TrailEntities
             get { return _canRest; }
         }
 
-        /// <summary>
-        ///     Fired by simulation when it wants to request latest text user interface data for the game mode, this is used to
-        ///     display to user console specific information about what the simulation wants.
-        /// </summary>
-        public override string GetTUI()
+        public IStore Store
+        {
+            get { return _store; }
+        }
+
+        public void GoToStore()
         {
             throw new NotImplementedException();
         }
@@ -44,11 +47,10 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
-        ///     concrete handlers for game mode.
+        ///     Called by the active game mode when the text user interface is called. This will create a string builder with all
+        ///     the data and commands that represent the concrete handler for this game mode.
         /// </summary>
-        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
-        protected override void OnReceiveInputBuffer(string returnedLine)
+        protected override string OnGetModeTUI()
         {
             throw new NotImplementedException();
         }

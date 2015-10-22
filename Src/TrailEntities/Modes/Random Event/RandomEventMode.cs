@@ -3,7 +3,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class RandomEventMode : GameMode, IRandomEvent
+    public sealed class RandomEventMode : GameMode<RandomEventCommands>, IRandomEvent
     {
         private string _name;
 
@@ -18,15 +18,6 @@ namespace TrailEntities
         public string Name
         {
             get { return _name; }
-        }
-
-        /// <summary>
-        ///     Fired by simulation when it wants to request latest text user interface data for the game mode, this is used to
-        ///     display to user console specific information about what the simulation wants.
-        /// </summary>
-        public override string GetTUI()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -54,11 +45,10 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
-        ///     concrete handlers for game mode.
+        ///     Called by the active game mode when the text user interface is called. This will create a string builder with all
+        ///     the data and commands that represent the concrete handler for this game mode.
         /// </summary>
-        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
-        protected override void OnReceiveInputBuffer(string returnedLine)
+        protected override string OnGetModeTUI()
         {
             throw new NotImplementedException();
         }

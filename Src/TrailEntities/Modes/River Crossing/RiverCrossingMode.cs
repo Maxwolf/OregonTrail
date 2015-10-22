@@ -8,7 +8,7 @@ namespace TrailEntities
     ///     trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how
     ///     bad it is.
     /// </summary>
-    public sealed class RiverCrossingMode : GameMode, IRiverCrossing
+    public sealed class RiverCrossingMode : GameMode<RiverCrossingCommands>, IRiverCrossing
     {
         private uint _depth;
         private uint _ferryCost;
@@ -53,15 +53,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Fired by simulation when it wants to request latest text user interface data for the game mode, this is used to
-        ///     display to user console specific information about what the simulation wants.
-        /// </summary>
-        public override string GetTUI()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
         ///     top-most game mode.
         /// </summary>
@@ -76,11 +67,10 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
-        ///     concrete handlers for game mode.
+        ///     Called by the active game mode when the text user interface is called. This will create a string builder with all
+        ///     the data and commands that represent the concrete handler for this game mode.
         /// </summary>
-        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
-        protected override void OnReceiveInputBuffer(string returnedLine)
+        protected override string OnGetModeTUI()
         {
             throw new NotImplementedException();
         }
