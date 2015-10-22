@@ -38,7 +38,7 @@ namespace TrailEntities
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public abstract ModeType Mode { get; }
+        public abstract SimulationMode Mode { get; }
 
         /// <summary>
         ///     Fired by simulation when it wants to request latest text user interface data for the game mode, this is used to

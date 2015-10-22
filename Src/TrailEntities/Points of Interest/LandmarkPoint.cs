@@ -14,9 +14,9 @@ namespace TrailEntities
             _canRest = canRest;
         }
 
-        public override ModeType Mode
+        public override SimulationMode Mode
         {
-            get { return ModeType.Landmark; }
+            get { return SimulationMode.Landmark; }
         }
 
         public bool CanRest

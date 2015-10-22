@@ -9,7 +9,7 @@
         /// <summary>
         ///     Defines the type of game mode this is and what it's purpose will be intended for.
         /// </summary>
-        ModeType Mode { get; }
+        SimulationMode Mode { get; }
 
         /// <summary>
         ///     Grabs the text user interface string that will be used for debugging on console application.

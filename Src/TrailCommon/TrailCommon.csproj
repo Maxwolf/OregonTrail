@@ -35,10 +35,23 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modes\Fork In Road\ForkInRoadCommands.cs" />
+    <Compile Include="Modes\Fork In Road\IForkInRoadMode.cs" />
+    <Compile Include="Modes\Hunting\HuntingCommands.cs" />
     <Compile Include="Modes\IModeChoice.cs" />
-    <Compile Include="Modes\INewGame.cs" />
+    <Compile Include="Modes\Landmark\ILandmarkMode.cs" />
+    <Compile Include="Modes\Landmark\LandmarkCommands.cs" />
+    <Compile Include="Modes\New Game\INewGameMode.cs" />
+    <Compile Include="Modes\New Game\NewGameCommands.cs" />
+    <Compile Include="Modes\Random Event\RandomEventCommands.cs" />
+    <Compile Include="Modes\River Crossing\RiverCrossingCommands.cs" />
+    <Compile Include="Modes\Settlement\ISettlementMode.cs" />
+    <Compile Include="Modes\Settlement\SettlementCommands.cs" />
+    <Compile Include="Modes\Store\StoreCommands.cs" />
+    <Compile Include="Modes\Trading\TradingCommands.cs" />
+    <Compile Include="Modes\Traveling\TravelCommands.cs" />
     <Compile Include="Simulations\Game\ITick.cs" />
-    <Compile Include="Simulations\Game\ITravel.cs" />
+    <Compile Include="Modes\Traveling\ITravelingMode.cs" />
     <Compile Include="Simulations\Climate\ClimateClassification.cs" />
     <Compile Include="Simulations\Climate\ClimateData.cs" />
     <Compile Include="Randomizer.cs" />
@@ -46,7 +59,7 @@
     <Compile Include="Simulations\Climate\IClimateSimulation.cs" />
     <Compile Include="Simulations\Time\ITimeSimulation.cs" />
     <Compile Include="Simulations\Time\Months.cs" />
-    <Compile Include="Modes\ModeType.cs" />
+    <Compile Include="Modes\SimulationMode.cs" />
     <Compile Include="Modes\IMode.cs" />
     <Compile Include="Entity Templates\Trail\IForkInRoadPoint.cs" />
     <Compile Include="Entity Templates\Trail\IRiverPoint.cs" />
@@ -55,21 +68,21 @@
     <Compile Include="Entity Templates\People\Disease.cs" />
     <Compile Include="Entity Templates\Item\IItem.cs" />
     <Compile Include="Simulations\Game\IGameSimulation.cs" />
-    <Compile Include="Modes\IHunt.cs" />
+    <Compile Include="Modes\Hunting\IHuntingMode.cs" />
     <Compile Include="Simulations\Game\ISimulation.cs" />
     <Compile Include="Entity Templates\Trail\ILandmarkPoint.cs" />
-    <Compile Include="Modes\IRiverCrossing.cs" />
+    <Compile Include="Modes\River Crossing\IRiverCrossingMode.cs" />
     <Compile Include="Entity Templates\Trail\ISettlementPoint.cs" />
-    <Compile Include="Modes\IStore.cs" />
-    <Compile Include="Modes\ITrade.cs" />
-    <Compile Include="Entity Templates\Trail\ITrail.cs" />
+    <Compile Include="Modes\Store\IStoreMode.cs" />
+    <Compile Include="Modes\Trading\ITradingMode.cs" />
+    <Compile Include="Simulations\Game\ITrail.cs" />
     <Compile Include="Entity Templates\People\RationLevel.cs" />
     <Compile Include="Entity Templates\People\IPerson.cs" />
     <Compile Include="Entity Templates\Vehicle\IVehicle.cs" />
     <Compile Include="Entity Templates\People\Profession.cs" />
     <Compile Include="Entity Templates\Vehicle\TravelPace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Modes\IRandomEvent.cs" />
+    <Compile Include="Modes\Random Event\IRandomEventMode.cs" />
     <Compile Include="Simulations\Climate\WeatherCondition.cs" />
   </ItemGroup>
   <ItemGroup />

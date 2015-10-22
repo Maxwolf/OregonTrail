@@ -17,9 +17,9 @@ namespace TrailEntities
             _skipChoices = skipChoices;
         }
 
-        public override ModeType Mode
+        public override SimulationMode Mode
         {
-            get { return ModeType.ForkInRoad; }
+            get { return SimulationMode.ForkInRoad; }
         }
 
         public ReadOnlyCollection<PointOfInterest> SkipChoices

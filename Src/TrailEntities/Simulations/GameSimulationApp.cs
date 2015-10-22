@@ -136,7 +136,7 @@ namespace TrailEntities
             base.OnFirstTimerTick();
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            AddMode(ModeType.NewGame);
+            AddMode(SimulationMode.NewGame);
         }
 
         /// <summary>
@@ -145,30 +145,30 @@ namespace TrailEntities
         /// </summary>
         /// <param name="mode">Enumeration of the game mode that requested to be attached.</param>
         /// <returns>New game mode instance based on the mode input parameter.</returns>
-        protected override GameMode OnModeChanging(ModeType mode)
+        protected override GameMode OnModeChanging(SimulationMode mode)
         {
             switch (mode)
             {
-                case ModeType.Travel:
-                    return new TravelMode();
-                case ModeType.ForkInRoad:
+                case SimulationMode.Travel:
+                    return new TravelingMode();
+                case SimulationMode.ForkInRoad:
                     return new ForkInRoadMode();
-                case ModeType.Hunt:
-                    return new HuntMode();
-                case ModeType.Landmark:
+                case SimulationMode.Hunt:
+                    return new HuntingMode();
+                case SimulationMode.Landmark:
                     return new LandmarkMode();
-                case ModeType.NewGame:
+                case SimulationMode.NewGame:
                     return new NewGameMode();
-                case ModeType.RandomEvent:
+                case SimulationMode.RandomEvent:
                     return new RandomEventMode();
-                case ModeType.RiverCrossing:
+                case SimulationMode.RiverCrossing:
                     return new RiverCrossingMode();
-                case ModeType.Settlement:
+                case SimulationMode.Settlement:
                     return new SettlementMode();
-                case ModeType.Store:
+                case SimulationMode.Store:
                     return new StoreMode();
-                case ModeType.Trade:
-                    return new TradeMode();
+                case SimulationMode.Trade:
+                    return new TradingMode();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
             }

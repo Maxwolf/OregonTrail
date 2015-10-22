@@ -177,7 +177,7 @@ namespace TrailEntities
         ///     Creates and adds the specified game mode to the simulation if it does not already exist in the list of modes.
         /// </summary>
         /// <param name="mode">Enumeration value of the mode which should be created.</param>
-        public void AddMode(ModeType mode)
+        public void AddMode(SimulationMode mode)
         {
             // Create new mode, check if it is in mode list.
             var changeMode = OnModeChanging(mode);
@@ -246,7 +246,7 @@ namespace TrailEntities
             NewgameEvent?.Invoke();
         }
 
-        protected abstract GameMode OnModeChanging(ModeType mode);
+        protected abstract GameMode OnModeChanging(SimulationMode mode);
 
         /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can

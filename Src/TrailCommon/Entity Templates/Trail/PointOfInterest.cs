@@ -24,6 +24,6 @@
             get { return _distanceLength; }
         }
 
-        public abstract ModeType Mode { get; }
+        public abstract SimulationMode Mode { get; }
     }
 }

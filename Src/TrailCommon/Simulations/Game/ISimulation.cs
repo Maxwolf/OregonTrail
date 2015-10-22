@@ -14,7 +14,7 @@ namespace TrailCommon
         event ScreenBufferDirty ScreenBufferDirtyEvent;
         event InputBufferUpdated InputBufferUpdatedEvent;
         event ModeChanged ModeChangedEvent;
-        void AddMode(ModeType mode);
+        void AddMode(SimulationMode mode);
         void RemoveActiveMode();
         void RemoteLastCharOfInputBuffer();
         void ProcessInputBuffer();
@@ -22,7 +22,7 @@ namespace TrailCommon
         void TickTUI();
     }
 
-    public delegate void ModeChanged(ModeType mode);
+    public delegate void ModeChanged(SimulationMode mode);
 
     public delegate void EndGame();
 

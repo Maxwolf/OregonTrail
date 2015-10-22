@@ -3,7 +3,7 @@
     public interface ISettlementPoint
     {
         bool CanRest { get; }
-        IStore Store { get; }
+        IStoreMode StoreMode { get; }
         void GoToStore();
     }
 }
