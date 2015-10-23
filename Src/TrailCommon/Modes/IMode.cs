@@ -9,7 +9,13 @@
         /// <summary>
         ///     Defines the type of game mode this is and what it's purpose will be intended for.
         /// </summary>
-        SimulationMode Mode { get; }
+        ModeType ModeType { get; }
+
+        /// <summary>
+        ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and
+        ///     then detach.
+        /// </summary>
+        IModeState CurrentState { get; set; }
 
         /// <summary>
         ///     Because of how generics work in C# we need to have the ability to override a method in implementing classes to get
@@ -20,7 +26,6 @@
         /// <summary>
         ///     Grabs the text user interface string that will be used for debugging on console application.
         /// </summary>
-        /// <returns></returns>
         string GetTUI();
 
         /// <summary>

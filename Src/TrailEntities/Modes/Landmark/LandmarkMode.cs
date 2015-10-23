@@ -20,9 +20,9 @@ namespace TrailEntities
             get { return _canRest; }
         }
 
-        public override SimulationMode Mode
+        public override ModeType ModeType
         {
-            get { return SimulationMode.Landmark; }
+            get { return ModeType.Landmark; }
         }
 
         /// <summary>
@@ -30,15 +30,6 @@ namespace TrailEntities
         ///     top-most game mode.
         /// </summary>
         public override void TickMode()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        ///     Called by the active game mode when the text user interface is called. This will create a string builder with all
-        ///     the data and commands that represent the concrete handler for this game mode.
-        /// </summary>
-        protected override string OnGetModeTUI()
         {
             throw new NotImplementedException();
         }

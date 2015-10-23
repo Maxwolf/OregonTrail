@@ -61,18 +61,9 @@ namespace TrailEntities
             throw new NotImplementedException();
         }
 
-        public override SimulationMode Mode
+        public override ModeType ModeType
         {
-            get { return SimulationMode.RiverCrossing; }
-        }
-
-        /// <summary>
-        ///     Called by the active game mode when the text user interface is called. This will create a string builder with all
-        ///     the data and commands that represent the concrete handler for this game mode.
-        /// </summary>
-        protected override string OnGetModeTUI()
-        {
-            throw new NotImplementedException();
+            get { return ModeType.RiverCrossing; }
         }
 
         /// <summary>

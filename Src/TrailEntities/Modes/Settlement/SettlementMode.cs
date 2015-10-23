@@ -3,26 +3,33 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class TravelingMode : GameMode<TravelCommands>, ITravelingMode
+    public sealed class SettlementMode : GameMode<SettlementCommands>, ISettlementMode
     {
-        public override SimulationMode Mode
+        private readonly bool _canRest;
+        private readonly IStoreMode _storeMode;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        /// </summary>
+        public SettlementMode()
         {
-            get { return SimulationMode.Travel; }
+            _canRest = true;
+            _storeMode = new StoreMode();
         }
 
-        public void Hunt()
+        public bool CanRest
         {
-            throw new NotImplementedException();
+            get { return _canRest; }
         }
 
-        public void Rest()
+        public IStoreMode StoreMode
         {
-            throw new NotImplementedException();
+            get { return _storeMode; }
         }
 
-        public void Trade()
+        public override ModeType ModeType
         {
-            throw new NotImplementedException();
+            get { return ModeType.Settlement; }
         }
 
         /// <summary>
@@ -34,11 +41,7 @@ namespace TrailEntities
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        ///     Called by the active game mode when the text user interface is called. This will create a string builder with all
-        ///     the data and commands that represent the concrete handler for this game mode.
-        /// </summary>
-        protected override string OnGetModeTUI()
+        public void GoToStore()
         {
             throw new NotImplementedException();
         }

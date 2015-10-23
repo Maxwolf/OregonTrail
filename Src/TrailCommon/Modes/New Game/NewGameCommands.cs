@@ -4,6 +4,7 @@
     {
         ChooseNames,
         ChooseProfession,
-        BuyInitialItems
+        BuyInitialItems,
+        StartGame
     }
 }

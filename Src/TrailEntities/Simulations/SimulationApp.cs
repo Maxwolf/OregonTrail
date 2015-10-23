@@ -58,7 +58,7 @@ namespace TrailEntities
 
             // Check if there are any modes after removal.
             if (ActiveMode != null)
-                ModeChangedEvent?.Invoke(ActiveMode.Mode);
+                ModeChangedEvent?.Invoke(ActiveMode.ModeType);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace TrailEntities
                     return "None";
 
                 var lastMode = _modes[_modes.Count - 1];
-                return lastMode.Mode.ToString();
+                return lastMode.ModeType.ToString();
             }
         }
 
@@ -176,16 +176,16 @@ namespace TrailEntities
         /// <summary>
         ///     Creates and adds the specified game mode to the simulation if it does not already exist in the list of modes.
         /// </summary>
-        /// <param name="mode">Enumeration value of the mode which should be created.</param>
-        public void AddMode(SimulationMode mode)
+        /// <param name="modeType">Enumeration value of the mode which should be created.</param>
+        public void AddMode(ModeType modeType)
         {
             // Create new mode, check if it is in mode list.
-            var changeMode = OnModeChanging(mode);
+            var changeMode = OnModeChanging(modeType);
             if (_modes.Contains(changeMode))
                 return;
 
             _modes.Add(changeMode);
-            ModeChangedEvent?.Invoke(changeMode.Mode);
+            ModeChangedEvent?.Invoke(changeMode.ModeType);
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace TrailEntities
             NewgameEvent?.Invoke();
         }
 
-        protected abstract IMode OnModeChanging(SimulationMode mode);
+        protected abstract IMode OnModeChanging(ModeType modeType);
 
         /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can

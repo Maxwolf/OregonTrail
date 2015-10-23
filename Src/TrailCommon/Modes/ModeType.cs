@@ -5,7 +5,7 @@
     ///     view to attach on the view. This enum serves that purpose, it is required to add any new game modes the simulation
     ///     needs to know about to this file.
     /// </summary>
-    public enum SimulationMode
+    public enum ModeType
     {
         /// <summary>
         ///     Primary game mode used for advancing simulation down the trail.

@@ -18,9 +18,9 @@ namespace TrailEntities
             _possibleTrades = new List<IItem>();
         }
 
-        public override SimulationMode Mode
+        public override ModeType ModeType
         {
-            get { return SimulationMode.Trade; }
+            get { return ModeType.Trade; }
         }
 
         /// <summary>
@@ -42,15 +42,6 @@ namespace TrailEntities
             // Cannot trade if there are no offers.
             if (_possibleTrades.Count <= 0)
                 return;
-        }
-
-        /// <summary>
-        ///     Called by the active game mode when the text user interface is called. This will create a string builder with all
-        ///     the data and commands that represent the concrete handler for this game mode.
-        /// </summary>
-        protected override string OnGetModeTUI()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

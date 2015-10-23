@@ -7,7 +7,7 @@ namespace TrailCommon
     ///     wrapper for menu choices that aggregates all of the possible actions a given game mode can make while it is active
     ///     in the simulation.
     /// </summary>
-    public interface IModeChoice<T> where T : struct, IComparable, IFormattable, IConvertible
+    public interface IModeChoiceItem<T> where T : struct, IComparable, IFormattable, IConvertible
     {
         T Command { get; set; }
         string Description { get; set; }

@@ -19,7 +19,7 @@ namespace TrailEntities
         ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
         ///     spawned it.
         /// </summary>
-        private HashSet<IModeChoice<T>> _menuChoices;
+        private HashSet<IModeChoiceItem<T>> _menuChoices;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
@@ -33,14 +33,14 @@ namespace TrailEntities
             }
 
             // Create empty list of menu choices.
-            _menuChoices = new HashSet<IModeChoice<T>>();
+            _menuChoices = new HashSet<IModeChoiceItem<T>>();
         }
 
         /// <summary>
         ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
         ///     spawned it.
         /// </summary>
-        public ReadOnlyCollection<IModeChoice<T>> MenuChoices
+        public ReadOnlyCollection<IModeChoiceItem<T>> MenuChoices
         {
             get { return _menuChoices.ToList().AsReadOnly(); }
         }
@@ -49,7 +49,13 @@ namespace TrailEntities
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public abstract SimulationMode Mode { get; }
+        public abstract ModeType ModeType { get; }
+
+        /// <summary>
+        ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and
+        ///     then detach.
+        /// </summary>
+        public IModeState CurrentState { get; set; }
 
         /// <summary>
         ///     Calls the abstract methods with generics using this override.
@@ -70,7 +76,7 @@ namespace TrailEntities
             var modeTUI = new StringBuilder();
 
             // Added any descriptive text about the mode, like stats, health, weather, location, etc.
-            var prependMessage = OnGetModeTUI();
+            var prependMessage = CurrentState.GetStateTUI();
             if (prependMessage != string.Empty)
                 modeTUI.Append(prependMessage + "\n");
 
@@ -93,7 +99,10 @@ namespace TrailEntities
         ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
         ///     top-most game mode.
         /// </summary>
-        public abstract void TickMode();
+        public virtual void TickMode()
+        {
+            // Nothing to see here, move along...
+        }
 
         /// <summary>
         ///     Fired by messaging system or user interface that wants to interact with the simulation by sending string command
@@ -127,20 +136,14 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Called by the active game mode when the text user interface is called. This will create a string builder with all
-        ///     the data and commands that represent the concrete handler for this game mode.
-        /// </summary>
-        protected abstract string OnGetModeTUI();
-
-        /// <summary>
         ///     Adds a new game mode menu selection that will be available to send as a command for this specific game mode.
         /// </summary>
         /// <param name="action">Method that will be run when the choice is made.</param>
         /// <param name="command">Associated command that will trigger the respective action in the active game mode.</param>
         /// <param name="description">Text that will be shown to user so they know what the choice means.</param>
-        public void AddCommand(Action action, T command, string description)
+        protected void AddCommand(Action action, T command, string description)
         {
-            var menuChoice = new ModeChoice<T>(command, action, description);
+            var menuChoice = new ModeChoiceItem<T>(command, action, description);
             if (!_menuChoices.Contains(menuChoice))
             {
                 _menuChoices.Add(menuChoice);
@@ -152,32 +155,41 @@ namespace TrailEntities
         ///     concrete handlers for game mode.
         /// </summary>
         /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
-        protected void OnReceiveInputBuffer(string returnedLine)
+        private void OnReceiveInputBuffer(string returnedLine)
         {
-            // Loop through every added menu choice.
-            foreach (var menuChoice in _menuChoices)
+            // Only process menu items for game mode when current state is null, or there are no menu choices to select from.
+            if (CurrentState == null || _menuChoices.Count > 0)
             {
-                try
+                // Loop through every added menu choice.
+                foreach (var menuChoice in _menuChoices)
                 {
-                    // Attempt to convert the returned line into generic enum.
-                    var parsedCommandValue = (T) Enum.Parse(typeof (T), returnedLine, true);
-                    if (Enum.IsDefined(typeof (T), parsedCommandValue) |
-                        parsedCommandValue.ToString(CultureInfo.InvariantCulture).Contains(","))
+                    try
                     {
-                        // Check if the received input buffer matches any of them.
-                        if (!parsedCommandValue.Equals(menuChoice.Command))
-                            continue;
+                        // Attempt to convert the returned line into generic enum.
+                        var parsedCommandValue = (T) Enum.Parse(typeof (T), returnedLine, true);
+                        if (Enum.IsDefined(typeof (T), parsedCommandValue) |
+                            parsedCommandValue.ToString(CultureInfo.InvariantCulture).Contains(","))
+                        {
+                            // Check if the received input buffer matches any of them.
+                            if (!parsedCommandValue.Equals(menuChoice.Command))
+                                continue;
 
-                        // If it matches then invoke the bound action in the simulation.
-                        menuChoice.Action.Invoke();
+                            // If it matches then invoke the bound action in the simulation.
+                            menuChoice.Action.Invoke();
+                            return;
+                        }
+                    }
+                    catch (ArgumentException)
+                    {
+                        // Pass input buffer to current state if it doesn't match any known command.
                         break;
                     }
                 }
-                catch (ArgumentException)
-                {
-                    // We don't do anything if we fail to process input buffer as a valid enum command.
-                    return;
-                }
+            }
+            else
+            {
+                // Pass the input buffer (returned line) to the current state, if it manages to get this far.
+                CurrentState?.ProcessInput(returnedLine);
             }
         }
 
@@ -197,7 +209,7 @@ namespace TrailEntities
         /// </returns>
         public override string ToString()
         {
-            return Mode.ToString();
+            return ModeType.ToString();
         }
     }
 }

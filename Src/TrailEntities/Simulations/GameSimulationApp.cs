@@ -69,6 +69,9 @@ namespace TrailEntities
             _time.TickTime();
         }
 
+        /// <summary>
+        ///     Prints game mode specific text and options.
+        /// </summary>
         protected override string OnTickTUI()
         {
             // Title and current game mode.
@@ -136,41 +139,41 @@ namespace TrailEntities
             base.OnFirstTimerTick();
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            AddMode(SimulationMode.NewGame);
+            AddMode(ModeType.NewGame);
         }
 
         /// <summary>
         ///     Change to new view mode when told that internal logic wants to display view options to player for a specific set of
         ///     data in the simulation.
         /// </summary>
-        /// <param name="mode">Enumeration of the game mode that requested to be attached.</param>
+        /// <param name="modeType">Enumeration of the game mode that requested to be attached.</param>
         /// <returns>New game mode instance based on the mode input parameter.</returns>
-        protected override IMode OnModeChanging(SimulationMode mode)
+        protected override IMode OnModeChanging(ModeType modeType)
         {
-            switch (mode)
+            switch (modeType)
             {
-                case SimulationMode.Travel:
+                case ModeType.Travel:
                     return new TravelingMode();
-                case SimulationMode.ForkInRoad:
+                case ModeType.ForkInRoad:
                     return new ForkInRoadMode();
-                case SimulationMode.Hunt:
+                case ModeType.Hunt:
                     return new HuntingMode();
-                case SimulationMode.Landmark:
+                case ModeType.Landmark:
                     return new LandmarkMode();
-                case SimulationMode.NewGame:
+                case ModeType.NewGame:
                     return new NewGameMode();
-                case SimulationMode.RandomEvent:
+                case ModeType.RandomEvent:
                     return new RandomEventMode();
-                case SimulationMode.RiverCrossing:
+                case ModeType.RiverCrossing:
                     return new RiverCrossingMode();
-                case SimulationMode.Settlement:
+                case ModeType.Settlement:
                     return new SettlementMode();
-                case SimulationMode.Store:
+                case ModeType.Store:
                     return new StoreMode();
-                case SimulationMode.Trade:
+                case ModeType.Trade:
                     return new TradingMode();
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+                    throw new ArgumentOutOfRangeException(nameof(modeType), modeType, null);
             }
         }
 

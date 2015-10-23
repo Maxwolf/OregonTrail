@@ -38,11 +38,14 @@
     <Compile Include="Modes\Fork In Road\ForkInRoadCommands.cs" />
     <Compile Include="Modes\Fork In Road\IForkInRoadMode.cs" />
     <Compile Include="Modes\Hunting\HuntingCommands.cs" />
-    <Compile Include="Modes\IModeChoice.cs" />
+    <Compile Include="Modes\IModeChoiceItem.cs" />
+    <Compile Include="Modes\IModeState.cs" />
     <Compile Include="Modes\Landmark\ILandmarkMode.cs" />
     <Compile Include="Modes\Landmark\LandmarkCommands.cs" />
+    <Compile Include="Modes\ModeChoiceItem.cs" />
     <Compile Include="Modes\New Game\INewGameMode.cs" />
     <Compile Include="Modes\New Game\NewGameCommands.cs" />
+    <Compile Include="Modes\New Game\NewGameInfo.cs" />
     <Compile Include="Modes\Random Event\RandomEventCommands.cs" />
     <Compile Include="Modes\River Crossing\RiverCrossingCommands.cs" />
     <Compile Include="Modes\Settlement\ISettlementMode.cs" />
@@ -59,7 +62,7 @@
     <Compile Include="Simulations\Climate\IClimateSimulation.cs" />
     <Compile Include="Simulations\Time\ITimeSimulation.cs" />
     <Compile Include="Simulations\Time\Months.cs" />
-    <Compile Include="Modes\SimulationMode.cs" />
+    <Compile Include="Modes\ModeType.cs" />
     <Compile Include="Modes\IMode.cs" />
     <Compile Include="Entity Templates\Trail\IForkInRoadPoint.cs" />
     <Compile Include="Entity Templates\Trail\IRiverPoint.cs" />

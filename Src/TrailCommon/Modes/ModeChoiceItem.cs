@@ -1,16 +1,15 @@
 ﻿using System;
-using TrailCommon;
 
-namespace TrailEntities
+namespace TrailCommon
 {
     /// <summary>
     ///     Defines a choice in the dynamic action selection system for a given game mode. This is intended to be used by a
     ///     wrapper for menu choices that aggregates all of the possible actions a given game mode can make while it is active
     ///     in the simulation.
     /// </summary>
-    public sealed class ModeChoice<T> : IModeChoice<T> where T : struct, IComparable, IFormattable, IConvertible
+    public sealed class ModeChoiceItem<T> : IModeChoiceItem<T> where T : struct, IComparable, IFormattable, IConvertible
     {
-        public ModeChoice(T command, Action action, string description)
+        public ModeChoiceItem(T command, Action action, string description)
         {
             // Complain the generics implemented is not of an enum type.
             if (!typeof (T).IsEnum)

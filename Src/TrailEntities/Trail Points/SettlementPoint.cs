@@ -22,9 +22,9 @@ namespace TrailEntities
             _storeMode = null;
         }
 
-        public override SimulationMode Mode
+        public override ModeType ModeType
         {
-            get { return SimulationMode.Settlement; }
+            get { return ModeType.Settlement; }
         }
 
         public bool CanRest

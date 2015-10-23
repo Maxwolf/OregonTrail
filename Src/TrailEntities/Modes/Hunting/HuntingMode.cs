@@ -10,9 +10,9 @@ namespace TrailEntities
     /// </summary>
     public sealed class HuntingMode : GameMode<HuntingCommands>, IHuntingMode
     {
-        public override SimulationMode Mode
+        public override ModeType ModeType
         {
-            get { return SimulationMode.Hunt; }
+            get { return ModeType.Hunt; }
         }
 
         /// <summary>
@@ -35,15 +35,6 @@ namespace TrailEntities
         }
 
         public void UpdateVehicle()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        ///     Called by the active game mode when the text user interface is called. This will create a string builder with all
-        ///     the data and commands that represent the concrete handler for this game mode.
-        /// </summary>
-        protected override string OnGetModeTUI()
         {
             throw new NotImplementedException();
         }
