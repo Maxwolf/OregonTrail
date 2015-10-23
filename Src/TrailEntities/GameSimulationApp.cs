@@ -74,13 +74,19 @@ namespace TrailEntities
         /// </summary>
         protected override string OnTickTUI()
         {
-            // Title and current game mode.
+            // Spinning ticker that shows activity, lets us know if application hangs or freezes.
             var tui = new StringBuilder();
             tui.Append($"\r[ {TimerTickPhase} ] - ");
-            tui.Append($"Mode: {ActiveModeName} - ");
+
+            // Keeps track of active mode name and active mode current state name for debugging purposes.
+            tui.Append(ActiveMode?.CurrentState != null
+                ? $"Mode: {ActiveModeName}({ActiveMode.CurrentState}) - "
+                : $"Mode: {ActiveModeName}(NO STATE) - ");
+
+            // Total number of turns that have passed in the simulation.
             tui.Append($"Turns: {TotalTurns.ToString("D4")}\n");
 
-            // Prints game mode specific text and options.
+            // Prints game mode specific text and options. This typically is menus from commands, or states showing some information.
             tui.Append($"{base.OnTickTUI()}\n");
 
             // Only print and accept user input if there is a game mode and menu system to support it.
@@ -90,6 +96,7 @@ namespace TrailEntities
                 tui.Append($"User Input: {InputBuffer}");
             }
 
+            // Outputs the result of the string builder to TUI builder above.
             return tui.ToString();
         }
 

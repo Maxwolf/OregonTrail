@@ -9,6 +9,7 @@ namespace TrailCommon
         ReadOnlyCollection<IMode> Modes { get; }
         string ScreenBuffer { get; }
         string InputBuffer { get; }
+        bool AcceptingInput { get; }
         event NewGame NewgameEvent;
         event EndGame EndgameEvent;
         event ScreenBufferDirty ScreenBufferDirtyEvent;
@@ -20,7 +21,6 @@ namespace TrailCommon
         void SendInputBuffer();
         void SendKeyCharToInputBuffer(char keyChar);
         void TickTUI();
-        bool AcceptingInput { get; }
     }
 
     public delegate void ModeChanged(ModeType modeType);

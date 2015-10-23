@@ -41,10 +41,10 @@
     <Compile Include="Modes\ModeState.cs" />
     <Compile Include="Modes\New Game\BuyInitialItemsState.cs" />
     <Compile Include="Modes\New Game\ConfirmPlayerNameState.cs" />
+    <Compile Include="Modes\New Game\ConfirmProfessionState.cs" />
     <Compile Include="Modes\New Game\InputPlayerNameState.cs" />
-    <Compile Include="Modes\New Game\ChooseProfessionState.cs" />
+    <Compile Include="Modes\New Game\SelectProfessionState.cs" />
     <Compile Include="Modes\New Game\ConfirmGroupNamesState.cs" />
-    <Compile Include="Modes\New Game\StartGameState.cs" />
     <Compile Include="Modes\Settlement\SettlementMode.cs" />
     <Compile Include="Modes\Traveling\TravelingMode.cs" />
     <Compile Include="Trail Points\RiverPoint.cs" />

@@ -76,6 +76,17 @@ namespace TrailEntities
         public abstract void OnInputBufferReturned(string input);
 
         /// <summary>
+        ///     Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        ///     A string that represents the current object.
+        /// </returns>
+        public override string ToString()
+        {
+            return GetType().Name;
+        }
+
+        /// <summary>
         ///     Actually processes the user data generics request and creates a new class to carry the information over to the next
         ///     game mode state.
         /// </summary>

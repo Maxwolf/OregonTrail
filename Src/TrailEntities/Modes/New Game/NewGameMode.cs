@@ -13,7 +13,7 @@ namespace TrailEntities
             NewGameInfo = new NewGameInfo();
 
             // Menu items for creating new game.
-            AddCommand(ChooseNames, NewGameCommands.InputPlayerOne, "Pick names for your party.");
+            AddCommand(ChooseNames, NewGameCommands.ChooseNames, "Pick names for your party.");
             AddCommand(ChooseProfession, NewGameCommands.ChooseProfession, "Pick party leader profession.");
             AddCommand(BuyInitialItems, NewGameCommands.BuyInitialItems, "Buy initial items for journey.");
             AddCommand(StartGame, NewGameCommands.StartGame, "Starts a new journey on the trail!");
@@ -39,7 +39,7 @@ namespace TrailEntities
 
         public void ChooseProfession()
         {
-            CurrentState = new ChooseProfessionState(this, NewGameInfo);
+            CurrentState = new SelectProfessionState(this, NewGameInfo);
         }
 
         public void BuyInitialItems()
@@ -49,7 +49,13 @@ namespace TrailEntities
 
         public void StartGame()
         {
-            CurrentState = new StartGameState(this, NewGameInfo);
+            foreach (var name in NewGameInfo.PlayerNames)
+            {
+                // First name in list in leader.
+                var isLeader = NewGameInfo.PlayerNames.IndexOf(name) == 0;
+                GameSimulationApp.Instance.Vehicle.AddPerson(new Person(NewGameInfo.PlayerProfession, name, isLeader));
+                GameSimulationApp.Instance.StartGame();
+            }
         }
 
         /// <summary>

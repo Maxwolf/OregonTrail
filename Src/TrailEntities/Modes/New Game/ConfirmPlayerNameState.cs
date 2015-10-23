@@ -28,7 +28,7 @@ namespace TrailEntities
         public override string GetStateTUI()
         {
             return $"You entered {UserData.PlayerNames[_playerNameIndex]} for " +
-                   $"player slot {_playerNameIndex + 1}.\n Does this look correct? Y/N";
+                   $"player slot {_playerNameIndex + 1}.\n Is this correct? Y/N";
         }
 
         /// <summary>
@@ -37,23 +37,23 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            // ReSharper disable once ConvertIfStatementToSwitchStatement
-            if (input.ToUpperInvariant() == "Y")
+            switch (input.ToUpperInvariant())
             {
-                if (_playerNameIndex < 3)
-                {
-                    // Depending on what index we are confirming for we might move onto party names confirmation, or just the next name in the list.
-                    SetNameSelectionStateByIndex(false);
-                }
-                else if (_playerNameIndex >= 3)
-                {
-                    // Instead of throwing an exception when out of bounds we just goto confirm the party since you must have filled them all out.
-                    Mode.CurrentState = new ConfirmGroupNamesState(Mode, UserData);
-                }
-            }
-            else if (input.ToUpperInvariant() == "N")
-            {
-                SetNameSelectionStateByIndex(true);
+                case "Y":
+                    if (_playerNameIndex < 3)
+                    {
+                        // Depending on what index we are confirming for we might move onto party names confirmation, or just the next name in the list.
+                        SetNameSelectionStateByIndex(false);
+                    }
+                    else if (_playerNameIndex >= 3)
+                    {
+                        // Instead of throwing an exception when out of bounds we just goto confirm the party since you must have filled them all out.
+                        Mode.CurrentState = new ConfirmGroupNamesState(Mode, UserData);
+                    }
+                    break;
+                default:
+                    SetNameSelectionStateByIndex(true);
+                    break;
             }
         }
 
@@ -66,7 +66,14 @@ namespace TrailEntities
             // Add one to the selection state if we are advancing the state forward and not retrying.
             var correctedPlayerNameIndex = _playerNameIndex;
             if (!retrying)
+            {
                 correctedPlayerNameIndex++;
+            }
+            else
+            {
+                // Remove the previous entry if we are retrying.
+                UserData.PlayerNames.RemoveAt(correctedPlayerNameIndex);
+            }
 
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (correctedPlayerNameIndex)

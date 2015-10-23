@@ -29,7 +29,7 @@ namespace TrailEntities
         /// </summary>
         public override void TickMode()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public override ModeType ModeType

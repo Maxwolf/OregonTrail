@@ -11,7 +11,8 @@ namespace TrailCommon
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailCommon.NewGameInfo" /> class.
         /// </summary>
-        public NewGameInfo(List<string> playerNames, Profession playerProfession, List<IItem> startingInventory)
+        public NewGameInfo(List<string> playerNames, Profession playerProfession,
+            List<IItem> startingInventory)
         {
             _playerNames = playerNames;
             _playerProfession = playerProfession;
@@ -23,7 +24,7 @@ namespace TrailCommon
         /// </summary>
         public NewGameInfo()
         {
-            _playerNames = new List<string>(4);
+            _playerNames = new List<string>();
             _playerProfession = Profession.Banker;
             _startingInventory = new List<IItem>();
         }

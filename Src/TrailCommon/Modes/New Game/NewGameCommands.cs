@@ -10,27 +10,7 @@
         /// <summary>
         ///     Input the leaders name.
         /// </summary>
-        InputPlayerOne,
-
-        /// <summary>
-        ///     Second players name in the party.
-        /// </summary>
-        InputPlayerTwo,
-
-        /// <summary>
-        ///     Third players name in the party.
-        /// </summary>
-        InputPlayerThree,
-
-        /// <summary>
-        ///     Fourth players name in the party.
-        /// </summary>
-        InputPlayerFour,
-
-        /// <summary>
-        ///     Confirms all the names of the entire party.
-        /// </summary>
-        ConfirmPartyNames,
+        ChooseNames,
 
         /// <summary>
         ///     Choose leader profession, applies to everybody in the group (do not lose abilities if he dies).
@@ -42,11 +22,6 @@
         ///     items.
         /// </summary>
         BuyInitialItems,
-
-        /// <summary>
-        ///     Final prompt that shows the player names, leader profession, starting items, and cash left over.
-        /// </summary>
-        FinalDetailConfirmation,
 
         /// <summary>
         ///     Takes the new game information object and passes it along to the currently running simulation, attaches the

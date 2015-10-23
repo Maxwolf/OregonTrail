@@ -1,18 +1,15 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using TrailCommon;
 
 namespace TrailEntities
 {
+    /// <summary>
+    ///     Prints out every entered player name in the user data for simulation initialization. Confirms with the player they
+    ///     would indeed like to use all the entered names they have provided or had randomly generated for them by just
+    ///     pressing enter.
+    /// </summary>
     public sealed class ConfirmGroupNamesState : ModeState<NewGameInfo>
     {
-        /// <summary>
-        ///     This constructor will create new state taking values from old state
-        /// </summary>
-        public ConfirmGroupNamesState(ModeState<NewGameInfo> state) : base(state)
-        {
-        }
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
@@ -21,37 +18,26 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Forces the current game mode state to update itself, this typically results in moving to the next state.
-        /// </summary>
-        public override void TickState()
-        {
-            // Move along, nothing to see here...
-        }
-
-        /// <summary>
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
         public override string GetStateTUI()
         {
+            // Create string builder, counter, print info about party members.
             var confirmPartyText = new StringBuilder();
-            confirmPartyText.Append("Does this look correct? Y/N");
-            confirmPartyText.Append("Your Party Members:");
+            confirmPartyText.Append("Your Party Members:\n");
             var crewNumber = 1;
+
+            // Loop through every player and print their name.
             foreach (var name in UserData.PlayerNames)
             {
                 var isLeader = UserData.PlayerNames.IndexOf(name) == 0;
-                if (isLeader)
-                {
-                    confirmPartyText.Append(crewNumber + ")." + name + " (leader)");
-                }
-                else
-                {
-                    confirmPartyText.Append(crewNumber + ")." + name);
-                }
+                confirmPartyText.AppendFormat(isLeader ? "  {0} - {1} (leader)\n" : "  {0} - {1}\n", crewNumber, name);
                 crewNumber++;
             }
 
+            // Ask the user to check if the data we have looks correct to them, wait for input...
+            confirmPartyText.Append("Are these names correct? Y/N");
             return confirmPartyText.ToString();
         }
 
@@ -61,31 +47,19 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            // Keep this state active until we have four names in the player list.
-            if (UserData.PlayerNames.Count <= 4)
+            switch (input.ToUpperInvariant())
             {
-                // Depending on which slot change the name of prefix we ask.
-                switch (UserData.PlayerNames.Count)
-                {
-                    case 1:
-                        UserData.PlayerNames[0] = input;
-                        break;
-                    case 2:
-                        UserData.PlayerNames[1] = input;
-                        break;
-                    case 3:
-                        UserData.PlayerNames[2] = input;
-                        break;
-                    case 4:
-                        UserData.PlayerNames[3] = input;
-                        break;
-                    default:
-                        throw new IndexOutOfRangeException("Attempted to tick choose name state out of bounds!");
-                }
-            }
-            else if (UserData.PlayerNames.Count > 4)
-            {
+                case "Y":
+                    // Move along to confirming profession for party leader if user is happy with names.
+                    Mode.CurrentState = new SelectProfessionState(Mode, UserData);
+                    break;
+                default:
+                    // Clear all previous names we are going to try this again.
+                    UserData.PlayerNames.Clear();
 
+                    // Go back to the beginning of the player name selection chain.
+                    Mode.CurrentState = new InputPlayerNameState(0, "Party leader name?", Mode, UserData);
+                    break;
             }
         }
     }
