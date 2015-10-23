@@ -4,19 +4,19 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class ConfirmPartyState : ModeState<NewGameInfo>
+    public sealed class ConfirmGroupNamesState : ModeState<NewGameInfo>
     {
         /// <summary>
         ///     This constructor will create new state taking values from old state
         /// </summary>
-        public ConfirmPartyState(ModeState<NewGameInfo> state) : base(state)
+        public ConfirmGroupNamesState(ModeState<NewGameInfo> state) : base(state)
         {
         }
 
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ConfirmPartyState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public ConfirmGroupNamesState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
         }
 
