@@ -40,7 +40,6 @@
     <Compile Include="Modes\Landmark\LandmarkMode.cs" />
     <Compile Include="Modes\ModeState.cs" />
     <Compile Include="Modes\New Game\BuyInitialItemsState.cs" />
-    <Compile Include="Modes\New Game\ChooseNamesState.cs" />
     <Compile Include="Modes\New Game\InputPlayerFourState.cs" />
     <Compile Include="Modes\New Game\InputPlayerNameState.cs" />
     <Compile Include="Modes\New Game\InputPlayerOneState.cs" />
