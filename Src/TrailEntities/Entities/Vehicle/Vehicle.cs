@@ -7,11 +7,8 @@ namespace TrailEntities
 {
     public sealed class Vehicle : IVehicle
     {
-        private uint _distanceTraveled;
         private List<IItem> _inventory;
         private List<IPerson> _people;
-        private RationLevel _ration;
-        private RepairStatus _repairStatus;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Vehicle" /> class.
@@ -36,26 +33,16 @@ namespace TrailEntities
             get { return new ReadOnlyCollection<IPerson>(_people); }
         }
 
-        public RationLevel Ration
-        {
-            get { return _ration; }
-        }
+        public RationLevel Ration { get; private set; }
 
         public TravelPace Pace
         {
             get { return CurrentGame.Time.CurrentSpeed; }
         }
 
-        public RepairStatus RepairStatus
-        {
-            get { return _repairStatus; }
-        }
+        public RepairStatus RepairStatus { get; private set; }
 
-        public uint DistanceTraveled
-        {
-            get { return _distanceTraveled; }
-            set { _distanceTraveled = value; }
-        }
+        public uint DistanceTraveled { get; set; }
 
         public void AddPerson(IPerson person)
         {
@@ -100,9 +87,9 @@ namespace TrailEntities
             _inventory = new List<IItem>();
             Balance = 0;
             _people = new List<IPerson>();
-            _ration = RationLevel.Filling;
-            _repairStatus = RepairStatus.Good;
-            _distanceTraveled = 0;
+            Ration = RationLevel.Filling;
+            RepairStatus = RepairStatus.Good;
+            DistanceTraveled = 0;
         }
     }
 }
