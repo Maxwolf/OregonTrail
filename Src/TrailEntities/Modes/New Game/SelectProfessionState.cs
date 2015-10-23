@@ -40,7 +40,24 @@ namespace TrailEntities
 
         public override string GetStateTUI()
         {
-            return professionChooser.ToString();
+            // Information about professions and how they work.
+            var occupationText = new StringBuilder();
+            occupationText.Append("You must choose the occupation of the main character.\n");
+            occupationText.Append("Various occupations have advantages over one another:\n");
+            occupationText.Append("-------------------------------------------------------------------------------\n");
+            occupationText.Append("OCCUPATION   | CASH  |  ADVANTAGES                                |FINAL BONUS|\n");
+            occupationText.Append("-------------------------------------------------------------------------------\n");
+            occupationText.Append("Banker       |$1,600 | none                                       | x1        |\n");
+            occupationText.Append("Carpenter    |$800   | more likely to repair broken wagon parts.  | x2        |\n");
+            occupationText.Append("Farmer       |$400   | oxen are less likely to get sick and die.  | x3        |\n");
+            occupationText.Append("-------------------------------------------------------------------------------\n");
+            occupationText.Append("Cash = how much cash a person of that occupation begins with.\n");
+            occupationText.Append("Advantages = special individual attributes of the occupation.\n");
+            occupationText.Append("Final Bonus = amount that your final point total will be multiplied by.\n\n");
+
+            // Combine instructions with question and selections.
+            occupationText.Append(professionChooser);
+            return occupationText.ToString();
         }
 
         public override void OnInputBufferReturned(string input)

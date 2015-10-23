@@ -70,7 +70,10 @@
     <Compile Include="Entities\Vehicle.cs" />
     <Compile Include="Modes\New Game\NewGameMode.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Entities\Items\" />
+    <Folder Include="Entities\People\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrailCommon\TrailCommon.csproj">
       <Project>{1409ac6c-985e-4b33-9e4f-2420ea2d3262}</Project>
