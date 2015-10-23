@@ -84,6 +84,7 @@ namespace TrailEntities
                 throw new InvalidCastException("T must be a class type!");
             }
 
+            // TODO: Replace with JSON.net serialization/deserialization setup that works off new game info object.
             var primary = typeof (T);
             //var ofType = primary.GetGenericArguments();
             //var typeDef = primary.GetGenericTypeDefinition();

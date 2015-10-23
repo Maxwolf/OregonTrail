@@ -23,7 +23,7 @@ namespace TrailCommon
         /// </summary>
         public NewGameInfo()
         {
-            _playerNames = new List<string>();
+            _playerNames = new List<string>(4);
             _playerProfession = Profession.Banker;
             _startingInventory = new List<IItem>();
         }

@@ -101,7 +101,8 @@ namespace TrailEntities
         /// </summary>
         public virtual void TickMode()
         {
-            // Nothing to see here, move along...
+            // Tick the logic in the current state if it not null.
+            CurrentState?.TickState();
         }
 
         /// <summary>
@@ -188,7 +189,7 @@ namespace TrailEntities
             }
             else
             {
-                // Pass the input buffer (returned line) to the current state, if it manages to get this far.
+                // Pass the input buffer to the current state, if it manages to get this far.
                 CurrentState?.ProcessInput(returnedLine);
             }
         }

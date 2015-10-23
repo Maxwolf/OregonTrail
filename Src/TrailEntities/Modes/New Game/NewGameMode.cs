@@ -12,7 +12,7 @@ namespace TrailEntities
             NewGameInfo = new NewGameInfo();
 
             // Menu items.
-            AddCommand(ChooseNames, NewGameCommands.ChooseNames, "Pick names for your party.");
+            AddCommand(ChooseNames, NewGameCommands.InputPlayerOne, "Pick names for your party.");
             AddCommand(ChooseProfession, NewGameCommands.ChooseProfession, "Pick party leader profession.");
             AddCommand(BuyInitialItems, NewGameCommands.BuyInitialItems, "Buy initial items for journey.");
             AddCommand(StartGame, NewGameCommands.StartGame, "Starts a new journey on the trail!");
@@ -25,7 +25,7 @@ namespace TrailEntities
 
         public void ChooseNames()
         {
-            CurrentState = new ChooseNamesState(this, NewGameInfo);
+            CurrentState = new InputPlayerOneState(this, NewGameInfo);
         }
 
         /// <summary>
