@@ -107,10 +107,6 @@ namespace TrailEntities
         /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
         public override void OnInputBufferReturned(string returnedLine)
         {
-            // Disable passing along input buffer if the simulation is not currently accepting input from the user.
-            if (!AcceptingInput)
-                return;
-
             // Pass command along to currently active game mode if it exists.
             ActiveMode?.SendInputBuffer(returnedLine.Trim());
         }

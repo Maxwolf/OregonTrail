@@ -38,6 +38,12 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public abstract bool AcceptsInput { get; }
+
+        /// <summary>
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
         ///     data for parent game mode.
         /// </summary>

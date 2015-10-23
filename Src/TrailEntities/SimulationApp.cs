@@ -90,8 +90,14 @@ namespace TrailEntities
             // Trim the result of the input so no extra whitespace at front or end exists.
             var lineBufferTrimmed = InputBuffer.Trim();
 
-            // Send trimmed line buffer to game simulation.
+            // Destroy the input buffer if we are not accepting commands but return is pressed anyway.
+            if (!AcceptingInput)
+                InputBuffer = string.Empty;
+
+            // Send trimmed line buffer to game simulation, if not accepting input we just pass along empty string.
             OnInputBufferReturned(lineBufferTrimmed);
+
+            // Always forcefully clear the input buffer after returning it, this makes it ready for more input.
             InputBuffer = string.Empty;
         }
 
@@ -132,7 +138,8 @@ namespace TrailEntities
         /// </summary>
         public bool AcceptingInput
         {
-            get { return ActiveMode != null && ActiveMode.AcceptsInput; }
+            get { return (ActiveMode != null && ActiveMode.CurrentState == null && ActiveMode.AcceptsInput) ||
+                         (ActiveMode?.CurrentState != null && ActiveMode.AcceptsInput && ActiveMode.CurrentState.AcceptsInput); }
         }
 
         /// <summary>
@@ -202,6 +209,10 @@ namespace TrailEntities
         /// <param name="addedKeyString">Character converted into a string representation of itself.</param>
         protected virtual void OnKeyCharAddedToInputBuffer(string addedKeyString)
         {
+            // Disable passing along input buffer if the simulation is not currently accepting input from the user.
+            if (!AcceptingInput)
+                return;
+
             // Add the character to the end of the input buffer.
             InputBuffer += addedKeyString;
 

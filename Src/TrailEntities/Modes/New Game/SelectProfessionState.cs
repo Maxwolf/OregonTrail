@@ -39,6 +39,15 @@ namespace TrailEntities
             professionChooser.AppendFormat("What profession is {0}?", UserData.PlayerNames[0]);
         }
 
+        /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public override bool AcceptsInput
+        {
+            get { return true; }
+        }
+
         public override string GetStateTUI()
         {
             // Information about professions and how they work.

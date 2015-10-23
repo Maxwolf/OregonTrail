@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using TrailCommon;
 
 namespace TrailEntities
@@ -31,9 +32,15 @@ namespace TrailEntities
                 GameSimulationApp.Instance.Vehicle.AddPerson(new Person(userData.PlayerProfession, name, isLeader));
                 crewNumber++;
             }
+        }
 
-            // Change the game mode to be a store which can work with this data.
-            GameSimulationApp.Instance.AddMode(ModeType.Store);
+        /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public override bool AcceptsInput
+        {
+            get { return false; }
         }
 
         /// <summary>
@@ -42,7 +49,26 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            return "Creating store...";
+            var storeHelp = new StringBuilder();
+            storeHelp.Append("Matt's General Store is the first place in the game to buy supplies.\n");
+            storeHelp.Append("This is where you stock up with everything you need to start your journey.\n");
+            storeHelp.Append("Stock up early if you can!\n\n");
+
+            storeHelp.Append("Matt offers you some free pieces of advice:\n");
+            storeHelp.Append("'I recommend at least six oxen to pull your wagon. And you'll need plenty of\n");
+            storeHelp.Append("flour, sugar, bacon, coffee, and other types of food. I suggest you start out\n");
+            storeHelp.Append("with at least 200 pounds for each person in your party'\n\n");
+
+            storeHelp.Append("'You'll need good, warm clothing, especially for the mountains. I recommend\n");
+            storeHelp.Append("taking at least 2 sets of clothing per person. You'll need ammunition, too.\n");
+            storeHelp.Append("Each box of ammunition contains 20 bullets.'\n\n");
+
+            storeHelp.Append("'Finally, you might want to take along some spare wagon parts.  Wagon Wheels,\n");
+            storeHelp.Append("axles, and tongues are liable to break along the way. If you're unable to\n");
+            storeHelp.Append("repair a broken wagon, you'll be in big trouble!'\n\n");
+
+            storeHelp.Append("Press RETURN key to enter the store.\n");
+            return storeHelp.ToString();
         }
 
         /// <summary>
@@ -51,7 +77,8 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            // Nothing to see here, move along...
+            // Change the game mode to be a store which can work with this data.
+            GameSimulationApp.Instance.AddMode(ModeType.Store);
         }
     }
 }
