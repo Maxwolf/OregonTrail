@@ -9,13 +9,17 @@ namespace TrailEntities
         /// </summary>
         public NewGameMode()
         {
+            // Basic information to start a new simulation.
             NewGameInfo = new NewGameInfo();
 
-            // Menu items.
+            // Menu items for creating new game.
             AddCommand(ChooseNames, NewGameCommands.InputPlayerOne, "Pick names for your party.");
             AddCommand(ChooseProfession, NewGameCommands.ChooseProfession, "Pick party leader profession.");
             AddCommand(BuyInitialItems, NewGameCommands.BuyInitialItems, "Buy initial items for journey.");
             AddCommand(StartGame, NewGameCommands.StartGame, "Starts a new journey on the trail!");
+
+            // Start off by inputting first user name (party leader).
+            ChooseNames();
         }
 
         public override ModeType ModeType
@@ -25,7 +29,7 @@ namespace TrailEntities
 
         public void ChooseNames()
         {
-            CurrentState = new InputPlayerOneState(this, NewGameInfo);
+            CurrentState = new InputPlayerNameState(0, "Party leader name?", this, NewGameInfo);
         }
 
         /// <summary>

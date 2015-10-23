@@ -22,7 +22,7 @@ namespace TrailEntities
             throw new NotImplementedException();
         }
 
-        public override void ProcessInput(string input)
+        public override void OnInputBufferReturned(string input)
         {
             // Nothing to see here, move along...
         }

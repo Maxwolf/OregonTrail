@@ -38,6 +38,6 @@
         ///     into the input buffer. This is used when allowing the user to input custom strings like names for their party
         ///     members.
         /// </summary>
-        void ProcessCommand(string returnedLine);
+        void SendInputBuffer(string returnedLine);
     }
 }

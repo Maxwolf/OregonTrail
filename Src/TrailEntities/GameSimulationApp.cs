@@ -83,10 +83,29 @@ namespace TrailEntities
             // Prints game mode specific text and options.
             tui.Append($"{base.OnTickTUI()}\n");
 
-            // Allow user to see their input from buffer.
-            tui.Append($"User Input: {InputBuffer}");
+            // Only print and accept user input if there is a game mode and menu system to support it.
+            if (AcceptingInput)
+            {
+                // Allow user to see their input from buffer.
+                tui.Append($"User Input: {InputBuffer}");
+            }
 
             return tui.ToString();
+        }
+
+        /// <summary>
+        ///     Fired by messaging system or user interface that wants to interact with the simulation by sending string command
+        ///     that should be able to be parsed into a valid command that can be run on the current game mode.
+        /// </summary>
+        /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
+        public override void OnInputBufferReturned(string returnedLine)
+        {
+            // Disable passing along input buffer if the simulation is not currently accepting input from the user.
+            if (!AcceptingInput)
+                return;
+
+            // Pass command along to currently active game mode if it exists.
+            ActiveMode?.SendInputBuffer(returnedLine.Trim());
         }
 
         /// <summary>
@@ -99,17 +118,6 @@ namespace TrailEntities
                     "Unable to create new instance of game simulation app since it already exists!");
 
             Instance = new GameSimulationApp();
-        }
-
-        /// <summary>
-        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
-        ///     concrete handlers for game mode.
-        /// </summary>
-        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
-        protected override void OnReceiveCommand(string returnedLine)
-        {
-            // Pass command along to currently active game mode if it exists.
-            ActiveMode?.ProcessCommand(returnedLine);
         }
 
         public override void OnDestroy()

@@ -85,15 +85,13 @@ namespace TrailEntities
         ///     Clears the input buffer and submits whatever was in there to the simulation for processing. Implementation is left
         ///     up the game simulation itself entirely.
         /// </summary>
-        public void ProcessInputBuffer()
+        public void SendInputBuffer()
         {
-            // Only process key press if something is there.
+            // Trim the result of the input so no extra whitespace at front or end exists.
             var lineBufferTrimmed = InputBuffer.Trim();
-            if (string.IsNullOrEmpty(lineBufferTrimmed))
-                return;
 
             // Send trimmed line buffer to game simulation.
-            SendCommand(lineBufferTrimmed);
+            OnInputBufferReturned(lineBufferTrimmed);
             InputBuffer = string.Empty;
         }
 
@@ -101,7 +99,7 @@ namespace TrailEntities
         ///     Populates an internal input buffer for the simulation that is used to eventually return a possible command string
         ///     to active game mode.
         /// </summary>
-        public void SendKeyCharString(char keyChar)
+        public void SendKeyCharToInputBuffer(char keyChar)
         {
             // Filter to prevent non-characters like delete, insert, scroll lock, etc.
             if (!char.IsLetter(keyChar) && !char.IsNumber(keyChar))
@@ -109,7 +107,7 @@ namespace TrailEntities
 
             // Convert character to string representation if itself.
             var addedKeyString = char.ToString(keyChar);
-            OnKeyPress(addedKeyString);
+            OnKeyCharAddedToInputBuffer(addedKeyString);
         }
 
         /// <summary>
@@ -126,6 +124,15 @@ namespace TrailEntities
             // Update the screen buffer with altered data.
             ScreenBuffer = tuiContent;
             ScreenBufferDirtyEvent?.Invoke(ScreenBuffer);
+        }
+
+        /// <summary>
+        ///     Determines if this simulation is currently accepting input at all, the conditions for this require some game mode
+        ///     to be attached and or active move to not be null.
+        /// </summary>
+        public bool AcceptingInput
+        {
+            get { return Modes?.Count > 0 || ActiveMode != null; }
         }
 
         /// <summary>
@@ -164,7 +171,7 @@ namespace TrailEntities
         /// </summary>
         public ReadOnlyCollection<IMode> Modes
         {
-            get { return new ReadOnlyCollection<IMode>(_modes); }
+            get { return _modes.AsReadOnly(); }
         }
 
         public event NewGame NewgameEvent;
@@ -193,7 +200,7 @@ namespace TrailEntities
         ///     do something, or not!
         /// </summary>
         /// <param name="addedKeyString">Character converted into a string representation of itself.</param>
-        protected virtual void OnKeyPress(string addedKeyString)
+        protected virtual void OnKeyCharAddedToInputBuffer(string addedKeyString)
         {
             // Add the character to the end of the input buffer.
             InputBuffer += addedKeyString;
@@ -221,21 +228,7 @@ namespace TrailEntities
         ///     that should be able to be parsed into a valid command that can be run on the current game mode.
         /// </summary>
         /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
-        public virtual void SendCommand(string returnedLine)
-        {
-            if (!string.IsNullOrEmpty(returnedLine) ||
-                !string.IsNullOrWhiteSpace(returnedLine))
-            {
-                OnReceiveCommand(returnedLine);
-            }
-        }
-
-        /// <summary>
-        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
-        ///     concrete handlers for game mode.
-        /// </summary>
-        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
-        protected abstract void OnReceiveCommand(string returnedLine);
+        public abstract void OnInputBufferReturned(string returnedLine);
 
         /// <summary>
         ///     Attaches the traveling mode and removes the new game mode if it exists, this begins the simulation down the trail

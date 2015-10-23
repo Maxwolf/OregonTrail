@@ -59,7 +59,7 @@ namespace TrailEntities
         ///     Fired when the game mode current state is not null and input buffer does not match any known command.
         /// </summary>
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void ProcessInput(string input)
+        public override void OnInputBufferReturned(string input)
         {
             // Keep this state active until we have four names in the player list.
             if (UserData.PlayerNames.Count <= 4)

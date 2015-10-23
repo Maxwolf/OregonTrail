@@ -17,9 +17,10 @@ namespace TrailCommon
         void AddMode(ModeType modeType);
         void RemoveActiveMode();
         void RemoteLastCharOfInputBuffer();
-        void ProcessInputBuffer();
-        void SendKeyCharString(char keyChar);
+        void SendInputBuffer();
+        void SendKeyCharToInputBuffer(char keyChar);
         void TickTUI();
+        bool AcceptingInput { get; }
     }
 
     public delegate void ModeChanged(ModeType modeType);

@@ -76,19 +76,19 @@ namespace TrailEntities
             var modeTUI = new StringBuilder();
 
             // Added any descriptive text about the mode, like stats, health, weather, location, etc.
-            var prependMessage = CurrentState.GetStateTUI();
-            if (prependMessage != string.Empty)
+            var prependMessage = CurrentState?.GetStateTUI();
+            if (!string.IsNullOrEmpty(prependMessage))
                 modeTUI.Append(prependMessage + "\n");
 
             // Only add menu choices if there are some to actually add, otherwise just return the string buffer now.
-            if (_menuChoices.Count <= 0)
-                return modeTUI.ToString();
-
-            // Loop through the menu choices and add each one to the mode text user interface.
-            foreach (var menuChoice in _menuChoices)
+            if (_menuChoices.Count > 0 && CurrentState == null)
             {
-                // Name of command and then description of what it does, the command is all we really care about.
-                modeTUI.AppendFormat("  {0} - {1}\n", menuChoice.Command, menuChoice.Description);
+                // Loop through the menu choices and add each one to the mode text user interface.
+                foreach (var menuChoice in _menuChoices)
+                {
+                    // Name of command and then description of what it does, the command is all we really care about.
+                    modeTUI.AppendFormat("  {0} - {1}\n", menuChoice.Command, menuChoice.Description);
+                }
             }
 
             // Returns the string buffer we constructed for this game mode to the simulation so it can be displayed.
@@ -110,13 +110,9 @@ namespace TrailEntities
         ///     that should be able to be parsed into a valid command that can be run on the current game mode.
         /// </summary>
         /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
-        public void ProcessCommand(string returnedLine)
+        public void SendInputBuffer(string returnedLine)
         {
-            if (!string.IsNullOrEmpty(returnedLine) ||
-                !string.IsNullOrWhiteSpace(returnedLine))
-            {
-                OnReceiveInputBuffer(returnedLine);
-            }
+            OnReceiveInputBuffer(returnedLine);
         }
 
         /// <summary>
@@ -159,7 +155,7 @@ namespace TrailEntities
         private void OnReceiveInputBuffer(string returnedLine)
         {
             // Only process menu items for game mode when current state is null, or there are no menu choices to select from.
-            if (CurrentState == null || _menuChoices.Count > 0)
+            if (CurrentState == null && _menuChoices.Count > 0)
             {
                 // Loop through every added menu choice.
                 foreach (var menuChoice in _menuChoices)
@@ -190,7 +186,7 @@ namespace TrailEntities
             else
             {
                 // Pass the input buffer to the current state, if it manages to get this far.
-                CurrentState?.ProcessInput(returnedLine);
+                CurrentState?.OnInputBufferReturned(returnedLine);
             }
         }
 

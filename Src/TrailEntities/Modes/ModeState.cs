@@ -58,7 +58,10 @@ namespace TrailEntities
         /// <summary>
         ///     Forces the current game mode state to update itself, this typically results in moving to the next state.
         /// </summary>
-        public abstract void TickState();
+        public virtual void TickState()
+        {
+            // Nothing to see here, move along...
+        }
 
         /// <summary>
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
@@ -70,7 +73,7 @@ namespace TrailEntities
         ///     Fired when the game mode current state is not null and input buffer does not match any known command.
         /// </summary>
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public abstract void ProcessInput(string input);
+        public abstract void OnInputBufferReturned(string input);
 
         /// <summary>
         ///     Actually processes the user data generics request and creates a new class to carry the information over to the next

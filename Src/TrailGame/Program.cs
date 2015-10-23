@@ -40,13 +40,13 @@ namespace TrailGame
                     switch (key.Key)
                     {
                         case ConsoleKey.Enter:
-                            GameSimulationApp.Instance.ProcessInputBuffer();
+                            GameSimulationApp.Instance.SendInputBuffer();
                             break;
                         case ConsoleKey.Backspace:
                             GameSimulationApp.Instance.RemoteLastCharOfInputBuffer();
                             break;
                         default:
-                            GameSimulationApp.Instance.SendKeyCharString(key.KeyChar);
+                            GameSimulationApp.Instance.SendKeyCharToInputBuffer(key.KeyChar);
                             break;
                     }
                 }

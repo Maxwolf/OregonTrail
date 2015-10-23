@@ -16,6 +16,7 @@ namespace TrailEntities
         /// </summary>
         public ChooseProfessionState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
+
         }
 
         public override void TickState()
@@ -52,7 +53,7 @@ namespace TrailEntities
             return professionChooser.ToString();
         }
 
-        public override void ProcessInput(string input)
+        public override void OnInputBufferReturned(string input)
         {
             // Nothing to see here, move along...
         }

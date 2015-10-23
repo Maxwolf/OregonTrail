@@ -28,6 +28,6 @@
         ///     Fired when the game mode current state is not null and input buffer does not match any known command.
         /// </summary>
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        void ProcessInput(string input);
+        void OnInputBufferReturned(string input);
     }
 }
