@@ -21,5 +21,6 @@ namespace TrailCommon
         void BuyItem(IItem item);
         void SellItem(IItem item);
         void UpdateVehicle();
+        void ResetVehicle(uint startingMonies);
     }
 }

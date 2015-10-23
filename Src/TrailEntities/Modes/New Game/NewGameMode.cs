@@ -58,16 +58,6 @@ namespace TrailEntities
 
         public void StartGame()
         {
-            // Add all the player data we collected from attached game mode states.
-            var crewNumber = 1;
-            foreach (var name in NewGameInfo.PlayerNames)
-            {
-                // First name in list is always the leader.
-                var isLeader = NewGameInfo.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
-                GameSimulationApp.Instance.Vehicle.AddPerson(new Person(NewGameInfo.PlayerProfession, name, isLeader));
-                crewNumber++;
-            }
-
             // Tells running simulation to take data we have fed it and begin trip down the trail path.
             GameSimulationApp.Instance.StartGame();
         }

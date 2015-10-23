@@ -19,12 +19,7 @@ namespace TrailEntities
         public Vehicle(IGameSimulation game)
         {
             CurrentGame = game;
-            _inventory = new List<IItem>();
-            Balance = 0;
-            _people = new List<IPerson>();
-            _ration = RationLevel.Filling;
-            _repairStatus = RepairStatus.Good;
-            _distanceTraveled = 0;
+            ResetVehicle(0);
         }
 
         public IGameSimulation CurrentGame { get; }
@@ -98,6 +93,16 @@ namespace TrailEntities
         public void UpdateVehicle()
         {
             throw new NotImplementedException();
+        }
+
+        public void ResetVehicle(uint startingMonies)
+        {
+            _inventory = new List<IItem>();
+            Balance = 0;
+            _people = new List<IPerson>();
+            _ration = RationLevel.Filling;
+            _repairStatus = RepairStatus.Good;
+            _distanceTraveled = 0;
         }
     }
 }
