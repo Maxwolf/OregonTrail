@@ -12,6 +12,12 @@
         ModeType ModeType { get; }
 
         /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        bool AcceptsInput { get; }
+
+        /// <summary>
         ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and
         ///     then detach.
         /// </summary>

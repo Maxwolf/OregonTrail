@@ -132,7 +132,7 @@ namespace TrailEntities
         /// </summary>
         public bool AcceptingInput
         {
-            get { return Modes?.Count > 0 || ActiveMode != null; }
+            get { return ActiveMode != null && ActiveMode.AcceptsInput; }
         }
 
         /// <summary>

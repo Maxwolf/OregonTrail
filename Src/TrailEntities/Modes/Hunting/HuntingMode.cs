@@ -16,6 +16,15 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public override bool AcceptsInput
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
         ///     top-most game mode.
         /// </summary>
