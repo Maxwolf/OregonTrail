@@ -31,6 +31,7 @@ namespace TrailEntities
             // Loop through every player and print their name.
             foreach (var name in UserData.PlayerNames)
             {
+                // First name in list is always the leader.
                 var isLeader = UserData.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
                 confirmPartyText.AppendFormat(isLeader ? "  {0} - {1} (leader)\n" : "  {0} - {1}\n", crewNumber, name);
                 crewNumber++;

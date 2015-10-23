@@ -1,4 +1,5 @@
-﻿using TrailCommon;
+﻿using System.Text;
+using TrailCommon;
 
 namespace TrailEntities
 {
@@ -36,7 +37,11 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            return _questionText;
+            var inputNamesHelp = new StringBuilder();
+            inputNamesHelp.Append("First, you must enter the names of the party leader and the members of the party.\n");
+            inputNamesHelp.Append("There can only be one leader, and up to four party members.\n");
+            inputNamesHelp.Append(_questionText);
+            return inputNamesHelp.ToString();
         }
 
         /// <summary>

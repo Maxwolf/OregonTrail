@@ -25,6 +25,7 @@ namespace TrailEntities
         {
             // Set the profession to default value in case we are retrying this.
             UserData.PlayerProfession = Profession.Banker;
+            UserData.StartingMonies = 1600;
 
             // Loop through every profession in the enumeration for them and print them in string builder.
             professionChooser = new StringBuilder();
@@ -67,18 +68,23 @@ namespace TrailEntities
             {
                 case "1":
                     UserData.PlayerProfession = Profession.Banker;
+                    UserData.StartingMonies = 1600;
                     Mode.CurrentState = new ConfirmProfessionState(Mode, UserData);
                     break;
                 case "2":
                     UserData.PlayerProfession = Profession.Carpenter;
+                    UserData.StartingMonies = 800;
                     Mode.CurrentState = new ConfirmProfessionState(Mode, UserData);
                     break;
                 case "3":
                     UserData.PlayerProfession = Profession.Farmer;
+                    UserData.StartingMonies = 400;
                     Mode.CurrentState = new ConfirmProfessionState(Mode, UserData);
                     break;
                 default:
                     // If there is some invalid selection just start the process over again.
+                    UserData.PlayerProfession = Profession.Banker;
+                    UserData.StartingMonies = 1600;
                     Mode.CurrentState = new SelectProfessionState(Mode, UserData);
                     break;
             }

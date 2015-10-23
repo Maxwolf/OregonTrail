@@ -1,5 +1,4 @@
-﻿using System.Text;
-using TrailCommon;
+﻿using TrailCommon;
 
 namespace TrailEntities
 {
@@ -22,8 +21,6 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-
-
             return $"Selected profession {UserData.PlayerProfession} for party leader " +
                    $"{UserData.PlayerNames[0]}.\n Is this correct? Y/N";
         }
