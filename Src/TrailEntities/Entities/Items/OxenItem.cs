@@ -3,7 +3,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class Oxen : Item
+    public sealed class OxenItem : Item
     {
         private uint _grassAvaliable;
 
@@ -12,7 +12,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        public Oxen(string name, uint quantity, uint weight, uint cost, uint grassAvaliable, RepairStatus oxenHealth)
+        public OxenItem(string name, uint quantity, uint weight, uint cost, uint grassAvaliable, RepairStatus oxenHealth)
             : base(name, quantity, weight, cost)
         {
             _grassAvaliable = grassAvaliable;

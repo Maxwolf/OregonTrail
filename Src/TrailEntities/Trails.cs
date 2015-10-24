@@ -7,7 +7,7 @@ namespace TrailEntities
     public static class Trails
     {
         /// <summary>
-        ///     Creates the default Oregon trail which was in the original game.
+        ///     Creates the original Oregon trail which was in the game this is cloning.
         /// </summary>
         public static ReadOnlyCollection<PointOfInterest> OregonTrail
         {
