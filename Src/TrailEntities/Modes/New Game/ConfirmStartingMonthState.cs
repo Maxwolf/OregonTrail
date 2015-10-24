@@ -1,17 +1,18 @@
-﻿using TrailCommon;
+﻿using System;
+using TrailCommon;
 
 namespace TrailEntities
 {
     /// <summary>
-    ///     Asks the user to confirm their selection for a given profession, if they select anything other than YES we will
-    ///     restart the select profession state again.
+    ///     Confirms the users selection for the starting month of the simulation. If they don't like the selection they will
+    ///     be offered a chance to restart the selection process.
     /// </summary>
-    public sealed class ConfirmProfessionState : ModeState<NewGameInfo>
+    public sealed class ConfirmStartingMonthState : ModeState<NewGameInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ConfirmProfessionState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public ConfirmStartingMonthState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
         }
 
@@ -30,8 +31,7 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            return $"Selected profession {UserData.PlayerProfession} for party leader " +
-                   $"{UserData.PlayerNames[0]}.\n Is this correct? Y/N";
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -40,17 +40,7 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            switch (input.ToUpperInvariant())
-            {
-                case "Y":
-                    // User is happy with their profession, we will now add a store game mode so they can buy things with starting monies.
-                    ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
-                    break;
-                default:
-                    // User is not happy with profession choice and is going to reset the profession selector and try again.
-                    ParentMode.CurrentState = new SelectProfessionState(ParentMode, UserData);
-                    break;
-            }
+            throw new NotImplementedException();
         }
     }
 }

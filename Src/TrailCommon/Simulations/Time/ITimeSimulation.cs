@@ -13,6 +13,7 @@
         int TotalDaysThisYear { get; }
         void TickTime();
         void SetSpeed(TravelPace castedSpeed);
+        void SetMonth(Months month);
         void ResumeTick();
         event YearHandler YearEndEvent;
         event MonthHandler MonthEndEvent;

@@ -42,9 +42,11 @@
     <Compile Include="Modes\New Game\BuyInitialItemsState.cs" />
     <Compile Include="Modes\New Game\ConfirmPlayerNameState.cs" />
     <Compile Include="Modes\New Game\ConfirmProfessionState.cs" />
+    <Compile Include="Modes\New Game\ConfirmStartingMonthState.cs" />
     <Compile Include="Modes\New Game\InputPlayerNameState.cs" />
     <Compile Include="Modes\New Game\SelectProfessionState.cs" />
     <Compile Include="Modes\New Game\ConfirmGroupNamesState.cs" />
+    <Compile Include="Modes\New Game\SelectStartingMonthState.cs" />
     <Compile Include="Modes\Settlement\SettlementMode.cs" />
     <Compile Include="Modes\Traveling\TravelingMode.cs" />
     <Compile Include="Trail Points\RiverPoint.cs" />
@@ -54,11 +56,11 @@
     <Compile Include="Simulations\ClimateSim.cs" />
     <Compile Include="SimulationApp.cs" />
     <Compile Include="Simulations\TimeSim.cs" />
-    <Compile Include="Entities\Items\Item.cs" />
-    <Compile Include="Entities\Items\Oxen.cs" />
+    <Compile Include="Entities\Item.cs" />
+    <Compile Include="Entities\Oxen.cs" />
     <Compile Include="Trail Points\ForkInRoadPoint.cs" />
     <Compile Include="Simulations\TrailSim.cs" />
-    <Compile Include="Entities\People\Person.cs" />
+    <Compile Include="Entities\Person.cs" />
     <Compile Include="Modes\Hunting\HuntingMode.cs" />
     <Compile Include="Trail Points\LandmarkPoint.cs" />
     <Compile Include="Modes\River Crossing\RiverCrossingMode.cs" />
@@ -67,7 +69,7 @@
     <Compile Include="Modes\Trading\TradingMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Modes\Random Event\RandomEventMode.cs" />
-    <Compile Include="Entities\Vehicle\Vehicle.cs" />
+    <Compile Include="Entities\Vehicle.cs" />
     <Compile Include="Modes\New Game\NewGameMode.cs" />
   </ItemGroup>
   <ItemGroup />

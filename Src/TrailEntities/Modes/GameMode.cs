@@ -122,6 +122,16 @@ namespace TrailEntities
         }
 
         /// <summary>
+        /// Fired when the active game mode has been changed, this allows any underlying mode to know about a change in simulation.
+        /// </summary>
+        /// <param name="modeType">Current mode which the simulation is changing to.</param>
+        public virtual void OnModeChanged(ModeType modeType)
+        {
+            // Pass info along if current state exists.
+            CurrentState?.OnParentModeChanged(modeType);
+        }
+
+        /// <summary>
         ///     Because of how generics work in C# we need to have the ability to override a method in implementing classes to get
         ///     back the correct commands for the implementation from abstract class inheritance chain. On the bright side it
         ///     enforces the commands returned to be of the specified enum in generics.

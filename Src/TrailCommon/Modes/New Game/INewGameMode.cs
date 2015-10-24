@@ -6,6 +6,7 @@
         void ChooseProfession();
         void BuyInitialItems();
         void ChooseNames();
+        void ChooseStartMonth();
         void StartGame();
     }
 }

@@ -63,6 +63,37 @@ namespace TrailEntities
 
         public uint TotalTurns { get; private set; }
 
+        /// <summary>
+        ///     Attaches the traveling mode and removes the new game mode if it exists, this begins the simulation down the trail
+        ///     path and all the points of interest on it.
+        /// </summary>
+        /// <param name="newGameInfo">User data object that was passed around the new game mode and populated by user selections.</param>
+        public override void StartGame(NewGameInfo newGameInfo)
+        {
+            base.StartGame(newGameInfo);
+
+            // Complain if there is no players to add to the vehicle.
+            if (newGameInfo.PlayerNames.Count <= 0)
+                throw new InvalidOperationException("Cannot create vehicle with no people in new game info user data!");
+
+            // Clear out any data amount items, monies, people that might have been in the vehicle.
+            // NOTE: Sets starting monies, which was determined by player profession selection.
+            Vehicle.ResetVehicle(newGameInfo.StartingMonies);
+
+            // Add all the player data we collected from attached game mode states.
+            var crewNumber = 1;
+            foreach (var name in newGameInfo.PlayerNames)
+            {
+                // First name in list is always the leader.
+                var isLeader = newGameInfo.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
+                Vehicle.AddPerson(new Person(newGameInfo.PlayerProfession, name, isLeader));
+                crewNumber++;
+            }
+
+            // Set the starting month to match what the user selected.
+            Time.SetMonth(newGameInfo.StartingMonth);
+        }
+
         public void TakeTurn()
         {
             TotalTurns++;

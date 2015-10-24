@@ -67,7 +67,7 @@ namespace TrailEntities
             UserData.PlayerNames.Insert(_playerNameIndex, input);
 
             // Change the state of the game mode to confirm the name we just entered.
-            Mode.CurrentState = new ConfirmPlayerNameState(_playerNameIndex, Mode, UserData);
+            ParentMode.CurrentState = new ConfirmPlayerNameState(_playerNameIndex, ParentMode, UserData);
         }
 
         /// <summary>

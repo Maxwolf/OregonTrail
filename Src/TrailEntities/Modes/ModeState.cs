@@ -8,13 +8,13 @@ namespace TrailEntities
     /// </summary>
     public abstract class ModeState<T> : IModeState where T : class, new()
     {
-        private IMode _mode;
+        private IMode _parentMode;
         private T _userData;
 
         /// <summary>
         ///     This constructor will create new state taking values from old state
         /// </summary>
-        internal ModeState(ModeState<T> state) : this(state.Mode, state.UserData)
+        internal ModeState(ModeState<T> state) : this(state.ParentMode, state.UserData)
         {
         }
 
@@ -23,7 +23,7 @@ namespace TrailEntities
         /// </summary>
         protected ModeState(IMode gameMode, T userData)
         {
-            Mode = gameMode;
+            ParentMode = gameMode;
             UserData = userData;
         }
 
@@ -55,10 +55,10 @@ namespace TrailEntities
         /// <summary>
         ///     Current parent game mode which this state is binded to and is doing work on behalf of.
         /// </summary>
-        public IMode Mode
+        public IMode ParentMode
         {
-            get { return _mode; }
-            set { _mode = value; }
+            get { return _parentMode; }
+            set { _parentMode = value; }
         }
 
         /// <summary>
@@ -80,6 +80,16 @@ namespace TrailEntities
         /// </summary>
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public abstract void OnInputBufferReturned(string input);
+
+        /// <summary>
+        ///     Fired when the active game mode has been changed in parent game mode, this is intended for game mode states only so
+        ///     they can be aware of these changes and act on them if needed.
+        /// </summary>
+        /// <param name="modeType">Current mode which the simulation is changing to.</param>
+        public virtual void OnParentModeChanged(ModeType modeType)
+        {
+            // Nothing to see here, move along...
+        }
 
         /// <summary>
         ///     Returns a string that represents the current object.

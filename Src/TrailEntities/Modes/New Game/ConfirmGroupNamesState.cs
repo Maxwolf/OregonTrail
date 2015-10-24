@@ -61,14 +61,14 @@ namespace TrailEntities
             {
                 case "Y":
                     // Move along to confirming profession for party leader if user is happy with names.
-                    Mode.CurrentState = new SelectProfessionState(Mode, UserData);
+                    ParentMode.CurrentState = new SelectProfessionState(ParentMode, UserData);
                     break;
                 default:
                     // Clear all previous names we are going to try this again.
                     UserData.PlayerNames.Clear();
 
                     // Go back to the beginning of the player name selection chain.
-                    Mode.CurrentState = new InputPlayerNameState(0, "Party leader name?", Mode, UserData);
+                    ParentMode.CurrentState = new InputPlayerNameState(0, "Party leader name?", ParentMode, UserData);
                     break;
             }
         }

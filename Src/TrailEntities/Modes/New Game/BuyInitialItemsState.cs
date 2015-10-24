@@ -32,6 +32,9 @@ namespace TrailEntities
                 GameSimulationApp.Instance.Vehicle.AddPerson(new Person(userData.PlayerProfession, name, isLeader));
                 crewNumber++;
             }
+
+            // Set the starting month to match what the user selected.
+            GameSimulationApp.Instance.Time.SetMonth(userData.StartingMonth);
         }
 
         /// <summary>
@@ -69,6 +72,21 @@ namespace TrailEntities
 
             storeHelp.Append("Press RETURN key to enter the store.\n");
             return storeHelp.ToString();
+        }
+
+        /// <summary>
+        ///     Fired when the active game mode has been changed in parent game mode, this is intended for game mode states only so
+        ///     they can be aware of these changes and act on them if needed.
+        /// </summary>
+        /// <param name="modeType">Current mode which the simulation is changing to.</param>
+        public override void OnParentModeChanged(ModeType modeType)
+        {
+            // Skip if the changing game mode is not our parent one.
+            if (ParentMode.ModeType != modeType)
+                return;
+
+            // If the changing game mode is coming back to our parent and we are on this state then the store has finished!
+            ParentMode.CurrentState = new SelectStartingMonthState(ParentMode, UserData);
         }
 
         /// <summary>

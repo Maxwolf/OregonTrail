@@ -78,23 +78,23 @@ namespace TrailEntities
                 case "1":
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    Mode.CurrentState = new ConfirmProfessionState(Mode, UserData);
+                    ParentMode.CurrentState = new ConfirmProfessionState(ParentMode, UserData);
                     break;
                 case "2":
                     UserData.PlayerProfession = Profession.Carpenter;
                     UserData.StartingMonies = 800;
-                    Mode.CurrentState = new ConfirmProfessionState(Mode, UserData);
+                    ParentMode.CurrentState = new ConfirmProfessionState(ParentMode, UserData);
                     break;
                 case "3":
                     UserData.PlayerProfession = Profession.Farmer;
                     UserData.StartingMonies = 400;
-                    Mode.CurrentState = new ConfirmProfessionState(Mode, UserData);
+                    ParentMode.CurrentState = new ConfirmProfessionState(ParentMode, UserData);
                     break;
                 default:
                     // If there is some invalid selection just start the process over again.
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    Mode.CurrentState = new SelectProfessionState(Mode, UserData);
+                    ParentMode.CurrentState = new SelectProfessionState(ParentMode, UserData);
                     break;
             }
         }

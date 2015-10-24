@@ -5,7 +5,7 @@
         /// <summary>
         ///     Current parent game mode which this state is binded to and is doing work on behalf of.
         /// </summary>
-        IMode Mode { get; set; }
+        IMode ParentMode { get; set; }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
@@ -35,5 +35,12 @@
         /// </summary>
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         void OnInputBufferReturned(string input);
+
+        /// <summary>
+        ///     Fired when the active game mode has been changed in parent game mode, this is intended for game mode states only so
+        ///     they can be aware of these changes and act on them if needed.
+        /// </summary>
+        /// <param name="modeType">Current mode which the simulation is changing to.</param>
+        void OnParentModeChanged(ModeType modeType);
     }
 }

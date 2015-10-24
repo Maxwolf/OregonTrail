@@ -56,9 +56,22 @@ namespace TrailEntities
             // Remove the mode from list.
             _modes.Remove(ActiveMode);
 
-            // Check if there are any modes after removal.
+            // Fire virtual method which will allow game simulation above and attempt to pass this data along to internal game mode and game mode states.
             if (ActiveMode != null)
-                ModeChangedEvent?.Invoke(ActiveMode.ModeType);
+                OnModeChanged(ActiveMode.ModeType);
+        }
+
+        /// <summary>
+        /// Fired when the active game mode has been changed, this allows any underlying mode to know about a change in simulation.
+        /// </summary>
+        /// <param name="modeType">Current mode which the simulation is changing to.</param>
+        protected virtual void OnModeChanged(ModeType modeType)
+        {
+            // Fire event that lets subscribers know we changed something.
+            ModeChangedEvent?.Invoke(modeType);
+
+            // Pass the information along to active game mode.
+            ActiveMode?.OnModeChanged(modeType);
         }
 
         /// <summary>
@@ -245,7 +258,8 @@ namespace TrailEntities
         ///     Attaches the traveling mode and removes the new game mode if it exists, this begins the simulation down the trail
         ///     path and all the points of interest on it.
         /// </summary>
-        public void StartGame()
+        /// <param name="newGameInfo">User data object that was passed around the new game mode and populated by user selections.</param>
+        public virtual void StartGame(NewGameInfo newGameInfo)
         {
             NewgameEvent?.Invoke();
         }

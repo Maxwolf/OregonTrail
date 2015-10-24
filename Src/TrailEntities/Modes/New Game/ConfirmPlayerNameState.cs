@@ -57,7 +57,7 @@ namespace TrailEntities
                     else if (_playerNameIndex >= 3)
                     {
                         // Instead of throwing an exception when out of bounds we just goto confirm the party since you must have filled them all out.
-                        Mode.CurrentState = new ConfirmGroupNamesState(Mode, UserData);
+                        ParentMode.CurrentState = new ConfirmGroupNamesState(ParentMode, UserData);
                     }
                     break;
                 default:
@@ -88,25 +88,25 @@ namespace TrailEntities
             switch (correctedPlayerNameIndex)
             {
                 case 0:
-                    Mode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex, "Party leader name?", Mode,
+                    ParentMode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex, "Party leader name?", ParentMode,
                         UserData);
                     break;
                 case 1:
-                    Mode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex, "Party member two name?",
-                        Mode, UserData);
+                    ParentMode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex, "Party member two name?",
+                        ParentMode, UserData);
                     break;
                 case 2:
-                    Mode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex, "Party member three name ?",
-                        Mode, UserData);
+                    ParentMode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex, "Party member three name ?",
+                        ParentMode, UserData);
                     break;
                 case 3:
-                    Mode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex, "Party member four name?",
-                        Mode, UserData);
+                    ParentMode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex, "Party member four name?",
+                        ParentMode, UserData);
                     break;
                 default:
                     if (!retrying)
                     {
-                        Mode.CurrentState = new ConfirmGroupNamesState(Mode, UserData);
+                        ParentMode.CurrentState = new ConfirmGroupNamesState(ParentMode, UserData);
                     }
                     else
                     {

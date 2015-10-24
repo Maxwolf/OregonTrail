@@ -12,6 +12,7 @@ namespace TrailCommon
         private Profession _playerProfession;
         private List<IItem> _startingInventory;
         private uint _startingMonies;
+        private Months _startingMonth;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailCommon.NewGameInfo" /> class.
@@ -23,6 +24,8 @@ namespace TrailCommon
             _playerProfession = playerProfession;
             _startingInventory = startingInventory;
             _startingMonies = 0;
+            _startingMonth = Months.March;
+            Modified = false;
         }
 
         /// <summary>
@@ -34,6 +37,8 @@ namespace TrailCommon
             _playerProfession = Profession.Banker;
             _startingInventory = new List<IItem>();
             _startingMonies = 0;
+            _startingMonth = Months.March;
+            Modified = false;
         }
 
         /// <summary>
@@ -43,7 +48,11 @@ namespace TrailCommon
         public List<string> PlayerNames
         {
             get { return _playerNames; }
-            set { _playerNames = value; }
+            set
+            {
+                _playerNames = value;
+                Modified = true;
+            }
         }
 
         /// <summary>
@@ -53,7 +62,11 @@ namespace TrailCommon
         public Profession PlayerProfession
         {
             get { return _playerProfession; }
-            set { _playerProfession = value; }
+            set
+            {
+                _playerProfession = value;
+                Modified = true;
+            }
         }
 
         /// <summary>
@@ -63,7 +76,11 @@ namespace TrailCommon
         public List<IItem> StartingInventory
         {
             get { return _startingInventory; }
-            set { _startingInventory = value; }
+            set
+            {
+                _startingInventory = value;
+                Modified = true;
+            }
         }
 
         /// <summary>
@@ -72,7 +89,31 @@ namespace TrailCommon
         public uint StartingMonies
         {
             get { return _startingMonies; }
-            set { _startingMonies = value; }
+            set
+            {
+                _startingMonies = value;
+                Modified = true;
+            }
         }
+
+        /// <summary>
+        ///     Starting month of the simulation, this helps determine the amount of grass for grazing, temperature, chance for
+        ///     failure or random event, etc.
+        /// </summary>
+        public Months StartingMonth
+        {
+            get { return _startingMonth; }
+            set
+            {
+                _startingMonth = value;
+                Modified = true;
+            }
+        }
+
+        /// <summary>
+        ///     Determines if the initial new game info object has been altered from the defaults in any way by calling sets on
+        ///     other properties.
+        /// </summary>
+        public bool Modified { get; private set; }
     }
 }

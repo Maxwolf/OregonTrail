@@ -1,10 +1,11 @@
-﻿using TrailCommon;
+﻿using System;
+using TrailCommon;
 
 namespace TrailEntities
 {
     /// <summary>
-    ///     Manages the weather for a given location, used to make randomizing and keeping track of the weather based on time
-    ///     of year much easier.
+    ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
+    ///     simulation by one day. There are also other options and events for checking state, and changing state.
     /// </summary>
     public sealed class TimeSim : ITimeSimulation
     {
@@ -23,11 +24,7 @@ namespace TrailEntities
             TotalMonths = 0;
             TotalYears = 0;
             TotalDaysThisYear = 1;
-
-            Weather = CalculateWeather();
         }
-
-        public WeatherCondition Weather { get; private set; }
 
         public Months CurrentMonth { get; private set; }
 
@@ -112,6 +109,19 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Changes the time simulations current month, this also will reset the day back to the first of that month.
+        /// </summary>
+        public void SetMonth(Months month)
+        {
+            // Complain if developer sets month to same thing twice.
+            if (month == CurrentMonth)
+                throw new InvalidOperationException("Attempted to set current month to exact same month!");
+
+            CurrentMonth = month;
+            CurrentDay = 1;
+        }
+
+        /// <summary>
         ///     Resumes game simulation after being paused.
         /// </summary>
         public void ResumeTick()
@@ -128,11 +138,6 @@ namespace TrailEntities
         public Date Date
         {
             get { return new Date(CurrentYear, CurrentMonth, CurrentDay); }
-        }
-
-        public WeatherCondition CalculateWeather()
-        {
-            return WeatherCondition.Sunny;
         }
     }
 }
