@@ -23,6 +23,9 @@ namespace TrailEntities
             AddCommand(BuyInitialItems, NewGameCommands.BuyInitialItems, "Buy initial items for journey.");
             AddCommand(ChooseStartMonth, NewGameCommands.ChooseStartMonth, "Decide when to set off on the trail.");
             AddCommand(StartGame, NewGameCommands.StartGame, "Starts a new journey on the trail!");
+
+            // Since the user data has not been modified yet we are going to attach a state to start this process right away.
+            ChooseNames();
         }
 
         /// <summary>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TrailCommon;
 
@@ -21,15 +20,6 @@ namespace TrailEntities
             _storeName = "Unknown General Store";
             _inventory = new List<IItem>();
             StoreBalance = (uint) GameSimulationApp.Instance.Random.Next(100, 800);
-        }
-
-        /// <summary>
-        ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
-        ///     top-most game mode.
-        /// </summary>
-        public override void TickMode()
-        {
-            //throw new NotImplementedException();
         }
 
         public override ModeType ModeType
@@ -77,14 +67,6 @@ namespace TrailEntities
 
             StoreBalance -= storeCost;
             BuyItems(item);
-        }
-
-        /// <summary>
-        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
-        /// </summary>
-        public override void OnModeRemoved()
-        {
-            throw new NotImplementedException();
         }
     }
 }

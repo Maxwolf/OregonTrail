@@ -85,6 +85,10 @@ namespace TrailEntities
             if (ParentMode.ModeType != modeType)
                 return;
 
+            // Skip if the user data has not been modified at all in anyway.
+            if (!UserData.Modified)
+                return;
+
             // If the changing game mode is coming back to our parent and we are on this state then the store has finished!
             ParentMode.CurrentState = new SelectStartingMonthState(ParentMode, UserData);
         }

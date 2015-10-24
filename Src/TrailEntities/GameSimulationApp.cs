@@ -30,7 +30,7 @@ namespace TrailEntities
         /// </summary>
         public GameSimulationApp()
         {
-            _time = new TimeSim(1985, Months.May, 5, TravelPace.Paused);
+            _time = new TimeSim(1848, Months.March, 1, TravelPace.Paused);
             _time.DayEndEvent += TimeSimulation_DayEndEvent;
             _time.MonthEndEvent += TimeSimulation_MonthEndEvent;
             _time.YearEndEvent += TimeSimulation_YearEndEvent;
