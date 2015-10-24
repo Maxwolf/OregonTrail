@@ -88,19 +88,23 @@ namespace TrailEntities
             switch (correctedPlayerNameIndex)
             {
                 case 0:
-                    ParentMode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex, "Party leader name?", ParentMode,
+                    ParentMode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex, "Party leader name?",
+                        ParentMode,
                         UserData);
                     break;
                 case 1:
-                    ParentMode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex, "Party member two name?",
+                    ParentMode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex,
+                        "Party member two name?",
                         ParentMode, UserData);
                     break;
                 case 2:
-                    ParentMode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex, "Party member three name ?",
+                    ParentMode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex,
+                        "Party member three name ?",
                         ParentMode, UserData);
                     break;
                 case 3:
-                    ParentMode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex, "Party member four name?",
+                    ParentMode.CurrentState = new InputPlayerNameState(correctedPlayerNameIndex,
+                        "Party member four name?",
                         ParentMode, UserData);
                     break;
                 default:

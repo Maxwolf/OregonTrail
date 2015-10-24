@@ -62,19 +62,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        /// Fired when the active game mode has been changed, this allows any underlying mode to know about a change in simulation.
-        /// </summary>
-        /// <param name="modeType">Current mode which the simulation is changing to.</param>
-        protected virtual void OnModeChanged(ModeType modeType)
-        {
-            // Fire event that lets subscribers know we changed something.
-            ModeChangedEvent?.Invoke(modeType);
-
-            // Pass the information along to active game mode.
-            ActiveMode?.OnModeChanged(modeType);
-        }
-
-        /// <summary>
         ///     Holds the last known representation of the game simulation and current mode text user interface, only pushes update
         ///     when a change occurs.
         /// </summary>
@@ -151,8 +138,12 @@ namespace TrailEntities
         /// </summary>
         public bool AcceptingInput
         {
-            get { return (ActiveMode != null && ActiveMode.CurrentState == null && ActiveMode.AcceptsInput) ||
-                         (ActiveMode?.CurrentState != null && ActiveMode.AcceptsInput && ActiveMode.CurrentState.AcceptsInput); }
+            get
+            {
+                return (ActiveMode != null && ActiveMode.CurrentState == null && ActiveMode.AcceptsInput) ||
+                       (ActiveMode?.CurrentState != null && ActiveMode.AcceptsInput &&
+                        ActiveMode.CurrentState.AcceptsInput);
+            }
         }
 
         /// <summary>
@@ -213,6 +204,20 @@ namespace TrailEntities
 
             _modes.Add(changeMode);
             ModeChangedEvent?.Invoke(changeMode.ModeType);
+        }
+
+        /// <summary>
+        ///     Fired when the active game mode has been changed, this allows any underlying mode to know about a change in
+        ///     simulation.
+        /// </summary>
+        /// <param name="modeType">Current mode which the simulation is changing to.</param>
+        protected virtual void OnModeChanged(ModeType modeType)
+        {
+            // Fire event that lets subscribers know we changed something.
+            ModeChangedEvent?.Invoke(modeType);
+
+            // Pass the information along to active game mode.
+            ActiveMode?.OnModeChanged(modeType);
         }
 
         /// <summary>

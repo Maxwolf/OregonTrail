@@ -122,7 +122,8 @@ namespace TrailEntities
         }
 
         /// <summary>
-        /// Fired when the active game mode has been changed, this allows any underlying mode to know about a change in simulation.
+        ///     Fired when the active game mode has been changed, this allows any underlying mode to know about a change in
+        ///     simulation.
         /// </summary>
         /// <param name="modeType">Current mode which the simulation is changing to.</param>
         public virtual void OnModeChanged(ModeType modeType)

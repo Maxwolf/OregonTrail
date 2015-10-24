@@ -10,7 +10,6 @@ namespace TrailCommon
         uint Weight { get; }
         uint Cost { get; }
         uint Quantity { get; }
-        void Buy(int amount);
-        uint TotalWeight();
+        uint TotalWeight { get; }
     }
 }

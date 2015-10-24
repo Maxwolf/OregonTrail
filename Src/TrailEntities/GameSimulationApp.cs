@@ -63,6 +63,12 @@ namespace TrailEntities
 
         public uint TotalTurns { get; private set; }
 
+        public void TakeTurn()
+        {
+            TotalTurns++;
+            _time.TickTime();
+        }
+
         /// <summary>
         ///     Attaches the traveling mode and removes the new game mode if it exists, this begins the simulation down the trail
         ///     path and all the points of interest on it.
@@ -92,12 +98,6 @@ namespace TrailEntities
 
             // Set the starting month to match what the user selected.
             Time.SetMonth(newGameInfo.StartingMonth);
-        }
-
-        public void TakeTurn()
-        {
-            TotalTurns++;
-            _time.TickTime();
         }
 
         /// <summary>
