@@ -8,7 +8,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.BulletsItem" /> class.
         /// </summary>
-        public BulletsItem(uint cost) : base(cost, 20)
+        public BulletsItem(float cost) : base(cost, 20)
         {
         }
 

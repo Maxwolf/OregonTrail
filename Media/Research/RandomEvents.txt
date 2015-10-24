@@ -1,3 +1,4 @@
+These are the various events that could happen to your party along the trail.
 During the course of the game, many random events may occur which may require a decision and impact the progress of your party, supplies or health. An incomplete list of these events include:
 
 Injury (Animal bite, Snakebite, Sprained Muscle, Sprained Shoulder, Concussion, etc.)
@@ -21,3 +22,31 @@ Starvation
 Locusts
 Thirst
 Wagon accident (Tipped Wagon, Swamped Wagon. Wagon stuck in mud, etc.)
+-The trail is impassable.
+-You had a wagon tongue break.
+-You had a wagon tongue break.
+-You had a wagon axle break.
+-You took the wrong trail.
+-You found [items] in an abandoned wagon.
+-You find some wild berries.
+-You've lost the trail.
+-Bad Water
+-No Water
+-Lost [number] pounds of food due to spoilage.
+-No grass for the oxen.
+-An ox wandered off.
+-An ox is sick.
+-An ox died.
+-You took the wrong trail.
+-A thief stole [x amount of item].
+-A fire in your wagon destroyed [x amount of items].
+-[player] got lost.
+-[player] is sick with typhoid fever.
+-[player] was bitten by a snake.
+-[player] has dysentery.
+-[player] has cholera.
+-[player] is suffering from exhaustion.
+-[player] has a fever.
+-[player] is well again.
+-[player] has taken a turn for the worse.
+-[player] has died.

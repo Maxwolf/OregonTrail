@@ -8,7 +8,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        protected AnimalItem() : base(0, 1)
+        protected AnimalItem() : base(0)
         {
         }
     }

@@ -9,7 +9,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.VehicleTongueItem" /> class.
         /// </summary>
-        public VehicleTongueItem(uint cost) : base(cost, 1)
+        public VehicleTongueItem(float cost) : base(cost, 1)
         {
         }
 

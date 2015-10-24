@@ -25,7 +25,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        public OxenItem(uint cost) : base(cost, 1)
+        public OxenItem(float cost) : base(cost, 1)
         {
             // Give the oxen a random amount of starting food to eat, he will consume this before trying to take from climate.
             _grassAvaliable = (uint)GameSimulationApp.Instance.Random.Next(0, 3);

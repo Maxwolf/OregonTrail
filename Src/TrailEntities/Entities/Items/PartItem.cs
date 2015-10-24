@@ -9,7 +9,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        protected PartItem(uint cost, uint quantity) : base(cost, quantity)
+        protected PartItem(float cost, uint quantity) : base(cost, quantity)
         {
         }
 

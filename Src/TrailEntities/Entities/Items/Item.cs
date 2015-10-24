@@ -13,7 +13,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        protected Item(uint cost, uint quantity)
+        protected Item(float cost, uint quantity)
         {
             _cost = cost;
             _quantity = quantity;

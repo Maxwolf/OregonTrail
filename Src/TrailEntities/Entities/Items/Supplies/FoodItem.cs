@@ -9,7 +9,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        public FoodItem(uint cost, uint quantity) : base(cost, quantity)
+        public FoodItem(float cost) : base(cost, 1)
         {
         }
 

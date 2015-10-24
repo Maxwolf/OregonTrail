@@ -5,7 +5,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        public ClothingItem(uint cost) : base(cost, 1)
+        public ClothingItem(float cost) : base(cost, 1)
         {
         }
 
