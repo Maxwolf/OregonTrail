@@ -25,14 +25,14 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        public OxenItem(uint cost) : base(cost)
+        public OxenItem(uint cost) : base(cost, 1)
         {
             // Give the oxen a random amount of starting food to eat, he will consume this before trying to take from climate.
-            _grassAvaliable = (uint) GameSimulationApp.Instance.Random.Next(0, 3);
+            _grassAvaliable = (uint)GameSimulationApp.Instance.Random.Next(0, 3);
 
             // Give the oxen a random starting health, you cannot trust those store keepers!
-            var values = Enum.GetValues(typeof (RepairStatus));
-            var randomStatus = (RepairStatus) values.GetValue(GameSimulationApp.Instance.Random.Next(values.Length));
+            var values = Enum.GetValues(typeof(RepairStatus));
+            var randomStatus = (RepairStatus)values.GetValue(GameSimulationApp.Instance.Random.Next(values.Length));
             _oxenHealth = randomStatus;
         }
 
@@ -69,14 +69,6 @@ namespace TrailEntities
         public override uint Weight
         {
             get { return 0; }
-        }
-
-        /// <summary>
-        ///     Total number of items this item represents.
-        /// </summary>
-        public override uint Quantity
-        {
-            get { return 1; }
         }
 
         /// <summary>

@@ -7,20 +7,22 @@ namespace TrailEntities
     /// </summary>
     public abstract class Item : IItem
     {
-        private readonly uint _cost;
+        private readonly float _cost;
+        private readonly uint _quantity;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        protected Item(uint cost)
+        protected Item(uint cost, uint quantity)
         {
             _cost = cost;
+            _quantity = quantity;
         }
 
         /// <summary>
         ///     Cost of the item in monies.
         /// </summary>
-        public uint Cost
+        public float Cost
         {
             get { return _cost; }
         }
@@ -38,7 +40,10 @@ namespace TrailEntities
         /// <summary>
         ///     Total number of items this item represents.
         /// </summary>
-        public abstract uint Quantity { get; }
+        public uint Quantity
+        {
+            get { return _quantity; }
+        }
 
         /// <summary>
         ///     Total number of pounds which this the item multiplied by quantity would be.
@@ -47,5 +52,10 @@ namespace TrailEntities
         {
             get { return Weight*Quantity; }
         }
+
+        /// <summary>
+        ///     Limit on the number of items that are possible to have of this particular type.
+        /// </summary>
+        public abstract uint QuantityLimit { get; }
     }
 }

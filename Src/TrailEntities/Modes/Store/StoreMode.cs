@@ -46,7 +46,7 @@ namespace TrailEntities
             get { return _storeName; }
         }
 
-        public uint StoreBalance { get; private set; }
+        public float StoreBalance { get; private set; }
 
         public void BuyItems(IItem item)
         {

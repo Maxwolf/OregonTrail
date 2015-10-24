@@ -1,0 +1,23 @@
+During the course of the game, many random events may occur which may require a decision and impact the progress of your party, supplies or health. An incomplete list of these events include:
+
+Injury (Animal bite, Snakebite, Sprained Muscle, Sprained Shoulder, Concussion, etc.)
+Disease (Cholera, Mountain fever, Dysentery, Measles, Gangrene, etc.)
+Buffalo Stampede
+Wildfire
+Strangers Approach
+Abandoned Wagons
+Severe Weather
+Theft
+Quicksand Ahead
+Obstructed Path
+Meadow (to gather hay)
+River Crossing
+Death of Companion
+Hill/Mountain Climbing
+Desert
+Mosquitos
+Dust From other wagons
+Starvation
+Locusts
+Thirst
+Wagon accident (Tipped Wagon, Swamped Wagon. Wagon stuck in mud, etc.)

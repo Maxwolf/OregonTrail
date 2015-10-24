@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TrailCommon;
 
@@ -15,10 +16,8 @@ namespace TrailEntities
         {
             get
             {
-                var _store = new List<Item>
-                {
-                    //new OxenItem(),
-                };
+                var _store = new List<Item>();
+                //{ OxenItem(20, ), }
                 return _store.AsReadOnly();
             }
         }

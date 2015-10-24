@@ -1,0 +1,1 @@
+After selecting an occupation, the player can select various skills by clicking the word "Skills". The player chooses skills with a 120-point limit. Automatic skills are free. The more important the skill is, the more it costs. Each skill can make something good more likely to happen and something bad to less likely to happen.

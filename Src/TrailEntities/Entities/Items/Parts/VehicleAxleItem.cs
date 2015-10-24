@@ -1,11 +1,15 @@
 ﻿namespace TrailEntities
 {
+    /// <summary>
+    ///     Required to keep the vehicle moving if this part is broken it must be replaced before the player can
+    ///     continue their journey.
+    /// </summary>
     public sealed class VehicleAxleItem : PartItem
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.VehicleAxleItem" /> class.
         /// </summary>
-        public VehicleAxleItem(uint cost) : base(cost)
+        public VehicleAxleItem(uint cost) : base(cost, 1)
         {
         }
 
@@ -14,23 +18,7 @@
         /// </summary>
         public override string Name
         {
-            get { throw new System.NotImplementedException(); }
-        }
-
-        /// <summary>
-        ///     Weight of a single item of this type, the original game used pounds so that is roughly what this should represent.
-        /// </summary>
-        public override uint Weight
-        {
-            get { throw new System.NotImplementedException(); }
-        }
-
-        /// <summary>
-        ///     Total number of items this item represents.
-        /// </summary>
-        public override uint Quantity
-        {
-            get { throw new System.NotImplementedException(); }
+            get { return "Vehicle Axle"; }
         }
     }
 }

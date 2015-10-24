@@ -3,9 +3,9 @@
     public sealed class ClothingItem : Item
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ClothingItem" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        public ClothingItem(uint cost) : base(cost)
+        public ClothingItem(uint cost) : base(cost, 1)
         {
         }
 
@@ -14,7 +14,7 @@
         /// </summary>
         public override string Name
         {
-            get { return "Clothing"; }
+            get { return "Sets of Clothing"; }
         }
 
         /// <summary>
@@ -26,11 +26,11 @@
         }
 
         /// <summary>
-        ///     Total number of items this item represents.
+        ///     Limit on the number of items that are possible to have of this particular type.
         /// </summary>
-        public override uint Quantity
+        public override uint QuantityLimit
         {
-            get { return 2; }
+            get { return 50; }
         }
     }
 }

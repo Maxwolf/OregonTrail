@@ -10,7 +10,7 @@ namespace TrailCommon
     {
         IGameSimulation CurrentGame { get; }
         ReadOnlyCollection<IItem> Inventory { get; }
-        uint Balance { get; }
+        float Balance { get; }
         ReadOnlyCollection<IPerson> People { get; }
         RationLevel Ration { get; }
         TravelPace Pace { get; }

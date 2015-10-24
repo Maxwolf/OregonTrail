@@ -26,7 +26,7 @@ namespace TrailEntities
             get { return new ReadOnlyCollection<IItem>(_inventory); }
         }
 
-        public uint Balance { get; private set; }
+        public float Balance { get; private set; }
 
         public ReadOnlyCollection<IPerson> People
         {
@@ -60,11 +60,11 @@ namespace TrailEntities
         public void BuyItem(IItem item)
         {
             var totalCost = item.Cost*item.Quantity;
-            if (Balance >= totalCost)
-            {
-                Balance -= totalCost;
-                _inventory.Add(item);
-            }
+            if (!(Balance >= totalCost))
+                return;
+
+            Balance -= totalCost;
+            _inventory.Add(item);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace TrailEntities
         public void ResetVehicle(uint startingMonies)
         {
             _inventory = new List<IItem>();
-            Balance = 0;
+            Balance = 0.0f;
             _people = new List<IPerson>();
             Ration = RationLevel.Filling;
             RepairStatus = RepairStatus.Good;
