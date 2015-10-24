@@ -8,19 +8,13 @@ namespace TrailEntities
     public abstract class Item : IItem
     {
         private readonly uint _cost;
-        private readonly string _name;
-        private readonly uint _quantity;
-        private readonly uint _weight;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        protected Item(string name, uint cost, uint quantity, uint weight)
+        protected Item(uint cost)
         {
             _cost = cost;
-            _name = name;
-            _quantity = quantity;
-            _weight = weight;
         }
 
         /// <summary>
@@ -34,26 +28,17 @@ namespace TrailEntities
         /// <summary>
         ///     Display name of the item as it should be known to players.
         /// </summary>
-        public string Name
-        {
-            get { return _name; }
-        }
+        public abstract string Name { get; }
 
         /// <summary>
         ///     Weight of a single item of this type, the original game used pounds so that is roughly what this should represent.
         /// </summary>
-        public uint Weight
-        {
-            get { return _weight; }
-        }
+        public abstract uint Weight { get; }
 
         /// <summary>
         ///     Total number of items this item represents.
         /// </summary>
-        public uint Quantity
-        {
-            get { return _quantity; }
-        }
+        public abstract uint Quantity { get; }
 
         /// <summary>
         ///     Total number of pounds which this the item multiplied by quantity would be.

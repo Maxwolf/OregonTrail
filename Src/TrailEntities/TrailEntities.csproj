@@ -35,10 +35,19 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Items\BulletsItem.cs" />
-    <Compile Include="Entities\Items\ClothingItem.cs" />
+    <Compile Include="Entities\Items\AnimalItem.cs" />
+    <Compile Include="Entities\Items\Animal\BearItem.cs" />
+    <Compile Include="Entities\Items\Animal\BuffaloItem.cs" />
+    <Compile Include="Entities\Items\Animal\CaribouItem.cs" />
+    <Compile Include="Entities\Items\Animal\DeerItem.cs" />
+    <Compile Include="Entities\Items\Animal\DuckItem.cs" />
+    <Compile Include="Entities\Items\Animal\GooseItem.cs" />
+    <Compile Include="Entities\Items\Animal\RabbitItem.cs" />
+    <Compile Include="Entities\Items\Animal\SquirrelItem.cs" />
+    <Compile Include="Entities\Items\Supplies\BulletsItem.cs" />
+    <Compile Include="Entities\Items\Supplies\ClothingItem.cs" />
     <Compile Include="Entities\Items\FoodItem.cs" />
-    <Compile Include="Entities\Items\Parts\PartItem.cs" />
+    <Compile Include="Entities\Items\PartItem.cs" />
     <Compile Include="Entities\Items\Parts\VehicleAxleItem.cs" />
     <Compile Include="Entities\Items\Parts\VehicleTongueItem.cs" />
     <Compile Include="Entities\Items\Parts\VehicleWheelItem.cs" />
@@ -59,12 +68,13 @@
     <Compile Include="Points Of Interest\RiverPoint.cs" />
     <Compile Include="GameSimulationApp.cs" />
     <Compile Include="Simulations\TickSim.cs" />
+    <Compile Include="Stores.cs" />
     <Compile Include="Trails.cs" />
     <Compile Include="Simulations\ClimateSim.cs" />
     <Compile Include="SimulationApp.cs" />
     <Compile Include="Simulations\TimeSim.cs" />
     <Compile Include="Entities\Items\Item.cs" />
-    <Compile Include="Entities\Items\OxenItem.cs" />
+    <Compile Include="Entities\Items\Animal\OxenItem.cs" />
     <Compile Include="Points Of Interest\ForkInRoadPoint.cs" />
     <Compile Include="Simulations\TrailSim.cs" />
     <Compile Include="Entities\Person.cs" />
@@ -79,9 +89,7 @@
     <Compile Include="Entities\Vehicle.cs" />
     <Compile Include="Modes\New Game\NewGameMode.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Stores\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\TrailCommon\TrailCommon.csproj">
       <Project>{1409ac6c-985e-4b33-9e4f-2420ea2d3262}</Project>

@@ -1,11 +1,11 @@
 ﻿namespace TrailEntities
 {
-    public sealed class VehicleWheelItem : PartItem
+    public sealed class BulletsItem : Item
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.BulletsItem" /> class.
         /// </summary>
-        public VehicleWheelItem(uint cost) : base(cost)
+        public BulletsItem(uint cost) : base(cost)
         {
         }
 
@@ -14,7 +14,7 @@
         /// </summary>
         public override string Name
         {
-            get { throw new System.NotImplementedException(); }
+            get { return "Ammunition"; }
         }
 
         /// <summary>
@@ -22,7 +22,7 @@
         /// </summary>
         public override uint Weight
         {
-            get { throw new System.NotImplementedException(); }
+            get { return 0; }
         }
 
         /// <summary>
@@ -30,7 +30,7 @@
         /// </summary>
         public override uint Quantity
         {
-            get { throw new System.NotImplementedException(); }
+            get { return 20; }
         }
     }
 }
