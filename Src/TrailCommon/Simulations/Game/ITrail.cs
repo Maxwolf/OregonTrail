@@ -7,5 +7,6 @@ namespace TrailCommon
         ReadOnlyCollection<PointOfInterest> PointsOfInterest { get; }
         int VehicleLocation { get; }
         void ReachedPointOfInterest();
+        PointOfInterest GetCurrentPointOfInterest();
     }
 }

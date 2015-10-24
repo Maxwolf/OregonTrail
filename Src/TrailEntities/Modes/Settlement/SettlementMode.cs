@@ -27,6 +27,10 @@ namespace TrailEntities
             get { return _storeMode; }
         }
 
+        /// <summary>
+        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     simulation.
+        /// </summary>
         public override ModeType ModeType
         {
             get { return ModeType.Settlement; }

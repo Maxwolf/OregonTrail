@@ -49,7 +49,7 @@
     <Compile Include="Modes\New Game\SelectStartingMonthState.cs" />
     <Compile Include="Modes\Settlement\SettlementMode.cs" />
     <Compile Include="Modes\Traveling\TravelingMode.cs" />
-    <Compile Include="Trail Points\RiverPoint.cs" />
+    <Compile Include="Points Of Interest\RiverPoint.cs" />
     <Compile Include="GameSimulationApp.cs" />
     <Compile Include="Simulations\TickSim.cs" />
     <Compile Include="Trails.cs" />
@@ -58,13 +58,13 @@
     <Compile Include="Simulations\TimeSim.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\Oxen.cs" />
-    <Compile Include="Trail Points\ForkInRoadPoint.cs" />
+    <Compile Include="Points Of Interest\ForkInRoadPoint.cs" />
     <Compile Include="Simulations\TrailSim.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Modes\Hunting\HuntingMode.cs" />
-    <Compile Include="Trail Points\LandmarkPoint.cs" />
+    <Compile Include="Points Of Interest\LandmarkPoint.cs" />
     <Compile Include="Modes\River Crossing\RiverCrossingMode.cs" />
-    <Compile Include="Trail Points\SettlementPoint.cs" />
+    <Compile Include="Points Of Interest\SettlementPoint.cs" />
     <Compile Include="Modes\Store\StoreMode.cs" />
     <Compile Include="Modes\Trading\TradingMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,7 +72,9 @@
     <Compile Include="Entities\Vehicle.cs" />
     <Compile Include="Modes\New Game\NewGameMode.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Stores\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrailCommon\TrailCommon.csproj">
       <Project>{1409ac6c-985e-4b33-9e4f-2420ea2d3262}</Project>

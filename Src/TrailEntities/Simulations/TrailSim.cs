@@ -1,36 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TrailCommon;
 
 namespace TrailEntities
 {
+    /// <summary>
+    ///     Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps
+    ///     track of the vehicles current position on the trail and provides helper methods to quickly access it.
+    /// </summary>
     public sealed class TrailSim : ITrail
     {
-        private ReadOnlyCollection<PointOfInterest> _pointsOfInterest;
-        private int _vehicleLocation;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Trail" /> class.
         /// </summary>
-        public TrailSim()
+        /// <param name="trail">Collection of points of interest which make up the trail the player is going to travel.</param>
+        public TrailSim(IList<PointOfInterest> trail)
         {
-            _pointsOfInterest = new ReadOnlyCollection<PointOfInterest>(Trails.OregonTrail);
-            _vehicleLocation = 0;
+            PointsOfInterest = new ReadOnlyCollection<PointOfInterest>(trail);
+            VehicleLocation = 0;
         }
 
-        public int VehicleLocation
-        {
-            get { return _vehicleLocation; }
-        }
+        public int VehicleLocation { get; }
 
-        public ReadOnlyCollection<PointOfInterest> PointsOfInterest
-        {
-            get { return _pointsOfInterest; }
-        }
+        public ReadOnlyCollection<PointOfInterest> PointsOfInterest { get; }
 
         public void ReachedPointOfInterest()
         {
             throw new NotImplementedException();
+        }
+
+        public PointOfInterest GetCurrentPointOfInterest()
+        {
+            return PointsOfInterest[VehicleLocation];
         }
     }
 }

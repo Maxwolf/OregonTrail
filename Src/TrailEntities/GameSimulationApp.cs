@@ -37,7 +37,7 @@ namespace TrailEntities
             _time.SpeedChangeEvent += TimeSimulation_SpeedChangeEvent;
 
             _climate = new ClimateSim(this, ClimateClassification.Moderate);
-            TrailSim = new TrailSim();
+            TrailSim = new TrailSim(Trails.OregonTrail);
             TotalTurns = 0;
             _vehicle = new Vehicle(this);
         }

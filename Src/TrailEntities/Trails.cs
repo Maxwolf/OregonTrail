@@ -39,7 +39,7 @@ namespace TrailEntities
                     }),
                     new SettlementPoint("Oregon City", 85, false)
                 };
-                return new ReadOnlyCollection<PointOfInterest>(_trail);
+                return _trail.AsReadOnly();
             }
         }
     }
