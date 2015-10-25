@@ -42,9 +42,6 @@ namespace TrailEntities
             professionChooser.Append("Advantages = special individual attributes of the occupation.\n");
             professionChooser.Append("Final Bonus = amount that your final point total will be multiplied by.\n\n");
 
-            // Combine instructions with question and selections.
-            professionChooser.Append(professionChooser);
-
             // Loop through every profession in the enumeration for them and print them in string builder.
             foreach (var possibleProfession in Enum.GetValues(typeof (Profession)))
             {

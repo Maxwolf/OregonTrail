@@ -113,10 +113,6 @@ namespace TrailEntities
         /// </summary>
         public void SetMonth(Months month)
         {
-            // Complain if developer sets month to same thing twice.
-            if (month == CurrentMonth)
-                throw new InvalidOperationException("Attempted to set current month to exact same month!");
-
             CurrentMonth = month;
             CurrentDay = 1;
         }

@@ -9,7 +9,7 @@ namespace TrailEntities
     /// </summary>
     public sealed class ConfirmProfessionState : ModeState<NewGameInfo>
     {
-        private StringBuilder confirmStartMonth;
+        private StringBuilder confirmProfession;
 
         /// <summary>
         ///     This constructor will be used by the other one
@@ -19,10 +19,10 @@ namespace TrailEntities
             // Pass the game data to the simulation for each new game mode state.
             GameSimulationApp.Instance.StartGame(userData);
 
-            confirmStartMonth = new StringBuilder();
-            confirmStartMonth.Append(
+            confirmProfession = new StringBuilder();
+            confirmProfession.Append(
                 $"Selected profession {UserData.PlayerProfession} for party leader {UserData.PlayerNames[0]}.\n");
-            confirmStartMonth.Append("Is this correct? Y/N\n");
+            confirmProfession.Append("Is this correct? Y/N\n");
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            return confirmStartMonth.ToString();
+            return confirmProfession.ToString();
         }
 
         /// <summary>

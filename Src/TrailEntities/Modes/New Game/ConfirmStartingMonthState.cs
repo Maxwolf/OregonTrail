@@ -21,7 +21,7 @@ namespace TrailEntities
 
             confirmStartMonth = new StringBuilder();
             confirmStartMonth.Append(
-                $"Selected profession {UserData.PlayerProfession} for party leader {UserData.PlayerNames[0]}.\n");
+                $"Selected starting month of {UserData.StartingMonth}.\n");
             confirmStartMonth.Append("Is this correct? Y/N\n");
         }
 
