@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using TrailCommon;
 
 namespace TrailEntities
 {
@@ -10,11 +11,11 @@ namespace TrailEntities
         ///     you need to start your journey on the trail. Matt's General Store is also the cheapest place (other than trading)
         ///     in the game to buy items.
         /// </summary>
-        public static ReadOnlyCollection<Item> MattsStore
+        public static ReadOnlyCollection<IItem> MattsStore
         {
             get
             {
-                var store = new List<Item>
+                var store = new List<IItem>
                 {
                     new OxenItem(20.0f),
                     new ClothingItem(10.00f),
@@ -31,11 +32,11 @@ namespace TrailEntities
         /// <summary>
         /// Fort Kearney General Store
         /// </summary>
-        public static ReadOnlyCollection<Item> FortKearneyStore
+        public static ReadOnlyCollection<IItem> FortKearneyStore
         {
             get
             {
-                var store = new List<Item>
+                var store = new List<IItem>
                 {
                     new OxenItem(25.0f),
                     new ClothingItem(12.50f),
@@ -52,11 +53,11 @@ namespace TrailEntities
         /// <summary>
         /// Fort Laramie General Store
         /// </summary>
-        public static ReadOnlyCollection<Item> FortLaramieStore
+        public static ReadOnlyCollection<IItem> FortLaramieStore
         {
             get
             {
-                var store = new List<Item>
+                var store = new List<IItem>
                 {
                     new OxenItem(30.0f),
                     new ClothingItem(15.0f),
@@ -73,11 +74,11 @@ namespace TrailEntities
         /// <summary>
         /// Fort Hall General Store
         /// </summary>
-        public static ReadOnlyCollection<Item> FortHallStore
+        public static ReadOnlyCollection<IItem> FortHallStore
         {
             get
             {
-                var store = new List<Item>
+                var store = new List<IItem>
                 {
                     new OxenItem(40.0f),
                     new ClothingItem(20.0f),
@@ -94,11 +95,11 @@ namespace TrailEntities
         /// <summary>
         /// Fort Boise General Store
         /// </summary>
-        public static ReadOnlyCollection<Item> FortBoiseStore
+        public static ReadOnlyCollection<IItem> FortBoiseStore
         {
             get
             {
-                var store = new List<Item>
+                var store = new List<IItem>
                 {
                     new OxenItem(45.0f),
                     new ClothingItem(22.50f),
@@ -115,11 +116,11 @@ namespace TrailEntities
         /// <summary>
         /// Fort Walla Walla General Store
         /// </summary>
-        public static ReadOnlyCollection<Item> FortWallaWallaStore
+        public static ReadOnlyCollection<IItem> FortWallaWallaStore
         {
             get
             {
-                var store = new List<Item>
+                var store = new List<IItem>
                 {
                     new OxenItem(50.0f),
                     new ClothingItem(25.0f),
@@ -136,11 +137,11 @@ namespace TrailEntities
         /// <summary>
         /// Fort Bridger General Store
         /// </summary>
-        public static ReadOnlyCollection<Item> FortBridgerStore
+        public static ReadOnlyCollection<IItem> FortBridgerStore
         {
             get
             {
-                var store = new List<Item>
+                var store = new List<IItem>
                 {
                     new OxenItem(35.0f),
                     new ClothingItem(17.50f),

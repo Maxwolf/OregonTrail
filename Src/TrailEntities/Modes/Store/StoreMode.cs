@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using TrailCommon;
 
 namespace TrailEntities
@@ -9,31 +8,34 @@ namespace TrailEntities
     /// </summary>
     public sealed class StoreMode : GameMode<StoreCommands>, IStoreMode
     {
-        private List<IItem> _inventory;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.StoreMode" /> class.
         /// </summary>
         public StoreMode()
         {
-            StoreName = "Unknown General Store";
-            _inventory = new List<IItem>();
-            StoreBalance = (uint) GameSimulationApp.Instance.Random.Next(100, 800);
+            // Cast the current point of interest into a settlement object since that is where stores are.
+            CurrentSettlement = GameSimulationApp.Instance.TrailSim.GetCurrentPointOfInterest() as SettlementPoint;
+            if (CurrentSettlement == null)
+                throw new InvalidCastException("Unable to cast current point of interest into a settlement point!");
+
+            // Store name is the location and general store added to the end of that.
+            StoreName = CurrentSettlement?.Name + " General Store";
         }
 
+        public float StoreBalance { get; private set; }
+
+        /// <summary>
+        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     simulation.
+        /// </summary>
         public override ModeType ModeType
         {
             get { return ModeType.Store; }
         }
 
-        public ReadOnlyCollection<IItem> StoreInventory
-        {
-            get { return new ReadOnlyCollection<IItem>(_inventory); }
-        }
+        public PointOfInterest CurrentSettlement { get; }
 
         public string StoreName { get; }
-
-        public float StoreBalance { get; private set; }
 
         public void BuyItems(IItem item)
         {

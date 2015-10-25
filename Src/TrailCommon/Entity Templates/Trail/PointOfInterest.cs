@@ -1,28 +1,21 @@
-﻿namespace TrailCommon
+﻿using System.Collections.Generic;
+
+namespace TrailCommon
 {
     public abstract class PointOfInterest
     {
-        private ulong _distanceLength;
-        private string _name;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailCommon.PointOfInterest" /> class.
         /// </summary>
         protected PointOfInterest(string name, ulong distanceLength)
         {
-            _distanceLength = distanceLength;
-            _name = name;
+            DistanceLength = distanceLength;
+            Name = name;
         }
 
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Name { get; }
 
-        public ulong DistanceLength
-        {
-            get { return _distanceLength; }
-        }
+        public ulong DistanceLength { get; }
 
         public abstract ModeType ModeType { get; }
     }
