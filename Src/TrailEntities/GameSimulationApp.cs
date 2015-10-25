@@ -30,18 +30,7 @@ namespace TrailEntities
         /// </summary>
         public GameSimulationApp()
         {
-            // Linear time simulation with ticks.
-            _time = new TimeSim(1848, Months.March, 1, TravelPace.Paused);
-            _time.DayEndEvent += TimeSimulation_DayEndEvent;
-            _time.MonthEndEvent += TimeSimulation_MonthEndEvent;
-            _time.YearEndEvent += TimeSimulation_YearEndEvent;
-            _time.SpeedChangeEvent += TimeSimulation_SpeedChangeEvent;
 
-            // Environment, weather, conditions, climate, tail, vehicle, stats.
-            _climate = new ClimateSim(this, ClimateClassification.Moderate);
-            TrailSim = new TrailSim(Trails.OregonTrail);
-            TotalTurns = 0;
-            _vehicle = new Vehicle(this);
         }
 
         public TrailSim TrailSim { get; private set; }
@@ -181,6 +170,19 @@ namespace TrailEntities
         protected override void OnFirstTimerTick()
         {
             base.OnFirstTimerTick();
+
+            // Linear time simulation with ticks.
+            _time = new TimeSim(1848, Months.March, 1, TravelPace.Paused);
+            _time.DayEndEvent += TimeSimulation_DayEndEvent;
+            _time.MonthEndEvent += TimeSimulation_MonthEndEvent;
+            _time.YearEndEvent += TimeSimulation_YearEndEvent;
+            _time.SpeedChangeEvent += TimeSimulation_SpeedChangeEvent;
+
+            // Environment, weather, conditions, climate, tail, vehicle, stats.
+            _climate = new ClimateSim(this, ClimateClassification.Moderate);
+            TrailSim = new TrailSim(Trails.OregonTrail);
+            TotalTurns = 0;
+            _vehicle = new Vehicle(this);
 
             // Attach traveling mode since that is the default and bottom most game mode.
             AddMode(ModeType.Travel);
