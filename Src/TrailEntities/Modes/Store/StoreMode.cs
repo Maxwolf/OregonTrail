@@ -9,7 +9,6 @@ namespace TrailEntities
     /// </summary>
     public sealed class StoreMode : GameMode<StoreCommands>, IStoreMode
     {
-        private readonly string _storeName;
         private List<IItem> _inventory;
 
         /// <summary>
@@ -17,7 +16,7 @@ namespace TrailEntities
         /// </summary>
         public StoreMode()
         {
-            _storeName = "Unknown General Store";
+            StoreName = "Unknown General Store";
             _inventory = new List<IItem>();
             StoreBalance = (uint) GameSimulationApp.Instance.Random.Next(100, 800);
         }
@@ -32,10 +31,7 @@ namespace TrailEntities
             get { return new ReadOnlyCollection<IItem>(_inventory); }
         }
 
-        public string StoreName
-        {
-            get { return _storeName; }
-        }
+        public string StoreName { get; }
 
         public float StoreBalance { get; private set; }
 

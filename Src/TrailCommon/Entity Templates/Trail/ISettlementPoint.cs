@@ -1,9 +1,12 @@
-﻿namespace TrailCommon
+﻿using System.Collections.ObjectModel;
+
+namespace TrailCommon
 {
     public interface ISettlementPoint
     {
         bool CanRest { get; }
-        IStoreMode StoreMode { get; }
+        bool HasStore { get; }
+        ReadOnlyCollection<IItem> StoreItems { get; }
         void GoToStore();
     }
 }

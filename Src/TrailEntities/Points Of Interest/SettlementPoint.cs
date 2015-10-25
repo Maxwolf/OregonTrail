@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using TrailCommon;
 
 namespace TrailEntities
@@ -10,16 +11,22 @@ namespace TrailEntities
     /// </summary>
     public sealed class SettlementPoint : PointOfInterest, ISettlementPoint
     {
-        private bool _canRest;
-        private StoreMode _storeMode;
+        private List<IItem> _storeItems;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Settlement" /> class.
         /// </summary>
-        public SettlementPoint(string name, ulong distanceLength, bool canRest) : base(name, distanceLength)
+        public SettlementPoint(string name, ulong distanceLength, bool canRest, IEnumerable<Item> storeStock = null)
+            : base(name, distanceLength)
         {
-            _canRest = canRest;
-            _storeMode = null;
+            // Use the null coalescing operator and an instance of empty List.
+            _storeItems = new List<IItem>(storeStock ?? new List<Item>());
+
+            // We know the settlement has a store if there are items in it to sell.
+            HasStore = _storeItems.Count > 0;
+
+            // Setup basic information about this settlement.
+            CanRest = canRest;
         }
 
         public override ModeType ModeType
@@ -27,20 +34,18 @@ namespace TrailEntities
             get { return ModeType.Settlement; }
         }
 
-        public bool CanRest
-        {
-            get { return _canRest; }
-        }
+        public bool CanRest { get; }
+        public bool HasStore { get; }
 
-        public IStoreMode StoreMode
+        public ReadOnlyCollection<IItem> StoreItems
         {
-            get { return _storeMode; }
+            get { return _storeItems.AsReadOnly(); }
         }
 
         public void GoToStore()
         {
-            // TODO: Create instance of store.
-            throw new NotImplementedException();
+            // Store takes all needed data from current trail point location.
+            GameSimulationApp.Instance.AddMode(ModeType.Store);
         }
     }
 }
