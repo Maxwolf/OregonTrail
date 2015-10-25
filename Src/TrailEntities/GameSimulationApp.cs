@@ -25,14 +25,6 @@ namespace TrailEntities
         /// </summary>
         private Vehicle _vehicle;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
-        /// </summary>
-        public GameSimulationApp()
-        {
-
-        }
-
         public TrailSim TrailSim { get; private set; }
 
         public static GameSimulationApp Instance { get; private set; }

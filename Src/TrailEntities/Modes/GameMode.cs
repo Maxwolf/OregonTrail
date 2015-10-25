@@ -94,7 +94,7 @@ namespace TrailEntities
         ///     Fired by simulation when it wants to request latest text user interface data for the game mode, this is used to
         ///     display to user console specific information about what the simulation wants.
         /// </summary>
-        public string GetTUI()
+        public virtual string GetTUI()
         {
             // Build up string representation of the current state of the game mode.
             var modeTUI = new StringBuilder();

@@ -48,6 +48,11 @@ namespace TrailEntities
             GameSimulationApp.Instance.Vehicle.BuyItem(item);
         }
 
+        public override string GetTUI()
+        {
+            return "Welcome to " + StoreName;
+        }
+
         public void SellItem(IItem item)
         {
             var storeCost = item.Cost*item.Quantity;
