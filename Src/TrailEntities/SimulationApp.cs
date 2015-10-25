@@ -263,8 +263,8 @@ namespace TrailEntities
         ///     Attaches the traveling mode and removes the new game mode if it exists, this begins the simulation down the trail
         ///     path and all the points of interest on it.
         /// </summary>
-        /// <param name="newGameInfo">User data object that was passed around the new game mode and populated by user selections.</param>
-        public virtual void StartGame(NewGameInfo newGameInfo)
+        /// <param name="startingInfo">User data object that was passed around the new game mode and populated by user selections.</param>
+        public virtual void StartGame(NewGameInfo startingInfo)
         {
             NewgameEvent?.Invoke();
         }
@@ -310,6 +310,11 @@ namespace TrailEntities
         /// </summary>
         private void TickModes()
         {
+            // If the active mode is not null and flag is set to remove then do that!
+            if (ActiveMode != null && ActiveMode.ShouldRemoveMode)
+                RemoveActiveMode();
+
+            // Otherwise just tick the game mode logic.
             ActiveMode?.TickMode();
         }
     }

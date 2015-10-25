@@ -30,12 +30,14 @@ namespace TrailEntities
         /// </summary>
         public GameSimulationApp()
         {
+            // Linear time simulation with ticks.
             _time = new TimeSim(1848, Months.March, 1, TravelPace.Paused);
             _time.DayEndEvent += TimeSimulation_DayEndEvent;
             _time.MonthEndEvent += TimeSimulation_MonthEndEvent;
             _time.YearEndEvent += TimeSimulation_YearEndEvent;
             _time.SpeedChangeEvent += TimeSimulation_SpeedChangeEvent;
 
+            // Environment, weather, conditions, climate, tail, vehicle, stats.
             _climate = new ClimateSim(this, ClimateClassification.Moderate);
             TrailSim = new TrailSim(Trails.OregonTrail);
             TotalTurns = 0;
@@ -73,31 +75,31 @@ namespace TrailEntities
         ///     Attaches the traveling mode and removes the new game mode if it exists, this begins the simulation down the trail
         ///     path and all the points of interest on it.
         /// </summary>
-        /// <param name="newGameInfo">User data object that was passed around the new game mode and populated by user selections.</param>
-        public override void StartGame(NewGameInfo newGameInfo)
+        /// <param name="startingInfo">User data object that was passed around the new game mode and populated by user selections.</param>
+        public override void StartGame(NewGameInfo startingInfo)
         {
-            base.StartGame(newGameInfo);
+            base.StartGame(startingInfo);
 
             // Complain if there is no players to add to the vehicle.
-            if (newGameInfo.PlayerNames.Count <= 0)
+            if (startingInfo.PlayerNames.Count <= 0)
                 throw new InvalidOperationException("Cannot create vehicle with no people in new game info user data!");
 
             // Clear out any data amount items, monies, people that might have been in the vehicle.
             // NOTE: Sets starting monies, which was determined by player profession selection.
-            Vehicle.ResetVehicle(newGameInfo.StartingMonies);
+            Vehicle.ResetVehicle(startingInfo.StartingMonies);
 
             // Add all the player data we collected from attached game mode states.
             var crewNumber = 1;
-            foreach (var name in newGameInfo.PlayerNames)
+            foreach (var name in startingInfo.PlayerNames)
             {
                 // First name in list is always the leader.
-                var isLeader = newGameInfo.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
-                Vehicle.AddPerson(new Person(newGameInfo.PlayerProfession, name, isLeader));
+                var isLeader = startingInfo.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
+                Vehicle.AddPerson(new Person(startingInfo.PlayerProfession, name, isLeader));
                 crewNumber++;
             }
 
             // Set the starting month to match what the user selected.
-            Time.SetMonth(newGameInfo.StartingMonth);
+            Time.SetMonth(startingInfo.StartingMonth);
         }
 
         /// <summary>
@@ -179,6 +181,9 @@ namespace TrailEntities
         protected override void OnFirstTimerTick()
         {
             base.OnFirstTimerTick();
+
+            // Attach traveling mode since that is the default and bottom most game mode.
+            AddMode(ModeType.Travel);
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
             AddMode(ModeType.NewGame);

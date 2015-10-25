@@ -15,32 +15,14 @@ namespace TrailEntities
         /// </summary>
         public BuyInitialItemsState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
-            // Complain if there is no players to add to the vehicle.
-            if (userData.PlayerNames.Count <= 0)
-                throw new InvalidOperationException("Cannot create vehicle with no people in new game info user data!");
-
-            // Clear out any data amount items, monies, people that might have been in the vehicle.
-            // NOTE: Sets starting monies, which was determined by player profession selection.
-            GameSimulationApp.Instance.Vehicle.ResetVehicle(userData.StartingMonies);
-
-            // Add all the player data we collected from attached game mode states.
-            var crewNumber = 1;
-            foreach (var name in userData.PlayerNames)
-            {
-                // First name in list is always the leader.
-                var isLeader = userData.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
-                GameSimulationApp.Instance.Vehicle.AddPerson(new Person(userData.PlayerProfession, name, isLeader));
-                crewNumber++;
-            }
-
-            // Set the starting month to match what the user selected.
-            GameSimulationApp.Instance.Time.SetMonth(userData.StartingMonth);
+            // Pass the game data to the simulation for each new game mode state.
+            GameSimulationApp.Instance.StartGame(userData);
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        ///     Disable input for the buy initial items since it's just telling the user something and only wants a key press event
+        ///     to continue and not actual input.
         /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
         public override bool AcceptsInput
         {
             get { return false; }

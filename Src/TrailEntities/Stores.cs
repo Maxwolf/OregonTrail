@@ -14,7 +14,7 @@ namespace TrailEntities
         {
             get
             {
-                var _store = new List<Item>
+                var store = new List<Item>
                 {
                     new OxenItem(20.0f),
                     new ClothingItem(10.00f),
@@ -24,7 +24,7 @@ namespace TrailEntities
                     new VehicleTongueItem(10.0f),
                     new FoodItem(0.20f)
                 };
-                return _store.AsReadOnly();
+                return store.AsReadOnly();
             }
         }
 
@@ -35,7 +35,7 @@ namespace TrailEntities
         {
             get
             {
-                var _store = new List<Item>
+                var store = new List<Item>
                 {
                     new OxenItem(25.0f),
                     new ClothingItem(12.50f),
@@ -45,7 +45,7 @@ namespace TrailEntities
                     new VehicleTongueItem(12.50f),
                     new FoodItem(0.25f)
                 };
-                return _store.AsReadOnly();
+                return store.AsReadOnly();
             }
         }
 
@@ -56,7 +56,7 @@ namespace TrailEntities
         {
             get
             {
-                var _store = new List<Item>
+                var store = new List<Item>
                 {
                     new OxenItem(30.0f),
                     new ClothingItem(15.0f),
@@ -66,7 +66,7 @@ namespace TrailEntities
                     new VehicleTongueItem(15.0f),
                     new FoodItem(0.30f)
                 };
-                return _store.AsReadOnly();
+                return store.AsReadOnly();
             }
         }
 
@@ -77,7 +77,7 @@ namespace TrailEntities
         {
             get
             {
-                var _store = new List<Item>
+                var store = new List<Item>
                 {
                     new OxenItem(40.0f),
                     new ClothingItem(20.0f),
@@ -87,7 +87,7 @@ namespace TrailEntities
                     new VehicleTongueItem(20.0f),
                     new FoodItem(0.40f)
                 };
-                return _store.AsReadOnly();
+                return store.AsReadOnly();
             }
         }
 
@@ -98,7 +98,7 @@ namespace TrailEntities
         {
             get
             {
-                var _store = new List<Item>
+                var store = new List<Item>
                 {
                     new OxenItem(45.0f),
                     new ClothingItem(22.50f),
@@ -108,7 +108,7 @@ namespace TrailEntities
                     new VehicleTongueItem(22.50f),
                     new FoodItem(0.45f)
                 };
-                return _store.AsReadOnly();
+                return store.AsReadOnly();
             }
         }
 
@@ -119,7 +119,7 @@ namespace TrailEntities
         {
             get
             {
-                var _store = new List<Item>
+                var store = new List<Item>
                 {
                     new OxenItem(50.0f),
                     new ClothingItem(25.0f),
@@ -129,7 +129,7 @@ namespace TrailEntities
                     new VehicleTongueItem(25.0f),
                     new FoodItem(0.50f)
                 };
-                return _store.AsReadOnly();
+                return store.AsReadOnly();
             }
         }
 
@@ -140,7 +140,7 @@ namespace TrailEntities
         {
             get
             {
-                var _store = new List<Item>
+                var store = new List<Item>
                 {
                     new OxenItem(35.0f),
                     new ClothingItem(17.50f),
@@ -150,7 +150,7 @@ namespace TrailEntities
                     new VehicleTongueItem(17.50f),
                     new FoodItem(0.35f)
                 };
-                return _store.AsReadOnly();
+                return store.AsReadOnly();
             }
         }
     }

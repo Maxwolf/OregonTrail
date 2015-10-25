@@ -38,15 +38,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return true; }
-        }
-
-        /// <summary>
         ///     Fired when the active game mode has been changed, this allows any underlying mode to know about a change in
         ///     simulation.
         /// </summary>
@@ -105,6 +96,10 @@ namespace TrailEntities
         /// </summary>
         public void StartGame()
         {
+            // Remove the new game mode since it has done everything it can for us now.
+            RemoveModeNextTick();
+
+            // Pass the new game info user data object to the simulation one final time.
             GameSimulationApp.Instance.StartGame(NewGameInfo);
         }
 

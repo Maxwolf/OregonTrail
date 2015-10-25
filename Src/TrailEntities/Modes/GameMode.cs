@@ -46,6 +46,21 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Determines if the game mode should not be ticked if it is active but instead removed. The mode when set to being
+        ///     removed will not actually be removed until the simulation attempts to tick it and realizes that this is set to true
+        ///     and then it will be removed.
+        /// </summary>
+        public bool ShouldRemoveMode { get; private set; }
+
+        /// <summary>
+        ///     Sets the flag for this game mode to be removed the next time it is ticked by the simulation.
+        /// </summary>
+        public void RemoveModeNextTick()
+        {
+            ShouldRemoveMode = true;
+        }
+
+        /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
@@ -55,7 +70,10 @@ namespace TrailEntities
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public abstract bool AcceptsInput { get; }
+        public virtual bool AcceptsInput
+        {
+            get { return !ShouldRemoveMode; }
+        }
 
         /// <summary>
         ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and

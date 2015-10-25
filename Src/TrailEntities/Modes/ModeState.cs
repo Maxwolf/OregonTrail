@@ -8,9 +8,6 @@ namespace TrailEntities
     /// </summary>
     public abstract class ModeState<T> : IModeState where T : class, new()
     {
-        private IMode _parentMode;
-        private T _userData;
-
         /// <summary>
         ///     This constructor will create new state taking values from old state
         /// </summary>
@@ -31,17 +28,16 @@ namespace TrailEntities
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
         ///     data for parent game mode.
         /// </summary>
-        public T UserData
-        {
-            get { return _userData; }
-            set { _userData = value; }
-        }
+        public T UserData { get; set; }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public abstract bool AcceptsInput { get; }
+        public virtual bool AcceptsInput
+        {
+            get { return !ParentMode.ShouldRemoveMode; }
+        }
 
         /// <summary>
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
@@ -55,11 +51,7 @@ namespace TrailEntities
         /// <summary>
         ///     Current parent game mode which this state is binded to and is doing work on behalf of.
         /// </summary>
-        public IMode ParentMode
-        {
-            get { return _parentMode; }
-            set { _parentMode = value; }
-        }
+        public IMode ParentMode { get; set; }
 
         /// <summary>
         ///     Forces the current game mode state to update itself, this typically results in moving to the next state.

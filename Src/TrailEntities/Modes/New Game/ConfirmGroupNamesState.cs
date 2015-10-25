@@ -15,6 +15,8 @@ namespace TrailEntities
         /// </summary>
         public ConfirmGroupNamesState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
+            // Pass the game data to the simulation for each new game mode state.
+            GameSimulationApp.Instance.StartGame(userData);
         }
 
         /// <summary>

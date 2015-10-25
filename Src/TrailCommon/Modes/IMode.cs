@@ -7,6 +7,13 @@
     public interface IMode
     {
         /// <summary>
+        ///     Determines if the game mode should not be ticked if it is active but instead removed. The mode when set to being
+        ///     removed will not actually be removed until the simulation attempts to tick it and realizes that this is set to true
+        ///     and then it will be removed.
+        /// </summary>
+        bool ShouldRemoveMode { get; }
+
+        /// <summary>
         ///     Defines the type of game mode this is and what it's purpose will be intended for.
         /// </summary>
         ModeType ModeType { get; }
@@ -22,6 +29,11 @@
         ///     then detach.
         /// </summary>
         IModeState CurrentState { get; set; }
+
+        /// <summary>
+        ///     Sets the flag for this game mode to be removed the next time it is ticked by the simulation.
+        /// </summary>
+        void RemoveModeNextTick();
 
         /// <summary>
         ///     Because of how generics work in C# we need to have the ability to override a method in implementing classes to get

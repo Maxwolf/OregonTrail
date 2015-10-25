@@ -67,15 +67,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return false; }
-        }
-
-        /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
         public override void OnModeRemoved()

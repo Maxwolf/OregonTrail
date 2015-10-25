@@ -13,7 +13,7 @@ namespace TrailEntities
         {
             get
             {
-                var _trail = new List<PointOfInterest>
+                var trail = new List<PointOfInterest>
                 {
                     new SettlementPoint("Independence", 0, true),
                     new RiverPoint("Kansas River Crossing", 83),
@@ -39,7 +39,7 @@ namespace TrailEntities
                     }),
                     new SettlementPoint("Oregon City", 85, false)
                 };
-                return _trail.AsReadOnly();
+                return trail.AsReadOnly();
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using TrailCommon;
 
 namespace TrailEntities
@@ -10,30 +9,15 @@ namespace TrailEntities
     /// </summary>
     public sealed class SelectStartingMonthState : ModeState<NewGameInfo>
     {
+        private StringBuilder startMonthHelp;
+
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public SelectStartingMonthState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
-        }
-
-        /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return true; }
-        }
-
-        /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
-        /// </summary>
-        public override string GetStateTUI()
-        {
             // Inform the user about a decision they need to make.
-            var startMonthHelp = new StringBuilder();
+            startMonthHelp = new StringBuilder();
             startMonthHelp.Append("You need to decide when to set off on the trail.  If you leave too soon, there\n");
             startMonthHelp.Append("won't be much grass for your oxen to eat.  You may encounter some very cold\n");
             startMonthHelp.Append("weather and late spring snowstorms.\n\n");
@@ -52,6 +36,23 @@ namespace TrailEntities
 
             // Wait for user input...
             startMonthHelp.Append("Press RETURN key to enter the store.\n");
+        }
+
+        /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public override bool AcceptsInput
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
+        ///     waiting input, etc.
+        /// </summary>
+        public override string GetStateTUI()
+        {
             return startMonthHelp.ToString();
         }
 
@@ -61,7 +62,37 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            switch (input.ToUpperInvariant())
+            {
+                case "MARCH":
+                    UserData.StartingMonth = Months.March;
+                    ParentMode.CurrentState = new ConfirmStartingMonthState(ParentMode, UserData);
+                    break;
+                case "APRIL":
+                    UserData.StartingMonth = Months.April;
+                    ParentMode.CurrentState = new ConfirmStartingMonthState(ParentMode, UserData);
+                    break;
+                case "MAY":
+                    UserData.StartingMonth = Months.May;
+                    ParentMode.CurrentState = new ConfirmStartingMonthState(ParentMode, UserData);
+                    break;
+                case "JUNE":
+                    UserData.StartingMonth = Months.June;
+                    ParentMode.CurrentState = new ConfirmStartingMonthState(ParentMode, UserData);
+                    break;
+                case "JULY":
+                    UserData.StartingMonth = Months.July;
+                    ParentMode.CurrentState = new ConfirmStartingMonthState(ParentMode, UserData);
+                    break;
+                case "AUGUST":
+                    UserData.StartingMonth = Months.August;
+                    ParentMode.CurrentState = new ConfirmStartingMonthState(ParentMode, UserData);
+                    break;
+                default:
+                    UserData.StartingMonth = Months.March;
+                    ParentMode.CurrentState = new SelectStartingMonthState(ParentMode, UserData);
+                    break;
+            }
         }
     }
 }

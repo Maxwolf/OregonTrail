@@ -1,4 +1,5 @@
-﻿using TrailCommon;
+﻿using System.Text;
+using TrailCommon;
 
 namespace TrailEntities
 {
@@ -8,11 +9,20 @@ namespace TrailEntities
     /// </summary>
     public sealed class ConfirmProfessionState : ModeState<NewGameInfo>
     {
+        private StringBuilder confirmStartMonth;
+
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public ConfirmProfessionState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
+            // Pass the game data to the simulation for each new game mode state.
+            GameSimulationApp.Instance.StartGame(userData);
+
+            confirmStartMonth = new StringBuilder();
+            confirmStartMonth.Append(
+                $"Selected profession {UserData.PlayerProfession} for party leader {UserData.PlayerNames[0]}.\n");
+            confirmStartMonth.Append("Is this correct? Y/N\n");
         }
 
         /// <summary>
@@ -30,8 +40,7 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            return $"Selected profession {UserData.PlayerProfession} for party leader " +
-                   $"{UserData.PlayerNames[0]}.\n Is this correct? Y/N";
+            return confirmStartMonth.ToString();
         }
 
         /// <summary>
