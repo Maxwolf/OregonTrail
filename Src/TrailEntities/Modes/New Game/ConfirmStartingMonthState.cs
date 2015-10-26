@@ -9,6 +9,9 @@ namespace TrailEntities
     /// </summary>
     public sealed class ConfirmStartingMonthState : ModeState<NewGameInfo>
     {
+        /// <summary>
+        ///     Reference string for the starting month confirmation text, this way we only build it once in the constructor.
+        /// </summary>
         private StringBuilder confirmStartMonth;
 
         /// <summary>
@@ -22,7 +25,7 @@ namespace TrailEntities
             confirmStartMonth = new StringBuilder();
             confirmStartMonth.Append(
                 $"Selected starting month of {UserData.StartingMonth}.\n");
-            confirmStartMonth.Append("Is this correct? Y/N\n");
+            confirmStartMonth.Append("Is this correct? Y/N");
         }
 
         /// <summary>

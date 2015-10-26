@@ -23,8 +23,7 @@ namespace TrailEntities
             // Tell the user they need to make a decision.
             _startMonthQuestion = new StringBuilder();
             _startMonthQuestion.Append("Type HELP for more information about starting months.\n");
-            _startMonthQuestion.Append("When do you want to Start?\n");
-            _startMonthQuestion.Append("Type March, April, May, June, July, or August\n");
+            _startMonthQuestion.Append("When do you want to start? Type March, April, May, June, July, or August");
         }
 
         /// <summary>
