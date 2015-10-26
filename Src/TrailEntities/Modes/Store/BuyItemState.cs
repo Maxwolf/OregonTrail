@@ -10,6 +10,12 @@ namespace TrailEntities
     public sealed class BuyItemState : ModeState<StoreReceiptInfo>
     {
         /// <summary>
+        ///     Reference to the total amount of items the player can purchase of item of this particular type from this store with
+        ///     the money they have.
+        /// </summary>
+        private uint _creditLimit;
+
+        /// <summary>
         ///     Help text to ask the player a question about how many of the particular item they would like to purchase.
         /// </summary>
         private StringBuilder _itemBuyText;
@@ -18,12 +24,6 @@ namespace TrailEntities
         ///     Reference to the item the player wishes to purchase from the store, it will be added to receipt list of it can.
         /// </summary>
         private Item _itemToBuy;
-
-        /// <summary>
-        ///     Reference to the total amount of items the player can purchase of item of this particular type from this store with
-        ///     the money they have.
-        /// </summary>
-        private uint _creditLimit;
 
         public BuyItemState(string questionText, Item itemToBuy, IMode gameMode, StoreReceiptInfo userData)
             : base(gameMode, userData)

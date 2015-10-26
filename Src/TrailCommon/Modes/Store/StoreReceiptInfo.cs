@@ -23,17 +23,17 @@ namespace TrailCommon
             _totalTransactions = new List<StoreTransactionItem>();
         }
 
-        public void ClearTransactions()
-        {
-            _totalTransactions.Clear();
-        }
-
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
         public ReadOnlyCollection<StoreTransactionItem> Transactions
         {
             get { return _totalTransactions.AsReadOnly(); }
+        }
+
+        public void ClearTransactions()
+        {
+            _totalTransactions.Clear();
         }
 
         /// <summary>

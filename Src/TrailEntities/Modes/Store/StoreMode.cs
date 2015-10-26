@@ -25,9 +25,9 @@ namespace TrailEntities
         private string _clothingAmount;
         private string _foodAmount;
         private string _oxenAmount;
+        private bool _shownStoreAdvice;
         private string _tonguesAmount;
         private string _wheelsAmount;
-        private bool _shownStoreAdvice;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.StoreMode" /> class.
@@ -49,132 +49,6 @@ namespace TrailEntities
         ///     Amount of money the store has to sell items to the player.
         /// </summary>
         public float StoreBalance { get; private set; }
-
-        /// <summary>
-        ///     Fired when the current game modes state is altered, it could be removed and null or a new one added up to
-        ///     implementation to check.
-        /// </summary>
-        protected override void OnModeStateChanged()
-        {
-            base.OnModeStateChanged();
-
-            // Skip if current state is not null.
-            if (CurrentState != null)
-                return;
-
-            UpdateDebts();
-        }
-
-        /// <summary>
-        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
-        /// </summary>
-        public override void OnModeRemoved()
-        {
-            base.OnModeRemoved();
-
-            // Process all of the pending transactions in the store receipt info object.
-            foreach (var transaction in StoreReceiptInfo.Transactions)
-            {
-                GameSimulationApp.Instance.Vehicle.BuyItem(transaction);
-            }
-
-            // Remove all the transactions now that we have processed them.
-            StoreReceiptInfo.ClearTransactions();
-        }
-
-        /// <summary>
-        /// Build up representation of store inventory as text.
-        /// </summary>
-        private void UpdateDebts()
-        {
-            _oxenAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
-                t is OxenItem)?.ToString() ?? ITEM_NOT_FOUND;
-
-            _foodAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
-                t is FoodItem)?.ToString() ?? ITEM_NOT_FOUND;
-
-            _clothingAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
-                t is ClothingItem)?.ToString() ?? ITEM_NOT_FOUND;
-
-            _bulletsAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
-                t is BulletsItem)?.ToString() ?? ITEM_NOT_FOUND;
-
-            _wheelsAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
-                t is PartWheelItem)?.ToString() ?? ITEM_NOT_FOUND;
-
-            _axlesAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
-                t is PartAxleItem)?.ToString() ?? ITEM_NOT_FOUND;
-
-            _tonguesAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
-                t is PartTongueItem)?.ToString() ?? ITEM_NOT_FOUND;
-
-            // We will only modify store visualization of prices when at the first location on the trail.
-            if (GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0)
-            {
-                _oxenAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is OxenItem)?.ToString() ?? ZERO_MONIES;
-
-                _foodAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is FoodItem)?.ToString() ?? ZERO_MONIES;
-
-                _clothingAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is ClothingItem)?.ToString() ?? ZERO_MONIES;
-
-                _bulletsAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is BulletsItem)?.ToString() ?? ZERO_MONIES;
-
-                _wheelsAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is PartWheelItem)?.ToString() ?? ZERO_MONIES;
-
-                _axlesAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is PartAxleItem)?.ToString() ?? ZERO_MONIES;
-
-                _tonguesAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is PartTongueItem)?.ToString() ?? ZERO_MONIES;
-            }
-
-            // Header text for above menu.
-            var headerText = new StringBuilder();
-            headerText.Append("--------------------------------\n");
-            headerText.Append($"{CurrentSettlement?.Name} General Store\n");
-            headerText.Append($"{GameSimulationApp.Instance.Time.Date}\n");
-            headerText.Append("--------------------------------");
-            MenuHeader = headerText.ToString();
-
-            // Clear all the commands store had, then re-populate the list with them again so we can change the titles dynamically.
-            ClearCommands();
-            AddCommand(BuyOxen, StoreCommands.BuyOxen, $"Oxen              {_oxenAmount}");
-            AddCommand(BuyFood, StoreCommands.BuyFood, $"Food              {_foodAmount}");
-            AddCommand(BuyClothing, StoreCommands.BuyClothing, $"Clothing          {_clothingAmount}");
-            AddCommand(BuyAmmunition, StoreCommands.BuyAmmunition, $"Ammunition        {_bulletsAmount}");
-            AddCommand(BuySpareWheels, StoreCommands.BuySpareWheel, $"Vehicle wheels    {_wheelsAmount}");
-            AddCommand(BuySpareAxles, StoreCommands.BuySpareAxles, $"Vehicle axles     {_axlesAmount}");
-            AddCommand(BuySpareTongues, StoreCommands.BuySpareTongues, $"Vehicle tongues   {_tonguesAmount}");
-            AddCommand(LeaveStore, StoreCommands.LeaveStore, "Leave store");
-
-            // Footer text for below menu.
-            var footerText = new StringBuilder();
-            footerText.Append("\n--------------------------------\n");
-
-            // Calculate how much monies the player has and the total amount of monies owed to store for pending transaction receipt.
-            var totalBill = StoreReceiptInfo.GetTransactionTotalCost();
-            var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
-
-            // If at first location we show the total cost of the bill so far the player has racked up.
-            footerText.Append(
-                GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0
-                    ? $"Total bill:            {totalBill.ToString("C2")}" +
-                      $"\nAmount you have:       {amountPlayerHas.ToString("C2")}\n\nWhich item would you like to buy?"
-                    : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.\n\nWhich number?");
-            MenuFooter = footerText.ToString();
-
-            // Trigger the store advice automatically on the first location and one time only.
-            if (GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0 && !_shownStoreAdvice)
-            {
-                _shownStoreAdvice = true;
-                StoreAdvice();
-            }
-        }
 
         /// <summary>
         ///     Defines the text prefix which will go above the menu, used to show any useful information the game mode might need
@@ -308,6 +182,132 @@ namespace TrailEntities
             StoreBalance -= storeCost;
             BuyItems(transaction);
             GameSimulationApp.Instance.Vehicle.SellItem(transaction);
+        }
+
+        /// <summary>
+        ///     Fired when the current game modes state is altered, it could be removed and null or a new one added up to
+        ///     implementation to check.
+        /// </summary>
+        protected override void OnModeStateChanged()
+        {
+            base.OnModeStateChanged();
+
+            // Skip if current state is not null.
+            if (CurrentState != null)
+                return;
+
+            UpdateDebts();
+        }
+
+        /// <summary>
+        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
+        /// </summary>
+        public override void OnModeRemoved()
+        {
+            base.OnModeRemoved();
+
+            // Process all of the pending transactions in the store receipt info object.
+            foreach (var transaction in StoreReceiptInfo.Transactions)
+            {
+                GameSimulationApp.Instance.Vehicle.BuyItem(transaction);
+            }
+
+            // Remove all the transactions now that we have processed them.
+            StoreReceiptInfo.ClearTransactions();
+        }
+
+        /// <summary>
+        ///     Build up representation of store inventory as text.
+        /// </summary>
+        private void UpdateDebts()
+        {
+            _oxenAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is OxenItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            _foodAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is FoodItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            _clothingAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is ClothingItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            _bulletsAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is BulletsItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            _wheelsAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is PartWheelItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            _axlesAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is PartAxleItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            _tonguesAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is PartTongueItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            // We will only modify store visualization of prices when at the first location on the trail.
+            if (GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0)
+            {
+                _oxenAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is OxenItem)?.ToString() ?? ZERO_MONIES;
+
+                _foodAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is FoodItem)?.ToString() ?? ZERO_MONIES;
+
+                _clothingAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is ClothingItem)?.ToString() ?? ZERO_MONIES;
+
+                _bulletsAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is BulletsItem)?.ToString() ?? ZERO_MONIES;
+
+                _wheelsAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is PartWheelItem)?.ToString() ?? ZERO_MONIES;
+
+                _axlesAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is PartAxleItem)?.ToString() ?? ZERO_MONIES;
+
+                _tonguesAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is PartTongueItem)?.ToString() ?? ZERO_MONIES;
+            }
+
+            // Header text for above menu.
+            var headerText = new StringBuilder();
+            headerText.Append("--------------------------------\n");
+            headerText.Append($"{CurrentSettlement?.Name} General Store\n");
+            headerText.Append($"{GameSimulationApp.Instance.Time.Date}\n");
+            headerText.Append("--------------------------------");
+            MenuHeader = headerText.ToString();
+
+            // Clear all the commands store had, then re-populate the list with them again so we can change the titles dynamically.
+            ClearCommands();
+            AddCommand(BuyOxen, StoreCommands.BuyOxen, $"Oxen              {_oxenAmount}");
+            AddCommand(BuyFood, StoreCommands.BuyFood, $"Food              {_foodAmount}");
+            AddCommand(BuyClothing, StoreCommands.BuyClothing, $"Clothing          {_clothingAmount}");
+            AddCommand(BuyAmmunition, StoreCommands.BuyAmmunition, $"Ammunition        {_bulletsAmount}");
+            AddCommand(BuySpareWheels, StoreCommands.BuySpareWheel, $"Vehicle wheels    {_wheelsAmount}");
+            AddCommand(BuySpareAxles, StoreCommands.BuySpareAxles, $"Vehicle axles     {_axlesAmount}");
+            AddCommand(BuySpareTongues, StoreCommands.BuySpareTongues, $"Vehicle tongues   {_tonguesAmount}");
+            AddCommand(LeaveStore, StoreCommands.LeaveStore, "Leave store");
+
+            // Footer text for below menu.
+            var footerText = new StringBuilder();
+            footerText.Append("\n--------------------------------\n");
+
+            // Calculate how much monies the player has and the total amount of monies owed to store for pending transaction receipt.
+            var totalBill = StoreReceiptInfo.GetTransactionTotalCost();
+            var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
+
+            // If at first location we show the total cost of the bill so far the player has racked up.
+            footerText.Append(
+                GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0
+                    ? $"Total bill:            {totalBill.ToString("C2")}" +
+                      $"\nAmount you have:       {amountPlayerHas.ToString("C2")}\n\nWhich item would you like to buy?"
+                    : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.\n\nWhich number?");
+            MenuFooter = footerText.ToString();
+
+            // Trigger the store advice automatically on the first location and one time only.
+            if (GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0 && !_shownStoreAdvice)
+            {
+                _shownStoreAdvice = true;
+                StoreAdvice();
+            }
         }
     }
 }

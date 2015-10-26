@@ -60,7 +60,8 @@ namespace TrailEntities
             }
 
             // Ask the user to make a selection, and then wait for input...
-            _professionChooser.AppendFormat("  {0} - {1}\n\n", _professionCount, "Find out the differences between these choices");
+            _professionChooser.AppendFormat("  {0} - {1}\n\n", _professionCount,
+                "Find out the differences between these choices");
             _professionChooser.Append("What is your choice?");
         }
 
