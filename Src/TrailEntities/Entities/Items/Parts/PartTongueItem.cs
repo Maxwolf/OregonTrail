@@ -1,15 +1,17 @@
-﻿namespace TrailEntities
+﻿using TrailCommon;
+
+namespace TrailEntities
 {
     /// <summary>
     ///     Required to keep the vehicle running, if the tongue breaks then the player will have to fix or replace it before
     ///     they can continue on the journey again.
     /// </summary>
-    public sealed class VehicleTongueItem : PartItem
+    public sealed class PartTongueItem : PartItem
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.VehicleTongueItem" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.PartTongueItem" /> class.
         /// </summary>
-        public VehicleTongueItem(float cost) : base(cost, 1)
+        public PartTongueItem(float cost) : base(cost, 1)
         {
         }
 

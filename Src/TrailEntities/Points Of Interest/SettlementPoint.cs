@@ -11,16 +11,16 @@ namespace TrailEntities
     /// </summary>
     public sealed class SettlementPoint : PointOfInterest, ISettlementPoint
     {
-        private List<IItem> _storeItems;
+        private List<Item> _storeItems;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Settlement" /> class.
         /// </summary>
-        public SettlementPoint(string name, ulong distanceLength, bool canRest, IEnumerable<IItem> pointInventory = null)
+        public SettlementPoint(string name, ulong distanceLength, bool canRest, IEnumerable<Item> pointInventory = null)
             : base(name, distanceLength)
         {
             // Use the null coalescing operator and an instance of empty List.
-            _storeItems = new List<IItem>(pointInventory ?? new List<IItem>());
+            _storeItems = new List<Item>(pointInventory ?? new List<Item>());
 
             // We know the settlement has a store if there are items in it to sell.
             HasStore = _storeItems.Count > 0;
@@ -39,7 +39,7 @@ namespace TrailEntities
             get { return ModeType.Settlement; }
         }
 
-        public ReadOnlyCollection<IItem> StoreItems
+        public ReadOnlyCollection<Item> StoreItems
         {
             get { return _storeItems.AsReadOnly(); }
         }

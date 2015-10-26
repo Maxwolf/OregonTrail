@@ -13,20 +13,20 @@ namespace TrailCommon
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        private List<IItem> _transactions;
+        private List<Item> _transactions;
 
         /// <summary>
         ///     Creates a new store transaction tracker.
         /// </summary>
         public StoreReceiptInfo()
         {
-            _transactions = new List<IItem>();
+            _transactions = new List<Item>();
         }
 
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        public ReadOnlyCollection<IItem> Transactions
+        public ReadOnlyCollection<Item> Transactions
         {
             get { return _transactions.AsReadOnly(); }
         }
@@ -34,7 +34,7 @@ namespace TrailCommon
         /// <summary>
         ///     Adds an item to the list of pending transactions. If it already exists it will be replaced.
         /// </summary>
-        public void AddItem(IItem item)
+        public void AddItem(Item item)
         {
             if (!_transactions.Contains(item))
                 _transactions.Remove(item);
@@ -45,7 +45,7 @@ namespace TrailCommon
         /// <summary>
         ///     Removes an item from the list of pending transactions. If it does not exist then nothing will happen.
         /// </summary>
-        public void RemoveItem(IItem item)
+        public void RemoveItem(Item item)
         {
             if (_transactions.Contains(item))
                 _transactions.Remove(item);

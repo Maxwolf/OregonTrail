@@ -10,7 +10,7 @@ namespace TrailCommon
     {
         private List<string> _playerNames;
         private Profession _playerProfession;
-        private List<IItem> _startingInventory;
+        private List<Item> _startingInventory;
         private uint _startingMonies;
         private Months _startingMonth;
 
@@ -18,7 +18,7 @@ namespace TrailCommon
         ///     Initializes a new instance of the <see cref="T:TrailCommon.NewGameInfo" /> class.
         /// </summary>
         public NewGameInfo(List<string> playerNames, Profession playerProfession,
-            List<IItem> startingInventory)
+            List<Item> startingInventory)
         {
             _playerNames = playerNames;
             _playerProfession = playerProfession;
@@ -35,7 +35,7 @@ namespace TrailCommon
         {
             _playerNames = new List<string>();
             _playerProfession = Profession.Banker;
-            _startingInventory = new List<IItem>();
+            _startingInventory = new List<Item>();
             _startingMonies = 0;
             _startingMonth = Months.March;
             Modified = false;
@@ -73,7 +73,7 @@ namespace TrailCommon
         ///     References all of the starting items that the player decided to purchase from the first store interface they are
         ///     shown.
         /// </summary>
-        public List<IItem> StartingInventory
+        public List<Item> StartingInventory
         {
             get { return _startingInventory; }
             set

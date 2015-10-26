@@ -9,30 +9,22 @@ namespace TrailEntities
     /// </summary>
     public sealed class SelectStartingMonthState : ModeState<NewGameInfo>
     {
-        private StringBuilder startMonthHelp;
+        /// <summary>
+        ///     References the string representing the question about starting month, only builds it once and holds in memory while
+        ///     state is active.
+        /// </summary>
+        private StringBuilder _startMonthQuestion;
 
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public SelectStartingMonthState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
-            // Inform the user about a decision they need to make.
-            startMonthHelp = new StringBuilder();
-            startMonthHelp.Append("You need to decide when to set off on the trail.  If you leave too soon, there\n");
-            startMonthHelp.Append("won't be much grass for your oxen to eat.  You may encounter some very cold\n");
-            startMonthHelp.Append("weather and late spring snowstorms.\n\n");
-
-            startMonthHelp.Append("Starting in March will guarantee a rough start.  It will be cold in the\n");
-            startMonthHelp.Append("beginning, but you'll get a rather mild weathered journey from the middle on.\n\n");
-
-            startMonthHelp.Append("Starting in April/May is the easiest.  You'll get good weather throughout your\n");
-            startMonthHelp.Append("journey, until (possibly) the very end, if you rest a lot.\n\n");
-
-            startMonthHelp.Append("Starting in June-August ensures that you'll have to endure a tough winter in\n");
-            startMonthHelp.Append("the end (or middle, depending on how late you start) of your journey.\n\n");
-
             // Tell the user they need to make a decision.
-            startMonthHelp.Append("When do you want to Start?  March, April, May, June, July, or August?\n");
+            _startMonthQuestion = new StringBuilder();
+            _startMonthQuestion.Append("Type HELP for more information about starting months.\n");
+            _startMonthQuestion.Append("When do you want to Start?\n");
+            _startMonthQuestion.Append("Type March, April, May, June, July, or August\n");
         }
 
         /// <summary>
@@ -50,7 +42,7 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            return startMonthHelp.ToString();
+            return _startMonthQuestion.ToString();
         }
 
         /// <summary>
@@ -84,6 +76,11 @@ namespace TrailEntities
                 case "AUGUST":
                     UserData.StartingMonth = Months.August;
                     ParentMode.CurrentState = new ConfirmStartingMonthState(ParentMode, UserData);
+                    break;
+                case "HELP":
+                    // Shows information about what the different starting months mean.
+                    UserData.StartingMonth = Months.March;
+                    ParentMode.CurrentState = new StartMonthAdviceState(ParentMode, UserData);
                     break;
                 default:
                     UserData.StartingMonth = Months.March;

@@ -22,7 +22,8 @@ namespace TrailEntities
             confirmProfession = new StringBuilder();
             confirmProfession.Append(
                 $"Selected profession {UserData.PlayerProfession} for party leader {UserData.PlayerNames[0]}.\n");
-            confirmProfession.Append("Is this correct? Y/N\n");
+
+            confirmProfession.Append("Is this correct? Y/N");
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace TrailEntities
+﻿namespace TrailCommon
 {
     /// <summary>
     ///     Abstract class that is intended to be used for working with parts that are extra for the vehicle, once they are
@@ -7,7 +7,7 @@
     public abstract class PartItem : Item
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailCommon.Item" /> class.
         /// </summary>
         protected PartItem(float cost, uint quantity) : base(cost, quantity)
         {

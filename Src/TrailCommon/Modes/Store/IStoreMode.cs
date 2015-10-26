@@ -26,13 +26,13 @@
         ///     Purchase an item from the store, it will take money from the player.
         /// </summary>
         /// <param name="item">Item they would like to purchase.</param>
-        void BuyItems(IItem item);
+        void BuyItems(Item item);
 
         /// <summary>
         ///     Sell an item to the store, it will add money to the player.
         /// </summary>
         /// <param name="item">Item that will be removed from player and added to store.</param>
-        void SellItem(IItem item);
+        void SellItem(Item item);
 
         /// <summary>
         ///     Buy vehicle engine.
@@ -55,9 +55,25 @@
         void BuyAmmunition();
 
         /// <summary>
-        ///     Purchase spare parts for the vehicle like axles, tongues, and wheels.
+        ///     Purchase spare wheels for the vehicle.
         /// </summary>
-        void BuySpareParts();
+        void BuySpareWheels();
+
+        /// <summary>
+        ///     Purchase spare axles for the vehicle.
+        /// </summary>
+        void BuySpareAxles();
+
+        /// <summary>
+        ///     Purchase spare tongues for the vehicle.
+        /// </summary>
+        void BuySpareTongues();
+
+        /// <summary>
+        ///     Attaches a game mode state what will show the player some basic information about what the various items mean and
+        ///     what their purpose is in the simulation.
+        /// </summary>
+        void StoreAdvice();
 
         /// <summary>
         ///     Detaches the store mode from the simulation and returns to the one previous.

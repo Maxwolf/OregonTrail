@@ -15,6 +15,8 @@ namespace TrailEntities
         /// </summary>
         private bool _hasAttachedStore;
 
+        private StringBuilder _storeHelp;
+
         /// <summary>
         ///     This constructor will be used by the other one.
         /// </summary>
@@ -23,6 +25,14 @@ namespace TrailEntities
             // Pass the game data to the simulation for each new game mode state.
             GameSimulationApp.Instance.SetData(userData);
             _hasAttachedStore = false;
+
+            // Create text we will display to user about the store before they actually load that game mode.
+            _storeHelp = new StringBuilder();
+            _storeHelp.Append("Before leaving you should buy equipment and supplies.\n");
+            _storeHelp.Append(
+                $"You have {UserData.StartingMonies.ToString("C3")} in cash, but you don't have to spend it all now.\n\n");
+
+            _storeHelp.Append("Press ENTER KEY to enter the store.\n");
         }
 
         /// <summary>
@@ -40,26 +50,7 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            var storeHelp = new StringBuilder();
-            storeHelp.Append("Matt's General Store is the first place in the game to buy supplies.\n");
-            storeHelp.Append("This is where you stock up with everything you need to start your journey.\n");
-            storeHelp.Append("Stock up early if you can!\n\n");
-
-            storeHelp.Append("Matt offers you some free pieces of advice:\n");
-            storeHelp.Append("'I recommend at least six oxen to pull your wagon. And you'll need plenty of\n");
-            storeHelp.Append("flour, sugar, bacon, coffee, and other types of food. I suggest you start out\n");
-            storeHelp.Append("with at least 200 pounds for each person in your party'\n\n");
-
-            storeHelp.Append("'You'll need good, warm clothing, especially for the mountains. I recommend\n");
-            storeHelp.Append("taking at least 2 sets of clothing per person. You'll need ammunition, too.\n");
-            storeHelp.Append("Each box of ammunition contains 20 bullets.'\n\n");
-
-            storeHelp.Append("'Finally, you might want to take along some spare wagon parts.  Wagon Wheels,\n");
-            storeHelp.Append("axles, and tongues are liable to break along the way. If you're unable to\n");
-            storeHelp.Append("repair a broken wagon, you'll be in big trouble!'\n\n");
-
-            storeHelp.Append("Press ENTER KEY to enter the store.\n");
-            return storeHelp.ToString();
+            return _storeHelp.ToString();
         }
 
         /// <summary>

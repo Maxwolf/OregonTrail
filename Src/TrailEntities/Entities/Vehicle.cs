@@ -7,7 +7,7 @@ namespace TrailEntities
 {
     public sealed class Vehicle : IVehicle
     {
-        private List<IItem> _inventory;
+        private List<Item> _inventory;
         private List<IPerson> _people;
 
         /// <summary>
@@ -21,9 +21,9 @@ namespace TrailEntities
 
         public IGameSimulation CurrentGame { get; }
 
-        public ReadOnlyCollection<IItem> Inventory
+        public ReadOnlyCollection<Item> Inventory
         {
-            get { return new ReadOnlyCollection<IItem>(_inventory); }
+            get { return new ReadOnlyCollection<Item>(_inventory); }
         }
 
         public float Balance { get; private set; }
@@ -49,7 +49,7 @@ namespace TrailEntities
             _people.Add(person);
         }
 
-        public void AddItem(IItem item)
+        public void AddItem(Item item)
         {
             _inventory.Add(item);
         }
@@ -57,7 +57,7 @@ namespace TrailEntities
         /// <summary>
         ///     Adds the item to the inventory of the vehicle and subtracts it's cost multiplied by quantity from balance.
         /// </summary>
-        public void BuyItem(IItem item)
+        public void BuyItem(Item item)
         {
             var totalCost = item.Cost*item.Quantity;
             if (!(Balance >= totalCost))
@@ -70,7 +70,7 @@ namespace TrailEntities
         /// <summary>
         ///     Removes the item from the inventory of the vehicle and adds it's cost multiplied by quantity to balance.
         /// </summary>
-        public void SellItem(IItem item)
+        public void SellItem(Item item)
         {
             var totalEarnings = item.Cost*item.Quantity;
             Balance += totalEarnings;
@@ -84,7 +84,7 @@ namespace TrailEntities
 
         public void ResetVehicle(uint startingMonies)
         {
-            _inventory = new List<IItem>();
+            _inventory = new List<Item>();
             Balance = 0.0f;
             _people = new List<IPerson>();
             Ration = RationLevel.Filling;

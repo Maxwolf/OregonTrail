@@ -35,7 +35,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Items\AnimalItem.cs" />
     <Compile Include="Entities\Items\Animal\BearItem.cs" />
     <Compile Include="Entities\Items\Animal\BuffaloItem.cs" />
     <Compile Include="Entities\Items\Animal\CaribouItem.cs" />
@@ -44,13 +43,9 @@
     <Compile Include="Entities\Items\Animal\GooseItem.cs" />
     <Compile Include="Entities\Items\Animal\RabbitItem.cs" />
     <Compile Include="Entities\Items\Animal\SquirrelItem.cs" />
-    <Compile Include="Entities\Items\Supplies\BulletsItem.cs" />
-    <Compile Include="Entities\Items\Supplies\ClothingItem.cs" />
-    <Compile Include="Entities\Items\Supplies\FoodItem.cs" />
-    <Compile Include="Entities\Items\PartItem.cs" />
-    <Compile Include="Entities\Items\Parts\VehicleAxleItem.cs" />
-    <Compile Include="Entities\Items\Parts\VehicleTongueItem.cs" />
-    <Compile Include="Entities\Items\Parts\VehicleWheelItem.cs" />
+    <Compile Include="Entities\Items\Parts\PartAxleItem.cs" />
+    <Compile Include="Entities\Items\Parts\PartTongueItem.cs" />
+    <Compile Include="Entities\Items\Parts\PartWheelItem.cs" />
     <Compile Include="Modes\Fork In Road\ForkInRoadMode.cs" />
     <Compile Include="Modes\GameMode.cs" />
     <Compile Include="Modes\Landmark\LandmarkMode.cs" />
@@ -60,15 +55,14 @@
     <Compile Include="Modes\New Game\ConfirmProfessionState.cs" />
     <Compile Include="Modes\New Game\ConfirmStartingMonthState.cs" />
     <Compile Include="Modes\New Game\InputPlayerNameState.cs" />
+    <Compile Include="Modes\New Game\ProfessionAdviceState.cs" />
     <Compile Include="Modes\New Game\SelectProfessionState.cs" />
     <Compile Include="Modes\New Game\ConfirmGroupNamesState.cs" />
     <Compile Include="Modes\New Game\SelectStartingMonthState.cs" />
+    <Compile Include="Modes\New Game\StartMonthAdviceState.cs" />
     <Compile Include="Modes\Settlement\SettlementMode.cs" />
-    <Compile Include="Modes\Store\BuyAmmunitionState.cs" />
-    <Compile Include="Modes\Store\BuyClothingState.cs" />
-    <Compile Include="Modes\Store\BuyFoodState.cs" />
-    <Compile Include="Modes\Store\BuyOxenState.cs" />
-    <Compile Include="Modes\Store\BuySparePartsState.cs" />
+    <Compile Include="Modes\Store\BuyItemState.cs" />
+    <Compile Include="Modes\Store\StoreAdviceState.cs" />
     <Compile Include="Modes\Traveling\TravelingMode.cs" />
     <Compile Include="Points Of Interest\RiverPoint.cs" />
     <Compile Include="GameSimulationApp.cs" />
@@ -78,7 +72,6 @@
     <Compile Include="Simulations\ClimateSim.cs" />
     <Compile Include="SimulationApp.cs" />
     <Compile Include="Simulations\TimeSim.cs" />
-    <Compile Include="Entities\Items\Item.cs" />
     <Compile Include="Entities\Items\Parts\OxenItem.cs" />
     <Compile Include="Points Of Interest\ForkInRoadPoint.cs" />
     <Compile Include="Simulations\TrailSim.cs" />

@@ -9,7 +9,7 @@ namespace TrailCommon
     public interface IVehicle
     {
         IGameSimulation CurrentGame { get; }
-        ReadOnlyCollection<IItem> Inventory { get; }
+        ReadOnlyCollection<Item> Inventory { get; }
         float Balance { get; }
         ReadOnlyCollection<IPerson> People { get; }
         RationLevel Ration { get; }
@@ -17,9 +17,9 @@ namespace TrailCommon
         RepairStatus RepairStatus { get; }
         uint DistanceTraveled { get; }
         void AddPerson(IPerson person);
-        void AddItem(IItem item);
-        void BuyItem(IItem item);
-        void SellItem(IItem item);
+        void AddItem(Item item);
+        void BuyItem(Item item);
+        void SellItem(Item item);
         void UpdateVehicle();
         void ResetVehicle(uint startingMonies);
     }

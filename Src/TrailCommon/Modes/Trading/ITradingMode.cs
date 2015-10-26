@@ -4,7 +4,7 @@ namespace TrailCommon
 {
     public interface ITradingMode : IMode
     {
-        ReadOnlyCollection<IItem> PossibleTrades { get; }
-        void TradeAttempt(IItem item);
+        ReadOnlyCollection<Item> PossibleTrades { get; }
+        void TradeAttempt(Item item);
     }
 }

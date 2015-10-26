@@ -16,10 +16,10 @@ namespace TrailEntities
         private readonly int _playerNameIndex;
 
         /// <summary>
-        ///     Question that is asked about the player on startup, easier to pass this along in constructor since there are four
-        ///     names but slightly different questions being asked.
+        ///     References the string that makes up the question about player names and also showing previous ones that have been
+        ///     entered for continuity sake.
         /// </summary>
-        private readonly string _questionText;
+        private StringBuilder _inputNamesHelp;
 
         /// <summary>
         ///     This constructor will be used by the other one
@@ -27,8 +27,32 @@ namespace TrailEntities
         public InputPlayerNameState(int playerNameIndex, string questionText, IMode gameMode, NewGameInfo userData)
             : base(gameMode, userData)
         {
+            // Copy over current name index and question text to ask.
             _playerNameIndex = playerNameIndex;
-            _questionText = questionText;
+
+            // Only print player names if we have some to actually print.
+            _inputNamesHelp = new StringBuilder();
+            if (UserData.PlayerNames.Count > 0)
+            {
+                // Loop through all the player names and get their current state.
+                _inputNamesHelp.Append("Your Party Members:\n\n");
+                var crewNumber = 1;
+
+                // Loop through every player and print their name.
+                foreach (var name in UserData.PlayerNames)
+                {
+                    // First name in list is always the leader.
+                    var isLeader = UserData.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
+                    _inputNamesHelp.AppendFormat(isLeader ? "  {0} - {1} (leader)\n" : "  {0} - {1}\n", crewNumber, name);
+                    crewNumber++;
+                }
+
+                // Add a blank line after the player names print out.
+                _inputNamesHelp.Append("\n");
+            }
+
+            // Add the question text from constructor parameter.
+            _inputNamesHelp.Append(questionText);
         }
 
         /// <summary>
@@ -46,11 +70,7 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            var inputNamesHelp = new StringBuilder();
-            inputNamesHelp.Append("First, you must enter the names of the party leader and the members of the party.\n");
-            inputNamesHelp.Append("There can only be one leader, and up to four party members.\n");
-            inputNamesHelp.Append(_questionText);
-            return inputNamesHelp.ToString();
+            return _inputNamesHelp.ToString();
         }
 
         /// <summary>

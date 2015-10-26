@@ -1,15 +1,17 @@
-﻿namespace TrailEntities
+﻿using TrailCommon;
+
+namespace TrailEntities
 {
     /// <summary>
     ///     Required to keep the vehicle moving if this part is broken it must be replaced before the player can
     ///     continue their journey.
     /// </summary>
-    public sealed class VehicleAxleItem : PartItem
+    public sealed class PartAxleItem : PartItem
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.VehicleAxleItem" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.PartAxleItem" /> class.
         /// </summary>
-        public VehicleAxleItem(float cost) : base(cost, 1)
+        public PartAxleItem(float cost) : base(cost, 1)
         {
         }
 

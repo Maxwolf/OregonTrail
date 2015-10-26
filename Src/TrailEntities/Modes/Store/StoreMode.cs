@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using TrailCommon;
 
 namespace TrailEntities
@@ -29,7 +30,14 @@ namespace TrailEntities
             AddCommand(BuyFood, StoreCommands.BuyFood, "Food");
             AddCommand(BuyClothing, StoreCommands.BuyClothing, "Clothing");
             AddCommand(BuyAmmunition, StoreCommands.BuyAmmunition, "Ammunition");
-            AddCommand(BuySpareParts, StoreCommands.BuySpareParts, "Spare parts");
+            AddCommand(BuySpareWheels, StoreCommands.BuySpareWheel, "Vehicle wheels");
+            AddCommand(BuySpareAxles, StoreCommands.BuySpareAxles, "Vehicle axles");
+            AddCommand(BuySpareTongues, StoreCommands.BuySpareTongues, "Vehicle tongues");
+
+            // If we are on the first part of the trail then we can show advice about store purchasing decisions.
+            if (GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0)
+                AddCommand(StoreAdvice, StoreCommands.StoreAdvice, "Ask for advice");
+
             AddCommand(LeaveStore, StoreCommands.LeaveStore, "Leave store");
         }
 
@@ -43,7 +51,8 @@ namespace TrailEntities
         /// </summary>
         public void BuyOxen()
         {
-            CurrentState = new BuyOxenState(this, StoreReceiptInfo);
+            CurrentState = new BuyItemState("How many oxen?",
+                CurrentSettlement.StoreItems.First(item => item is OxenItem), this, StoreReceiptInfo);
         }
 
         /// <summary>
@@ -51,7 +60,8 @@ namespace TrailEntities
         /// </summary>
         public void BuyFood()
         {
-            CurrentState = new BuyFoodState(this, StoreReceiptInfo);
+            CurrentState = new BuyItemState("How many pounds of food?",
+                CurrentSettlement.StoreItems.First(item => item is FoodItem), this, StoreReceiptInfo);
         }
 
         /// <summary>
@@ -59,7 +69,8 @@ namespace TrailEntities
         /// </summary>
         public void BuyClothing()
         {
-            CurrentState = new BuyClothingState(this, StoreReceiptInfo);
+            CurrentState = new BuyItemState("How many clothing sets?",
+                CurrentSettlement.StoreItems.First(item => item is ClothingItem), this, StoreReceiptInfo);
         }
 
         /// <summary>
@@ -67,15 +78,44 @@ namespace TrailEntities
         /// </summary>
         public void BuyAmmunition()
         {
-            CurrentState = new BuyAmmunitionState(this, StoreReceiptInfo);
+            CurrentState = new BuyItemState("How many ammo boxes?",
+                CurrentSettlement.StoreItems.First(item => item is BulletsItem), this, StoreReceiptInfo);
         }
 
         /// <summary>
-        ///     Offers chance to buy some spare parts for the vehicle.
+        ///     Offers a chance to purchase some spare wheels for the vehicle.
         /// </summary>
-        public void BuySpareParts()
+        public void BuySpareWheels()
         {
-            CurrentState = new BuySparePartsState(this, StoreReceiptInfo);
+            CurrentState = new BuyItemState("How many spare wheels?",
+                CurrentSettlement.StoreItems.First(item => item is PartWheelItem), this, StoreReceiptInfo);
+        }
+
+        /// <summary>
+        ///     Offers a chance to purchase some spare axles for the vehicle.
+        /// </summary>
+        public void BuySpareAxles()
+        {
+            CurrentState = new BuyItemState("How many spare axles?",
+                CurrentSettlement.StoreItems.First(item => item is PartAxleItem), this, StoreReceiptInfo);
+        }
+
+        /// <summary>
+        ///     Offers a chance to purchase some spare vehicle tongues.
+        /// </summary>
+        public void BuySpareTongues()
+        {
+            CurrentState = new BuyItemState("How many spare tongues?",
+                CurrentSettlement.StoreItems.First(item => item is PartTongueItem), this, StoreReceiptInfo);
+        }
+
+        /// <summary>
+        ///     Attaches a game mode state what will show the player some basic information about what the various items mean and
+        ///     what their purpose is in the simulation.
+        /// </summary>
+        public void StoreAdvice()
+        {
+            CurrentState = new StoreAdviceState(this, StoreReceiptInfo);
         }
 
         /// <summary>
@@ -115,7 +155,7 @@ namespace TrailEntities
         ///     Removes item from the store and adds it to the players inventory.
         /// </summary>
         /// <param name="item">Item that the player wants.</param>
-        public void BuyItems(IItem item)
+        public void BuyItems(Item item)
         {
             var playerCost = item.Cost*item.Quantity;
             if (GameSimulationApp.Instance.Vehicle.Balance < playerCost)
@@ -130,7 +170,7 @@ namespace TrailEntities
         ///     Removes an item from the player, and adds it to the store inventory.
         /// </summary>
         /// <param name="item">Item the player is going to give away in exchange for something else like money or more goods.</param>
-        public void SellItem(IItem item)
+        public void SellItem(Item item)
         {
             var storeCost = item.Cost*item.Quantity;
             if (StoreBalance < storeCost)

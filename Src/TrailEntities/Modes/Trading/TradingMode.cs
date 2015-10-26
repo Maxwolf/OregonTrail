@@ -11,11 +11,11 @@ namespace TrailEntities
     /// </summary>
     public sealed class TradingMode : GameMode<TradingCommands>, ITradingMode
     {
-        private readonly List<IItem> _possibleTrades;
+        private readonly List<Item> _possibleTrades;
 
         public TradingMode()
         {
-            _possibleTrades = new List<IItem>();
+            _possibleTrades = new List<Item>();
         }
 
         public override ModeType ModeType
@@ -32,12 +32,12 @@ namespace TrailEntities
             throw new NotImplementedException();
         }
 
-        public ReadOnlyCollection<IItem> PossibleTrades
+        public ReadOnlyCollection<Item> PossibleTrades
         {
-            get { return new ReadOnlyCollection<IItem>(_possibleTrades); }
+            get { return new ReadOnlyCollection<Item>(_possibleTrades); }
         }
 
-        public void TradeAttempt(IItem item)
+        public void TradeAttempt(Item item)
         {
             // Cannot trade if there are no offers.
             if (_possibleTrades.Count <= 0)

@@ -1,14 +1,12 @@
-﻿using TrailCommon;
-
-namespace TrailEntities
+﻿namespace TrailCommon
 {
     /// <summary>
     ///     Defines a base item which can represent almost any commodity the player can purchase for the party or vehicle.
     /// </summary>
-    public abstract class Item : IItem
+    public abstract class Item
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailCommon.Item" /> class.
         /// </summary>
         protected Item(float cost, uint quantity)
         {

@@ -11,12 +11,15 @@ namespace TrailEntities
     /// </summary>
     public sealed class SelectProfessionState : ModeState<NewGameInfo>
     {
-        private StringBuilder professionChooser;
+        /// <summary>
+        ///     References the string for the profession selection so it is only constructed once.
+        /// </summary>
+        private StringBuilder _professionChooser;
 
         /// <summary>
         ///     Reference to the total number of professions found in the enumeration.
         /// </summary>
-        private int professionCount = 1;
+        private int _professionCount = 1;
 
         /// <summary>
         ///     This constructor will be used by the other one
@@ -27,30 +30,18 @@ namespace TrailEntities
             UserData.PlayerProfession = Profession.Banker;
             UserData.StartingMonies = 1600;
 
-            // Information about professions and how they work.
-            professionChooser = new StringBuilder();
-            professionChooser.Append("You must choose the occupation of the main character.\n");
-            professionChooser.Append("Various occupations have advantages over one another:\n");
-            professionChooser.Append("-------------------------------------------------------------------------------\n");
-            professionChooser.Append("OCCUPATION   | CASH  |  ADVANTAGES                                |FINAL BONUS|\n");
-            professionChooser.Append("-------------------------------------------------------------------------------\n");
-            professionChooser.Append("Banker       |$1,600 | none                                       | x1        |\n");
-            professionChooser.Append("Carpenter    |$800   | more likely to repair broken wagon parts.  | x2        |\n");
-            professionChooser.Append("Farmer       |$400   | oxen are less likely to get sick and die.  | x3        |\n");
-            professionChooser.Append("-------------------------------------------------------------------------------\n");
-            professionChooser.Append("Cash = how much cash a person of that occupation begins with.\n");
-            professionChooser.Append("Advantages = special individual attributes of the occupation.\n");
-            professionChooser.Append("Final Bonus = amount that your final point total will be multiplied by.\n\n");
-
             // Loop through every profession in the enumeration for them and print them in string builder.
+            _professionChooser = new StringBuilder();
+            _professionChooser.Append("You must choose the occupation of the main character.\n\n");
             foreach (var possibleProfession in Enum.GetValues(typeof (Profession)))
             {
-                professionChooser.AppendFormat("  {0} - {1}\n", professionCount, possibleProfession);
-                professionCount++;
+                _professionChooser.AppendFormat("  {0} - {1}\n", _professionCount, possibleProfession);
+                _professionCount++;
             }
 
             // Ask the user to make a selection, and then wait for input...
-            professionChooser.AppendFormat("What profession is {0}?", UserData.PlayerNames[0]);
+            _professionChooser.Append("\nType HELP for more information about professions.\n");
+            _professionChooser.AppendFormat("What profession is {0}?", UserData.PlayerNames[0]);
         }
 
         /// <summary>
@@ -64,13 +55,13 @@ namespace TrailEntities
 
         public override string GetStateTUI()
         {
-            return professionChooser.ToString();
+            return _professionChooser.ToString();
         }
 
         public override void OnInputBufferReturned(string input)
         {
             // Once a profession is selected, we need to confirm that is what the user wanted.
-            switch (input)
+            switch (input.ToUpperInvariant())
             {
                 case "1":
                     UserData.PlayerProfession = Profession.Banker;
@@ -86,6 +77,11 @@ namespace TrailEntities
                     UserData.PlayerProfession = Profession.Farmer;
                     UserData.StartingMonies = 400;
                     ParentMode.CurrentState = new ConfirmProfessionState(ParentMode, UserData);
+                    break;
+                case "HELP":
+                    UserData.PlayerProfession = Profession.Banker;
+                    UserData.StartingMonies = 1600;
+                    ParentMode.CurrentState = new ProfessionAdviceState(ParentMode, UserData);
                     break;
                 default:
                     // If there is some invalid selection just start the process over again.

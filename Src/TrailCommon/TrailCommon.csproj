@@ -35,6 +35,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity Templates\Item\AnimalItem.cs" />
+    <Compile Include="Entity Templates\Item\BulletsItem.cs" />
+    <Compile Include="Entity Templates\Item\ClothingItem.cs" />
+    <Compile Include="Entity Templates\Item\FoodItem.cs" />
+    <Compile Include="Entity Templates\Item\Item.cs" />
+    <Compile Include="Entity Templates\Item\PartItem.cs" />
     <Compile Include="Modes\Fork In Road\ForkInRoadCommands.cs" />
     <Compile Include="Modes\Fork In Road\IForkInRoadMode.cs" />
     <Compile Include="Modes\Hunting\HuntingCommands.cs" />
@@ -70,7 +76,6 @@
     <Compile Include="Entity Templates\Trail\PointOfInterest.cs" />
     <Compile Include="Entity Templates\Vehicle\RepairStatus.cs" />
     <Compile Include="Entity Templates\People\Disease.cs" />
-    <Compile Include="Entity Templates\Item\IItem.cs" />
     <Compile Include="Simulations\Game\IGameSimulation.cs" />
     <Compile Include="Modes\Hunting\IHuntingMode.cs" />
     <Compile Include="Simulations\Game\ISimulation.cs" />

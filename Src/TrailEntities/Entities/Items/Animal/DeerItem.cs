@@ -1,4 +1,6 @@
-﻿namespace TrailEntities
+﻿using TrailCommon;
+
+namespace TrailEntities
 {
     public sealed class DeerItem : AnimalItem
     {

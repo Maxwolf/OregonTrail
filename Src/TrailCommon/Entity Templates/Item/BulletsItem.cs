@@ -1,15 +1,14 @@
-﻿namespace TrailEntities
+﻿namespace TrailCommon
 {
     /// <summary>
-    ///     Represents a consumable amount of food which the player can eat per day, this is exponential for every member in
-    ///     the party.
+    ///     Ammunition used in hunting game mode so the players can acquire food by hunting animals.
     /// </summary>
-    public class FoodItem : Item
+    public sealed class BulletsItem : Item
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailCommon.BulletsItem" /> class.
         /// </summary>
-        public FoodItem(float cost) : base(cost, 1)
+        public BulletsItem(float cost) : base(cost, 20)
         {
         }
 
@@ -18,7 +17,7 @@
         /// </summary>
         public override string Name
         {
-            get { return "Food"; }
+            get { return "Ammunition"; }
         }
 
         /// <summary>
@@ -26,7 +25,7 @@
         /// </summary>
         public override uint Weight
         {
-            get { return 1; }
+            get { return 0; }
         }
 
         /// <summary>
@@ -34,7 +33,7 @@
         /// </summary>
         public override uint QuantityLimit
         {
-            get { return 2000; }
+            get { return 99; }
         }
     }
 }

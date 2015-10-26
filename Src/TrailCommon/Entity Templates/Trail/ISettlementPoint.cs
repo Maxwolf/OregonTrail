@@ -7,8 +7,8 @@ namespace TrailCommon
         string Name { get; }
         bool CanRest { get; }
         bool HasStore { get; }
-        ReadOnlyCollection<IItem> StoreItems { get; }
         float StoreBalance { get; }
+        ReadOnlyCollection<Item> StoreItems { get; }
         void GoToStore();
     }
 }

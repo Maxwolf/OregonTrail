@@ -34,10 +34,26 @@
         BuyAmmunition,
 
         /// <summary>
-        ///     Spare parts are for the vehicle, the oxen is a form of spare part but is in it's own category since it is required
-        ///     to make the vehicle pull forward at all.
+        ///     Wheels allow the vehicle to move forward, without them the entire trip comes to a halt and they must be fixed.
         /// </summary>
-        BuySpareParts,
+        BuySpareWheel,
+
+        /// <summary>
+        ///     Transfers oxen power to the rear wheels so they all turn at the same time rather than independently, without an
+        ///     axle the vehicle cannot move.
+        /// </summary>
+        BuySpareAxles,
+
+        /// <summary>
+        ///     Hitches the oxen to the vehicle, without this part the vehicle is broken and cannot move and must be repaired.
+        /// </summary>
+        BuySpareTongues,
+
+        /// <summary>
+        ///     Shows some general help and advice about what the various items mean and what they are for during the course of the
+        ///     simulation.
+        /// </summary>
+        StoreAdvice,
 
         /// <summary>
         ///     Detaches the store mode from the simulation and returns to the one previous.

@@ -11,12 +11,34 @@ namespace TrailEntities
     public sealed class ConfirmGroupNamesState : ModeState<NewGameInfo>
     {
         /// <summary>
+        ///     References the party text so we only have to construct it once and then print the result.
+        /// </summary>
+        private StringBuilder _confirmPartyText;
+
+        /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public ConfirmGroupNamesState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
             GameSimulationApp.Instance.SetData(userData);
+
+            // Create string builder, counter, print info about party members.
+            _confirmPartyText = new StringBuilder();
+            _confirmPartyText.Append("Your Party Members:\n\n");
+            var crewNumber = 1;
+
+            // Loop through every player and print their name.
+            foreach (var name in UserData.PlayerNames)
+            {
+                // First name in list is always the leader.
+                var isLeader = UserData.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
+                _confirmPartyText.AppendFormat(isLeader ? "  {0} - {1} (leader)\n" : "  {0} - {1}\n", crewNumber, name);
+                crewNumber++;
+            }
+
+            // Ask the user to check if the data we have looks correct to them, wait for input...
+            _confirmPartyText.Append("\nAre these names correct? Y/N");
         }
 
         /// <summary>
@@ -34,23 +56,7 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            // Create string builder, counter, print info about party members.
-            var confirmPartyText = new StringBuilder();
-            confirmPartyText.Append("Your Party Members:\n");
-            var crewNumber = 1;
-
-            // Loop through every player and print their name.
-            foreach (var name in UserData.PlayerNames)
-            {
-                // First name in list is always the leader.
-                var isLeader = UserData.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
-                confirmPartyText.AppendFormat(isLeader ? "  {0} - {1} (leader)\n" : "  {0} - {1}\n", crewNumber, name);
-                crewNumber++;
-            }
-
-            // Ask the user to check if the data we have looks correct to them, wait for input...
-            confirmPartyText.Append("Are these names correct? Y/N");
-            return confirmPartyText.ToString();
+            return _confirmPartyText.ToString();
         }
 
         /// <summary>

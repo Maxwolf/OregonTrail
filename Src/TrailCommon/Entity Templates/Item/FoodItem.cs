@@ -1,11 +1,15 @@
-﻿namespace TrailEntities
+﻿namespace TrailCommon
 {
-    public sealed class ClothingItem : Item
+    /// <summary>
+    ///     Represents a consumable amount of food which the player can eat per day, this is exponential for every member in
+    ///     the party.
+    /// </summary>
+    public class FoodItem : Item
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        public ClothingItem(float cost) : base(cost, 1)
+        public FoodItem(float cost) : base(cost, 1)
         {
         }
 
@@ -14,7 +18,7 @@
         /// </summary>
         public override string Name
         {
-            get { return "Sets of Clothing"; }
+            get { return "Food"; }
         }
 
         /// <summary>
@@ -22,7 +26,7 @@
         /// </summary>
         public override uint Weight
         {
-            get { return 0; }
+            get { return 1; }
         }
 
         /// <summary>
@@ -30,7 +34,7 @@
         /// </summary>
         public override uint QuantityLimit
         {
-            get { return 50; }
+            get { return 2000; }
         }
     }
 }
