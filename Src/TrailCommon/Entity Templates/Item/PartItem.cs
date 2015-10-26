@@ -9,7 +9,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailCommon.Item" /> class.
         /// </summary>
-        protected PartItem(float cost, uint quantity) : base(cost, quantity)
+        protected PartItem(float cost, uint minimumAmount) : base(cost, minimumAmount)
         {
         }
 
@@ -24,7 +24,7 @@
         /// <summary>
         ///     Limit on the number of items that are possible to have of this particular type.
         /// </summary>
-        public override uint QuantityLimit
+        public override uint CarryLimit
         {
             get { return 3; }
         }

@@ -17,7 +17,7 @@
 
         public override string ToString()
         {
-            return $"{Month}, {Year}";
+            return $"{Month} {Day}, {Year}";
         }
     }
 }

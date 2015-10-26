@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using TrailCommon;
 
 namespace TrailEntities
@@ -11,21 +12,32 @@ namespace TrailEntities
         /// <summary>
         ///     Help text to ask the player a question about how many of the particular item they would like to purchase.
         /// </summary>
-        private StringBuilder _itemBuy;
+        private StringBuilder _itemBuyText;
 
         /// <summary>
-        ///     Reference of the item the player wants to buy from the store.
+        ///     Reference to the item the player wishes to purchase from the store, it will be added to receipt list of it can.
         /// </summary>
         private Item _itemToBuy;
+
+        /// <summary>
+        ///     Reference to the total amount of items the player can purchase of item of this particular type from this store with
+        ///     the money they have.
+        /// </summary>
+        private double _purchaseLimit;
 
         public BuyItemState(string questionText, Item itemToBuy, IMode gameMode, StoreReceiptInfo userData)
             : base(gameMode, userData)
         {
-            // Append the question text for purchasing the given type of item.
-            _itemBuy = new StringBuilder();
-            _itemBuy.Append(questionText + "\n");
+            // Figure out how many of the item in question the player can purchase with the money they have left.
+            _purchaseLimit = Math.Round(GameSimulationApp.Instance.Vehicle.Balance/itemToBuy.Cost,
+                MidpointRounding.ToEven);
 
-            // Copy reference of the item the player wants to buy from the store.
+            // Append the question text for purchasing the given type of item.
+            _itemBuyText = new StringBuilder();
+            _itemBuyText.Append($"You can afford {_purchaseLimit} {itemToBuy.Name.ToLowerInvariant()}\n");
+            _itemBuyText.Append(questionText);
+
+            // Set the item to buy text.
             _itemToBuy = itemToBuy;
         }
 
@@ -35,7 +47,7 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            return _itemBuy.ToString();
+            return _itemBuyText.ToString();
         }
 
         /// <summary>
@@ -48,6 +60,27 @@ namespace TrailEntities
             uint parsedInputNumber;
             if (!uint.TryParse(input, out parsedInputNumber))
                 return;
+
+            // If the number is zero remove the purchase state for this item and back to store menu.
+            if (parsedInputNumber <= 0)
+            {
+                ParentMode.CurrentState = null;
+                return;
+            }
+
+            // Check that number is less than maximum quantity based on monies.
+            if (parsedInputNumber > _purchaseLimit)
+                return;
+
+            // Check that number is less than or equal to limit that is hard-coded.
+            if (parsedInputNumber > _itemToBuy.CarryLimit)
+                return;
+
+            // Add the item the player wants in given amount 
+            UserData.AddItem(_itemToBuy, parsedInputNumber);
+
+            // Return to the store menu.
+            ParentMode.CurrentState = null;
         }
     }
 }

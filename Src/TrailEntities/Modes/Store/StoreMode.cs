@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using TrailCommon;
 
 namespace TrailEntities
@@ -9,6 +10,16 @@ namespace TrailEntities
     /// </summary>
     public sealed class StoreMode : GameMode<StoreCommands>, IStoreMode
     {
+        /// <summary>
+        ///     Represents a string that represents a currency value of zero dollars and zero cents.
+        /// </summary>
+        private const string ZERO_MONIES = "$0.00";
+
+        /// <summary>
+        ///     Represents a string that represents an item that should be in the store but for some reason we could not find it.
+        /// </summary>
+        private const string ITEM_NOT_FOUND = "[ITEM NOT FOUND]";
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.StoreMode" /> class.
         /// </summary>
@@ -22,17 +33,75 @@ namespace TrailEntities
             if (CurrentSettlement == null)
                 throw new InvalidCastException("Unable to cast current point of interest into a settlement point!");
 
-            // Store name is the location and general store added to the end of that.
-            StoreName = CurrentSettlement?.Name + " General Store";
+            // Header text for above menu.
+            var headerText = new StringBuilder();
+            headerText.Append("--------------------------------\n");
+            headerText.Append($"{CurrentSettlement?.Name} General Store\n");
+            headerText.Append($"Date: {GameSimulationApp.Instance.Time.Date}\n");
+            headerText.Append("--------------------------------");
+            MenuHeader = headerText.ToString();
+
+            // Build the string representation of the total cost for particular items in store menu for player.
+            var oxenAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is OxenItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            var foodAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is FoodItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            var clothingAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is ClothingItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            var bulletsAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is BulletsItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            var wheelsAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is PartWheelItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            var axlesAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is PartAxleItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            var tonguesAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+                t is PartTongueItem)?.ToString() ?? ITEM_NOT_FOUND;
+
+            // We will only modify store visualization of prices when at the first location on the trail.
+            if (GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0)
+            {
+                oxenAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is OxenItem)?.ToString() ?? ZERO_MONIES;
+
+                foodAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is FoodItem)?.ToString() ?? ZERO_MONIES;
+
+                clothingAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is ClothingItem)?.ToString() ?? ZERO_MONIES;
+
+                bulletsAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is BulletsItem)?.ToString() ?? ZERO_MONIES;
+
+                wheelsAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is PartWheelItem)?.ToString() ?? ZERO_MONIES;
+
+                axlesAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is PartAxleItem)?.ToString() ?? ZERO_MONIES;
+
+                tonguesAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                    t.Item is PartTongueItem)?.ToString() ?? ZERO_MONIES;
+            }
 
             // Add all the commands a store has.
-            AddCommand(BuyOxen, StoreCommands.BuyOxen, "Oxen");
-            AddCommand(BuyFood, StoreCommands.BuyFood, "Food");
-            AddCommand(BuyClothing, StoreCommands.BuyClothing, "Clothing");
-            AddCommand(BuyAmmunition, StoreCommands.BuyAmmunition, "Ammunition");
-            AddCommand(BuySpareWheels, StoreCommands.BuySpareWheel, "Vehicle wheels");
-            AddCommand(BuySpareAxles, StoreCommands.BuySpareAxles, "Vehicle axles");
-            AddCommand(BuySpareTongues, StoreCommands.BuySpareTongues, "Vehicle tongues");
+            AddCommand(BuyOxen, StoreCommands.BuyOxen, $"Oxen                {oxenAmount}");
+            AddCommand(BuyFood, StoreCommands.BuyFood, $"Food                {foodAmount}");
+            AddCommand(BuyClothing, StoreCommands.BuyClothing, $"Clothing            {clothingAmount}");
+            AddCommand(BuyAmmunition, StoreCommands.BuyAmmunition, $"Ammunition          {bulletsAmount}");
+            AddCommand(BuySpareWheels, StoreCommands.BuySpareWheel, $"Vehicle wheels      {wheelsAmount}");
+            AddCommand(BuySpareAxles, StoreCommands.BuySpareAxles, $"Vehicle axles       {axlesAmount}");
+            AddCommand(BuySpareTongues, StoreCommands.BuySpareTongues, $"Vehicle tongues     {tonguesAmount}");
+
+            // Footer text for below menu.
+            var footerText = new StringBuilder();
+            footerText.Append("\n--------------------------------\n");
+            footerText.Append($"Total bill:              {StoreReceiptInfo.GetTransactionTotalCost().ToString("C2")}");
+            MenuFooter = footerText.ToString();
 
             // If we are on the first part of the trail then we can show advice about store purchasing decisions.
             if (GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0)
@@ -45,6 +114,12 @@ namespace TrailEntities
         ///     Amount of money the store has to sell items to the player.
         /// </summary>
         public float StoreBalance { get; private set; }
+
+        /// <summary>
+        ///     Defines the text prefix which will go above the menu, used to show any useful information the game mode might need
+        ///     to at the top of menu selections.
+        /// </summary>
+        public override string MenuHeader { get; protected set; }
 
         /// <summary>
         ///     Offers chance to purchase a special vehicle part that is also an animal that eats grass and can die if it starves.
@@ -147,17 +222,12 @@ namespace TrailEntities
         public ISettlementPoint CurrentSettlement { get; }
 
         /// <summary>
-        ///     Name of the store is typically the location name with 'general store' added to the end of the name.
-        /// </summary>
-        public string StoreName { get; }
-
-        /// <summary>
         ///     Removes item from the store and adds it to the players inventory.
         /// </summary>
         /// <param name="item">Item that the player wants.</param>
         public void BuyItems(Item item)
         {
-            var playerCost = item.Cost*item.Quantity;
+            var playerCost = item.Cost*item.MinimumAmount;
             if (GameSimulationApp.Instance.Vehicle.Balance < playerCost)
                 return;
 
@@ -172,7 +242,7 @@ namespace TrailEntities
         /// <param name="item">Item the player is going to give away in exchange for something else like money or more goods.</param>
         public void SellItem(Item item)
         {
-            var storeCost = item.Cost*item.Quantity;
+            var storeCost = item.Cost*item.MinimumAmount;
             if (StoreBalance < storeCost)
                 return;
 

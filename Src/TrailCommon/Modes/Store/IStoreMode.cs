@@ -18,11 +18,6 @@
         ISettlementPoint CurrentSettlement { get; }
 
         /// <summary>
-        ///     Name of the store is typically the location name with 'general store' added to the end of the name.
-        /// </summary>
-        string StoreName { get; }
-
-        /// <summary>
         ///     Purchase an item from the store, it will take money from the player.
         /// </summary>
         /// <param name="item">Item they would like to purchase.</param>

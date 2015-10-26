@@ -22,5 +22,14 @@ namespace TrailEntities
         {
             get { return "Vehicle Axle"; }
         }
+
+        /// <summary>
+        ///     Single unit of the items name, for example is there is an Oxen item each one of those items is referred to as an
+        ///     'ox'.
+        /// </summary>
+        public override string DelineatingUnit
+        {
+            get { return "axle"; }
+        }
     }
 }

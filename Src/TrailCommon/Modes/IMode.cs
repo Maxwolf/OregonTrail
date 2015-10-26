@@ -19,6 +19,24 @@
         ModeType ModeType { get; }
 
         /// <summary>
+        ///     Defines the text prefix which will go above the menu, used to show any useful information the game mode might need
+        ///     to at the top of menu selections.
+        /// </summary>
+        string MenuHeader { get; }
+
+        /// <summary>
+        ///     Similar to the header this will define some text that should go below the menu selection but before the user input
+        ///     field.
+        /// </summary>
+        string MenuFooter { get; }
+
+        /// <summary>
+        ///     Determines if the command names for the particular action should be printed out alongside the number the user can
+        ///     press to control that particular enum.
+        /// </summary>
+        bool ShowCommandNamesInMenu { get; }
+
+        /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>

@@ -59,7 +59,7 @@ namespace TrailEntities
         /// </summary>
         public void BuyItem(Item item)
         {
-            var totalCost = item.Cost*item.Quantity;
+            var totalCost = item.Cost*item.MinimumAmount;
             if (!(Balance >= totalCost))
                 return;
 
@@ -72,7 +72,7 @@ namespace TrailEntities
         /// </summary>
         public void SellItem(Item item)
         {
-            var totalEarnings = item.Cost*item.Quantity;
+            var totalEarnings = item.Cost*item.MinimumAmount;
             Balance += totalEarnings;
             _inventory.Remove(item);
         }
@@ -85,7 +85,7 @@ namespace TrailEntities
         public void ResetVehicle(uint startingMonies)
         {
             _inventory = new List<Item>();
-            Balance = 0.0f;
+            Balance = startingMonies;
             _people = new List<IPerson>();
             Ration = RationLevel.Filling;
             RepairStatus = RepairStatus.Good;

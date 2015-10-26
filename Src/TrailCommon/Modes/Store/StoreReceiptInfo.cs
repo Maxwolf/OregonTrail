@@ -13,42 +13,72 @@ namespace TrailCommon
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        private List<Item> _transactions;
+        private List<StoreTransactionItem> _totalTransactions;
 
         /// <summary>
         ///     Creates a new store transaction tracker.
         /// </summary>
         public StoreReceiptInfo()
         {
-            _transactions = new List<Item>();
+            _totalTransactions = new List<StoreTransactionItem>();
         }
 
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        public ReadOnlyCollection<Item> Transactions
+        public ReadOnlyCollection<StoreTransactionItem> Transactions
         {
-            get { return _transactions.AsReadOnly(); }
+            get { return _totalTransactions.AsReadOnly(); }
+        }
+
+        /// <summary>
+        ///     Returns the total cost of all the transactions this receipt information object represents.
+        /// </summary>
+        public uint GetTransactionTotalCost()
+        {
+            // Loop through all transactions and multiply amount by cost.
+            float totalCost = 0;
+            foreach (var tuple in _totalTransactions)
+            {
+                totalCost += tuple.Quantity*tuple.Item.Cost;
+            }
+
+            // Cast to unsigned integer and return.
+            return (uint) totalCost;
         }
 
         /// <summary>
         ///     Adds an item to the list of pending transactions. If it already exists it will be replaced.
         /// </summary>
-        public void AddItem(Item item)
+        public void AddItem(Item item, uint amount)
         {
-            if (!_transactions.Contains(item))
-                _transactions.Remove(item);
+            // Create the tuple for the item to add.
+            var incomingTuple = new StoreTransactionItem(amount, item);
 
-            _transactions.Add(item);
+            // Remove any existing tuple with this item name, we will replace it.
+            RemoveItem(item);
+
+            // Add the new tuple to replace the one we just removed.
+            _totalTransactions.Add(incomingTuple);
         }
 
         /// <summary>
         ///     Removes an item from the list of pending transactions. If it does not exist then nothing will happen.
         /// </summary>
-        public void RemoveItem(Item item)
+        private void RemoveItem(Item item)
         {
-            if (_transactions.Contains(item))
-                _transactions.Remove(item);
+            // Loop through every single transaction.
+            var copyList = new List<StoreTransactionItem>(_totalTransactions);
+            foreach (var transaction in copyList)
+            {
+                // Check if item name matches incoming one.
+                if (!transaction.Item.Name.Equals(item.Name))
+                    continue;
+
+                // Remove that tuple from transaction list.
+                _totalTransactions.Remove(transaction);
+                break;
+            }
         }
     }
 }

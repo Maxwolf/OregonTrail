@@ -22,6 +22,22 @@ namespace TrailEntities
         private HashSet<IModeChoiceItem<T>> _menuChoices;
 
         /// <summary>
+        ///     Holds the footer text that we will place below menu but before input buffer text.
+        /// </summary>
+        private string _menuFooter;
+
+        /// <summary>
+        ///     Holds the prefix text that can go above the menu text if it exists.
+        /// </summary>
+        private string _menuHeader;
+
+        /// <summary>
+        ///     Determines if the command names for the particular action should be printed out alongside the number the user can
+        ///     press to control that particular enum.
+        /// </summary>
+        private bool _showCommandNamesInMenu;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
         protected GameMode()
@@ -34,6 +50,10 @@ namespace TrailEntities
 
             // Create empty list of menu choices.
             _menuChoices = new HashSet<IModeChoiceItem<T>>();
+
+            // Menu header and footer is empty strings by default.
+            _menuHeader = string.Empty;
+            _menuFooter = string.Empty;
         }
 
         /// <summary>
@@ -65,6 +85,36 @@ namespace TrailEntities
         ///     simulation.
         /// </summary>
         public abstract ModeType ModeType { get; }
+
+        /// <summary>
+        ///     Defines the text prefix which will go above the menu, used to show any useful information the game mode might need
+        ///     to at the top of menu selections.
+        /// </summary>
+        public virtual string MenuHeader
+        {
+            get { return _menuHeader; }
+            protected set { _menuHeader = value; }
+        }
+
+        /// <summary>
+        ///     Similar to the header this will define some text that should go below the menu selection but before the user input
+        ///     field.
+        /// </summary>
+        public virtual string MenuFooter
+        {
+            get { return _menuFooter; }
+            protected set { _menuFooter = value; }
+        }
+
+        /// <summary>
+        ///     Determines if the command names for the particular action should be printed out alongside the number the user can
+        ///     press to control that particular enum.
+        /// </summary>
+        public virtual bool ShowCommandNamesInMenu
+        {
+            get { return _showCommandNamesInMenu; }
+            protected set { _showCommandNamesInMenu = value; }
+        }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
@@ -99,20 +149,36 @@ namespace TrailEntities
             // Build up string representation of the current state of the game mode.
             var modeTUI = new StringBuilder();
 
-            // Added any descriptive text about the mode, like stats, health, weather, location, etc.
-            var prependMessage = CurrentState?.GetStateTUI();
-            if (!string.IsNullOrEmpty(prependMessage))
-                modeTUI.Append(prependMessage + "\n");
-
             // Only add menu choices if there are some to actually add, otherwise just return the string buffer now.
             if (_menuChoices.Count > 0 && CurrentState == null)
             {
+                // Header text for above menu.
+                if (!string.IsNullOrEmpty(MenuHeader))
+                    modeTUI.Append(MenuHeader + "\n\n");
+
                 // Loop through the menu choices and add each one to the mode text user interface.
+                var menuChoices = 1;
                 foreach (var menuChoice in _menuChoices)
                 {
                     // Name of command and then description of what it does, the command is all we really care about.
-                    modeTUI.AppendFormat("  {0} - {1}\n", menuChoice.Command, menuChoice.Description);
+                    modeTUI.Append(_showCommandNamesInMenu
+                        ? $"  {menuChoices}. {menuChoice.Command} - {menuChoice.Description}\n"
+                        : $"  {menuChoices}. {menuChoice.Description}\n");
+
+                    // Increment the menu choices number shown to user.
+                    menuChoices++;
                 }
+
+                // Footer text for below menu.
+                if (!string.IsNullOrEmpty(MenuFooter))
+                    modeTUI.Append(MenuFooter + "\n");
+            }
+            else
+            {
+                // Added any descriptive text about the mode, like stats, health, weather, location, etc.
+                var prependMessage = CurrentState?.GetStateTUI();
+                if (!string.IsNullOrEmpty(prependMessage))
+                    modeTUI.Append(prependMessage + "\n");
             }
 
             // Returns the string buffer we constructed for this game mode to the simulation so it can be displayed.

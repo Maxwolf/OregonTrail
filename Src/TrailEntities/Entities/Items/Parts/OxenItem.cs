@@ -45,6 +45,15 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Single unit of the items name, for example is there is an Oxen item each one of those items is referred to as an
+        ///     'ox'.
+        /// </summary>
+        public override string DelineatingUnit
+        {
+            get { return "ox"; }
+        }
+
+        /// <summary>
         ///     Weight of a single item of this type, the original game used pounds so that is roughly what this should represent.
         /// </summary>
         public override uint Weight

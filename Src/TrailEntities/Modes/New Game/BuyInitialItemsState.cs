@@ -30,7 +30,7 @@ namespace TrailEntities
             _storeHelp = new StringBuilder();
             _storeHelp.Append("Before leaving you should buy equipment and supplies.\n");
             _storeHelp.Append(
-                $"You have {UserData.StartingMonies.ToString("C3")} in cash, but you don't have to spend it all now.\n\n");
+                $"You have {UserData.StartingMonies.ToString("C2")} in cash, but you don't have to spend it all now.\n\n");
 
             _storeHelp.Append("Press ENTER KEY to enter the store.\n");
         }
