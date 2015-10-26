@@ -31,4 +31,5 @@
 *Rough trail.
 *Heavy fog.
 
-If you go for a while without food, you will get the option to slaughter an ox for meat. From Oregon Trail II on, if a draft animal dies, it can be butchered for meat.
+If you go for a while without food, you will get the option to slaughter an ox for meat.
+From Oregon Trail II on, if a draft animal dies, it can be butchered for meat.

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Text;
 using TrailCommon;
 
 namespace TrailEntities
@@ -8,18 +8,22 @@ namespace TrailEntities
     /// </summary>
     public sealed class BuyOxenState : ModeState<StoreReceiptInfo>
     {
+        private StringBuilder _oxenBuy;
+
         public BuyOxenState(IMode gameMode, StoreReceiptInfo userData) : base(gameMode, userData)
         {
+            _oxenBuy = new StringBuilder();
+            _oxenBuy
         }
 
         public override string GetStateTUI()
         {
-            throw new NotImplementedException();
+            return _oxenBuy.ToString();
         }
 
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
