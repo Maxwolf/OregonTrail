@@ -15,7 +15,7 @@
         ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
         ///     class where they become available.
         /// </summary>
-        ISettlementPoint CurrentSettlement { get; }
+        ILocationPoint CurrentLocation { get; }
 
         /// <summary>
         ///     Purchase an item from the store, it will take money from the player.

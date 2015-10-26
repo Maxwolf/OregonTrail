@@ -16,7 +16,7 @@ namespace TrailCommon
         event InputBufferUpdated InputBufferUpdatedEvent;
         event ModeChanged ModeChangedEvent;
         void AddMode(ModeType modeType);
-        void RemoveActiveMode();
+        void RemoveDirtyModes();
         void RemoteLastCharOfInputBuffer();
         void SendInputBuffer();
         void SendKeyCharToInputBuffer(char keyChar);

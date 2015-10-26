@@ -21,7 +21,7 @@ namespace TrailEntities
             NewGameInfo = new NewGameInfo();
 
             // Start right away with choosing profession in the new game mode.
-            CurrentState = new InputPlayerNameState(0, this, NewGameInfo);
+            CurrentState = new SelectProfessionState(this, NewGameInfo);
         }
 
         /// <summary>

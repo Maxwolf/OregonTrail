@@ -15,7 +15,7 @@ namespace TrailCommon
         RationLevel Ration { get; }
         TravelPace Pace { get; }
         RepairStatus RepairStatus { get; }
-        uint DistanceTraveled { get; }
+        uint Odometer { get; }
         void AddPerson(IPerson person);
         void AddItem(Item item);
         void BuyItem(StoreTransactionItem transaction);

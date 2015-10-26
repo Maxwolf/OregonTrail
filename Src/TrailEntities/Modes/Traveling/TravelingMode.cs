@@ -9,39 +9,72 @@ namespace TrailEntities
     /// </summary>
     public sealed class TravelingMode : GameMode<TravelCommands>, ITravelingMode
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        /// </summary>
+        public TravelingMode()
+        {
+            CanRest = true;
+        }
+
         public override ModeType ModeType
         {
             get { return ModeType.Travel; }
         }
 
+        public void GoToStore()
+        {
+            GameSimulationApp.Instance.AddMode(ModeType.Store);
+        }
+
+        public bool CanRest { get; }
+
+        public void ContinueOnTrail()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CheckSupplies()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LookAtMap()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChangePace()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChangeFoodRations()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StopToRest()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AttemptToTrade()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TalkToPeople()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BuySupplies()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Hunt()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Rest()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Trade()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
-        ///     top-most game mode.
-        /// </summary>
-        public override void TickMode()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
-        /// </summary>
-        public override void OnModeRemoved()
         {
             throw new NotImplementedException();
         }

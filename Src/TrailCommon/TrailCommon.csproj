@@ -47,15 +47,11 @@
     <Compile Include="Modes\Hunting\HuntingCommands.cs" />
     <Compile Include="Modes\IModeChoiceItem.cs" />
     <Compile Include="Modes\IModeState.cs" />
-    <Compile Include="Modes\Landmark\ILandmarkMode.cs" />
-    <Compile Include="Modes\Landmark\LandmarkCommands.cs" />
     <Compile Include="Modes\ModeChoiceItem.cs" />
     <Compile Include="Modes\New Game\INewGameMode.cs" />
     <Compile Include="Modes\New Game\NewGameInfo.cs" />
     <Compile Include="Modes\Random Event\RandomEventCommands.cs" />
     <Compile Include="Modes\River Crossing\RiverCrossingCommands.cs" />
-    <Compile Include="Modes\Settlement\ISettlementMode.cs" />
-    <Compile Include="Modes\Settlement\SettlementCommands.cs" />
     <Compile Include="Modes\Store\StoreCommands.cs" />
     <Compile Include="Modes\Store\StoreReceiptInfo.cs" />
     <Compile Include="Modes\Store\StoreTransactionItem.cs" />
@@ -80,9 +76,8 @@
     <Compile Include="Simulations\Game\IGameSimulation.cs" />
     <Compile Include="Modes\Hunting\IHuntingMode.cs" />
     <Compile Include="Simulations\Game\ISimulation.cs" />
-    <Compile Include="Entity Templates\Trail\ILandmarkPoint.cs" />
     <Compile Include="Modes\River Crossing\IRiverCrossingMode.cs" />
-    <Compile Include="Entity Templates\Trail\ISettlementPoint.cs" />
+    <Compile Include="Entity Templates\Trail\ILocationPoint.cs" />
     <Compile Include="Modes\Store\IStoreMode.cs" />
     <Compile Include="Modes\Trading\ITradingMode.cs" />
     <Compile Include="Simulations\Game\ITrail.cs" />

@@ -23,11 +23,6 @@
         Hunt,
 
         /// <summary>
-        ///     Player can stop and rest, there is no store here though just good looks.
-        /// </summary>
-        Landmark,
-
-        /// <summary>
         ///     Allows the configuration of party names, player profession, and purchasing initial items for trip.
         /// </summary>
         NewGame,
@@ -45,11 +40,6 @@
         RiverCrossing,
 
         /// <summary>
-        ///     Player can rest here, buy goods, talk to people, safe from thieves and most terrible random events.
-        /// </summary>
-        Settlement,
-
-        /// <summary>
         ///     Facilitates purchasing items from a list, prices can change per store as there is no central lookup for this
         ///     information.
         /// </summary>
@@ -59,6 +49,11 @@
         ///     Facilitates trading items with a fake AI vehicle, a list is created and values randomly selected from it for
         ///     possible trades.
         /// </summary>
-        Trade
+        Trade,
+
+        /// <summary>
+        ///     Could be a landmark, settlement, fort, town, city.
+        /// </summary>
+        Location
     }
 }

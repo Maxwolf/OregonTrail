@@ -15,29 +15,29 @@ namespace TrailEntities
             {
                 var trail = new List<PointOfInterest>
                 {
-                    new SettlementPoint("Independence", 0, true, Stores.MattsStore),
+                    new SettlementPoint("Independence", 0, Stores.MattsStore),
                     new RiverPoint("Kansas River Crossing", 83),
                     new RiverPoint("Big Blue River Crossing", 119),
-                    new SettlementPoint("Fort Kearney", 250, true, Stores.FortKearneyStore),
-                    new LandmarkPoint("Chimney Rock", 86, true),
-                    new SettlementPoint("Fort Laramie", 190, true, Stores.FortLaramieStore),
-                    new LandmarkPoint("Independence Rock", 152, true),
+                    new FortPoint("Fort Kearney", 250, Stores.FortKearneyStore),
+                    new LandmarkPoint("Chimney Rock", 86),
+                    new FortPoint("Fort Laramie", 190, Stores.FortLaramieStore),
+                    new LandmarkPoint("Independence Rock", 152),
                     new ForkInRoadPoint("South Pass", 219, new List<PointOfInterest>
                     {
-                        new SettlementPoint("Fort Bridger", 162, true, Stores.FortBridgerStore),
+                        new FortPoint("Fort Bridger", 162, Stores.FortBridgerStore),
                         new RiverPoint("Green River Shortcut", 144)
                     }),
                     new RiverPoint("Green River Crossing", 94),
-                    new LandmarkPoint("Soda Springs", 57, true),
-                    new SettlementPoint("Fort Hall", 182, true, Stores.FortHallStore),
+                    new LandmarkPoint("Soda Springs", 57),
+                    new FortPoint("Fort Hall", 182, Stores.FortHallStore),
                     new RiverPoint("Snake River Crossing", 114),
-                    new SettlementPoint("Fort Boise", 94, true, Stores.FortBoiseStore),
+                    new FortPoint("Fort Boise", 94, Stores.FortBoiseStore),
                     new ForkInRoadPoint("Blue Mountains", 91, new List<PointOfInterest>
                     {
-                        new SettlementPoint("Fort Walla Walla", 120, true, Stores.FortWallaWallaStore),
-                        new LandmarkPoint("The Dalles", 146, true)
+                        new FortPoint("Fort Walla Walla", 120, Stores.FortWallaWallaStore),
+                        new LandmarkPoint("The Dalles", 146)
                     }),
-                    new SettlementPoint("Oregon City", 85, false)
+                    new SettlementPoint("Oregon City", 85)
                 };
                 return trail.AsReadOnly();
             }

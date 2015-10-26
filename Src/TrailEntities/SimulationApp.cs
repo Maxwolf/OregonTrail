@@ -40,10 +40,9 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Removes the active game mode from the list of available modes. The only requirements are that it exists, and is
-        ///     currently active.
+        ///     Removes any and all inactive game modes that need to be removed from the simulation.
         /// </summary>
-        public void RemoveActiveMode()
+        public void RemoveDirtyModes()
         {
             // Ensure the mode exists as active mode.
             if (ActiveMode == null)
@@ -53,12 +52,21 @@ namespace TrailEntities
             if (!_modes.Contains(ActiveMode))
                 throw new InvalidOperationException("Active mode is not in list of current modes!");
 
-            // Remove the mode from list.
-            _modes.Remove(ActiveMode);
+            // Create copy of all modes so we can destroy while iterating.
+            var copyModes = new List<IMode>(_modes);
+            foreach (var mode in copyModes)
+            {
+                // Skip if the mode doesn't want to be removed.
+                if (!mode.ShouldRemoveMode)
+                    continue;
 
-            // Fire virtual method which will allow game simulation above and attempt to pass this data along to internal game mode and game mode states.
-            if (ActiveMode != null)
-                OnModeChanged(ActiveMode.ModeType);
+                // Remove the mode from list if it is flagged for removal.
+                _modes.Remove(mode);
+
+                // Fire virtual method which will allow game simulation above and attempt to pass this data along to internal game mode and game mode states.
+                if (ActiveMode != null)
+                    OnModeChanged(ActiveMode.ModeType);
+            }
         }
 
         /// <summary>
@@ -312,7 +320,7 @@ namespace TrailEntities
         {
             // If the active mode is not null and flag is set to remove then do that!
             if (ActiveMode != null && ActiveMode.ShouldRemoveMode)
-                RemoveActiveMode();
+                RemoveDirtyModes();
 
             // Otherwise just tick the game mode logic.
             ActiveMode?.TickMode();

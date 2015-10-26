@@ -2,7 +2,7 @@
 
 namespace TrailCommon
 {
-    public interface ISettlementPoint
+    public interface ILocationPoint
     {
         string Name { get; }
         bool CanRest { get; }

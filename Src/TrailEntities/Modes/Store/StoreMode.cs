@@ -38,8 +38,8 @@ namespace TrailEntities
             StoreReceiptInfo = new StoreReceiptInfo();
 
             // Cast the current point of interest into a settlement object since that is where stores are.
-            CurrentSettlement = GameSimulationApp.Instance.TrailSim.GetCurrentPointOfInterest() as SettlementPoint;
-            if (CurrentSettlement == null)
+            CurrentLocation = GameSimulationApp.Instance.TrailSim.GetCurrentPointOfInterest() as LocationPoint;
+            if (CurrentLocation == null)
                 throw new InvalidCastException("Unable to cast current point of interest into a settlement point!");
 
             UpdateDebts();
@@ -62,7 +62,7 @@ namespace TrailEntities
         public void BuyOxen()
         {
             CurrentState = new BuyItemState("How many oxen?",
-                CurrentSettlement.StoreItems.First(item => item is OxenItem), this, StoreReceiptInfo);
+                CurrentLocation.StoreItems.First(item => item is OxenItem), this, StoreReceiptInfo);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace TrailEntities
         public void BuyFood()
         {
             CurrentState = new BuyItemState("How many pounds of food?",
-                CurrentSettlement.StoreItems.First(item => item is FoodItem), this, StoreReceiptInfo);
+                CurrentLocation.StoreItems.First(item => item is FoodItem), this, StoreReceiptInfo);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace TrailEntities
         public void BuyClothing()
         {
             CurrentState = new BuyItemState("How many clothing sets?",
-                CurrentSettlement.StoreItems.First(item => item is ClothingItem), this, StoreReceiptInfo);
+                CurrentLocation.StoreItems.First(item => item is ClothingItem), this, StoreReceiptInfo);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace TrailEntities
         public void BuyAmmunition()
         {
             CurrentState = new BuyItemState("How many ammo boxes?",
-                CurrentSettlement.StoreItems.First(item => item is BulletsItem), this, StoreReceiptInfo);
+                CurrentLocation.StoreItems.First(item => item is BulletsItem), this, StoreReceiptInfo);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace TrailEntities
         public void BuySpareWheels()
         {
             CurrentState = new BuyItemState("How many spare wheels?",
-                CurrentSettlement.StoreItems.First(item => item is PartWheelItem), this, StoreReceiptInfo);
+                CurrentLocation.StoreItems.First(item => item is PartWheelItem), this, StoreReceiptInfo);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace TrailEntities
         public void BuySpareAxles()
         {
             CurrentState = new BuyItemState("How many spare axles?",
-                CurrentSettlement.StoreItems.First(item => item is PartAxleItem), this, StoreReceiptInfo);
+                CurrentLocation.StoreItems.First(item => item is PartAxleItem), this, StoreReceiptInfo);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace TrailEntities
         public void BuySpareTongues()
         {
             CurrentState = new BuyItemState("How many spare tongues?",
-                CurrentSettlement.StoreItems.First(item => item is PartTongueItem), this, StoreReceiptInfo);
+                CurrentLocation.StoreItems.First(item => item is PartTongueItem), this, StoreReceiptInfo);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace TrailEntities
         ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
         ///     class where they become available.
         /// </summary>
-        public ISettlementPoint CurrentSettlement { get; }
+        public ILocationPoint CurrentLocation { get; }
 
         /// <summary>
         ///     Removes item from the store and adds it to the players inventory.
@@ -221,25 +221,25 @@ namespace TrailEntities
         /// </summary>
         private void UpdateDebts()
         {
-            _oxenAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+            _oxenAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
                 t is OxenItem)?.ToString() ?? ITEM_NOT_FOUND;
 
-            _foodAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+            _foodAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
                 t is FoodItem)?.ToString() ?? ITEM_NOT_FOUND;
 
-            _clothingAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+            _clothingAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
                 t is ClothingItem)?.ToString() ?? ITEM_NOT_FOUND;
 
-            _bulletsAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+            _bulletsAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
                 t is BulletsItem)?.ToString() ?? ITEM_NOT_FOUND;
 
-            _wheelsAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+            _wheelsAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
                 t is PartWheelItem)?.ToString() ?? ITEM_NOT_FOUND;
 
-            _axlesAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+            _axlesAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
                 t is PartAxleItem)?.ToString() ?? ITEM_NOT_FOUND;
 
-            _tonguesAmount = CurrentSettlement.StoreItems.FirstOrDefault(t =>
+            _tonguesAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
                 t is PartTongueItem)?.ToString() ?? ITEM_NOT_FOUND;
 
             // We will only modify store visualization of prices when at the first location on the trail.
@@ -270,7 +270,7 @@ namespace TrailEntities
             // Header text for above menu.
             var headerText = new StringBuilder();
             headerText.Append("--------------------------------\n");
-            headerText.Append($"{CurrentSettlement?.Name} General Store\n");
+            headerText.Append($"{CurrentLocation?.Name} General Store\n");
             headerText.Append($"{GameSimulationApp.Instance.Time.Date}\n");
             headerText.Append("--------------------------------");
             MenuHeader = headerText.ToString();

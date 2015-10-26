@@ -190,21 +190,18 @@ namespace TrailEntities
             switch (modeType)
             {
                 case ModeType.Travel:
+                case ModeType.Location:
                     return new TravelingMode();
                 case ModeType.ForkInRoad:
                     return new ForkInRoadMode();
                 case ModeType.Hunt:
                     return new HuntingMode();
-                case ModeType.Landmark:
-                    return new LandmarkMode();
                 case ModeType.NewGame:
                     return new NewGameMode();
                 case ModeType.RandomEvent:
                     return new RandomEventMode();
                 case ModeType.RiverCrossing:
                     return new RiverCrossingMode();
-                case ModeType.Settlement:
-                    return new SettlementMode();
                 case ModeType.Store:
                     return new StoreMode();
                 case ModeType.Trade:
@@ -229,7 +226,7 @@ namespace TrailEntities
             _climate.TickClimate();
             Vehicle.UpdateVehicle();
             TrailSim.ReachedPointOfInterest();
-            _vehicle.DistanceTraveled += (uint) Vehicle.Pace;
+            _vehicle.Odometer += (uint) Vehicle.Pace;
 
             //Console.WriteLine("Day end!");
         }

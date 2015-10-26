@@ -42,7 +42,7 @@ namespace TrailEntities
 
         public RepairStatus RepairStatus { get; private set; }
 
-        public uint DistanceTraveled { get; set; }
+        public uint Odometer { get; set; }
 
         public void AddPerson(IPerson person)
         {
@@ -89,7 +89,7 @@ namespace TrailEntities
             _people = new List<IPerson>();
             Ration = RationLevel.Filling;
             RepairStatus = RepairStatus.Good;
-            DistanceTraveled = 0;
+            Odometer = 0;
         }
     }
 }
