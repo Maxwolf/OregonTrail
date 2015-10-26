@@ -54,25 +54,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Fired when the active game mode has been changed in parent game mode, this is intended for game mode states only so
-        ///     they can be aware of these changes and act on them if needed.
-        /// </summary>
-        /// <param name="modeType">Current mode which the simulation is changing to.</param>
-        public override void OnParentModeChanged(ModeType modeType)
-        {
-            // Skip if the changing game mode is not our parent one.
-            if (ParentMode.ModeType != modeType)
-                return;
-
-            // Skip if the user data has not been modified at all in anyway.
-            if (!UserData.Modified)
-                return;
-
-            // If the changing game mode is coming back to our parent and we are on this state then the store has finished!
-            ParentMode.RemoveModeNextTick();
-        }
-
-        /// <summary>
         ///     Fired when the game mode current state is not null and input buffer does not match any known command.
         /// </summary>
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
@@ -84,6 +65,7 @@ namespace TrailEntities
 
             // Change the game mode to be a store which can work with this data.
             _hasAttachedStore = true;
+            ParentMode.RemoveModeNextTick();
             GameSimulationApp.Instance.AddMode(ModeType.Store);
         }
     }
