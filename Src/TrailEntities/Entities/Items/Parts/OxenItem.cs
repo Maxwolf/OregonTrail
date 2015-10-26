@@ -54,6 +54,14 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Limit on the number of items that are possible to have of this particular type.
+        /// </summary>
+        public override uint CarryLimit
+        {
+            get { return 20; }
+        }
+
+        /// <summary>
         ///     Weight of a single item of this type, the original game used pounds so that is roughly what this should represent.
         /// </summary>
         public override uint Weight

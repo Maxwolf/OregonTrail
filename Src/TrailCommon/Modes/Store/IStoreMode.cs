@@ -20,14 +20,12 @@
         /// <summary>
         ///     Purchase an item from the store, it will take money from the player.
         /// </summary>
-        /// <param name="item">Item they would like to purchase.</param>
-        void BuyItems(Item item);
+        void BuyItems(StoreTransactionItem transaction);
 
         /// <summary>
         ///     Sell an item to the store, it will add money to the player.
         /// </summary>
-        /// <param name="item">Item that will be removed from player and added to store.</param>
-        void SellItem(Item item);
+        void SellItem(StoreTransactionItem transaction);
 
         /// <summary>
         ///     Buy vehicle engine.

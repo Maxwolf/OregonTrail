@@ -9,6 +9,9 @@ namespace TrailEntities
     /// </summary>
     public sealed class NewGameMode : GameMode<NewGameCommands>, INewGameMode
     {
+        public const string LEADER_QUESTION = "What is the first name of the wagon leader?";
+        public const string MEMBERS_QUESTION = "What are the first names of the \nthree other members in your party?";
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.NewGameMode" /> class.
         /// </summary>
@@ -17,15 +20,8 @@ namespace TrailEntities
             // Basic information to start a new simulation.
             NewGameInfo = new NewGameInfo();
 
-            // Menu items for creating new game.
-            AddCommand(ChooseNames, NewGameCommands.ChooseNames, "Pick names for your party.");
-            AddCommand(ChooseProfession, NewGameCommands.ChooseProfession, "Pick party leader profession.");
-            AddCommand(BuyInitialItems, NewGameCommands.BuyInitialItems, "Buy initial items for journey.");
-            AddCommand(ChooseStartMonth, NewGameCommands.ChooseStartMonth, "Decide when to set off on the trail.");
-            AddCommand(StartGame, NewGameCommands.StartGame, "Starts a new journey on the trail!");
-
-            // Since the user data has not been modified yet we are going to attach a state to start this process right away.
-            ChooseNames();
+            // Start right away with choosing profession in the new game mode.
+            ChooseProfession();
         }
 
         /// <summary>
@@ -38,26 +34,12 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Fired when the active game mode has been changed, this allows any underlying mode to know about a change in
-        ///     simulation.
-        /// </summary>
-        /// <param name="modeType">Current mode which the simulation is changing to.</param>
-        public override void OnModeChanged(ModeType modeType)
-        {
-            base.OnModeChanged(modeType);
-
-            // If the user data player count is less than or equal to zero then just start off with name input.
-            if (!NewGameInfo.Modified)
-                ChooseNames();
-        }
-
-        /// <summary>
         ///     Allows the user to input the four unique names for each party member in their group. If they don't want to enter a
         ///     name they can just press enter and a random name will be selected from a small array of names in that state.
         /// </summary>
         public void ChooseNames()
         {
-            CurrentState = new InputPlayerNameState(0, "Party leader name?", this, NewGameInfo);
+            CurrentState = new InputPlayerNameState(0, this, NewGameInfo);
         }
 
         /// <summary>

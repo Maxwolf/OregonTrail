@@ -8,7 +8,7 @@ namespace TrailEntities
     ///     would indeed like to use all the entered names they have provided or had randomly generated for them by just
     ///     pressing enter.
     /// </summary>
-    public sealed class ConfirmGroupNamesState : ModeState<NewGameInfo>
+    public sealed class ConfirmPlayerNamesState : ModeState<NewGameInfo>
     {
         /// <summary>
         ///     References the party text so we only have to construct it once and then print the result.
@@ -18,14 +18,14 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ConfirmGroupNamesState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public ConfirmPlayerNamesState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
             GameSimulationApp.Instance.SetData(userData);
 
             // Create string builder, counter, print info about party members.
             _confirmPartyText = new StringBuilder();
-            _confirmPartyText.Append("Your Party Members:\n\n");
+            _confirmPartyText.Append("\n" + NewGameMode.MEMBERS_QUESTION + "\n\n");
             var crewNumber = 1;
 
             // Loop through every player and print their name.
@@ -69,14 +69,14 @@ namespace TrailEntities
             {
                 case "Y":
                     // Move along to confirming profession for party leader if user is happy with names.
-                    ParentMode.CurrentState = new SelectProfessionState(ParentMode, UserData);
+                    ParentMode.CurrentState = new SelectStartingMonthState(ParentMode, UserData);
                     break;
                 default:
                     // Clear all previous names we are going to try this again.
                     UserData.PlayerNames.Clear();
 
                     // Go back to the beginning of the player name selection chain.
-                    ParentMode.CurrentState = new InputPlayerNameState(0, "Party leader name?", ParentMode, UserData);
+                    ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
                     break;
             }
         }

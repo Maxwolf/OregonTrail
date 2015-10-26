@@ -61,10 +61,6 @@ namespace TrailEntities
         {
             base.SetData(startingInfo);
 
-            // Complain if there is no players to add to the vehicle.
-            if (startingInfo.PlayerNames.Count <= 0)
-                throw new InvalidOperationException("Cannot create vehicle with no people in new game info user data!");
-
             // Clear out any data amount items, monies, people that might have been in the vehicle.
             // NOTE: Sets starting monies, which was determined by player profession selection.
             Vehicle.ResetVehicle(startingInfo.StartingMonies);

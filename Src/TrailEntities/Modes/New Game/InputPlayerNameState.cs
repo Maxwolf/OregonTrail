@@ -24,35 +24,58 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public InputPlayerNameState(int playerNameIndex, string questionText, IMode gameMode, NewGameInfo userData)
+        public InputPlayerNameState(int playerNameIndex, IMode gameMode, NewGameInfo userData)
             : base(gameMode, userData)
         {
+            // Pass the game data to the simulation for each new game mode state.
+            GameSimulationApp.Instance.SetData(userData);
+
             // Copy over current name index and question text to ask.
             _playerNameIndex = playerNameIndex;
 
-            // Only print player names if we have some to actually print.
+            // Create string builder so we only build up this data once.
             _inputNamesHelp = new StringBuilder();
+
+            // Add the question text from constructor parameter.
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (playerNameIndex)
+            {
+                case 0:
+                    _inputNamesHelp.Append("\n" + NewGameMode.LEADER_QUESTION);
+                    break;
+                case 1:
+                    _inputNamesHelp.Append("\n" + NewGameMode.MEMBERS_QUESTION + "\n\n");
+                    break;
+                case 2:
+                    _inputNamesHelp.Append("\n" + NewGameMode.MEMBERS_QUESTION + "\n\n");
+                    break;
+                case 3:
+                    _inputNamesHelp.Append("\n" + NewGameMode.MEMBERS_QUESTION + "\n\n");
+                    break;
+            }
+
+            // Only print player names if we have some to actually print.
             if (UserData.PlayerNames.Count > 0)
             {
                 // Loop through all the player names and get their current state.
-                _inputNamesHelp.Append("Your Party Members:\n\n");
                 var crewNumber = 1;
 
                 // Loop through every player and print their name.
-                foreach (var name in UserData.PlayerNames)
+                for (var index = 0; index < 4; index++)
                 {
+                    var name = string.Empty;
+                    if (index < UserData.PlayerNames.Count)
+                        name = UserData.PlayerNames[index];
+
                     // First name in list is always the leader.
                     var isLeader = UserData.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
                     _inputNamesHelp.AppendFormat(isLeader ? "  {0} - {1} (leader)\n" : "  {0} - {1}\n", crewNumber, name);
                     crewNumber++;
                 }
 
-                // Add a blank line after the player names print out.
-                _inputNamesHelp.Append("\n");
+                // Wait for user input...
+                _inputNamesHelp.Append("\n(Enter names or press Enter)");
             }
-
-            // Add the question text from constructor parameter.
-            _inputNamesHelp.Append(questionText);
         }
 
         /// <summary>
@@ -86,8 +109,15 @@ namespace TrailEntities
             // Add the name to list since we will have something at this point even if randomly generated.
             UserData.PlayerNames.Insert(_playerNameIndex, input);
 
-            // Change the state of the game mode to confirm the name we just entered.
-            ParentMode.CurrentState = new ConfirmPlayerNameState(_playerNameIndex, ParentMode, UserData);
+            if (_playerNameIndex + 1 < 4)
+            {
+                // Change the state of the game mode to confirm the name we just entered.
+                ParentMode.CurrentState = new InputPlayerNameState(_playerNameIndex + 1, ParentMode, UserData);
+            }
+            else
+            {
+                ParentMode.CurrentState = new ConfirmPlayerNamesState(ParentMode, UserData);
+            }
         }
 
         /// <summary>

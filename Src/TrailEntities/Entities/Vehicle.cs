@@ -57,24 +57,24 @@ namespace TrailEntities
         /// <summary>
         ///     Adds the item to the inventory of the vehicle and subtracts it's cost multiplied by quantity from balance.
         /// </summary>
-        public void BuyItem(Item item)
+        public void BuyItem(StoreTransactionItem transaction)
         {
-            var totalCost = item.Cost*item.MinimumAmount;
+            var totalCost = transaction.Item.Cost*transaction.Quantity;
             if (!(Balance >= totalCost))
                 return;
 
             Balance -= totalCost;
-            _inventory.Add(item);
+            _inventory.Add(transaction.Item);
         }
 
         /// <summary>
         ///     Removes the item from the inventory of the vehicle and adds it's cost multiplied by quantity to balance.
         /// </summary>
-        public void SellItem(Item item)
+        public void SellItem(StoreTransactionItem transaction)
         {
-            var totalEarnings = item.Cost*item.MinimumAmount;
+            var totalEarnings = transaction.Item.Cost*transaction.Quantity;
             Balance += totalEarnings;
-            _inventory.Remove(item);
+            _inventory.Remove(transaction.Item);
         }
 
         public void UpdateVehicle()

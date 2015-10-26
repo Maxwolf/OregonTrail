@@ -18,8 +18,8 @@ namespace TrailCommon
         uint DistanceTraveled { get; }
         void AddPerson(IPerson person);
         void AddItem(Item item);
-        void BuyItem(Item item);
-        void SellItem(Item item);
+        void BuyItem(StoreTransactionItem transaction);
+        void SellItem(StoreTransactionItem transaction);
         void UpdateVehicle();
         void ResetVehicle(uint startingMonies);
     }

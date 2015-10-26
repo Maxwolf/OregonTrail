@@ -15,6 +15,8 @@ namespace TrailEntities
     /// </summary>
     public abstract class GameMode<T> : IMode where T : struct, IComparable, IFormattable, IConvertible
     {
+        private IModeState _currentState;
+
         /// <summary>
         ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
         ///     spawned it.
@@ -78,6 +80,12 @@ namespace TrailEntities
         public void RemoveModeNextTick()
         {
             ShouldRemoveMode = true;
+
+            // Forcefully detaches any state that was active before calling mode removed.
+            CurrentState = null;
+
+            // Allows any data structures that care about themselves to save before the next time comes.
+            OnModeRemoved();
         }
 
         /// <summary>
@@ -129,7 +137,15 @@ namespace TrailEntities
         ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and
         ///     then detach.
         /// </summary>
-        public IModeState CurrentState { get; set; }
+        public IModeState CurrentState
+        {
+            get { return _currentState; }
+            set
+            {
+                _currentState = value;
+                OnModeStateChanged();
+            }
+        }
 
         /// <summary>
         ///     Calls the abstract methods with generics using this override.
@@ -150,7 +166,7 @@ namespace TrailEntities
             var modeTUI = new StringBuilder();
 
             // Only add menu choices if there are some to actually add, otherwise just return the string buffer now.
-            if (_menuChoices.Count > 0 && CurrentState == null)
+            if (_menuChoices?.Count > 0 && CurrentState == null)
             {
                 // Header text for above menu.
                 if (!string.IsNullOrEmpty(MenuHeader))
@@ -217,6 +233,15 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Fired when the current game modes state is altered, it could be removed and null or a new one added up to
+        ///     implementation to check.
+        /// </summary>
+        protected virtual void OnModeStateChanged()
+        {
+            // Nothing to see here, move along...
+        }
+
+        /// <summary>
         ///     Because of how generics work in C# we need to have the ability to override a method in implementing classes to get
         ///     back the correct commands for the implementation from abstract class inheritance chain. On the bright side it
         ///     enforces the commands returned to be of the specified enum in generics.
@@ -246,6 +271,15 @@ namespace TrailEntities
             {
                 _menuChoices.Add(menuChoice);
             }
+        }
+
+        /// <summary>
+        ///     Forces the menu choices to be cleared out, this is used by modes like the store to refresh the data shown in the
+        ///     menu to match purchasing decisions.
+        /// </summary>
+        protected void ClearCommands()
+        {
+            _menuChoices.Clear();
         }
 
         /// <summary>

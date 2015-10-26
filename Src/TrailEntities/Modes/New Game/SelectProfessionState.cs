@@ -30,18 +30,38 @@ namespace TrailEntities
             UserData.PlayerProfession = Profession.Banker;
             UserData.StartingMonies = 1600;
 
-            // Loop through every profession in the enumeration for them and print them in string builder.
+            // Pass the game data to the simulation for each new game mode state.
+            GameSimulationApp.Instance.SetData(userData);
+
+            // Loop through every profession in the enumeration.
             _professionChooser = new StringBuilder();
-            _professionChooser.Append("You must choose the occupation of the main character.\n\n");
-            foreach (var possibleProfession in Enum.GetValues(typeof (Profession)))
+            _professionChooser.Append("\nMany kinds of people made the trip to Oregon.\n");
+            _professionChooser.Append("You may:\n\n");
+            foreach (Profession profession in Enum.GetValues(typeof (Profession)))
             {
-                _professionChooser.AppendFormat("  {0} - {1}\n", _professionCount, possibleProfession);
+                // Depending on what profession is there make a pretty display name for it.
+                switch (profession)
+                {
+                    case Profession.Banker:
+                        _professionChooser.AppendFormat("  {0} - {1}\n", _professionCount, "Be a banker from Boston");
+                        break;
+                    case Profession.Carpenter:
+                        _professionChooser.AppendFormat("  {0} - {1}\n", _professionCount, "Be a carpenter from Ohio");
+                        break;
+                    case Profession.Farmer:
+                        _professionChooser.AppendFormat("  {0} - {1}\n", _professionCount, "Be a farmer from Illinois");
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                // Increment the profession counts.
                 _professionCount++;
             }
 
             // Ask the user to make a selection, and then wait for input...
-            _professionChooser.Append("\nType HELP for more information about professions.\n");
-            _professionChooser.AppendFormat("What profession is {0}?", UserData.PlayerNames[0]);
+            _professionChooser.AppendFormat("  {0} - {1}\n\n", _professionCount, "Find out the differences between these choices");
+            _professionChooser.Append("What is your choice?");
         }
 
         /// <summary>
@@ -66,19 +86,19 @@ namespace TrailEntities
                 case "1":
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    ParentMode.CurrentState = new ConfirmProfessionState(ParentMode, UserData);
+                    ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
                     break;
                 case "2":
                     UserData.PlayerProfession = Profession.Carpenter;
                     UserData.StartingMonies = 800;
-                    ParentMode.CurrentState = new ConfirmProfessionState(ParentMode, UserData);
+                    ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
                     break;
                 case "3":
                     UserData.PlayerProfession = Profession.Farmer;
                     UserData.StartingMonies = 400;
-                    ParentMode.CurrentState = new ConfirmProfessionState(ParentMode, UserData);
+                    ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
                     break;
-                case "HELP":
+                case "4":
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
                     ParentMode.CurrentState = new ProfessionAdviceState(ParentMode, UserData);

@@ -51,13 +51,10 @@
     <Compile Include="Modes\Landmark\LandmarkMode.cs" />
     <Compile Include="Modes\ModeState.cs" />
     <Compile Include="Modes\New Game\BuyInitialItemsState.cs" />
-    <Compile Include="Modes\New Game\ConfirmPlayerNameState.cs" />
-    <Compile Include="Modes\New Game\ConfirmProfessionState.cs" />
-    <Compile Include="Modes\New Game\ConfirmStartingMonthState.cs" />
     <Compile Include="Modes\New Game\InputPlayerNameState.cs" />
     <Compile Include="Modes\New Game\ProfessionAdviceState.cs" />
     <Compile Include="Modes\New Game\SelectProfessionState.cs" />
-    <Compile Include="Modes\New Game\ConfirmGroupNamesState.cs" />
+    <Compile Include="Modes\New Game\ConfirmPlayerNamesState.cs" />
     <Compile Include="Modes\New Game\SelectStartingMonthState.cs" />
     <Compile Include="Modes\New Game\StartMonthAdviceState.cs" />
     <Compile Include="Modes\Settlement\SettlementMode.cs" />

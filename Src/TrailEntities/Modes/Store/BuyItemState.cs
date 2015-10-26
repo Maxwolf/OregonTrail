@@ -23,18 +23,30 @@ namespace TrailEntities
         ///     Reference to the total amount of items the player can purchase of item of this particular type from this store with
         ///     the money they have.
         /// </summary>
-        private double _purchaseLimit;
+        private uint _creditLimit;
 
         public BuyItemState(string questionText, Item itemToBuy, IMode gameMode, StoreReceiptInfo userData)
             : base(gameMode, userData)
         {
+            // Figure out what we owe already from other store items.
+            var _pendingDebt = userData.GetTransactionTotalCost();
+
             // Figure out how many of the item in question the player can purchase with the money they have left.
-            _purchaseLimit = Math.Round(GameSimulationApp.Instance.Vehicle.Balance/itemToBuy.Cost,
+            _creditLimit = (uint) Math.Round(GameSimulationApp.Instance.Vehicle.Balance/itemToBuy.Cost,
                 MidpointRounding.ToEven);
 
-            // Append the question text for purchasing the given type of item.
+            // Subtract our current debt from credit limit at the store.
+            _creditLimit -= _pendingDebt;
+
+            // Set the credit limit to be the carry limit if they player has lots of monies and can buy many, we must limit them!
+            if (_creditLimit > itemToBuy.CarryLimit)
+                _creditLimit = itemToBuy.CarryLimit;
+
+            // Add some information about how many you can buy and total amount you can carry.
             _itemBuyText = new StringBuilder();
-            _itemBuyText.Append($"You can afford {_purchaseLimit} {itemToBuy.Name.ToLowerInvariant()}\n");
+            _itemBuyText.Append($"You can afford {_creditLimit} {itemToBuy.Name.ToLowerInvariant()}\n");
+
+            // Append the question text for purchasing the given type of item.
             _itemBuyText.Append(questionText);
 
             // Set the item to buy text.
@@ -69,7 +81,7 @@ namespace TrailEntities
             }
 
             // Check that number is less than maximum quantity based on monies.
-            if (parsedInputNumber > _purchaseLimit)
+            if (parsedInputNumber > _creditLimit)
                 return;
 
             // Check that number is less than or equal to limit that is hard-coded.

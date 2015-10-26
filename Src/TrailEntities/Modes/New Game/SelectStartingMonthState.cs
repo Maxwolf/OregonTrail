@@ -20,10 +20,24 @@ namespace TrailEntities
         /// </summary>
         public SelectStartingMonthState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
+            // Pass the game data to the simulation for each new game mode state.
+            GameSimulationApp.Instance.SetData(userData);
+
             // Tell the user they need to make a decision.
             _startMonthQuestion = new StringBuilder();
-            _startMonthQuestion.Append("Type HELP for more information about starting months.\n");
-            _startMonthQuestion.Append("When do you want to start? Type March, April, May, June, July, or August");
+            _startMonthQuestion.Append("\nIt is 1848. Your jumping off place \n");
+            _startMonthQuestion.Append("for Oregon is Independence, Missouri.\n");
+            _startMonthQuestion.Append("You must decide which month\n");
+            _startMonthQuestion.Append("to leave Independence\n\n");
+
+            _startMonthQuestion.Append("  1. March\n");
+            _startMonthQuestion.Append("  2. April\n");
+            _startMonthQuestion.Append("  3. May\n");
+            _startMonthQuestion.Append("  4. June\n");
+            _startMonthQuestion.Append("  5. July\n");
+            _startMonthQuestion.Append("  6. Ask for advice\n\n");
+
+            _startMonthQuestion.Append("What is your choice?");
         }
 
         /// <summary>
@@ -52,33 +66,28 @@ namespace TrailEntities
         {
             switch (input.ToUpperInvariant())
             {
-                case "MARCH":
+                case "1":
                     UserData.StartingMonth = Months.March;
-                    ParentMode.CurrentState = new ConfirmStartingMonthState(ParentMode, UserData);
+                    ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
                     break;
-                case "APRIL":
+                case "2":
                     UserData.StartingMonth = Months.April;
-                    ParentMode.CurrentState = new ConfirmStartingMonthState(ParentMode, UserData);
+                    ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
                     break;
-                case "MAY":
+                case "3":
                     UserData.StartingMonth = Months.May;
-                    ParentMode.CurrentState = new ConfirmStartingMonthState(ParentMode, UserData);
+                    ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
                     break;
-                case "JUNE":
+                case "4":
                     UserData.StartingMonth = Months.June;
-                    ParentMode.CurrentState = new ConfirmStartingMonthState(ParentMode, UserData);
+                    ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
                     break;
-                case "JULY":
+                case "5":
                     UserData.StartingMonth = Months.July;
-                    ParentMode.CurrentState = new ConfirmStartingMonthState(ParentMode, UserData);
+                    ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
                     break;
-                case "AUGUST":
-                    UserData.StartingMonth = Months.August;
-                    ParentMode.CurrentState = new ConfirmStartingMonthState(ParentMode, UserData);
-                    break;
-                case "HELP":
+                case "6":
                     // Shows information about what the different starting months mean.
-                    UserData.StartingMonth = Months.March;
                     ParentMode.CurrentState = new StartMonthAdviceState(ParentMode, UserData);
                     break;
                 default:

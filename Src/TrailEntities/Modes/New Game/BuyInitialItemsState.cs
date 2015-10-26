@@ -28,7 +28,7 @@ namespace TrailEntities
 
             // Create text we will display to user about the store before they actually load that game mode.
             _storeHelp = new StringBuilder();
-            _storeHelp.Append("Before leaving you should buy equipment and supplies.\n");
+            _storeHelp.Append("\nBefore leaving you should buy equipment and supplies.\n");
             _storeHelp.Append(
                 $"You have {UserData.StartingMonies.ToString("C2")} in cash, but you don't have to spend it all now.\n\n");
 
@@ -69,7 +69,7 @@ namespace TrailEntities
                 return;
 
             // If the changing game mode is coming back to our parent and we are on this state then the store has finished!
-            ParentMode.CurrentState = new SelectStartingMonthState(ParentMode, UserData);
+            ParentMode.RemoveModeNextTick();
         }
 
         /// <summary>
