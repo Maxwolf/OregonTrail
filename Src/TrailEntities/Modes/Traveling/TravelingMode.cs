@@ -3,6 +3,10 @@ using TrailCommon;
 
 namespace TrailEntities
 {
+    /// <summary>
+    ///     Primary game mode of the simulation, used to show simulation advancing through linear time. Shows all major stats
+    ///     of party and vehicle, plus climate and other things like distance traveled and distance to next point.
+    /// </summary>
     public sealed class TravelingMode : GameMode<TravelCommands>, ITravelingMode
     {
         public override ModeType ModeType

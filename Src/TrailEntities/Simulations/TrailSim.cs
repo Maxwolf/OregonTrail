@@ -13,7 +13,7 @@ namespace TrailEntities
         /// <summary>
         ///     Current location of the players vehicle as index of points of interest list.
         /// </summary>
-        private int _vehicleLocation;
+        private int _vehicleLocation = -1;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Trail" /> class.
@@ -21,8 +21,12 @@ namespace TrailEntities
         /// <param name="trail">Collection of points of interest which make up the trail the player is going to travel.</param>
         public TrailSim(IList<PointOfInterest> trail)
         {
+            // Builds the trail passed on parameter, sets location to negative one for startup.
             PointsOfInterest = new ReadOnlyCollection<PointOfInterest>(trail);
-            _vehicleLocation = 0;
+            _vehicleLocation = -1;
+
+            // Forcefully trigger the arrival on the first spot on the trail.
+            ReachedPointOfInterest();
         }
 
         /// <summary>
@@ -43,8 +47,21 @@ namespace TrailEntities
         /// </summary>
         public void ReachedPointOfInterest()
         {
+            // Check for startup advancement.
+            if (_vehicleLocation == -1)
+            {
+                _vehicleLocation = 0;
+                return;
+            }
+
+            // Check if this is a normal advancement on the trail.
             if (_vehicleLocation < PointsOfInterest.Count)
+            {
                 _vehicleLocation++;
+                return;
+            }
+
+
         }
 
         /// <summary>
