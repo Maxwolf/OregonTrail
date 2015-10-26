@@ -15,11 +15,11 @@ namespace TrailEntities
         public OxenItem(float cost) : base(cost, 1)
         {
             // Give the oxen a random amount of starting food to eat, he will consume this before trying to take from climate.
-            GrassAvaliable = (uint)GameSimulationApp.Instance.Random.Next(0, 3);
+            GrassAvaliable = (uint) GameSimulationApp.Instance.Random.Next(0, 3);
 
             // Give the oxen a random starting health, you cannot trust those store keepers!
-            var values = Enum.GetValues(typeof(RepairStatus));
-            var randomStatus = (RepairStatus)values.GetValue(GameSimulationApp.Instance.Random.Next(values.Length));
+            var values = Enum.GetValues(typeof (RepairStatus));
+            var randomStatus = (RepairStatus) values.GetValue(GameSimulationApp.Instance.Random.Next(values.Length));
             OxenHealth = randomStatus;
         }
 

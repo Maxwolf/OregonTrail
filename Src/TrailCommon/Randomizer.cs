@@ -6,25 +6,20 @@ namespace TrailCommon
     {
         // Game logic objects.
         private Random _random;
-        private int _randomSeed;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailCommon.RandomUtil" /> class.
         /// </summary>
         public Randomizer(int seed)
         {
-            _randomSeed = seed;
+            RandomSeed = seed;
             _random = new Random(seed);
         }
 
         /// <summary>
         ///     Number used to seed the random number generator.
         /// </summary>
-        public int RandomSeed
-        {
-            get { return _randomSeed; }
-            set { _randomSeed = value; }
-        }
+        public int RandomSeed { get; set; }
 
         /// <summary>
         ///     Returns a nonnegative random number.

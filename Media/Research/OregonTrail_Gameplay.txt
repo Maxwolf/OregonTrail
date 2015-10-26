@@ -60,11 +60,15 @@ filling - meals are large and generous.
 meager - meals are small, but adequate.
 bare bones - meals are very small; everyone stays hungry.
 
-----------[6. STOP TO REST.]----------
+----------[6. STOP TO REST.]--------------
+
+
 ----------[7. ATTEMPT TO TRADE.]----------
 -Randomly checks the other parties in the location for items and randomly picks an item from every one and then rolls again
 to determin if there should be a trade offered to the player for the selected item.
+
 ----------[8. TALK TO PEOPLE.]----------
 -Shows random strings of text that are just advice for that area and tips for player on road ahead.
+
 ----------[9. BUY SUPPLIES.]----------
 -Store without Matt or any special graphics.

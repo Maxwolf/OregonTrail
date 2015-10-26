@@ -5,20 +5,15 @@ namespace TrailEntities
 {
     public sealed class RandomEventMode : GameMode<RandomEventCommands>, IRandomEventMode
     {
-        private string _name;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.RandomEventMode" /> class.
         /// </summary>
         public RandomEventMode()
         {
-            _name = "Unknown Random Event";
+            Name = "Unknown Random Event";
         }
 
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Name { get; }
 
         /// <summary>
         ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or

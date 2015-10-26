@@ -5,20 +5,15 @@ namespace TrailEntities
 {
     public sealed class LandmarkMode : GameMode<LandmarkCommands>, ILandmarkMode
     {
-        private readonly bool _canRest;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
         public LandmarkMode()
         {
-            _canRest = true;
+            CanRest = true;
         }
 
-        public bool CanRest
-        {
-            get { return _canRest; }
-        }
+        public bool CanRest { get; }
 
         public override ModeType ModeType
         {

@@ -30,7 +30,7 @@ namespace TrailEntities
         }
 
         /// <summary>
-        /// Fort Kearney General Store
+        ///     Fort Kearney General Store
         /// </summary>
         public static ReadOnlyCollection<IItem> FortKearneyStore
         {
@@ -51,7 +51,7 @@ namespace TrailEntities
         }
 
         /// <summary>
-        /// Fort Laramie General Store
+        ///     Fort Laramie General Store
         /// </summary>
         public static ReadOnlyCollection<IItem> FortLaramieStore
         {
@@ -72,7 +72,7 @@ namespace TrailEntities
         }
 
         /// <summary>
-        /// Fort Hall General Store
+        ///     Fort Hall General Store
         /// </summary>
         public static ReadOnlyCollection<IItem> FortHallStore
         {
@@ -93,7 +93,7 @@ namespace TrailEntities
         }
 
         /// <summary>
-        /// Fort Boise General Store
+        ///     Fort Boise General Store
         /// </summary>
         public static ReadOnlyCollection<IItem> FortBoiseStore
         {
@@ -114,7 +114,7 @@ namespace TrailEntities
         }
 
         /// <summary>
-        /// Fort Walla Walla General Store
+        ///     Fort Walla Walla General Store
         /// </summary>
         public static ReadOnlyCollection<IItem> FortWallaWallaStore
         {
@@ -135,7 +135,7 @@ namespace TrailEntities
         }
 
         /// <summary>
-        /// Fort Bridger General Store
+        ///     Fort Bridger General Store
         /// </summary>
         public static ReadOnlyCollection<IItem> FortBridgerStore
         {

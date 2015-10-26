@@ -5,55 +5,30 @@ namespace TrailEntities
 {
     public sealed class Person : IPerson
     {
-        private uint _daysStarving;
-        private RepairStatus _health;
-        private bool _isLeader;
-        private string _name;
-        private Profession _profession;
-        private RationLevel _ration;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Person" /> class.
         /// </summary>
         public Person(Profession profession, string name, bool isLeader)
         {
-            _profession = profession;
-            _name = name;
-            _isLeader = isLeader;
-            _daysStarving = 0;
-            _health = RepairStatus.Good;
-            _ration = RationLevel.Filling;
+            Profession = profession;
+            Name = name;
+            IsLeader = isLeader;
+            DaysStarving = 0;
+            Health = RepairStatus.Good;
+            Ration = RationLevel.Filling;
         }
 
-        public RationLevel Ration
-        {
-            get { return _ration; }
-        }
+        public RationLevel Ration { get; }
 
-        public RepairStatus Health
-        {
-            get { return _health; }
-        }
+        public RepairStatus Health { get; }
 
-        public uint DaysStarving
-        {
-            get { return _daysStarving; }
-        }
+        public uint DaysStarving { get; }
 
-        public Profession Profession
-        {
-            get { return _profession; }
-        }
+        public Profession Profession { get; }
 
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Name { get; }
 
-        public bool IsLeader
-        {
-            get { return _isLeader; }
-        }
+        public bool IsLeader { get; }
 
         public void Eat(RationLevel amount)
         {

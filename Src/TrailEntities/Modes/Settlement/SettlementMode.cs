@@ -5,27 +5,18 @@ namespace TrailEntities
 {
     public sealed class SettlementMode : GameMode<SettlementCommands>, ISettlementMode
     {
-        private readonly bool _canRest;
-        private readonly IStoreMode _storeMode;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
         public SettlementMode()
         {
-            _canRest = true;
-            _storeMode = new StoreMode();
+            CanRest = true;
+            StoreMode = new StoreMode();
         }
 
-        public bool CanRest
-        {
-            get { return _canRest; }
-        }
+        public bool CanRest { get; }
 
-        public IStoreMode StoreMode
-        {
-            get { return _storeMode; }
-        }
+        public IStoreMode StoreMode { get; }
 
         /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the

@@ -1,7 +1,7 @@
 ﻿namespace TrailEntities
 {
     /// <summary>
-    /// Ammunition used in hunting game mode so the players can acquire food by hunting animals.
+    ///     Ammunition used in hunting game mode so the players can acquire food by hunting animals.
     /// </summary>
     public sealed class BulletsItem : Item
     {

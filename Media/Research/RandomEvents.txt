@@ -1,5 +1,6 @@
 These are the various events that could happen to your party along the trail.
-During the course of the game, many random events may occur which may require a decision and impact the progress of your party, supplies or health. An incomplete list of these events include:
+During the course of the game, many random events may occur which may require a decision and impact the progress of your party, supplies or health.
+An incomplete list of these events include:
 
 Injury (Animal bite, Snakebite, Sprained Muscle, Sprained Shoulder, Concussion, etc.)
 Disease (Cholera, Mountain fever, Dysentery, Measles, Gangrene, etc.)

@@ -1,5 +1,4 @@
-﻿using System;
-using TrailCommon;
+﻿using TrailCommon;
 
 namespace TrailEntities
 {

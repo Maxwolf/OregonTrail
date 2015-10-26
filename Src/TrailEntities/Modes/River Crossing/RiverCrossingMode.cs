@@ -10,27 +10,18 @@ namespace TrailEntities
     /// </summary>
     public sealed class RiverCrossingMode : GameMode<RiverCrossingCommands>, IRiverCrossingMode
     {
-        private uint _depth;
-        private uint _ferryCost;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
         public RiverCrossingMode()
         {
-            _depth = (uint) GameSimulationApp.Instance.Random.Next(1, 20);
-            _ferryCost = (uint) GameSimulationApp.Instance.Random.Next(3, 8);
+            Depth = (uint) GameSimulationApp.Instance.Random.Next(1, 20);
+            FerryCost = (uint) GameSimulationApp.Instance.Random.Next(3, 8);
         }
 
-        public uint Depth
-        {
-            get { return _depth; }
-        }
+        public uint Depth { get; }
 
-        public uint FerryCost
-        {
-            get { return _ferryCost; }
-        }
+        public uint FerryCost { get; }
 
         public void CaulkVehicle()
         {
