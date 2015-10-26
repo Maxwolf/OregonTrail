@@ -33,9 +33,6 @@ namespace TrailEntities
 
             // Tell the user they need to make a decision.
             startMonthHelp.Append("When do you want to Start?  March, April, May, June, July, or August?\n");
-
-            // Wait for user input...
-            startMonthHelp.Append("Press RETURN key to enter the store.\n");
         }
 
         /// <summary>

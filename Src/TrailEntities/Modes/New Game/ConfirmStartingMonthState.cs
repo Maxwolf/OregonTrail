@@ -17,7 +17,7 @@ namespace TrailEntities
         public ConfirmStartingMonthState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
-            GameSimulationApp.Instance.StartGame(userData);
+            GameSimulationApp.Instance.SetData(userData);
 
             confirmStartMonth = new StringBuilder();
             confirmStartMonth.Append(
@@ -56,8 +56,8 @@ namespace TrailEntities
                     ParentMode.CurrentState = null;
                     break;
                 default:
-                    // User didn't like that profession so start this section over again.
-                    ParentMode.CurrentState = new SelectProfessionState(ParentMode, UserData);
+                    // User didn't like that starting month so start this section over again.
+                    ParentMode.CurrentState = new SelectStartingMonthState(ParentMode, UserData);
                     break;
             }
         }

@@ -264,7 +264,7 @@ namespace TrailEntities
         ///     path and all the points of interest on it.
         /// </summary>
         /// <param name="startingInfo">User data object that was passed around the new game mode and populated by user selections.</param>
-        public virtual void StartGame(NewGameInfo startingInfo)
+        public virtual void SetData(NewGameInfo startingInfo)
         {
             NewgameEvent?.Invoke();
         }

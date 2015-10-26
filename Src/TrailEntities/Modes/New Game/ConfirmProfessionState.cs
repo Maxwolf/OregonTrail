@@ -17,7 +17,7 @@ namespace TrailEntities
         public ConfirmProfessionState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
-            GameSimulationApp.Instance.StartGame(userData);
+            GameSimulationApp.Instance.SetData(userData);
 
             confirmProfession = new StringBuilder();
             confirmProfession.Append(

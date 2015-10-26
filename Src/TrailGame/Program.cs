@@ -58,8 +58,8 @@ namespace TrailGame
             // Make user press any key to close out the simulation completely, this way they know it closed without error.
             Console.Clear();
             Console.WriteLine("Goodbye!");
-            Console.WriteLine("Press ENTER key to close this window...");
-            Console.ReadLine();
+            Console.WriteLine("Press ANY KEY to close this window...");
+            Console.ReadKey();
         }
 
         /// <summary>

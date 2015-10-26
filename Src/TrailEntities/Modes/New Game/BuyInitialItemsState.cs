@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using TrailCommon;
 
 namespace TrailEntities
@@ -11,12 +10,19 @@ namespace TrailEntities
     public sealed class BuyInitialItemsState : ModeState<NewGameInfo>
     {
         /// <summary>
+        ///     Keeps track if we have shown the information about what items the player should consider important before attaching
+        ///     the actual store.
+        /// </summary>
+        private bool _hasAttachedStore;
+
+        /// <summary>
         ///     This constructor will be used by the other one.
         /// </summary>
         public BuyInitialItemsState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
-            GameSimulationApp.Instance.StartGame(userData);
+            GameSimulationApp.Instance.SetData(userData);
+            _hasAttachedStore = false;
         }
 
         /// <summary>
@@ -52,7 +58,7 @@ namespace TrailEntities
             storeHelp.Append("axles, and tongues are liable to break along the way. If you're unable to\n");
             storeHelp.Append("repair a broken wagon, you'll be in big trouble!'\n\n");
 
-            storeHelp.Append("Press RETURN key to enter the store.\n");
+            storeHelp.Append("Press ENTER KEY to enter the store.\n");
             return storeHelp.ToString();
         }
 
@@ -81,7 +87,12 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
+            // Make sure we never do this twice for the same instance.
+            if (_hasAttachedStore)
+                return;
+
             // Change the game mode to be a store which can work with this data.
+            _hasAttachedStore = true;
             GameSimulationApp.Instance.AddMode(ModeType.Store);
         }
     }

@@ -100,7 +100,7 @@ namespace TrailEntities
             RemoveModeNextTick();
 
             // Pass the new game info user data object to the simulation one final time.
-            GameSimulationApp.Instance.StartGame(NewGameInfo);
+            GameSimulationApp.Instance.SetData(NewGameInfo);
         }
 
         /// <summary>

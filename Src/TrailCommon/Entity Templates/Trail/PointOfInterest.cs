@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TrailCommon
+﻿namespace TrailCommon
 {
     public abstract class PointOfInterest
     {

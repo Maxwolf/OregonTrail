@@ -51,6 +51,7 @@
     <Compile Include="Modes\Settlement\ISettlementMode.cs" />
     <Compile Include="Modes\Settlement\SettlementCommands.cs" />
     <Compile Include="Modes\Store\StoreCommands.cs" />
+    <Compile Include="Modes\Store\StoreReceiptInfo.cs" />
     <Compile Include="Modes\Trading\TradingCommands.cs" />
     <Compile Include="Modes\Traveling\TravelCommands.cs" />
     <Compile Include="Simulations\Game\ITick.cs" />

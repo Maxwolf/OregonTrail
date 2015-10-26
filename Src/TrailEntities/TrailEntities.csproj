@@ -64,6 +64,11 @@
     <Compile Include="Modes\New Game\ConfirmGroupNamesState.cs" />
     <Compile Include="Modes\New Game\SelectStartingMonthState.cs" />
     <Compile Include="Modes\Settlement\SettlementMode.cs" />
+    <Compile Include="Modes\Store\BuyAmmunitionState.cs" />
+    <Compile Include="Modes\Store\BuyClothingState.cs" />
+    <Compile Include="Modes\Store\BuyFoodState.cs" />
+    <Compile Include="Modes\Store\BuyOxenState.cs" />
+    <Compile Include="Modes\Store\BuySparePartsState.cs" />
     <Compile Include="Modes\Traveling\TravelingMode.cs" />
     <Compile Include="Points Of Interest\RiverPoint.cs" />
     <Compile Include="GameSimulationApp.cs" />

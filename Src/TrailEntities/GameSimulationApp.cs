@@ -57,9 +57,9 @@ namespace TrailEntities
         ///     path and all the points of interest on it.
         /// </summary>
         /// <param name="startingInfo">User data object that was passed around the new game mode and populated by user selections.</param>
-        public override void StartGame(NewGameInfo startingInfo)
+        public override void SetData(NewGameInfo startingInfo)
         {
-            base.StartGame(startingInfo);
+            base.SetData(startingInfo);
 
             // Complain if there is no players to add to the vehicle.
             if (startingInfo.PlayerNames.Count <= 0)
@@ -132,7 +132,7 @@ namespace TrailEntities
         {
             if (Instance != null)
                 throw new InvalidOperationException(
-                    "Unable to create new instance of game simulation app since it already exists!");
+                    "Unable to create new instance of game simulation since it already exists!");
 
             Instance = new GameSimulationApp();
         }
