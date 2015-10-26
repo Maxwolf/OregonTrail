@@ -100,7 +100,13 @@ namespace TrailEntities
             // Footer text for below menu.
             var footerText = new StringBuilder();
             footerText.Append("\n--------------------------------\n");
-            footerText.Append($"Total bill:              {StoreReceiptInfo.GetTransactionTotalCost().ToString("C2")}");
+            
+            // If at first location we show the total cost of the bill so far the player has racked up.
+            footerText.Append(
+                GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0
+                    ? $"Total bill:              {StoreReceiptInfo.GetTransactionTotalCost().ToString("C2")}"
+                    : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
+
             MenuFooter = footerText.ToString();
 
             // If we are on the first part of the trail then we can show advice about store purchasing decisions.
