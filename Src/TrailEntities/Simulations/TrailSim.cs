@@ -25,9 +25,6 @@ namespace TrailEntities
             PointsOfInterest = new ReadOnlyCollection<PointOfInterest>(trail);
             VehicleLocation = -1;
             _distanceToNextPoint = 0;
-
-            // Forcefully trigger the arrival on the first spot on the trail.
-            ReachedPointOfInterest();
         }
 
         /// <summary>

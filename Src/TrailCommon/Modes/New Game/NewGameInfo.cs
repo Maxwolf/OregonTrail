@@ -6,7 +6,7 @@ namespace TrailCommon
     ///     Holds all of the information required to kick-start a running game simulation onto a trail path with people,
     ///     professions, vehicle, starting items, and all stats related to luck and repair skill.
     /// </summary>
-    public sealed class NewGameInfo
+    public sealed class NewGameInfo : ModeInfo
     {
         private List<string> _playerNames;
         private Profession _playerProfession;
@@ -114,6 +114,11 @@ namespace TrailCommon
         ///     Determines if the initial new game info object has been altered from the defaults in any way by calling sets on
         ///     other properties.
         /// </summary>
-        public bool Modified { get; private set; }
+        private bool Modified { get; set; }
+
+        protected override string Name
+        {
+            get { return "New Game Information"; }
+        }
     }
 }

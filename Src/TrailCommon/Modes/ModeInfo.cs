@@ -1,34 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using TrailCommon;
 
-namespace TrailEntities
+namespace TrailCommon
 {
-    /// <summary>
-    ///     Requires type parameter that is a reference type with a constructor.
-    /// </summary>
-    public abstract class ModeState<T> : Comparer<ModeState<T>>, IComparable<ModeState<T>>, IEquatable<ModeState<T>>,
-        IEqualityComparer<ModeState<T>>, IModeState where T : ModeInfo, new()
+    public abstract class ModeInfo : Comparer<ModeInfo>, IComparable<ModeInfo>, IEquatable<ModeInfo>,
+        IEqualityComparer<ModeInfo>
     {
+        private readonly string _name;
+
         /// <summary>
-        ///     This constructor will be used by the other one
+        ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
-        protected ModeState(IMode gameMode, T userData)
+        protected ModeInfo()
         {
-            ParentMode = gameMode;
-            UserData = userData;
+            _name = "UNKNOWN MODE INFO!";
         }
 
-        /// <summary>
-        ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
-        ///     data for parent game mode.
-        /// </summary>
-        protected T UserData { get; }
-
-        /// <summary>
-        ///     Current parent game mode which this state is binded to and is doing work on behalf of.
-        /// </summary>
-        protected IMode ParentMode { get; }
+        protected abstract string Name { get; }
 
         /// <summary>
         ///     Compares the current object with another object of the same type.
@@ -40,7 +28,7 @@ namespace TrailEntities
         ///     <paramref name="other" />.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public int CompareTo(ModeState<T> other)
+        public int CompareTo(ModeInfo other)
         {
             return Compare(this, other);
         }
@@ -53,7 +41,7 @@ namespace TrailEntities
         /// </returns>
         /// <param name="x">The first object of type <paramref name="T" /> to compare.</param>
         /// <param name="y">The second object of type <paramref name="T" /> to compare.</param>
-        public bool Equals(ModeState<T> x, ModeState<T> y)
+        public bool Equals(ModeInfo x, ModeInfo y)
         {
             return x.Equals(y);
         }
@@ -69,7 +57,7 @@ namespace TrailEntities
         ///     The type of <paramref name="obj" /> is a reference type and
         ///     <paramref name="obj" /> is null.
         /// </exception>
-        public int GetHashCode(ModeState<T> obj)
+        public int GetHashCode(ModeInfo obj)
         {
             return obj.GetHashCode();
         }
@@ -81,7 +69,7 @@ namespace TrailEntities
         ///     true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ModeState<T> other)
+        public bool Equals(ModeInfo other)
         {
             // Reference equality check
             if (this == other)
@@ -99,8 +87,7 @@ namespace TrailEntities
                 return false;
             }
 
-            if (UserData.Equals(other.UserData) &&
-                ParentMode.Equals(other.ParentMode))
+            if (string.Equals(Name, other.Name, StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
@@ -109,52 +96,16 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public virtual bool AcceptsInput
-        {
-            get { return !ParentMode.ShouldRemoveMode; }
-        }
-
-        /// <summary>
-        ///     Forces the current game mode state to update itself, this typically results in moving to the next state.
-        /// </summary>
-        public virtual void TickState()
-        {
-            // Nothing to see here, move along...
-        }
-
-        /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
-        /// </summary>
-        public abstract string GetStateTUI();
-
-        /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
-        /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public abstract void OnInputBufferReturned(string input);
-
-        /// <summary>
-        ///     Fired when the active game mode has been changed in parent game mode, this is intended for game mode states only so
-        ///     they can be aware of these changes and act on them if needed.
-        /// </summary>
-        public virtual void OnParentModeChanged()
-        {
-            // Nothing to see here, move along...
-        }
-
-        /// <summary>
-        ///     Returns a string that represents the current object.
+        ///     Serves as a hash function for a particular type.
         /// </summary>
         /// <returns>
-        ///     A string that represents the current object.
+        ///     A hash code for the current <see cref="T:System.Object" />.
         /// </returns>
-        public override string ToString()
+        public override int GetHashCode()
         {
-            return GetType().Name;
+            var hash = 23;
+            hash = (hash*31) + Name.GetHashCode();
+            return hash;
         }
 
         /// <summary>
@@ -173,26 +124,12 @@ namespace TrailEntities
         ///     Type <paramref name="T" /> does not implement either the
         ///     <see cref="T:System.IComparable`1" /> generic interface or the <see cref="T:System.IComparable" /> interface.
         /// </exception>
-        public override int Compare(ModeState<T> x, ModeState<T> y)
+        public override int Compare(ModeInfo x, ModeInfo y)
         {
-            var result = x.UserData.CompareTo(y.UserData);
+            var result = string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
             if (result != 0) return result;
 
             return result;
-        }
-
-        /// <summary>
-        ///     Serves as a hash function for a particular type.
-        /// </summary>
-        /// <returns>
-        ///     A hash code for the current <see cref="T:System.Object" />.
-        /// </returns>
-        public override int GetHashCode()
-        {
-            var hash = 23;
-            hash = (hash*31) + UserData.GetHashCode();
-            hash = (hash*31) + ParentMode.GetHashCode();
-            return hash;
         }
     }
 }

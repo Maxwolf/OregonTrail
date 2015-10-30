@@ -197,6 +197,9 @@ namespace TrailEntities
             // Attach traveling mode since that is the default and bottom most game mode.
             AddMode(ModeType.Travel);
 
+            // Forcefully trigger the arrival on the first spot on the trail.
+            TrailSim.ReachedPointOfInterest();
+
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
             AddMode(ModeType.NewGame);
         }

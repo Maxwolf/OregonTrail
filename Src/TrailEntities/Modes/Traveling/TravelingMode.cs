@@ -14,7 +14,15 @@ namespace TrailEntities
         /// </summary>
         public TravelingMode() : base(false)
         {
+            // Determine if there is a store, people to get advice from, and a place to rest.
+            CanTalkToPeople = false;
+            HasStore = false;
             CanRest = true;
+
+            // Hook event to know when we have reached a location point of interest.
+            
+
+            //AddCommand();
         }
 
         public override ModeType ModeType
@@ -22,12 +30,21 @@ namespace TrailEntities
             get { return ModeType.Travel; }
         }
 
-        public void GoToStore()
+        public void TalkToPeople()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BuySupplies()
         {
             GameSimulationApp.Instance.AddMode(ModeType.Store);
         }
 
         public bool CanRest { get; }
+
+        public bool CanTalkToPeople { get; }
+
+        public bool HasStore { get; }
 
         public void ContinueOnTrail()
         {
@@ -60,16 +77,6 @@ namespace TrailEntities
         }
 
         public void AttemptToTrade()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void TalkToPeople()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void BuySupplies()
         {
             throw new NotImplementedException();
         }

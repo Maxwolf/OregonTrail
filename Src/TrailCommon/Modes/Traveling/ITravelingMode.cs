@@ -3,7 +3,8 @@
     public interface ITravelingMode : IMode
     {
         bool CanRest { get; }
-        void GoToStore();
+        bool CanTalkToPeople { get; }
+        bool HasStore { get; }
         void ContinueOnTrail();
         void CheckSupplies();
         void LookAtMap();
@@ -11,8 +12,8 @@
         void ChangeFoodRations();
         void StopToRest();
         void AttemptToTrade();
-        void TalkToPeople();
-        void BuySupplies();
         void Hunt();
+        void BuySupplies();
+        void TalkToPeople();
     }
 }

@@ -207,9 +207,15 @@ namespace TrailEntities
         {
             // Create new mode, check if it is in mode list.
             var changeMode = OnModeChanging(modeType);
-            if (_modes.Contains(changeMode))
-                return;
 
+            // Check if any other modes match the one we are adding.
+            foreach (var mode in _modes)
+            {
+                if (mode.ModeType == changeMode.ModeType)
+                    return;
+            }
+
+            // Add the game mode to the simulation now that we know it does not exist in the stack yet.
             _modes.Add(changeMode);
             ModeChangedEvent?.Invoke(changeMode.ModeType);
         }
