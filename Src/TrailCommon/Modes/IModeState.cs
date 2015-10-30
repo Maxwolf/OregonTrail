@@ -7,21 +7,10 @@
     public interface IModeState
     {
         /// <summary>
-        ///     Current parent game mode which this state is binded to and is doing work on behalf of.
-        /// </summary>
-        IMode ParentMode { get; set; }
-
-        /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
         bool AcceptsInput { get; }
-
-        /// <summary>
-        ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
-        ///     data for parent game mode.
-        /// </summary>
-        object GetUserData();
 
         /// <summary>
         ///     Forces the current game mode state to update itself, this typically results in moving to the next state.
@@ -44,7 +33,6 @@
         ///     Fired when the active game mode has been changed in parent game mode, this is intended for game mode states only so
         ///     they can be aware of these changes and act on them if needed.
         /// </summary>
-        /// <param name="modeType">Current mode which the simulation is changing to.</param>
-        void OnParentModeChanged(ModeType modeType);
+        void OnParentModeChanged();
     }
 }

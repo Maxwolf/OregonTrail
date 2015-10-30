@@ -229,7 +229,7 @@ namespace TrailEntities
         public virtual void OnModeChanged(ModeType modeType)
         {
             // Pass info along if current state exists.
-            CurrentState?.OnParentModeChanged(modeType);
+            CurrentState?.OnParentModeChanged();
         }
 
         /// <summary>

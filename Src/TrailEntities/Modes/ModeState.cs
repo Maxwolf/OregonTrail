@@ -1,5 +1,4 @@
-﻿using System;
-using TrailCommon;
+﻿using TrailCommon;
 
 namespace TrailEntities
 {
@@ -8,13 +7,6 @@ namespace TrailEntities
     /// </summary>
     public abstract class ModeState<T> : IModeState where T : class, new()
     {
-        /// <summary>
-        ///     This constructor will create new state taking values from old state
-        /// </summary>
-        internal ModeState(ModeState<T> state) : this(state.ParentMode, state.UserData)
-        {
-        }
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
@@ -28,7 +20,7 @@ namespace TrailEntities
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
         ///     data for parent game mode.
         /// </summary>
-        public T UserData { get; set; }
+        protected T UserData { get; }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
@@ -40,18 +32,9 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
-        ///     data for parent game mode.
-        /// </summary>
-        object IModeState.GetUserData()
-        {
-            return GetUserData();
-        }
-
-        /// <summary>
         ///     Current parent game mode which this state is binded to and is doing work on behalf of.
         /// </summary>
-        public IMode ParentMode { get; set; }
+        protected IMode ParentMode { get; }
 
         /// <summary>
         ///     Forces the current game mode state to update itself, this typically results in moving to the next state.
@@ -77,8 +60,7 @@ namespace TrailEntities
         ///     Fired when the active game mode has been changed in parent game mode, this is intended for game mode states only so
         ///     they can be aware of these changes and act on them if needed.
         /// </summary>
-        /// <param name="modeType">Current mode which the simulation is changing to.</param>
-        public virtual void OnParentModeChanged(ModeType modeType)
+        public virtual void OnParentModeChanged()
         {
             // Nothing to see here, move along...
         }
@@ -92,25 +74,6 @@ namespace TrailEntities
         public override string ToString()
         {
             return GetType().Name;
-        }
-
-        /// <summary>
-        ///     Actually processes the user data generics request and creates a new class to carry the information over to the next
-        ///     game mode state.
-        /// </summary>
-        /// <returns></returns>
-        private static T GetUserData()
-        {
-            if (!typeof (T).IsClass)
-            {
-                throw new InvalidCastException("T must be a class type!");
-            }
-
-            // TODO: Replace with JSON.net serialization/deserialization setup that works off new game info object.
-            var primary = typeof (T);
-            //var ofType = primary.GetGenericArguments();
-            //var typeDef = primary.GetGenericTypeDefinition();
-            return (T) Activator.CreateInstance(primary);
         }
     }
 }
