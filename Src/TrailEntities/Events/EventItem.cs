@@ -28,13 +28,13 @@ namespace TrailEntities
         protected EventItem(EventTarget eventTarget, EventEnum eventEnum)
         {
             // Complain the generics implemented are not of an enum type.
-            if (!typeof(EventEnum).IsEnum)
+            if (!typeof (EventEnum).IsEnum)
             {
                 throw new InvalidCastException("EventEnum generic type must be of enumeration type!");
             }
 
             // Complain if the event target is not based on a class.
-            if (!typeof(EventTarget).IsClass)
+            if (!typeof (EventTarget).IsClass)
             {
                 throw new InvalidCastException("EventTarget generic type must be of class type!");
             }
@@ -54,14 +54,6 @@ namespace TrailEntities
         {
             OnEventExecute(_eventTarget, _eventEnum);
         }
-
-        /// <summary>
-        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
-        ///     left completely up to handler.
-        /// </summary>
-        /// <param name="eventTarget">Entity which will be affected by this method.</param>
-        /// <param name="eventEnum">Enumeration that helps this method determine what should be done.</param>
-        protected abstract void OnEventExecute(EventTarget eventTarget, EventEnum eventEnum);
 
         /// <summary>
         ///     Time stamp from the simulation on when this event occurred in the time line of events that make up the players
@@ -88,5 +80,13 @@ namespace TrailEntities
 
             set { _eventEnum = (EventEnum) value; }
         }
+
+        /// <summary>
+        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
+        ///     left completely up to handler.
+        /// </summary>
+        /// <param name="eventTarget">Entity which will be affected by this method.</param>
+        /// <param name="eventEnum">Enumeration that helps this method determine what should be done.</param>
+        protected abstract void OnEventExecute(EventTarget eventTarget, EventEnum eventEnum);
     }
 }

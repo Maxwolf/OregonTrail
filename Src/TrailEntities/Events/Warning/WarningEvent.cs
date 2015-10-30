@@ -1,20 +1,44 @@
 ﻿namespace TrailEntities
 {
     /// <summary>
-    ///     Information that should be told to the player, does not mean the simulation should stop but more that alarms should
-    ///     be going off to inform the player of critical situations before they get worse.
+    ///     Defines all of the types of warnings the players would want to know about before they get worse.
     /// </summary>
-    public sealed class WarningEvent : EventItem<Vehicle, Warning>
+    public enum WarningEvent
     {
         /// <summary>
-        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
-        ///     left completely up to handler.
+        ///     Risk of cholera and other diseases increases.
         /// </summary>
-        /// <param name="eventTarget">Entity which will be affected by this method.</param>
-        /// <param name="eventEnum">Enumeration that helps this method determine what should be done.</param>
-        protected override void OnEventExecute(Vehicle eventTarget, Warning eventEnum)
-        {
-            throw new System.NotImplementedException();
-        }
+        BadWater = 1,
+
+        /// <summary>
+        ///     Food items are running low, player needs to find, trade , hunt, or buy some more.
+        /// </summary>
+        LowFood = 2,
+
+        /// <summary>
+        ///     Food items are empty and gone, starvation will occur every day there is no food to eat.
+        /// </summary>
+        NoFood = 3,
+
+        /// <summary>
+        ///     The climate you are traveling through has very low water amount.
+        /// </summary>
+        LowWater = 4,
+
+        /// <summary>
+        ///     Oxen that pull the vehicle will not have as much grass available to graze one and eat.
+        /// </summary>
+        LowGrass = 5,
+
+        /// <summary>
+        ///     Occurs when there is no food items for the people in the vehicle to eat. Will eventually kill the party members if
+        ///     ticked enough in this state.
+        /// </summary>
+        Starvation = 6,
+
+        /// <summary>
+        ///     There is no water in the party to drink.
+        /// </summary>
+        NoWater = 7
     }
 }

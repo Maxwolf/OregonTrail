@@ -22,5 +22,10 @@
         ///     progress on the trail and game in total.
         /// </summary>
         Date Timestamp { get; set; }
+
+        /// <summary>
+        ///     Each event result has the ability to execute method.
+        /// </summary>
+        void Execute();
     }
 }

@@ -18,6 +18,19 @@ namespace TrailEntities
             Ration = RationLevel.Filling;
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Person" /> class.
+        /// </summary>
+        public Person()
+        {
+            Profession = Profession.Banker;
+            Name = "UNKNOWN PERSON";
+            IsLeader = false;
+            DaysStarving = 0;
+            Health = RepairStatus.Good;
+            Ration = RationLevel.Filling;
+        }
+
         public RationLevel Ration { get; }
 
         public RepairStatus Health { get; }

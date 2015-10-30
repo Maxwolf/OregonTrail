@@ -7,18 +7,18 @@ LowGrass,
 Starvation,
 NoWater
 
-----------[CLIMATE]----------
-Rough trail.
-Wildfire
-Severe Weather
-Quicksand Ahead
-Obstructed Path
-Dust From other wagons
-River Crossing
-Hill/Mountain Climbing
-Desert
-Wrong trail. Lose 5 days.
-Heavy fog. Lose 1 day.
+----------[WEATHER]----------
+RoughTrail,
+Wildfire,
+SevereWeather,
+QuicksandAhead,
+ObstructedPath,
+WagonDust,
+RiverCrossing,
+MountainClimbing,
+Desert,
+WrongTrail,
+HeavyFog
 
 ----------[WILD]----------
 Strangers Approach
