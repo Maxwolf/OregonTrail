@@ -6,66 +6,62 @@ namespace TrailEntities
     /// <summary>
     ///     Represents an event that can occur to player, vehicle, or triggered by simulations such as climate and time.
     /// </summary>
-    public abstract class EventItem<EventTarget, EventEnum, Response> : IEventItem
+    public abstract class EventItem<EventTarget, EventEnum> : IEventItem
         where EventTarget : class, IEntity, new()
         where EventEnum : struct, IComparable, IFormattable, IConvertible
-        where Response : EventResponse<EventTarget, EventEnum>, new()
     {
         /// <summary>
         ///     Describes what the event implementation does.
         /// </summary>
-        private EventEnum _actionVerb;
-
-        /// <summary>
-        ///     Defines the action taken when the event is triggered.
-        /// </summary>
-        private Response _responseNoun;
+        private EventEnum _eventEnum;
 
         /// <summary>
         ///     Defines the target the implemented event affects.
         /// </summary>
-        private EventTarget _targetThing;
+        private EventTarget _eventTarget;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.EventItem" /> class.
+        ///     Create a new event item that can be passed to the simulation director.
         /// </summary>
-        protected EventItem()
+        /// <param name="eventTarget">Simulation compatible entity which will be affected.</param>
+        /// <param name="eventEnum">Enumeration that will be passed to result along with target for event execution.</param>
+        protected EventItem(EventTarget eventTarget, EventEnum eventEnum)
         {
             // Complain the generics implemented are not of an enum type.
-            if (!typeof (EventEnum).IsEnum)
+            if (!typeof(EventEnum).IsEnum)
             {
                 throw new InvalidCastException("EventEnum generic type must be of enumeration type!");
             }
 
             // Complain if the event target is not based on a class.
-            if (!typeof (EventTarget).IsClass)
+            if (!typeof(EventTarget).IsClass)
             {
                 throw new InvalidCastException("EventTarget generic type must be of class type!");
             }
 
-            // Complain if generic noun is not a new class instance with empty constructor.
-            if (!typeof (Response).IsClass)
-            {
-                throw new InvalidCastException("EventResponse generic type must be of class type!");
-            }
-        }
-
-        /// <summary>
-        ///     Create a new event item that can be passed to the simulation director.
-        /// </summary>
-        /// <param name="targetThing">Simulation compatible entity which will be affected.</param>
-        /// <param name="eventEnum">Enumeration that will be passed to result along with target for event execution.</param>
-        /// <param name="responseNoun">Class that can affect the target game entity based on event verb selection.</param>
-        protected EventItem(EventTarget targetThing, EventEnum eventEnum, Response responseNoun)
-        {
             // Set data about event.
-            _targetThing = targetThing;
-            _actionVerb = eventEnum;
-            _responseNoun = responseNoun;
+            _eventTarget = eventTarget;
+            _eventEnum = eventEnum;
 
             // Set timestamp for when the event occurred.
             Timestamp = GameSimulationApp.Instance.Time.Date;
         }
+
+        /// <summary>
+        ///     Each event result has the ability to execute method.
+        /// </summary>
+        public void Execute()
+        {
+            OnEventExecute(_eventTarget, _eventEnum);
+        }
+
+        /// <summary>
+        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
+        ///     left completely up to handler.
+        /// </summary>
+        /// <param name="eventTarget">Entity which will be affected by this method.</param>
+        /// <param name="eventEnum">Enumeration that helps this method determine what should be done.</param>
+        protected abstract void OnEventExecute(EventTarget eventTarget, EventEnum eventEnum);
 
         /// <summary>
         ///     Time stamp from the simulation on when this event occurred in the time line of events that make up the players
@@ -78,9 +74,9 @@ namespace TrailEntities
         /// </summary>
         object IEventItem.TargetThing
         {
-            get { return _targetThing; }
+            get { return _eventTarget; }
 
-            set { _targetThing = value as EventTarget; }
+            set { _eventTarget = value as EventTarget; }
         }
 
         /// <summary>
@@ -88,19 +84,9 @@ namespace TrailEntities
         /// </summary>
         object IEventItem.ActionVerb
         {
-            get { return _actionVerb; }
+            get { return _eventEnum; }
 
-            set { _actionVerb = (EventEnum) value; }
-        }
-
-        /// <summary>
-        ///     Defines a result that will occur when the event runs, this typically is a result on party, vehicle such as altering
-        ///     health, removing items, inflicting diseases, etc.
-        /// </summary>
-        IEventResponse IEventItem.EventResponse
-        {
-            get { return _responseNoun; }
-            set { _responseNoun = value as Response; }
+            set { _eventEnum = (EventEnum) value; }
         }
     }
 }

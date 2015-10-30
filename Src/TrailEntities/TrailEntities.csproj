@@ -48,7 +48,6 @@
     <Compile Include="Events\EventItem.cs" />
     <Compile Include="Events\Warning\WarningEvent.cs" />
     <Compile Include="Events\Warning\Warning.cs" />
-    <Compile Include="Events\Warning\WarningResponse.cs" />
     <Compile Include="Modes\Fork In Road\ForkInRoadMode.cs" />
     <Compile Include="Modes\GameMode.cs" />
     <Compile Include="Modes\ModeState.cs" />

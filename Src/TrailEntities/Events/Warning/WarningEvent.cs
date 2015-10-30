@@ -4,17 +4,17 @@
     ///     Information that should be told to the player, does not mean the simulation should stop but more that alarms should
     ///     be going off to inform the player of critical situations before they get worse.
     /// </summary>
-    public sealed class WarningEvent : EventItem<Vehicle, Warning, WarningResponse>
+    public sealed class WarningEvent : EventItem<Vehicle, Warning>
     {
         /// <summary>
-        ///     Create a new event item that can be passed to the simulation director.
+        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
+        ///     left completely up to handler.
         /// </summary>
-        /// <param name="targetThing">Simulation compatible entity which will be affected.</param>
-        /// <param name="eventEnum">Enumeration that will be passed to result along with target for event execution.</param>
-        /// <param name="responseNoun">Class that can affect the target game entity based on event verb selection.</param>
-        public WarningEvent(Vehicle targetThing, Warning eventEnum, WarningResponse responseNoun)
-            : base(targetThing, eventEnum, responseNoun)
+        /// <param name="eventTarget">Entity which will be affected by this method.</param>
+        /// <param name="eventEnum">Enumeration that helps this method determine what should be done.</param>
+        protected override void OnEventExecute(Vehicle eventTarget, Warning eventEnum)
         {
+            throw new System.NotImplementedException();
         }
     }
 }
