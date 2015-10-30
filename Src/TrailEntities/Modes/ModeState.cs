@@ -23,6 +23,11 @@ namespace TrailEntities
         protected T UserData { get; }
 
         /// <summary>
+        ///     Current parent game mode which this state is binded to and is doing work on behalf of.
+        /// </summary>
+        protected IMode ParentMode { get; }
+
+        /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
@@ -30,11 +35,6 @@ namespace TrailEntities
         {
             get { return !ParentMode.ShouldRemoveMode; }
         }
-
-        /// <summary>
-        ///     Current parent game mode which this state is binded to and is doing work on behalf of.
-        /// </summary>
-        protected IMode ParentMode { get; }
 
         /// <summary>
         ///     Forces the current game mode state to update itself, this typically results in moving to the next state.

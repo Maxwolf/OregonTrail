@@ -1,6 +1,4 @@
-﻿using TrailCommon;
-
-namespace TrailEntities
+﻿namespace TrailEntities
 {
     /// <summary>
     ///     Information that should be told to the player, does not mean the simulation should stop but more that alarms should

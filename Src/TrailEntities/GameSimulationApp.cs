@@ -15,6 +15,12 @@ namespace TrailEntities
         private ClimateSim _climate;
 
         /// <summary>
+        ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
+        ///     game modes, people, and vehicles.
+        /// </summary>
+        private EventSim _director;
+
+        /// <summary>
         ///     Manages time in a linear since from the provided ticks in base simulation class. Handles days, months, and years.
         /// </summary>
         private TimeSim _time;
@@ -24,12 +30,6 @@ namespace TrailEntities
         ///     other than walking.
         /// </summary>
         private Vehicle _vehicle;
-
-        /// <summary>
-        ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
-        ///     game modes, people, and vehicles.
-        /// </summary>
-        private EventSim _director;
 
         public TrailSim TrailSim { get; private set; }
 

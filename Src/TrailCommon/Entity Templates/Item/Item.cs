@@ -20,11 +20,6 @@
         public float Cost { get; }
 
         /// <summary>
-        ///     Display name of the item as it should be known to players.
-        /// </summary>
-        public abstract string Name { get; }
-
-        /// <summary>
         ///     Single unit of the items name, for example is there is an Oxen item each one of those items is referred to as an
         ///     'ox'.
         /// </summary>
@@ -52,6 +47,11 @@
         ///     Limit on the number of items that are possible to have of this particular type.
         /// </summary>
         public abstract uint CarryLimit { get; }
+
+        /// <summary>
+        ///     Display name of the item as it should be known to players.
+        /// </summary>
+        public abstract string Name { get; }
 
         /// <summary>
         ///     Shows off a representation of the item as cost per delineating unit of the particular item.

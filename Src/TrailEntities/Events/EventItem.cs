@@ -7,44 +7,44 @@ namespace TrailEntities
     ///     Represents an event that can occur to player, vehicle, or triggered by simulations such as climate and time.
     /// </summary>
     public abstract class EventItem<EventTarget, EventEnum, Response> : IEventItem
-        where EventTarget : class, IEntity, new() 
+        where EventTarget : class, IEntity, new()
         where EventEnum : struct, IComparable, IFormattable, IConvertible
         where Response : EventResponse<EventTarget, EventEnum>, new()
     {
         /// <summary>
-        /// Describes what the event implementation does.
+        ///     Describes what the event implementation does.
         /// </summary>
         private EventEnum _actionVerb;
 
         /// <summary>
-        /// Defines the target the implemented event affects.
-        /// </summary>
-        private EventTarget _targetThing;
-
-        /// <summary>
-        /// Defines the action taken when the event is triggered.
+        ///     Defines the action taken when the event is triggered.
         /// </summary>
         private Response _responseNoun;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:TrailEntities.EventItem"/> class.
+        ///     Defines the target the implemented event affects.
+        /// </summary>
+        private EventTarget _targetThing;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.EventItem" /> class.
         /// </summary>
         protected EventItem()
         {
             // Complain the generics implemented are not of an enum type.
-            if (!typeof(EventEnum).IsEnum)
+            if (!typeof (EventEnum).IsEnum)
             {
                 throw new InvalidCastException("EventEnum generic type must be of enumeration type!");
             }
 
             // Complain if the event target is not based on a class.
-            if (!typeof(EventTarget).IsClass)
+            if (!typeof (EventTarget).IsClass)
             {
                 throw new InvalidCastException("EventTarget generic type must be of class type!");
             }
 
             // Complain if generic noun is not a new class instance with empty constructor.
-            if (!typeof(Response).IsClass)
+            if (!typeof (Response).IsClass)
             {
                 throw new InvalidCastException("EventResponse generic type must be of class type!");
             }

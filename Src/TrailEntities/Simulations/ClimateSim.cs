@@ -196,12 +196,12 @@ namespace TrailEntities
                         case 4:
                             CurrentWeather = WeatherCondition.ChanceOfTStorm;
                             NextWeatherChance = 0.30d;
-                            DisasterChance = (float)GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                             break;
                         case 5:
                             CurrentWeather = WeatherCondition.ChanceOfRain;
                             NextWeatherChance = 0.33d;
-                            DisasterChance = (float)GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                             break;
                     }
                 }
@@ -229,12 +229,12 @@ namespace TrailEntities
                         case 4:
                             CurrentWeather = WeatherCondition.ChanceOfTStorm;
                             NextWeatherChance = 0.60d;
-                            DisasterChance = (float)GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                             break;
                         case 5:
                             CurrentWeather = WeatherCondition.ChanceOfRain;
                             NextWeatherChance = 0.56d;
-                            DisasterChance = (float)GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                             break;
                     }
                 }
@@ -250,12 +250,12 @@ namespace TrailEntities
                         case 0:
                             CurrentWeather = WeatherCondition.ScatteredThunderstroms;
                             NextWeatherChance = 0.90d;
-                            DisasterChance = (float)GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                             break;
                         case 1:
                             CurrentWeather = WeatherCondition.ScatteredShowers;
                             NextWeatherChance = 0.85d;
-                            DisasterChance = (float)GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                             break;
                         case 2:
                             CurrentWeather = WeatherCondition.MostlySunny;
@@ -264,7 +264,7 @@ namespace TrailEntities
                         case 3:
                             CurrentWeather = WeatherCondition.Thunderstorm;
                             NextWeatherChance = 0.90d;
-                            DisasterChance = (float)GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                             break;
                         case 4:
                             CurrentWeather = WeatherCondition.Haze;
@@ -316,7 +316,7 @@ namespace TrailEntities
                         case 5:
                             CurrentWeather = WeatherCondition.Storm;
                             NextWeatherChance = 0.85d;
-                            DisasterChance = (float)GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                             break;
                     }
                 }
@@ -355,12 +355,12 @@ namespace TrailEntities
                             case 4:
                                 CurrentWeather = WeatherCondition.ChanceOfTStorm;
                                 NextWeatherChance = 0.45d;
-                                DisasterChance = (float)GameSimulationApp.Instance.Random.NextDouble();
+                                DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                                 break;
                             case 5:
                                 CurrentWeather = WeatherCondition.ChanceOfRain;
                                 NextWeatherChance = 0.55d;
-                                DisasterChance = (float)GameSimulationApp.Instance.Random.NextDouble();
+                                DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                                 break;
                         }
                     }
