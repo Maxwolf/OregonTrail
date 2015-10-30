@@ -21,52 +21,48 @@ WrongTrail,
 HeavyFog
 
 ----------[WILD]----------
-Strangers Approach
-Find abandoned wagon with supplies.
-A thief stole [x amount of item].
-Meadow (to gather hay)
-Gravesite
-Lost [number] pounds of food due to spoilage.
-You find some wild berries.
-Find wild fruit.
+StrangersApproach,
+AbandonedVehicle,
+Thief,
+Meadow,
+Gravesite,
+FoodSpoilage,
+FindBerries,
+FindFruit
 
 ----------[ANIMAL]----------
-Snakebite
-Locusts
-Mosquitos
-Buffalo Stampede
-An ox wandered off.
-An ox is sick.
-An ox died.
+Snakebite,
+Locusts,
+Mosquitos,
+BuffaloStampede,
+OxWanderedOff,
+OxIsSick,
+OxDied
 
 ----------[MEDICAL]----------
-Sprained Muscle
-Sprained Shoulder
-typhoid fever
-Concussion
-X has a broken arm.
-Death of Companion
-[player] is suffering from exhaustion.
-[player] has taken a turn for the worse.
-Death of Player
-Cholera
-Mountain fever
-Dysentery
-Measles
-Gangrene
-[player] is well again.
+SprainedMuscle,
+SprainedShoulder,
+TyphoidFever,
+Concussion,
+BrokenArm,
+DeathCompanion,
+DeathPlayer,
+SufferingExhaustion,
+TurnForWorse,
+Cholera,
+MountainFever,
+Dysentery,
+Measles,
+Gangrene,
+WellAgain,
 Fever
 
 ----------[ACCIDENT]----------
-The trail is impassable.
-You took the wrong trail.
-You've lost the trail.
-A fire in your wagon destroyed [x amount of items].
-You took the wrong trail.
-Broken wagon tongue
-Tipped Wagon
-Swamped Wagon
-Wagon stuck in mud
-You had a wagon tongue break.
-You had a wagon tongue break.
-You had a wagon axle break.
+ImpassableTrail,
+WrongTrail,
+LostTrail,
+VehicleFire,
+BrokenVehiclePart,
+TippedVehicle,
+SwampedVehicle,
+VehicleStuckInMud

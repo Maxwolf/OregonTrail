@@ -21,7 +21,27 @@ namespace TrailEntities
         /// <param name="eventEnum">Enumeration that helps this method determine what should be done.</param>
         protected override void OnEventExecute(Vehicle eventTarget, WildEvent eventEnum)
         {
-            throw new NotImplementedException();
+            switch (eventEnum)
+            {
+                case WildEvent.StrangersApproach:
+                    break;
+                case WildEvent.AbandonedVehicle:
+                    break;
+                case WildEvent.Thief:
+                    break;
+                case WildEvent.Meadow:
+                    break;
+                case WildEvent.Gravesite:
+                    break;
+                case WildEvent.FoodSpoilage:
+                    break;
+                case WildEvent.FindBerries:
+                    break;
+                case WildEvent.FindFruit:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(eventEnum), eventEnum, null);
+            }
         }
     }
 }

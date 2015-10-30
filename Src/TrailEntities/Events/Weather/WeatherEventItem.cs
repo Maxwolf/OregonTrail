@@ -21,7 +21,33 @@ namespace TrailEntities
         /// <param name="eventEnum">Enumeration that helps this method determine what should be done.</param>
         protected override void OnEventExecute(Vehicle eventTarget, WeatherEvent eventEnum)
         {
-            throw new NotImplementedException();
+            switch (eventEnum)
+            {
+                case WeatherEvent.RoughTrail:
+                    break;
+                case WeatherEvent.Wildfire:
+                    break;
+                case WeatherEvent.SevereWeather:
+                    break;
+                case WeatherEvent.QuicksandAhead:
+                    break;
+                case WeatherEvent.ObstructedPath:
+                    break;
+                case WeatherEvent.WagonDust:
+                    break;
+                case WeatherEvent.RiverCrossing:
+                    break;
+                case WeatherEvent.MountainClimbing:
+                    break;
+                case WeatherEvent.Desert:
+                    break;
+                case WeatherEvent.WrongTrail:
+                    break;
+                case WeatherEvent.HeavyFog:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(eventEnum), eventEnum, null);
+            }
         }
     }
 }

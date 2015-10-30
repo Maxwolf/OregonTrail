@@ -21,7 +21,43 @@ namespace TrailEntities
         /// <param name="eventEnum">Enumeration that helps this method determine what should be done.</param>
         protected override void OnEventExecute(Person eventTarget, MedicalEvent eventEnum)
         {
-            throw new NotImplementedException();
+            switch (eventEnum)
+            {
+                case MedicalEvent.SprainedMuscle:
+                    break;
+                case MedicalEvent.SprainedShoulder:
+                    break;
+                case MedicalEvent.TyphoidFever:
+                    break;
+                case MedicalEvent.Concussion:
+                    break;
+                case MedicalEvent.BrokenArm:
+                    break;
+                case MedicalEvent.DeathCompanion:
+                    break;
+                case MedicalEvent.DeathPlayer:
+                    break;
+                case MedicalEvent.SufferingExhaustion:
+                    break;
+                case MedicalEvent.TurnForWorse:
+                    break;
+                case MedicalEvent.Cholera:
+                    break;
+                case MedicalEvent.MountainFever:
+                    break;
+                case MedicalEvent.Dysentery:
+                    break;
+                case MedicalEvent.Measles:
+                    break;
+                case MedicalEvent.Gangrene:
+                    break;
+                case MedicalEvent.WellAgain:
+                    break;
+                case MedicalEvent.Fever:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(eventEnum), eventEnum, null);
+            }
         }
     }
 }

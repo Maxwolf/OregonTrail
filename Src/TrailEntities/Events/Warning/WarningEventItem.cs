@@ -25,7 +25,25 @@ namespace TrailEntities
         /// <param name="eventEnum">Enumeration that helps this method determine what should be done.</param>
         protected override void OnEventExecute(Vehicle eventTarget, WarningEvent eventEnum)
         {
-            throw new NotImplementedException();
+            switch (eventEnum)
+            {
+                case WarningEvent.BadWater:
+                    break;
+                case WarningEvent.LowFood:
+                    break;
+                case WarningEvent.NoFood:
+                    break;
+                case WarningEvent.LowWater:
+                    break;
+                case WarningEvent.LowGrass:
+                    break;
+                case WarningEvent.Starvation:
+                    break;
+                case WarningEvent.NoWater:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(eventEnum), eventEnum, null);
+            }
         }
     }
 }
