@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TrailCommon;
@@ -35,12 +36,7 @@ namespace TrailEntities
         /// <summary>
         ///     Handles delegate for knowing when a new event has been added.
         /// </summary>
-        public event EventHandler EventAdded;
-
-        public void AddEvent(object targetThing, object actionVerb, object resultNoun)
-        {
-            throw new System.NotImplementedException();
-        }
+        public event EventAdd EventAdded;
 
         /// <summary>
         ///     Adds a new event to the list of current events.
@@ -52,6 +48,11 @@ namespace TrailEntities
 
             // Fire event!
             EventAdded?.Invoke(eventItem);
+        }
+
+        public void AddEvent(object targetThing, object actionVerb, object resultNoun)
+        {
+            throw new NotImplementedException();
         }
     }
 }

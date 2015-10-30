@@ -34,6 +34,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity Templates\IEntity.cs" />
     <Compile Include="Entity Templates\Item\AnimalItem.cs" />
     <Compile Include="Entity Templates\Item\BulletsItem.cs" />
     <Compile Include="Entity Templates\Item\ClothingItem.cs" />
@@ -49,7 +50,6 @@
     <Compile Include="Modes\ModeChoiceItem.cs" />
     <Compile Include="Modes\New Game\INewGameMode.cs" />
     <Compile Include="Modes\New Game\NewGameInfo.cs" />
-    <Compile Include="Simulations\Event\EventItem.cs" />
     <Compile Include="Modes\Random Event\RandomEventCommands.cs" />
     <Compile Include="Modes\River Crossing\RiverCrossingCommands.cs" />
     <Compile Include="Modes\Store\StoreCommands.cs" />
@@ -57,7 +57,9 @@
     <Compile Include="Modes\Store\StoreTransactionItem.cs" />
     <Compile Include="Modes\Trading\TradingCommands.cs" />
     <Compile Include="Modes\Traveling\TravelCommands.cs" />
+    <Compile Include="Simulations\Event\EventResponse.cs" />
     <Compile Include="Simulations\Event\IEventItem.cs" />
+    <Compile Include="Simulations\Event\IEventResponse.cs" />
     <Compile Include="Simulations\Event\IEventSimulation.cs" />
     <Compile Include="Simulations\Game\ITick.cs" />
     <Compile Include="Modes\Traveling\ITravelingMode.cs" />

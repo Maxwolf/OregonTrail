@@ -41,7 +41,7 @@ namespace TrailEntities
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        public override void OnModeRemoved()
+        protected override void OnModeRemoved()
         {
             NewGameInfo = null;
         }

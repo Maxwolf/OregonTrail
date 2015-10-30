@@ -3,7 +3,7 @@
     /// <summary>
     ///     Defines a base item which can represent almost any commodity the player can purchase for the party or vehicle.
     /// </summary>
-    public abstract class Item
+    public abstract class Item : IEntity
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailCommon.Item" /> class.

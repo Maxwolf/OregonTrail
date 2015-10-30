@@ -9,9 +9,9 @@ namespace TrailCommon
     public interface IEventSimulation
     {
         ReadOnlyCollection<IEventItem> Events { get; }
-        event EventHandler EventAdded;
+        event EventAdd EventAdded;
         void AddEvent(IEventItem eventItem);
     }
 
-    public delegate void EventHandler(IEventItem theEvent);
+    public delegate void EventAdd(IEventItem eventItem);
 }

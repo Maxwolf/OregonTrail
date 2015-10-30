@@ -6,7 +6,7 @@ namespace TrailCommon
     ///     Defines a basic vessel to carry parties of people. It's presence is defined by a current location, the amount of
     ///     distance it has traveled, and the parts that make up the entire vehicle (each with it's own health).
     /// </summary>
-    public interface IVehicle
+    public interface IVehicle : IEntity
     {
         ReadOnlyCollection<Item> Inventory { get; }
         float Balance { get; }

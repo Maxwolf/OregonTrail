@@ -1,13 +1,11 @@
 ----------[WARNINGS]----------
-Low Water
-Bad Water
-Low Food
-No Food
-Low Water
-Low Grass
-Starvation
-Bad Water
-No Water
+BadWater,
+LowFood,
+NoFood,
+LowWater,
+LowGrass,
+Starvation,
+NoWater
 
 ----------[CLIMATE]----------
 Rough trail.

@@ -16,6 +16,7 @@ namespace TrailEntities
         public Vehicle()
         {
             ResetVehicle(0);
+            Name = "Vehicle";
         }
 
         public ReadOnlyCollection<Item> Inventory
@@ -88,5 +89,10 @@ namespace TrailEntities
             RepairStatus = RepairStatus.Good;
             Odometer = 0;
         }
+
+        /// <summary>
+        ///     Name of the entity as it should be known in the simulation.
+        /// </summary>
+        public string Name { get; }
     }
 }

@@ -45,6 +45,10 @@
     <Compile Include="Entities\Items\Parts\PartAxleItem.cs" />
     <Compile Include="Entities\Items\Parts\PartTongueItem.cs" />
     <Compile Include="Entities\Items\Parts\PartWheelItem.cs" />
+    <Compile Include="Events\EventItem.cs" />
+    <Compile Include="Events\Warning\WarningEvent.cs" />
+    <Compile Include="Events\Warning\Warning.cs" />
+    <Compile Include="Events\Warning\WarningResponse.cs" />
     <Compile Include="Modes\Fork In Road\ForkInRoadMode.cs" />
     <Compile Include="Modes\GameMode.cs" />
     <Compile Include="Modes\ModeState.cs" />
@@ -84,9 +88,7 @@
     <Compile Include="Entities\Vehicle.cs" />
     <Compile Include="Modes\New Game\NewGameMode.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Events\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\TrailCommon\TrailCommon.csproj">
       <Project>{1409ac6c-985e-4b33-9e4f-2420ea2d3262}</Project>

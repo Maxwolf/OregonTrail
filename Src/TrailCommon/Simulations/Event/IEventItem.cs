@@ -21,7 +21,7 @@
         ///     Defines a result that will occur when the event runs, this typically is a result on party, vehicle such as altering
         ///     health, removing items, inflicting diseases, etc.
         /// </summary>
-        object ResultNoun { get; set; }
+        IEventResponse EventResponse { get; set; }
 
         /// <summary>
         ///     Time stamp from the simulation on when this event occurred in the time line of events that make up the players
