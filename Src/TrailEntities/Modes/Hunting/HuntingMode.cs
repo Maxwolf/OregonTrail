@@ -10,6 +10,13 @@ namespace TrailEntities
     /// </summary>
     public sealed class HuntingMode : GameMode<HuntingCommands>, IHuntingMode
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        /// </summary>
+        public HuntingMode() : base(true)
+        {
+        }
+
         public override ModeType ModeType
         {
             get { return ModeType.Hunt; }

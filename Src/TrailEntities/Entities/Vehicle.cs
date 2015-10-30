@@ -13,13 +13,10 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Vehicle" /> class.
         /// </summary>
-        public Vehicle(IGameSimulation game)
+        public Vehicle()
         {
-            CurrentGame = game;
             ResetVehicle(0);
         }
-
-        public IGameSimulation CurrentGame { get; }
 
         public ReadOnlyCollection<Item> Inventory
         {
@@ -37,7 +34,7 @@ namespace TrailEntities
 
         public TravelPace Pace
         {
-            get { return CurrentGame.Time.CurrentSpeed; }
+            get { return GameSimulationApp.Instance.Time.CurrentSpeed; }
         }
 
         public RepairStatus RepairStatus { get; private set; }

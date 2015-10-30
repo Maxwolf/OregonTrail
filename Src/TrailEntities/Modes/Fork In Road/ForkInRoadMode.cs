@@ -12,7 +12,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public ForkInRoadMode()
+        public ForkInRoadMode() : base(false)
         {
             _skipChoices = new List<PointOfInterest>();
         }

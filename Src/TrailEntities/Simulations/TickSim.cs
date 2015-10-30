@@ -113,7 +113,7 @@ namespace TrailEntities
             }
         }
 
-        public virtual void OnDestroy()
+        protected virtual void OnDestroy()
         {
             _tick = null;
             Random = null;

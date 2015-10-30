@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using TrailCommon;
 
@@ -42,8 +40,11 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        protected GameMode()
+        protected GameMode(bool showCommandNamesInMenu)
         {
+            // Determines if the menu system should show raw command names in the menu rendering or just number selections by enum value.
+            _showCommandNamesInMenu = showCommandNamesInMenu;
+
             // Complain the generics implemented is not of an enum type.
             if (!typeof (T).IsEnum)
             {
@@ -56,15 +57,6 @@ namespace TrailEntities
             // Menu header and footer is empty strings by default.
             _menuHeader = string.Empty;
             _menuFooter = string.Empty;
-        }
-
-        /// <summary>
-        ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
-        ///     spawned it.
-        /// </summary>
-        public ReadOnlyCollection<IModeChoiceItem<T>> MenuChoices
-        {
-            get { return _menuChoices.ToList().AsReadOnly(); }
         }
 
         /// <summary>
@@ -121,7 +113,6 @@ namespace TrailEntities
         public virtual bool ShowCommandNamesInMenu
         {
             get { return _showCommandNamesInMenu; }
-            protected set { _showCommandNamesInMenu = value; }
         }
 
         /// <summary>

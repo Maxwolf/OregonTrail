@@ -8,7 +8,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.RandomEventMode" /> class.
         /// </summary>
-        public RandomEventMode()
+        public RandomEventMode() : base(false)
         {
             Name = "Unknown Random Event";
         }

@@ -8,7 +8,6 @@ namespace TrailCommon
     /// </summary>
     public interface IVehicle
     {
-        IGameSimulation CurrentGame { get; }
         ReadOnlyCollection<Item> Inventory { get; }
         float Balance { get; }
         ReadOnlyCollection<IPerson> People { get; }

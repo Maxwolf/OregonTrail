@@ -32,7 +32,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.StoreMode" /> class.
         /// </summary>
-        public StoreMode()
+        public StoreMode() : base(false)
         {
             // User data for states, keeps track of all new game information.
             StoreReceiptInfo = new StoreReceiptInfo();

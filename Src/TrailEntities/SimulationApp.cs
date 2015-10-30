@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using TrailCommon;
 
 namespace TrailEntities
@@ -8,17 +7,27 @@ namespace TrailEntities
     /// <summary>
     ///     Base simulation class that deals with ticks, time, named pipes, and game modes.
     /// </summary>
-    public abstract class SimulationApp : TickSim, ISimulation
+    public abstract class SimulationApp : TickSim
     {
+        public delegate void EndGame();
+
+        public delegate void InputBufferUpdated(string inputBuffer, string addedKeycharString);
+
+        public delegate void ModeChanged(ModeType modeType);
+
+        public delegate void NewGame();
+
+        public delegate void ScreenBufferDirty(string tuiContent);
+
         /// <summary>
         ///     Default string used when game mode has nothing better to say.
         /// </summary>
-        public const string GAMEMODE_DEFAULT_TUI = "[DEFAULT GAME MODE TEXT USER INTERFACE]";
+        private const string GAMEMODE_DEFAULT_TUI = "[DEFAULT GAME MODE TEXT USER INTERFACE]";
 
         /// <summary>
         ///     Default string used when there are no game modes at all.
         /// </summary>
-        public const string GAMEMODE_EMPTY_TUI = "[NO GAME MODE ATTACHED]";
+        private const string GAMEMODE_EMPTY_TUI = "[NO GAME MODE ATTACHED]";
 
         /// <summary>
         ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
@@ -40,9 +49,64 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Holds the last known representation of the game simulation and current mode text user interface, only pushes update
+        ///     when a change occurs.
+        /// </summary>
+        private string ScreenBuffer { get; set; }
+
+        /// <summary>
+        ///     Input buffer that we will use to hold characters until need to send them to simulation.
+        /// </summary>
+        protected string InputBuffer { get; private set; }
+
+        /// <summary>
+        ///     Determines if this simulation is currently accepting input at all, the conditions for this require some game mode
+        ///     to be attached and or active move to not be null.
+        /// </summary>
+        protected bool AcceptingInput
+        {
+            get
+            {
+                return (ActiveMode != null && ActiveMode.CurrentState == null && ActiveMode.AcceptsInput) ||
+                       (ActiveMode?.CurrentState != null && ActiveMode.AcceptsInput &&
+                        ActiveMode.CurrentState.AcceptsInput);
+            }
+        }
+
+        /// <summary>
+        ///     References the current active game mode, or the last attached game mode in the simulation.
+        /// </summary>
+        protected IMode ActiveMode
+        {
+            get
+            {
+                if (_modes.Count <= 0)
+                    return null;
+
+                var lastMode = _modes[_modes.Count - 1];
+                return lastMode;
+            }
+        }
+
+        /// <summary>
+        ///     Returns the name of the currently active game mode, otherwise will return "None".
+        /// </summary>
+        protected string ActiveModeName
+        {
+            get
+            {
+                if (_modes.Count <= 0)
+                    return "None";
+
+                var lastMode = _modes[_modes.Count - 1];
+                return lastMode.ModeType.ToString();
+            }
+        }
+
+        /// <summary>
         ///     Removes any and all inactive game modes that need to be removed from the simulation.
         /// </summary>
-        public void RemoveDirtyModes()
+        private void RemoveDirtyModes()
         {
             // Ensure the mode exists as active mode.
             if (ActiveMode == null)
@@ -68,17 +132,6 @@ namespace TrailEntities
                     OnModeChanged(ActiveMode.ModeType);
             }
         }
-
-        /// <summary>
-        ///     Holds the last known representation of the game simulation and current mode text user interface, only pushes update
-        ///     when a change occurs.
-        /// </summary>
-        public string ScreenBuffer { get; internal set; }
-
-        /// <summary>
-        ///     Input buffer that we will use to hold characters until need to send them to simulation.
-        /// </summary>
-        public string InputBuffer { get; internal set; }
 
         /// <summary>
         ///     Removes the last character from input buffer if greater than zero.
@@ -128,7 +181,7 @@ namespace TrailEntities
         ///     Use screen buffer to only write to console when something actually changes to stop flickering from constant
         ///     ticking.
         /// </summary>
-        public void TickTUI()
+        private void TickTUI()
         {
             // Get the current text user interface data from inheriting class.
             var tuiContent = OnTickTUI();
@@ -138,59 +191,6 @@ namespace TrailEntities
             // Update the screen buffer with altered data.
             ScreenBuffer = tuiContent;
             ScreenBufferDirtyEvent?.Invoke(ScreenBuffer);
-        }
-
-        /// <summary>
-        ///     Determines if this simulation is currently accepting input at all, the conditions for this require some game mode
-        ///     to be attached and or active move to not be null.
-        /// </summary>
-        public bool AcceptingInput
-        {
-            get
-            {
-                return (ActiveMode != null && ActiveMode.CurrentState == null && ActiveMode.AcceptsInput) ||
-                       (ActiveMode?.CurrentState != null && ActiveMode.AcceptsInput &&
-                        ActiveMode.CurrentState.AcceptsInput);
-            }
-        }
-
-        /// <summary>
-        ///     References the current active game mode, or the last attached game mode in the simulation.
-        /// </summary>
-        public IMode ActiveMode
-        {
-            get
-            {
-                if (_modes.Count <= 0)
-                    return null;
-
-                var lastMode = _modes[_modes.Count - 1];
-                return lastMode;
-            }
-        }
-
-        /// <summary>
-        ///     Returns the name of the currently active game mode, otherwise will return "None".
-        /// </summary>
-        public string ActiveModeName
-        {
-            get
-            {
-                if (_modes.Count <= 0)
-                    return "None";
-
-                var lastMode = _modes[_modes.Count - 1];
-                return lastMode.ModeType.ToString();
-            }
-        }
-
-        /// <summary>
-        ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
-        ///     of themselves like stores and trades.
-        /// </summary>
-        public ReadOnlyCollection<IMode> Modes
-        {
-            get { return _modes.AsReadOnly(); }
         }
 
         public event NewGame NewgameEvent;
@@ -219,7 +219,7 @@ namespace TrailEntities
         ///     simulation.
         /// </summary>
         /// <param name="modeType">Current mode which the simulation is changing to.</param>
-        protected virtual void OnModeChanged(ModeType modeType)
+        private void OnModeChanged(ModeType modeType)
         {
             // Fire event that lets subscribers know we changed something.
             ModeChangedEvent?.Invoke(modeType);
@@ -233,7 +233,7 @@ namespace TrailEntities
         ///     do something, or not!
         /// </summary>
         /// <param name="addedKeyString">Character converted into a string representation of itself.</param>
-        protected virtual void OnKeyCharAddedToInputBuffer(string addedKeyString)
+        private void OnKeyCharAddedToInputBuffer(string addedKeyString)
         {
             // Disable passing along input buffer if the simulation is not currently accepting input from the user.
             if (!AcceptingInput)
@@ -265,7 +265,7 @@ namespace TrailEntities
         ///     that should be able to be parsed into a valid command that can be run on the current game mode.
         /// </summary>
         /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
-        public abstract void OnInputBufferReturned(string returnedLine);
+        protected abstract void OnInputBufferReturned(string returnedLine);
 
         /// <summary>
         ///     Attaches the traveling mode and removes the new game mode if it exists, this begins the simulation down the trail
@@ -283,7 +283,7 @@ namespace TrailEntities
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void OnDestroy()
+        protected override void OnDestroy()
         {
             base.OnDestroy();
 

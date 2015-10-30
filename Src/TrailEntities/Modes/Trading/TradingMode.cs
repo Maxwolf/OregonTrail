@@ -13,7 +13,7 @@ namespace TrailEntities
     {
         private readonly List<Item> _possibleTrades;
 
-        public TradingMode()
+        public TradingMode() : base(false)
         {
             _possibleTrades = new List<Item>();
         }

@@ -12,7 +12,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public TravelingMode()
+        public TravelingMode() : base(false)
         {
             CanRest = true;
         }

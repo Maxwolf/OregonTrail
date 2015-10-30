@@ -15,7 +15,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.NewGameMode" /> class.
         /// </summary>
-        public NewGameMode()
+        public NewGameMode() : base(false)
         {
             // Basic information to start a new simulation.
             NewGameInfo = new NewGameInfo();

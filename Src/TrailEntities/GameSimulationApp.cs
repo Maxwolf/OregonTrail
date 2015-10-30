@@ -7,7 +7,7 @@ namespace TrailEntities
     /// <summary>
     ///     Receiver - The main logic will be implemented here and it knows how to perform the necessary actions.
     /// </summary>
-    public sealed class GameSimulationApp : SimulationApp, IGameSimulation
+    public sealed class GameSimulationApp : SimulationApp
     {
         /// <summary>
         ///     Manages weather, temperature, humidity, and current grazing level for living animals.
@@ -126,7 +126,7 @@ namespace TrailEntities
         ///     that should be able to be parsed into a valid command that can be run on the current game mode.
         /// </summary>
         /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
-        public override void OnInputBufferReturned(string returnedLine)
+        protected override void OnInputBufferReturned(string returnedLine)
         {
             // Pass command along to currently active game mode if it exists.
             ActiveMode?.SendInputBuffer(returnedLine.Trim());
@@ -144,7 +144,7 @@ namespace TrailEntities
             Instance = new GameSimulationApp();
         }
 
-        public override void OnDestroy()
+        protected override void OnDestroy()
         {
             // Unhook delegates from time events.
             if (_time != null)
@@ -189,10 +189,10 @@ namespace TrailEntities
             _director.EventAdded += DirectorOnEventAdded;
 
             // Environment, weather, conditions, climate, tail, vehicle, stats.
-            _climate = new ClimateSim(this, ClimateClassification.Moderate);
+            _climate = new ClimateSim(ClimateClassification.Moderate);
             TrailSim = new TrailSim(Trails.OregonTrail);
             TotalTurns = 0;
-            _vehicle = new Vehicle(this);
+            _vehicle = new Vehicle();
 
             // Attach traveling mode since that is the default and bottom most game mode.
             AddMode(ModeType.Travel);
