@@ -25,6 +25,12 @@ namespace TrailEntities
         /// </summary>
         private Vehicle _vehicle;
 
+        /// <summary>
+        ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
+        ///     game modes, people, and vehicles.
+        /// </summary>
+        private EventSim _director;
+
         public TrailSim TrailSim { get; private set; }
 
         public static GameSimulationApp Instance { get; private set; }
@@ -37,6 +43,11 @@ namespace TrailEntities
         public IClimateSimulation Climate
         {
             get { return _climate; }
+        }
+
+        public IEventSimulation Director
+        {
+            get { return _director; }
         }
 
         public IVehicle Vehicle
@@ -135,7 +146,7 @@ namespace TrailEntities
 
         public override void OnDestroy()
         {
-            // Unhook delegates from events.
+            // Unhook delegates from time events.
             if (_time != null)
             {
                 _time.DayEndEvent -= TimeSimulation_DayEndEvent;
@@ -144,9 +155,16 @@ namespace TrailEntities
                 _time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
             }
 
+            // Unhook director event manager events.
+            if (_director != null)
+            {
+                _director.EventAdded -= DirectorOnEventAdded;
+            }
+
             // Destroy all instances.
             _time = null;
             _climate = null;
+            _director = null;
             TrailSim = null;
             TotalTurns = 0;
             _vehicle = null;
@@ -166,6 +184,10 @@ namespace TrailEntities
             _time.YearEndEvent += TimeSimulation_YearEndEvent;
             _time.SpeedChangeEvent += TimeSimulation_SpeedChangeEvent;
 
+            // Director event manager, and his delegate.
+            _director = new EventSim();
+            _director.EventAdded += DirectorOnEventAdded;
+
             // Environment, weather, conditions, climate, tail, vehicle, stats.
             _climate = new ClimateSim(this, ClimateClassification.Moderate);
             TrailSim = new TrailSim(Trails.OregonTrail);
@@ -177,6 +199,11 @@ namespace TrailEntities
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
             AddMode(ModeType.NewGame);
+        }
+
+        private void DirectorOnEventAdded(IEventItem theEvent)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
