@@ -3,6 +3,11 @@ using TrailCommon;
 
 namespace TrailEntities
 {
+    /// <summary>
+    ///     Shows the player their vehicle and list of all the points in the trail they could possibly travel to. It marks the
+    ///     spot they are on and all the spots they have visited, shows percentage for completion and some other basic
+    ///     statistics about the journey that could only be seen from this state.
+    /// </summary>
     public sealed class LookAtMapState : ModeState<TravelInfo>
     {
         /// <summary>

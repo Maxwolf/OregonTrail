@@ -3,6 +3,11 @@ using TrailCommon;
 
 namespace TrailEntities
 {
+    /// <summary>
+    ///     Allows the player to alter how many 'miles' their vehicle will attempt to travel in a given day, this also changes
+    ///     the rate at which random events that are considered bad will occur along with other factors in the simulation such
+    ///     as making players more susceptible to disease and also making them hungry more often.
+    /// </summary>
     public sealed class ChangePaceState : ModeState<TravelInfo>
     {
         /// <summary>

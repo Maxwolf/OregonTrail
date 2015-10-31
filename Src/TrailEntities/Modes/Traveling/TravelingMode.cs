@@ -107,7 +107,8 @@ namespace TrailEntities
         /// </summary>
         public void AttemptToTrade()
         {
-            CurrentState = new AttemptToTradeState(this, TravelInfo);
+            CurrentState = null;
+            GameSimulationApp.Instance.AddMode(ModeType.Trade);
         }
 
         /// <summary>
@@ -162,7 +163,7 @@ namespace TrailEntities
             // Check if the point is us, and a location we need to welcome player into.
             if (nextPoint == CurrentPoint && nextPoint.ModeType == ModeType.Location)
             {
-                CurrentState = new ReachedPointState(this, TravelInfo);
+                CurrentState = new PointReachedState(this, TravelInfo);
             }
         }
 

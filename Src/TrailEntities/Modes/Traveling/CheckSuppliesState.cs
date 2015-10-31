@@ -3,6 +3,11 @@ using TrailCommon;
 
 namespace TrailEntities
 {
+    /// <summary>
+    ///     Shows all the players supplies that they currently have in their vehicle inventory, along with the amount of money
+    ///     they have. This screen is not for looking at group stats, only items which are normally not shown unlike the travel
+    ///     menu that shows basic party stats at all times.
+    /// </summary>
     public sealed class CheckSuppliesState : ModeState<TravelInfo>
     {
         /// <summary>

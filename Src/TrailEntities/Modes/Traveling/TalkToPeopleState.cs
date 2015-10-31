@@ -3,6 +3,11 @@ using TrailCommon;
 
 namespace TrailEntities
 {
+    /// <summary>
+    ///     Attaches a game state that will loop through random advice that is associated with the given point of interest.
+    ///     This is not a huge list and players will eventually see the same advice if they keep coming back, only one piece of
+    ///     advice should be shown and one day will advance in the simulation to prevent the player from just spamming it.
+    /// </summary>
     public sealed class TalkToPeopleState : ModeState<TravelInfo>
     {
         /// <summary>

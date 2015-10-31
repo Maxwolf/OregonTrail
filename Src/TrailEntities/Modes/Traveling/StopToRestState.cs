@@ -3,6 +3,11 @@ using TrailCommon;
 
 namespace TrailEntities
 {
+    /// <summary>
+    ///     Attaches a state that will ask the player how long they would like to rest in the number of days, zero is a valid
+    ///     response and will not do anything. If greater than zero we will attach another state to tick that many days by in
+    ///     the simulation.
+    /// </summary>
     public sealed class StopToRestState : ModeState<TravelInfo>
     {
         /// <summary>

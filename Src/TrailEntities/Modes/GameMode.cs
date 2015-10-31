@@ -73,12 +73,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
-        ///     class where they become available.
-        /// </summary>
-        public IPoint CurrentPoint { get; }
-
-        /// <summary>
         ///     Compares the current object with another object of the same type.
         /// </summary>
         /// <returns>
@@ -152,6 +146,12 @@ namespace TrailEntities
 
             return false;
         }
+
+        /// <summary>
+        ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
+        ///     class where they become available.
+        /// </summary>
+        public IPoint CurrentPoint { get; }
 
         /// <summary>
         ///     Determines if the game mode should not be ticked if it is active but instead removed. The mode when set to being
