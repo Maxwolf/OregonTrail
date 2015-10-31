@@ -17,8 +17,19 @@ namespace TrailCommon
         /// <summary>
         ///     Creates a new store transaction tracker.
         /// </summary>
+        /// <param name="showAdvice">Sets the bool for showing store advice, defaults to false.</param>
+        public StoreInfo(bool showAdvice = false)
+        {
+            ShowStoreAdvice = showAdvice;
+            _totalTransactions = new List<StoreTransactionItem>();
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailCommon.StoreInfo" /> class.
+        /// </summary>
         public StoreInfo()
         {
+            ShowStoreAdvice = false;
             _totalTransactions = new List<StoreTransactionItem>();
         }
 
@@ -34,6 +45,11 @@ namespace TrailCommon
         {
             get { return "Store Receipt Information"; }
         }
+
+        /// <summary>
+        ///     Determines if we have already shown the advice to the player.
+        /// </summary>
+        public bool ShowStoreAdvice { get; set; }
 
         public void ClearTransactions()
         {

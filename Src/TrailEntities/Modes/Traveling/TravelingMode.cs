@@ -118,8 +118,10 @@ namespace TrailEntities
         {
             // Header text for above menu.
             var headerText = new StringBuilder();
+            headerText.Append("--------------------------------\n");
             headerText.Append($"{CurrentPoint?.Name}\n");
             headerText.Append($"{GameSimulationApp.Instance.Time.Date}\n");
+            headerText.Append("--------------------------------\n");
             headerText.Append($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}\n");
             headerText.Append($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}\n");
             headerText.Append($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}\n");

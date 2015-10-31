@@ -24,17 +24,16 @@ namespace TrailEntities
         private string _clothingAmount;
         private string _foodAmount;
         private string _oxenAmount;
-        private bool _shownStoreAdvice;
         private string _tonguesAmount;
         private string _wheelsAmount;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.StoreMode" /> class.
         /// </summary>
-        public StoreMode() : base(false)
+        public StoreMode(bool showAdvice = false) : base(false)
         {
             // User data for states, keeps track of all new game information.
-            StoreInfo = new StoreInfo();
+            StoreInfo = new StoreInfo(showAdvice);
 
             UpdateDebts();
         }
@@ -284,9 +283,9 @@ namespace TrailEntities
             MenuFooter = footerText.ToString();
 
             // Trigger the store advice automatically on the first location and one time only.
-            if (GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0 && !_shownStoreAdvice)
+            if (GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0 && StoreInfo.ShowStoreAdvice)
             {
-                _shownStoreAdvice = true;
+                StoreInfo.ShowStoreAdvice = false;
                 StoreAdvice();
             }
         }

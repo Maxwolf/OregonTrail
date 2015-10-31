@@ -238,6 +238,8 @@ namespace TrailEntities
                     return new RiverCrossingMode();
                 case ModeType.Store:
                     return new StoreMode();
+                case ModeType.StartingStore:
+                    return new StoreMode(true);
                 case ModeType.Trade:
                     return new TradingMode();
                 default:
