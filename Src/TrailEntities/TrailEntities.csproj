@@ -70,6 +70,14 @@
     <Compile Include="Modes\New Game\StartMonthAdviceState.cs" />
     <Compile Include="Modes\Store\BuyItemState.cs" />
     <Compile Include="Modes\Store\StoreAdviceState.cs" />
+    <Compile Include="Modes\Traveling\AttemptToTradeState.cs" />
+    <Compile Include="Modes\Traveling\ChangeFoodRations.cs" />
+    <Compile Include="Modes\Traveling\ChangePaceState.cs" />
+    <Compile Include="Modes\Traveling\CheckSuppliesState.cs" />
+    <Compile Include="Modes\Traveling\LookAtMapState.cs" />
+    <Compile Include="Modes\Traveling\ReachedPointState.cs" />
+    <Compile Include="Modes\Traveling\StopToRestState.cs" />
+    <Compile Include="Modes\Traveling\TalkToPeopleState.cs" />
     <Compile Include="Modes\Traveling\TravelingMode.cs" />
     <Compile Include="Points Of Interest\RiverPoint.cs" />
     <Compile Include="GameSimulationApp.cs" />

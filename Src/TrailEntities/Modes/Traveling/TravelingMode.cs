@@ -15,9 +15,17 @@ namespace TrailEntities
         /// </summary>
         public TravelingMode() : base(false)
         {
+            TravelInfo = new TravelInfo();
+
             // Update menu with proper choices.
             UpdateLocation();
         }
+
+        /// <summary>
+        ///     Traveling game mode has a mode state information object that is used to keep track of any important info about the
+        ///     state like how many days we should rest.
+        /// </summary>
+        private TravelInfo TravelInfo { get; }
 
         /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
@@ -33,7 +41,7 @@ namespace TrailEntities
         /// </summary>
         public void TalkToPeople()
         {
-            throw new NotImplementedException();
+            CurrentState = new TalkToPeopleState(this, TravelInfo);
         }
 
         /// <summary>
@@ -57,7 +65,7 @@ namespace TrailEntities
         /// </summary>
         public void CheckSupplies()
         {
-            throw new NotImplementedException();
+            CurrentState = new CheckSuppliesState(this, TravelInfo);
         }
 
         /// <summary>
@@ -66,7 +74,7 @@ namespace TrailEntities
         /// </summary>
         public void LookAtMap()
         {
-            throw new NotImplementedException();
+            CurrentState = new LookAtMapState(this, TravelInfo);
         }
 
         /// <summary>
@@ -74,7 +82,7 @@ namespace TrailEntities
         /// </summary>
         public void ChangePace()
         {
-            throw new NotImplementedException();
+            CurrentState = new ChangePaceState(this, TravelInfo);
         }
 
         /// <summary>
@@ -82,7 +90,7 @@ namespace TrailEntities
         /// </summary>
         public void ChangeFoodRations()
         {
-            throw new NotImplementedException();
+            CurrentState = new ChangeFoodRations(this, TravelInfo);
         }
 
         /// <summary>
@@ -91,7 +99,7 @@ namespace TrailEntities
         /// </summary>
         public void StopToRest()
         {
-            throw new NotImplementedException();
+            CurrentState = new StopToRestState(this, TravelInfo);
         }
 
         /// <summary>
@@ -99,7 +107,7 @@ namespace TrailEntities
         /// </summary>
         public void AttemptToTrade()
         {
-            throw new NotImplementedException();
+            CurrentState = new AttemptToTradeState(this, TravelInfo);
         }
 
         /// <summary>
@@ -150,6 +158,12 @@ namespace TrailEntities
         protected override void OnReachPointOfInterest(PointOfInterest nextPoint)
         {
             base.OnReachPointOfInterest(nextPoint);
+
+            // Check if the point is us, and a location we need to welcome player into.
+            if (nextPoint == CurrentPoint && nextPoint.ModeType == ModeType.Location)
+            {
+                CurrentState = new ReachedPointState(this, TravelInfo);
+            }
         }
 
         /// <summary>
