@@ -11,7 +11,7 @@ namespace TrailEntities
     public sealed class TravelingMode : GameMode<TravelCommands>, ITravelingMode
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.TravelingMode" /> class.
         /// </summary>
         public TravelingMode() : base(false)
         {
@@ -57,7 +57,7 @@ namespace TrailEntities
         /// </summary>
         public void ContinueOnTrail()
         {
-            throw new NotImplementedException();
+            CurrentState = new ContinueOnTrailState(this, TravelInfo);
         }
 
         /// <summary>
@@ -135,6 +135,7 @@ namespace TrailEntities
             headerText.Append($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}\n");
             headerText.Append($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}\n");
             headerText.Append($"Rations: {GameSimulationApp.Instance.Vehicle.Ration}\n");
+            headerText.Append("--------------------------------\n");
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
 
@@ -163,7 +164,10 @@ namespace TrailEntities
             // Check if the point is us, and a location we need to welcome player into.
             if (nextPoint == CurrentPoint && nextPoint.ModeType == ModeType.Location)
             {
-                CurrentState = new PointReachedState(this, TravelInfo);
+                var isFirstPoint = GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0 &&
+                                   GameSimulationApp.Instance.TotalTurns <= 0;
+
+                CurrentState = new PointReachedState(this, TravelInfo, isFirstPoint);
             }
         }
 
