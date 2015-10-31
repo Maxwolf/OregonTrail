@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
 using TrailCommon;
 
 namespace TrailEntities
@@ -11,29 +11,21 @@ namespace TrailEntities
     public sealed class TrailSim : ITrail
     {
         /// <summary>
-        ///     Reference to how many ticks are between the players vehicle and the next point of interest.
-        /// </summary>
-        private ulong _distanceToNextPoint;
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Trail" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.TrailSim" /> class.
         /// </summary>
         /// <param name="trail">Collection of points of interest which make up the trail the player is going to travel.</param>
-        public TrailSim(IList<PointOfInterest> trail)
+        public TrailSim(IEnumerable<PointOfInterest> trail)
         {
             // Builds the trail passed on parameter, sets location to negative one for startup.
-            PointsOfInterest = new ReadOnlyCollection<PointOfInterest>(trail);
+            PointsOfInterest = trail;
             VehicleLocation = -1;
-            _distanceToNextPoint = 0;
+            DistanceToNextPoint = 0;
         }
 
         /// <summary>
         ///     Reference to how many ticks are between the players vehicle and the next point of interest.
         /// </summary>
-        public ulong DistanceToNextPoint
-        {
-            get { return _distanceToNextPoint; }
-        }
+        public ulong DistanceToNextPoint { get; private set; }
 
         /// <summary>
         ///     Current location of the players vehicle as index of points of interest list.
@@ -43,7 +35,7 @@ namespace TrailEntities
         /// <summary>
         ///     List of all of the points of interest that make up the entire trail.
         /// </summary>
-        public ReadOnlyCollection<PointOfInterest> PointsOfInterest { get; }
+        public IEnumerable<PointOfInterest> PointsOfInterest { get; }
 
         /// <summary>
         ///     Advances the vehicle to the next point of interest on the path.
@@ -61,20 +53,20 @@ namespace TrailEntities
                 var currentPoint = GetCurrentPointOfInterest();
 
                 // Check to make sure we are really at the next point based on all available data.
-                if (_distanceToNextPoint > 0 || (nextPoint == null || nextPoint.DistanceLength <= 0))
+                if (DistanceToNextPoint > 0 || (nextPoint == null || nextPoint.DistanceLength <= 0))
                     return;
 
                 // Setup next travel distance requirement.
-                _distanceToNextPoint = nextPoint.DistanceLength;
+                DistanceToNextPoint = nextPoint.DistanceLength;
 
                 // Fire method to do some work and attach game modes based on this.
                 OnReachedPointOfInterest(currentPoint);
             }
-            else if (VehicleLocation < PointsOfInterest.Count)
+            else if (VehicleLocation < PointsOfInterest.Count())
             {
                 // This is a normal advancement on the trail.
                 VehicleLocation++;
-                _distanceToNextPoint--;
+                DistanceToNextPoint--;
             }
         }
 
@@ -88,7 +80,7 @@ namespace TrailEntities
             var nextPointIndex = VehicleLocation + 1;
 
             // Check if the next point is greater than point count, then get next point of interest if within bounds.
-            return nextPointIndex > PointsOfInterest.Count ? null : PointsOfInterest[nextPointIndex];
+            return nextPointIndex > PointsOfInterest.Count() ? null : PointsOfInterest.ElementAt(nextPointIndex);
         }
 
         /// <summary>
@@ -96,8 +88,15 @@ namespace TrailEntities
         /// </summary>
         public PointOfInterest GetCurrentPointOfInterest()
         {
-            return PointsOfInterest[VehicleLocation];
+            return VehicleLocation <= -1
+                ? PointsOfInterest.First()
+                : PointsOfInterest.ElementAt(VehicleLocation);
         }
+
+        /// <summary>
+        ///     Event that will be fired when the next point of interest has been reached on the trail.
+        /// </summary>
+        public event PointOfInterestReached OnReachPointOfInterest;
 
         /// <summary>
         ///     Fired when the players vehicle reaches the next point of interest on the trail.
@@ -108,7 +107,8 @@ namespace TrailEntities
         /// </param>
         private void OnReachedPointOfInterest(PointOfInterest nextPoint)
         {
-            // TODO: Fire event here for API subscribers to know point was reached. 
+            // Fire event here for API subscribers to know point was reached. 
+            OnReachPointOfInterest?.Invoke(nextPoint);
 
             // Attach some game mode based on the relevance of the next point type.
             GameSimulationApp.Instance.AddMode(nextPoint.ModeType);

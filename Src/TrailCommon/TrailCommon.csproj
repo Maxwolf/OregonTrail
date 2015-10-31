@@ -54,10 +54,11 @@
     <Compile Include="Modes\Random Event\RandomEventCommands.cs" />
     <Compile Include="Modes\River Crossing\RiverCrossingCommands.cs" />
     <Compile Include="Modes\Store\StoreCommands.cs" />
-    <Compile Include="Modes\Store\StoreReceiptInfo.cs" />
+    <Compile Include="Modes\Store\StoreInfo.cs" />
     <Compile Include="Modes\Store\StoreTransactionItem.cs" />
     <Compile Include="Modes\Trading\TradingCommands.cs" />
     <Compile Include="Modes\Traveling\TravelCommands.cs" />
+    <Compile Include="Modes\Traveling\TravelInfo.cs" />
     <Compile Include="Simulations\Event\IEventItem.cs" />
     <Compile Include="Simulations\Event\IEventSimulation.cs" />
     <Compile Include="Simulations\Game\ITick.cs" />
@@ -78,7 +79,7 @@
     <Compile Include="Entity Templates\People\Disease.cs" />
     <Compile Include="Modes\Hunting\IHuntingMode.cs" />
     <Compile Include="Modes\River Crossing\IRiverCrossingMode.cs" />
-    <Compile Include="Entity Templates\Trail\ILocationPoint.cs" />
+    <Compile Include="Entity Templates\Trail\IPoint.cs" />
     <Compile Include="Modes\Store\IStoreMode.cs" />
     <Compile Include="Modes\Trading\ITradingMode.cs" />
     <Compile Include="Simulations\Game\ITrail.cs" />

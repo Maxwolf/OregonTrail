@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace TrailCommon
 {
@@ -8,7 +9,7 @@ namespace TrailCommon
     /// </summary>
     public interface IEventSimulation
     {
-        ReadOnlyCollection<IEventItem> Events { get; }
+        IEnumerable<IEventItem> Events { get; }
         event EventAdd EventAdded;
         void AddEvent(IEventItem eventItem);
     }

@@ -2,9 +2,6 @@
 {
     public interface ITravelingMode : IMode
     {
-        bool CanRest { get; }
-        bool CanTalkToPeople { get; }
-        bool HasStore { get; }
         void ContinueOnTrail();
         void CheckSupplies();
         void LookAtMap();

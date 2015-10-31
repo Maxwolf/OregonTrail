@@ -173,6 +173,10 @@ namespace TrailEntities
             base.OnDestroy();
         }
 
+        /// <summary>
+        ///     Fired when the simulation is loaded and makes it very first tick using the internal timer mechanism keeping track
+        ///     of ticks to keep track of seconds.
+        /// </summary>
         protected override void OnFirstTimerTick()
         {
             base.OnFirstTimerTick();
@@ -190,7 +194,7 @@ namespace TrailEntities
 
             // Environment, weather, conditions, climate, tail, vehicle, stats.
             _climate = new ClimateSim(ClimateClassification.Moderate);
-            TrailSim = new TrailSim(Trails.OregonTrail);
+            TrailSim = new TrailSim(Trails.OregonTrail());
             TotalTurns = 0;
             _vehicle = new Vehicle();
 

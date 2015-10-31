@@ -136,9 +136,9 @@ namespace TrailEntities
 
         public int InsideTemperature { get; private set; }
 
-        public ReadOnlyCollection<ClimateData> AverageTemperatures
+        public IEnumerable<ClimateData> AverageTemperatures
         {
-            get { return new ReadOnlyCollection<ClimateData>(_averageTemperatures); }
+            get { return _averageTemperatures; }
         }
 
         public WeatherCondition CurrentWeather { get; private set; }

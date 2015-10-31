@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using TrailCommon;
 
 namespace TrailEntities
@@ -11,11 +10,11 @@ namespace TrailEntities
     /// </summary>
     public sealed class TradingMode : GameMode<TradingCommands>, ITradingMode
     {
-        private readonly List<Item> _possibleTrades;
+        private readonly HashSet<Item> _possibleTrades;
 
         public TradingMode() : base(false)
         {
-            _possibleTrades = new List<Item>();
+            _possibleTrades = new HashSet<Item>();
         }
 
         public override ModeType ModeType
@@ -32,9 +31,9 @@ namespace TrailEntities
             throw new NotImplementedException();
         }
 
-        public ReadOnlyCollection<Item> PossibleTrades
+        public IEnumerable<Item> PossibleTrades
         {
-            get { return new ReadOnlyCollection<Item>(_possibleTrades); }
+            get { return _possibleTrades; }
         }
 
         public void TradeAttempt(Item item)

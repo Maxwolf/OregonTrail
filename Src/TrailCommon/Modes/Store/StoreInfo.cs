@@ -8,7 +8,7 @@ namespace TrailCommon
     ///     the game mode for the store is removed all the transactions will be completed and the players vehicle updated and
     ///     the store items removed, and balances of both updated respectfully.
     /// </summary>
-    public sealed class StoreReceiptInfo : ModeInfo
+    public sealed class StoreInfo : ModeInfo
     {
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
@@ -18,7 +18,7 @@ namespace TrailCommon
         /// <summary>
         ///     Creates a new store transaction tracker.
         /// </summary>
-        public StoreReceiptInfo()
+        public StoreInfo()
         {
             _totalTransactions = new List<StoreTransactionItem>();
         }
@@ -26,7 +26,7 @@ namespace TrailCommon
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        public ReadOnlyCollection<StoreTransactionItem> Transactions
+        public IEnumerable<StoreTransactionItem> Transactions
         {
             get { return _totalTransactions.AsReadOnly(); }
         }

@@ -71,11 +71,8 @@
     <Compile Include="Modes\Store\BuyItemState.cs" />
     <Compile Include="Modes\Store\StoreAdviceState.cs" />
     <Compile Include="Modes\Traveling\TravelingMode.cs" />
-    <Compile Include="Points Of Interest\FortPoint.cs" />
-    <Compile Include="Points Of Interest\LandmarkPoint.cs" />
     <Compile Include="Points Of Interest\RiverPoint.cs" />
     <Compile Include="GameSimulationApp.cs" />
-    <Compile Include="Points Of Interest\SettlementPoint.cs" />
     <Compile Include="Simulations\EventSim.cs" />
     <Compile Include="Simulations\TickSim.cs" />
     <Compile Include="Stores.cs" />
@@ -89,7 +86,7 @@
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Modes\Hunting\HuntingMode.cs" />
     <Compile Include="Modes\River Crossing\RiverCrossingMode.cs" />
-    <Compile Include="Points Of Interest\LocationPoint.cs" />
+    <Compile Include="Points Of Interest\LandmarkPoint.cs" />
     <Compile Include="Modes\Store\StoreMode.cs" />
     <Compile Include="Modes\Trading\TradingMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

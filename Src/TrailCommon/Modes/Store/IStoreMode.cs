@@ -9,13 +9,13 @@
         /// <summary>
         ///     Holds all of the pending transactions the player would like to make with the store.
         /// </summary>
-        StoreReceiptInfo StoreReceiptInfo { get; }
+        StoreInfo StoreInfo { get; }
 
         /// <summary>
         ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
         ///     class where they become available.
         /// </summary>
-        ILocationPoint CurrentLocation { get; }
+        IPoint CurrentPoint { get; }
 
         /// <summary>
         ///     Purchase an item from the store, it will take money from the player.

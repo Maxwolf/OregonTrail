@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using TrailCommon;
 
@@ -35,20 +34,10 @@ namespace TrailEntities
         public StoreMode() : base(false)
         {
             // User data for states, keeps track of all new game information.
-            StoreReceiptInfo = new StoreReceiptInfo();
-
-            // Cast the current point of interest into a settlement object since that is where stores are.
-            CurrentLocation = GameSimulationApp.Instance.TrailSim.GetCurrentPointOfInterest() as LocationPoint;
-            if (CurrentLocation == null)
-                throw new InvalidCastException("Unable to cast current point of interest into a settlement point!");
+            StoreInfo = new StoreInfo();
 
             UpdateDebts();
         }
-
-        /// <summary>
-        ///     Amount of money the store has to sell items to the player.
-        /// </summary>
-        public float StoreBalance { get; private set; }
 
         /// <summary>
         ///     Defines the text prefix which will go above the menu, used to show any useful information the game mode might need
@@ -62,7 +51,7 @@ namespace TrailEntities
         public void BuyOxen()
         {
             CurrentState = new BuyItemState("How many oxen?",
-                CurrentLocation.StoreItems.First(item => item is OxenItem), this, StoreReceiptInfo);
+                CurrentPoint.StoreItems.First(item => item is OxenItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -71,7 +60,7 @@ namespace TrailEntities
         public void BuyFood()
         {
             CurrentState = new BuyItemState("How many pounds of food?",
-                CurrentLocation.StoreItems.First(item => item is FoodItem), this, StoreReceiptInfo);
+                CurrentPoint.StoreItems.First(item => item is FoodItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -80,7 +69,7 @@ namespace TrailEntities
         public void BuyClothing()
         {
             CurrentState = new BuyItemState("How many clothing sets?",
-                CurrentLocation.StoreItems.First(item => item is ClothingItem), this, StoreReceiptInfo);
+                CurrentPoint.StoreItems.First(item => item is ClothingItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -89,7 +78,7 @@ namespace TrailEntities
         public void BuyAmmunition()
         {
             CurrentState = new BuyItemState("How many ammo boxes?",
-                CurrentLocation.StoreItems.First(item => item is BulletsItem), this, StoreReceiptInfo);
+                CurrentPoint.StoreItems.First(item => item is BulletsItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -98,7 +87,7 @@ namespace TrailEntities
         public void BuySpareWheels()
         {
             CurrentState = new BuyItemState("How many spare wheels?",
-                CurrentLocation.StoreItems.First(item => item is PartWheelItem), this, StoreReceiptInfo);
+                CurrentPoint.StoreItems.First(item => item is PartWheelItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -107,7 +96,7 @@ namespace TrailEntities
         public void BuySpareAxles()
         {
             CurrentState = new BuyItemState("How many spare axles?",
-                CurrentLocation.StoreItems.First(item => item is PartAxleItem), this, StoreReceiptInfo);
+                CurrentPoint.StoreItems.First(item => item is PartAxleItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -116,7 +105,7 @@ namespace TrailEntities
         public void BuySpareTongues()
         {
             CurrentState = new BuyItemState("How many spare tongues?",
-                CurrentLocation.StoreItems.First(item => item is PartTongueItem), this, StoreReceiptInfo);
+                CurrentPoint.StoreItems.First(item => item is PartTongueItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -125,7 +114,7 @@ namespace TrailEntities
         /// </summary>
         public void StoreAdvice()
         {
-            CurrentState = new StoreAdviceState(this, StoreReceiptInfo);
+            CurrentState = new StoreAdviceState(this, StoreInfo);
         }
 
         /// <summary>
@@ -148,13 +137,7 @@ namespace TrailEntities
         /// <summary>
         ///     Holds all of the pending transactions the player would like to make with the store.
         /// </summary>
-        public StoreReceiptInfo StoreReceiptInfo { get; }
-
-        /// <summary>
-        ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
-        ///     class where they become available.
-        /// </summary>
-        public ILocationPoint CurrentLocation { get; }
+        public StoreInfo StoreInfo { get; }
 
         /// <summary>
         ///     Removes item from the store and adds it to the players inventory.
@@ -165,8 +148,6 @@ namespace TrailEntities
             if (GameSimulationApp.Instance.Vehicle.Balance < playerCost)
                 return;
 
-            // Store earns the money from vehicle.
-            StoreBalance += playerCost;
             GameSimulationApp.Instance.Vehicle.BuyItem(transaction);
         }
 
@@ -176,10 +157,9 @@ namespace TrailEntities
         public void SellItem(StoreTransactionItem transaction)
         {
             var storeCost = transaction.Item.Cost*transaction.Quantity;
-            if (StoreBalance < storeCost)
+            if (storeCost <= 0)
                 return;
 
-            StoreBalance -= storeCost;
             BuyItems(transaction);
             GameSimulationApp.Instance.Vehicle.SellItem(transaction);
         }
@@ -188,9 +168,9 @@ namespace TrailEntities
         ///     Fired when the current game modes state is altered, it could be removed and null or a new one added up to
         ///     implementation to check.
         /// </summary>
-        protected override void OnModeStateChanged()
+        protected override void OnStateChanged()
         {
-            base.OnModeStateChanged();
+            base.OnStateChanged();
 
             // Skip if current state is not null.
             if (CurrentState != null)
@@ -207,13 +187,13 @@ namespace TrailEntities
             base.OnModeRemoved();
 
             // Process all of the pending transactions in the store receipt info object.
-            foreach (var transaction in StoreReceiptInfo.Transactions)
+            foreach (var transaction in StoreInfo.Transactions)
             {
                 GameSimulationApp.Instance.Vehicle.BuyItem(transaction);
             }
 
             // Remove all the transactions now that we have processed them.
-            StoreReceiptInfo.ClearTransactions();
+            StoreInfo.ClearTransactions();
         }
 
         /// <summary>
@@ -221,56 +201,57 @@ namespace TrailEntities
         /// </summary>
         private void UpdateDebts()
         {
-            _oxenAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
+            // TODO: Remove LINQ calls and use a single loop instead.
+            _oxenAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
                 t is OxenItem)?.ToString() ?? ITEM_NOT_FOUND;
 
-            _foodAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
+            _foodAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
                 t is FoodItem)?.ToString() ?? ITEM_NOT_FOUND;
 
-            _clothingAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
+            _clothingAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
                 t is ClothingItem)?.ToString() ?? ITEM_NOT_FOUND;
 
-            _bulletsAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
+            _bulletsAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
                 t is BulletsItem)?.ToString() ?? ITEM_NOT_FOUND;
 
-            _wheelsAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
+            _wheelsAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
                 t is PartWheelItem)?.ToString() ?? ITEM_NOT_FOUND;
 
-            _axlesAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
+            _axlesAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
                 t is PartAxleItem)?.ToString() ?? ITEM_NOT_FOUND;
 
-            _tonguesAmount = CurrentLocation.StoreItems.FirstOrDefault(t =>
+            _tonguesAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
                 t is PartTongueItem)?.ToString() ?? ITEM_NOT_FOUND;
 
             // We will only modify store visualization of prices when at the first location on the trail.
             if (GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0)
             {
-                _oxenAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                _oxenAmount = StoreInfo.Transactions.FirstOrDefault(t =>
                     t.Item is OxenItem)?.ToString() ?? ZERO_MONIES;
 
-                _foodAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                _foodAmount = StoreInfo.Transactions.FirstOrDefault(t =>
                     t.Item is FoodItem)?.ToString() ?? ZERO_MONIES;
 
-                _clothingAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                _clothingAmount = StoreInfo.Transactions.FirstOrDefault(t =>
                     t.Item is ClothingItem)?.ToString() ?? ZERO_MONIES;
 
-                _bulletsAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                _bulletsAmount = StoreInfo.Transactions.FirstOrDefault(t =>
                     t.Item is BulletsItem)?.ToString() ?? ZERO_MONIES;
 
-                _wheelsAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                _wheelsAmount = StoreInfo.Transactions.FirstOrDefault(t =>
                     t.Item is PartWheelItem)?.ToString() ?? ZERO_MONIES;
 
-                _axlesAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                _axlesAmount = StoreInfo.Transactions.FirstOrDefault(t =>
                     t.Item is PartAxleItem)?.ToString() ?? ZERO_MONIES;
 
-                _tonguesAmount = StoreReceiptInfo.Transactions.FirstOrDefault(t =>
+                _tonguesAmount = StoreInfo.Transactions.FirstOrDefault(t =>
                     t.Item is PartTongueItem)?.ToString() ?? ZERO_MONIES;
             }
 
             // Header text for above menu.
             var headerText = new StringBuilder();
             headerText.Append("--------------------------------\n");
-            headerText.Append($"{CurrentLocation?.Name} General Store\n");
+            headerText.Append($"{CurrentPoint?.Name} General Store\n");
             headerText.Append($"{GameSimulationApp.Instance.Time.Date}\n");
             headerText.Append("--------------------------------");
             MenuHeader = headerText.ToString();
@@ -291,7 +272,7 @@ namespace TrailEntities
             footerText.Append("\n--------------------------------\n");
 
             // Calculate how much monies the player has and the total amount of monies owed to store for pending transaction receipt.
-            var totalBill = StoreReceiptInfo.GetTransactionTotalCost();
+            var totalBill = StoreInfo.GetTransactionTotalCost();
             var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
 
             // If at first location we show the total cost of the bill so far the player has racked up.

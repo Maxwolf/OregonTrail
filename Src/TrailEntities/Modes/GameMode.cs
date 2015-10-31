@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using TrailCommon;
@@ -14,6 +15,9 @@ namespace TrailEntities
     public abstract class GameMode<T> : Comparer<GameMode<T>>, IComparable<GameMode<T>>, IEquatable<GameMode<T>>,
         IEqualityComparer<GameMode<T>>, IMode where T : struct, IComparable, IFormattable, IConvertible
     {
+        /// <summary>
+        ///     Keeps track of the current game mode state, if null then there is no state attached and menu is shown.
+        /// </summary>
         private IModeState _currentState;
 
         /// <summary>
@@ -58,7 +62,21 @@ namespace TrailEntities
             // Menu header and footer is empty strings by default.
             _menuHeader = string.Empty;
             _menuFooter = string.Empty;
+
+            // Hook event to know when we have reached a location point of interest.
+            GameSimulationApp.Instance.TrailSim.OnReachPointOfInterest += OnReachPointOfInterest;
+
+            // Cast the current point of interest into a settlement object since that is where stores are.
+            CurrentPoint = GameSimulationApp.Instance.TrailSim.GetCurrentPointOfInterest();
+            if (CurrentPoint == null)
+                throw new InvalidCastException("Unable to get current point of interest from trail simulation!");
         }
+
+        /// <summary>
+        ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
+        ///     class where they become available.
+        /// </summary>
+        public IPoint CurrentPoint { get; }
 
         /// <summary>
         ///     Compares the current object with another object of the same type.
@@ -81,8 +99,6 @@ namespace TrailEntities
         /// <returns>
         ///     true if the specified objects are equal; otherwise, false.
         /// </returns>
-        /// <param name="x">The first object of type <paramref name="T" /> to compare.</param>
-        /// <param name="y">The second object of type <paramref name="T" /> to compare.</param>
         public bool Equals(GameMode<T> x, GameMode<T> y)
         {
             return x.Equals(y);
@@ -212,7 +228,7 @@ namespace TrailEntities
             set
             {
                 _currentState = value;
-                OnModeStateChanged();
+                OnStateChanged();
             }
         }
 
@@ -302,10 +318,20 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Fired when trail simulation has determined the vehicle and player party has reached the next point of interest in
+        ///     the trail.
+        /// </summary>
+        /// <param name="nextPoint"></param>
+        protected virtual void OnReachPointOfInterest(PointOfInterest nextPoint)
+        {
+            // TODO: Ideas from brain go here...
+        }
+
+        /// <summary>
         ///     Fired when the current game modes state is altered, it could be removed and null or a new one added up to
         ///     implementation to check.
         /// </summary>
-        protected virtual void OnModeStateChanged()
+        protected virtual void OnStateChanged()
         {
             // Nothing to see here, move along...
         }
@@ -399,6 +425,7 @@ namespace TrailEntities
         /// </summary>
         protected virtual void OnModeRemoved()
         {
+            GameSimulationApp.Instance.TrailSim.OnReachPointOfInterest -= OnReachPointOfInterest;
             _menuChoices = null;
         }
 
@@ -423,20 +450,16 @@ namespace TrailEntities
         ///     <paramref name="x" /> equals <paramref name="y" />.Greater than zero <paramref name="x" /> is greater than
         ///     <paramref name="y" />.
         /// </returns>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        /// <exception cref="T:System.ArgumentException">
-        ///     Type <paramref name="T" /> does not implement either the
-        ///     <see cref="T:System.IComparable`1" /> generic interface or the <see cref="T:System.IComparable" /> interface.
-        /// </exception>
         public override int Compare(GameMode<T> x, GameMode<T> y)
         {
+            Debug.Assert(x != null, "x != null");
+            Debug.Assert(y != null, "y != null");
+
             var result = x._menuHeader.CompareTo(y._currentState);
             if (result != 0) return result;
 
             result = x._menuFooter.CompareTo(y._menuChoices);
             if (result != 0) return result;
-
             return result;
         }
 

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using TrailCommon;
 
 namespace TrailEntities
 {
     public sealed class Vehicle : IVehicle
     {
-        private List<Item> _inventory;
-        private List<IPerson> _people;
+        private HashSet<Item> _inventory;
+        private HashSet<IPerson> _people;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Vehicle" /> class.
@@ -19,16 +20,16 @@ namespace TrailEntities
             Name = "Vehicle";
         }
 
-        public ReadOnlyCollection<Item> Inventory
+        public IEnumerable<Item> Inventory
         {
-            get { return new ReadOnlyCollection<Item>(_inventory); }
+            get { return _inventory; }
         }
 
         public float Balance { get; private set; }
 
-        public ReadOnlyCollection<IPerson> People
+        public IEnumerable<IPerson> People
         {
-            get { return new ReadOnlyCollection<IPerson>(_people); }
+            get { return _people; }
         }
 
         public RationLevel Ration { get; private set; }
@@ -82,9 +83,9 @@ namespace TrailEntities
 
         public void ResetVehicle(uint startingMonies)
         {
-            _inventory = new List<Item>();
+            _inventory = new HashSet<Item>();
             Balance = startingMonies;
-            _people = new List<IPerson>();
+            _people = new HashSet<IPerson>();
             Ration = RationLevel.Filling;
             RepairStatus = RepairStatus.Good;
             Odometer = 0;

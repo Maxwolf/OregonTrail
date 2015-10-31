@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace TrailCommon
 {
@@ -12,7 +13,7 @@ namespace TrailCommon
         /// <summary>
         ///     References all of the points that make up the entire trail.
         /// </summary>
-        ReadOnlyCollection<PointOfInterest> PointsOfInterest { get; }
+        IEnumerable<PointOfInterest> PointsOfInterest { get; }
 
         /// <summary>
         ///     Reference to how many ticks are between the players vehicle and the next point of interest.
@@ -39,5 +40,16 @@ namespace TrailCommon
         ///     Locates the current point of interest the players vehicle is in index wise.
         /// </summary>
         PointOfInterest GetCurrentPointOfInterest();
+
+        /// <summary>
+        ///     Event that will be fired when the next point of interest has been reached on the trail.
+        /// </summary>
+        event PointOfInterestReached OnReachPointOfInterest;
     }
+
+    /// <summary>
+    ///     Delegate that passes along the next point of interest that was reached to the event and any subscribers to it.
+    /// </summary>
+    /// <param name="nextPoint">Next point of interest that will be attached to game simulation.</param>
+    public delegate void PointOfInterestReached(PointOfInterest nextPoint);
 }

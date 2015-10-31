@@ -7,7 +7,7 @@ namespace TrailEntities
     ///     Offers up some free information about what items are important to the player and what they mean for the during the
     ///     course of the simulation.
     /// </summary>
-    public sealed class StoreAdviceState : ModeState<StoreReceiptInfo>
+    public sealed class StoreAdviceState : ModeState<StoreInfo>
     {
         /// <summary>
         ///     Keeps track if the player has read all the advice and this dialog needs to be closed.
@@ -19,7 +19,7 @@ namespace TrailEntities
         /// </summary>
         private StringBuilder _storeHelp;
 
-        public StoreAdviceState(IMode gameMode, StoreReceiptInfo userData) : base(gameMode, userData)
+        public StoreAdviceState(IMode gameMode, StoreInfo userData) : base(gameMode, userData)
         {
             _hasReadAdvice = false;
             _storeHelp = new StringBuilder();

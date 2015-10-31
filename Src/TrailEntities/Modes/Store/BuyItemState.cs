@@ -7,7 +7,7 @@ namespace TrailEntities
     /// <summary>
     ///     Allows the player to purchase a number of oxen to pull their vehicle.
     /// </summary>
-    public sealed class BuyItemState : ModeState<StoreReceiptInfo>
+    public sealed class BuyItemState : ModeState<StoreInfo>
     {
         /// <summary>
         ///     Reference to the total amount of items the player can purchase of item of this particular type from this store with
@@ -25,7 +25,7 @@ namespace TrailEntities
         /// </summary>
         private Item _itemToBuy;
 
-        public BuyItemState(string questionText, Item itemToBuy, IMode gameMode, StoreReceiptInfo userData)
+        public BuyItemState(string questionText, Item itemToBuy, IMode gameMode, StoreInfo userData)
             : base(gameMode, userData)
         {
             // Figure out what we owe already from other store items.

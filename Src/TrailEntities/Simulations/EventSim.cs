@@ -28,9 +28,9 @@ namespace TrailEntities
         /// <summary>
         ///     Stores all previous and current events in the system, saved and loaded with simulation.
         /// </summary>
-        public ReadOnlyCollection<IEventItem> Events
+        public IEnumerable<IEventItem> Events
         {
-            get { return new ReadOnlyCollection<IEventItem>(_events.ToArray()); }
+            get { return _events; }
         }
 
         /// <summary>

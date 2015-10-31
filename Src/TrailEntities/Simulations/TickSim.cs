@@ -85,6 +85,10 @@ namespace TrailEntities
             OnTimerTick();
         }
 
+        /// <summary>
+        ///     Fired when the simulation is loaded and makes it very first tick using the internal timer mechanism keeping track
+        ///     of ticks to keep track of seconds.
+        /// </summary>
         protected virtual void OnFirstTimerTick()
         {
             // Fire event that delegate subs will be able to get notification about.
