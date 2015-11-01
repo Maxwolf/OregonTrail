@@ -6,9 +6,6 @@ namespace TrailGame
 {
     internal static class Program
     {
-        /// <summary>
-        ///     Create game simulation server or client depending on what the user wants.
-        /// </summary>
         private static void Main()
         {
             // Create console with title, no cursor, make CTRL-C act as input.
@@ -27,7 +24,7 @@ namespace TrailGame
             while (GameSimulationApp.Instance != null)
             {
                 // Simulation takes any numbers of pulses to determine seconds elapsed.
-                GameSimulationApp.Instance.TickSystem();
+                GameSimulationApp.Instance.Tick();
 
                 // Check if a key is being pressed, without blocking thread.
                 if (Console.KeyAvailable)
@@ -72,6 +69,11 @@ namespace TrailGame
             Console.Write("{0}", tuiContent);
         }
 
+        /// <summary>
+        ///     Fired when the user presses CTRL-C on their keyboard, this is only relevant to operating system tick and this view
+        ///     of simulation. If moved into another framework like game engine this statement would be removed and just destroy
+        ///     the simulation when the engine is destroyed using its overrides.
+        /// </summary>
         private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
             // Destroy the simulation.

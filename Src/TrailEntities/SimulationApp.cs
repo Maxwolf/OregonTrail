@@ -277,9 +277,9 @@ namespace TrailEntities
         /// <summary>
         ///     Fired when the system timers timer elapses it's interval and fires event that this encompasses.
         /// </summary>
-        protected override void OnTimerTick()
+        protected override void OnTick()
         {
-            base.OnTimerTick();
+            base.OnTick();
 
             TickModes();
         }

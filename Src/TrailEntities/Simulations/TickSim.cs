@@ -19,8 +19,7 @@ namespace TrailEntities
         ///     Pulse from what ever is keeping the application alive since simulation has no inherit way of doing this itself, but
         ///     relies on this knowledge to obtain information about running time.
         /// </summary>
-        /// <param name="systemTickCount">Total number of ticks that have occurred in the entire simulation in lifetime.</param>
-        public delegate void SystemTick(ulong systemTickCount);
+        public delegate void SystemTick();
 
         /// <summary>
         ///     Fired when the simulation has determined that enough pulses from the system ticks have occurred that a second in
@@ -31,23 +30,35 @@ namespace TrailEntities
         public delegate void TimerTick(ulong timerTickCount);
 
         /// <summary>
+        ///     Time and date of latest system tick, used to measure total elapsed time and tick simulation after each second.
+        /// </summary>
+        private DateTime _currentTickTime;
+
+        /// <summary>
+        ///     Last known time the simulation was ticked with logic and all sub-systems. This is not the same as a system tick
+        ///     which can happen hundreds of thousands of times a second or just a few, we only measure the difference in time on
+        ///     them.
+        /// </summary>
+        private DateTime _lastTickTime;
+
+        private const double TICK_INTERVAL = 1000.0d;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.TickSim" /> class.
         /// </summary>
         protected TickSim()
         {
+            // Date and time the simulation was started, which we use as benchmark for all future time passed.
+            _lastTickTime = DateTime.UtcNow;
+            _currentTickTime = DateTime.UtcNow;
+
+            // For performing random operations and rolling the virtual dice.
             Random = new Randomizer((int) DateTime.Now.Ticks & 0x0000FFF);
 
+            // Visual tick representations for other sub-systems.
             TotalSecondsTicked = 0;
             TimerTickPhase = "*";
         }
-
-        /// <summary>
-        ///     Total number of pulses from the underlying application that is keeping the context open for the rest of the
-        ///     simulation since it has no way of thread locking or doing any blocking calls itself since that is against the
-        ///     design protocols of this project. Ticks should be able to come from ANYTHING and it will be able to determine how
-        ///     long a second is from this.
-        /// </summary>
-        private ulong TotalSystemTicks { get; set; }
 
         /// <summary>
         ///     Shows the current status of the simulation visually as a spinning glyph, the purpose of which is to show that there
@@ -100,7 +111,7 @@ namespace TrailEntities
         ///     Tick the internal logic of the simulation. Mostly used for updating text user interface (TUI), and updating screen
         ///     buffer.
         /// </summary>
-        public void TickSystem()
+        public void Tick()
         {
             OnSystemTick();
         }
@@ -111,12 +122,23 @@ namespace TrailEntities
         public event FirstTimerTick FirstTimerTickEvent;
 
         /// <summary>
-        ///     Fired when there is a pulse from the underlying application that is keeping the program open and alive since the
-        ///     simulation has no inherit way of doing that and will not block calls or threads on parent application.
+        ///     Calculates the number of ticks that have elapsed since the beginning of simulation and to instantiate a TimeSpan
+        ///     object. The TimeSpan object is then used to display the elapsed time using several other time intervals.
         /// </summary>
         protected virtual void OnSystemTick()
         {
-            SystemTickEvent?.Invoke(++TotalSystemTicks);
+            _currentTickTime = DateTime.UtcNow;
+            var elapsedTicks = _currentTickTime.Ticks - _lastTickTime.Ticks;
+            var elapsedSpan = new TimeSpan(elapsedTicks);
+            SystemTickEvent?.Invoke();
+
+            // Check if more than an entire second has gone by.
+            if (!(elapsedSpan.TotalMilliseconds > TICK_INTERVAL))
+                return;
+
+            // Reset last tick time to current time for measuring towards next second tick.
+            _lastTickTime = _currentTickTime;
+            OnTick();
         }
 
         /// <summary>
@@ -164,7 +186,7 @@ namespace TrailEntities
         ///     Fired when an actual entire second of system ticks have gone by and we would like to try and tick the internal game
         ///     simulation logic and everything that comes from that which will move the progress of the simulation forward.
         /// </summary>
-        protected virtual void OnTimerTick()
+        protected virtual void OnTick()
         {
             // Increase the tick count.
             TotalSecondsTicked++;
