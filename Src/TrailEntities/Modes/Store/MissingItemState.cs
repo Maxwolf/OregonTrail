@@ -19,12 +19,12 @@ namespace TrailEntities
         /// <summary>
         /// Determines what item entity the player is actually missing.
         /// </summary>
-        private readonly IEntity _missingItemEntity;
+        private readonly Item _missingItemEntity;
 
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public MissingItemState(IEntity mustPurchaseEntity, IMode gameMode, StoreInfo userData) : base(gameMode, userData)
+        public MissingItemState(Item mustPurchaseEntity, IMode gameMode, StoreInfo userData) : base(gameMode, userData)
         {
             _missingItemEntity = mustPurchaseEntity;
         }
@@ -36,7 +36,7 @@ namespace TrailEntities
         public override string GetStateTUI()
         {
             var missingItem = new StringBuilder();
-            missingItem.Append($"You need to purchase at least a single {_missingItemEntity.Name} in order to begin your trip!\n");
+            missingItem.Append($"You need to purchase at least a single {_missingItemEntity.DelineatingUnit} in order to begin your trip!\n");
 
             missingItem.Append("Press ENTER KEY to continue.\n");
             return missingItem.ToString();

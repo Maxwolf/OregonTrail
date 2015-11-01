@@ -59,7 +59,7 @@ namespace TrailCommon
         /// <summary>
         ///     Returns the total cost of all the transactions this receipt information object represents.
         /// </summary>
-        public uint GetTransactionTotalCost()
+        public float GetTransactionTotalCost()
         {
             // Loop through all transactions and multiply amount by cost.
             float totalCost = 0;
@@ -69,7 +69,7 @@ namespace TrailCommon
             }
 
             // Cast to unsigned integer and return.
-            return (uint) totalCost;
+            return totalCost;
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace TrailCommon
         /// <summary>
         ///     Removes an item from the list of pending transactions. If it does not exist then nothing will happen.
         /// </summary>
-        private void RemoveItem(IEntity item)
+        public void RemoveItem(IEntity item)
         {
             // Loop through every single transaction.
             var copyList = new HashSet<StoreTransactionItem>(_totalTransactions);

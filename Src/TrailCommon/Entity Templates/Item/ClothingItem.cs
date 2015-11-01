@@ -14,16 +14,26 @@
         /// </summary>
         public override string Name
         {
-            get { return "Sets of Clothing"; }
+            get { return "Clothing"; }
         }
 
         /// <summary>
         ///     Single unit of the items name, for example is there is an Oxen item each one of those items is referred to as an
         ///     'ox'.
         /// </summary>
-        protected override string DelineatingUnit
+        public override string DelineatingUnit
         {
             get { return "set"; }
+        }
+
+        /// <summary>
+        ///     When multiple of this item exist in a stack or need to be referenced, such as "10 pounds of food" the 'pounds' is
+        ///     very important to get correct in context. Another example of this property being used is for Oxen item, a single Ox
+        ///     is the delineating and the plural form would be "Oxen".
+        /// </summary>
+        public override string PluralForm
+        {
+            get { return "sets"; }
         }
 
         /// <summary>

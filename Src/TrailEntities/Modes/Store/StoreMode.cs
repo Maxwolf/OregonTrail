@@ -49,8 +49,7 @@ namespace TrailEntities
         /// </summary>
         public void BuyOxen()
         {
-            CurrentState = new BuyItemState("How many oxen?",
-                CurrentPoint.StoreItems.First(item => item is OxenItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is OxenItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -58,8 +57,7 @@ namespace TrailEntities
         /// </summary>
         public void BuyFood()
         {
-            CurrentState = new BuyItemState("How many pounds of food?",
-                CurrentPoint.StoreItems.First(item => item is FoodItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is FoodItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -67,8 +65,7 @@ namespace TrailEntities
         /// </summary>
         public void BuyClothing()
         {
-            CurrentState = new BuyItemState("How many clothing sets?",
-                CurrentPoint.StoreItems.First(item => item is ClothingItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is ClothingItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -76,8 +73,7 @@ namespace TrailEntities
         /// </summary>
         public void BuyAmmunition()
         {
-            CurrentState = new BuyItemState("How many ammo boxes?",
-                CurrentPoint.StoreItems.First(item => item is BulletsItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is BulletsItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -85,8 +81,7 @@ namespace TrailEntities
         /// </summary>
         public void BuySpareWheels()
         {
-            CurrentState = new BuyItemState("How many spare wheels?",
-                CurrentPoint.StoreItems.First(item => item is PartWheelItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartWheelItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -94,8 +89,7 @@ namespace TrailEntities
         /// </summary>
         public void BuySpareAxles()
         {
-            CurrentState = new BuyItemState("How many spare axles?",
-                CurrentPoint.StoreItems.First(item => item is PartAxleItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartAxleItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -103,8 +97,7 @@ namespace TrailEntities
         /// </summary>
         public void BuySpareTongues()
         {
-            CurrentState = new BuyItemState("How many spare tongues?",
-                CurrentPoint.StoreItems.First(item => item is PartTongueItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartTongueItem), this, StoreInfo);
         }
 
         /// <summary>
@@ -121,22 +114,26 @@ namespace TrailEntities
         /// </summary>
         public void LeaveStore()
         {
-            // Check if the player has any oxen to pull their vehicle.
-            var boughtOxen = false;
-            foreach (var pendingBuy in StoreInfo.Transactions)
+            // First point of interest has a few extra checks before player allowed on the trail.
+            if (GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest())
             {
-                if (!(pendingBuy.Item is OxenItem))
-                    continue;
+                // Check if the player has any oxen to pull their vehicle.
+                var boughtOxen = false;
+                foreach (var pendingBuy in StoreInfo.Transactions)
+                {
+                    if (!(pendingBuy.Item is OxenItem))
+                        continue;
 
-                boughtOxen = true;
-                break;
-            }
+                    boughtOxen = true;
+                    break;
+                }
 
-            // Complain if the player does not have any oxen to pull their vehicle.
-            if (!boughtOxen)
-            {
-                CurrentState = new MissingItemState(new OxenItem(0), this, StoreInfo);
-                return;
+                // Complain if the player does not have any oxen to pull their vehicle.
+                if (!boughtOxen)
+                {
+                    CurrentState = new MissingItemState(new OxenItem(0), this, StoreInfo);
+                    return;
+                }
             }
 
             // Check if player can afford the items they have selected.
