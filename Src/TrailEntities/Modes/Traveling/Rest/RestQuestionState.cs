@@ -1,5 +1,4 @@
-﻿using System;
-using TrailCommon;
+﻿using TrailCommon;
 
 namespace TrailEntities
 {
@@ -8,12 +7,12 @@ namespace TrailEntities
     ///     response and will not do anything. If greater than zero we will attach another state to tick that many days by in
     ///     the simulation.
     /// </summary>
-    public sealed class StopToRestState : ModeState<TravelInfo>
+    public sealed class RestQuestionState : ModeState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public StopToRestState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public RestQuestionState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
         }
 
@@ -23,7 +22,7 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            throw new NotImplementedException();
+            return "How many days would you like to rest?";
         }
 
         /// <summary>
@@ -32,7 +31,15 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            // Parse the user input buffer as a unsigned int.
+            uint parsedInputNumber;
+            if (!uint.TryParse(input, out parsedInputNumber))
+                return;
+
+            // If player rests for more than one day then set the resting state to that, otherwise just go back to travel menu.
+            ParentMode.CurrentState = parsedInputNumber > 0
+                ? new RestingState(ParentMode, UserData, parsedInputNumber)
+                : null;
         }
     }
 }

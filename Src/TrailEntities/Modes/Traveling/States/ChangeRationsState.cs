@@ -8,12 +8,12 @@ namespace TrailEntities
     ///     of which is to limit the amount they take in to slow the loss of food per pound. This has many affects on the
     ///     simulation such as disease, chance for breaking body parts, and or complete death from starvation.
     /// </summary>
-    public sealed class ChangeFoodRations : ModeState<TravelInfo>
+    public sealed class ChangeRationsState : ModeState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ChangeFoodRations(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public ChangeRationsState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
         }
 

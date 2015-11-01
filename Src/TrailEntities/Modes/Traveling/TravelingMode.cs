@@ -89,7 +89,7 @@ namespace TrailEntities
         /// </summary>
         public void ChangeFoodRations()
         {
-            CurrentState = new ChangeFoodRations(this, TravelInfo);
+            CurrentState = new ChangeRationsState(this, TravelInfo);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace TrailEntities
         /// </summary>
         public void StopToRest()
         {
-            CurrentState = new StopToRestState(this, TravelInfo);
+            CurrentState = new RestQuestionState(this, TravelInfo);
         }
 
         /// <summary>
@@ -116,6 +116,7 @@ namespace TrailEntities
         /// </summary>
         public void Hunt()
         {
+            CurrentState = null;
             GameSimulationApp.Instance.AddMode(ModeType.Hunt);
         }
 
@@ -124,17 +125,9 @@ namespace TrailEntities
         /// </summary>
         private void UpdateLocation()
         {
-            // Header text for above menu.
+            // Header text for above menu comes from travel info object.
             var headerText = new StringBuilder();
-            headerText.Append("--------------------------------\n");
-            headerText.Append($"{CurrentPoint?.Name}\n");
-            headerText.Append($"{GameSimulationApp.Instance.Time.Date}\n");
-            headerText.Append("--------------------------------\n");
-            headerText.Append($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}\n");
-            headerText.Append($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}\n");
-            headerText.Append($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}\n");
-            headerText.Append($"Rations: {GameSimulationApp.Instance.Vehicle.Ration}\n");
-            headerText.Append("--------------------------------\n");
+            headerText.Append(TravelInfo.TravelStatus);
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
 

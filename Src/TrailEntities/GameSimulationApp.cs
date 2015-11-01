@@ -101,8 +101,8 @@ namespace TrailEntities
 
             // Keeps track of active mode name and active mode current state name for debugging purposes.
             tui.Append(ActiveMode?.CurrentState != null
-                ? $"Mode: {ActiveModeName}({ActiveMode.CurrentState}) - "
-                : $"Mode: {ActiveModeName}(NO STATE) - ");
+                ? $"Mode({Modes.Count}): {ActiveMode}({ActiveMode.CurrentState}) - "
+                : $"Mode({Modes.Count}): {ActiveMode}(NO STATE) - ");
 
             // Total number of turns that have passed in the simulation.
             tui.Append($"Turns: {TotalTurns.ToString("D4")}\n");

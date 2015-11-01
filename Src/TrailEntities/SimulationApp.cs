@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TrailCommon;
 
 namespace TrailEntities
@@ -30,18 +31,12 @@ namespace TrailEntities
         private const string GAMEMODE_EMPTY_TUI = "[NO GAME MODE ATTACHED]";
 
         /// <summary>
-        ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
-        ///     of themselves like stores and trades.
-        /// </summary>
-        private List<IMode> _modes;
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
         /// </summary>
         protected SimulationApp()
         {
             // References all of the active game modes that need to be ticked.
-            _modes = new List<IMode>();
+            Modes = new HashSet<IMode>();
 
             // Start with a clear input and screen buffer.
             InputBuffer = string.Empty;
@@ -78,30 +73,14 @@ namespace TrailEntities
         /// </summary>
         protected IMode ActiveMode
         {
-            get
-            {
-                if (_modes.Count <= 0)
-                    return null;
-
-                var lastMode = _modes[_modes.Count - 1];
-                return lastMode;
-            }
+            get { return Modes.LastOrDefault(); }
         }
 
         /// <summary>
-        ///     Returns the name of the currently active game mode, otherwise will return "None".
+        ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
+        ///     of themselves like stores and trades.
         /// </summary>
-        protected string ActiveModeName
-        {
-            get
-            {
-                if (_modes.Count <= 0)
-                    return "None";
-
-                var lastMode = _modes[_modes.Count - 1];
-                return lastMode.ModeType.ToString();
-            }
-        }
+        protected HashSet<IMode> Modes { get; }
 
         /// <summary>
         ///     Removes any and all inactive game modes that need to be removed from the simulation.
@@ -112,12 +91,8 @@ namespace TrailEntities
             if (ActiveMode == null)
                 throw new InvalidOperationException("Attempted to remove active mode when it is null!");
 
-            // Ensure modes list contains active mode.
-            if (!_modes.Contains(ActiveMode))
-                throw new InvalidOperationException("Active mode is not in list of current modes!");
-
             // Create copy of all modes so we can destroy while iterating.
-            var copyModes = new List<IMode>(_modes);
+            var copyModes = new List<IMode>(Modes);
             foreach (var mode in copyModes)
             {
                 // Skip if the mode doesn't want to be removed.
@@ -125,7 +100,7 @@ namespace TrailEntities
                     continue;
 
                 // Remove the mode from list if it is flagged for removal.
-                _modes.Remove(mode);
+                Modes.Remove(mode);
 
                 // Fire virtual method which will allow game simulation above and attempt to pass this data along to internal game mode and game mode states.
                 if (ActiveMode != null)
@@ -209,14 +184,14 @@ namespace TrailEntities
             var changeMode = OnModeChanging(modeType);
 
             // Check if any other modes match the one we are adding.
-            foreach (var mode in _modes)
+            foreach (var mode in Modes)
             {
                 if (mode.ModeType == changeMode.ModeType)
                     return;
             }
 
             // Add the game mode to the simulation now that we know it does not exist in the stack yet.
-            _modes.Add(changeMode);
+            Modes.Add(changeMode);
             ModeChangedEvent?.Invoke(changeMode.ModeType);
         }
 
@@ -295,7 +270,7 @@ namespace TrailEntities
 
             InputBuffer = string.Empty;
             ScreenBuffer = string.Empty;
-            _modes.Clear();
+            Modes.Clear();
             EndgameEvent?.Invoke();
         }
 
