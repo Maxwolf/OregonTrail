@@ -12,7 +12,7 @@ namespace TrailEntities
     ///     keeps track of all currently loaded game modes and will only tick the top-most one so they can be stacked and clear
     ///     out until there are none.
     /// </summary>
-    public abstract class GameMode<T> : Comparer<GameMode<T>>, IComparable<GameMode<T>>, IEquatable<GameMode<T>>,
+    public abstract class GameMode<T> : Comparer<IMode>, IComparable<GameMode<T>>, IEquatable<GameMode<T>>,
         IEqualityComparer<GameMode<T>>, IMode where T : struct, IComparable, IFormattable, IConvertible
     {
         /// <summary>
@@ -70,6 +70,35 @@ namespace TrailEntities
             CurrentPoint = GameSimulationApp.Instance.TrailSim.GetCurrentPointOfInterest();
             if (CurrentPoint == null)
                 throw new InvalidCastException("Unable to get current point of interest from trail simulation!");
+        }
+
+        /// <summary>
+        ///     Defines the text prefix which will go above the menu, used to show any useful information the game mode might need
+        ///     to at the top of menu selections.
+        /// </summary>
+        public virtual string MenuHeader
+        {
+            get { return _menuHeader; }
+            protected set { _menuHeader = value; }
+        }
+
+        /// <summary>
+        ///     Similar to the header this will define some text that should go below the menu selection but before the user input
+        ///     field.
+        /// </summary>
+        public virtual string MenuFooter
+        {
+            get { return _menuFooter; }
+            protected set { _menuFooter = value; }
+        }
+
+        /// <summary>
+        ///     Determines if the command names for the particular action should be printed out alongside the number the user can
+        ///     press to control that particular enum.
+        /// </summary>
+        public virtual bool ShowCommandNamesInMenu
+        {
+            get { return _showCommandNamesInMenu; }
         }
 
         /// <summary>
@@ -139,7 +168,8 @@ namespace TrailEntities
                 return false;
             }
 
-            if (_menuChoices.Equals(other._menuChoices) && _currentState.Equals(other._currentState))
+            if (ModeType.Equals(other.ModeType) &&
+                _currentState.Equals(other._currentState))
             {
                 return true;
             }
@@ -181,35 +211,6 @@ namespace TrailEntities
         public abstract ModeType ModeType { get; }
 
         /// <summary>
-        ///     Defines the text prefix which will go above the menu, used to show any useful information the game mode might need
-        ///     to at the top of menu selections.
-        /// </summary>
-        public virtual string MenuHeader
-        {
-            get { return _menuHeader; }
-            protected set { _menuHeader = value; }
-        }
-
-        /// <summary>
-        ///     Similar to the header this will define some text that should go below the menu selection but before the user input
-        ///     field.
-        /// </summary>
-        public virtual string MenuFooter
-        {
-            get { return _menuFooter; }
-            protected set { _menuFooter = value; }
-        }
-
-        /// <summary>
-        ///     Determines if the command names for the particular action should be printed out alongside the number the user can
-        ///     press to control that particular enum.
-        /// </summary>
-        public virtual bool ShowCommandNamesInMenu
-        {
-            get { return _showCommandNamesInMenu; }
-        }
-
-        /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
@@ -230,15 +231,6 @@ namespace TrailEntities
                 _currentState = value;
                 OnStateChanged();
             }
-        }
-
-        /// <summary>
-        ///     Calls the abstract methods with generics using this override.
-        /// </summary>
-        /// <returns>Formatted list of command enumeration values in an array (since I cannot return System.Enum directly).</returns>
-        object[] IMode.GetCommands()
-        {
-            return new object[] {GetCommands()};
         }
 
         /// <summary>
@@ -315,6 +307,54 @@ namespace TrailEntities
         {
             // Pass info along if current state exists.
             CurrentState?.OnParentModeChanged();
+        }
+
+        /// <summary>
+        ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
+        /// </summary>
+        /// <returns>
+        ///     A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />, as shown in
+        ///     the following table.Value Meaning Less than zero<paramref name="x" /> is less than <paramref name="y" />.Zero
+        ///     <paramref name="x" /> equals <paramref name="y" />.Greater than zero<paramref name="x" /> is greater than
+        ///     <paramref name="y" />.
+        /// </returns>
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The second object to compare.</param>
+        public override int Compare(IMode x, IMode y)
+        {
+            Debug.Assert(x != null, "x != null");
+            Debug.Assert(y != null, "y != null");
+
+            var result = x.ModeType.CompareTo(y.ModeType);
+            if (result != 0) return result;
+
+            result = x.CurrentState.CompareTo(y.CurrentState);
+            if (result != 0) return result;
+
+            return result;
+        }
+
+        /// <summary>
+        ///     Compares the current object with another object of the same type.
+        /// </summary>
+        /// <returns>
+        ///     A value that indicates the relative order of the objects being compared. The return value has the following
+        ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This
+        ///     object is equal to <paramref name="other" />. Greater than zero This object is greater than
+        ///     <paramref name="other" />.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        public int CompareTo(IMode other)
+        {
+            Debug.Assert(other != null, "other != null");
+
+            var result = other.ModeType.CompareTo(ModeType);
+            if (result != 0) return result;
+
+            result = other.CurrentState.CompareTo(CurrentState);
+            if (result != 0) return result;
+
+            return result;
         }
 
         /// <summary>
@@ -441,29 +481,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     When overridden in a derived class, performs a comparison of two objects of the same type and returns a value
-        ///     indicating whether one object is less than, equal to, or greater than the other.
-        /// </summary>
-        /// <returns>
-        ///     A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />, as shown in
-        ///     the following table.Value Meaning Less than zero <paramref name="x" /> is less than <paramref name="y" />.Zero
-        ///     <paramref name="x" /> equals <paramref name="y" />.Greater than zero <paramref name="x" /> is greater than
-        ///     <paramref name="y" />.
-        /// </returns>
-        public override int Compare(GameMode<T> x, GameMode<T> y)
-        {
-            Debug.Assert(x != null, "x != null");
-            Debug.Assert(y != null, "y != null");
-
-            var result = x._menuHeader.CompareTo(y._currentState);
-            if (result != 0) return result;
-
-            result = x._menuFooter.CompareTo(y._menuChoices);
-            if (result != 0) return result;
-            return result;
-        }
-
-        /// <summary>
         ///     Serves as a hash function for a particular type.
         /// </summary>
         /// <returns>
@@ -472,8 +489,8 @@ namespace TrailEntities
         public override int GetHashCode()
         {
             var hash = 23;
-            hash = (hash*31) + MenuHeader.GetHashCode();
-            hash = (hash*31) + MenuFooter.GetHashCode();
+            hash = (hash*31) + CurrentState.GetHashCode();
+            hash = (hash*31) + ModeType.GetHashCode();
             return hash;
         }
     }

@@ -97,7 +97,7 @@ namespace TrailEntities
         {
             // Spinning ticker that shows activity, lets us know if application hangs or freezes.
             var tui = new StringBuilder();
-            tui.Append($"\r[ {TimerTickPhase} ] - ");
+            tui.Append($"\r[ {TickPhase} ] - ");
 
             // Keeps track of active mode name and active mode current state name for debugging purposes.
             tui.Append(ActiveMode?.CurrentState != null
@@ -177,9 +177,9 @@ namespace TrailEntities
         ///     Fired when the simulation is loaded and makes it very first tick using the internal timer mechanism keeping track
         ///     of ticks to keep track of seconds.
         /// </summary>
-        protected override void OnFirstTimerTick()
+        protected override void OnFirstTick()
         {
-            base.OnFirstTimerTick();
+            base.OnFirstTick();
 
             // Linear time simulation with ticks.
             _time = new TimeSim(1848, Months.March, 1, TravelPace.Paused);

@@ -14,6 +14,7 @@ namespace TrailEntities
         /// </summary>
         public TravelingMode() : base(false)
         {
+            // Keep track of basic information about menu choices, vehicle and party stats, trades, advice, etc.
             TravelInfo = new TravelInfo();
 
             // Update menu with proper choices.

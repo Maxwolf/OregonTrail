@@ -147,6 +147,40 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
+        /// </summary>
+        /// <returns>
+        ///     A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />, as shown in
+        ///     the following table.Value Meaning Less than zero<paramref name="x" /> is less than <paramref name="y" />.Zero
+        ///     <paramref name="x" /> equals <paramref name="y" />.Greater than zero<paramref name="x" /> is greater than
+        ///     <paramref name="y" />.
+        /// </returns>
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The second object to compare.</param>
+        public int Compare(IModeState x, IModeState y)
+        {
+            var result = string.Compare(x.GetType().Name, y.GetType().Name, StringComparison.Ordinal);
+            if (result != 0) return result;
+
+            return result;
+        }
+
+        /// <summary>
+        ///     Compares the current object with another object of the same type.
+        /// </summary>
+        /// <returns>
+        ///     A value that indicates the relative order of the objects being compared. The return value has the following
+        ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This
+        ///     object is equal to <paramref name="other" />. Greater than zero This object is greater than
+        ///     <paramref name="other" />.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        public int CompareTo(IModeState other)
+        {
+            return string.Compare(other.GetType().Name, GetType().Name, StringComparison.Ordinal);
+        }
+
+        /// <summary>
         ///     Returns a string that represents the current object.
         /// </summary>
         /// <returns>
@@ -176,6 +210,9 @@ namespace TrailEntities
         public override int Compare(ModeState<T> x, ModeState<T> y)
         {
             var result = x.UserData.CompareTo(y.UserData);
+            if (result != 0) return result;
+
+            result = string.Compare(x.GetType().Name, y.GetType().Name, StringComparison.Ordinal);
             if (result != 0) return result;
 
             return result;

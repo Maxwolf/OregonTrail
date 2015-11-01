@@ -36,7 +36,7 @@ namespace TrailEntities
         protected SimulationApp()
         {
             // References all of the active game modes that need to be ticked.
-            Modes = new HashSet<IMode>();
+            Modes = new Dictionary<ModeType, IMode>();
 
             // Start with a clear input and screen buffer.
             InputBuffer = string.Empty;
@@ -73,14 +73,14 @@ namespace TrailEntities
         /// </summary>
         protected IMode ActiveMode
         {
-            get { return Modes.LastOrDefault(); }
+            get { return Modes.LastOrDefault().Value; }
         }
 
         /// <summary>
         ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
         ///     of themselves like stores and trades.
         /// </summary>
-        protected HashSet<IMode> Modes { get; }
+        protected Dictionary<ModeType, IMode> Modes { get; }
 
         /// <summary>
         ///     Removes any and all inactive game modes that need to be removed from the simulation.
@@ -92,20 +92,21 @@ namespace TrailEntities
                 throw new InvalidOperationException("Attempted to remove active mode when it is null!");
 
             // Create copy of all modes so we can destroy while iterating.
-            var copyModes = new List<IMode>(Modes);
+            var copyModes = new Dictionary<ModeType, IMode>(Modes);
             foreach (var mode in copyModes)
             {
                 // Skip if the mode doesn't want to be removed.
-                if (!mode.ShouldRemoveMode)
+                if (!mode.Value.ShouldRemoveMode)
                     continue;
 
                 // Remove the mode from list if it is flagged for removal.
-                Modes.Remove(mode);
+                Modes.Remove(mode.Key);
 
                 // Fire virtual method which will allow game simulation above and attempt to pass this data along to internal game mode and game mode states.
                 if (ActiveMode != null)
                     OnModeChanged(ActiveMode.ModeType);
             }
+            copyModes.Clear();
         }
 
         /// <summary>
@@ -180,19 +181,13 @@ namespace TrailEntities
         /// <param name="modeType">Enumeration value of the mode which should be created.</param>
         public void AddMode(ModeType modeType)
         {
-            // Create new mode, check if it is in mode list.
-            var changeMode = OnModeChanging(modeType);
-
             // Check if any other modes match the one we are adding.
-            foreach (var mode in Modes)
-            {
-                if (mode.ModeType == changeMode.ModeType)
-                    return;
-            }
+            if (Modes.ContainsKey(modeType))
+                return;
 
             // Add the game mode to the simulation now that we know it does not exist in the stack yet.
-            Modes.Add(changeMode);
-            ModeChangedEvent?.Invoke(changeMode.ModeType);
+            Modes.Add(modeType, OnModeChanging(modeType));
+            ModeChangedEvent?.Invoke(Modes[modeType].ModeType);
         }
 
         /// <summary>

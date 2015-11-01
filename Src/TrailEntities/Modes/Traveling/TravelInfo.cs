@@ -24,7 +24,7 @@ namespace TrailEntities
         ///     states when player is making decisions about rest, stopping at locations, dealing with random events that pause
         ///     simulation, etc.
         /// </summary>
-        public string TravelStatus
+        public static string TravelStatus
         {
             get
             {

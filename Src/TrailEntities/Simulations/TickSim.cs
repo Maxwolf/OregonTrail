@@ -30,6 +30,12 @@ namespace TrailEntities
         public delegate void TimerTick(ulong timerTickCount);
 
         /// <summary>
+        ///     Constant for the amount of time difference that should occur from last tick and current tick in milliseconds before
+        ///     the simulation logic will be ticked.
+        /// </summary>
+        private const double TICK_INTERVAL = 1000.0d;
+
+        /// <summary>
         ///     Time and date of latest system tick, used to measure total elapsed time and tick simulation after each second.
         /// </summary>
         private DateTime _currentTickTime;
@@ -40,8 +46,6 @@ namespace TrailEntities
         ///     them.
         /// </summary>
         private DateTime _lastTickTime;
-
-        private const double TICK_INTERVAL = 1000.0d;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.TickSim" /> class.
@@ -57,7 +61,7 @@ namespace TrailEntities
 
             // Visual tick representations for other sub-systems.
             TotalSecondsTicked = 0;
-            TimerTickPhase = "*";
+            TickPhase = "*";
         }
 
         /// <summary>
@@ -65,13 +69,7 @@ namespace TrailEntities
         ///     is no hang in the simulation or logic controllers and everything is moving along and waiting for input or
         ///     displaying something to user.
         /// </summary>
-        protected string TimerTickPhase { get; private set; }
-
-        /// <summary>
-        ///     Determines if the simulation is currently in the process of shutting down and cleaning up any resources it was
-        ///     using.
-        /// </summary>
-        private bool IsClosing { get; set; }
+        protected string TickPhase { get; private set; }
 
         /// <summary>
         ///     Random singleton with some extra methods for making life easy when dealing with simulations.
@@ -96,7 +94,7 @@ namespace TrailEntities
         /// </summary>
         public void Destroy()
         {
-            IsClosing = true;
+            Random = null;
             OnDestroy();
         }
 
@@ -105,7 +103,7 @@ namespace TrailEntities
         ///     real time has gone by and it will attempt to tick the internal logic of the game simulation that inherits above
         ///     this class.
         /// </summary>
-        public event TimerTick TimerTickEvent;
+        public event TimerTick SimulationTickEvent;
 
         /// <summary>
         ///     Tick the internal logic of the simulation. Mostly used for updating text user interface (TUI), and updating screen
@@ -119,7 +117,7 @@ namespace TrailEntities
         /// <summary>
         ///     First tick of the simulation after startup.
         /// </summary>
-        public event FirstTimerTick FirstTimerTickEvent;
+        public event FirstTimerTick FirstSimulationTickEvent;
 
         /// <summary>
         ///     Calculates the number of ticks that have elapsed since the beginning of simulation and to instantiate a TimeSpan
@@ -145,10 +143,10 @@ namespace TrailEntities
         ///     Fired when the simulation is loaded and makes it very first tick using the internal timer mechanism keeping track
         ///     of ticks to keep track of seconds.
         /// </summary>
-        protected virtual void OnFirstTimerTick()
+        protected virtual void OnFirstTick()
         {
             // Fire event that delegate subs will be able to get notification about.
-            FirstTimerTickEvent?.Invoke();
+            FirstSimulationTickEvent?.Invoke();
         }
 
         /// <summary>
@@ -179,7 +177,7 @@ namespace TrailEntities
         /// </summary>
         protected virtual void OnDestroy()
         {
-            Random = null;
+            // Nothing to see here, move along...
         }
 
         /// <summary>
@@ -191,15 +189,17 @@ namespace TrailEntities
             // Increase the tick count.
             TotalSecondsTicked++;
 
+            // Fire event for first tick when it occurs, and only then.
             if (TotalSecondsTicked == 1)
             {
-                OnFirstTimerTick();
+                OnFirstTick();
             }
 
-            TimerTickPhase = TimerTickVisualizer(TimerTickPhase);
+            // Visual representation of ticking for debugging purposes.
+            TickPhase = TimerTickVisualizer(TickPhase);
 
             // Fire tick event for any subscribers to see and overrides for inheriting classes.
-            TimerTickEvent?.Invoke(TotalSecondsTicked);
+            SimulationTickEvent?.Invoke(TotalSecondsTicked);
         }
     }
 }

@@ -1,10 +1,13 @@
-﻿namespace TrailCommon
+﻿using System;
+using System.Collections.Generic;
+
+namespace TrailCommon
 {
     /// <summary>
     ///     Defines interface for game mode state which can show data, accept input, add new game modes, set new state, and
     ///     have user data custom per implementation.
     /// </summary>
-    public interface IModeState
+    public interface IModeState : IComparer<IModeState>, IComparable<IModeState>
     {
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
