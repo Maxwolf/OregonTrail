@@ -42,7 +42,8 @@ namespace TrailEntities
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        protected override void OnModeRemoved()
+        /// <param name="modeType"></param>
+        protected override void OnModeRemoved(ModeType modeType)
         {
             throw new NotImplementedException();
         }

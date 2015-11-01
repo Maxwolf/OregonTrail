@@ -4,7 +4,7 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public sealed class ClimateSim : IClimateSimulation
+    public sealed class ClimateSim
     {
         private List<ClimateData> _averageTemperatures;
 

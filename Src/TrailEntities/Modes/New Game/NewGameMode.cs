@@ -37,13 +37,5 @@ namespace TrailEntities
         ///     Default values for new game.
         /// </summary>
         public NewGameInfo NewGameInfo { get; set; }
-
-        /// <summary>
-        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
-        /// </summary>
-        protected override void OnModeRemoved()
-        {
-            NewGameInfo = null;
-        }
     }
 }

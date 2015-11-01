@@ -206,9 +206,20 @@ namespace TrailEntities
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        protected override void OnModeRemoved()
+        /// <param name="modeType"></param>
+        protected override void OnModeRemoved(ModeType modeType)
         {
-            base.OnModeRemoved();
+            base.OnModeRemoved(modeType);
+
+            // Store is only going to process transactions on removal when it is the one up for removal.
+            if (modeType != ModeType.Store)
+                return;
+
+            // First point of simulation when leaving store will setup the trail to be there.
+            if (GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest())
+            {
+                GameSimulationApp.Instance.TrailSim.MoveTowardsNextPointOfInterest();
+            }
 
             // Process all of the pending transactions in the store receipt info object.
             foreach (var transaction in StoreInfo.Transactions)

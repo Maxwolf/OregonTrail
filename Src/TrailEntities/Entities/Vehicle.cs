@@ -77,7 +77,7 @@ namespace TrailEntities
 
         public void UpdateVehicle()
         {
-            throw new NotImplementedException();
+            // TODO: Simulate random events that can happen to vehicle during the course of a day.
         }
 
         public void ResetVehicle(uint startingMonies)

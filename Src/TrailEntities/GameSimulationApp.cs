@@ -10,22 +10,6 @@ namespace TrailEntities
     public sealed class GameSimulationApp : SimulationApp
     {
         /// <summary>
-        ///     Manages weather, temperature, humidity, and current grazing level for living animals.
-        /// </summary>
-        private ClimateSim _climate;
-
-        /// <summary>
-        ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
-        ///     game modes, people, and vehicles.
-        /// </summary>
-        private EventSim _director;
-
-        /// <summary>
-        ///     Manages time in a linear since from the provided ticks in base simulation class. Handles days, months, and years.
-        /// </summary>
-        private TimeSim _time;
-
-        /// <summary>
         ///     Current vessel which the player character and his party are traveling inside of, provides means of transportation
         ///     other than walking.
         /// </summary>
@@ -35,20 +19,21 @@ namespace TrailEntities
 
         public static GameSimulationApp Instance { get; private set; }
 
-        public ITimeSimulation Time
-        {
-            get { return _time; }
-        }
+        /// <summary>
+        ///     Manages time in a linear since from the provided ticks in base simulation class. Handles days, months, and years.
+        /// </summary>
+        public TimeSim Time { get; private set; }
 
-        public IClimateSimulation Climate
-        {
-            get { return _climate; }
-        }
+        /// <summary>
+        ///     Manages weather, temperature, humidity, and current grazing level for living animals.
+        /// </summary>
+        public ClimateSim Climate { get; private set; }
 
-        public IEventSimulation Director
-        {
-            get { return _director; }
-        }
+        /// <summary>
+        ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
+        ///     game modes, people, and vehicles.
+        /// </summary>
+        public EventSim Director { get; private set; }
 
         public IVehicle Vehicle
         {
@@ -57,10 +42,14 @@ namespace TrailEntities
 
         public uint TotalTurns { get; private set; }
 
+        /// <summary>
+        ///     Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
+        ///     capacity or want to do so in this turn.
+        /// </summary>
         public void TakeTurn()
         {
             TotalTurns++;
-            _time.TickTime();
+            Time.TickTime();
         }
 
         /// <summary>
@@ -147,24 +136,24 @@ namespace TrailEntities
         protected override void OnDestroy()
         {
             // Unhook delegates from time events.
-            if (_time != null)
+            if (Time != null)
             {
-                _time.DayEndEvent -= TimeSimulation_DayEndEvent;
-                _time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
-                _time.YearEndEvent -= TimeSimulation_YearEndEvent;
-                _time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
+                Time.DayEndEvent -= TimeSimulation_DayEndEvent;
+                Time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
+                Time.YearEndEvent -= TimeSimulation_YearEndEvent;
+                Time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
             }
 
             // Unhook director event manager events.
-            if (_director != null)
+            if (Director != null)
             {
-                _director.EventAdded -= DirectorOnEventAdded;
+                Director.EventAdded -= DirectorOnEventAdded;
             }
 
             // Destroy all instances.
-            _time = null;
-            _climate = null;
-            _director = null;
+            Time = null;
+            Climate = null;
+            Director = null;
             TrailSim = null;
             TotalTurns = 0;
             _vehicle = null;
@@ -182,27 +171,24 @@ namespace TrailEntities
             base.OnFirstTick();
 
             // Linear time simulation with ticks.
-            _time = new TimeSim(1848, Months.March, 1, TravelPace.Paused);
-            _time.DayEndEvent += TimeSimulation_DayEndEvent;
-            _time.MonthEndEvent += TimeSimulation_MonthEndEvent;
-            _time.YearEndEvent += TimeSimulation_YearEndEvent;
-            _time.SpeedChangeEvent += TimeSimulation_SpeedChangeEvent;
+            Time = new TimeSim(1848, Months.March, 1, TravelPace.Paused);
+            Time.DayEndEvent += TimeSimulation_DayEndEvent;
+            Time.MonthEndEvent += TimeSimulation_MonthEndEvent;
+            Time.YearEndEvent += TimeSimulation_YearEndEvent;
+            Time.SpeedChangeEvent += TimeSimulation_SpeedChangeEvent;
 
             // Director event manager, and his delegate.
-            _director = new EventSim();
-            _director.EventAdded += DirectorOnEventAdded;
+            Director = new EventSim();
+            Director.EventAdded += DirectorOnEventAdded;
 
             // Environment, weather, conditions, climate, tail, vehicle, stats.
-            _climate = new ClimateSim(ClimateClassification.Moderate);
-            TrailSim = new TrailSim(Trails.OregonTrail());
+            Climate = new ClimateSim(ClimateClassification.Moderate);
+            TrailSim = new TrailSim(TrailRegistry.OregonTrail());
             TotalTurns = 0;
             _vehicle = new Vehicle();
 
             // Attach traveling mode since that is the default and bottom most game mode.
             AddMode(ModeType.Travel);
-
-            // Forcefully trigger the arrival on the first spot on the trail.
-            TrailSim.ReachedPointOfInterest();
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
             AddMode(ModeType.NewGame);
@@ -249,7 +235,8 @@ namespace TrailEntities
 
         private void TimeSimulation_SpeedChangeEvent()
         {
-            //Console.WriteLine("Travel pace changed to " + _vehicle.Pace);
+            // TODO: Change the simulation pace to whatever the linear time simulation is doing.
+            Console.WriteLine("Travel pace changed to " + _vehicle.Pace);
         }
 
         private void TimeSimulation_YearEndEvent(uint yearCount)
@@ -257,14 +244,22 @@ namespace TrailEntities
             //Console.WriteLine("Year end!");
         }
 
+        /// <summary>
+        ///     Fired after each simulated day.
+        /// </summary>
+        /// <param name="dayCount">Total number of days in the simulation that have passed.</param>
         private void TimeSimulation_DayEndEvent(uint dayCount)
         {
-            _climate.TickClimate();
+            // Each day we tick the weather, vehicle, and the people in it.
+            Climate.TickClimate();
             Vehicle.UpdateVehicle();
-            TrailSim.ReachedPointOfInterest();
-            _vehicle.Odometer += (uint) Vehicle.Pace;
 
-            //Console.WriteLine("Day end!");
+            // Move towards the next location on the trail.
+            if (!TrailSim.MoveTowardsNextPointOfInterest())
+            {
+                // Update total distance traveled on vehicle if we have not reached the point.
+                _vehicle.Odometer += (uint) Vehicle.Pace;
+            }
         }
 
         private void TimeSimulation_MonthEndEvent(uint monthCount)

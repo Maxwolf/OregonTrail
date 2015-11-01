@@ -3,7 +3,10 @@ using TrailCommon;
 
 namespace TrailEntities
 {
-    public static class Stores
+    /// <summary>
+    /// Holds a bunch of pre-made stores that adjust the prices of things along the way.
+    /// </summary>
+    public static class StoreRegistry
     {
         /// <summary>
         ///     Matt's General Store is the first place in the game to buy supplies. This is where you stock up with everything

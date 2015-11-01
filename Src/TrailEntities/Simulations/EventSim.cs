@@ -8,8 +8,10 @@ namespace TrailEntities
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
     ///     game simulation normally.
     /// </summary>
-    public sealed class EventSim : IEventSimulation
+    public sealed class EventSim
     {
+        public delegate void EventAdd(IEventItem eventItem);
+
         /// <summary>
         ///     References all of the events that have been triggered by the system in chronological order they occurred.
         /// </summary>

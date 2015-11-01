@@ -88,8 +88,8 @@
     <Compile Include="GameSimulationApp.cs" />
     <Compile Include="Simulations\EventSim.cs" />
     <Compile Include="Simulations\TickSim.cs" />
-    <Compile Include="Stores.cs" />
-    <Compile Include="Trails.cs" />
+    <Compile Include="StoreRegistry.cs" />
+    <Compile Include="TrailRegistry.cs" />
     <Compile Include="Simulations\ClimateSim.cs" />
     <Compile Include="SimulationApp.cs" />
     <Compile Include="Simulations\TimeSim.cs" />

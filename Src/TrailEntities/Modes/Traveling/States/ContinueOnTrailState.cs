@@ -41,7 +41,7 @@ namespace TrailEntities
         {
             var nextStop = new StringBuilder();
             var nextPoint = GameSimulationApp.Instance.TrailSim.GetNextPointOfInterest();
-            nextStop.Append($"From {ParentMode.CurrentPoint.Name} it is {nextPoint.DistanceLength}");
+            nextStop.Append($"From {ParentMode.CurrentPoint.Name} it is {nextPoint.DistanceLength} ");
             nextStop.Append($"miles to the {nextPoint.Name}");
             return nextStop.ToString();
         }
@@ -55,8 +55,12 @@ namespace TrailEntities
             if (hasContinuedOnTrail)
                 return;
 
+            // Close the continue on screen when we get any user input.
             hasContinuedOnTrail = true;
             ParentMode.CurrentState = null;
+
+            // Inform the time simulation it may resume.
+            GameSimulationApp.Instance.Time.ResumeTime();
         }
     }
 }

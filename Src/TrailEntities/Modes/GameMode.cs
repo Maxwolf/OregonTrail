@@ -195,13 +195,12 @@ namespace TrailEntities
         /// </summary>
         public void RemoveModeNextTick()
         {
-            ShouldRemoveMode = true;
-
             // Forcefully detaches any state that was active before calling mode removed.
+            ShouldRemoveMode = true;
             CurrentState = null;
 
-            // Allows any data structures that care about themselves to save before the next time comes.
-            OnModeRemoved();
+            // Allows any data structures that care about themselves to save before the next tick comes.
+            OnModeRemoved(ModeType);
         }
 
         /// <summary>
@@ -361,10 +360,9 @@ namespace TrailEntities
         ///     Fired when trail simulation has determined the vehicle and player party has reached the next point of interest in
         ///     the trail.
         /// </summary>
-        /// <param name="nextPoint"></param>
         protected virtual void OnReachPointOfInterest(PointOfInterest nextPoint)
         {
-            // TODO: Ideas from brain go here...
+            Debug.Assert(nextPoint != null, "nextPoint != null");
         }
 
         /// <summary>
@@ -463,7 +461,8 @@ namespace TrailEntities
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        protected virtual void OnModeRemoved()
+        /// <param name="modeType">The mode that is about to be removed.</param>
+        protected virtual void OnModeRemoved(ModeType modeType)
         {
             GameSimulationApp.Instance.TrailSim.OnReachPointOfInterest -= OnReachPointOfInterest;
             _menuChoices = null;

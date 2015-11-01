@@ -46,34 +46,39 @@ namespace TrailEntities
         /// <summary>
         ///     Advances the vehicle to the next point of interest on the path.
         /// </summary>
-        public void ReachedPointOfInterest()
+        /// <returns>TRUE if we have arrived at next point, FALSE if this method needs called more...</returns>
+        public bool MoveTowardsNextPointOfInterest()
         {
+            var currentPoint = GetCurrentPointOfInterest();
+
             // Figure out if this is first step, or one of many after the start.
             if (VehicleLocation == -1)
             {
                 // Startup advancement to get things started.
                 VehicleLocation = 0;
 
-                // Grab some data about our travels on the trail.
-                var nextPoint = GetNextPointOfInterest();
-                var currentPoint = GetCurrentPointOfInterest();
-
-                // Check to make sure we are really at the next point based on all available data.
-                if (DistanceToNextPoint > 0 || (nextPoint == null || nextPoint.DistanceLength <= 0))
-                    return;
-
-                // Setup next travel distance requirement.
-                DistanceToNextPoint = nextPoint.DistanceLength;
-
                 // Fire method to do some work and attach game modes based on this.
                 OnReachedPointOfInterest(currentPoint);
             }
             else if (VehicleLocation < PointsOfInterest.Count())
             {
+                // Grab some data about our travels on the trail.
+                var nextPoint = GetNextPointOfInterest();
+
+                // Check to make sure we are really at the next point based on all available data.
+                if (DistanceToNextPoint > 0 || (nextPoint == null || nextPoint.DistanceLength <= 0))
+                    return false;
+
+                // Setup next travel distance requirement.
+                DistanceToNextPoint = nextPoint.DistanceLength;
+
                 // This is a normal advancement on the trail.
                 VehicleLocation++;
                 DistanceToNextPoint--;
             }
+
+            // Default response is to return true, up to method to deny access to next point.
+            return true;
         }
 
         /// <summary>
@@ -123,11 +128,11 @@ namespace TrailEntities
         /// </param>
         private void OnReachedPointOfInterest(PointOfInterest nextPoint)
         {
-            // Fire event here for API subscribers to know point was reached. 
-            OnReachPointOfInterest?.Invoke(nextPoint);
-
             // Attach some game mode based on the relevance of the next point type.
             GameSimulationApp.Instance.AddMode(nextPoint.ModeType);
+
+            // Fire event here for API subscribers to know point was reached. 
+            OnReachPointOfInterest?.Invoke(nextPoint);
         }
     }
 }

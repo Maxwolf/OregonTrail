@@ -155,11 +155,20 @@ namespace TrailEntities
             base.OnReachPointOfInterest(nextPoint);
 
             // Check if the point is us, and a location we need to welcome player into.
-            if (nextPoint == CurrentPoint && nextPoint.ModeType == ModeType.Location)
+            if (nextPoint != CurrentPoint || nextPoint.ModeType != ModeType.Location)
+                return;
+
+            // On the first point we are going to force the look around state onto the traveling mode without asking.
+            if (GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest())
             {
-                CurrentState = GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest()
-                    ? (IModeState) new LookAroundState(this, TravelInfo)
-                    : new LookAroundQuestionState(this, TravelInfo);
+                CurrentState = new LookAroundState(this, TravelInfo);
+            }
+            else if (!GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest() &&
+                      GameSimulationApp.Instance.Vehicle.Odometer > 0 &&
+                      GameSimulationApp.Instance.TotalTurns > 0)
+            {
+                // Ensure we only ask if the player wants to stop when it is really not the first turn.
+                CurrentState = new LookAroundQuestionState(this, TravelInfo);
             }
         }
 

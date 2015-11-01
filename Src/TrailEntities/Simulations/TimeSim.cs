@@ -6,8 +6,16 @@ namespace TrailEntities
     ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
     ///     simulation by one day. There are also other options and events for checking state, and changing state.
     /// </summary>
-    public sealed class TimeSim : ITimeSimulation
+    public sealed class TimeSim
     {
+        public delegate void DayHandler(uint dayCount);
+
+        public delegate void MonthHandler(uint monthCount);
+
+        public delegate void SpeedHandler();
+
+        public delegate void YearHandler(uint yearCount);
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.SimulationTime" /> class.
         /// </summary>
@@ -29,17 +37,22 @@ namespace TrailEntities
 
         public TravelPace CurrentSpeed { get; private set; }
 
-        public uint CurrentDay { get; private set; }
+        private uint CurrentDay { get; set; }
 
         public uint CurrentYear { get; private set; }
 
-        public uint TotalYears { get; private set; }
+        private uint TotalYears { get; set; }
 
-        public uint TotalMonths { get; private set; }
+        private uint TotalMonths { get; set; }
 
-        public uint TotalDays { get; private set; }
+        private uint TotalDays { get; set; }
 
-        public int TotalDaysThisYear { get; private set; }
+        private int TotalDaysThisYear { get; set; }
+
+        public Date Date
+        {
+            get { return new Date(CurrentYear, CurrentMonth, CurrentDay); }
+        }
 
         /// <summary>
         ///     Advances the tick of the game forward firing off events for new eras, years, months and days.
@@ -119,9 +132,23 @@ namespace TrailEntities
         /// <summary>
         ///     Resumes game simulation after being paused.
         /// </summary>
-        public void ResumeTick()
+        public void ResumeTime()
         {
-            // Fire speed change event to kick start timer.
+            // TODO: Set the travel pace back to whatever it was before the simulation was paused.
+
+            // Inform subscribers we updated progression of time.
+            SpeedChangeEvent?.Invoke();
+        }
+
+        /// <summary>
+        ///     Pauses game simulation from ticking time, stopping events and actions related to days, months, or years ticking
+        ///     over.
+        /// </summary>
+        public void PauseTime()
+        {
+            // TODO: Stop the linear time simulation, but save the pace at which it was running.
+
+            // Inform subscribers we updated progression of time.
             SpeedChangeEvent?.Invoke();
         }
 
@@ -129,10 +156,5 @@ namespace TrailEntities
         public event MonthHandler MonthEndEvent;
         public event DayHandler DayEndEvent;
         public event SpeedHandler SpeedChangeEvent;
-
-        public Date Date
-        {
-            get { return new Date(CurrentYear, CurrentMonth, CurrentDay); }
-        }
     }
 }
