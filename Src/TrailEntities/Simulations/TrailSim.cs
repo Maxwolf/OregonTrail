@@ -8,8 +8,14 @@ namespace TrailEntities
     ///     Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps
     ///     track of the vehicles current position on the trail and provides helper methods to quickly access it.
     /// </summary>
-    public sealed class TrailSim : ITrail
+    public sealed class TrailSim
     {
+        /// <summary>
+        ///     Delegate that passes along the next point of interest that was reached to the event and any subscribers to it.
+        /// </summary>
+        /// <param name="nextPoint">Next point of interest that will be attached to game simulation.</param>
+        public delegate void PointOfInterestReached(PointOfInterest nextPoint);
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.TrailSim" /> class.
         /// </summary>
@@ -25,17 +31,17 @@ namespace TrailEntities
         /// <summary>
         ///     Reference to how many ticks are between the players vehicle and the next point of interest.
         /// </summary>
-        public ulong DistanceToNextPoint { get; private set; }
+        private ulong DistanceToNextPoint { get; set; }
 
         /// <summary>
         ///     Current location of the players vehicle as index of points of interest list.
         /// </summary>
-        public int VehicleLocation { get; private set; }
+        private int VehicleLocation { get; set; }
 
         /// <summary>
         ///     List of all of the points of interest that make up the entire trail.
         /// </summary>
-        public IEnumerable<PointOfInterest> PointsOfInterest { get; }
+        private IEnumerable<PointOfInterest> PointsOfInterest { get; }
 
         /// <summary>
         ///     Advances the vehicle to the next point of interest on the path.

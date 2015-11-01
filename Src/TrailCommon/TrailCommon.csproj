@@ -60,7 +60,6 @@
     <Compile Include="Modes\Traveling\TravelCommands.cs" />
     <Compile Include="Simulations\Event\IEventItem.cs" />
     <Compile Include="Simulations\Event\IEventSimulation.cs" />
-    <Compile Include="Simulations\Game\ITick.cs" />
     <Compile Include="Modes\Traveling\ITravelingMode.cs" />
     <Compile Include="Simulations\Climate\ClimateClassification.cs" />
     <Compile Include="Simulations\Climate\ClimateData.cs" />
@@ -81,7 +80,6 @@
     <Compile Include="Entity Templates\Trail\IPoint.cs" />
     <Compile Include="Modes\Store\IStoreMode.cs" />
     <Compile Include="Modes\Trading\ITradingMode.cs" />
-    <Compile Include="Simulations\Game\ITrail.cs" />
     <Compile Include="Entity Templates\People\RationLevel.cs" />
     <Compile Include="Entity Templates\People\IPerson.cs" />
     <Compile Include="Entity Templates\Vehicle\IVehicle.cs" />

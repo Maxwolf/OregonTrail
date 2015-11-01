@@ -4,14 +4,14 @@ using TrailEntities;
 
 namespace TrailGame
 {
-    internal class Program
+    internal static class Program
     {
         /// <summary>
         ///     Create game simulation server or client depending on what the user wants.
         /// </summary>
         private static void Main()
         {
-            // Create console with title, no cursor, make ctrl-c act as input.
+            // Create console with title, no cursor, make CTRL-C act as input.
             Console.Title = "Oregon Trail Clone";
             Console.WriteLine("Starting...");
             Console.CursorVisible = false;
@@ -26,8 +26,8 @@ namespace TrailGame
             // Prevent console session from closing.
             while (GameSimulationApp.Instance != null)
             {
-                // Tick the internal logic of the simulation. Mostly used for updating text user interface (TUI), and updating screen buffer.
-                GameSimulationApp.Instance.SystemTick();
+                // Simulation takes any numbers of pulses to determine seconds elapsed.
+                GameSimulationApp.Instance.TickSystem();
 
                 // Check if a key is being pressed, without blocking thread.
                 if (Console.KeyAvailable)
