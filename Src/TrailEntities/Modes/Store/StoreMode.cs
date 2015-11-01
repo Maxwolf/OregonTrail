@@ -42,7 +42,7 @@ namespace TrailEntities
         ///     Defines the text prefix which will go above the menu, used to show any useful information the game mode might need
         ///     to at the top of menu selections.
         /// </summary>
-        public override string MenuHeader { get; protected set; }
+        protected override string MenuHeader { get; set; }
 
         /// <summary>
         ///     Offers chance to purchase a special vehicle part that is also an animal that eats grass and can die if it starves.
@@ -200,51 +200,79 @@ namespace TrailEntities
         /// </summary>
         private void UpdateDebts()
         {
-            // TODO: Remove LINQ calls and use a single loop instead.
-            _oxenAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
-                t is OxenItem)?.ToString() ?? ITEM_NOT_FOUND;
-
-            _foodAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
-                t is FoodItem)?.ToString() ?? ITEM_NOT_FOUND;
-
-            _clothingAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
-                t is ClothingItem)?.ToString() ?? ITEM_NOT_FOUND;
-
-            _bulletsAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
-                t is BulletsItem)?.ToString() ?? ITEM_NOT_FOUND;
-
-            _wheelsAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
-                t is PartWheelItem)?.ToString() ?? ITEM_NOT_FOUND;
-
-            _axlesAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
-                t is PartAxleItem)?.ToString() ?? ITEM_NOT_FOUND;
-
-            _tonguesAmount = CurrentPoint.StoreItems.FirstOrDefault(t =>
-                t is PartTongueItem)?.ToString() ?? ITEM_NOT_FOUND;
-
             // We will only modify store visualization of prices when at the first location on the trail.
-            if (GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest())
+            var firstPoint = GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest();
+            if (firstPoint)
             {
-                _oxenAmount = StoreInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is OxenItem)?.ToString() ?? ZERO_MONIES;
+                // First store is slightly different and shows total monies against store transactions items instead.
+                _oxenAmount = ZERO_MONIES;
+                _foodAmount = ZERO_MONIES;
+                _clothingAmount = ZERO_MONIES;
+                _bulletsAmount = ZERO_MONIES;
+                _wheelsAmount = ZERO_MONIES;
+                _axlesAmount = ZERO_MONIES;
+                _tonguesAmount = ZERO_MONIES;
 
-                _foodAmount = StoreInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is FoodItem)?.ToString() ?? ZERO_MONIES;
+                // Loop through every pending transaction and match it item type, the transaction will print out a nice cost of itself.
+                foreach (var pendingBuy in StoreInfo.Transactions)
+                {
+                    if (pendingBuy.Item is OxenItem)
+                        _oxenAmount = pendingBuy.ToString();
 
-                _clothingAmount = StoreInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is ClothingItem)?.ToString() ?? ZERO_MONIES;
+                    if (pendingBuy.Item is FoodItem)
+                        _foodAmount = pendingBuy.ToString();
 
-                _bulletsAmount = StoreInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is BulletsItem)?.ToString() ?? ZERO_MONIES;
+                    if (pendingBuy.Item is ClothingItem)
+                        _clothingAmount = pendingBuy.ToString();
 
-                _wheelsAmount = StoreInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is PartWheelItem)?.ToString() ?? ZERO_MONIES;
+                    if (pendingBuy.Item is BulletsItem)
+                        _bulletsAmount = pendingBuy.ToString();
 
-                _axlesAmount = StoreInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is PartAxleItem)?.ToString() ?? ZERO_MONIES;
+                    if (pendingBuy.Item is PartWheelItem)
+                        _wheelsAmount = pendingBuy.ToString();
 
-                _tonguesAmount = StoreInfo.Transactions.FirstOrDefault(t =>
-                    t.Item is PartTongueItem)?.ToString() ?? ZERO_MONIES;
+                    if (pendingBuy.Item is PartAxleItem)
+                        _axlesAmount = pendingBuy.ToString();
+
+                    if (pendingBuy.Item is PartTongueItem)
+                        _tonguesAmount = pendingBuy.ToString();
+                }
+            }
+            else
+            {
+                // Default store print out looks for matching items the store sells.
+                _oxenAmount = ITEM_NOT_FOUND;
+                _foodAmount = ITEM_NOT_FOUND;
+                _clothingAmount = ITEM_NOT_FOUND;
+                _bulletsAmount = ITEM_NOT_FOUND;
+                _wheelsAmount = ITEM_NOT_FOUND;
+                _axlesAmount = ITEM_NOT_FOUND;
+                _tonguesAmount = ITEM_NOT_FOUND;
+
+                // Loop through every item the store sells and print out what it costs per unit.
+                foreach (var storeItem in CurrentPoint.StoreItems)
+                {
+                    if (storeItem is OxenItem)
+                        _oxenAmount = storeItem.ToString();
+
+                    if (storeItem is FoodItem)
+                        _foodAmount = storeItem.ToString();
+
+                    if (storeItem is ClothingItem)
+                        _clothingAmount = storeItem.ToString();
+
+                    if (storeItem is BulletsItem)
+                        _bulletsAmount = storeItem.ToString();
+
+                    if (storeItem is PartWheelItem)
+                        _wheelsAmount = storeItem.ToString();
+
+                    if (storeItem is PartAxleItem)
+                        _axlesAmount = storeItem.ToString();
+
+                    if (storeItem is PartTongueItem)
+                        _tonguesAmount = storeItem.ToString();
+                }
             }
 
             // Header text for above menu.

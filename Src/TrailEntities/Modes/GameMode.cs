@@ -76,20 +76,20 @@ namespace TrailEntities
         ///     Defines the text prefix which will go above the menu, used to show any useful information the game mode might need
         ///     to at the top of menu selections.
         /// </summary>
-        public virtual string MenuHeader
+        protected virtual string MenuHeader
         {
             get { return _menuHeader; }
-            protected set { _menuHeader = value; }
+            set { _menuHeader = value; }
         }
 
         /// <summary>
         ///     Similar to the header this will define some text that should go below the menu selection but before the user input
         ///     field.
         /// </summary>
-        public virtual string MenuFooter
+        protected virtual string MenuFooter
         {
             get { return _menuFooter; }
-            protected set { _menuFooter = value; }
+            set { _menuFooter = value; }
         }
 
         /// <summary>

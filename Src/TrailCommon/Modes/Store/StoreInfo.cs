@@ -12,7 +12,7 @@ namespace TrailCommon
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        private List<StoreTransactionItem> _totalTransactions;
+        private HashSet<StoreTransactionItem> _totalTransactions;
 
         /// <summary>
         ///     Creates a new store transaction tracker.
@@ -21,7 +21,7 @@ namespace TrailCommon
         public StoreInfo(bool showAdvice = false)
         {
             ShowStoreAdvice = showAdvice;
-            _totalTransactions = new List<StoreTransactionItem>();
+            _totalTransactions = new HashSet<StoreTransactionItem>();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace TrailCommon
         public StoreInfo()
         {
             ShowStoreAdvice = false;
-            _totalTransactions = new List<StoreTransactionItem>();
+            _totalTransactions = new HashSet<StoreTransactionItem>();
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace TrailCommon
         /// </summary>
         public IEnumerable<StoreTransactionItem> Transactions
         {
-            get { return _totalTransactions.AsReadOnly(); }
+            get { return _totalTransactions; }
         }
 
         protected override string Name
@@ -90,14 +90,14 @@ namespace TrailCommon
         /// <summary>
         ///     Removes an item from the list of pending transactions. If it does not exist then nothing will happen.
         /// </summary>
-        private void RemoveItem(Item item)
+        private void RemoveItem(IEntity item)
         {
             // Loop through every single transaction.
-            var copyList = new List<StoreTransactionItem>(_totalTransactions);
+            var copyList = new HashSet<StoreTransactionItem>(_totalTransactions);
             foreach (var transaction in copyList)
             {
                 // Check if item name matches incoming one.
-                if (!transaction.Item.Name.Equals(item.Name))
+                if (!transaction.Item.Equals(item))
                     continue;
 
                 // Remove that tuple from transaction list.
