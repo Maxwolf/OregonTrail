@@ -121,6 +121,32 @@ namespace TrailEntities
         /// </summary>
         public void LeaveStore()
         {
+            // Check if the player has any oxen to pull their vehicle.
+            var boughtOxen = false;
+            foreach (var pendingBuy in StoreInfo.Transactions)
+            {
+                if (!(pendingBuy.Item is OxenItem))
+                    continue;
+
+                boughtOxen = true;
+                break;
+            }
+
+            // Complain if the player does not have any oxen to pull their vehicle.
+            if (!boughtOxen)
+            {
+                CurrentState = new MissingItemState(new OxenItem(0), this, StoreInfo);
+                return;
+            }
+
+            // Check if player can afford the items they have selected.
+            if (GameSimulationApp.Instance.Vehicle.Balance < StoreInfo.GetTransactionTotalCost())
+            {
+                CurrentState = new StoreDebtState(this, StoreInfo);
+                return;
+            }
+
+            // Remove the store if we make this far!
             RemoveModeNextTick();
         }
 

@@ -69,7 +69,9 @@
     <Compile Include="Modes\New Game\SelectStartingMonthState.cs" />
     <Compile Include="Modes\New Game\StartMonthAdviceState.cs" />
     <Compile Include="Modes\Store\BuyItemState.cs" />
+    <Compile Include="Modes\Store\MissingItemState.cs" />
     <Compile Include="Modes\Store\StoreAdviceState.cs" />
+    <Compile Include="Modes\Store\StoreDebtState.cs" />
     <Compile Include="Modes\Traveling\States\ChangeRationsState.cs" />
     <Compile Include="Modes\Traveling\States\ChangePaceState.cs" />
     <Compile Include="Modes\Traveling\States\CheckSuppliesState.cs" />
