@@ -9,21 +9,14 @@ namespace TrailEntities
     ///     the constructor there is a default boolean value to skip the question asking part and force a look around event to
     ///     occur without player consent.
     /// </summary>
-    public sealed class PointReachedState : ModeState<TravelInfo>
+    public sealed class LookAroundQuestionState : ModeState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointReachedState(IMode gameMode, TravelInfo userData, bool forceLookAround = false)
+        public LookAroundQuestionState(IMode gameMode, TravelInfo userData)
             : base(gameMode, userData)
         {
-            UserData.ForceLookAround = forceLookAround;
-
-            // Skip asking the player anything and go right to next game mode state.
-            if (UserData.ForceLookAround)
-            {
-                ParentMode.CurrentState = new LookAroundState(ParentMode, UserData);
-            }
         }
 
         /// <summary>
@@ -45,10 +38,6 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            // Do not accept input if we are forced to look around.
-            if (UserData.ForceLookAround)
-                return;
-
             // If use wants to look around attach that mode, other wise just remove current state and go back to travel mode.
             switch (input.ToUpperInvariant())
             {

@@ -74,7 +74,7 @@
     <Compile Include="Modes\Traveling\ChangePaceState.cs" />
     <Compile Include="Modes\Traveling\CheckSuppliesState.cs" />
     <Compile Include="Modes\Traveling\ContinueOnTrailState.cs" />
-    <Compile Include="Modes\Traveling\PointReachedState.cs" />
+    <Compile Include="Modes\Traveling\LookAroundQuestionState.cs" />
     <Compile Include="Modes\Traveling\LookAtMapState.cs" />
     <Compile Include="Modes\Traveling\LookAroundState.cs" />
     <Compile Include="Modes\Traveling\StopToRestState.cs" />

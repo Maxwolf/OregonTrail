@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using TrailCommon;
 
 namespace TrailEntities
@@ -164,10 +163,9 @@ namespace TrailEntities
             // Check if the point is us, and a location we need to welcome player into.
             if (nextPoint == CurrentPoint && nextPoint.ModeType == ModeType.Location)
             {
-                var isFirstPoint = GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0 &&
-                                   GameSimulationApp.Instance.TotalTurns <= 0;
-
-                CurrentState = new PointReachedState(this, TravelInfo, isFirstPoint);
+                CurrentState = GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest()
+                    ? (IModeState) new LookAroundState(this, TravelInfo)
+                    : new LookAroundQuestionState(this, TravelInfo);
             }
         }
 

@@ -44,6 +44,13 @@ namespace TrailCommon
         ///     Event that will be fired when the next point of interest has been reached on the trail.
         /// </summary>
         event PointOfInterestReached OnReachPointOfInterest;
+
+        /// <summary>
+        ///     Determines if the current point of interest is indeed the first one of the game, makes it easier for game modes and
+        ///     states to check this for doing special actions on the first move.
+        /// </summary>
+        /// <returns>TRUE if first point on trail, FALSE if not.</returns>
+        bool IsFirstPointOfInterest();
     }
 
     /// <summary>

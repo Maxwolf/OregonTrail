@@ -99,6 +99,16 @@ namespace TrailEntities
         public event PointOfInterestReached OnReachPointOfInterest;
 
         /// <summary>
+        ///     Determines if the current point of interest is indeed the first one of the game, makes it easier for game modes and
+        ///     states to check this for doing special actions on the first move.
+        /// </summary>
+        /// <returns>TRUE if first point on trail, FALSE if not.</returns>
+        public bool IsFirstPointOfInterest()
+        {
+            return VehicleLocation <= 0 && GameSimulationApp.Instance.TotalTurns <= 0;
+        }
+
+        /// <summary>
         ///     Fired when the players vehicle reaches the next point of interest on the trail.
         /// </summary>
         /// <param name="nextPoint">

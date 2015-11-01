@@ -223,7 +223,7 @@ namespace TrailEntities
                 t is PartTongueItem)?.ToString() ?? ITEM_NOT_FOUND;
 
             // We will only modify store visualization of prices when at the first location on the trail.
-            if (GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0)
+            if (GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest())
             {
                 _oxenAmount = StoreInfo.Transactions.FirstOrDefault(t =>
                     t.Item is OxenItem)?.ToString() ?? ZERO_MONIES;
@@ -276,14 +276,14 @@ namespace TrailEntities
 
             // If at first location we show the total cost of the bill so far the player has racked up.
             footerText.Append(
-                GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0
+                GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest()
                     ? $"Total bill:            {totalBill.ToString("C2")}" +
                       $"\nAmount you have:       {amountPlayerHas.ToString("C2")}\n\nWhich item would you like to buy?"
                     : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.\n\nWhich number?");
             MenuFooter = footerText.ToString();
 
             // Trigger the store advice automatically on the first location and one time only.
-            if (GameSimulationApp.Instance.TrailSim.VehicleLocation <= 0 && StoreInfo.ShowStoreAdvice)
+            if (GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest() && StoreInfo.ShowStoreAdvice)
             {
                 StoreInfo.ShowStoreAdvice = false;
                 StoreAdvice();
