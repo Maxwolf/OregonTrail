@@ -11,7 +11,7 @@ namespace TrailEntities
     public sealed class StoreDebtState : ModeState<StoreInfo>
     {
         /// <summary>
-        /// Determines if we have already told the player about their debt.
+        ///     Determines if we have already told the player about their debt.
         /// </summary>
         private bool _hasComplainedAboutDebt;
 
@@ -23,26 +23,28 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
-        /// </summary>
-        public override string GetStateTUI()
-        {
-            var storeDebt = new StringBuilder();
-            storeDebt.Append($"Whoa there partner! I see you got {UserData.Transactions.Count()} items to buy that are worth {UserData.GetTransactionTotalCost().ToString("C2")}.\n");
-            storeDebt.Append($"You only got {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")}! Put some items back in order to leave the store...\n");
-
-            storeDebt.Append("Press ENTER KEY to continue.\n");
-            return storeDebt.ToString();
-        }
-
-        /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
         public override bool AcceptsInput
         {
             get { return false; }
+        }
+
+        /// <summary>
+        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
+        ///     waiting input, etc.
+        /// </summary>
+        public override string GetStateTUI()
+        {
+            var storeDebt = new StringBuilder();
+            storeDebt.Append(
+                $"Whoa there partner! I see you got {UserData.Transactions.Count()} items to buy that are worth {UserData.GetTransactionTotalCost().ToString("C2")}.\n");
+            storeDebt.Append(
+                $"You only got {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")}! Put some items back in order to leave the store...\n");
+
+            storeDebt.Append("Press ENTER KEY to continue.\n");
+            return storeDebt.ToString();
         }
 
         /// <summary>

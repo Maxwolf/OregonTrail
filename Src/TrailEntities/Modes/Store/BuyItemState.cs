@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using TrailCommon;
 
 namespace TrailEntities
@@ -22,14 +23,15 @@ namespace TrailEntities
         ///     Reference to the total amount of items the player can purchase of item of this particular type from this store with
         ///     the money they have.
         /// </summary>
-        private float _purchaseLimit;
+        private int _purchaseLimit;
 
         public BuyItemState(Item itemToBuy, IMode gameMode, StoreInfo userData)
             : base(gameMode, userData)
         {
             // Figure out what we owe already from other store items, then how many of the item we can afford.
-            var _currentBalance = GameSimulationApp.Instance.Vehicle.Balance - userData.GetTransactionTotalCost();
-            _purchaseLimit = _currentBalance/itemToBuy.Cost;
+            var _currentBalance =
+                (int) (GameSimulationApp.Instance.Vehicle.Balance - userData.GetTransactionTotalCost());
+            _purchaseLimit = (int) (_currentBalance/itemToBuy.Cost);
 
             // Prevent negative numbers and set credit limit to zero if it drops below that.
             if (_purchaseLimit < 0)
@@ -37,14 +39,20 @@ namespace TrailEntities
 
             // Set the credit limit to be the carry limit if they player has lots of monies and can buy many, we must limit them!
             if (_purchaseLimit > itemToBuy.CarryLimit)
-                _purchaseLimit = itemToBuy.CarryLimit;
+                _purchaseLimit = (int) itemToBuy.CarryLimit;
 
             // Add some information about how many you can buy and total amount you can carry.
             _itemBuyText = new StringBuilder();
 
-            // Depending if you can buy any of the item we change up the dialog prompt.
-            _itemBuyText.Append($"You can afford {_purchaseLimit} {itemToBuy.Name.ToLowerInvariant()}.\n");
-            _itemBuyText.Append($"How many {itemToBuy.PluralForm}?");
+            // Change up question asked if plural form matches the name of the item.
+            var pluralMatchesName = itemToBuy.PluralForm.Equals(itemToBuy.Name,
+                StringComparison.InvariantCultureIgnoreCase);
+
+            _itemBuyText.Append(pluralMatchesName
+                ? $"You can afford {_purchaseLimit} {itemToBuy.Name.ToLowerInvariant()}.\n"
+                : $"You can afford {_purchaseLimit} {itemToBuy.PluralForm.ToLowerInvariant()} of {itemToBuy.Name.ToLowerInvariant()}.\n");
+
+            _itemBuyText.Append($"How many {itemToBuy.PluralForm.ToLowerInvariant()} to buy?");
 
             // Set the item to buy text.
             _itemToBuy = itemToBuy;

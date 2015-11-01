@@ -197,7 +197,7 @@ namespace TrailEntities
         public int GetHashCode(IEntity obj)
         {
             var hash = 23;
-            hash = (hash * 31) + Name.GetHashCode();
+            hash = (hash*31) + Name.GetHashCode();
             return hash;
         }
     }

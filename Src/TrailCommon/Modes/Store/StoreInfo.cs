@@ -78,13 +78,13 @@ namespace TrailCommon
         public void AddItem(Item item, uint amount)
         {
             // Create the tuple for the item to add.
-            var incomingTuple = new StoreTransactionItem(amount, item);
+            var incomingPurchase = new StoreTransactionItem(amount, item);
 
             // Remove any existing tuple with this item name, we will replace it.
             RemoveItem(item);
 
             // Add the new tuple to replace the one we just removed.
-            _totalTransactions.Add(incomingTuple);
+            _totalTransactions.Add(incomingPurchase);
         }
 
         /// <summary>

@@ -81,7 +81,8 @@ namespace TrailEntities
         /// </summary>
         public void BuySpareWheels()
         {
-            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartWheelItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartWheelItem), this,
+                StoreInfo);
         }
 
         /// <summary>
@@ -97,7 +98,8 @@ namespace TrailEntities
         /// </summary>
         public void BuySpareTongues()
         {
-            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartTongueItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartTongueItem), this,
+                StoreInfo);
         }
 
         /// <summary>

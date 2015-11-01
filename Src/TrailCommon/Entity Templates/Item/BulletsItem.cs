@@ -36,7 +36,7 @@
         /// </summary>
         public override string PluralForm
         {
-            get { return "bullets"; }
+            get { return "boxes"; }
         }
 
         /// <summary>
