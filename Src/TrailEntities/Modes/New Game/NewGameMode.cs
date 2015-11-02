@@ -20,7 +20,16 @@ namespace TrailEntities
             // Basic information to start a new simulation.
             NewGameInfo = new NewGameInfo();
 
-            // Start right away with choosing profession in the new game mode.
+            AddCommand(TravelTheTrail, );
+
+
+        }
+
+        /// <summary>
+        /// Start with choosing profession in the new game mode, the others are chained together after this one.
+        /// </summary>
+        private void TravelTheTrail()
+        {
             CurrentState = new SelectProfessionState(this, NewGameInfo);
         }
 

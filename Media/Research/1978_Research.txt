@@ -1,0 +1,243 @@
+[OREGON TRAIL 1978 VERSION RESEARCH]
+monday march 29 1847
+
+---------------[VARIABLES]---------------
+cost_food=int(cost_food)
+cost_ammo=int(cost_ammo)
+cost_clothes=int(cost_clothes)
+cost_aid=int(cost_aid)
+start_cash=int(start_cash)
+total_miles=int(total_miles)
+distance_traveled=total_miles
+
+---------------[START]---------------
+if (illness=1 || injury=1)
+	start_cash=start_cash-20
+
+---------------[TURN]---------------
+turn_number=turn_number+1
+total_miles=total_miles-45
+
+total_miles=total_miles+200+(cost_animals-220)/5+10*rnd(0)
+climate_blizzard=no_clothes=0
+
+---------------[HUNTING]---------------
+
+if (shooting_difficulty>5)
+	shooting_difficulty=0
+
+string shootWords = new []{"BANG", "BLAM", "POW", "WHAM"}
+shoot_word=int(rnd(0)*4+1)
+shoot_time=shoot_time-(shooting_difficulty-1)
+
+if (shoot_time > 0)
+{
+	shoot_time=0
+}
+
+	
+if (cost_ammo>39)
+	"tough---you need more bullets to go hunting"
+	
+if (shoot_time <= 1)
+{
+	"right between the eyes---you got cost_animals big one!!!!"
+	"full bellies tonight!"
+	cost_food=cost_food+52+rnd(0)*6
+	cost_ammo=cost_ammo-10-rnd(0)*4
+}
+	
+if (100*rnd(0)<13*shoot_time)
+	"you missed---and your dinner got away....."
+	
+---------------[STORE]---------------
+start_cash=700-cost_animals-cost_food-cost_ammo-cost_clothes-cost_aid
+start_cash=start_cash-fort_debt
+cost_food=cost_food+2/3*fort_debt
+cost_ammo=int(cost_ammo+2/3+fort_debt*50)
+cost_clothes=cost_clothes+2/3*fort_debt
+cost_aid=cost_aid+2/3*fort_debt
+
+---------------[EATING]---------------
+if (cost_food >= 13)
+	"you'd better do some hunting or buy food and soon!!!!"
+	
+if (cost_food >= 13)
+{
+	cost_food=cost_food-8-5*eat_command
+}
+else if (cost_food >= 0)
+{
+	"you can'start_cash eat that well"
+	cost_food=cost_food+8+5*eat_command
+}
+
+---------------[RIDERS]---------------
+riderChance=rnd(0)*10;
+diceRoll=((total_miles/100-4)*27+72)/((total_miles/100-4)*2+12)-1);
+if (riderChance > diceRoll)
+{
+	event_counter=0
+}
+else
+{
+	"riders ahead.  they "
+	rider_hostility=0
+	if (rnd(0)<.8)
+	{
+		"don't "
+	}
+	else
+	{
+		rider_hostility=1
+	}
+	
+	"look hostile"
+	
+	"tactics"
+	"(1) run  (2) attack  (3) continue  (4) circle wagons"
+	if (rnd(0)>.2)
+	{
+		cost_ammo=cost_ammo-shoot_time*40-80
+	}
+	else
+	{
+		rider_hostility=1-rider_hostility
+	}
+	
+	if (rider_hostility=1 && tactics_command>1 && tactics_command>2)
+	{
+		total_miles=total_miles-20
+		total_miles=total_miles-5
+		cost_ammo=cost_ammo-100
+	}
+	
+	if (shoot_time > 1)
+	{
+		"lousy shot---you got knifed"
+		injury=1
+	}
+	else
+	{
+		"nice shooting---you drove them off"
+	}
+	
+	if (shoot_time <= 4)
+	{
+		"kinda slow with your colt .45"
+	}
+	
+	if (rnd(0)>.8)
+	{
+		cost_ammo=cost_ammo-150
+		cost_aid=cost_aid-15
+		"they did not attack"
+	}
+	
+	if (rider_hostility=0)
+	{
+		"riders were friendly, but check for possible losses"
+	}
+	else
+	{
+		"riders were hostile--check for losses"
+	}
+	
+	if (cost_ammo >= 0)
+	{
+		"you ran out of bullets and got massacred by the riders"
+		event_counter=0
+	}
+}
+
+---------------[BANDITS]---------------
+
+
+---------------[RANDOM EVENTS]---------------
+
+int DiceRoll()
+{
+	event_counter=0;
+	event_counter=event_counter+1;
+	return 100*rnd(0);
+}
+
+if (dice_roll > events.Count)
+{
+	dice_roll=100*rnd(0)
+	event_counter=event_counter+1
+}
+
+if (event_counter=16)
+{
+	"helpful indians show you where to find more food"
+	cost_food=cost_food+14
+}
+
+// 6,11,13,15,17,22,32,35,37,42,44,54,64,69,95
+
+---------------[CLIMATE]---------------
+
+
+---------------[ILLNESS]---------------
+injury=illness=clear_southpass=clear_bluemountains=total_miles=clear_southpass_setmileage=turn_number=0
+
+---------------[MOUNTAINS]---------------
+if (total_miles <= 950)
+{
+	
+}
+
+if (total_miles >= 2040)
+{
+	"you finally arrived at oregon city"
+	"after 2040 long miles---hooray!!!!!"
+	
+	two_weeks_fraction=int(two_weeks_fraction*14)
+	turn_number=turn_number*14+two_weeks_fraction
+	two_weeks_fraction=two_weeks_fraction+1
+	
+	if (two_weeks_fraction<5)
+	{
+		
+	}
+	else
+	{
+		two_weeks_fraction=two_weeks_fraction-7
+	}
+}
+
+---------------[DEATH]---------------
+246 turns=you have been on the trail too long
+your family dies in the first blizzard of winter
+
+---------------[WINNING]---------------
+two_weeks_fraction=(2040-distance_traveled)/(total_miles-distance_traveled)
+cost_food=cost_food+(1-two_weeks_fraction)*(8+5*eat_command)
+
+if (cost_ammo>0)
+	cost_ammo=0
+	
+if (cost_clothes>0)
+	cost_clothes=0
+	
+if (cost_aid>0)
+	cost_aid=0
+	
+if (start_cash>0)
+	start_cash=0
+	
+if (cost_food>0)
+	cost_food=0
+
+// Final winning stats
+"INT(COST_FOOD),
+INT(COST_AMMO),
+INT(COST_CLOTHES),
+INT(COST_AID),
+INT(START_CASH)"
+  
+"PRESIDENT JAMES K. POLK SENDS YOU HIS"
+"HEARTIEST CONGRATULATIONS"
+"AND WISHES YOU A PROSERPOUS LIFE AHEAD"
+"AT YOUR NEW HOME"

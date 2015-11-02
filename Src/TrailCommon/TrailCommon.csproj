@@ -41,7 +41,6 @@
     <Compile Include="Entity\Item\FoodItem.cs" />
     <Compile Include="Entity\Item\Item.cs" />
     <Compile Include="Entity\Item\PartItem.cs" />
-    <Compile Include="Modes\ModeCommands.cs" />
     <Compile Include="Modes\Fork In Road\ForkInRoadCommands.cs" />
     <Compile Include="Modes\Fork In Road\IForkInRoadMode.cs" />
     <Compile Include="Modes\Hunting\HuntingCommands.cs" />
