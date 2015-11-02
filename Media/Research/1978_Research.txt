@@ -1,25 +1,162 @@
 [OREGON TRAIL 1978 VERSION RESEARCH]
 monday march 29 1847
 
----------------[VARIABLES]---------------
-cost_food=int(cost_food)
-cost_ammo=int(cost_ammo)
-cost_clothes=int(cost_clothes)
-cost_aid=int(cost_aid)
-start_cash=int(start_cash)
-total_miles=int(total_miles)
-distance_traveled=total_miles
-
 ---------------[START]---------------
 if (illness=1 || injury=1)
 	start_cash=start_cash-20
 
 ---------------[TURN]---------------
-turn_number=turn_number+1
-total_miles=total_miles-45
 
+// Check for end of game in miles.
+if (total_miles >= 2040)
+{
+	endgame(diereason.trailend)
+	return;
+}
+
+TickTime();
+
+// Food check.
+if (cost_food <= 0)
+	cost_food=0
+
+// Ammunition check.
+if cost_ammo <= 0
+	cost_ammo=0
+
+// Clothing check.
+if cost_clothes <= 0
+	cost_clothes=0
+
+// Supplies check.
+if cost_aid <= 0)
+	cost_aid=0
+
+// Low food warning.
+if (cost_food >= 13)
+{
+	cost_food=int(cost_food)
+	cost_ammo=int(cost_ammo)
+	cost_clothes=int(cost_clothes)
+	cost_aid=int(cost_aid)
+	start_cash=int(start_cash)
+	total_miles=int(total_miles)
+	distance_traveled=total_miles
+	
+	if (illness=1 || injury=1)
+	{
+		start_cash=start_cash-20
+		if (start_cash<0) 
+		{
+			start_cash=0
+			"you can't afford a doctor"
+			endgame(diereason.nodoctor)
+		}
+		else
+		{
+			"doctor's bill is $20"
+			injury=illness=0
+			if (clear_southpass_setmileage=1)
+			{
+				"TOTAL MILEAGE IS 950"
+				CLEAR_SOUTHPASS_SETMILEAGE=0
+			}
+			else
+			{
+				"total mileage is";total_miles
+				"food","bullets","clothing","misc. supp.","cash"
+				cost_food,cost_ammo,cost_clothes,cost_aid,start_cash
+				if (fort_option=-1)
+				{
+					addmode(travel)
+				}
+				else
+				{
+					fort_option=fort_option*(-1)
+					"do you want to (1) stop at the next fort, (2) hunt, "
+					"or (3) continue"
+					if (command>2 || command<1 then)
+					{
+						command=3
+					}
+					else
+					{
+						command=int(command)
+						"do you want to (1) hunt, or (2) continue"
+						if (command=1)
+						{
+							command=command+1
+							if (command=3)
+							{
+								addmode(location)
+							}
+							else							
+							{
+								if (cost_ammo>39) 
+								{
+									addmode(location)
+								}
+								else
+								{
+									"tough---you need more bullets to go hunting"
+								}
+							}
+						}
+						else
+						{
+							command=2
+						}
+					}
+				}
+			}
+		}
+	}
+}
+else
+{
+	"you'd better do some hunting or buy food and soon!!!!"
+}
+
+turn_number=turn_number+1
+two_weeks_fraction=(2040-distance_traveled)/(total_miles-distance_traveled)
+cost_food=cost_food+(1-two_weeks_fraction)*(8+5*eat_command)
 total_miles=total_miles+200+(cost_animals-220)/5+10*rnd(0)
 climate_blizzard=no_clothes=0
+
+IF TOTAL_MILES <= 950 THEN 1230
+IF RND(0)*10>9-((TOTAL_MILES/100-15) ** 2+72)/((TOTAL_MILES/100-15) ** 2+12) THEN 4560
+PRINT "RUGGED MOUNTAINS"
+IF RND(0)>.1 THEN 4780
+PRINT "YOU GOT LOST---LOSE VALUABLE TIME TRYING TO FIND TRAIL!"
+TOTAL_MILES=TOTAL_MILES-60
+GOTO 4560
+IF RND(0)>.11 THEN 4840
+PRINT "WAGON DAMAGED!---LOSE TIME AND SUPPLIES"
+COST_AID=COST_AID-5
+COST_AMMO=COST_AMMO-200
+TOTAL_MILES=TOTAL_MILES-20-30*RND(0)
+GOTO 4860
+PRINT "THE GOING GETS SLOW"
+TOTAL_MILES=TOTAL_MILES-45-RND(0)/.02
+IF CLEAR_SOUTHPASS=1 THEN 4900
+CLEAR_SOUTHPASS=1
+IF RND(0)<.8 THEN 4970
+PRINT "YOU MADE IT SAFELY THROUGH SOUTH PASS--NO SNOW"
+IF TOTAL_MILES<1700 THEN 4940
+IF CLEAR_BLUEMOUNTAINS=1 THEN 4940
+CLEAR_BLUEMOUNTAINS=1
+IF RND(0)<.7 THEN 4970
+IF TOTAL_MILES>950 THEN 1230
+CLEAR_SOUTHPASS_SETMILEAGE=1
+GOTO 1230
+PRINT "BLIZZARD IN MOUNTAIN PASS--TIME AND SUPPLIES LOST"
+CLIMATE_BLIZZARD=1
+COST_FOOD=COST_FOOD-25
+COST_AID=COST_AID-10
+COST_AMMO=COST_AMMO-300
+TOTAL_MILES=TOTAL_MILES-30-40*RND(0)
+IF COST_CLOTHES<18+2*RND(0) THEN 6300
+GOTO 4940
 
 ---------------[HUNTING]---------------
 
@@ -150,43 +287,274 @@ else
 	}
 }
 
----------------[BANDITS]---------------
-
-
 ---------------[RANDOM EVENTS]---------------
 
-int DiceRoll()
+int RollDice()
 {
 	event_counter=0;
 	event_counter=event_counter+1;
-	return 100*rnd(0);
+	return Random.Next(100);
 }
 
-if (dice_roll > events.Count)
+diceRoll = DiceRoll();
+if (diceRoll > events.Count)
 {
-	dice_roll=100*rnd(0)
 	event_counter=event_counter+1
 }
 
-if (event_counter=16)
+switch(event_counter)
 {
-	"helpful indians show you where to find more food"
-	cost_food=cost_food+14
+	case 6:
+		"wagon breaks down--lose time and supplies fixing it"
+		total_miles=total_miles-15-5*rnd(0)
+		cost_aid=cost_aid-8
+	break;
+	case 11:
+		"ox injures leg---slows you down rest of trip"
+		total_miles=total_miles-25
+		cost_animals=cost_animals-20
+	break;
+	case 13:
+		"bad luck---your daughter broke her arm"
+		"you had to stop and use supplies to make a sling"
+		total_miles=total_miles-5-4*rnd(0)
+		cost_aid=cost_aid-2-3*rnd(0)
+	break;
+	case 15:
+		"ox wanders off---spend time looking for it"
+		total_miles=total_miles-17
+	break;
+	case 16:
+		"helpful indians show you where to find more food"
+		cost_food=cost_food+14
+	break;
+	case 17:
+		"your son gets lost---spend half the day looking for him"
+		total_miles=total_miles-10
+	break;
+	case 22:
+		"unsafe water--lose time looking for clean spring"
+		total_miles=total_miles-10*rnd(0)*-2
+	break;
+	case 32:
+		checkclimate();
+		"heavy rains---time and supplies lost"
+		cost_food=cost_food-10
+		cost_ammo=cost_ammo-500
+		cost_aid=cost_aid-15
+		total_miles=total_miles-10*rnd(0)-5
+	break;
+	case 35:
+		"bandits attack"
+		AddMode(hunting)
+		
+		// Figure out how bad the bandit attack was, or was not.
+		cost_ammo=cost_ammo-20*shoot_time
+		if cost_ammo >= 0
+		{
+			"you ran out of bullets -- they get lots of cash"
+			start_cash=start_cash/3
+		}
+		else if (shoot_time <= 1)
+		{
+			"you got shot in the leg and they took one of your oxen"
+			injury=1
+			"better have a doc look at your wound"
+			cost_aid=cost_aid-5
+			cost_animals=cost_animals-20
+		}
+		else
+		{
+			"quickest draw outside of dodge city!!!"
+			"you got 'em!"
+		}
+	break;
+	case 37:
+		"there was a fire in your wagon--food and supplies damage!"
+		cost_food=cost_food-40
+		cost_ammo=cost_ammo-400
+		cost_aid=cost_aid-rnd(0)*68-3
+		total_miles=total_miles-15
+	break;
+	case 42:
+		"lose your way in heavy fog---time is lost"
+		total_miles=total_miles-10-5*rnd(0)
+	break;
+	case 44:
+		"you killed a poisonous snake after it bit you"
+		cost_ammo=cost_ammo-10
+		cost_aid=cost_aid-5
+		if (cost_aid >= 0)
+		{
+			endgame(diereason.snakebite);
+		}
+	break;
+	case 54:
+		"your wagon gets swamped fording river--lose food and clothes"
+		cost_food=cost_food-30
+		cost_clothes=cost_clothes-20
+		total_miles=total_miles-20-20*rnd(0)
+	break;
+	case 64:
+		"wild animals attack!"
+		AddMode(Hunting);
+		
+		// Figure out how bad the animal attack was, or was not.
+		if (cost_ammo>39)
+		{
+			if (shoot_time>2)
+			{
+				"slow on the draw---they got at your food and clothes"
+			}
+			else
+			{
+				"nice shootin' pardner---they didn't get much"
+			}
+			cost_ammo=cost_ammo-20*shoot_time
+			cost_clothes=cost_clothes-shoot_time*4
+			cost_food=cost_food-shoot_time*8
+		}
+		else
+		{
+			"you were too low on bullets--"
+			"the wolves overpowered you"
+			injury=1
+			endgame(diereason.wildanimal);
+		}
+	break;
+	case 69:
+		// Eating poorly raises risk of illness.
+		if (eat_command=1)
+		{
+			checkillness();
+		}
+		else if (eat_command=3 && rnd(0)<.5)
+		{
+			checkillness();
+		}
+		
+		// Random chance for illness in general.
+		if (rnd(0)>.25 || rnd(0)<.5)
+		{
+			checkillness();
+		}
+	break;
+	case 95:
+		"helpful indians show you where to find more food"
+		cost_food=cost_food+14
+	break;
+	case 97:
+		"hail storm---supplies damaged"
+		total_miles=total_miles-5-rnd(0)*10
+		cost_ammo=cost_ammo-200
+		cost_aid=cost_aid-4-rnd(0)*3
+	break;
 }
 
-// 6,11,13,15,17,22,32,35,37,42,44,54,64,69,95
+// Always take turn at end of random event
+TakeTurn();
 
 ---------------[CLIMATE]---------------
 
+void checkclimate()
+{
+	// Cold weather makes it worse.
+	if (if total_miles>950)
+	{
+		"cold weather -- brrrrrr! -- you "
+		if (cost_clothes>22+4*rnd(0))
+		{
+			"have enough clothing to keep warm"
+		}
+		else
+		{
+			"don't "
+			no_clothes=1
+		}
+		
+		if (no_clothes=0)
+		{
+			CheckIllness();
+		}
+	}
+}
 
 ---------------[ILLNESS]---------------
 injury=illness=clear_southpass=clear_bluemountains=total_miles=clear_southpass_setmileage=turn_number=0
 
----------------[MOUNTAINS]---------------
-if (total_miles <= 950)
+void CheckIllness()
 {
+
+	if 100*rnd(0)<10+35*(eat_command-1)
+	{
+		"mild illness---medicine used"
+		total_miles=total_miles-5
+		cost_aid=cost_aid-2
+		goto 6440
+	}
+
+	if 100*rnd(0)<100-(40/4*(eat_command-1))
+	{	
+		print "bad illness---medicine used"
+		total_miles=total_miles-5
+		cost_aid=cost_aid-5
+
+	}
 	
+	print "serious illness---"
+	print "you must stop for medical attention"
+	cost_aid=cost_aid-10
+	illness=1
+	
+	if (cost_aid<0)
+	{
+		EndGame(DieReason.OutOfSupplies);
+	}	
+	
+	if (climate_blizzard=1)
+	{
+		if (total_miles>950)
+		{
+			clear_southpass_setmileage=1
+		}
+	}
 }
+
+---------------[DEATH]---------------
+246 turns=you have been on the trail too long
+your family dies in the first blizzard of winter
+
+"you died of "
+if (injury=1)
+{
+	"injuries"
+}
+else
+{
+	"pneumonia"
+}
+
+"due to your unfortunate situation, there are a few"
+"formalities we must go through\n\n"
+"would you like a minister?"
+"would you like a fancy funeral?"
+"would you like us to inform your next of kin?"
+
+if (end_choice="yes")
+{
+	"that will be $4.50 for the telegraph charge.\n\n"
+	"we thank you for this information and we are sorry you\n"
+	"didn't make it to the great territory of oregon\n"
+	"better luck next time\n\n"
+	"sincerely\n\n"
+	"the oregon city chamber of commerce"
+}
+else
+{
+	"but your aunt sadie in st. louis is really worried about you"
+}
+
+---------------[WINNING]---------------
 
 if (total_miles >= 2040)
 {
@@ -206,14 +574,6 @@ if (total_miles >= 2040)
 		two_weeks_fraction=two_weeks_fraction-7
 	}
 }
-
----------------[DEATH]---------------
-246 turns=you have been on the trail too long
-your family dies in the first blizzard of winter
-
----------------[WINNING]---------------
-two_weeks_fraction=(2040-distance_traveled)/(total_miles-distance_traveled)
-cost_food=cost_food+(1-two_weeks_fraction)*(8+5*eat_command)
 
 if (cost_ammo>0)
 	cost_ammo=0

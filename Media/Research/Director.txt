@@ -2,7 +2,7 @@
 
  * Iterate through 2-week trip segments
  * Play then proceeds through a series of up to 18 turns (each representing two weeks)
- * 20+ (140 days) weeks will trigger end game routine
+ * 20+ weeks (246 days) will trigger end game routine
  * Expected mileage for next two-weeks calculated with current stats
  * Mileage figure is ideal, problems subtract from this figure
  * Mileage printed at start of next trip segment

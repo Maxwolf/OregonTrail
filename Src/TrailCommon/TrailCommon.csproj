@@ -49,6 +49,7 @@
     <Compile Include="Modes\ModeChoiceItem.cs" />
     <Compile Include="Modes\ModeInfo.cs" />
     <Compile Include="Modes\New Game\INewGameMode.cs" />
+    <Compile Include="Modes\New Game\NewGameCommands.cs" />
     <Compile Include="Modes\New Game\NewGameInfo.cs" />
     <Compile Include="Modes\Random Event\RandomEventCommands.cs" />
     <Compile Include="Modes\River Crossing\RiverCrossingCommands.cs" />
