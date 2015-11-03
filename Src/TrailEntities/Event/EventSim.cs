@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace TrailEntities
 {
@@ -47,11 +46,6 @@ namespace TrailEntities
 
             // Fire event!
             EventAdded?.Invoke(eventItem);
-        }
-
-        public void AddEvent(object targetThing, object actionVerb, object resultNoun)
-        {
-            throw new NotImplementedException();
         }
     }
 }

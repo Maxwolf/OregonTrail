@@ -41,7 +41,9 @@ namespace TrailEntities
             var nextStop = new StringBuilder();
             var nextPoint = GameSimulationApp.Instance.TrailSim.GetNextPointOfInterest();
             nextStop.Append($"From {ParentMode.CurrentPoint.Name} it is {nextPoint.DistanceLength} ");
-            nextStop.Append($"miles to the {nextPoint.Name}");
+            nextStop.Append($"miles to the {nextPoint.Name}\n\n");
+
+            nextStop.Append("Press RETURN KEY to continue on the trail");
             return nextStop.ToString();
         }
 
