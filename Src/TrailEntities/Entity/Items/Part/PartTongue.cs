@@ -1,14 +1,15 @@
 ﻿namespace TrailEntities
 {
     /// <summary>
-    ///     Ammunition used in hunting game mode so the players can acquire food by hunting animals.
+    ///     Required to keep the vehicle running, if the tongue breaks then the player will have to fix or replace it before
+    ///     they can continue on the journey again.
     /// </summary>
-    public sealed class BulletsItem : Item
+    public sealed class PartTongue : Part
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.BulletsItem" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.PartTongue" /> class.
         /// </summary>
-        public BulletsItem(float cost) : base(cost, 20)
+        public PartTongue(float cost) : base(cost, 1)
         {
         }
 
@@ -17,7 +18,7 @@
         /// </summary>
         public override string Name
         {
-            get { return "Ammunition"; }
+            get { return "Vehicle Tongue"; }
         }
 
         /// <summary>
@@ -26,7 +27,7 @@
         /// </summary>
         public override string DelineatingUnit
         {
-            get { return "box"; }
+            get { return "tongue"; }
         }
 
         /// <summary>
@@ -36,23 +37,7 @@
         /// </summary>
         public override string PluralForm
         {
-            get { return "boxes"; }
-        }
-
-        /// <summary>
-        ///     Weight of a single item of this type, the original game used pounds so that is roughly what this should represent.
-        /// </summary>
-        protected override uint Weight
-        {
-            get { return 0; }
-        }
-
-        /// <summary>
-        ///     Limit on the number of items that are possible to have of this particular type.
-        /// </summary>
-        public override uint CarryLimit
-        {
-            get { return 99; }
+            get { return "tongues"; }
         }
     }
 }

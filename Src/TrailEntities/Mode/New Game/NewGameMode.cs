@@ -9,7 +9,14 @@ namespace TrailEntities
     /// </summary>
     public sealed class NewGameMode : GameMode<NewGameCommands>
     {
+        /// <summary>
+        ///     Asked for the first party member.
+        /// </summary>
         public const string LEADER_QUESTION = "What is the first name of the wagon leader?";
+
+        /// <summary>
+        ///     Asked for every other party member name we want to collect.
+        /// </summary>
         public const string MEMBERS_QUESTION = "What are the first names of the \nthree other members in your party?";
 
         /// <summary>

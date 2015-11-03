@@ -4,12 +4,12 @@
     ///     Required to keep the vehicle moving down the path, if any of the wheel parts break they must be replaced before the
     ///     journey can continue.
     /// </summary>
-    public sealed class PartWheelItem : PartItem
+    public sealed class PartWheel : Part
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.PartWheelItem" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.PartWheel" /> class.
         /// </summary>
-        public PartWheelItem(float cost) : base(cost, 1)
+        public PartWheel(float cost) : base(cost, 1)
         {
         }
 

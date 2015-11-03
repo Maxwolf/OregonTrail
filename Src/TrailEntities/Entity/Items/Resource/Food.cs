@@ -1,15 +1,15 @@
 ﻿namespace TrailEntities
 {
     /// <summary>
-    ///     Required to keep the vehicle moving if this part is broken it must be replaced before the player can
-    ///     continue their journey.
+    ///     Represents a consumable amount of food which the player can eat per day, this is exponential for every member in
+    ///     the party.
     /// </summary>
-    public sealed class PartAxleItem : PartItem
+    public class Food : Item
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.PartAxleItem" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        public PartAxleItem(float cost) : base(cost, 1)
+        public Food(float cost) : base(cost, 1)
         {
         }
 
@@ -18,7 +18,7 @@
         /// </summary>
         public override string Name
         {
-            get { return "Vehicle Axle"; }
+            get { return "Food"; }
         }
 
         /// <summary>
@@ -27,7 +27,7 @@
         /// </summary>
         public override string DelineatingUnit
         {
-            get { return "axle"; }
+            get { return "pound"; }
         }
 
         /// <summary>
@@ -37,7 +37,23 @@
         /// </summary>
         public override string PluralForm
         {
-            get { return "axles"; }
+            get { return "pounds"; }
+        }
+
+        /// <summary>
+        ///     Weight of a single item of this type, the original game used pounds so that is roughly what this should represent.
+        /// </summary>
+        protected override uint Weight
+        {
+            get { return 1; }
+        }
+
+        /// <summary>
+        ///     Limit on the number of items that are possible to have of this particular type.
+        /// </summary>
+        public override uint CarryLimit
+        {
+            get { return 2000; }
         }
     }
 }

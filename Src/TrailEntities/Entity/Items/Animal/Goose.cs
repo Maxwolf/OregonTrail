@@ -1,13 +1,13 @@
 ﻿namespace TrailEntities
 {
-    public sealed class BearItem : AnimalItem
+    public sealed class Goose : Animal
     {
         /// <summary>
         ///     Display name of the item as it should be known to players.
         /// </summary>
         public override string Name
         {
-            get { return "Bear"; }
+            get { return "Goose"; }
         }
 
         /// <summary>
@@ -15,7 +15,7 @@
         /// </summary>
         protected override uint Weight
         {
-            get { return 100; }
+            get { return 2; }
         }
     }
 }

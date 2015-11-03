@@ -4,12 +4,12 @@
     ///     Abstract class that is intended to be used for working with parts that are extra for the vehicle, once they are
     ///     attached we can monitor their status and individual repair status.
     /// </summary>
-    public abstract class PartItem : Item
+    public abstract class Part : Item
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        protected PartItem(float cost, uint minimumAmount) : base(cost, minimumAmount)
+        protected Part(float cost, uint minimumAmount) : base(cost, minimumAmount)
         {
         }
 

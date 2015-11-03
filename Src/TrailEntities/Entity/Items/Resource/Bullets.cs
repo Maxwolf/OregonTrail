@@ -1,11 +1,14 @@
 ﻿namespace TrailEntities
 {
-    public sealed class ClothingItem : Item
+    /// <summary>
+    ///     Ammunition used in hunting game mode so the players can acquire food by hunting animals.
+    /// </summary>
+    public sealed class Bullets : Item
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Bullets" /> class.
         /// </summary>
-        public ClothingItem(float cost) : base(cost, 1)
+        public Bullets(float cost) : base(cost, 20)
         {
         }
 
@@ -14,7 +17,7 @@
         /// </summary>
         public override string Name
         {
-            get { return "Clothing"; }
+            get { return "Ammunition"; }
         }
 
         /// <summary>
@@ -23,7 +26,7 @@
         /// </summary>
         public override string DelineatingUnit
         {
-            get { return "set"; }
+            get { return "box"; }
         }
 
         /// <summary>
@@ -33,7 +36,7 @@
         /// </summary>
         public override string PluralForm
         {
-            get { return "sets"; }
+            get { return "boxes"; }
         }
 
         /// <summary>
@@ -49,7 +52,7 @@
         /// </summary>
         public override uint CarryLimit
         {
-            get { return 50; }
+            get { return 99; }
         }
     }
 }

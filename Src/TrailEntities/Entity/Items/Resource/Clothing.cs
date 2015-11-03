@@ -1,15 +1,11 @@
 ﻿namespace TrailEntities
 {
-    /// <summary>
-    ///     Required to keep the vehicle running, if the tongue breaks then the player will have to fix or replace it before
-    ///     they can continue on the journey again.
-    /// </summary>
-    public sealed class PartTongueItem : PartItem
+    public sealed class Clothing : Item
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.PartTongueItem" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        public PartTongueItem(float cost) : base(cost, 1)
+        public Clothing(float cost) : base(cost, 1)
         {
         }
 
@@ -18,7 +14,7 @@
         /// </summary>
         public override string Name
         {
-            get { return "Vehicle Tongue"; }
+            get { return "Clothing"; }
         }
 
         /// <summary>
@@ -27,7 +23,7 @@
         /// </summary>
         public override string DelineatingUnit
         {
-            get { return "tongue"; }
+            get { return "set"; }
         }
 
         /// <summary>
@@ -37,7 +33,23 @@
         /// </summary>
         public override string PluralForm
         {
-            get { return "tongues"; }
+            get { return "sets"; }
+        }
+
+        /// <summary>
+        ///     Weight of a single item of this type, the original game used pounds so that is roughly what this should represent.
+        /// </summary>
+        protected override uint Weight
+        {
+            get { return 0; }
+        }
+
+        /// <summary>
+        ///     Limit on the number of items that are possible to have of this particular type.
+        /// </summary>
+        public override uint CarryLimit
+        {
+            get { return 50; }
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿namespace TrailEntities
 {
-    public sealed class CaribouItem : AnimalItem
+    public sealed class Bear : Animal
     {
         /// <summary>
         ///     Display name of the item as it should be known to players.
         /// </summary>
         public override string Name
         {
-            get { return "Caribou"; }
+            get { return "Bear"; }
         }
 
         /// <summary>
@@ -15,7 +15,7 @@
         /// </summary>
         protected override uint Weight
         {
-            get { return (uint) GameSimulationApp.Instance.Random.Next(300, 350); }
+            get { return 100; }
         }
     }
 }

@@ -16,13 +16,13 @@ namespace TrailEntities
         {
             var store = new HashSet<Item>
             {
-                new OxenItem(20.0f),
-                new ClothingItem(10.00f),
-                new BulletsItem(2.00f),
-                new PartWheelItem(10.0f),
-                new PartAxleItem(10.0f),
-                new PartTongueItem(10.0f),
-                new FoodItem(0.20f)
+                new Oxen(20.0f),
+                new Clothing(10.00f),
+                new Bullets(2.00f),
+                new PartWheel(10.0f),
+                new PartAxle(10.0f),
+                new PartTongue(10.0f),
+                new Food(0.20f)
             };
             return store;
         }
@@ -34,13 +34,13 @@ namespace TrailEntities
         {
             var store = new HashSet<Item>
             {
-                new OxenItem(25.0f),
-                new ClothingItem(12.50f),
-                new BulletsItem(2.50f),
-                new PartWheelItem(12.50f),
-                new PartAxleItem(12.50f),
-                new PartTongueItem(12.50f),
-                new FoodItem(0.25f)
+                new Oxen(25.0f),
+                new Clothing(12.50f),
+                new Bullets(2.50f),
+                new PartWheel(12.50f),
+                new PartAxle(12.50f),
+                new PartTongue(12.50f),
+                new Food(0.25f)
             };
             return store;
         }
@@ -52,13 +52,13 @@ namespace TrailEntities
         {
             var store = new HashSet<Item>
             {
-                new OxenItem(30.0f),
-                new ClothingItem(15.0f),
-                new BulletsItem(3.00f),
-                new PartWheelItem(15.0f),
-                new PartAxleItem(15.0f),
-                new PartTongueItem(15.0f),
-                new FoodItem(0.30f)
+                new Oxen(30.0f),
+                new Clothing(15.0f),
+                new Bullets(3.00f),
+                new PartWheel(15.0f),
+                new PartAxle(15.0f),
+                new PartTongue(15.0f),
+                new Food(0.30f)
             };
             return store;
         }
@@ -70,13 +70,13 @@ namespace TrailEntities
         {
             var store = new HashSet<Item>
             {
-                new OxenItem(40.0f),
-                new ClothingItem(20.0f),
-                new BulletsItem(4.0f),
-                new PartWheelItem(20.0f),
-                new PartAxleItem(20.0f),
-                new PartTongueItem(20.0f),
-                new FoodItem(0.40f)
+                new Oxen(40.0f),
+                new Clothing(20.0f),
+                new Bullets(4.0f),
+                new PartWheel(20.0f),
+                new PartAxle(20.0f),
+                new PartTongue(20.0f),
+                new Food(0.40f)
             };
             return store;
         }
@@ -88,13 +88,13 @@ namespace TrailEntities
         {
             var store = new HashSet<Item>
             {
-                new OxenItem(45.0f),
-                new ClothingItem(22.50f),
-                new BulletsItem(4.50f),
-                new PartWheelItem(22.50f),
-                new PartAxleItem(22.50f),
-                new PartTongueItem(22.50f),
-                new FoodItem(0.45f)
+                new Oxen(45.0f),
+                new Clothing(22.50f),
+                new Bullets(4.50f),
+                new PartWheel(22.50f),
+                new PartAxle(22.50f),
+                new PartTongue(22.50f),
+                new Food(0.45f)
             };
             return store;
         }
@@ -106,13 +106,13 @@ namespace TrailEntities
         {
             var store = new HashSet<Item>
             {
-                new OxenItem(50.0f),
-                new ClothingItem(25.0f),
-                new BulletsItem(5.0f),
-                new PartWheelItem(25.0f),
-                new PartAxleItem(25.0f),
-                new PartTongueItem(25.0f),
-                new FoodItem(0.50f)
+                new Oxen(50.0f),
+                new Clothing(25.0f),
+                new Bullets(5.0f),
+                new PartWheel(25.0f),
+                new PartAxle(25.0f),
+                new PartTongue(25.0f),
+                new Food(0.50f)
             };
             return store;
         }
@@ -124,13 +124,13 @@ namespace TrailEntities
         {
             var store = new HashSet<Item>
             {
-                new OxenItem(35.0f),
-                new ClothingItem(17.50f),
-                new BulletsItem(3.50f),
-                new PartWheelItem(17.50f),
-                new PartAxleItem(17.50f),
-                new PartTongueItem(17.50f),
-                new FoodItem(0.35f)
+                new Oxen(35.0f),
+                new Clothing(17.50f),
+                new Bullets(3.50f),
+                new PartWheel(17.50f),
+                new PartAxle(17.50f),
+                new PartTongue(17.50f),
+                new Food(0.35f)
             };
             return store;
         }

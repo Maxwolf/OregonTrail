@@ -62,7 +62,7 @@ namespace TrailEntities
         /// </summary>
         public void BuyOxen()
         {
-            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is OxenItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is Oxen), this, StoreInfo);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace TrailEntities
         /// </summary>
         public void BuyFood()
         {
-            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is FoodItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is Food), this, StoreInfo);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace TrailEntities
         /// </summary>
         public void BuyClothing()
         {
-            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is ClothingItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is Clothing), this, StoreInfo);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace TrailEntities
         /// </summary>
         public void BuyAmmunition()
         {
-            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is BulletsItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is Bullets), this, StoreInfo);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace TrailEntities
         /// </summary>
         public void BuySpareWheels()
         {
-            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartWheelItem), this,
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartWheel), this,
                 StoreInfo);
         }
 
@@ -103,7 +103,7 @@ namespace TrailEntities
         /// </summary>
         public void BuySpareAxles()
         {
-            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartAxleItem), this, StoreInfo);
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartAxle), this, StoreInfo);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace TrailEntities
         /// </summary>
         public void BuySpareTongues()
         {
-            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartTongueItem), this,
+            CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartTongue), this,
                 StoreInfo);
         }
 
@@ -136,7 +136,7 @@ namespace TrailEntities
                 var boughtOxen = false;
                 foreach (var pendingBuy in StoreInfo.Transactions)
                 {
-                    if (!(pendingBuy.Item is OxenItem))
+                    if (!(pendingBuy.Item is Oxen))
                         continue;
 
                     boughtOxen = true;
@@ -146,7 +146,7 @@ namespace TrailEntities
                 // Complain if the player does not have any oxen to pull their vehicle.
                 if (!boughtOxen)
                 {
-                    CurrentState = new MissingItemState(new OxenItem(0), this, StoreInfo);
+                    CurrentState = new MissingItemState(new Oxen(0), this, StoreInfo);
                     return;
                 }
             }
@@ -251,25 +251,25 @@ namespace TrailEntities
                 // Loop through every pending transaction and match it item type, the transaction will print out a nice cost of itself.
                 foreach (var pendingBuy in StoreInfo.Transactions)
                 {
-                    if (pendingBuy.Item is OxenItem)
+                    if (pendingBuy.Item is Oxen)
                         _oxenAmount = pendingBuy.ToString();
 
-                    if (pendingBuy.Item is FoodItem)
+                    if (pendingBuy.Item is Food)
                         _foodAmount = pendingBuy.ToString();
 
-                    if (pendingBuy.Item is ClothingItem)
+                    if (pendingBuy.Item is Clothing)
                         _clothingAmount = pendingBuy.ToString();
 
-                    if (pendingBuy.Item is BulletsItem)
+                    if (pendingBuy.Item is Bullets)
                         _bulletsAmount = pendingBuy.ToString();
 
-                    if (pendingBuy.Item is PartWheelItem)
+                    if (pendingBuy.Item is PartWheel)
                         _wheelsAmount = pendingBuy.ToString();
 
-                    if (pendingBuy.Item is PartAxleItem)
+                    if (pendingBuy.Item is PartAxle)
                         _axlesAmount = pendingBuy.ToString();
 
-                    if (pendingBuy.Item is PartTongueItem)
+                    if (pendingBuy.Item is PartTongue)
                         _tonguesAmount = pendingBuy.ToString();
                 }
             }
@@ -287,25 +287,25 @@ namespace TrailEntities
                 // Loop through every item the store sells and print out what it costs per unit.
                 foreach (var storeItem in CurrentPoint.StoreItems)
                 {
-                    if (storeItem is OxenItem)
+                    if (storeItem is Oxen)
                         _oxenAmount = storeItem.ToString();
 
-                    if (storeItem is FoodItem)
+                    if (storeItem is Food)
                         _foodAmount = storeItem.ToString();
 
-                    if (storeItem is ClothingItem)
+                    if (storeItem is Clothing)
                         _clothingAmount = storeItem.ToString();
 
-                    if (storeItem is BulletsItem)
+                    if (storeItem is Bullets)
                         _bulletsAmount = storeItem.ToString();
 
-                    if (storeItem is PartWheelItem)
+                    if (storeItem is PartWheel)
                         _wheelsAmount = storeItem.ToString();
 
-                    if (storeItem is PartAxleItem)
+                    if (storeItem is PartAxle)
                         _axlesAmount = storeItem.ToString();
 
-                    if (storeItem is PartTongueItem)
+                    if (storeItem is PartTongue)
                         _tonguesAmount = storeItem.ToString();
                 }
             }

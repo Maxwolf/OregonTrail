@@ -6,12 +6,12 @@ namespace TrailEntities
     ///     Zero weight animal that is attached to the vehicle but not actually 'inside' of it, but is still in the list of
     ///     inventory items that define the vehicle the player and his party is making the journey in.
     /// </summary>
-    public sealed class OxenItem : PartItem
+    public sealed class Oxen : Part
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        public OxenItem(float cost) : base(cost, 1)
+        public Oxen(float cost) : base(cost, 1)
         {
             // Give the oxen a random amount of starting food to eat, he will consume this before trying to take from climate.
             GrassAvaliable = (uint) GameSimulationApp.Instance.Random.Next(0, 3);
