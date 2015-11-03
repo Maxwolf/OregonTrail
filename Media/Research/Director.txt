@@ -14,24 +14,4 @@
  * Injuries 5% of the time
  * Detects where the player is on the trail and adjust random events
  * Snows in the mountains and river disasters occur on the plains
-
-Your journey over the Oregon Trail takes place in 1847. Start.
-ing in Independence, Missouri, you plan to take your family of
-five over 2040 tough miles to Oregon City.
-
-Having saved $420 for the trip, you bought a wagon for $70 and
-now have to purchase the following items :
-
- * Oxen (spending more will buy you a larger and better team which
- will be faster so you'll be on the trail for less time)
-
- * Food (you'll need ample food to keep up your strength and health)
-
- * Ammunition ($1 buys a belt of 50 bullets. You'll need ammo for
- hunting and for fighting off attacks by bandits and animals)
-
- * Clothing (you'll need warm clothes, especially when you hit the
- snow and freezing weather in the mountains)
-  
- * Other supplies (includes medicine, first-aid supplies, tools, and
- wagon parts for unexpected emergencies)
+ * Snows in the mountains and river disasters occur on the plains
