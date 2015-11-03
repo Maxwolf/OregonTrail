@@ -9,21 +9,21 @@
         /// <summary>
         ///     Best and starting health of all entities in the simulation.
         /// </summary>
-        Good,
+        Good = 1,
 
         /// <summary>
         ///     Some damage but still good, should reduce stress if possible.
         /// </summary>
-        Fair,
+        Fair = 2,
 
         /// <summary>
         ///     Damaged and under-performing, danger of failure.
         /// </summary>
-        Bad,
+        Poor = 3,
 
         /// <summary>
         ///     Severe damage, danger of complete failure of death imminent.
         /// </summary>
-        Poor
+        VeryPoor = 4
     }
 }

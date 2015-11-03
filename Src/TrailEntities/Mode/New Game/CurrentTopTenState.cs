@@ -17,6 +17,15 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public override bool AcceptsInput
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
@@ -24,18 +33,22 @@ namespace TrailEntities
         {
             var currentTopTen = new StringBuilder();
 
+            // TODO: Load custom list from JSON with user high scores altered from defaults.
+            //// Create text table representation of current high score list.
+            //var table = users.ToStringTable(
+            //u => u.FirstName,
+            //u => u.LastName,
+
+            //u => u.DateTime,
+            //u => u.NullableDateTime,
+
+            //u => u.IntValue,
+            //u => u.NullableIntValue);
+
+            //currentTopTen.Append(table);
 
             currentTopTen.Append("Press ENTER KEY to continue.\n");
             return currentTopTen.ToString();
-        }
-
-        /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return false; }
         }
 
         /// <summary>

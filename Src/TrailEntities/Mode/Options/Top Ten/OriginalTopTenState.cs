@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace TrailEntities
 {
@@ -23,18 +22,22 @@ namespace TrailEntities
         {
             var sourceTopTen = new StringBuilder();
 
+            // Text above the table to declare what this state is.
+            sourceTopTen.Append("\nThe Oregon Top Ten\n\n");
 
-            sourceTopTen.Append("Press ENTER KEY to continue.\n");
+            // Create text table representation of default high score list.
+            var table = ScoreRegistry.TopTenDefaults.ToStringTable(
+                u => u.Name,
+                u => u.Points,
+                u => u.Rating);
+            sourceTopTen.AppendLine(table);
+
+            // Question about viewing point distribution information.
+            sourceTopTen.Append("Would you like to see how\n");
+            sourceTopTen.Append("points are earned? Y/N");
+
+            // Wait for user input...
             return sourceTopTen.ToString();
-        }
-
-        /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return false; }
         }
 
         /// <summary>
@@ -43,7 +46,17 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            switch (input.ToUpperInvariant())
+            {
+                case "Y":
+                    // Show the user information about point distribution.
+                    ParentMode.CurrentState = new PointsHealthState(ParentMode, UserData);
+                    break;
+                default:
+                    // Go back to the options menu.
+                    ParentMode.CurrentState = null;
+                    break;
+            }
         }
     }
 }
