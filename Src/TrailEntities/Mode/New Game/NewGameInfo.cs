@@ -6,7 +6,7 @@ namespace TrailEntities
     ///     Holds all of the information required to kick-start a running game simulation onto a trail path with people,
     ///     professions, vehicle, starting items, and all stats related to luck and repair skill.
     /// </summary>
-    public sealed class NewGameInfo : ModeInfo
+    public sealed class NewGameInfo
     {
         private List<string> _playerNames;
         private Profession _playerProfession;
@@ -101,10 +101,5 @@ namespace TrailEntities
         ///     other properties.
         /// </summary>
         private bool Modified { get; set; }
-
-        protected override string Name
-        {
-            get { return "New Game Information"; }
-        }
     }
 }

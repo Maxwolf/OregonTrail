@@ -95,7 +95,6 @@
     <Compile Include="Mode\IModeChoiceItem.cs" />
     <Compile Include="Mode\IModeState.cs" />
     <Compile Include="Mode\ModeChoiceItem.cs" />
-    <Compile Include="Mode\ModeInfo.cs" />
     <Compile Include="Mode\ModeState.cs" />
     <Compile Include="Mode\ModeType.cs" />
     <Compile Include="Mode\New Game\BuyInitialItemsState.cs" />

@@ -7,7 +7,7 @@ namespace TrailEntities
     ///     the game mode for the store is removed all the transactions will be completed and the players vehicle updated and
     ///     the store items removed, and balances of both updated respectfully.
     /// </summary>
-    public sealed class StoreInfo : ModeInfo
+    public sealed class StoreInfo
     {
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
@@ -39,11 +39,6 @@ namespace TrailEntities
         public IEnumerable<StoreTransactionItem> Transactions
         {
             get { return _totalTransactions; }
-        }
-
-        protected override string Name
-        {
-            get { return "Store Receipt Information"; }
         }
 
         /// <summary>

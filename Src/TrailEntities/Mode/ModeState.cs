@@ -7,7 +7,7 @@ namespace TrailEntities
     ///     Requires type parameter that is a reference type with a constructor.
     /// </summary>
     public abstract class ModeState<T> : Comparer<ModeState<T>>, IComparable<ModeState<T>>, IEquatable<ModeState<T>>,
-        IEqualityComparer<ModeState<T>>, IModeState where T : ModeInfo, new()
+        IEqualityComparer<ModeState<T>>, IModeState where T : class, new()
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -208,10 +208,7 @@ namespace TrailEntities
         /// </exception>
         public override int Compare(ModeState<T> x, ModeState<T> y)
         {
-            var result = x.UserData.CompareTo(y.UserData);
-            if (result != 0) return result;
-
-            result = string.Compare(x.GetType().Name, y.GetType().Name, StringComparison.Ordinal);
+            var result = string.Compare(x.GetType().Name, y.GetType().Name, StringComparison.Ordinal);
             if (result != 0) return result;
 
             return result;
