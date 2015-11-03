@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 namespace TrailEntities
 {
+    /// <summary>
+    /// Vessel that holds all the players, their inventory, money, and keeps track of total miles traveled in the form of an odometer.
+    /// </summary>
     public sealed class Vehicle : IEntity
     {
         private HashSet<Item> _inventory;
@@ -39,7 +42,7 @@ namespace TrailEntities
 
         public RepairStatus RepairStatus { get; private set; }
 
-        public uint Odometer { get; set; }
+        public ulong Odometer { get; set; }
 
         /// <summary>
         ///     Name of the entity as it should be known in the simulation.
@@ -127,8 +130,6 @@ namespace TrailEntities
         /// <returns>
         ///     true if the specified objects are equal; otherwise, false.
         /// </returns>
-        /// <param name="x">The first object of type <paramref name="T" /> to compare.</param>
-        /// <param name="y">The second object of type <paramref name="T" /> to compare.</param>
         public bool Equals(IEntity x, IEntity y)
         {
             return x.Equals(y);
@@ -157,11 +158,6 @@ namespace TrailEntities
             _people.Add(person);
         }
 
-        public void AddItem(Item item)
-        {
-            _inventory.Add(item);
-        }
-
         /// <summary>
         ///     Adds the item to the inventory of the vehicle and subtracts it's cost multiplied by quantity from balance.
         /// </summary>
@@ -185,11 +181,6 @@ namespace TrailEntities
             _inventory.Remove(transaction.Item);
         }
 
-        public void UpdateVehicle()
-        {
-            // TODO: Simulate random events that can happen to vehicle during the course of a day.
-        }
-
         public void ResetVehicle(uint startingMonies)
         {
             _inventory = new HashSet<Item>();
@@ -198,6 +189,11 @@ namespace TrailEntities
             Ration = RationLevel.Filling;
             RepairStatus = RepairStatus.Good;
             Odometer = 0;
+        }
+
+        public void TickVehicle()
+        {
+            throw new NotImplementedException();
         }
     }
 }

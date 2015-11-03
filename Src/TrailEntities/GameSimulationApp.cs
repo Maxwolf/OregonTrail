@@ -9,8 +9,15 @@ namespace TrailEntities
     /// </summary>
     public sealed class GameSimulationApp : SimulationApp
     {
+        /// <summary>
+        ///     Keeps track of all the points of interest we want to visit from beginning to end that makeup the entire journey.
+        /// </summary>
         public TrailSim TrailSim { get; private set; }
 
+        /// <summary>
+        ///     Singleton instance for the entire game simulation, does not block the calling thread though only listens for
+        ///     commands.
+        /// </summary>
         public static GameSimulationApp Instance { get; private set; }
 
         /// <summary>
@@ -40,6 +47,10 @@ namespace TrailEntities
         /// </summary>
         public Vehicle Vehicle { get; private set; }
 
+        /// <summary>
+        ///     Total number of turns that have taken place. Typically a game will not go past eighteen (18) turns or 20+ weeks
+        ///     (246 days) or approximately two-thousand (2000) miles.
+        /// </summary>
         public uint TotalTurns { get; private set; }
 
         /// <summary>
@@ -147,7 +158,7 @@ namespace TrailEntities
             // Unhook director event manager events.
             if (Director != null)
             {
-                Director.EventAdded -= DirectorOnEventAdded;
+                Director.EventAdded -= OnDirectorAddEvent;
             }
 
             // Destroy all instances.
@@ -184,7 +195,7 @@ namespace TrailEntities
 
             // Director event manager, and his delegate.
             Director = new EventSim();
-            Director.EventAdded += DirectorOnEventAdded;
+            Director.EventAdded += OnDirectorAddEvent;
 
             // Environment, weather, conditions, climate, tail, vehicle, stats.
             Climate = new ClimateSim(ClimateClassification.Moderate);
@@ -210,13 +221,11 @@ namespace TrailEntities
         ///     deal with the processing after it has been removed.
         /// </remarks>
         /// <param name="whatHappened">Event with data describing what is happening to the player as they travel down the trail.</param>
-        private void DirectorOnEventAdded(IEventItem whatHappened)
+        private void OnDirectorAddEvent(IEventItem whatHappened)
         {
             // TODO: Pause the simulation.
 
             // TODO: Attach a game mode or alter the state of travel mode to show message about event.
-
-
 
 
             // Makes the event do whatever it is going to do.
@@ -230,7 +239,7 @@ namespace TrailEntities
         /// </summary>
         /// <param name="modeType">Enumeration of the game mode that requested to be attached.</param>
         /// <returns>New game mode instance based on the mode input parameter.</returns>
-        protected override IMode OnModeChanging(ModeType modeType)
+        protected override IMode OnModeChange(ModeType modeType)
         {
             switch (modeType)
             {
@@ -276,7 +285,7 @@ namespace TrailEntities
         {
             // Each day we tick the weather, vehicle, and the people in it.
             Climate.TickClimate();
-            Vehicle.UpdateVehicle();
+            Vehicle.TickVehicle();
 
             // Move towards the next location on the trail.
             if (!TrailSim.MoveTowardsNextPointOfInterest())

@@ -15,7 +15,15 @@
  * Injuries 5% of the time
  * Detects where the player is on the trail and adjust random events
  * Snows in the mountains and river disasters occur on the plains
-
+ * Clothes and wagon parts increase 2.5 dollars
+ * Food increases .10 dollars and bullets increase 2.5 dollars
+ * Oxen go up to 5 dollars at each fort
+ * When you rest at a land mark people often heal quicker than on the trail
+ * Locations have fresh water flag if enabled doubles change for dysentery and cholera
+ * Maximum amound of weight that can be carried back after a hunt is 250 lbs of food
+ * The less buffalo you kill the better deal you shall receive from Indian wanting clothes
+ * Random chance for Indian Guide to help cross river for 1-5 sets of clothes
+ 
 [HUNTING]
 1. Random shooting word selected
 2. Date is taken for hunting start time

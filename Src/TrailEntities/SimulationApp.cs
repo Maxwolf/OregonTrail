@@ -185,7 +185,7 @@ namespace TrailEntities
                 return;
 
             // Add the game mode to the simulation now that we know it does not exist in the stack yet.
-            Modes.Add(modeType, OnModeChanging(modeType));
+            Modes.Add(modeType, OnModeChange(modeType));
             ModeChangedEvent?.Invoke(Modes[modeType].ModeType);
         }
 
@@ -252,7 +252,7 @@ namespace TrailEntities
             NewgameEvent?.Invoke();
         }
 
-        protected abstract IMode OnModeChanging(ModeType modeType);
+        protected abstract IMode OnModeChange(ModeType modeType);
 
         /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
