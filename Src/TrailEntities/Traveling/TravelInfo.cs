@@ -13,6 +13,8 @@ namespace TrailEntities
         /// </summary>
         public bool HasLookedAround { get; set; }
 
+        //public bool CanHunt
+
         /// <summary>
         ///     Defines a string that represents the entire travel status of the vehicle and group that can be shown on all the
         ///     states when player is making decisions about rest, stopping at locations, dealing with random events that pause

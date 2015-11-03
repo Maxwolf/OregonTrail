@@ -49,7 +49,7 @@
         ///     Same as normal store except it offers up advice and information about purchasing and what the items mean. This
         ///     advice is not offered after the simulation formally starts, it is shown by default when starting a new game.
         /// </summary>
-        StartingStore,
+        InitialPurchases,
 
         /// <summary>
         ///     Facilitates trading items with a fake AI vehicle, a list is created and values randomly selected from it for

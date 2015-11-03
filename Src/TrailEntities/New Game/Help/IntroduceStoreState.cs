@@ -58,7 +58,7 @@ namespace TrailEntities
 
             _knowsAboutMatt = true;
             ParentMode.RemoveModeNextTick();
-            GameSimulationApp.Instance.AddMode(ModeType.StartingStore);
+            GameSimulationApp.Instance.AddMode(ModeType.InitialPurchases);
         }
     }
 }
