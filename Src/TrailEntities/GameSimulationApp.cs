@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using TrailCommon;
 
 namespace TrailEntities
 {
@@ -228,6 +227,8 @@ namespace TrailEntities
                     return new StoreMode(true);
                 case ModeType.Trade:
                     return new TradingMode();
+                case ModeType.ManagementOptions:
+                    return new OptionsMode();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(modeType), modeType, null);
             }

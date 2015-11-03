@@ -5,7 +5,7 @@ Management Options
 
 You may:
 
- 1. See trhe current Top Ten list
+ 1. See the current Top Ten list
  2. See the original Top Ten list
  3. Erase the current Top Ten list
  4. Erase the tombstone messages

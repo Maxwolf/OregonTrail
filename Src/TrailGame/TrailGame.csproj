@@ -40,10 +40,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TrailCommon\TrailCommon.csproj">
-      <Project>{1409ac6c-985e-4b33-9e4f-2420ea2d3262}</Project>
-      <Name>TrailCommon</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TrailEntities\TrailEntities.csproj">
       <Project>{8dfa19ae-2e70-4dca-a734-dd2cbe3e21ed}</Project>
       <Name>TrailEntities</Name>
