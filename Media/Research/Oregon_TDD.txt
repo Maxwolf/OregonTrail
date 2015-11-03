@@ -1,4 +1,4 @@
-[OREGON TRAIL 1975 VERSION RESEACH]
+[OREGON TRAIL 1975,78,86 VERSION RESEARCH]
 
 [TRAVEL]
  * Iterate through 2-week trip segments
