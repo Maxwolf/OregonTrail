@@ -6,7 +6,7 @@ namespace TrailEntities
     ///     Defines a location in the game that is added to a list of points that make up the entire trail which the player and
     ///     his vehicle travel upon.
     /// </summary>
-    public abstract class PointOfInterest : IPoint
+    public class Location
     {
         /// <summary>
         ///     Reference to all of the items this landmark has for sale in a store.
@@ -14,9 +14,9 @@ namespace TrailEntities
         private HashSet<Item> _storeItems;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.PointOfInterest" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Location" /> class.
         /// </summary>
-        protected PointOfInterest(
+        public Location(
             string name,
             ulong distanceLength,
             IEnumerable<Item> pointInventory = null,
@@ -48,7 +48,10 @@ namespace TrailEntities
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public abstract ModeType ModeType { get; }
+        public virtual ModeType ModeType
+        {
+            get { return ModeType.Travel; }
+        }
 
         /// <summary>
         ///     Name of the current point of interest as it should be known to the player.

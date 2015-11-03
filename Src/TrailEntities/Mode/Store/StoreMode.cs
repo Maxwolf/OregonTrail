@@ -44,6 +44,20 @@ namespace TrailEntities
         protected override string MenuHeader { get; set; }
 
         /// <summary>
+        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     simulation.
+        /// </summary>
+        public override ModeType ModeType
+        {
+            get { return ModeType.Store; }
+        }
+
+        /// <summary>
+        ///     Holds all of the pending transactions the player would like to make with the store.
+        /// </summary>
+        public StoreInfo StoreInfo { get; }
+
+        /// <summary>
         ///     Offers chance to purchase a special vehicle part that is also an animal that eats grass and can die if it starves.
         /// </summary>
         public void BuyOxen()
@@ -147,20 +161,6 @@ namespace TrailEntities
             // Remove the store if we make this far!
             RemoveModeNextTick();
         }
-
-        /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
-        ///     simulation.
-        /// </summary>
-        public override ModeType ModeType
-        {
-            get { return ModeType.Store; }
-        }
-
-        /// <summary>
-        ///     Holds all of the pending transactions the player would like to make with the store.
-        /// </summary>
-        public StoreInfo StoreInfo { get; }
 
         /// <summary>
         ///     Removes item from the store and adds it to the players inventory.

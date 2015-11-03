@@ -53,15 +53,10 @@
     <Compile Include="Entity\Items\Parts\PartTongueItem.cs" />
     <Compile Include="Entity\Items\Parts\PartWheelItem.cs" />
     <Compile Include="Entity\Person\Disease.cs" />
-    <Compile Include="Entity\Person\IPerson.cs" />
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />
     <Compile Include="Event\IEventItem.cs" />
-    <Compile Include="Trail\IForkInRoadPoint.cs" />
-    <Compile Include="Trail\IPoint.cs" />
-    <Compile Include="Trail\IRiverPoint.cs" />
-    <Compile Include="Trail\PointOfInterest.cs" />
-    <Compile Include="Entity\Vehicle\IVehicle.cs" />
+    <Compile Include="Trail\Location.cs" />
     <Compile Include="Entity\Vehicle\RepairStatus.cs" />
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
     <Compile Include="Event\Accident\AccidentEvent.cs" />
@@ -129,7 +124,7 @@
     <Compile Include="Mode\Traveling\TravelCommands.cs" />
     <Compile Include="Mode\Traveling\TravelInfo.cs" />
     <Compile Include="Mode\Traveling\TravelingMode.cs" />
-    <Compile Include="Trail\RiverPoint.cs" />
+    <Compile Include="Trail\River.cs" />
     <Compile Include="GameSimulationApp.cs" />
     <Compile Include="Climate\ClimateClassification.cs" />
     <Compile Include="Climate\ClimateData.cs" />
@@ -144,17 +139,16 @@
     <Compile Include="SimulationApp.cs" />
     <Compile Include="Time\TimeSim.cs" />
     <Compile Include="Entity\Items\Parts\OxenItem.cs" />
-    <Compile Include="Trail\ForkInRoadPoint.cs" />
+    <Compile Include="Trail\ForkInRoad.cs" />
     <Compile Include="Trail\TrailSim.cs" />
-    <Compile Include="Entity\Person.cs" />
+    <Compile Include="Entity\Person\Person.cs" />
     <Compile Include="Mode\Hunting\HuntingMode.cs" />
     <Compile Include="Mode\River Crossing\RiverCrossingMode.cs" />
-    <Compile Include="Trail\LandmarkPoint.cs" />
     <Compile Include="Mode\Store\StoreMode.cs" />
     <Compile Include="Mode\Trading\TradingMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mode\Random Event\RandomEventMode.cs" />
-    <Compile Include="Entity\Vehicle.cs" />
+    <Compile Include="Entity\Vehicle\Vehicle.cs" />
     <Compile Include="Mode\New Game\NewGameMode.cs" />
     <Compile Include="Randomizer.cs" />
   </ItemGroup>

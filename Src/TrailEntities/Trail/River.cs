@@ -2,12 +2,12 @@
 
 namespace TrailEntities
 {
-    public sealed class RiverPoint : PointOfInterest, IRiverPoint
+    public sealed class River : Location
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailCommon.PointOfInterest" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailCommon.Location" /> class.
         /// </summary>
-        public RiverPoint(string name, ulong distanceLength) : base(name, distanceLength)
+        public River(string name, ulong distanceLength) : base(name, distanceLength)
         {
         }
 

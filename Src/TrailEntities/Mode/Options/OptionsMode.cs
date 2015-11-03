@@ -20,6 +20,15 @@
         }
 
         /// <summary>
+        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     simulation.
+        /// </summary>
+        public override ModeType ModeType
+        {
+            get { return ModeType.ManagementOptions; }
+        }
+
+        /// <summary>
         ///     Removes the management options game mode and returns to main menu which should be below it.
         /// </summary>
         private void ReturnToMainMenu()
@@ -32,7 +41,6 @@
         /// </summary>
         private void EraseSavedGames()
         {
-            
         }
 
         /// <summary>
@@ -41,7 +49,6 @@
         /// </summary>
         private void EraseTombstoneMessages()
         {
-            
         }
 
         /// <summary>
@@ -49,7 +56,6 @@
         /// </summary>
         private void EraseCurrentTopTen()
         {
-            
         }
 
         /// <summary>
@@ -57,7 +63,6 @@
         /// </summary>
         private void SeeOriginalTopTen()
         {
-            
         }
 
         /// <summary>
@@ -65,16 +70,6 @@
         /// </summary>
         private void SeeCurrentTopTen()
         {
-            
-        }
-
-        /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
-        ///     simulation.
-        /// </summary>
-        public override ModeType ModeType
-        {
-            get { return ModeType.ManagementOptions; }
         }
     }
 }

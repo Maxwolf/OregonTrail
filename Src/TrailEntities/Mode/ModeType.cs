@@ -58,11 +58,6 @@
         Trade,
 
         /// <summary>
-        ///     Could be a landmark, settlement, fort, town, city.
-        /// </summary>
-        Location,
-
-        /// <summary>
         ///     Allows the player to reset top ten high scores, remove saved games, remove tombstone messages, etc.
         /// </summary>
         ManagementOptions

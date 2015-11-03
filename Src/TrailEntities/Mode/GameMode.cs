@@ -180,7 +180,7 @@ namespace TrailEntities
         ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
         ///     class where they become available.
         /// </summary>
-        public IPoint CurrentPoint { get; }
+        public Location CurrentPoint { get; }
 
         /// <summary>
         ///     Determines if the game mode should not be ticked if it is active but instead removed. The mode when set to being
@@ -359,7 +359,7 @@ namespace TrailEntities
         ///     Fired when trail simulation has determined the vehicle and player party has reached the next point of interest in
         ///     the trail.
         /// </summary>
-        protected virtual void OnReachPointOfInterest(PointOfInterest nextPoint)
+        protected virtual void OnReachPointOfInterest(Location nextPoint)
         {
             Debug.Assert(nextPoint != null, "nextPoint != null");
         }

@@ -8,12 +8,6 @@ namespace TrailEntities
     /// </summary>
     public sealed class GameSimulationApp : SimulationApp
     {
-        /// <summary>
-        ///     Current vessel which the player character and his party are traveling inside of, provides means of transportation
-        ///     other than walking.
-        /// </summary>
-        private Vehicle _vehicle;
-
         public TrailSim TrailSim { get; private set; }
 
         public static GameSimulationApp Instance { get; private set; }
@@ -34,10 +28,11 @@ namespace TrailEntities
         /// </summary>
         public EventSim Director { get; private set; }
 
-        public IVehicle Vehicle
-        {
-            get { return _vehicle; }
-        }
+        /// <summary>
+        ///     Current vessel which the player character and his party are traveling inside of, provides means of transportation
+        ///     other than walking.
+        /// </summary>
+        public Vehicle Vehicle { get; private set; }
 
         public uint TotalTurns { get; private set; }
 
@@ -155,7 +150,7 @@ namespace TrailEntities
             Director = null;
             TrailSim = null;
             TotalTurns = 0;
-            _vehicle = null;
+            Vehicle = null;
             Instance = null;
 
             base.OnDestroy();
@@ -184,7 +179,7 @@ namespace TrailEntities
             Climate = new ClimateSim(ClimateClassification.Moderate);
             TrailSim = new TrailSim(TrailRegistry.OregonTrail());
             TotalTurns = 0;
-            _vehicle = new Vehicle();
+            Vehicle = new Vehicle();
 
             // Attach traveling mode since that is the default and bottom most game mode.
             AddMode(ModeType.Travel);
@@ -209,7 +204,6 @@ namespace TrailEntities
             switch (modeType)
             {
                 case ModeType.Travel:
-                case ModeType.Location:
                     return new TravelingMode();
                 case ModeType.ForkInRoad:
                     return new ForkInRoadMode();
@@ -237,7 +231,7 @@ namespace TrailEntities
         private void TimeSimulation_SpeedChangeEvent()
         {
             // TODO: Change the simulation pace to whatever the linear time simulation is doing.
-            Console.WriteLine("Travel pace changed to " + _vehicle.Pace);
+            Console.WriteLine("Travel pace changed to " + Vehicle.Pace);
         }
 
         private void TimeSimulation_YearEndEvent(uint yearCount)
@@ -259,7 +253,7 @@ namespace TrailEntities
             if (!TrailSim.MoveTowardsNextPointOfInterest())
             {
                 // Update total distance traveled on vehicle if we have not reached the point.
-                _vehicle.Odometer += (uint) Vehicle.Pace;
+                Vehicle.Odometer += (uint) Vehicle.Pace;
             }
         }
 

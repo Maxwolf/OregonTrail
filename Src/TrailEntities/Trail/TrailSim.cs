@@ -13,13 +13,13 @@ namespace TrailEntities
         ///     Delegate that passes along the next point of interest that was reached to the event and any subscribers to it.
         /// </summary>
         /// <param name="nextPoint">Next point of interest that will be attached to game simulation.</param>
-        public delegate void PointOfInterestReached(PointOfInterest nextPoint);
+        public delegate void PointOfInterestReached(Location nextPoint);
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.TrailSim" /> class.
         /// </summary>
         /// <param name="trail">Collection of points of interest which make up the trail the player is going to travel.</param>
-        public TrailSim(IEnumerable<PointOfInterest> trail)
+        public TrailSim(IEnumerable<Location> trail)
         {
             // Builds the trail passed on parameter, sets location to negative one for startup.
             PointsOfInterest = trail;
@@ -40,7 +40,7 @@ namespace TrailEntities
         /// <summary>
         ///     List of all of the points of interest that make up the entire trail.
         /// </summary>
-        private IEnumerable<PointOfInterest> PointsOfInterest { get; }
+        private IEnumerable<Location> PointsOfInterest { get; }
 
         /// <summary>
         ///     Advances the vehicle to the next point of interest on the path.
@@ -84,7 +84,7 @@ namespace TrailEntities
         ///     Locates the next point of interest if it exists in the list, if this method returns NULL then that means the next
         ///     point of interest is the end of the game when the distance to point reaches zero.
         /// </summary>
-        public PointOfInterest GetNextPointOfInterest()
+        public Location GetNextPointOfInterest()
         {
             // Build next point index from current point, even if startup value with -1 we add 1 so will always get first point.
             var nextPointIndex = VehicleLocation + 1;
@@ -96,7 +96,7 @@ namespace TrailEntities
         /// <summary>
         ///     Returns the current point of interest the players vehicle is on.
         /// </summary>
-        public PointOfInterest GetCurrentPointOfInterest()
+        public Location GetCurrentPointOfInterest()
         {
             return VehicleLocation <= -1
                 ? PointsOfInterest.First()
@@ -125,7 +125,7 @@ namespace TrailEntities
         ///     Next point of interest that was peeked in the trail list. If this is null then next point is
         ///     end of game.
         /// </param>
-        private void OnReachedPointOfInterest(PointOfInterest nextPoint)
+        private void OnReachedPointOfInterest(Location nextPoint)
         {
             // Attach some game mode based on the relevance of the next point type.
             GameSimulationApp.Instance.AddMode(nextPoint.ModeType);

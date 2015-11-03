@@ -21,6 +21,11 @@ namespace TrailEntities
             get { return ModeType.Trade; }
         }
 
+        public IEnumerable<Item> PossibleTrades
+        {
+            get { return _possibleTrades; }
+        }
+
         /// <summary>
         ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
         ///     top-most game mode.
@@ -28,11 +33,6 @@ namespace TrailEntities
         public override void TickMode()
         {
             throw new NotImplementedException();
-        }
-
-        public IEnumerable<Item> PossibleTrades
-        {
-            get { return _possibleTrades; }
         }
 
         public void TradeAttempt(Item item)

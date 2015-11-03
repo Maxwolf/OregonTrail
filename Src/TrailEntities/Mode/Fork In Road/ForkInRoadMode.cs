@@ -4,17 +4,17 @@ namespace TrailEntities
 {
     public sealed class ForkInRoadMode : GameMode<ForkInRoadCommands>, IForkInRoadMode
     {
-        private readonly HashSet<PointOfInterest> _skipChoices;
+        private readonly HashSet<Location> _skipChoices;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
         public ForkInRoadMode() : base(false)
         {
-            _skipChoices = new HashSet<PointOfInterest>();
+            _skipChoices = new HashSet<Location>();
         }
 
-        public IEnumerable<PointOfInterest> SkipChoices
+        public IEnumerable<Location> SkipChoices
         {
             get { return _skipChoices; }
         }

@@ -2,17 +2,17 @@
 
 namespace TrailEntities
 {
-    public sealed class ForkInRoadPoint : PointOfInterest, IForkInRoadPoint
+    public sealed class ForkInRoad : Location
     {
-        private HashSet<PointOfInterest> _skipChoices;
+        private HashSet<Location> _skipChoices;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ForkInRoad" /> class.
         /// </summary>
-        public ForkInRoadPoint(string name, ulong distanceLength, IEnumerable<PointOfInterest> skipChoices)
+        public ForkInRoad(string name, ulong distanceLength, IEnumerable<Location> skipChoices)
             : base(name, distanceLength)
         {
-            _skipChoices = new HashSet<PointOfInterest>(skipChoices);
+            _skipChoices = new HashSet<Location>(skipChoices);
         }
 
         public override ModeType ModeType
@@ -20,7 +20,7 @@ namespace TrailEntities
             get { return ModeType.ForkInRoad; }
         }
 
-        public IEnumerable<PointOfInterest> SkipChoices
+        public IEnumerable<Location> SkipChoices
         {
             get { return _skipChoices; }
         }

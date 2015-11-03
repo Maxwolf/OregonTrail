@@ -146,11 +146,9 @@ namespace TrailEntities
         }
 
         /// <summary>
-        /// 
         /// </summary>
         private void HuntForFood()
         {
-            
         }
 
         /// <summary>
@@ -158,12 +156,12 @@ namespace TrailEntities
         ///     the trail.
         /// </summary>
         /// <param name="nextPoint"></param>
-        protected override void OnReachPointOfInterest(PointOfInterest nextPoint)
+        protected override void OnReachPointOfInterest(Location nextPoint)
         {
             base.OnReachPointOfInterest(nextPoint);
 
             // Check if the point is us, and a location we need to welcome player into.
-            if (nextPoint != CurrentPoint || nextPoint.ModeType != ModeType.Location)
+            if (nextPoint != CurrentPoint)
                 return;
 
             // On the first point we are going to force the look around state onto the traveling mode without asking.
@@ -172,8 +170,8 @@ namespace TrailEntities
                 CurrentState = new LookAroundState(this, TravelInfo);
             }
             else if (!GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest() &&
-                      GameSimulationApp.Instance.Vehicle.Odometer > 0 &&
-                      GameSimulationApp.Instance.TotalTurns > 0)
+                     GameSimulationApp.Instance.Vehicle.Odometer > 0 &&
+                     GameSimulationApp.Instance.TotalTurns > 0)
             {
                 // Ensure we only ask if the player wants to stop when it is really not the first turn.
                 CurrentState = new LookAroundQuestionState(this, TravelInfo);

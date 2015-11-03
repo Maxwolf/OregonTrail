@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace TrailEntities
 {
-    public sealed class Person : IPerson
+    public sealed class Person : IEntity
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Person" /> class.
@@ -39,34 +39,9 @@ namespace TrailEntities
 
         public Profession Profession { get; }
 
-        public string Name { get; }
-
         public bool IsLeader { get; }
 
-        public void Eat(RationLevel amount)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Rest()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RepairVehicle()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsStarving()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsDead()
-        {
-            throw new NotImplementedException();
-        }
+        public string Name { get; }
 
         /// <summary>
         ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
@@ -172,6 +147,31 @@ namespace TrailEntities
             var hash = 23;
             hash = (hash*31) + Name.GetHashCode();
             return hash;
+        }
+
+        public void Eat(RationLevel amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Rest()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RepairVehicle()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsStarving()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsDead()
+        {
+            throw new NotImplementedException();
         }
     }
 }

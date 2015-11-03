@@ -37,7 +37,7 @@ namespace TrailEntities
         ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
         ///     class where they become available.
         /// </summary>
-        IPoint CurrentPoint { get; }
+        Location CurrentPoint { get; }
 
         /// <summary>
         ///     Sets the flag for this game mode to be removed the next time it is ticked by the simulation.

@@ -3,7 +3,7 @@
 namespace TrailEntities
 {
     /// <summary>
-    /// Holds a bunch of pre-made stores that adjust the prices of things along the way.
+    ///     Holds a bunch of pre-made stores that adjust the prices of things along the way.
     /// </summary>
     public static class StoreRegistry
     {
