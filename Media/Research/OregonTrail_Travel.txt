@@ -1,8 +1,0 @@
-----------[LOCATION GET]----------
--Forces interaction on the player (such as river crossing, fork in road).
--Player is given chance to look around.
--Let the player talk to people in the area.
--Chance to trade with other people, sometimes no one wants to trade.
-
-If you go for a while without food, you will get the option to slaughter an ox for meat.
-From Oregon Trail II on, if a draft animal dies, it can be butchered for meat.
