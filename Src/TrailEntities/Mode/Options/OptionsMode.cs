@@ -34,7 +34,6 @@ namespace TrailEntities
             AddCommand(SeeOriginalTopTen, OptionCommands.SeeOriginalTopTen, "See the original Top Ten list");
             AddCommand(EraseCurrentTopTen, OptionCommands.EraseCurrentTopTen, "Erase the current Top Ten list");
             AddCommand(EraseTombstoneMessages, OptionCommands.EraseTomstoneMessages, "Erase the tombstone messages");
-            AddCommand(EraseSavedGames, OptionCommands.EraseSavedGames, "Erase saved games");
             AddCommand(ReturnToMainMenu, OptionCommands.ReturnToMainMenu, "Return to the main menu");
         }
 
@@ -54,14 +53,6 @@ namespace TrailEntities
         {
             CurrentState = null;
             RemoveModeNextTick();
-        }
-
-        /// <summary>
-        ///     Delete any save games from the slots they are holding. Any saved progress will be lost.
-        /// </summary>
-        private void EraseSavedGames()
-        {
-            CurrentState = new EraseSavedGamesState(this, _optionInfo);
         }
 
         /// <summary>

@@ -64,8 +64,7 @@ namespace TrailEntities
 
             // Change the game mode to be a store which can work with this data.
             _hasAttachedStore = true;
-            ParentMode.RemoveModeNextTick();
-            GameSimulationApp.Instance.AddMode(ModeType.StartingStore);
+            ParentMode.CurrentState = new IntroduceStoreState(ParentMode, UserData);
         }
     }
 }

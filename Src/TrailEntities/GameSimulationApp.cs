@@ -180,6 +180,7 @@ namespace TrailEntities
 
             // Scoring tracker and tabulator for end game results from current simulation state.
             ScoreTopTen = new List<Highscore>(ScoreRegistry.TopTenDefaults);
+            // TODO: Load custom list from JSON with user high scores altered from defaults.
 
             // Director event manager, and his delegate.
             Director = new EventSim();

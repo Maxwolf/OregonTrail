@@ -18,31 +18,68 @@ namespace TrailEntities
         /// </summary>
         private StringBuilder _storeHelp;
 
+        /// <summary>
+        ///     Determines which panel of information we have shown to the user, pressing return will cycle through them.
+        /// </summary>
+        private int adviceCount;
+
         public StoreAdviceState(IMode gameMode, StoreInfo userData) : base(gameMode, userData)
         {
             _hasReadAdvice = false;
             _storeHelp = new StringBuilder();
-            _storeHelp.Append("Matt the owner of the store offers you some free advice:\n");
-            _storeHelp.Append("'I recommend at least six oxen to pull your wagon. And you'll need plenty of\n");
-            _storeHelp.Append("flour, sugar, bacon, coffee, and other types of food. I suggest you start out\n");
-            _storeHelp.Append("with at least 200 pounds for each person in your party'\n\n");
-
-            _storeHelp.Append("'You'll need good, warm clothing, especially for the mountains. I recommend\n");
-            _storeHelp.Append("taking at least 2 sets of clothing per person. You'll need ammunition, too.\n");
-            _storeHelp.Append("Each box of ammunition contains 20 bullets.'\n\n");
-
-            _storeHelp.Append("'Finally, you might want to take along some spare wagon parts.  Wagon Wheels,\n");
-            _storeHelp.Append("axles, and tongues are liable to break along the way. If you're unable to\n");
-            _storeHelp.Append("repair a broken wagon, you'll be in big trouble!'\n\n");
-
-            _storeHelp.Append("Press ENTER KEY to return to store.\n");
+            UpdateAdvice();
         }
 
+        /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
         public override bool AcceptsInput
         {
             get { return false; }
         }
 
+        /// <summary>
+        ///     Since the advice can change we have to do this in chunks.
+        /// </summary>
+        private void UpdateAdvice()
+        {
+            // Clear any previous string builder message.
+            _storeHelp.Clear();
+
+            // Create the current state of our advice to player.
+            _storeHelp.Append("\nHello, I'm Matt. So you're going\n");
+            _storeHelp.Append("to Oregon! I can fix you up with\n");
+            _storeHelp.Append("what you need:\n\n");
+
+            if (adviceCount <= 0)
+            {
+                _storeHelp.Append(" - a team of oxen to pull\n");
+                _storeHelp.Append(" your vehicle\n\n");
+
+                _storeHelp.Append(" - clothing for both\n");
+                _storeHelp.Append(" summer and winter\n\n");
+            }
+            else if (adviceCount == 1)
+            {
+                _storeHelp.Append(" - plenty of food for the\n");
+                _storeHelp.Append(" trip\n\n");
+
+                _storeHelp.Append(" - ammunition for your\n");
+                _storeHelp.Append(" rifles\n\n");
+
+                _storeHelp.Append(" - spare parts for your\n");
+                _storeHelp.Append(" wagon\n\n");
+            }
+
+            // Wait for user input...
+            _storeHelp.Append("Press ENTER KEY to continue.\n");
+        }
+
+        /// <summary>
+        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
+        ///     waiting input, etc.
+        /// </summary>
         public override string GetStateTUI()
         {
             return _storeHelp.ToString();
@@ -50,6 +87,19 @@ namespace TrailEntities
 
         public override void OnInputBufferReturned(string input)
         {
+            // Tick the advice to next panel when we get input.
+            if (adviceCount <= 0)
+            {
+                adviceCount++;
+                UpdateAdvice();
+                return;
+            }
+
+            // Make sure we don't run final logic to show actual store until we show all advice to player.
+            if (adviceCount < 1)
+                return;
+
+            // On the last advice panel we flip a normal boolean to know we are definitely done here.
             if (_hasReadAdvice)
                 return;
 

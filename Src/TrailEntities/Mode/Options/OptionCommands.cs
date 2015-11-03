@@ -23,13 +23,8 @@
         EraseTomstoneMessages = 3,
 
         /// <summary>
-        ///     Delete any save games from the slots they are holding. Any saved progress will be lost.
-        /// </summary>
-        EraseSavedGames = 4,
-
-        /// <summary>
         ///     Removes the management options game mode and returns to main menu which should be below it.
         /// </summary>
-        ReturnToMainMenu = 5
+        ReturnToMainMenu = 4
     }
 }

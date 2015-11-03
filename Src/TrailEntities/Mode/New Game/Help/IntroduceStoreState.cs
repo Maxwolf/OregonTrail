@@ -1,19 +1,32 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace TrailEntities
 {
     /// <summary>
-    ///     Confirm the player wishes to the destroy the current top ten list and reset it back to the hard-coded default
-    ///     values.
+    ///     Introduces the player to the concept of a store as being run by a person by the name of Matt.
     /// </summary>
-    public sealed class EraseCurrentTopTenState : ModeState<OptionInfo>
+    public sealed class IntroduceStoreState : ModeState<NewGameInfo>
     {
+        /// <summary>
+        ///     Determines if the player now knows who Matt is.
+        /// </summary>
+        private bool _knowsAboutMatt;
+
+        /// <summary>
+        ///     Builder for the string we will display to the user.
+        /// </summary>
+        private StringBuilder _storeHelp;
+
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public EraseCurrentTopTenState(IMode gameMode, OptionInfo userData) : base(gameMode, userData)
+        public IntroduceStoreState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
+            _storeHelp = new StringBuilder();
+            _storeHelp.Append("\nYou can buy whatever you need at\n");
+            _storeHelp.Append("Matt's General Store.\n\n");
+
+            _storeHelp.Append("Press ENTER KEY to enter the store.\n");
         }
 
         /// <summary>
@@ -31,11 +44,7 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            var eraseTopTen = new StringBuilder();
-
-
-            eraseTopTen.Append("Press ENTER KEY to continue.\n");
-            return eraseTopTen.ToString();
+            return _storeHelp.ToString();
         }
 
         /// <summary>
@@ -44,7 +53,12 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            if (_knowsAboutMatt)
+                return;
+
+            _knowsAboutMatt = true;
+            ParentMode.RemoveModeNextTick();
+            GameSimulationApp.Instance.AddMode(ModeType.StartingStore);
         }
     }
 }

@@ -49,7 +49,7 @@ namespace TrailEntities
         }
 
         /// <summary>
-        /// Reference to points that will be given for entities of given matching types in this list.
+        ///     Reference to points that will be given for entities of given matching types in this list.
         /// </summary>
         public static IEnumerable<Points> ResourcePoints
         {
@@ -57,13 +57,13 @@ namespace TrailEntities
             {
                 return new List<Points>
                 {
-                    new Points(typeof(Vehicle), 50),
-                    new Points(typeof(Oxen), 4),
-                    new Points(typeof(Part), 2),
-                    new Points(typeof(Clothing), 2),
-                    new Points(typeof(Bullets), 1, 50),
-                    new Points(typeof(Food), 1, 25),
-                    new Points(typeof(uint), 1, 5, "Cash"),
+                    new Points(typeof (Vehicle), 50),
+                    new Points(typeof (Oxen), 4),
+                    new Points(typeof (Part), 2),
+                    new Points(typeof (Clothing), 2),
+                    new Points(typeof (Bullets), 1, 50),
+                    new Points(typeof (Food), 1, 25),
+                    new Points(typeof (uint), 1, 5, "Cash")
                 };
             }
         }

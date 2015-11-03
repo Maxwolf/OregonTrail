@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace TrailEntities
 {
@@ -17,15 +16,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return false; }
-        }
-
-        /// <summary>
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
@@ -33,8 +23,19 @@ namespace TrailEntities
         {
             var eraseEpitaphs = new StringBuilder();
 
+            // Text above the table to declare what this state is.
+            eraseEpitaphs.Append("\nErase tombstone messages\n\n");
 
-            eraseEpitaphs.Append("Press ENTER KEY to continue.\n");
+            // Tell the user how tombstones work before destroying them.
+            eraseEpitaphs.Append("There may be one tombstone on\n");
+            eraseEpitaphs.Append("the first half of the trail and\n");
+            eraseEpitaphs.Append("one tombstone on the second\n");
+            eraseEpitaphs.Append("half. If you erase the\n");
+            eraseEpitaphs.Append("tombstone messages, they will\n");
+            eraseEpitaphs.Append("not be replaced until team\n");
+            eraseEpitaphs.Append("leaders die along the trail.\n\n");
+
+            eraseEpitaphs.Append("Do you want to do this? Y/N");
             return eraseEpitaphs.ToString();
         }
 
@@ -44,7 +45,16 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            switch (input.ToUpperInvariant())
+            {
+                case "Y":
+                    // TODO: Clear tombstone message list, delete file that was loaded from disk...
+                    ParentMode.CurrentState = null;
+                    break;
+                default:
+                    ParentMode.CurrentState = null;
+                    break;
+            }
         }
     }
 }

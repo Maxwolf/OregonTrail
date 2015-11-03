@@ -26,7 +26,6 @@ namespace TrailEntities
             // Text above the table to declare what this state is.
             currentTopTen.Append("\nCurrent Top Ten List\n\n");
 
-            // TODO: Load custom list from JSON with user high scores altered from defaults.
             // Create text table representation of default high score list.
             var table = GameSimulationApp.Instance.ScoreTopTen.ToStringTable(
                 u => u.Name,
