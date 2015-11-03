@@ -22,7 +22,7 @@ namespace TrailEntities
         public TrailSim(IEnumerable<Location> trail)
         {
             // Builds the trail passed on parameter, sets location to negative one for startup.
-            PointsOfInterest = trail;
+            PointsOfInterest = new List<Location>(trail);
             VehicleLocation = -1;
             DistanceToNextPoint = 0;
         }
@@ -40,7 +40,7 @@ namespace TrailEntities
         /// <summary>
         ///     List of all of the points of interest that make up the entire trail.
         /// </summary>
-        private IEnumerable<Location> PointsOfInterest { get; }
+        private List<Location> PointsOfInterest { get; }
 
         /// <summary>
         ///     Advances the vehicle to the next point of interest on the path.

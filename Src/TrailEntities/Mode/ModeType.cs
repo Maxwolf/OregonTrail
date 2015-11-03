@@ -28,12 +28,6 @@
         NewGame,
 
         /// <summary>
-        ///     Prompts with a message about something happening to the player party or their vehicle. Stops the simulation until
-        ///     the player continues on the trail again.
-        /// </summary>
-        RandomEvent,
-
-        /// <summary>
         ///     Forces the player to make a choice about how to cross the river, they can ford the river, caulk their wagon and
         ///     float, or pay to take a ferry across.
         /// </summary>

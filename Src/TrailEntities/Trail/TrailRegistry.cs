@@ -8,11 +8,11 @@ namespace TrailEntities
     public static class TrailRegistry
     {
         /// <summary>
-        ///     Creates the original Oregon trail which was in the game this is cloning.
+        ///     Creates the original Oregon trail which was in the 1986 Apple II version of the game.
         /// </summary>
         public static IEnumerable<Location> OregonTrail()
         {
-            var trail = new HashSet<Location>
+            var trail = new []
             {
                 new Location("Independence", 0, StoreRegistry.MattsStore()),
                 new River("Kansas River Crossing", 83),

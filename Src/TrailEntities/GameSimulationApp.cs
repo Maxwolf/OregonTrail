@@ -199,9 +199,29 @@ namespace TrailEntities
             AddMode(ModeType.NewGame);
         }
 
-        private void DirectorOnEventAdded(IEventItem theEvent)
+        /// <summary>
+        ///     Fired when one of the sub-routines in the simulation determines that a random event should occur to the player.
+        ///     Once this has been processed and created this event will get fired and the data passed into it for decision making
+        ///     at this point in the simulation.
+        /// </summary>
+        /// <remarks>
+        ///     All events will want to affect the vehicle, players inside it, or the inventory items they hold. All events will
+        ///     want to print a message telling the user what happened. Some events will want to attach a new game mode and then
+        ///     deal with the processing after it has been removed.
+        /// </remarks>
+        /// <param name="whatHappened">Event with data describing what is happening to the player as they travel down the trail.</param>
+        private void DirectorOnEventAdded(IEventItem whatHappened)
         {
-            throw new NotImplementedException();
+            // TODO: Pause the simulation.
+
+            // TODO: Attach a game mode or alter the state of travel mode to show message about event.
+
+
+
+
+            // Makes the event do whatever it is going to do.
+            // NOTE: Data will very likely change or party members die after this is run...
+            whatHappened.Execute();
         }
 
         /// <summary>
@@ -222,8 +242,6 @@ namespace TrailEntities
                     return new HuntingMode();
                 case ModeType.NewGame:
                     return new NewGameMode();
-                case ModeType.RandomEvent:
-                    return new RandomEventMode();
                 case ModeType.RiverCrossing:
                     return new RiverCrossingMode();
                 case ModeType.Store:

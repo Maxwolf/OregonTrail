@@ -49,7 +49,7 @@
 5. 90% chance for blizzard at high elevations
 
 [DEATH]
-1. No enough food, clothingm ammunition, or medical supplies
+1. Not enough food, clothing, ammunition, or medical supplies
 2. Short message is displayed telling you what happened
 3. How far you traveled is shown, remaining supplies
 4. Assumed less than 50% made it, realistic 20%
