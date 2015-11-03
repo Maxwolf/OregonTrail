@@ -74,7 +74,7 @@ namespace TrailEntities
         /// </summary>
         private void SeeTopTen()
         {
-            CurrentState = new HighscoreState(this, NewGameInfo);
+            CurrentState = new CurrentTopTenState(this, NewGameInfo);
         }
 
         /// <summary>

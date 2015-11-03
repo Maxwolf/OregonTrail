@@ -1,4 +1,7 @@
-﻿namespace TrailEntities
+﻿using System.Reflection;
+using System.Text;
+
+namespace TrailEntities
 {
     /// <summary>
     ///     Glorified options menu for the game that allows player to remove top ten high scores, remove saved games, erase
@@ -7,11 +10,27 @@
     public sealed class OptionsMode : GameMode<OptionCommands>
     {
         /// <summary>
+        ///     References all of the possible options we want to keep track of while moving between management options mode.
+        /// </summary>
+        private OptionInfo _optionInfo;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.OptionsMode" /> class.
         /// </summary>
         public OptionsMode() : base(false)
         {
-            AddCommand(SeeCurrentTopTen, OptionCommands.SeeCurrentTopTen, "See the current Top Ten list");
+            // Info object for states.
+            _optionInfo = new OptionInfo();
+
+            // Header text.
+            var headerText = new StringBuilder();
+            headerText.Append("\nThe Oregon Trail\n");
+            headerText.Append($"Version: {Assembly.GetExecutingAssembly().GetName().Version}\n\n");
+            headerText.Append("Management Options\n\n");
+            headerText.Append("You may:");
+            MenuHeader = headerText.ToString();
+
+            // Commands.
             AddCommand(SeeOriginalTopTen, OptionCommands.SeeOriginalTopTen, "See the original Top Ten list");
             AddCommand(EraseCurrentTopTen, OptionCommands.EraseCurrentTopTen, "Erase the current Top Ten list");
             AddCommand(EraseTombstoneMessages, OptionCommands.EraseTomstoneMessages, "Erase the tombstone messages");
@@ -33,6 +52,7 @@
         /// </summary>
         private void ReturnToMainMenu()
         {
+            CurrentState = null;
             RemoveModeNextTick();
         }
 
@@ -41,6 +61,7 @@
         /// </summary>
         private void EraseSavedGames()
         {
+            CurrentState = new EraseSavedGamesState(this, _optionInfo);
         }
 
         /// <summary>
@@ -49,6 +70,7 @@
         /// </summary>
         private void EraseTombstoneMessages()
         {
+            CurrentState = new EraseTombstoneState(this, _optionInfo);
         }
 
         /// <summary>
@@ -56,6 +78,7 @@
         /// </summary>
         private void EraseCurrentTopTen()
         {
+            CurrentState = new EraseCurrentTopTenState(this, _optionInfo);
         }
 
         /// <summary>
@@ -63,13 +86,7 @@
         /// </summary>
         private void SeeOriginalTopTen()
         {
-        }
-
-        /// <summary>
-        ///     Shows the current top ten list as it is known from flat-file JSON list, players high scores can go into this list.
-        /// </summary>
-        private void SeeCurrentTopTen()
-        {
+            CurrentState = new OriginalTopTenState(this, _optionInfo);
         }
     }
 }

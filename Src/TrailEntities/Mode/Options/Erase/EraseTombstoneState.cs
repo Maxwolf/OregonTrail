@@ -4,14 +4,15 @@ using System.Text;
 namespace TrailEntities
 {
     /// <summary>
-    ///     Shows basic information about how the game works, how traveling works, rules for winning and losing.
+    ///     Erases all the saved JSON tombstone epitaphs on the disk so other players will not encounter them, new ones can be
+    ///     created then.
     /// </summary>
-    public sealed class InstructionsState : ModeState<NewGameInfo>
+    public sealed class EraseTombstoneState : ModeState<OptionInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public InstructionsState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public EraseTombstoneState(IMode gameMode, OptionInfo userData) : base(gameMode, userData)
         {
         }
 
@@ -21,11 +22,11 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            var playInfo = new StringBuilder();
+            var eraseEpitaphs = new StringBuilder();
 
 
-            playInfo.Append("Press ENTER KEY to continue.\n");
-            return playInfo.ToString();
+            eraseEpitaphs.Append("Press ENTER KEY to continue.\n");
+            return eraseEpitaphs.ToString();
         }
 
         /// <summary>

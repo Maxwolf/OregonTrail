@@ -4,14 +4,15 @@ using System.Text;
 namespace TrailEntities
 {
     /// <summary>
-    ///     Shows basic information about how the game works, how traveling works, rules for winning and losing.
+    ///     Confirm the player wishes to the destroy the current top ten list and reset it back to the hard-coded default
+    ///     values.
     /// </summary>
-    public sealed class InstructionsState : ModeState<NewGameInfo>
+    public sealed class EraseCurrentTopTenState : ModeState<OptionInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public InstructionsState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public EraseCurrentTopTenState(IMode gameMode, OptionInfo userData) : base(gameMode, userData)
         {
         }
 
@@ -21,11 +22,11 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            var playInfo = new StringBuilder();
+            var eraseTopTen = new StringBuilder();
 
 
-            playInfo.Append("Press ENTER KEY to continue.\n");
-            return playInfo.ToString();
+            eraseTopTen.Append("Press ENTER KEY to continue.\n");
+            return eraseTopTen.ToString();
         }
 
         /// <summary>

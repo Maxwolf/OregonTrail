@@ -56,6 +56,10 @@
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />
     <Compile Include="Event\IEventItem.cs" />
+    <Compile Include="Mode\Options\Erase\EraseCurrentTopTenState.cs" />
+    <Compile Include="Mode\Options\Erase\EraseSavedGamesState.cs" />
+    <Compile Include="Mode\Options\Erase\EraseTombstoneState.cs" />
+    <Compile Include="Mode\Options\TopTen\OriginalTopTenState.cs" />
     <Compile Include="Trail\Location.cs" />
     <Compile Include="Entity\Vehicle\RepairStatus.cs" />
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
@@ -86,7 +90,7 @@
     <Compile Include="Mode\ModeState.cs" />
     <Compile Include="Mode\ModeType.cs" />
     <Compile Include="Mode\New Game\BuyInitialItemsState.cs" />
-    <Compile Include="Mode\New Game\HighscoreState.cs" />
+    <Compile Include="Mode\New Game\CurrentTopTenState.cs" />
     <Compile Include="Mode\New Game\Names\InputPlayerNameState.cs" />
     <Compile Include="Mode\New Game\InstructionsState.cs" />
     <Compile Include="Mode\New Game\NewGameCommands.cs" />

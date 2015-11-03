@@ -5,6 +5,9 @@
     /// </summary>
     public sealed class OptionInfo : ModeInfo
     {
-        protected override string Name { get; }
+        protected override string Name
+        {
+            get { return "Management Options"; }
+        }
     }
 }
