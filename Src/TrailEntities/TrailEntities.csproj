@@ -62,9 +62,9 @@
     <Compile Include="Mode\Options\Erase\EraseSavedGamesState.cs" />
     <Compile Include="Mode\Options\Erase\EraseTombstoneState.cs" />
     <Compile Include="Scoring\HealthScoring.cs" />
-    <Compile Include="Mode\Options\Scoring Help\PointsHealthState.cs" />
-    <Compile Include="Mode\Options\Scoring Help\PointsOccupationState.cs" />
-    <Compile Include="Mode\Options\Scoring Help\PointsResourcesState.cs" />
+    <Compile Include="Mode\New Game\Help\PointsHealthState.cs" />
+    <Compile Include="Mode\New Game\Help\PointsOccupationState.cs" />
+    <Compile Include="Mode\New Game\Help\PointsResourcesState.cs" />
     <Compile Include="Scoring\Points.cs" />
     <Compile Include="Scoring\ScoreRegistry.cs" />
     <Compile Include="Mode\Options\Top Ten\OriginalTopTenState.cs" />
@@ -101,7 +101,7 @@
     <Compile Include="Mode\New Game\BuyInitialItemsState.cs" />
     <Compile Include="Mode\New Game\CurrentTopTenState.cs" />
     <Compile Include="Mode\New Game\Names\InputPlayerNameState.cs" />
-    <Compile Include="Mode\New Game\InstructionsState.cs" />
+    <Compile Include="Mode\New Game\Help\InstructionsState.cs" />
     <Compile Include="Mode\New Game\NewGameCommands.cs" />
     <Compile Include="Mode\New Game\NewGameInfo.cs" />
     <Compile Include="Mode\New Game\Profession\ProfessionAdviceState.cs" />

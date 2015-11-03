@@ -8,6 +8,11 @@ namespace TrailEntities
     public sealed class OriginalTopTenState : ModeState<OptionInfo>
     {
         /// <summary>
+        ///     Determines if the player is done reading the original top ten list.
+        /// </summary>
+        private bool _doneSeeingOriginalTopTen;
+
+        /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public OriginalTopTenState(IMode gameMode, OptionInfo userData) : base(gameMode, userData)
@@ -32,11 +37,8 @@ namespace TrailEntities
                 u => u.Rating);
             sourceTopTen.AppendLine(table);
 
-            // Question about viewing point distribution information.
-            sourceTopTen.Append("Would you like to see how\n");
-            sourceTopTen.Append("points are earned? Y/N");
-
             // Wait for user input...
+            sourceTopTen.Append("Press ENTER KEY to continue.\n");
             return sourceTopTen.ToString();
         }
 
@@ -46,17 +48,11 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            switch (input.ToUpperInvariant())
-            {
-                case "Y":
-                    // Show the user information about point distribution.
-                    ParentMode.CurrentState = new PointsHealthState(ParentMode, UserData);
-                    break;
-                default:
-                    // Go back to the options menu.
-                    ParentMode.CurrentState = null;
-                    break;
-            }
+            if (_doneSeeingOriginalTopTen)
+                return;
+
+            _doneSeeingOriginalTopTen = true;
+            ParentMode.CurrentState = null;
         }
     }
 }

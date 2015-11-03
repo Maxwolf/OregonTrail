@@ -23,12 +23,12 @@ namespace TrailEntities
         public InstructionsState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             _playInfo = new StringBuilder();
-            _playInfo.Append("Your journey over the Oregon Trail takes place in 1847. Start.\n");
+            _playInfo.Append("Your journey over the Oregon Trail takes place in 1847. Start\n");
             _playInfo.Append("ing in Independence, Missouri, you plan to take your family of\n");
             _playInfo.Append("five over 2040 tough miles to Oregon City.\n\n");
 
-            _playInfo.Append("Having saved for the trip, you bought a wagon for and\n");
-            _playInfo.Append("now have to purchase the following items :\n\n");
+            _playInfo.Append("Having saved for the trip, you bought a wagon and\n");
+            _playInfo.Append("now have to purchase the following items:\n\n");
 
             _playInfo.Append(" * Oxen (spending more will buy you a larger and better team which\n");
             _playInfo.Append(" will be faster so you'll be on the trail for less time)\n\n");

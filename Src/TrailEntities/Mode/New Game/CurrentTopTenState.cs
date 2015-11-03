@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace TrailEntities
 {
@@ -17,15 +16,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return false; }
-        }
-
-        /// <summary>
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
@@ -33,21 +23,20 @@ namespace TrailEntities
         {
             var currentTopTen = new StringBuilder();
 
+            // Text above the table to declare what this state is.
+            currentTopTen.Append("\nCurrent Top Ten List\n\n");
+
             // TODO: Load custom list from JSON with user high scores altered from defaults.
-            //// Create text table representation of current high score list.
-            //var table = users.ToStringTable(
-            //u => u.FirstName,
-            //u => u.LastName,
+            // Create text table representation of default high score list.
+            var table = GameSimulationApp.Instance.ScoreTopTen.ToStringTable(
+                u => u.Name,
+                u => u.Points,
+                u => u.Rating);
+            currentTopTen.AppendLine(table);
 
-            //u => u.DateTime,
-            //u => u.NullableDateTime,
-
-            //u => u.IntValue,
-            //u => u.NullableIntValue);
-
-            //currentTopTen.Append(table);
-
-            currentTopTen.Append("Press ENTER KEY to continue.\n");
+            // Question about viewing point distribution information.
+            currentTopTen.Append("Would you like to see how\n");
+            currentTopTen.Append("points are earned? Y/N");
             return currentTopTen.ToString();
         }
 
@@ -57,7 +46,17 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            switch (input.ToUpperInvariant())
+            {
+                case "Y":
+                    // Show the user information about point distribution.
+                    ParentMode.CurrentState = new PointsHealthState(ParentMode, UserData);
+                    break;
+                default:
+                    // Go back to the options menu.
+                    ParentMode.CurrentState = null;
+                    break;
+            }
         }
     }
 }

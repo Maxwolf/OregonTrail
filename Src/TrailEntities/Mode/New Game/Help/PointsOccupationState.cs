@@ -6,7 +6,7 @@ namespace TrailEntities
     ///     Third and final panel on point information, explains how players profession selection affects final scoring as a
     ///     multiplier since starting as a banker is a handicap.
     /// </summary>
-    public sealed class PointsOccupationState : ModeState<OptionInfo>
+    public sealed class PointsOccupationState : ModeState<NewGameInfo>
     {
         /// <summary>
         ///     Determines if the player is done looking at information on profession scoring.
@@ -21,7 +21,7 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsOccupationState(IMode gameMode, OptionInfo userData) : base(gameMode, userData)
+        public PointsOccupationState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             _pointsProfession = new StringBuilder();
             _pointsProfession.Append("\nOn Arriving in Oregon\n\n");

@@ -5,7 +5,7 @@ namespace TrailEntities
     /// <summary>
     ///     First panel on point information, shows how health of party members contributes to final score.
     /// </summary>
-    public sealed class PointsHealthState : ModeState<OptionInfo>
+    public sealed class PointsHealthState : ModeState<NewGameInfo>
     {
         /// <summary>
         ///     Reference to information about scoring based on party health.
@@ -20,12 +20,12 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsHealthState(IMode gameMode, OptionInfo userData) : base(gameMode, userData)
+        public PointsHealthState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             // Build up string of help about points for people.
             _pointsHealth = new StringBuilder();
             _pointsHealth.Append("\nOn Arriving in Oregon\n\n");
-            _pointsHealth.Append("Your most important resource if the\n");
+            _pointsHealth.Append("Your most important resource is the\n");
             _pointsHealth.Append("people you have with you. You\n");
             _pointsHealth.Append("receive points for each member of\n");
             _pointsHealth.Append("your party who arrives safely; you\n");

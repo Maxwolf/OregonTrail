@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace TrailEntities
@@ -21,6 +22,11 @@ namespace TrailEntities
         ///     Manages weather, temperature, humidity, and current grazing level for living animals.
         /// </summary>
         public ClimateSim Climate { get; private set; }
+
+        /// <summary>
+        ///     Keeps track of the total number of points the player has earned through the course of the game.
+        /// </summary>
+        public List<Highscore> ScoreTopTen { get; private set; }
 
         /// <summary>
         ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
@@ -145,6 +151,7 @@ namespace TrailEntities
             }
 
             // Destroy all instances.
+            ScoreTopTen = null;
             Time = null;
             Climate = null;
             Director = null;
@@ -170,6 +177,9 @@ namespace TrailEntities
             Time.MonthEndEvent += TimeSimulation_MonthEndEvent;
             Time.YearEndEvent += TimeSimulation_YearEndEvent;
             Time.SpeedChangeEvent += TimeSimulation_SpeedChangeEvent;
+
+            // Scoring tracker and tabulator for end game results from current simulation state.
+            ScoreTopTen = new List<Highscore>(ScoreRegistry.TopTenDefaults);
 
             // Director event manager, and his delegate.
             Director = new EventSim();
