@@ -16,25 +16,25 @@ namespace TrailEntities
         /// <summary>
         ///     Holds reference to advice string that is built in constructor.
         /// </summary>
-        private StringBuilder _professionAdvice;
+        private StringBuilder _job;
 
         public ProfessionAdviceState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             // Information about professions and how they work.
-            _professionAdvice = new StringBuilder();
-            _professionAdvice.Append("Various occupations have advantages over one another:\n");
-            _professionAdvice.Append("-------------------------------------------------------------------------------\n");
-            _professionAdvice.Append("OCCUPATION   | CASH  |  ADVANTAGES                                |FINAL BONUS|\n");
-            _professionAdvice.Append("-------------------------------------------------------------------------------\n");
-            _professionAdvice.Append("Banker       |$1,600 | none                                       | x1        |\n");
-            _professionAdvice.Append("Carpenter    |$800   | more likely to repair broken wagon parts.  | x2        |\n");
-            _professionAdvice.Append("Farmer       |$400   | oxen are less likely to get sick and die.  | x3        |\n");
-            _professionAdvice.Append("-------------------------------------------------------------------------------\n");
-            _professionAdvice.Append("Cash = how much cash a person of that occupation begins with.\n");
-            _professionAdvice.Append("Advantages = special individual attributes of the occupation.\n");
-            _professionAdvice.Append("Final Bonus = amount that your final point total will be multiplied by.\n\n");
+            _job = new StringBuilder();
+            _job.Append("\nTraveling to Oregon isn't easy!\n");
+            _job.Append("But if you're a banker, you'll\n");
+            _job.Append("have more money for supplies\n");
+            _job.Append("and services than a carpenter\n");
+            _job.Append("or a farmer.\n\n");
+            _job.Append("However, the harder you have\n");
+            _job.Append("to try, the more points you\n");
+            _job.Append("deserve! Therefore, the\n");
+            _job.Append("farmer earns the greatest\n");
+            _job.Append("number of points and the\n");
+            _job.Append("banker earns the least.\n\n");
 
-            _professionAdvice.Append("Press ENTER KEY to return to profession selection.\n");
+            _job.Append("Press ENTER KEY to continue");
         }
 
         public override bool AcceptsInput
@@ -44,7 +44,7 @@ namespace TrailEntities
 
         public override string GetStateTUI()
         {
-            return _professionAdvice.ToString();
+            return _job.ToString();
         }
 
         public override void OnInputBufferReturned(string input)

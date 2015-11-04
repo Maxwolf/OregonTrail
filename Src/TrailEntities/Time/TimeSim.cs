@@ -10,20 +10,17 @@
 
         public delegate void MonthHandler(uint monthCount);
 
-        public delegate void SpeedHandler();
-
         public delegate void YearHandler(uint yearCount);
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.SimulationTime" /> class.
         /// </summary>
-        public TimeSim(uint startingYear, Months startingMonth, uint startingDay, TravelPace startingSpeed)
+        public TimeSim(uint startingYear, Months startingMonth, uint startingDay)
         {
             // Create a new time object for our simulation.
             CurrentYear = startingYear;
             CurrentMonth = startingMonth;
             CurrentDay = startingDay;
-            CurrentSpeed = startingSpeed;
 
             TotalDays = 0;
             TotalMonths = 0;
@@ -32,8 +29,6 @@
         }
 
         public Months CurrentMonth { get; private set; }
-
-        public TravelPace CurrentSpeed { get; private set; }
 
         private uint CurrentDay { get; set; }
 
@@ -106,19 +101,6 @@
         }
 
         /// <summary>
-        ///     Sets the current speed of the game simulation.
-        /// </summary>
-        public void SetSpeed(TravelPace castedSpeed)
-        {
-            // Check to make sure we are not already at this speed.
-            if (castedSpeed == CurrentSpeed) return;
-
-            // Change game simulation speed.
-            CurrentSpeed = castedSpeed;
-            SpeedChangeEvent?.Invoke();
-        }
-
-        /// <summary>
         ///     Changes the time simulations current month, this also will reset the day back to the first of that month.
         /// </summary>
         public void SetMonth(Months month)
@@ -127,32 +109,8 @@
             CurrentDay = 1;
         }
 
-        /// <summary>
-        ///     Resumes game simulation after being paused.
-        /// </summary>
-        public void ResumeTime()
-        {
-            // TODO: Set the travel pace back to whatever it was before the simulation was paused.
-
-            // Inform subscribers we updated progression of time.
-            SpeedChangeEvent?.Invoke();
-        }
-
-        /// <summary>
-        ///     Pauses game simulation from ticking time, stopping events and actions related to days, months, or years ticking
-        ///     over.
-        /// </summary>
-        public void PauseTime()
-        {
-            // TODO: Stop the linear time simulation, but save the pace at which it was running.
-
-            // Inform subscribers we updated progression of time.
-            SpeedChangeEvent?.Invoke();
-        }
-
         public event YearHandler YearEndEvent;
         public event MonthHandler MonthEndEvent;
         public event DayHandler DayEndEvent;
-        public event SpeedHandler SpeedChangeEvent;
     }
 }

@@ -5,12 +5,17 @@ using System.Diagnostics;
 namespace TrailEntities
 {
     /// <summary>
-    /// Vessel that holds all the players, their inventory, money, and keeps track of total miles traveled in the form of an odometer.
+    ///     Vessel that holds all the players, their inventory, money, and keeps track of total miles traveled in the form of
+    ///     an odometer.
     /// </summary>
     public sealed class Vehicle : IEntity
     {
+        public delegate void OnChangePace();
+
+        public delegate void OnChangeRation();
+
         private HashSet<Item> _inventory;
-        private HashSet<Person> _people;
+        private HashSet<Person> _passengers;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Vehicle" /> class.
@@ -19,6 +24,7 @@ namespace TrailEntities
         {
             ResetVehicle(0);
             Name = "Vehicle";
+            Pace = TravelPace.Steady;
         }
 
         public IEnumerable<Item> Inventory
@@ -28,17 +34,14 @@ namespace TrailEntities
 
         public float Balance { get; private set; }
 
-        public IEnumerable<Person> People
+        public IEnumerable<Person> Passengers
         {
-            get { return _people; }
+            get { return _passengers; }
         }
 
         public RationLevel Ration { get; private set; }
 
-        public TravelPace Pace
-        {
-            get { return GameSimulationApp.Instance.Time.CurrentSpeed; }
-        }
+        public TravelPace Pace { get; private set; }
 
         public RepairStatus RepairStatus { get; private set; }
 
@@ -153,9 +156,33 @@ namespace TrailEntities
             return hash;
         }
 
+        public event OnChangePace OnVehicleChangePace;
+
+        public event OnChangeRation OnVehicleChangeRations;
+
+        /// <summary>
+        ///     Sets the current speed of the game simulation.
+        /// </summary>
+        public void ChangePace(TravelPace castedSpeed)
+        {
+            // Check to make sure we are not already at this speed.
+            if (castedSpeed == Pace)
+                return;
+
+            // Change game simulation speed.
+            Pace = castedSpeed;
+
+            // Inform subscribers we updated progression of time.
+            OnVehicleChangePace?.Invoke();
+        }
+
+        /// <summary>
+        ///     Adds a new person object to the list of vehicle passengers.
+        /// </summary>
+        /// <param name="person">Person that wishes to become a vehicle passenger.</param>
         public void AddPerson(Person person)
         {
-            _people.Add(person);
+            _passengers.Add(person);
         }
 
         /// <summary>
@@ -185,7 +212,7 @@ namespace TrailEntities
         {
             _inventory = new HashSet<Item>();
             Balance = startingMonies;
-            _people = new HashSet<Person>();
+            _passengers = new HashSet<Person>();
             Ration = RationLevel.Filling;
             RepairStatus = RepairStatus.Good;
             Odometer = 0;
@@ -194,6 +221,24 @@ namespace TrailEntities
         public void TickVehicle()
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///     Changes the current ration level to new value if it is not already set to that. Also fires even about this for
+        ///     subscribers to get event notification about the change.
+        /// </summary>
+        /// <param name="ration">The rate at which people are permitted to eat in the vehicle party.</param>
+        public void ChangeRations(RationLevel ration)
+        {
+            // Ensure we are actually changing it to something else.
+            if (ration == Ration)
+                return;
+
+            // Set new ration level.
+            Ration = ration;
+
+            // Fire event so subscribers know we changed rations.
+            OnVehicleChangeRations?.Invoke();
         }
     }
 }

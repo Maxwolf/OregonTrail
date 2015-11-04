@@ -34,34 +34,14 @@ namespace TrailEntities
 
             // Loop through every profession in the enumeration.
             _professionChooser = new StringBuilder();
-            _professionChooser.Append("\nMany kinds of people made the trip to Oregon.\n");
+            _professionChooser.Append("\nMany kinds of people made the\n");
+            _professionChooser.Append("trip to Oregon.\n\n");
             _professionChooser.Append("You may:\n\n");
-            foreach (Profession profession in Enum.GetValues(typeof (Profession)))
-            {
-                // Depending on what profession is there make a pretty display name for it.
-                switch (profession)
-                {
-                    case Profession.Banker:
-                        _professionChooser.AppendFormat("  {0} - {1}\n", _professionCount, "Be a banker from Boston");
-                        break;
-                    case Profession.Carpenter:
-                        _professionChooser.AppendFormat("  {0} - {1}\n", _professionCount, "Be a carpenter from Ohio");
-                        break;
-                    case Profession.Farmer:
-                        _professionChooser.AppendFormat("  {0} - {1}\n", _professionCount, "Be a farmer from Illinois");
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-                // Increment the profession counts.
-                _professionCount++;
-            }
-
-            // Ask the user to make a selection, and then wait for input...
-            _professionChooser.AppendFormat("  {0} - {1}\n\n", _professionCount,
-                "Find out the differences between these choices");
-            _professionChooser.Append("What is your choice?");
+            _professionChooser.Append("1. Be a banker from Boston\n");
+            _professionChooser.Append("2. Be a carpenter from Ohio\n");
+            _professionChooser.Append("3. Be a farmer from Illinois\n");
+            _professionChooser.Append("4. Find out the differences\n");
+            _professionChooser.Append("   between these choices");
         }
 
         /// <summary>

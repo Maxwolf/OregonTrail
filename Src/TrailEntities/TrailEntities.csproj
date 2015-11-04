@@ -68,6 +68,7 @@
     <Compile Include="Scoring\Points.cs" />
     <Compile Include="Scoring\ScoreRegistry.cs" />
     <Compile Include="Options\OriginalTopTenState.cs" />
+    <Compile Include="Traveling\Pace\PaceAdviceState.cs" />
     <Compile Include="Util\TextTableExtensions.cs" />
     <Compile Include="Trail\Location.cs" />
     <Compile Include="Entity\Vehicle\RepairStatus.cs" />
@@ -122,7 +123,7 @@
     <Compile Include="Store\StoreTransactionItem.cs" />
     <Compile Include="Trading\TradingCommands.cs" />
     <Compile Include="Traveling\ChangeRationsState.cs" />
-    <Compile Include="Traveling\ChangePaceState.cs" />
+    <Compile Include="Traveling\Pace\ChangePaceState.cs" />
     <Compile Include="Traveling\CheckSuppliesState.cs" />
     <Compile Include="Traveling\ContinueOnTrailState.cs" />
     <Compile Include="Traveling\Look Around\LookAroundQuestionState.cs" />
@@ -161,7 +162,9 @@
     <Compile Include="New Game\NewGameMode.cs" />
     <Compile Include="Util\Randomizer.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Traveling\Drive\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

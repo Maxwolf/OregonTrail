@@ -24,20 +24,20 @@ namespace TrailEntities
 
             // Inform the user about a decision they need to make.
             _startMonthHelp = new StringBuilder();
-            _startMonthHelp.Append("You need to decide when to set off on the trail.  If you leave too soon, there\n");
-            _startMonthHelp.Append("won't be much grass for your oxen to eat.  You may encounter some very cold\n");
-            _startMonthHelp.Append("weather and late spring snowstorms.\n\n");
+            _startMonthHelp.Append("\nYou attend a public meeting held\n");
+            _startMonthHelp.Append("for \"folks with the California -\n");
+            _startMonthHelp.Append("Oregon fever.\" You're told:\n\n");
+            _startMonthHelp.Append("If you leave too early, there\n");
+            _startMonthHelp.Append("won't be any grass for your\n");
+            _startMonthHelp.Append("oxen to eat. If you leave too\n");
+            _startMonthHelp.Append("late, you may not get to Oregon\n");
+            _startMonthHelp.Append("before winter comes. If you\n");
+            _startMonthHelp.Append("leave at just the right time,\n");
+            _startMonthHelp.Append("there will be green grass and\n");
+            _startMonthHelp.Append("the weather will still be cool.\n\n");
 
-            _startMonthHelp.Append("Starting in March will guarantee a rough start.  It will be cold in the\n");
-            _startMonthHelp.Append("beginning, but you'll get a rather mild weathered journey from the middle on.\n\n");
-
-            _startMonthHelp.Append("Starting in April/May is the easiest.  You'll get good weather throughout your\n");
-            _startMonthHelp.Append("journey, until (possibly) the very end, if you rest a lot.\n\n");
-
-            _startMonthHelp.Append("Starting in June-August ensures that you'll have to endure a tough winter in\n");
-            _startMonthHelp.Append("the end (or middle, depending on how late you start) of your journey.\n\n");
-
-            _startMonthHelp.Append("Press ENTER KEY to return to starting month selection.\n");
+            // Wait for user input...
+            _startMonthHelp.Append("Press ENTER KEY to continue.\n");
         }
 
         public override bool AcceptsInput

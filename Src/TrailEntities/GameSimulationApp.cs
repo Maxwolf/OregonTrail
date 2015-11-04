@@ -114,7 +114,7 @@ namespace TrailEntities
             if (AcceptingInput)
             {
                 // Allow user to see their input from buffer.
-                tui.Append($"User Input: {InputBuffer}");
+                tui.Append($"What is your choice? {InputBuffer}");
             }
 
             // Outputs the result of the string builder to TUI builder above.
@@ -146,16 +146,21 @@ namespace TrailEntities
 
         protected override void OnDestroy()
         {
-            // Unhook delegates from time events.
+            // Unhook delegates from linear time simulation.
             if (Time != null)
             {
                 Time.DayEndEvent -= TimeSimulation_DayEndEvent;
                 Time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
                 Time.YearEndEvent -= TimeSimulation_YearEndEvent;
-                Time.SpeedChangeEvent -= TimeSimulation_SpeedChangeEvent;
             }
 
-            // Unhook director event manager events.
+            // Unhook any events used by vehicle.
+            if (Vehicle != null)
+            {
+                Vehicle.OnVehicleChangePace -= OnVehicleChangePace;
+            }
+
+            // Unhook director for random events.
             if (Director != null)
             {
                 Director.EventAdded -= OnDirectorAddEvent;
@@ -183,11 +188,10 @@ namespace TrailEntities
             base.OnFirstTick();
 
             // Linear time simulation with ticks.
-            Time = new TimeSim(1848, Months.March, 1, TravelPace.Paused);
+            Time = new TimeSim(1848, Months.March, 1);
             Time.DayEndEvent += TimeSimulation_DayEndEvent;
             Time.MonthEndEvent += TimeSimulation_MonthEndEvent;
             Time.YearEndEvent += TimeSimulation_YearEndEvent;
-            Time.SpeedChangeEvent += TimeSimulation_SpeedChangeEvent;
 
             // Scoring tracker and tabulator for end game results from current simulation state.
             ScoreTopTen = new List<Highscore>(ScoreRegistry.TopTenDefaults);
@@ -197,11 +201,14 @@ namespace TrailEntities
             Director = new EventSim();
             Director.EventAdded += OnDirectorAddEvent;
 
-            // Environment, weather, conditions, climate, tail, vehicle, stats.
+            // Environment, weather, conditions, climate, tail, stats.
             Climate = new ClimateSim(ClimateClassification.Moderate);
             TrailSim = new TrailSim(TrailRegistry.OregonTrail());
             TotalTurns = 0;
+
+            // Vehicle information and events for changing face and rations.
             Vehicle = new Vehicle();
+            Vehicle.OnVehicleChangePace += OnVehicleChangePace;
 
             // Attach traveling mode since that is the default and bottom most game mode.
             AddMode(ModeType.Travel);
@@ -266,7 +273,7 @@ namespace TrailEntities
             }
         }
 
-        private void TimeSimulation_SpeedChangeEvent()
+        private void OnVehicleChangePace()
         {
             // TODO: Change the simulation pace to whatever the linear time simulation is doing.
             Console.WriteLine("Travel pace changed to " + Vehicle.Pace);
@@ -291,6 +298,7 @@ namespace TrailEntities
             if (!TrailSim.MoveTowardsNextPointOfInterest())
             {
                 // Update total distance traveled on vehicle if we have not reached the point.
+                // TODO: Replace with actual mileage calculation formula.
                 Vehicle.Odometer += (uint) Vehicle.Pace;
             }
         }

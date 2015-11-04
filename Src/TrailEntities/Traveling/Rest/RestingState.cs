@@ -27,16 +27,25 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public override bool AcceptsInput
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
         public override string GetStateTUI()
         {
             var rest = new StringBuilder();
-            rest.Append($"You rest for {_daysToRest}");
-            rest.Append(_daysToRest > 1 ? "days\n" : "day\n");
+            rest.Append($"You rest for {_daysToRest} ");
+            rest.Append(_daysToRest > 1 ? "days\n\n" : "day\n\n");
 
-            rest.Append("Press ENTER KEY to return to store.\n");
+            rest.Append("Press ENTER KEY to continue\n");
             return rest.ToString();
         }
 

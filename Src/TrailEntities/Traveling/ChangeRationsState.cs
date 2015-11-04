@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Text;
 
 namespace TrailEntities
 {
@@ -10,10 +10,27 @@ namespace TrailEntities
     public sealed class ChangeRationsState : ModeState<TravelInfo>
     {
         /// <summary>
+        ///     Builds up the ration information and selection text.
+        /// </summary>
+        private StringBuilder _ration;
+
+        /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public ChangeRationsState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
+            _ration = new StringBuilder();
+            _ration.Append("\nChange food rations\n");
+            _ration.Append($"(currently \"{GameSimulationApp.Instance.Vehicle.Ration}\")\n\n");
+            _ration.Append("The amount of food the people in\n");
+            _ration.Append("your party eat each day can\n");
+            _ration.Append("change. These amounts are:\n\n");
+            _ration.Append("1. filling - meals are large and\n");
+            _ration.Append("   generous.\n\n");
+            _ration.Append("2. meager - meals are small, but\n");
+            _ration.Append("   adequate.\n\n");
+            _ration.Append("3. bare bones - meals are very\n");
+            _ration.Append("   small, everyone stays hungry.\n\n");
         }
 
         /// <summary>
@@ -22,7 +39,7 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            throw new NotImplementedException();
+            return _ration.ToString();
         }
 
         /// <summary>
@@ -31,7 +48,24 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            switch (input.ToUpperInvariant())
+            {
+                case "1":
+                    GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.Filling);
+                    ParentMode.CurrentState = null;
+                    break;
+                case "2":
+                    GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.Meager);
+                    ParentMode.CurrentState = null;
+                    break;
+                case "3":
+                    GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.BareBones);
+                    ParentMode.CurrentState = null;
+                    break;
+                default:
+                    ParentMode.CurrentState = new ChangeRationsState(ParentMode, UserData);
+                    break;
+            }
         }
     }
 }

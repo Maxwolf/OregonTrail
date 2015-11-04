@@ -34,9 +34,7 @@ namespace TrailEntities
             _startMonthQuestion.Append("  3. May\n");
             _startMonthQuestion.Append("  4. June\n");
             _startMonthQuestion.Append("  5. July\n");
-            _startMonthQuestion.Append("  6. Ask for advice\n\n");
-
-            _startMonthQuestion.Append("What is your choice?");
+            _startMonthQuestion.Append("  6. Ask for advice");
         }
 
         /// <summary>

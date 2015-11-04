@@ -6,11 +6,6 @@
     public enum TravelPace
     {
         /// <summary>
-        ///     Game currently is not running simulation time and waiting for input.
-        /// </summary>
-        Paused = 0,
-
-        /// <summary>
         ///     8 hours a day, taking frequent rests. You take care not to get too tired.
         /// </summary>
         Steady = 1,

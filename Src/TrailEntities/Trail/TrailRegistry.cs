@@ -12,7 +12,7 @@ namespace TrailEntities
         /// </summary>
         public static IEnumerable<Location> OregonTrail()
         {
-            var trail = new []
+            var trail = new[]
             {
                 new Location("Independence", 0, StoreRegistry.MattsStore()),
                 new River("Kansas River Crossing", 83),

@@ -60,8 +60,7 @@ namespace TrailEntities
             hasContinuedOnTrail = true;
             ParentMode.CurrentState = null;
 
-            // Inform the time simulation it may resume.
-            GameSimulationApp.Instance.Time.ResumeTime();
+            // TODO: Simulate next two-week block of time, calculate mileage, check events...
         }
     }
 }
