@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -39,9 +40,9 @@ namespace TrailEntities
         public override string GetStateTUI()
         {
             var nextStop = new StringBuilder();
-            var nextPoint = GameSimulationApp.Instance.TrailSim.GetNextPointOfInterest();
-            nextStop.Append($"\nFrom {ParentMode.CurrentPoint.Name} it is {nextPoint.DistanceLength}\n");
-            nextStop.Append($"miles to the {nextPoint.Name}\n\n");
+            var nextPoint = GameSimulationApp.Instance.Trail.GetNextPointOfInterest();
+            nextStop.Append($"{Environment.NewLine}From {ParentMode.CurrentPoint.Name} it is {nextPoint.DistanceLength}{Environment.NewLine}");
+            nextStop.Append($"miles to the {nextPoint.Name}{Environment.NewLine}{Environment.NewLine}");
 
             nextStop.Append(GameSimulationApp.PRESS_ENTER);
             return nextStop.ToString();

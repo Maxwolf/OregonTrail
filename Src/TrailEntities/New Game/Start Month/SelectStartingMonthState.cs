@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -24,17 +25,16 @@ namespace TrailEntities
 
             // Tell the user they need to make a decision.
             _startMonthQuestion = new StringBuilder();
-            _startMonthQuestion.Append("\nIt is 1848. Your jumping off place \n");
-            _startMonthQuestion.Append("for Oregon is Independence, Missouri.\n");
-            _startMonthQuestion.Append("You must decide which month\n");
-            _startMonthQuestion.Append("to leave Independence\n\n");
-
-            _startMonthQuestion.Append("  1. March\n");
-            _startMonthQuestion.Append("  2. April\n");
-            _startMonthQuestion.Append("  3. May\n");
-            _startMonthQuestion.Append("  4. June\n");
-            _startMonthQuestion.Append("  5. July\n");
-            _startMonthQuestion.Append("  6. Ask for advice");
+            _startMonthQuestion.Append($"{Environment.NewLine}It is 1848. Your jumping off place{Environment.NewLine}");
+            _startMonthQuestion.Append($"for Oregon is Independence, Missouri.{Environment.NewLine}");
+            _startMonthQuestion.Append($"You must decide which month{Environment.NewLine}");
+            _startMonthQuestion.Append($"to leave Independence{Environment.NewLine}{Environment.NewLine}");
+            _startMonthQuestion.Append($"  1. March{Environment.NewLine}");
+            _startMonthQuestion.Append($"  2. April{Environment.NewLine}");
+            _startMonthQuestion.Append($"  3. May{Environment.NewLine}");
+            _startMonthQuestion.Append($"  4. June{Environment.NewLine}");
+            _startMonthQuestion.Append($"  5. July{Environment.NewLine}");
+            _startMonthQuestion.Append($"  6. Ask for advice");
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Text;
 
 namespace TrailEntities
@@ -24,9 +25,9 @@ namespace TrailEntities
 
             // Header text.
             var headerText = new StringBuilder();
-            headerText.Append("\nThe Oregon Trail\n");
-            headerText.Append($"Version: {Assembly.GetExecutingAssembly().GetName().Version}\n\n");
-            headerText.Append("Management Options\n\n");
+            headerText.Append($"{Environment.NewLine}The Oregon Trail{Environment.NewLine}");
+            headerText.Append($"Version: {Assembly.GetExecutingAssembly().GetName().Version}{Environment.NewLine}{Environment.NewLine}");
+            headerText.Append($"Management Options{Environment.NewLine}{Environment.NewLine}");
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
 

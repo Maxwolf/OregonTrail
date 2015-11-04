@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -40,16 +41,23 @@ namespace TrailEntities
             switch (playerNameIndex)
             {
                 case 0:
-                    _inputNamesHelp.Append("\n" + NewGameMode.LEADER_QUESTION);
+                    _inputNamesHelp.Append(Environment.NewLine +
+                                           $"{NewGameMode.LEADER_QUESTION}");
                     break;
                 case 1:
-                    _inputNamesHelp.Append("\n" + NewGameMode.MEMBERS_QUESTION + "\n\n");
+                    _inputNamesHelp.Append(Environment.NewLine +
+                                           $"{NewGameMode.MEMBERS_QUESTION}" +
+                                           $"{Environment.NewLine}{Environment.NewLine}");
                     break;
                 case 2:
-                    _inputNamesHelp.Append("\n" + NewGameMode.MEMBERS_QUESTION + "\n\n");
+                    _inputNamesHelp.Append(Environment.NewLine +
+                                           $"{NewGameMode.MEMBERS_QUESTION}" +
+                                           $"{Environment.NewLine}{Environment.NewLine}");
                     break;
                 case 3:
-                    _inputNamesHelp.Append("\n" + NewGameMode.MEMBERS_QUESTION + "\n\n");
+                    _inputNamesHelp.Append(Environment.NewLine +
+                                           $"{NewGameMode.MEMBERS_QUESTION}" +
+                                           $"{Environment.NewLine}{Environment.NewLine}");
                     break;
             }
 
@@ -68,7 +76,9 @@ namespace TrailEntities
 
                     // First name in list is always the leader.
                     var isLeader = UserData.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
-                    _inputNamesHelp.AppendFormat(isLeader ? "  {0} - {1} (leader)\n" : "  {0} - {1}\n", crewNumber, name);
+                    _inputNamesHelp.AppendFormat(isLeader
+                        ? $"  {crewNumber} - {name} (leader){Environment.NewLine}"
+                        : $"  {crewNumber} - {name}{Environment.NewLine}");
                     crewNumber++;
                 }
 

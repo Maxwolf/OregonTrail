@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -27,11 +28,11 @@ namespace TrailEntities
 
             // Create text we will display to user about the store before they actually load that game mode.
             _storeHelp = new StringBuilder();
-            _storeHelp.Append("\nBefore leaving Independence you\n");
-            _storeHelp.Append("should buy equipment and\n");
-            _storeHelp.Append($"supplies. You have {UserData.StartingMonies.ToString("C2")} in\n");
-            _storeHelp.Append("cash, but you don't have to\n");
-            _storeHelp.Append("spend it all now.\n\n");
+            _storeHelp.Append($"{Environment.NewLine}Before leaving Independence you{Environment.NewLine}");
+            _storeHelp.Append($"should buy equipment and{Environment.NewLine}");
+            _storeHelp.Append($"supplies. You have {UserData.StartingMonies.ToString("C2")} in{Environment.NewLine}{Environment.NewLine}");
+            _storeHelp.Append($"cash, but you don't have to{Environment.NewLine}");
+            _storeHelp.Append($"spend it all now.{Environment.NewLine}{Environment.NewLine}");
 
             _storeHelp.Append(GameSimulationApp.PRESS_ENTER);
         }

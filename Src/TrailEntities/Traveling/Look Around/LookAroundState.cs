@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -32,10 +33,10 @@ namespace TrailEntities
         public override string GetStateTUI()
         {
             var welcomePoint = new StringBuilder();
-            if (GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest())
+            if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest())
             {
                 // First point of interest has slightly different message about time travel.
-                welcomePoint.Append($"Going back to {GameSimulationApp.Instance.Time.CurrentYear}...\n");
+                welcomePoint.Append($"Going back to {GameSimulationApp.Instance.Time.CurrentYear}...{Environment.NewLine}");
             }
             else
             {

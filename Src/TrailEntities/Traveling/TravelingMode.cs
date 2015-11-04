@@ -165,11 +165,11 @@ namespace TrailEntities
                 return;
 
             // On the first point we are going to force the look around state onto the traveling mode without asking.
-            if (GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest())
+            if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest())
             {
                 CurrentState = new LookAroundState(this, TravelInfo);
             }
-            else if (!GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest() &&
+            else if (!GameSimulationApp.Instance.Trail.IsFirstPointOfInterest() &&
                      GameSimulationApp.Instance.Vehicle.Odometer > 0 &&
                      GameSimulationApp.Instance.TotalTurns > 0)
             {

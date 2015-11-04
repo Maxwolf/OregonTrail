@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -24,11 +25,11 @@ namespace TrailEntities
         public PointsResourcesState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             _pointsItems = new StringBuilder();
-            _pointsItems.Append("\nOn Arriving in Oregon\n\n");
-            _pointsItems.Append("The resources you arrive with will\n");
-            _pointsItems.Append("help you get started in the new\n");
-            _pointsItems.Append("land. You receive points for each\n");
-            _pointsItems.Append("item you bring safely to Oregon.\n\n");
+            _pointsItems.Append($"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");
+            _pointsItems.Append($"The resources you arrive with will{Environment.NewLine}");
+            _pointsItems.Append($"help you get started in the new{Environment.NewLine}");
+            _pointsItems.Append($"land. You receive points for each{Environment.NewLine}");
+            _pointsItems.Append($"item you bring safely to Oregon.{Environment.NewLine}{Environment.NewLine}");
 
             // Build up the table of resource points and how they work for player.
             var partyTable = ScoreRegistry.ResourcePoints.ToStringTable(

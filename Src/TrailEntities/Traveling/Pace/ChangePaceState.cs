@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -20,16 +21,15 @@ namespace TrailEntities
         public ChangePaceState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
             _pace = new StringBuilder();
-            _pace.Append("\nChange pace\n");
-            _pace.Append($"(currently \"{GameSimulationApp.Instance.Vehicle.Pace}\")\n\n");
-            _pace.Append("The pace at which you travel\n");
-            _pace.Append("can change. Your choices are:\n\n");
-
-            _pace.Append("1. a steady pace\n");
-            _pace.Append("2. a strenuous pace\n");
-            _pace.Append("3. a grueling pace\n");
-            _pace.Append("4. find out what these\n");
-            _pace.Append("   different paces mean\n");
+            _pace.Append($"{Environment.NewLine}Change pace{Environment.NewLine}");
+            _pace.Append($"(currently \"{GameSimulationApp.Instance.Vehicle.Pace}\"){Environment.NewLine}{Environment.NewLine}");
+            _pace.Append($"The pace at which you travel{Environment.NewLine}");
+            _pace.Append($"can change. Your choices are:{Environment.NewLine}{Environment.NewLine}");
+            _pace.Append($"1. a steady pace{Environment.NewLine}");
+            _pace.Append($"2. a strenuous pace{Environment.NewLine}");
+            _pace.Append($"3. a grueling pace{Environment.NewLine}");
+            _pace.Append($"4. find out what these{Environment.NewLine}");
+            _pace.Append($"   different paces mean{Environment.NewLine}");
         }
 
         /// <summary>

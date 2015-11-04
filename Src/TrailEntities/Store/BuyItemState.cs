@@ -48,8 +48,8 @@ namespace TrailEntities
                 StringComparison.InvariantCultureIgnoreCase);
 
             _itemBuyText.Append(pluralMatchesName
-                ? $"You can afford {_purchaseLimit} {itemToBuy.Name.ToLowerInvariant()}.\n"
-                : $"You can afford {_purchaseLimit} {itemToBuy.PluralForm.ToLowerInvariant()} of {itemToBuy.Name.ToLowerInvariant()}.\n");
+                ? $"You can afford {_purchaseLimit} {itemToBuy.Name.ToLowerInvariant()}.{Environment.NewLine}"
+                : $"You can afford {_purchaseLimit} {itemToBuy.PluralForm.ToLowerInvariant()} of {itemToBuy.Name.ToLowerInvariant()}.{Environment.NewLine}");
 
             _itemBuyText.Append($"How many {itemToBuy.PluralForm.ToLowerInvariant()} to buy?");
 

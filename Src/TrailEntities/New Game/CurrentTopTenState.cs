@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -24,7 +25,7 @@ namespace TrailEntities
             var currentTopTen = new StringBuilder();
 
             // Text above the table to declare what this state is.
-            currentTopTen.Append("\nCurrent Top Ten List\n\n");
+            currentTopTen.Append($"{Environment.NewLine}Current Top Ten List{Environment.NewLine}{Environment.NewLine}");
 
             // Create text table representation of default high score list.
             var table = GameSimulationApp.Instance.ScoreTopTen.ToStringTable(
@@ -34,7 +35,7 @@ namespace TrailEntities
             currentTopTen.AppendLine(table);
 
             // Question about viewing point distribution information.
-            currentTopTen.Append("Would you like to see how\n");
+            currentTopTen.Append($"Would you like to see how{Environment.NewLine}");
             currentTopTen.Append("points are earned? Y/N");
             return currentTopTen.ToString();
         }

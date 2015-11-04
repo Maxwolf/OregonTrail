@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -24,13 +25,13 @@ namespace TrailEntities
         {
             // Build up string of help about points for people.
             _pointsHealth = new StringBuilder();
-            _pointsHealth.Append("\nOn Arriving in Oregon\n\n");
-            _pointsHealth.Append("Your most important resource is the\n");
-            _pointsHealth.Append("people you have with you. You\n");
-            _pointsHealth.Append("receive points for each member of\n");
-            _pointsHealth.Append("your party who arrives safely; you\n");
-            _pointsHealth.Append("receive more points if they arrive\n");
-            _pointsHealth.Append("in good health!\n\n");
+            _pointsHealth.Append($"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");
+            _pointsHealth.Append($"Your most important resource is the{Environment.NewLine}");
+            _pointsHealth.Append($"people you have with you. You{Environment.NewLine}");
+            _pointsHealth.Append($"receive points for each member of{Environment.NewLine}");
+            _pointsHealth.Append($"your party who arrives safely; you{Environment.NewLine}");
+            _pointsHealth.Append($"receive more points if they arrive{Environment.NewLine}");
+            _pointsHealth.Append($"in good health!{Environment.NewLine}{Environment.NewLine}");
 
             // Build a text table from people point distribution with custom headers.
             var partyTable = ScoreRegistry.PeoplePoints.ToStringTable(

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -24,16 +25,16 @@ namespace TrailEntities
             var eraseEpitaphs = new StringBuilder();
 
             // Text above the table to declare what this state is.
-            eraseEpitaphs.Append("\nErase tombstone messages\n\n");
+            eraseEpitaphs.Append($"{Environment.NewLine}Erase tombstone messages{Environment.NewLine}{Environment.NewLine}");
 
             // Tell the user how tombstones work before destroying them.
-            eraseEpitaphs.Append("There may be one tombstone on\n");
-            eraseEpitaphs.Append("the first half of the trail and\n");
-            eraseEpitaphs.Append("one tombstone on the second\n");
-            eraseEpitaphs.Append("half. If you erase the\n");
-            eraseEpitaphs.Append("tombstone messages, they will\n");
-            eraseEpitaphs.Append("not be replaced until team\n");
-            eraseEpitaphs.Append("leaders die along the trail.\n\n");
+            eraseEpitaphs.Append($"There may be one tombstone on{Environment.NewLine}");
+            eraseEpitaphs.Append($"the first half of the trail and{Environment.NewLine}");
+            eraseEpitaphs.Append($"one tombstone on the second{Environment.NewLine}");
+            eraseEpitaphs.Append($"half. If you erase the{Environment.NewLine}");
+            eraseEpitaphs.Append($"tombstone messages, they will{Environment.NewLine}");
+            eraseEpitaphs.Append($"not be replaced until team{Environment.NewLine}");
+            eraseEpitaphs.Append($"leaders die along the trail.{Environment.NewLine}{Environment.NewLine}");
 
             eraseEpitaphs.Append("Do you want to do this? Y/N");
             return eraseEpitaphs.ToString();

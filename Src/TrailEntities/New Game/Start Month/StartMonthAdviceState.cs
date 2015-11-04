@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -24,17 +25,17 @@ namespace TrailEntities
 
             // Inform the user about a decision they need to make.
             _startMonthHelp = new StringBuilder();
-            _startMonthHelp.Append("\nYou attend a public meeting held\n");
-            _startMonthHelp.Append("for \"folks with the California -\n");
-            _startMonthHelp.Append("Oregon fever.\" You're told:\n\n");
-            _startMonthHelp.Append("If you leave too early, there\n");
-            _startMonthHelp.Append("won't be any grass for your\n");
-            _startMonthHelp.Append("oxen to eat. If you leave too\n");
-            _startMonthHelp.Append("late, you may not get to Oregon\n");
-            _startMonthHelp.Append("before winter comes. If you\n");
-            _startMonthHelp.Append("leave at just the right time,\n");
-            _startMonthHelp.Append("there will be green grass and\n");
-            _startMonthHelp.Append("the weather will still be cool.\n\n");
+            _startMonthHelp.Append($"{Environment.NewLine}You attend a public meeting held{Environment.NewLine}");
+            _startMonthHelp.Append($"for \"folks with the California -{Environment.NewLine}");
+            _startMonthHelp.Append($"Oregon fever.\" You're told:{Environment.NewLine}{Environment.NewLine}");
+            _startMonthHelp.Append($"If you leave too early, there{Environment.NewLine}");
+            _startMonthHelp.Append($"won't be any grass for your{Environment.NewLine}");
+            _startMonthHelp.Append($"oxen to eat. If you leave too{Environment.NewLine}");
+            _startMonthHelp.Append($"late, you may not get to Oregon{Environment.NewLine}");
+            _startMonthHelp.Append($"before winter comes. If you{Environment.NewLine}");
+            _startMonthHelp.Append($"leave at just the right time,{Environment.NewLine}");
+            _startMonthHelp.Append($"there will be green grass and{Environment.NewLine}");
+            _startMonthHelp.Append($"the weather will still be cool.{Environment.NewLine}{Environment.NewLine}");
 
             // Wait for user input...
             _startMonthHelp.Append(GameSimulationApp.PRESS_ENTER);

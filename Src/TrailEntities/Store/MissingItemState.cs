@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -44,7 +45,7 @@ namespace TrailEntities
         {
             var missingItem = new StringBuilder();
             missingItem.Append(
-                $"You need to purchase at least a single {_missingItemEntity.DelineatingUnit} in order to begin your trip!\n");
+                $"You need to purchase at least a single {_missingItemEntity.DelineatingUnit} in order to begin your trip!{Environment.NewLine}");
 
             missingItem.Append(GameSimulationApp.PRESS_ENTER);
             return missingItem.ToString();

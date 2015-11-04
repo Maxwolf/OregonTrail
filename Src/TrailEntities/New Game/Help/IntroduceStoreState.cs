@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -23,8 +24,8 @@ namespace TrailEntities
         public IntroduceStoreState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             _storeHelp = new StringBuilder();
-            _storeHelp.Append("\nYou can buy whatever you need at\n");
-            _storeHelp.Append("Matt's General Store.\n\n");
+            _storeHelp.Append($"{Environment.NewLine}You can buy whatever you need at{Environment.NewLine}");
+            _storeHelp.Append($"Matt's General Store.{Environment.NewLine}{Environment.NewLine}");
 
             _storeHelp.Append(GameSimulationApp.PRESS_ENTER);
         }

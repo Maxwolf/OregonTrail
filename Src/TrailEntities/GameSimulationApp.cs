@@ -24,7 +24,7 @@ namespace TrailEntities
         /// <summary>
         ///     Keeps track of all the points of interest we want to visit from beginning to end that makeup the entire journey.
         /// </summary>
-        public TrailSim TrailSim { get; private set; }
+        public TrailSim Trail { get; private set; }
 
         /// <summary>
         ///     Singleton instance for the entire game simulation, does not block the calling thread though only listens for
@@ -109,7 +109,7 @@ namespace TrailEntities
         {
             // Spinning ticker that shows activity, lets us know if application hangs or freezes.
             var tui = new StringBuilder();
-            tui.Append($"\r[ {TickPhase} ] - ");
+            tui.Append($"[ {TickPhase} ] - ");
 
             // Keeps track of active mode name and active mode current state name for debugging purposes.
             tui.Append(ActiveMode?.CurrentState != null
@@ -117,10 +117,10 @@ namespace TrailEntities
                 : $"Mode({Modes.Count}): {ActiveMode}(NO STATE) - ");
 
             // Total number of turns that have passed in the simulation.
-            tui.Append($"Turns: {TotalTurns.ToString("D4")}\n");
+            tui.Append($"Turns: {TotalTurns.ToString("D4")}{Environment.NewLine}");
 
             // Prints game mode specific text and options. This typically is menus from commands, or states showing some information.
-            tui.Append($"{base.OnTickTUI()}\n");
+            tui.Append($"{base.OnTickTUI()}{Environment.NewLine}");
 
             // Only print and accept user input if there is a game mode and menu system to support it.
             if (AcceptingInput)
@@ -183,7 +183,7 @@ namespace TrailEntities
             Time = null;
             Climate = null;
             Director = null;
-            TrailSim = null;
+            Trail = null;
             TotalTurns = 0;
             Vehicle = null;
             Instance = null;
@@ -215,7 +215,7 @@ namespace TrailEntities
 
             // Environment, weather, conditions, climate, tail, stats.
             Climate = new ClimateSim(ClimateClassification.Moderate);
-            TrailSim = new TrailSim(TrailRegistry.OregonTrail());
+            Trail = new TrailSim(TrailRegistry.OregonTrail());
             TotalTurns = 0;
 
             // Vehicle information and events for changing face and rations.
@@ -307,7 +307,7 @@ namespace TrailEntities
             Vehicle.TickVehicle();
 
             // Move towards the next location on the trail.
-            if (!TrailSim.MoveTowardsNextPointOfInterest())
+            if (!Trail.MoveTowardsNextPointOfInterest())
             {
                 // Update total distance traveled on vehicle if we have not reached the point.
                 // TODO: Replace with actual mileage calculation formula.

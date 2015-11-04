@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -23,26 +24,26 @@ namespace TrailEntities
         public InstructionsState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             _playInfo = new StringBuilder();
-            _playInfo.Append("Your journey over the Oregon Trail takes place in 1847. Start\n");
-            _playInfo.Append("ing in Independence, Missouri, you plan to take your family of\n");
-            _playInfo.Append("five over 2040 tough miles to Oregon City.\n\n");
+            _playInfo.Append($"Your journey over the Oregon Trail takes place in 1847. Start{Environment.NewLine}");
+            _playInfo.Append($"ing in Independence, Missouri, you plan to take your family of{Environment.NewLine}");
+            _playInfo.Append($"five over 2040 tough miles to Oregon City.{Environment.NewLine}{Environment.NewLine}");
 
-            _playInfo.Append("Having saved for the trip, you bought a wagon and\n");
-            _playInfo.Append("now have to purchase the following items:\n\n");
+            _playInfo.Append($"Having saved for the trip, you bought a wagon and{Environment.NewLine}");
+            _playInfo.Append($"now have to purchase the following items:{Environment.NewLine}{Environment.NewLine}");
 
-            _playInfo.Append(" * Oxen (spending more will buy you a larger and better team which\n");
-            _playInfo.Append(" will be faster so you'll be on the trail for less time)\n\n");
+            _playInfo.Append($" * Oxen (spending more will buy you a larger and better team which{Environment.NewLine}");
+            _playInfo.Append($" will be faster so you'll be on the trail for less time){Environment.NewLine}{Environment.NewLine}");
 
-            _playInfo.Append(" * Food (you'll need ample food to keep up your strength and health)\n\n");
+            _playInfo.Append($" * Food (you'll need ample food to keep up your strength and health){Environment.NewLine}{Environment.NewLine}");
 
-            _playInfo.Append(" * Ammunition ($1 buys a belt of 50 bullets. You'll need ammo for\n");
-            _playInfo.Append(" hunting and for fighting off attacks by bandits and animals)\n\n");
+            _playInfo.Append($" * Ammunition ($1 buys a belt of 50 bullets. You'll need ammo for{Environment.NewLine}");
+            _playInfo.Append($" hunting and for fighting off attacks by bandits and animals){Environment.NewLine}{Environment.NewLine}");
 
-            _playInfo.Append(" * Clothing (you'll need warm clothes, especially when you hit the\n");
-            _playInfo.Append(" snow and freezing weather in the mountains)\n\n");
+            _playInfo.Append($" * Clothing (you'll need warm clothes, especially when you hit the{Environment.NewLine}");
+            _playInfo.Append($" snow and freezing weather in the mountains){Environment.NewLine}{Environment.NewLine}");
 
-            _playInfo.Append(" * Other supplies (includes medicine, first-aid supplies, tools, and\n");
-            _playInfo.Append(" wagon parts for unexpected emergencies)\n\n");
+            _playInfo.Append($" * Other supplies (includes medicine, first-aid supplies, tools, and{Environment.NewLine}");
+            _playInfo.Append($" wagon parts for unexpected emergencies){Environment.NewLine}{Environment.NewLine}");
 
             // Wait for user input...
             _playInfo.Append(GameSimulationApp.PRESS_ENTER);

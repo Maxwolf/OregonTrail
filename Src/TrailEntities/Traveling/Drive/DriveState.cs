@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -20,12 +21,27 @@ namespace TrailEntities
         private bool _shouldTakeTickTurns;
 
         /// <summary>
+        ///     Animated sway bar that prints out as text, ping-pongs back and fourth between left and right side, moved by
+        ///     stepping it with tick.
+        /// </summary>
+        private MarqueeBar _marqueeBar;
+
+        /// <summary>
+        /// Holds the text related to animated sway bar, each tick of simulation steps it.
+        /// </summary>
+        private string _swayBarText;
+
+        /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public DriveState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
             // We don't create it in the constructor, will update with ticks.
             _drive = new StringBuilder();
+
+            // Animated sway bar.
+            _marqueeBar = new MarqueeBar();
+            _swayBarText = _marqueeBar.Step();
 
             // When starting the mode we automatically begin linear progression of time.
             _shouldTakeTickTurns = true;
@@ -41,7 +57,7 @@ namespace TrailEntities
             _drive.Clear();
 
             // Ping-pong progress bar to show that we are moving.
-            _drive.Append("CHANGE ME\n\n");
+            _drive.Append($"{Environment.NewLine}{_swayBarText}{Environment.NewLine}");
 
             // Basic information about simulation.
             _drive.Append(UserData.TravelStatus);
@@ -61,6 +77,9 @@ namespace TrailEntities
             // Check to see if we should be ticking by days with each simulation tick (defaults to every second).
             if (!_shouldTakeTickTurns)
                 return;
+
+            // Advance the progress bar, step it to next phase.
+            _swayBarText = _marqueeBar.Step();
 
             // Advances the simulation forward by a day every second (or each tick of simulation).
             GameSimulationApp.Instance.TakeTurn();

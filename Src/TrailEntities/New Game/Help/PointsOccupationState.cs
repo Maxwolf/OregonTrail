@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -24,15 +25,15 @@ namespace TrailEntities
         public PointsOccupationState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             _pointsProfession = new StringBuilder();
-            _pointsProfession.Append("\nOn Arriving in Oregon\n\n");
-            _pointsProfession.Append("You receive points for your\n");
-            _pointsProfession.Append("occupation in the new land.\n");
-            _pointsProfession.Append("Because more farmers and\n");
-            _pointsProfession.Append("carpenters were needed than\n");
-            _pointsProfession.Append("bankers, you receive double\n");
-            _pointsProfession.Append("points upon arriving in Oregon\n");
-            _pointsProfession.Append("as a carpenter, and triple\n");
-            _pointsProfession.Append("points for arriving as a farmer.\n\n");
+            _pointsProfession.Append($"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");
+            _pointsProfession.Append($"You receive points for your{Environment.NewLine}");
+            _pointsProfession.Append($"occupation in the new land.{Environment.NewLine}");
+            _pointsProfession.Append($"Because more farmers and{Environment.NewLine}");
+            _pointsProfession.Append($"carpenters were needed than{Environment.NewLine}");
+            _pointsProfession.Append($"bankers, you receive double{Environment.NewLine}");
+            _pointsProfession.Append($"points upon arriving in Oregon{Environment.NewLine}");
+            _pointsProfession.Append($"as a carpenter, and triple{Environment.NewLine}");
+            _pointsProfession.Append($"points for arriving as a farmer.{Environment.NewLine}");
 
             _pointsProfession.Append(GameSimulationApp.PRESS_ENTER);
         }

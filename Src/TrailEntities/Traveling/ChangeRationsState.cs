@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -20,17 +21,17 @@ namespace TrailEntities
         public ChangeRationsState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
             _ration = new StringBuilder();
-            _ration.Append("\nChange food rations\n");
-            _ration.Append($"(currently \"{GameSimulationApp.Instance.Vehicle.Ration}\")\n\n");
-            _ration.Append("The amount of food the people in\n");
-            _ration.Append("your party eat each day can\n");
-            _ration.Append("change. These amounts are:\n\n");
-            _ration.Append("1. filling - meals are large and\n");
-            _ration.Append("   generous.\n\n");
-            _ration.Append("2. meager - meals are small, but\n");
-            _ration.Append("   adequate.\n\n");
-            _ration.Append("3. bare bones - meals are very\n");
-            _ration.Append("   small, everyone stays hungry.\n\n");
+            _ration.Append($"{Environment.NewLine}Change food rations{Environment.NewLine}");
+            _ration.Append($"(currently \"{GameSimulationApp.Instance.Vehicle.Ration}\"){Environment.NewLine}{Environment.NewLine}");
+            _ration.Append($"The amount of food the people in{Environment.NewLine}");
+            _ration.Append($"your party eat each day can{Environment.NewLine}");
+            _ration.Append($"change. These amounts are:{Environment.NewLine}{Environment.NewLine}");
+            _ration.Append($"1. filling - meals are large and{Environment.NewLine}");
+            _ration.Append($"   generous.{Environment.NewLine}{Environment.NewLine}");
+            _ration.Append($"2. meager - meals are small, but{Environment.NewLine}");
+            _ration.Append($"   adequate.{Environment.NewLine}{Environment.NewLine}");
+            _ration.Append($"3. bare bones - meals are very{Environment.NewLine}");
+            _ration.Append($"   small, everyone stays hungry.{Environment.NewLine}{Environment.NewLine}");
         }
 
         /// <summary>

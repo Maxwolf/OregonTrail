@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -43,7 +44,7 @@ namespace TrailEntities
         {
             var rest = new StringBuilder();
             rest.Append($"You rest for {_daysToRest} ");
-            rest.Append(_daysToRest > 1 ? "days\n\n" : "day\n\n");
+            rest.Append(_daysToRest > 1 ? $"days{Environment.NewLine}{Environment.NewLine}" : $"day{Environment.NewLine}{Environment.NewLine}");
 
             rest.Append(GameSimulationApp.PRESS_ENTER);
             return rest.ToString();

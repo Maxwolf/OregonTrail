@@ -47,6 +47,11 @@ namespace TrailEntities
         private DateTime _lastTickTime;
 
         /// <summary>
+        /// Spinning character pixel.
+        /// </summary>
+        private SpinningPixel _spinningPixel;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.TickSim" /> class.
         /// </summary>
         protected TickSim()
@@ -60,7 +65,10 @@ namespace TrailEntities
 
             // Visual tick representations for other sub-systems.
             TotalSecondsTicked = 0;
-            TickPhase = "*";
+
+            // Setup spinning pixel to show game is not thread locked.
+            _spinningPixel = new SpinningPixel();
+            TickPhase = _spinningPixel.Step();
         }
 
         /// <summary>
@@ -149,28 +157,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Used for showing player that simulation is ticking on main view.
-        /// </summary>
-        private static string TimerTickVisualizer(string currentPhase)
-        {
-            switch (currentPhase)
-            {
-                case @"*":
-                    return @"|";
-                case @"|":
-                    return @"/";
-                case @"/":
-                    return @"-";
-                case @"-":
-                    return @"\";
-                case @"\":
-                    return @"|";
-                default:
-                    return "*";
-            }
-        }
-
-        /// <summary>
         ///     Fired when the simulation is closing down and would like to offer other sub-systems a change to properly shut down
         ///     and or close and save any information they care about before the end comes.
         /// </summary>
@@ -195,7 +181,7 @@ namespace TrailEntities
             }
 
             // Visual representation of ticking for debugging purposes.
-            TickPhase = TimerTickVisualizer(TickPhase);
+            TickPhase = _spinningPixel.Step();
 
             // Fire tick event for any subscribers to see and overrides for inheriting classes.
             SimulationTickEvent?.Invoke(TotalSecondsTicked);

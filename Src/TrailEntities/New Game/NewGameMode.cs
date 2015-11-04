@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -28,7 +29,7 @@ namespace TrailEntities
             NewGameInfo = new NewGameInfo();
 
             var headerText = new StringBuilder();
-            headerText.Append("\nThe Oregon Trail\n\n");
+            headerText.Append($"{Environment.NewLine}The Oregon Trail{Environment.NewLine}{Environment.NewLine}");
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
 

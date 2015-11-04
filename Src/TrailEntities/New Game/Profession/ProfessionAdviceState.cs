@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -22,17 +23,17 @@ namespace TrailEntities
         {
             // Information about professions and how they work.
             _job = new StringBuilder();
-            _job.Append("\nTraveling to Oregon isn't easy!\n");
-            _job.Append("But if you're a banker, you'll\n");
-            _job.Append("have more money for supplies\n");
-            _job.Append("and services than a carpenter\n");
-            _job.Append("or a farmer.\n\n");
-            _job.Append("However, the harder you have\n");
-            _job.Append("to try, the more points you\n");
-            _job.Append("deserve! Therefore, the\n");
-            _job.Append("farmer earns the greatest\n");
-            _job.Append("number of points and the\n");
-            _job.Append("banker earns the least.\n\n");
+            _job.Append($"{Environment.NewLine}Traveling to Oregon isn't easy!{Environment.NewLine}");
+            _job.Append($"But if you're a banker, you'll{Environment.NewLine}");
+            _job.Append($"have more money for supplies{Environment.NewLine}");
+            _job.Append($"and services than a carpenter{Environment.NewLine}");
+            _job.Append($"or a farmer.{Environment.NewLine}{Environment.NewLine}");
+            _job.Append($"However, the harder you have{Environment.NewLine}");
+            _job.Append($"to try, the more points you{Environment.NewLine}");
+            _job.Append($"deserve! Therefore, the{Environment.NewLine}");
+            _job.Append($"farmer earns the greatest{Environment.NewLine}");
+            _job.Append($"number of points and the{Environment.NewLine}");
+            _job.Append($"banker earns the least.{Environment.NewLine}{Environment.NewLine}");
 
             _job.Append(GameSimulationApp.PRESS_ENTER);
         }

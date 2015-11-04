@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -10,10 +11,22 @@ namespace TrailEntities
     public sealed class LookAtMapState : ModeState<TravelInfo>
     {
         /// <summary>
+        /// Contains all the text that will make up our console text only map to show the player how far along they have come.
+        /// </summary>
+        private StringBuilder _map;
+
+        /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public LookAtMapState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
+            // Create visual progress representation of the trail.
+            _map = new StringBuilder();
+            _map.Append(TextProgress.DrawProgressBar(
+                GameSimulationApp.Instance.Trail.VehicleLocation,
+                GameSimulationApp.Instance.Trail.Locations.Count,
+                50,
+                Convert.ToChar(9608)));
         }
 
         /// <summary>
@@ -22,7 +35,7 @@ namespace TrailEntities
         /// </summary>
         public override string GetStateTUI()
         {
-            throw new NotImplementedException();
+            return _map.ToString();
         }
 
         /// <summary>

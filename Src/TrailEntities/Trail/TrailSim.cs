@@ -16,13 +16,13 @@ namespace TrailEntities
         public delegate void PointOfInterestReached(Location nextPoint);
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.TrailSim" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Trail" /> class.
         /// </summary>
         /// <param name="trail">Collection of points of interest which make up the trail the player is going to travel.</param>
         public TrailSim(IEnumerable<Location> trail)
         {
             // Builds the trail passed on parameter, sets location to negative one for startup.
-            PointsOfInterest = new List<Location>(trail);
+            Locations = new List<Location>(trail);
             VehicleLocation = -1;
             DistanceToNextPoint = 0;
         }
@@ -35,12 +35,12 @@ namespace TrailEntities
         /// <summary>
         ///     Current location of the players vehicle as index of points of interest list.
         /// </summary>
-        private int VehicleLocation { get; set; }
+        public int VehicleLocation { get; set; }
 
         /// <summary>
         ///     List of all of the points of interest that make up the entire trail.
         /// </summary>
-        private List<Location> PointsOfInterest { get; }
+        public List<Location> Locations { get; }
 
         /// <summary>
         ///     Advances the vehicle to the next point of interest on the path.
@@ -59,7 +59,7 @@ namespace TrailEntities
                 // Fire method to do some work and attach game modes based on this.
                 OnReachedPointOfInterest(currentPoint);
             }
-            else if (VehicleLocation < PointsOfInterest.Count())
+            else if (VehicleLocation < Locations.Count())
             {
                 // Grab some data about our travels on the trail.
                 var nextPoint = GetNextPointOfInterest();
@@ -90,7 +90,7 @@ namespace TrailEntities
             var nextPointIndex = VehicleLocation + 1;
 
             // Check if the next point is greater than point count, then get next point of interest if within bounds.
-            return nextPointIndex > PointsOfInterest.Count() ? null : PointsOfInterest.ElementAt(nextPointIndex);
+            return nextPointIndex > Locations.Count() ? null : Locations.ElementAt(nextPointIndex);
         }
 
         /// <summary>
@@ -99,8 +99,8 @@ namespace TrailEntities
         public Location GetCurrentPointOfInterest()
         {
             return VehicleLocation <= -1
-                ? PointsOfInterest.First()
-                : PointsOfInterest.ElementAt(VehicleLocation);
+                ? Locations.First()
+                : Locations.ElementAt(VehicleLocation);
         }
 
         /// <summary>

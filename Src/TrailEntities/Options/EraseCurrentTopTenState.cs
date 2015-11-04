@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -24,13 +25,13 @@ namespace TrailEntities
             var eraseTopTen = new StringBuilder();
 
             // Text above the table to declare what this state is.
-            eraseTopTen.Append("\nErase Top Ten list\n\n");
+            eraseTopTen.Append($"{Environment.NewLine}Erase Top Ten list{Environment.NewLine}{Environment.NewLine}");
 
             // Ask the user question if they really want to remove the top ten list.
-            eraseTopTen.Append("If you erase the current Top Ten\n");
-            eraseTopTen.Append("list, the names and scores will be\n");
-            eraseTopTen.Append("replaced by those on the original\n");
-            eraseTopTen.Append("list.\n\n");
+            eraseTopTen.Append($"If you erase the current Top Ten{Environment.NewLine}");
+            eraseTopTen.Append($"list, the names and scores will be{Environment.NewLine}");
+            eraseTopTen.Append($"replaced by those on the original{Environment.NewLine}");
+            eraseTopTen.Append($"list.{Environment.NewLine}{Environment.NewLine}");
 
             // Wait for use input...
             eraseTopTen.Append("Do you want to do this? Y/N");

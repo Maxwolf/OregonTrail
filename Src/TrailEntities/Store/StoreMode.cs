@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace TrailEntities
@@ -130,7 +131,7 @@ namespace TrailEntities
         public void LeaveStore()
         {
             // First point of interest has a few extra checks before player allowed on the trail.
-            if (GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest())
+            if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest())
             {
                 // Check if the player has any oxen to pull their vehicle.
                 var boughtOxen = false;
@@ -215,9 +216,9 @@ namespace TrailEntities
                 return;
 
             // First point of simulation when leaving store will setup the trail to be there.
-            if (GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest())
+            if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest())
             {
-                GameSimulationApp.Instance.TrailSim.MoveTowardsNextPointOfInterest();
+                GameSimulationApp.Instance.Trail.MoveTowardsNextPointOfInterest();
             }
 
             // Process all of the pending transactions in the store receipt info object.
@@ -236,7 +237,7 @@ namespace TrailEntities
         private void UpdateDebts()
         {
             // We will only modify store visualization of prices when at the first location on the trail.
-            var firstPoint = GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest();
+            var firstPoint = GameSimulationApp.Instance.Trail.IsFirstPointOfInterest();
             if (firstPoint)
             {
                 // First store is slightly different and shows total monies against store transactions items instead.
@@ -312,9 +313,9 @@ namespace TrailEntities
 
             // Header text for above menu.
             var headerText = new StringBuilder();
-            headerText.Append("--------------------------------\n");
-            headerText.Append($"{CurrentPoint?.Name} General Store\n");
-            headerText.Append($"{GameSimulationApp.Instance.Time.Date}\n");
+            headerText.Append($"--------------------------------{Environment.NewLine}");
+            headerText.Append($"{CurrentPoint?.Name} General Store{Environment.NewLine}");
+            headerText.Append($"{GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
             headerText.Append("--------------------------------");
             MenuHeader = headerText.ToString();
 
@@ -331,7 +332,7 @@ namespace TrailEntities
 
             // Footer text for below menu.
             var footerText = new StringBuilder();
-            footerText.Append("\n--------------------------------\n");
+            footerText.Append($"{Environment.NewLine}--------------------------------{Environment.NewLine}");
 
             // Calculate how much monies the player has and the total amount of monies owed to store for pending transaction receipt.
             var totalBill = StoreInfo.GetTransactionTotalCost();
@@ -339,14 +340,14 @@ namespace TrailEntities
 
             // If at first location we show the total cost of the bill so far the player has racked up.
             footerText.Append(
-                GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest()
+                GameSimulationApp.Instance.Trail.IsFirstPointOfInterest()
                     ? $"Total bill:            {totalBill.ToString("C2")}" +
                       $"\nAmount you have:       {amountPlayerHas.ToString("C2")}\n\nWhich item would you like to buy?"
                     : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.\n\nWhich number?");
             MenuFooter = footerText.ToString();
 
             // Trigger the store advice automatically on the first location and one time only.
-            if (GameSimulationApp.Instance.TrailSim.IsFirstPointOfInterest() && StoreInfo.ShowStoreAdvice)
+            if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest() && StoreInfo.ShowStoreAdvice)
             {
                 StoreInfo.ShowStoreAdvice = false;
                 StoreAdvice();

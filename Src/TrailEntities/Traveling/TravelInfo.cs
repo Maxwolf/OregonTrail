@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -25,15 +26,15 @@ namespace TrailEntities
             get
             {
                 var travelStatus = new StringBuilder();
-                travelStatus.Append("--------------------------------\n");
-                travelStatus.Append($"{GameSimulationApp.Instance.TrailSim.GetCurrentPointOfInterest()?.Name}\n");
-                travelStatus.Append($"{GameSimulationApp.Instance.Time.Date}\n");
-                travelStatus.Append("--------------------------------\n");
-                travelStatus.Append($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}\n");
-                travelStatus.Append($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}\n");
-                travelStatus.Append($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}\n");
-                travelStatus.Append($"Rations: {GameSimulationApp.Instance.Vehicle.Ration}\n");
-                travelStatus.Append("--------------------------------\n");
+                travelStatus.Append($"--------------------------------{Environment.NewLine}");
+                travelStatus.Append($"{GameSimulationApp.Instance.Trail.GetCurrentPointOfInterest()?.Name}{Environment.NewLine}");
+                travelStatus.Append($"{GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
+                travelStatus.Append($"--------------------------------{Environment.NewLine}");
+                travelStatus.Append($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}{Environment.NewLine}");
+                travelStatus.Append($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}{Environment.NewLine}");
+                travelStatus.Append($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}{Environment.NewLine}");
+                travelStatus.Append($"Rations: {GameSimulationApp.Instance.Vehicle.Ration}{Environment.NewLine}");
+                travelStatus.Append($"--------------------------------{Environment.NewLine}");
                 return travelStatus.ToString();
             }
         }

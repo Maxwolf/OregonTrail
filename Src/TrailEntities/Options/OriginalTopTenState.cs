@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -28,7 +29,7 @@ namespace TrailEntities
             var sourceTopTen = new StringBuilder();
 
             // Text above the table to declare what this state is.
-            sourceTopTen.Append("\nThe Oregon Top Ten\n\n");
+            sourceTopTen.Append($"{Environment.NewLine}The Oregon Top Ten{Environment.NewLine}{Environment.NewLine}");
 
             // Create text table representation of default high score list.
             var table = ScoreRegistry.TopTenDefaults.ToStringTable(

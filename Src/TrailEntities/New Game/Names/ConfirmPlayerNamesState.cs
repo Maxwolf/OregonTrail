@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -24,7 +25,7 @@ namespace TrailEntities
 
             // Create string builder, counter, print info about party members.
             _confirmPartyText = new StringBuilder();
-            _confirmPartyText.Append("\n" + NewGameMode.MEMBERS_QUESTION + "\n\n");
+            _confirmPartyText.Append($"{Environment.NewLine}{NewGameMode.MEMBERS_QUESTION}{Environment.NewLine}{Environment.NewLine}");
             var crewNumber = 1;
 
             // Loop through every player and print their name.
@@ -32,12 +33,14 @@ namespace TrailEntities
             {
                 // First name in list is always the leader.
                 var isLeader = UserData.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
-                _confirmPartyText.AppendFormat(isLeader ? "  {0} - {1} (leader)\n" : "  {0} - {1}\n", crewNumber, name);
+                _confirmPartyText.Append(isLeader
+                    ? $"  {crewNumber} - {name} (leader){Environment.NewLine}"
+                    : $"  {crewNumber} - {name}{Environment.NewLine}");
                 crewNumber++;
             }
 
             // Ask the user to check if the data we have looks correct to them, wait for input...
-            _confirmPartyText.Append("\nAre these names correct? Y/N");
+            _confirmPartyText.Append($"{Environment.NewLine}Are these names correct? Y/N");
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -48,28 +49,28 @@ namespace TrailEntities
             _storeHelp.Clear();
 
             // Create the current state of our advice to player.
-            _storeHelp.Append("\nHello, I'm Matt. So you're going\n");
-            _storeHelp.Append("to Oregon! I can fix you up with\n");
-            _storeHelp.Append("what you need:\n\n");
+            _storeHelp.Append($"{Environment.NewLine}Hello, I'm Matt. So you're going{Environment.NewLine}");
+            _storeHelp.Append($"to Oregon! I can fix you up with{Environment.NewLine}");
+            _storeHelp.Append($"what you need:{Environment.NewLine}{Environment.NewLine}");
 
             if (adviceCount <= 0)
             {
-                _storeHelp.Append(" - a team of oxen to pull\n");
-                _storeHelp.Append(" your vehicle\n\n");
+                _storeHelp.Append($" - a team of oxen to pull{Environment.NewLine}");
+                _storeHelp.Append($" your vehicle{Environment.NewLine}{Environment.NewLine}");
 
-                _storeHelp.Append(" - clothing for both\n");
-                _storeHelp.Append(" summer and winter\n\n");
+                _storeHelp.Append($" - clothing for both{Environment.NewLine}");
+                _storeHelp.Append($" summer and winter{Environment.NewLine}{Environment.NewLine}");
             }
             else if (adviceCount == 1)
             {
-                _storeHelp.Append(" - plenty of food for the\n");
-                _storeHelp.Append(" trip\n\n");
+                _storeHelp.Append($" - plenty of food for the{Environment.NewLine}");
+                _storeHelp.Append($" trip{Environment.NewLine}{Environment.NewLine}");
 
-                _storeHelp.Append(" - ammunition for your\n");
-                _storeHelp.Append(" rifles\n\n");
+                _storeHelp.Append($" - ammunition for your{Environment.NewLine}");
+                _storeHelp.Append($" rifles{Environment.NewLine}{Environment.NewLine}");
 
-                _storeHelp.Append(" - spare parts for your\n");
-                _storeHelp.Append(" wagon\n\n");
+                _storeHelp.Append($" - spare parts for your{Environment.NewLine}");
+                _storeHelp.Append($" wagon{Environment.NewLine}{Environment.NewLine}");
             }
 
             // Wait for user input...

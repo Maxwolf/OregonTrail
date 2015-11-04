@@ -34,14 +34,14 @@ namespace TrailEntities
 
             // Loop through every profession in the enumeration.
             _professionChooser = new StringBuilder();
-            _professionChooser.Append("\nMany kinds of people made the\n");
-            _professionChooser.Append("trip to Oregon.\n\n");
-            _professionChooser.Append("You may:\n\n");
-            _professionChooser.Append("1. Be a banker from Boston\n");
-            _professionChooser.Append("2. Be a carpenter from Ohio\n");
-            _professionChooser.Append("3. Be a farmer from Illinois\n");
-            _professionChooser.Append("4. Find out the differences\n");
-            _professionChooser.Append("   between these choices");
+            _professionChooser.Append($"{Environment.NewLine}Many kinds of people made the{Environment.NewLine}");
+            _professionChooser.Append($"trip to Oregon.{Environment.NewLine}{Environment.NewLine}");
+            _professionChooser.Append($"You may:{Environment.NewLine}{Environment.NewLine}");
+            _professionChooser.Append($"1. Be a banker from Boston{Environment.NewLine}");
+            _professionChooser.Append($"2. Be a carpenter from Ohio{Environment.NewLine}");
+            _professionChooser.Append($"3. Be a farmer from Illinois{Environment.NewLine}");
+            _professionChooser.Append($"4. Find out the differences{Environment.NewLine}");
+            _professionChooser.Append($"   between these choices");
         }
 
         /// <summary>

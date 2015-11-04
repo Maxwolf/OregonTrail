@@ -63,10 +63,10 @@ namespace TrailEntities
             _menuFooter = string.Empty;
 
             // Hook event to know when we have reached a location point of interest.
-            GameSimulationApp.Instance.TrailSim.OnReachPointOfInterest += OnReachPointOfInterest;
+            GameSimulationApp.Instance.Trail.OnReachPointOfInterest += OnReachPointOfInterest;
 
             // Cast the current point of interest into a settlement object since that is where stores are.
-            CurrentPoint = GameSimulationApp.Instance.TrailSim.GetCurrentPointOfInterest();
+            CurrentPoint = GameSimulationApp.Instance.Trail.GetCurrentPointOfInterest();
             if (CurrentPoint == null)
                 throw new InvalidCastException("Unable to get current point of interest from trail simulation!");
         }
@@ -245,7 +245,7 @@ namespace TrailEntities
             {
                 // Header text for above menu.
                 if (!string.IsNullOrEmpty(MenuHeader))
-                    modeTUI.Append(MenuHeader + "\n\n");
+                    modeTUI.Append($"{MenuHeader}{Environment.NewLine}{Environment.NewLine}");
 
                 // Loop through the menu choices and add each one to the mode text user interface.
                 var menuChoices = 1;
@@ -253,8 +253,8 @@ namespace TrailEntities
                 {
                     // Name of command and then description of what it does, the command is all we really care about.
                     modeTUI.Append(_showCommandNamesInMenu
-                        ? $"  {menuChoices}. {menuChoice.Command} - {menuChoice.Description}\n"
-                        : $"  {menuChoices}. {menuChoice.Description}\n");
+                        ? $"  {menuChoices}. {menuChoice.Command} - {menuChoice.Description}{Environment.NewLine}"
+                        : $"  {menuChoices}. {menuChoice.Description}{Environment.NewLine}");
 
                     // Increment the menu choices number shown to user.
                     menuChoices++;
@@ -262,14 +262,14 @@ namespace TrailEntities
 
                 // Footer text for below menu.
                 if (!string.IsNullOrEmpty(MenuFooter))
-                    modeTUI.Append(MenuFooter + "\n");
+                    modeTUI.Append($"{MenuFooter}{Environment.NewLine}");
             }
             else
             {
                 // Added any descriptive text about the mode, like stats, health, weather, location, etc.
                 var prependMessage = CurrentState?.GetStateTUI();
                 if (!string.IsNullOrEmpty(prependMessage))
-                    modeTUI.Append(prependMessage + "\n");
+                    modeTUI.Append($"{prependMessage}{Environment.NewLine}");
             }
 
             // Returns the string buffer we constructed for this game mode to the simulation so it can be displayed.
@@ -422,7 +422,7 @@ namespace TrailEntities
         private void OnReceiveInputBuffer(string returnedLine)
         {
             // Only process menu items for game mode when current state is null, or there are no menu choices to select from.
-            if (CurrentState == null && _menuChoices.Count > 0)
+            if (CurrentState == null && _menuChoices?.Count > 0)
             {
                 // Loop through every added menu choice.
                 foreach (var menuChoice in _menuChoices)
@@ -463,7 +463,7 @@ namespace TrailEntities
         /// <param name="modeType">The mode that is about to be removed.</param>
         protected virtual void OnModeRemoved(ModeType modeType)
         {
-            GameSimulationApp.Instance.TrailSim.OnReachPointOfInterest -= OnReachPointOfInterest;
+            GameSimulationApp.Instance.Trail.OnReachPointOfInterest -= OnReachPointOfInterest;
             _menuChoices = null;
         }
 

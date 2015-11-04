@@ -70,6 +70,9 @@
     <Compile Include="Options\OriginalTopTenState.cs" />
     <Compile Include="Traveling\Drive\DriveState.cs" />
     <Compile Include="Traveling\Pace\PaceAdviceState.cs" />
+    <Compile Include="Util\SpinningPixel.cs" />
+    <Compile Include="Util\MarqueeBar.cs" />
+    <Compile Include="Util\TextProgress.cs" />
     <Compile Include="Util\TextTableExtensions.cs" />
     <Compile Include="Trail\Location.cs" />
     <Compile Include="Entity\Vehicle\RepairStatus.cs" />
