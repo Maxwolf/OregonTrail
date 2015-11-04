@@ -40,10 +40,10 @@ namespace TrailEntities
         {
             var nextStop = new StringBuilder();
             var nextPoint = GameSimulationApp.Instance.TrailSim.GetNextPointOfInterest();
-            nextStop.Append($"From {ParentMode.CurrentPoint.Name} it is {nextPoint.DistanceLength} ");
+            nextStop.Append($"\nFrom {ParentMode.CurrentPoint.Name} it is {nextPoint.DistanceLength}\n");
             nextStop.Append($"miles to the {nextPoint.Name}\n\n");
 
-            nextStop.Append("Press RETURN KEY to continue on the trail");
+            nextStop.Append(GameSimulationApp.PRESS_ENTER);
             return nextStop.ToString();
         }
 
@@ -56,11 +56,9 @@ namespace TrailEntities
             if (hasContinuedOnTrail)
                 return;
 
-            // Close the continue on screen when we get any user input.
+            // Simulate next two-week block of time, calculate mileage, check events...
             hasContinuedOnTrail = true;
-            ParentMode.CurrentState = null;
-
-            // TODO: Simulate next two-week block of time, calculate mileage, check events...
+            ParentMode.CurrentState = new DriveState(ParentMode, UserData);
         }
     }
 }

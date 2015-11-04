@@ -220,7 +220,7 @@ namespace TrailEntities
 
         public void TickVehicle()
         {
-            throw new NotImplementedException();
+            
         }
 
         /// <summary>

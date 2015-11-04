@@ -68,6 +68,7 @@
     <Compile Include="Scoring\Points.cs" />
     <Compile Include="Scoring\ScoreRegistry.cs" />
     <Compile Include="Options\OriginalTopTenState.cs" />
+    <Compile Include="Traveling\Drive\DriveState.cs" />
     <Compile Include="Traveling\Pace\PaceAdviceState.cs" />
     <Compile Include="Util\TextTableExtensions.cs" />
     <Compile Include="Trail\Location.cs" />
@@ -162,9 +163,7 @@
     <Compile Include="New Game\NewGameMode.cs" />
     <Compile Include="Util\Randomizer.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Traveling\Drive\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
