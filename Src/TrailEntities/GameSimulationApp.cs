@@ -16,6 +16,12 @@ namespace TrailEntities
         public const string PRESS_ENTER = "Press ENTER KEY to continue";
 
         /// <summary>
+        ///     Defines the limit on the number of players for the vehicle that will be allowed. This also determines how many
+        ///     names are asked for in new game mode.
+        /// </summary>
+        public const int MAX_PLAYERS = 4;
+
+        /// <summary>
         ///     Keeps track of all the points of interest we want to visit from beginning to end that makeup the entire journey.
         /// </summary>
         public TrailSim TrailSim { get; private set; }

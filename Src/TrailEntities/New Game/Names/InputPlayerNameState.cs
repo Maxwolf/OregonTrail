@@ -60,7 +60,7 @@ namespace TrailEntities
                 var crewNumber = 1;
 
                 // Loop through every player and print their name.
-                for (var index = 0; index < 4; index++)
+                for (var index = 0; index < GameSimulationApp.MAX_PLAYERS; index++)
                 {
                     var name = string.Empty;
                     if (index < UserData.PlayerNames.Count)
@@ -78,15 +78,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return true; }
-        }
-
-        /// <summary>
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
@@ -101,14 +92,24 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            // Check if the incoming name is empty, if so fill it with a random one.
+            // If player enters empty name fill out all the slots with random ones.
             if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
-                input = GetPlayerName();
+            {
+                // Only fill out names for slots that are empty.
+                for (var i = 0; i < (GameSimulationApp.MAX_PLAYERS - _playerNameIndex); i++)
+                {
+                    UserData.PlayerNames.Insert(_playerNameIndex, GetPlayerName());
+                }
+
+                // Attach state to confirm randomized name selection, skipping manual entry with the return.
+                ParentMode.CurrentState = new ConfirmPlayerNamesState(ParentMode, UserData);
+                return;
+            }
 
             // Add the name to list since we will have something at this point even if randomly generated.
             UserData.PlayerNames.Insert(_playerNameIndex, input);
 
-            if (_playerNameIndex + 1 < 4)
+            if (_playerNameIndex + 1 < GameSimulationApp.MAX_PLAYERS)
             {
                 // Change the state of the game mode to confirm the name we just entered.
                 ParentMode.CurrentState = new InputPlayerNameState(_playerNameIndex + 1, ParentMode, UserData);
@@ -124,7 +125,12 @@ namespace TrailEntities
         /// </summary>
         private static string GetPlayerName()
         {
-            string[] names = {"Bob", "Joe", "Sally", "Tim", "Steve", "Zeke"};
+            string[] names =
+            {
+                "Bob", "Joe", "Sally", "Tim", "Steve", "Zeke", "Suzan", "Rebekah", "Young", "Marquitta",
+                "Kristy", "Sharice", "Joanna", "Chrystal", "Genevie", "Angela", "Ruthann", "Viva", "Iris", "Anderson",
+                "Siobhan", "Karey", "Jolie", "Carlene", "Lekisha", "Buck"
+            };
             return names[GameSimulationApp.Instance.Random.Next(names.Length)];
         }
     }
