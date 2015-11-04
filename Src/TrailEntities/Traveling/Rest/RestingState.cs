@@ -45,7 +45,7 @@ namespace TrailEntities
             rest.Append($"You rest for {_daysToRest} ");
             rest.Append(_daysToRest > 1 ? "days\n\n" : "day\n\n");
 
-            rest.Append("Press ENTER KEY to continue\n");
+            rest.Append(GameSimulationApp.PRESS_ENTER);
             return rest.ToString();
         }
 

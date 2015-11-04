@@ -46,7 +46,7 @@ namespace TrailEntities
             missingItem.Append(
                 $"You need to purchase at least a single {_missingItemEntity.DelineatingUnit} in order to begin your trip!\n");
 
-            missingItem.Append("Press ENTER KEY to continue.\n");
+            missingItem.Append(GameSimulationApp.PRESS_ENTER);
             return missingItem.ToString();
         }
 

@@ -10,6 +10,12 @@ namespace TrailEntities
     public sealed class GameSimulationApp : SimulationApp
     {
         /// <summary>
+        ///     Holds a constant representation of the string telling the user to press enter key to continue so we don't repeat
+        ///     ourselves.
+        /// </summary>
+        public const string PRESS_ENTER = "Press ENTER KEY to continue";
+
+        /// <summary>
         ///     Keeps track of all the points of interest we want to visit from beginning to end that makeup the entire journey.
         /// </summary>
         public TrailSim TrailSim { get; private set; }

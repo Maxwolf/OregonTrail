@@ -122,9 +122,9 @@ namespace TrailEntities
         /// <summary>
         ///     Returns a random name if there is an empty name returned, we assume the player doesn't care and just give him one.
         /// </summary>
-        internal string GetPlayerName()
+        private static string GetPlayerName()
         {
-            string[] names = {"Bob", "Joe", "Sally", "Tim", "Steve"};
+            string[] names = {"Bob", "Joe", "Sally", "Tim", "Steve", "Zeke"};
             return names[GameSimulationApp.Instance.Random.Next(names.Length)];
         }
     }

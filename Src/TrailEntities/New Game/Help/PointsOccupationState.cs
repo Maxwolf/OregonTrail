@@ -34,7 +34,7 @@ namespace TrailEntities
             _pointsProfession.Append("as a carpenter, and triple\n");
             _pointsProfession.Append("points for arriving as a farmer.\n\n");
 
-            _pointsProfession.Append("Press ENTER KEY to continue.\n");
+            _pointsProfession.Append(GameSimulationApp.PRESS_ENTER);
         }
 
         /// <summary>

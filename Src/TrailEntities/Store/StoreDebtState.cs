@@ -42,7 +42,7 @@ namespace TrailEntities
             storeDebt.Append(
                 $"You only got {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")}! Put some items back in order to leave the store...\n");
 
-            storeDebt.Append("Press ENTER KEY to continue.\n");
+            storeDebt.Append(GameSimulationApp.PRESS_ENTER);
             return storeDebt.ToString();
         }
 

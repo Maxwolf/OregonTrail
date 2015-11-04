@@ -26,7 +26,7 @@ namespace TrailEntities
             _storeHelp.Append("\nYou can buy whatever you need at\n");
             _storeHelp.Append("Matt's General Store.\n\n");
 
-            _storeHelp.Append("Press ENTER KEY to enter the store.\n");
+            _storeHelp.Append(GameSimulationApp.PRESS_ENTER);
         }
 
         /// <summary>

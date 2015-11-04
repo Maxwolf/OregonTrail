@@ -34,7 +34,7 @@ namespace TrailEntities
             _job.Append("number of points and the\n");
             _job.Append("banker earns the least.\n\n");
 
-            _job.Append("Press ENTER KEY to continue");
+            _job.Append(GameSimulationApp.PRESS_ENTER);
         }
 
         public override bool AcceptsInput

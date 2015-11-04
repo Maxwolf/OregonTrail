@@ -73,7 +73,7 @@ namespace TrailEntities
             }
 
             // Wait for user input...
-            _storeHelp.Append("Press ENTER KEY to continue.\n");
+            _storeHelp.Append(GameSimulationApp.PRESS_ENTER);
         }
 
         /// <summary>

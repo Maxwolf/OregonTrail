@@ -27,11 +27,13 @@ namespace TrailEntities
 
             // Create text we will display to user about the store before they actually load that game mode.
             _storeHelp = new StringBuilder();
-            _storeHelp.Append("\nBefore leaving you should buy equipment and supplies.\n");
-            _storeHelp.Append(
-                $"You have {UserData.StartingMonies.ToString("C2")} in cash, but you don't have to spend it all now.\n\n");
+            _storeHelp.Append("\nBefore leaving Independence you\n");
+            _storeHelp.Append("should buy equipment and\n");
+            _storeHelp.Append($"supplies. You have {UserData.StartingMonies.ToString("C2")} in\n");
+            _storeHelp.Append("cash, but you don't have to\n");
+            _storeHelp.Append("spend it all now.\n\n");
 
-            _storeHelp.Append("Press ENTER KEY to enter the store.\n");
+            _storeHelp.Append(GameSimulationApp.PRESS_ENTER);
         }
 
         /// <summary>

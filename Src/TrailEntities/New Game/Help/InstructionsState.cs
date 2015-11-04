@@ -44,8 +44,8 @@ namespace TrailEntities
             _playInfo.Append(" * Other supplies (includes medicine, first-aid supplies, tools, and\n");
             _playInfo.Append(" wagon parts for unexpected emergencies)\n\n");
 
-            // Wiat for user input...
-            _playInfo.Append("Press ENTER KEY to return to main menu.\n");
+            // Wait for user input...
+            _playInfo.Append(GameSimulationApp.PRESS_ENTER);
         }
 
         /// <summary>

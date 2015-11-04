@@ -42,8 +42,8 @@ namespace TrailEntities
             // Print the table to the screen buffer.
             _pointsHealth.AppendLine(partyTable);
 
-            // Wait for use input to goto next help screen...
-            _pointsHealth.Append("Press ENTER KEY to continue.\n");
+            // Wait for use input...
+            _pointsHealth.Append(GameSimulationApp.PRESS_ENTER);
         }
 
         /// <summary>
