@@ -7,7 +7,7 @@ namespace TrailEntities
     ///     trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how
     ///     bad it is.
     /// </summary>
-    public sealed class RiverCrossingMode : GameMode<RiverCrossingCommands>, IRiverCrossingMode
+    public sealed class RiverCrossingMode : GameMode<RiverCrossingCommands>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.

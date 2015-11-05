@@ -70,44 +70,6 @@ if (cost_food >= 13)
 				{
 					addmode(travel)
 				}
-				else
-				{
-					fort_option=fort_option*(-1)
-					"do you want to (1) stop at the next fort, (2) hunt, "
-					"or (3) continue"
-					if (command>2 || command<1 then)
-					{
-						command=3
-					}
-					else
-					{
-						command=int(command)
-						"do you want to (1) hunt, or (2) continue"
-						if (command=1)
-						{
-							command=command+1
-							if (command=3)
-							{
-								addmode(location)
-							}
-							else							
-							{
-								if (cost_ammo>39) 
-								{
-									addmode(location)
-								}
-								else
-								{
-									"tough---you need more bullets to go hunting"
-								}
-							}
-						}
-						else
-						{
-							command=2
-						}
-					}
-				}
 			}
 		}
 	}

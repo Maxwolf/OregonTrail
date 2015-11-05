@@ -263,7 +263,7 @@ namespace TrailEntities
             switch (modeType)
             {
                 case ModeType.Travel:
-                    return new TravelingMode();
+                    return new TravelMode();
                 case ModeType.ForkInRoad:
                     return new ForkInRoadMode();
                 case ModeType.Hunt:
@@ -316,7 +316,6 @@ namespace TrailEntities
             int two_weeks_fraction = 0;
 
             // Mileage and food consumption calculations for next two-week block on trail.
-            two_weeks_fraction = two_weeks_fraction + 200 + (A - 110)/2.5 + Random.Next(10);
             two_weeks_fraction = (Trail.TotalTrailLength - Vehicle.Odometer) /(total_miles - Vehicle.Odometer);
             cost_food = cost_food + (1 - two_weeks_fraction)*(8 + 5*(int) Vehicle.Ration);
             total_miles = total_miles + 200 + (cost_animals - 220)/5 + Random.Next(0, 100);
