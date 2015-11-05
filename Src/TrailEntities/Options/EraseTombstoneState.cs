@@ -25,7 +25,8 @@ namespace TrailEntities
             var eraseEpitaphs = new StringBuilder();
 
             // Text above the table to declare what this state is.
-            eraseEpitaphs.Append($"{Environment.NewLine}Erase tombstone messages{Environment.NewLine}{Environment.NewLine}");
+            eraseEpitaphs.Append(
+                $"{Environment.NewLine}Erase tombstone messages{Environment.NewLine}{Environment.NewLine}");
 
             // Tell the user how tombstones work before destroying them.
             eraseEpitaphs.Append($"There may be one tombstone on{Environment.NewLine}");

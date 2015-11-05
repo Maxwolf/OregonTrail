@@ -22,7 +22,8 @@ namespace TrailEntities
         {
             _pace = new StringBuilder();
             _pace.Append($"{Environment.NewLine}Change pace{Environment.NewLine}");
-            _pace.Append($"(currently \"{GameSimulationApp.Instance.Vehicle.Pace}\"){Environment.NewLine}{Environment.NewLine}");
+            _pace.Append(
+                $"(currently \"{GameSimulationApp.Instance.Vehicle.Pace}\"){Environment.NewLine}{Environment.NewLine}");
             _pace.Append($"The pace at which you travel{Environment.NewLine}");
             _pace.Append($"can change. Your choices are:{Environment.NewLine}{Environment.NewLine}");
             _pace.Append($"1. a steady pace{Environment.NewLine}");

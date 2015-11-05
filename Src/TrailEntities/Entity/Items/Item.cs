@@ -46,7 +46,7 @@ namespace TrailEntities
         private uint MinimumAmount { get; }
 
         /// <summary>
-        ///     Total number of pounds which this the item multiplied by MinimumAmount would be.
+        ///     Total weight of all food items this represents multiplied by base minimum weight.
         /// </summary>
         public uint TotalWeight
         {

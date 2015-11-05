@@ -26,7 +26,8 @@ namespace TrailEntities
             // Header text.
             var headerText = new StringBuilder();
             headerText.Append($"{Environment.NewLine}The Oregon Trail{Environment.NewLine}");
-            headerText.Append($"Version: {Assembly.GetExecutingAssembly().GetName().Version}{Environment.NewLine}{Environment.NewLine}");
+            headerText.Append(
+                $"Version: {Assembly.GetExecutingAssembly().GetName().Version}{Environment.NewLine}{Environment.NewLine}");
             headerText.Append($"Management Options{Environment.NewLine}{Environment.NewLine}");
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();

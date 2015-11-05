@@ -69,10 +69,12 @@ namespace TrailEntities
             _drive.AppendLine($"{Environment.NewLine}{_swayBarText}");
 
             // Basic information about simulation.
-            _drive.AppendLine(UserData.TravelStatus);
+            _drive.AppendLine(UserData.DriveStatus);
+
+            // Don't add the RETURN KEY text here if we are not actually at a point.
+            _drive.Append("Press ENTER to size up the situation");
 
             // Wait for user input, event, or reaching next location...
-            _drive.Append(GameSimulationApp.PRESS_ENTER);
             return _drive.ToString();
         }
 

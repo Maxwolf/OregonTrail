@@ -16,11 +16,6 @@ namespace TrailEntities
         private StringBuilder _professionChooser;
 
         /// <summary>
-        ///     Reference to the total number of professions found in the enumeration.
-        /// </summary>
-        private int _professionCount = 1;
-
-        /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public SelectProfessionState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)

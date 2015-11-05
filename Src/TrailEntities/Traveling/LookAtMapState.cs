@@ -11,14 +11,14 @@ namespace TrailEntities
     public sealed class LookAtMapState : ModeState<TravelInfo>
     {
         /// <summary>
+        ///     Determines if the player is done looking at the map and total progress of their journey.
+        /// </summary>
+        private bool _hasLookedAtMap;
+
+        /// <summary>
         ///     Contains all the text that will make up our console text only map to show the player how far along they have come.
         /// </summary>
         private StringBuilder _map;
-
-        /// <summary>
-        /// Determines if the player is done looking at the map and total progress of their journey.
-        /// </summary>
-        private bool _hasLookedAtMap;
 
         /// <summary>
         ///     This constructor will be used by the other one

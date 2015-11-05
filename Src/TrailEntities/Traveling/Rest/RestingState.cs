@@ -44,7 +44,9 @@ namespace TrailEntities
         {
             var rest = new StringBuilder();
             rest.Append($"You rest for {_daysToRest} ");
-            rest.Append(_daysToRest > 1 ? $"days{Environment.NewLine}{Environment.NewLine}" : $"day{Environment.NewLine}{Environment.NewLine}");
+            rest.Append(_daysToRest > 1
+                ? $"days{Environment.NewLine}{Environment.NewLine}"
+                : $"day{Environment.NewLine}{Environment.NewLine}");
 
             rest.Append(GameSimulationApp.PRESS_ENTER);
             return rest.ToString();

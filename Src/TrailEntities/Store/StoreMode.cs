@@ -215,7 +215,7 @@ namespace TrailEntities
             if (modeType != ModeType.Store)
                 return;
 
-            // First point of simulation when leaving store will setup the trail to be there.
+            // When detaching the store for first time we need to move the vehicle to the first spot on our virtual trail.
             if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest())
             {
                 GameSimulationApp.Instance.Trail.MoveTowardsNextPointOfInterest();

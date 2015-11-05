@@ -25,7 +25,8 @@ namespace TrailEntities
         public PointsOccupationState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             _pointsProfession = new StringBuilder();
-            _pointsProfession.Append($"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");
+            _pointsProfession.Append(
+                $"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");
             _pointsProfession.Append($"You receive points for your{Environment.NewLine}");
             _pointsProfession.Append($"occupation in the new land.{Environment.NewLine}");
             _pointsProfession.Append($"Because more farmers and{Environment.NewLine}");

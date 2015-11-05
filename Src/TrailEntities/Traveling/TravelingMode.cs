@@ -56,7 +56,10 @@ namespace TrailEntities
         /// </summary>
         private void ContinueOnTrail()
         {
-            CurrentState = new ContinueOnTrailState(this, TravelInfo);
+            // Player just starting this section of the trail will get prompt about total distance needed to cover it before starting.
+            CurrentState = !GameSimulationApp.Instance.Trail.ReachedNextPoint()
+                ? (IModeState) new DriveState(this, TravelInfo)
+                : new ContinueOnTrailState(this, TravelInfo);
         }
 
         /// <summary>
@@ -114,7 +117,7 @@ namespace TrailEntities
         ///     Attaches a new mode on top of this one that allows the player to hunt for animals and kill them using bullets for a
         ///     specified time limit.
         /// </summary>
-        public void Hunt()
+        private void HuntForFood()
         {
             CurrentState = null;
             GameSimulationApp.Instance.AddMode(ModeType.Hunt);
@@ -127,7 +130,9 @@ namespace TrailEntities
         {
             // Header text for above menu comes from travel info object.
             var headerText = new StringBuilder();
-            headerText.Append(TravelInfo.TravelStatus);
+            headerText.Append(GameSimulationApp.Instance.Trail.ReachedNextPoint()
+                ? TravelInfo.CurrentLocationStatus
+                : TravelInfo.CurrentTravelStatus);
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
 
@@ -143,12 +148,6 @@ namespace TrailEntities
             AddCommand(TalkToPeople, TravelCommands.TalkToPeople, "Talk to people");
             AddCommand(BuySupplies, TravelCommands.BuySupplies, "Buy supplies");
             AddCommand(HuntForFood, TravelCommands.HuntForFood, "Hunt for food");
-        }
-
-        /// <summary>
-        /// </summary>
-        private void HuntForFood()
-        {
         }
 
         /// <summary>

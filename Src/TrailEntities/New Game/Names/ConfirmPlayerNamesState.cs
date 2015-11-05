@@ -25,7 +25,8 @@ namespace TrailEntities
 
             // Create string builder, counter, print info about party members.
             _confirmPartyText = new StringBuilder();
-            _confirmPartyText.Append($"{Environment.NewLine}{NewGameMode.MEMBERS_QUESTION}{Environment.NewLine}{Environment.NewLine}");
+            _confirmPartyText.Append(
+                $"{Environment.NewLine}{NewGameMode.MEMBERS_QUESTION}{Environment.NewLine}{Environment.NewLine}");
             var crewNumber = 1;
 
             // Loop through every player and print their name.

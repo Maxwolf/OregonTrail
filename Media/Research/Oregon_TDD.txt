@@ -3,7 +3,7 @@
 [TRAVEL]
  * Iterate through 2-week trip segments
  * Play then proceeds through a series of up to 18 turns 
- (each representing two weeks)
+   (each representing two weeks)
  * 20+ weeks (246 days) will trigger end game routine
  * Expected mileage for next two-weeks calculated with current stats
  * Mileage figure is ideal, problems subtract from this figure
@@ -12,7 +12,7 @@
  * The going gets slower and harder later in the trip
  * Weather changes, requiring more clothing
  * Stopping at a fort for supplies dramatically reduces 
- the miles you can cover in a single turn
+   the miles you can cover in a single turn
  * Bad weather occurs 20% of the time
  * Injuries 5% of the time
  * Detects where the player is on the trail and adjust random events
@@ -22,11 +22,11 @@
  * Oxen go up to 5 dollars at each fort
  * When you rest at a land mark people often heal quicker than on the trail
  * Locations have fresh water flag if enabled doubles change for dysentery
- and cholera
+   and cholera
  * Maximum amound of weight that can be carried back after a hunt
- is 250 lbs of food
+   is 250 lbs of food
  * The less buffalo you kill the better deal you shall receive
- from Indian wanting clothes
+   from Indian wanting clothes
  * Random chance for Indian Guide to help cross river for 1-5 sets of clothes
  
 [HUNTING]

@@ -30,12 +30,12 @@ namespace TrailEntities
         /// <summary>
         ///     Reference to how many ticks are between the players vehicle and the next point of interest.
         /// </summary>
-        private ulong DistanceToNextPoint { get; set; }
+        public ulong DistanceToNextPoint { get; internal set; }
 
         /// <summary>
         ///     Current location of the players vehicle as index of points of interest list.
         /// </summary>
-        public int VehicleLocation { get; set; }
+        public int VehicleLocation { get; private set; }
 
         /// <summary>
         ///     List of all of the points of interest that make up the entire trail.
@@ -59,7 +59,7 @@ namespace TrailEntities
                 // Fire method to do some work and attach game modes based on this.
                 OnReachedPointOfInterest(currentPoint);
             }
-            else if (VehicleLocation < Locations.Count())
+            else if (VehicleLocation < Locations.Count)
             {
                 // Grab some data about our travels on the trail.
                 var nextPoint = GetNextPointOfInterest();
@@ -90,7 +90,7 @@ namespace TrailEntities
             var nextPointIndex = VehicleLocation + 1;
 
             // Check if the next point is greater than point count, then get next point of interest if within bounds.
-            return nextPointIndex > Locations.Count() ? null : Locations.ElementAt(nextPointIndex);
+            return nextPointIndex > Locations.Count ? null : Locations.ElementAt(nextPointIndex);
         }
 
         /// <summary>
@@ -132,6 +132,15 @@ namespace TrailEntities
 
             // Fire event here for API subscribers to know point was reached. 
             OnReachPointOfInterest?.Invoke(nextPoint);
+        }
+
+        /// <summary>
+        ///     Determines if the player is currently midway between two location points on the trail.
+        /// </summary>
+        public bool ReachedNextPoint()
+        {
+            return
+                GameSimulationApp.Instance.Trail.DistanceToNextPoint.Equals(GetCurrentPointOfInterest().DistanceLength);
         }
     }
 }

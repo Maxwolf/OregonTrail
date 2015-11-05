@@ -307,12 +307,17 @@ namespace TrailEntities
             Vehicle.TickVehicle();
 
             // Move towards the next location on the trail.
-            if (!Trail.MoveTowardsNextPointOfInterest())
-            {
-                // Update total distance traveled on vehicle if we have not reached the point.
-                // TODO: Replace with actual mileage calculation formula.
-                Vehicle.Odometer += (uint) Vehicle.Pace;
-            }
+            if (Trail.MoveTowardsNextPointOfInterest())
+                return;
+
+            // TODO: Replace with actual mileage calculation formula.
+            var distanceMovedThisTurn = (ulong) Vehicle.Pace;
+
+            // Reduce the distance to the next point by the amount traveled.
+            Trail.DistanceToNextPoint -= distanceMovedThisTurn;
+
+            // Update total distance traveled on vehicle if we have not reached the point.
+            Vehicle.Odometer += distanceMovedThisTurn;
         }
 
         private void TimeSimulation_MonthEndEvent(uint monthCount)

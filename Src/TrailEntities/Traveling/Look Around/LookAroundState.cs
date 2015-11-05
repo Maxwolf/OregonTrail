@@ -36,7 +36,8 @@ namespace TrailEntities
             if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest())
             {
                 // First point of interest has slightly different message about time travel.
-                welcomePoint.Append($"Going back to {GameSimulationApp.Instance.Time.CurrentYear}...{Environment.NewLine}");
+                welcomePoint.Append(
+                    $"Going back to {GameSimulationApp.Instance.Time.CurrentYear}...{Environment.NewLine}");
             }
             else
             {

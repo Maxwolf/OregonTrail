@@ -68,7 +68,7 @@
     <Compile Include="Scoring\Points.cs" />
     <Compile Include="Scoring\ScoreRegistry.cs" />
     <Compile Include="Options\OriginalTopTenState.cs" />
-    <Compile Include="Traveling\Drive\DriveState.cs" />
+    <Compile Include="Traveling\DriveState.cs" />
     <Compile Include="Traveling\Pace\PaceAdviceState.cs" />
     <Compile Include="Widget\SpinningPixel.cs" />
     <Compile Include="Widget\MarqueeBar.cs" />

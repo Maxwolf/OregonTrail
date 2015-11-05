@@ -22,7 +22,8 @@ namespace TrailEntities
         {
             _ration = new StringBuilder();
             _ration.Append($"{Environment.NewLine}Change food rations{Environment.NewLine}");
-            _ration.Append($"(currently \"{GameSimulationApp.Instance.Vehicle.Ration}\"){Environment.NewLine}{Environment.NewLine}");
+            _ration.Append(
+                $"(currently \"{GameSimulationApp.Instance.Vehicle.Ration}\"){Environment.NewLine}{Environment.NewLine}");
             _ration.Append($"The amount of food the people in{Environment.NewLine}");
             _ration.Append($"your party eat each day can{Environment.NewLine}");
             _ration.Append($"change. These amounts are:{Environment.NewLine}{Environment.NewLine}");

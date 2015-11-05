@@ -47,7 +47,7 @@ namespace TrailEntities
         private DateTime _lastTickTime;
 
         /// <summary>
-        /// Spinning character pixel.
+        ///     Spinning character pixel.
         /// </summary>
         private SpinningPixel _spinningPixel;
 

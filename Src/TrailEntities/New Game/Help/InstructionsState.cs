@@ -32,17 +32,21 @@ namespace TrailEntities
             _playInfo.Append($"now have to purchase the following items:{Environment.NewLine}{Environment.NewLine}");
 
             _playInfo.Append($" * Oxen (spending more will buy you a larger and better team which{Environment.NewLine}");
-            _playInfo.Append($" will be faster so you'll be on the trail for less time){Environment.NewLine}{Environment.NewLine}");
+            _playInfo.Append(
+                $" will be faster so you'll be on the trail for less time){Environment.NewLine}{Environment.NewLine}");
 
-            _playInfo.Append($" * Food (you'll need ample food to keep up your strength and health){Environment.NewLine}{Environment.NewLine}");
+            _playInfo.Append(
+                $" * Food (you'll need ample food to keep up your strength and health){Environment.NewLine}{Environment.NewLine}");
 
             _playInfo.Append($" * Ammunition ($1 buys a belt of 50 bullets. You'll need ammo for{Environment.NewLine}");
-            _playInfo.Append($" hunting and for fighting off attacks by bandits and animals){Environment.NewLine}{Environment.NewLine}");
+            _playInfo.Append(
+                $" hunting and for fighting off attacks by bandits and animals){Environment.NewLine}{Environment.NewLine}");
 
             _playInfo.Append($" * Clothing (you'll need warm clothes, especially when you hit the{Environment.NewLine}");
             _playInfo.Append($" snow and freezing weather in the mountains){Environment.NewLine}{Environment.NewLine}");
 
-            _playInfo.Append($" * Other supplies (includes medicine, first-aid supplies, tools, and{Environment.NewLine}");
+            _playInfo.Append(
+                $" * Other supplies (includes medicine, first-aid supplies, tools, and{Environment.NewLine}");
             _playInfo.Append($" wagon parts for unexpected emergencies){Environment.NewLine}{Environment.NewLine}");
 
             // Wait for user input...

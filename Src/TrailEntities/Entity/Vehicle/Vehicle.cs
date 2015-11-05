@@ -10,11 +10,24 @@ namespace TrailEntities
     /// </summary>
     public sealed class Vehicle : IEntity
     {
+        /// <summary>
+        ///     Fired when the user changes the pace of traveling.
+        /// </summary>
         public delegate void OnChangePace();
 
+        /// <summary>
+        ///     Fired when the user changes the ration for group.
+        /// </summary>
         public delegate void OnChangeRation();
 
+        /// <summary>
+        ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
+        /// </summary>
         private HashSet<Item> _inventory;
+
+        /// <summary>
+        ///     References all of the people inside of the vehicle.
+        /// </summary>
         private HashSet<Person> _passengers;
 
         /// <summary>
@@ -27,25 +40,46 @@ namespace TrailEntities
             Pace = TravelPace.Steady;
         }
 
+        /// <summary>
+        ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
+        /// </summary>
         public IEnumerable<Item> Inventory
         {
             get { return _inventory; }
         }
 
+        /// <summary>
+        ///     Total amount of money the vehicle and party members have to work with as a whole.
+        /// </summary>
         public float Balance { get; private set; }
 
+        /// <summary>
+        ///     References all of the people inside of the vehicle.
+        /// </summary>
         public IEnumerable<Person> Passengers
         {
             get { return _passengers; }
         }
 
+        /// <summary>
+        ///     Current ration level, determines the amount food that will be consumed each day of the simulation.
+        /// </summary>
         public RationLevel Ration { get; private set; }
 
+        /// <summary>
+        ///     Current travel pace, determines how fast the vehicle will attempt to move down the trail.
+        /// </summary>
         public TravelPace Pace { get; private set; }
 
+        /// <summary>
+        ///     Current health of the vehicle, determines how well it will be able to perform
+        /// </summary>
         public RepairStatus RepairStatus { get; private set; }
 
-        public ulong Odometer { get; set; }
+        /// <summary>
+        ///     Total number of miles the vehicle has traveled since the start of the simulation.
+        /// </summary>
+        public ulong Odometer { get; internal set; }
 
         /// <summary>
         ///     Name of the entity as it should be known in the simulation.
@@ -208,6 +242,10 @@ namespace TrailEntities
             _inventory.Remove(transaction.Item);
         }
 
+        /// <summary>
+        ///     Resets the vehicle status to the defaults.
+        /// </summary>
+        /// <param name="startingMonies">Amount of money the vehicle should have to work with.</param>
         public void ResetVehicle(uint startingMonies)
         {
             _inventory = new HashSet<Item>();
@@ -218,9 +256,11 @@ namespace TrailEntities
             Odometer = 0;
         }
 
+        /// <summary>
+        ///     Processes logic and events for vehicle, also progresses down the trail and keeps track of mileage for this turn.
+        /// </summary>
         public void TickVehicle()
         {
-            
         }
 
         /// <summary>
