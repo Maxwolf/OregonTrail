@@ -16,6 +16,11 @@ namespace TrailEntities
         public delegate void PointOfInterestReached(Location nextPoint);
 
         /// <summary>
+        /// Holds the calculated total distance of the trail from all points on it added up.
+        /// </summary>
+        public int TotalTrailLength { get; }
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Trail" /> class.
         /// </summary>
         /// <param name="trail">Collection of points of interest which make up the trail the player is going to travel.</param>
@@ -23,19 +28,27 @@ namespace TrailEntities
         {
             // Builds the trail passed on parameter, sets location to negative one for startup.
             Locations = new List<Location>(trail);
-            VehicleLocation = -1;
+
+            // Calculate the total trail distance on startup so we can reference it during calculations.
+            foreach (var location in Locations)
+            {
+                TotalTrailLength += location.DistanceLength;
+            }
+
+            // Startup location on the trail and distance to next point so it triggers immediately when we tick the first day.
+            LocationIndex = -1;
             DistanceToNextPoint = 0;
         }
 
         /// <summary>
         ///     Reference to how many ticks are between the players vehicle and the next point of interest.
         /// </summary>
-        public ulong DistanceToNextPoint { get; internal set; }
+        public int DistanceToNextPoint { get; private set; }
 
         /// <summary>
         ///     Current location of the players vehicle as index of points of interest list.
         /// </summary>
-        public int VehicleLocation { get; private set; }
+        public int LocationIndex { get; private set; }
 
         /// <summary>
         ///     List of all of the points of interest that make up the entire trail.
@@ -43,51 +56,52 @@ namespace TrailEntities
         public List<Location> Locations { get; }
 
         /// <summary>
-        ///     Advances the vehicle to the next point of interest on the path.
+        ///     Fired by the simulation when it would like to trigger advancement to the next location, doesn't matter when this is
+        ///     called could be right in the middle a trail midway between two points and it would still forcefully place the
+        ///     vehicle and players at the next location on the trail.
         /// </summary>
-        /// <returns>TRUE if we have arrived at next point, FALSE if this method needs called more...</returns>
-        public bool MoveTowardsNextPointOfInterest()
+        public void ArriveAtNextLocation()
         {
-            var currentPoint = GetCurrentPointOfInterest();
+            // Get the current and next locations.
+            var nextPoint = GetNextLocation();
+            var currentPoint = GetCurrentLocation();
 
-            // Figure out if this is first step, or one of many after the start.
-            if (VehicleLocation == -1)
-            {
-                // Startup advancement to get things started.
-                VehicleLocation = 0;
+            // Setup next travel distance requirement.
+            DistanceToNextPoint = nextPoint.DistanceLength;
 
-                // Fire method to do some work and attach game modes based on this.
-                OnReachedPointOfInterest(currentPoint);
-            }
-            else if (VehicleLocation < Locations.Count)
-            {
-                // Grab some data about our travels on the trail.
-                var nextPoint = GetNextPointOfInterest();
+            // Called when we decide to continue on the trail from a location on it.
+            LocationIndex++;
 
-                // Check to make sure we are really at the next point based on all available data.
-                if (DistanceToNextPoint > 0 || (nextPoint == null || nextPoint.DistanceLength <= 0))
-                    return false;
+            // Fire method to do some work and attach game modes based on this.
+            OnReachedPointOfInterest(currentPoint);
+        }
 
-                // Setup next travel distance requirement.
-                DistanceToNextPoint = nextPoint.DistanceLength;
+        /// <summary>
+        ///     Advances the vehicle to the next point of interest on the path. Returns TRUE if we have arrived at the next point,
+        ///     FALSE if this method should be called more to advance vehicle down the trail.
+        /// </summary>
+        /// <param name="distanceMovedThisTurn">Number of miles the vehicle should move this day.</param>
+        public void DecreaseDistanceToNextLocation(int distanceMovedThisTurn)
+        {
+            // Move us towards the next point.
+            DistanceToNextPoint -= distanceMovedThisTurn;
 
-                // This is a normal advancement on the trail.
-                VehicleLocation++;
-                DistanceToNextPoint--;
-            }
+            // If distance to next area reaches zero or below we will arrive at next location.
+            if (DistanceToNextPoint > 0)
+                return;
 
-            // Default response is to return true, up to method to deny access to next point.
-            return true;
+            DistanceToNextPoint = 0;
+            GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
         }
 
         /// <summary>
         ///     Locates the next point of interest if it exists in the list, if this method returns NULL then that means the next
         ///     point of interest is the end of the game when the distance to point reaches zero.
         /// </summary>
-        public Location GetNextPointOfInterest()
+        public Location GetNextLocation()
         {
             // Build next point index from current point, even if startup value with -1 we add 1 so will always get first point.
-            var nextPointIndex = VehicleLocation + 1;
+            var nextPointIndex = LocationIndex + 1;
 
             // Check if the next point is greater than point count, then get next point of interest if within bounds.
             return nextPointIndex > Locations.Count ? null : Locations.ElementAt(nextPointIndex);
@@ -96,11 +110,11 @@ namespace TrailEntities
         /// <summary>
         ///     Returns the current point of interest the players vehicle is on.
         /// </summary>
-        public Location GetCurrentPointOfInterest()
+        public Location GetCurrentLocation()
         {
-            return VehicleLocation <= -1
+            return LocationIndex <= -1
                 ? Locations.First()
-                : Locations.ElementAt(VehicleLocation);
+                : Locations.ElementAt(LocationIndex);
         }
 
         /// <summary>
@@ -115,7 +129,7 @@ namespace TrailEntities
         /// <returns>TRUE if first point on trail, FALSE if not.</returns>
         public bool IsFirstPointOfInterest()
         {
-            return VehicleLocation <= 0 && GameSimulationApp.Instance.TotalTurns <= 0;
+            return LocationIndex <= 0 && GameSimulationApp.Instance.TotalTurns <= 0;
         }
 
         /// <summary>
@@ -140,7 +154,7 @@ namespace TrailEntities
         public bool ReachedNextPoint()
         {
             return
-                GameSimulationApp.Instance.Trail.DistanceToNextPoint.Equals(GetCurrentPointOfInterest().DistanceLength);
+                GameSimulationApp.Instance.Trail.DistanceToNextPoint.Equals(GetCurrentLocation().DistanceLength);
         }
     }
 }

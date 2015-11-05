@@ -18,7 +18,7 @@ namespace TrailEntities
         /// </summary>
         public Location(
             string name,
-            ulong distanceLength,
+            int distanceLength,
             IEnumerable<Item> pointInventory = null,
             bool canRest = true)
         {
@@ -42,7 +42,7 @@ namespace TrailEntities
         ///     Determines the total number of 'miles' which the vehicle must travel before it is considered to have arrived at the
         ///     next point of interest.
         /// </summary>
-        public ulong DistanceLength { get; }
+        public int DistanceLength { get; }
 
         /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the

@@ -29,7 +29,7 @@ namespace TrailEntities
             _map = new StringBuilder();
             _map.Append($"{Environment.NewLine}Trail progress{Environment.NewLine}");
             _map.AppendLine(TextProgress.DrawProgressBar(
-                GameSimulationApp.Instance.Trail.VehicleLocation,
+                GameSimulationApp.Instance.Trail.LocationIndex,
                 GameSimulationApp.Instance.Trail.Locations.Count, 32));
 
             // Wait for user input...

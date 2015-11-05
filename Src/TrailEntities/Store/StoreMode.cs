@@ -218,7 +218,7 @@ namespace TrailEntities
             // When detaching the store for first time we need to move the vehicle to the first spot on our virtual trail.
             if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest())
             {
-                GameSimulationApp.Instance.Trail.MoveTowardsNextPointOfInterest();
+                GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
             }
 
             // Process all of the pending transactions in the store receipt info object.

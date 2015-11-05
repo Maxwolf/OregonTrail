@@ -304,20 +304,28 @@ namespace TrailEntities
         {
             // Each day we tick the weather, vehicle, and the people in it.
             Climate.TickClimate();
-            Vehicle.TickVehicle();
+
+            int cost_food = 0;
+            int cost_ammo = 0;
+            int cost_animals = 0;
+            int cost_clothes = 0;
+            int cost_aid = 0;
+            int start_cash = 0;
+            int total_miles = 0;
+            int distance_traveled = 0;
+            int two_weeks_fraction = 0;
+
+            // Mileage and food consumption calculations for next two-week block on trail.
+            two_weeks_fraction = two_weeks_fraction + 200 + (A - 110)/2.5 + Random.Next(10);
+            two_weeks_fraction = (Trail.TotalTrailLength - Vehicle.Odometer) /(total_miles - Vehicle.Odometer);
+            cost_food = cost_food + (1 - two_weeks_fraction)*(8 + 5*(int) Vehicle.Ration);
+            total_miles = total_miles + 200 + (cost_animals - 220)/5 + Random.Next(0, 100);
 
             // Move towards the next location on the trail.
-            if (Trail.MoveTowardsNextPointOfInterest())
-                return;
-
-            // TODO: Replace with actual mileage calculation formula.
-            var distanceMovedThisTurn = (ulong) Vehicle.Pace;
-
-            // Reduce the distance to the next point by the amount traveled.
-            Trail.DistanceToNextPoint -= distanceMovedThisTurn;
+            Trail.DecreaseDistanceToNextLocation(total_miles);
 
             // Update total distance traveled on vehicle if we have not reached the point.
-            Vehicle.Odometer += distanceMovedThisTurn;
+            Vehicle.TickVehicle(total_miles);
         }
 
         private void TimeSimulation_MonthEndEvent(uint monthCount)

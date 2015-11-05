@@ -9,7 +9,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ForkInRoad" /> class.
         /// </summary>
-        public ForkInRoad(string name, ulong distanceLength, IEnumerable<Location> skipChoices)
+        public ForkInRoad(string name, int distanceLength, IEnumerable<Location> skipChoices)
             : base(name, distanceLength)
         {
             _skipChoices = new HashSet<Location>(skipChoices);

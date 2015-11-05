@@ -130,9 +130,7 @@ namespace TrailEntities
         {
             // Header text for above menu comes from travel info object.
             var headerText = new StringBuilder();
-            headerText.Append(GameSimulationApp.Instance.Trail.ReachedNextPoint()
-                ? TravelInfo.CurrentLocationStatus
-                : TravelInfo.CurrentTravelStatus);
+            headerText.Append(TravelInfo.TravelStatus(GameSimulationApp.Instance.Trail.ReachedNextPoint()));
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
 
@@ -155,13 +153,9 @@ namespace TrailEntities
         ///     the trail.
         /// </summary>
         /// <param name="nextPoint"></param>
-        protected override void OnReachPointOfInterest(Location nextPoint)
+        protected override void OnReachNextLocation(Location nextPoint)
         {
-            base.OnReachPointOfInterest(nextPoint);
-
-            // Check if the point is us, and a location we need to welcome player into.
-            if (nextPoint != CurrentPoint)
-                return;
+            base.OnReachNextLocation(nextPoint);
 
             // On the first point we are going to force the look around state onto the traveling mode without asking.
             if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest())

@@ -40,7 +40,7 @@ namespace TrailEntities
         public override string GetStateTUI()
         {
             var nextStop = new StringBuilder();
-            var nextPoint = GameSimulationApp.Instance.Trail.GetNextPointOfInterest();
+            var nextPoint = GameSimulationApp.Instance.Trail.GetNextLocation();
             nextStop.Append(
                 $"{Environment.NewLine}From {ParentMode.CurrentPoint.Name} it is {nextPoint.DistanceLength}{Environment.NewLine}");
             nextStop.Append($"miles to the {nextPoint.Name}{Environment.NewLine}{Environment.NewLine}");

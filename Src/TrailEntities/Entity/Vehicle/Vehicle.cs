@@ -79,7 +79,7 @@ namespace TrailEntities
         /// <summary>
         ///     Total number of miles the vehicle has traveled since the start of the simulation.
         /// </summary>
-        public ulong Odometer { get; internal set; }
+        public int Odometer { get; private set; }
 
         /// <summary>
         ///     Name of the entity as it should be known in the simulation.
@@ -259,8 +259,10 @@ namespace TrailEntities
         /// <summary>
         ///     Processes logic and events for vehicle, also progresses down the trail and keeps track of mileage for this turn.
         /// </summary>
-        public void TickVehicle()
+        public void TickVehicle(int miles)
         {
+            // Increase mileage on the vehicle by the amount traveled.
+            Odometer += miles;
         }
 
         /// <summary>

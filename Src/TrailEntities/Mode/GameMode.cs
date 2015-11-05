@@ -63,10 +63,10 @@ namespace TrailEntities
             _menuFooter = string.Empty;
 
             // Hook event to know when we have reached a location point of interest.
-            GameSimulationApp.Instance.Trail.OnReachPointOfInterest += OnReachPointOfInterest;
+            GameSimulationApp.Instance.Trail.OnReachPointOfInterest += OnReachNextLocation;
 
             // Cast the current point of interest into a settlement object since that is where stores are.
-            CurrentPoint = GameSimulationApp.Instance.Trail.GetCurrentPointOfInterest();
+            CurrentPoint = GameSimulationApp.Instance.Trail.GetCurrentLocation();
             if (CurrentPoint == null)
                 throw new InvalidCastException("Unable to get current point of interest from trail simulation!");
         }
@@ -359,7 +359,7 @@ namespace TrailEntities
         ///     Fired when trail simulation has determined the vehicle and player party has reached the next point of interest in
         ///     the trail.
         /// </summary>
-        protected virtual void OnReachPointOfInterest(Location nextPoint)
+        protected virtual void OnReachNextLocation(Location nextPoint)
         {
             Debug.Assert(nextPoint != null, "nextPoint != null");
         }
@@ -463,7 +463,7 @@ namespace TrailEntities
         /// <param name="modeType">The mode that is about to be removed.</param>
         protected virtual void OnModeRemoved(ModeType modeType)
         {
-            GameSimulationApp.Instance.Trail.OnReachPointOfInterest -= OnReachPointOfInterest;
+            GameSimulationApp.Instance.Trail.OnReachPointOfInterest -= OnReachNextLocation;
             _menuChoices = null;
         }
 

@@ -21,7 +21,7 @@ namespace TrailEntities
         /// <summary>
         ///     Used when the player is traveling on the trail between locations. Also known as drive state in travel game mode.
         /// </summary>
-        public string DriveStatus
+        public static string DriveStatus
         {
             get
             {
@@ -50,49 +50,31 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Used when the player decides to stop their vehicle midway between two location points on the trail. When this
-        ///     happens we do not want to display the location name since there are not at one and considered "on the trail"
-        ///     however the simulation already knows what the next place is and everything about it so we just don't show it while
-        ///     we tick down the distance the players vehicle must move to get there in the simulation.
-        /// </summary>
-        public static string CurrentTravelStatus
-        {
-            get
-            {
-                var travelStatus = new StringBuilder();
-                travelStatus.Append($"{GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
-                travelStatus.Append($"--------------------------------{Environment.NewLine}");
-                travelStatus.Append($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}{Environment.NewLine}");
-                travelStatus.Append($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}{Environment.NewLine}");
-                travelStatus.Append($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}{Environment.NewLine}");
-                travelStatus.Append($"Rations: {GameSimulationApp.Instance.Vehicle.Ration}{Environment.NewLine}");
-                travelStatus.Append($"--------------------------------{Environment.NewLine}");
-                return travelStatus.ToString();
-            }
-        }
-
-        /// <summary>
         ///     Used when the player stops at a location on the trail, or the travel game mode with no attached state. The
         ///     difference this state has from others is showing the name of the location, when between points we don't show this
         ///     since we already know the next point but don't want the player to know that.
         /// </summary>
-        public static string CurrentLocationStatus
+        public static string TravelStatus(bool showLocationName)
         {
-            get
+            var locationStatus = new StringBuilder();
+            locationStatus.Append($"--------------------------------{Environment.NewLine}");
+
+            // Only add the location name if we are on the next point, otherwise we should not show this.
+            if (showLocationName)
             {
-                var locationStatus = new StringBuilder();
-                locationStatus.Append($"--------------------------------{Environment.NewLine}");
-                locationStatus.Append(
-                    $"{GameSimulationApp.Instance.Trail.GetCurrentPointOfInterest()?.Name}{Environment.NewLine}");
-                locationStatus.Append($"{GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
-                locationStatus.Append($"--------------------------------{Environment.NewLine}");
-                locationStatus.Append($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}{Environment.NewLine}");
-                locationStatus.Append($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}{Environment.NewLine}");
-                locationStatus.Append($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}{Environment.NewLine}");
-                locationStatus.Append($"Rations: {GameSimulationApp.Instance.Vehicle.Ration}{Environment.NewLine}");
-                locationStatus.Append($"--------------------------------{Environment.NewLine}");
-                return locationStatus.ToString();
+                var currentTrailLocation = GameSimulationApp.Instance.Trail.GetCurrentLocation();
+                if (currentTrailLocation != null)
+                    locationStatus.AppendLine(currentTrailLocation.Name);
             }
+
+            locationStatus.Append($"{GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
+            locationStatus.Append($"--------------------------------{Environment.NewLine}");
+            locationStatus.Append($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}{Environment.NewLine}");
+            locationStatus.Append($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}{Environment.NewLine}");
+            locationStatus.Append($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}{Environment.NewLine}");
+            locationStatus.Append($"Rations: {GameSimulationApp.Instance.Vehicle.Ration}{Environment.NewLine}");
+            locationStatus.Append($"--------------------------------{Environment.NewLine}");
+            return locationStatus.ToString();
         }
     }
 }
