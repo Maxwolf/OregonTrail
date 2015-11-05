@@ -70,10 +70,10 @@
     <Compile Include="Options\OriginalTopTenState.cs" />
     <Compile Include="Traveling\Drive\DriveState.cs" />
     <Compile Include="Traveling\Pace\PaceAdviceState.cs" />
-    <Compile Include="Util\SpinningPixel.cs" />
-    <Compile Include="Util\MarqueeBar.cs" />
-    <Compile Include="Util\TextProgress.cs" />
-    <Compile Include="Util\TextTableExtensions.cs" />
+    <Compile Include="Widget\SpinningPixel.cs" />
+    <Compile Include="Widget\MarqueeBar.cs" />
+    <Compile Include="Widget\TextProgress.cs" />
+    <Compile Include="Widget\TextTableExtensions.cs" />
     <Compile Include="Trail\Location.cs" />
     <Compile Include="Entity\Vehicle\RepairStatus.cs" />
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
@@ -164,7 +164,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entity\Vehicle\Vehicle.cs" />
     <Compile Include="New Game\NewGameMode.cs" />
-    <Compile Include="Util\Randomizer.cs" />
+    <Compile Include="Widget\Randomizer.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
