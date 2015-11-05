@@ -16,18 +16,18 @@ namespace TrailEntities
         private StringBuilder _drive;
 
         /// <summary>
-        ///     Determines if the driving mode should currently be ticking by everyday
-        /// </summary>
-        private bool _shouldTakeTickTurns;
-
-        /// <summary>
         ///     Animated sway bar that prints out as text, ping-pongs back and fourth between left and right side, moved by
         ///     stepping it with tick.
         /// </summary>
         private MarqueeBar _marqueeBar;
 
         /// <summary>
-        /// Holds the text related to animated sway bar, each tick of simulation steps it.
+        ///     Determines if the driving mode should currently be ticking by everyday
+        /// </summary>
+        private bool _shouldTakeTickTurns;
+
+        /// <summary>
+        ///     Holds the text related to animated sway bar, each tick of simulation steps it.
         /// </summary>
         private string _swayBarText;
 
@@ -48,6 +48,15 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public override bool AcceptsInput
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
@@ -57,10 +66,10 @@ namespace TrailEntities
             _drive.Clear();
 
             // Ping-pong progress bar to show that we are moving.
-            _drive.Append($"{Environment.NewLine}{_swayBarText}{Environment.NewLine}");
+            _drive.AppendLine($"{Environment.NewLine}{_swayBarText}");
 
             // Basic information about simulation.
-            _drive.Append(UserData.TravelStatus);
+            _drive.AppendLine(UserData.TravelStatus);
 
             // Wait for user input, event, or reaching next location...
             _drive.Append(GameSimulationApp.PRESS_ENTER);
@@ -91,11 +100,13 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            // Check what state the drive state is currently in and change appropriately.
-            if (string.IsNullOrEmpty(input) && _shouldTakeTickTurns)
-            {
-                _shouldTakeTickTurns = false;
-            }
+            // Can only stop the simulation if it is actually running.
+            if (!string.IsNullOrEmpty(input) || !_shouldTakeTickTurns)
+                return;
+
+            // Stop ticks and close this state.
+            _shouldTakeTickTurns = false;
+            ParentMode.CurrentState = null;
         }
     }
 }

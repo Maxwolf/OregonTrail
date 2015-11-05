@@ -11,9 +11,14 @@ namespace TrailEntities
     public sealed class LookAtMapState : ModeState<TravelInfo>
     {
         /// <summary>
-        /// Contains all the text that will make up our console text only map to show the player how far along they have come.
+        ///     Contains all the text that will make up our console text only map to show the player how far along they have come.
         /// </summary>
         private StringBuilder _map;
+
+        /// <summary>
+        /// Determines if the player is done looking at the map and total progress of their journey.
+        /// </summary>
+        private bool _hasLookedAtMap;
 
         /// <summary>
         ///     This constructor will be used by the other one
@@ -22,11 +27,22 @@ namespace TrailEntities
         {
             // Create visual progress representation of the trail.
             _map = new StringBuilder();
-            _map.Append(TextProgress.DrawProgressBar(
+            _map.Append($"{Environment.NewLine}Trail progress{Environment.NewLine}");
+            _map.AppendLine(TextProgress.DrawProgressBar(
                 GameSimulationApp.Instance.Trail.VehicleLocation,
-                GameSimulationApp.Instance.Trail.Locations.Count,
-                50,
-                Convert.ToChar(9608)));
+                GameSimulationApp.Instance.Trail.Locations.Count, 32));
+
+            // Wait for user input...
+            _map.Append($"{Environment.NewLine}{GameSimulationApp.PRESS_ENTER}");
+        }
+
+        /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public override bool AcceptsInput
+        {
+            get { return false; }
         }
 
         /// <summary>
@@ -44,7 +60,11 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            if (_hasLookedAtMap)
+                return;
+
+            _hasLookedAtMap = true;
+            ParentMode.CurrentState = null;
         }
     }
 }

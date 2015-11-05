@@ -29,7 +29,7 @@ namespace TrailEntities
             _pace.Append($"2. a strenuous pace{Environment.NewLine}");
             _pace.Append($"3. a grueling pace{Environment.NewLine}");
             _pace.Append($"4. find out what these{Environment.NewLine}");
-            _pace.Append($"   different paces mean{Environment.NewLine}");
+            _pace.Append($"   different paces mean");
         }
 
         /// <summary>

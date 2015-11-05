@@ -56,12 +56,12 @@ namespace TrailEntities
         /// <summary>
         ///     Holds all of the pending transactions the player would like to make with the store.
         /// </summary>
-        public StoreInfo StoreInfo { get; }
+        private StoreInfo StoreInfo { get; }
 
         /// <summary>
         ///     Offers chance to purchase a special vehicle part that is also an animal that eats grass and can die if it starves.
         /// </summary>
-        public void BuyOxen()
+        private void BuyOxen()
         {
             CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is Oxen), this, StoreInfo);
         }
@@ -69,7 +69,7 @@ namespace TrailEntities
         /// <summary>
         ///     Offers the chance to buy some food for the players to eat everyday.
         /// </summary>
-        public void BuyFood()
+        private void BuyFood()
         {
             CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is Food), this, StoreInfo);
         }
@@ -77,7 +77,7 @@ namespace TrailEntities
         /// <summary>
         ///     Offers chance to buy some clothing to protect the players party in harsh climates.
         /// </summary>
-        public void BuyClothing()
+        private void BuyClothing()
         {
             CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is Clothing), this, StoreInfo);
         }
@@ -85,7 +85,7 @@ namespace TrailEntities
         /// <summary>
         ///     Offers chance to buy bullets for hunting animals and killing them for food.
         /// </summary>
-        public void BuyAmmunition()
+        private void BuyAmmunition()
         {
             CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is Bullets), this, StoreInfo);
         }
@@ -93,7 +93,7 @@ namespace TrailEntities
         /// <summary>
         ///     Offers a chance to purchase some spare wheels for the vehicle.
         /// </summary>
-        public void BuySpareWheels()
+        private void BuySpareWheels()
         {
             CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartWheel), this,
                 StoreInfo);
@@ -102,7 +102,7 @@ namespace TrailEntities
         /// <summary>
         ///     Offers a chance to purchase some spare axles for the vehicle.
         /// </summary>
-        public void BuySpareAxles()
+        private void BuySpareAxles()
         {
             CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartAxle), this, StoreInfo);
         }
@@ -110,7 +110,7 @@ namespace TrailEntities
         /// <summary>
         ///     Offers a chance to purchase some spare vehicle tongues.
         /// </summary>
-        public void BuySpareTongues()
+        private void BuySpareTongues()
         {
             CurrentState = new BuyItemState(CurrentPoint.StoreItems.First(item => item is PartTongue), this,
                 StoreInfo);
@@ -120,7 +120,7 @@ namespace TrailEntities
         ///     Attaches a game mode state what will show the player some basic information about what the various items mean and
         ///     what their purpose is in the simulation.
         /// </summary>
-        public void StoreAdvice()
+        private void StoreAdvice()
         {
             CurrentState = new StoreAdviceState(this, StoreInfo);
         }
@@ -128,7 +128,7 @@ namespace TrailEntities
         /// <summary>
         ///     Detaches the store mode from the simulation and returns to the one previous.
         /// </summary>
-        public void LeaveStore()
+        private void LeaveStore()
         {
             // First point of interest has a few extra checks before player allowed on the trail.
             if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest())
@@ -166,7 +166,7 @@ namespace TrailEntities
         /// <summary>
         ///     Removes item from the store and adds it to the players inventory.
         /// </summary>
-        public void BuyItems(StoreTransactionItem transaction)
+        private void BuyItems(StoreTransactionItem transaction)
         {
             var playerCost = transaction.Item.Cost*transaction.Quantity;
             if (GameSimulationApp.Instance.Vehicle.Balance < playerCost)
@@ -339,11 +339,10 @@ namespace TrailEntities
             var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
 
             // If at first location we show the total cost of the bill so far the player has racked up.
-            footerText.Append(
-                GameSimulationApp.Instance.Trail.IsFirstPointOfInterest()
-                    ? $"Total bill:            {totalBill.ToString("C2")}" +
-                      $"\nAmount you have:       {amountPlayerHas.ToString("C2")}\n\nWhich item would you like to buy?"
-                    : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.\n\nWhich number?");
+            footerText.Append(GameSimulationApp.Instance.Trail.IsFirstPointOfInterest()
+                ? $"Total bill:            {totalBill.ToString("C2")}" +
+                  $"{Environment.NewLine}Amount you have:       {amountPlayerHas.ToString("C2")}"
+                : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
             MenuFooter = footerText.ToString();
 
             // Trigger the store advice automatically on the first location and one time only.

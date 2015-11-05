@@ -31,7 +31,7 @@ namespace TrailEntities
             _ration.Append($"2. meager - meals are small, but{Environment.NewLine}");
             _ration.Append($"   adequate.{Environment.NewLine}{Environment.NewLine}");
             _ration.Append($"3. bare bones - meals are very{Environment.NewLine}");
-            _ration.Append($"   small, everyone stays hungry.{Environment.NewLine}{Environment.NewLine}");
+            _ration.Append($"   small, everyone stays hungry.");
         }
 
         /// <summary>
