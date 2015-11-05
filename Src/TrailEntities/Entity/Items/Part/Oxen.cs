@@ -14,7 +14,7 @@ namespace TrailEntities
         public Oxen(float cost) : base(cost, 1)
         {
             // Give the oxen a random amount of starting food to eat, he will consume this before trying to take from climate.
-            GrassAvaliable = (uint) GameSimulationApp.Instance.Random.Next(0, 3);
+            GrassAvaliable = GameSimulationApp.Instance.Random.Next(0, 3);
 
             // Give the oxen a random starting health, you cannot trust those store keepers!
             var values = Enum.GetValues(typeof (RepairStatus));
@@ -26,7 +26,7 @@ namespace TrailEntities
         ///     Internal amount of grass which the oxen has eaten and can process before he needs to take more from climate, if he
         ///     cannot do that he will die after several turns of starving.
         /// </summary>
-        public uint GrassAvaliable { get; }
+        public int GrassAvaliable { get; }
 
         /// <summary>
         ///     Defines the current health level of the oxen, this is his health and if it drops below a certain level or stays at
@@ -65,7 +65,7 @@ namespace TrailEntities
         /// <summary>
         ///     Limit on the number of items that are possible to have of this particular type.
         /// </summary>
-        public override uint CarryLimit
+        public override int CarryLimit
         {
             get { return 20; }
         }
@@ -73,7 +73,7 @@ namespace TrailEntities
         /// <summary>
         ///     Weight of a single item of this type, the original game used pounds so that is roughly what this should represent.
         /// </summary>
-        protected override uint Weight
+        protected override int Weight
         {
             get { return 0; }
         }

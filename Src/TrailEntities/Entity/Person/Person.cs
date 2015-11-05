@@ -35,7 +35,7 @@ namespace TrailEntities
 
         public RepairStatus Health { get; }
 
-        public uint DaysStarving { get; }
+        public int DaysStarving { get; }
 
         public Profession Profession { get; }
 

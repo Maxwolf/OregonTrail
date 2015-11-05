@@ -6,16 +6,16 @@
     /// </summary>
     public sealed class TimeSim
     {
-        public delegate void DayHandler(uint dayCount);
+        public delegate void DayHandler(int dayCount);
 
-        public delegate void MonthHandler(uint monthCount);
+        public delegate void MonthHandler(int monthCount);
 
-        public delegate void YearHandler(uint yearCount);
+        public delegate void YearHandler(int yearCount);
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.SimulationTime" /> class.
         /// </summary>
-        public TimeSim(uint startingYear, Months startingMonth, uint startingDay)
+        public TimeSim(int startingYear, Months startingMonth, int startingDay)
         {
             // Create a new time object for our simulation.
             CurrentYear = startingYear;
@@ -30,15 +30,15 @@
 
         public Months CurrentMonth { get; private set; }
 
-        private uint CurrentDay { get; set; }
+        private int CurrentDay { get; set; }
 
-        public uint CurrentYear { get; private set; }
+        public int CurrentYear { get; private set; }
 
-        private uint TotalYears { get; set; }
+        private int TotalYears { get; set; }
 
-        private uint TotalMonths { get; set; }
+        private int TotalMonths { get; set; }
 
-        private uint TotalDays { get; set; }
+        private int TotalDays { get; set; }
 
         private int TotalDaysThisYear { get; set; }
 

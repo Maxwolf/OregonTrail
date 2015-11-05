@@ -11,7 +11,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class.
         /// </summary>
-        protected Item(float cost, uint minimumAmount)
+        protected Item(float cost, int minimumAmount)
         {
             Cost = cost;
             MinimumAmount = minimumAmount;
@@ -38,17 +38,17 @@ namespace TrailEntities
         /// <summary>
         ///     Weight of a single item of this type, the original game used pounds so that is roughly what this should represent.
         /// </summary>
-        protected abstract uint Weight { get; }
+        protected abstract int Weight { get; }
 
         /// <summary>
         ///     Total number of items this item represents.
         /// </summary>
-        private uint MinimumAmount { get; }
+        private int MinimumAmount { get; }
 
         /// <summary>
         ///     Total weight of all food items this represents multiplied by base minimum weight.
         /// </summary>
-        public uint TotalWeight
+        public int TotalWeight
         {
             get { return Weight*MinimumAmount; }
         }
@@ -56,7 +56,7 @@ namespace TrailEntities
         /// <summary>
         ///     Limit on the number of items that are possible to have of this particular type.
         /// </summary>
-        public abstract uint CarryLimit { get; }
+        public abstract int CarryLimit { get; }
 
         /// <summary>
         ///     Display name of the item as it should be known to players.

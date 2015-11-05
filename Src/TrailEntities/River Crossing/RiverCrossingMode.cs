@@ -14,13 +14,18 @@ namespace TrailEntities
         /// </summary>
         public RiverCrossingMode() : base(false)
         {
-            Depth = (uint) GameSimulationApp.Instance.Random.Next(1, 20);
-            FerryCost = (uint) GameSimulationApp.Instance.Random.Next(3, 8);
+            Depth = GameSimulationApp.Instance.Random.Next(1, 20);
+            FerryCost = GameSimulationApp.Instance.Random.Next(3, 8);
         }
 
-        public uint Depth { get; }
+        public int Depth { get; }
 
-        public uint FerryCost { get; }
+        public int FerryCost { get; }
+
+        public override ModeType ModeType
+        {
+            get { return ModeType.RiverCrossing; }
+        }
 
         public void CaulkVehicle()
         {
@@ -49,11 +54,6 @@ namespace TrailEntities
         public override void TickMode()
         {
             throw new NotImplementedException();
-        }
-
-        public override ModeType ModeType
-        {
-            get { return ModeType.RiverCrossing; }
         }
 
         /// <summary>

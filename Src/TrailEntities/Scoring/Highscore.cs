@@ -10,7 +10,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Highscore" /> class.
         /// </summary>
-        public Highscore(string name, uint points, Performance rating)
+        public Highscore(string name, int points, Performance rating)
         {
             Name = name;
             Points = points;
@@ -18,7 +18,7 @@
         }
 
         public string Name { get; }
-        public uint Points { get; }
+        public int Points { get; }
         public Performance Rating { get; }
     }
 }

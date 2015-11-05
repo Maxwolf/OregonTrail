@@ -246,7 +246,7 @@ namespace TrailEntities
         ///     Resets the vehicle status to the defaults.
         /// </summary>
         /// <param name="startingMonies">Amount of money the vehicle should have to work with.</param>
-        public void ResetVehicle(uint startingMonies)
+        public void ResetVehicle(int startingMonies)
         {
             _inventory = new HashSet<Item>();
             Balance = startingMonies;

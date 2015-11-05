@@ -30,8 +30,8 @@
         public override void OnInputBufferReturned(string input)
         {
             // Parse the user input buffer as a unsigned int.
-            uint parsedInputNumber;
-            if (!uint.TryParse(input, out parsedInputNumber))
+            int parsedInputNumber;
+            if (!int.TryParse(input, out parsedInputNumber))
                 return;
 
             // If player rests for more than one day then set the resting state to that, otherwise just go back to travel menu.

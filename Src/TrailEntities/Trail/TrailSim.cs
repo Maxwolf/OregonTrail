@@ -16,11 +16,6 @@ namespace TrailEntities
         public delegate void PointOfInterestReached(Location nextPoint);
 
         /// <summary>
-        /// Holds the calculated total distance of the trail from all points on it added up.
-        /// </summary>
-        public int TotalTrailLength { get; }
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Trail" /> class.
         /// </summary>
         /// <param name="trail">Collection of points of interest which make up the trail the player is going to travel.</param>
@@ -39,6 +34,11 @@ namespace TrailEntities
             LocationIndex = -1;
             DistanceToNextPoint = 0;
         }
+
+        /// <summary>
+        ///     Holds the calculated total distance of the trail from all points on it added up.
+        /// </summary>
+        public int TotalTrailLength { get; }
 
         /// <summary>
         ///     Reference to how many ticks are between the players vehicle and the next point of interest.
@@ -91,7 +91,6 @@ namespace TrailEntities
                 return;
 
             DistanceToNextPoint = 0;
-            GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
         }
 
         /// <summary>

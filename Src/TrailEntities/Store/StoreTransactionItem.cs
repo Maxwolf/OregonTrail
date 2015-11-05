@@ -8,7 +8,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.StoreTransactionItem" /> class.
         /// </summary>
-        public StoreTransactionItem(uint quantity, Item item)
+        public StoreTransactionItem(int quantity, Item item)
         {
             Quantity = quantity;
             Item = item;
@@ -17,7 +17,7 @@
         /// <summary>
         ///     Total number of the items the player is going to be taking.
         /// </summary>
-        public uint Quantity { get; }
+        public int Quantity { get; }
 
         /// <summary>
         ///     Reference to the actual item the player is going to be taking into their vehicle inventory, or maybe the store is

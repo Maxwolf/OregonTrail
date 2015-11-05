@@ -38,7 +38,7 @@ namespace TrailEntities
 
             // Set the credit limit to be the carry limit if they player has lots of monies and can buy many, we must limit them!
             if (_purchaseLimit > itemToBuy.CarryLimit)
-                _purchaseLimit = (int) itemToBuy.CarryLimit;
+                _purchaseLimit = itemToBuy.CarryLimit;
 
             // Add some information about how many you can buy and total amount you can carry.
             _itemBuyText = new StringBuilder();
@@ -73,8 +73,8 @@ namespace TrailEntities
         public override void OnInputBufferReturned(string input)
         {
             // Parse the user input buffer as a unsigned int.
-            uint parsedInputNumber;
-            if (!uint.TryParse(input, out parsedInputNumber))
+            int parsedInputNumber;
+            if (!int.TryParse(input, out parsedInputNumber))
                 return;
 
             // If the number is zero remove the purchase state for this item and back to store menu.

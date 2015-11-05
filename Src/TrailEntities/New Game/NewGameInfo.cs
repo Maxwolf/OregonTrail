@@ -11,7 +11,7 @@ namespace TrailEntities
         private List<string> _playerNames;
         private Profession _playerProfession;
         private List<Item> _startingInventory;
-        private uint _startingMonies;
+        private int _startingMonies;
         private Months _startingMonth;
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace TrailEntities
         /// <summary>
         ///     Starting amount of credits or monies the player has to spend on items in stores.
         /// </summary>
-        public uint StartingMonies
+        public int StartingMonies
         {
             get { return _startingMonies; }
             set

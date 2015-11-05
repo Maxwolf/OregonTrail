@@ -63,7 +63,7 @@ namespace TrailEntities
                     new Points(typeof (Clothing), 2),
                     new Points(typeof (Bullets), 1, 50),
                     new Points(typeof (Food), 1, 25),
-                    new Points(typeof (uint), 1, 5, "Cash")
+                    new Points(typeof (int), 1, 5, "Cash")
                 };
             }
         }

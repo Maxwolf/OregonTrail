@@ -141,7 +141,7 @@ namespace TrailEntities
 
         public WeatherCondition CurrentWeather { get; private set; }
 
-        public uint GrassAvaliable { get; private set; }
+        public int GrassAvaliable { get; private set; }
 
         public int OutsideTemperature { get; private set; }
 

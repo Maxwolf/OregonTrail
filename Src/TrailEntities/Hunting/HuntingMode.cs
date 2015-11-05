@@ -30,12 +30,12 @@ namespace TrailEntities
             throw new NotImplementedException();
         }
 
-        public void UseBullets(uint amount)
+        public void UseBullets(int amount)
         {
             throw new NotImplementedException();
         }
 
-        public void AddFood(uint amount)
+        public void AddFood(int amount)
         {
             throw new NotImplementedException();
         }

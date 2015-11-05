@@ -8,13 +8,13 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.HealthScoring" /> class.
         /// </summary>
-        public HealthScoring(RepairStatus partyHealth, uint pointsPerPerson)
+        public HealthScoring(RepairStatus partyHealth, int pointsPerPerson)
         {
             PartyHealth = partyHealth;
             PointsPerPerson = pointsPerPerson;
         }
 
         public RepairStatus PartyHealth { get; }
-        public uint PointsPerPerson { get; }
+        public int PointsPerPerson { get; }
     }
 }

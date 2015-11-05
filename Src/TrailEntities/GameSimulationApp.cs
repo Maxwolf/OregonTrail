@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace TrailEntities
@@ -63,7 +64,7 @@ namespace TrailEntities
         ///     Total number of turns that have taken place. Typically a game will not go past eighteen (18) turns or 20+ weeks
         ///     (246 days) or approximately two-thousand (2000) miles.
         /// </summary>
-        public uint TotalTurns { get; private set; }
+        public int TotalTurns { get; private set; }
 
         /// <summary>
         ///     Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
@@ -291,7 +292,7 @@ namespace TrailEntities
             Console.WriteLine("Travel pace changed to " + Vehicle.Pace);
         }
 
-        private void TimeSimulation_YearEndEvent(uint yearCount)
+        private void TimeSimulation_YearEndEvent(int yearCount)
         {
             //Console.WriteLine("Year end!");
         }
@@ -300,34 +301,48 @@ namespace TrailEntities
         ///     Fired after each simulated day.
         /// </summary>
         /// <param name="dayCount">Total number of days in the simulation that have passed.</param>
-        private void TimeSimulation_DayEndEvent(uint dayCount)
+        private void TimeSimulation_DayEndEvent(int dayCount)
         {
-            // Each day we tick the weather, vehicle, and the people in it.
-            Climate.TickClimate();
-
-            int cost_food = 0;
-            int cost_ammo = 0;
-            int cost_animals = 0;
-            int cost_clothes = 0;
-            int cost_aid = 0;
-            int start_cash = 0;
-            int total_miles = 0;
-            int distance_traveled = 0;
-            int two_weeks_fraction = 0;
+            var cost_food = Vehicle.Inventory.FirstOrDefault(i => i is Food).TotalWeight;
+            var cost_ammo = 0;
+            var cost_animals = 0;
+            var cost_clothes = 0;
+            var cost_aid = 0;
+            var start_cash = 0;
+            var total_miles = 0;
+            var distance_traveled = 0;
+            var two_weeks_fraction = 0;
 
             // Mileage and food consumption calculations for next two-week block on trail.
-            two_weeks_fraction = (Trail.TotalTrailLength - Vehicle.Odometer) /(total_miles - Vehicle.Odometer);
+            two_weeks_fraction = two_weeks_fraction*14;
+            two_weeks_fraction = two_weeks_fraction + 1;
+            two_weeks_fraction = (Trail.TotalTrailLength - Vehicle.Odometer)/(total_miles - Vehicle.Odometer);
             cost_food = cost_food + (1 - two_weeks_fraction)*(8 + 5*(int) Vehicle.Ration);
             total_miles = total_miles + 200 + (cost_animals - 220)/5 + Random.Next(0, 100);
+
+            if (two_weeks_fraction > 5)
+            {
+                two_weeks_fraction = two_weeks_fraction - 7;
+            }
 
             // Move towards the next location on the trail.
             Trail.DecreaseDistanceToNextLocation(total_miles);
 
-            // Update total distance traveled on vehicle if we have not reached the point.
-            Vehicle.TickVehicle(total_miles);
+            if (Trail.DistanceToNextPoint <= 0)
+            {
+                Trail.ArriveAtNextLocation();
+            }
+            else
+            {
+                // Each day we tick the weather, vehicle, and the people in it.
+                Climate.TickClimate();
+
+                // Update total distance traveled on vehicle if we have not reached the point.
+                Vehicle.TickVehicle(total_miles);
+            }
         }
 
-        private void TimeSimulation_MonthEndEvent(uint monthCount)
+        private void TimeSimulation_MonthEndEvent(int monthCount)
         {
             //Console.WriteLine("Month end!");
         }

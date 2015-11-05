@@ -12,7 +12,7 @@ namespace TrailEntities
         /// <summary>
         ///     Number of days the player and his party would like to rest, if zero we just close right away.
         /// </summary>
-        private uint _daysToRest;
+        private int _daysToRest;
 
         /// <summary>
         ///     Keeps track if the player has rested the amount of time they wanted.
@@ -22,7 +22,7 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public RestingState(IMode gameMode, TravelInfo userData, uint daysToRest) : base(gameMode, userData)
+        public RestingState(IMode gameMode, TravelInfo userData, int daysToRest) : base(gameMode, userData)
         {
             _daysToRest = daysToRest;
         }

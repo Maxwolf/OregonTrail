@@ -70,7 +70,7 @@ namespace TrailEntities
         /// <summary>
         ///     Adds an item to the list of pending transactions. If it already exists it will be replaced.
         /// </summary>
-        public void AddItem(Item item, uint amount)
+        public void AddItem(Item item, int amount)
         {
             // Create the tuple for the item to add.
             var incomingPurchase = new StoreTransactionItem(amount, item);

@@ -16,12 +16,12 @@ namespace TrailEntities
             get { return ModeType.RiverCrossing; }
         }
 
-        public uint Depth
+        public int Depth
         {
             get { throw new NotImplementedException(); }
         }
 
-        public uint FerryCost
+        public int FerryCost
         {
             get { throw new NotImplementedException(); }
         }
