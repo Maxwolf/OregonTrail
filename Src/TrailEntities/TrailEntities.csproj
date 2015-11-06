@@ -35,11 +35,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\IEntity.cs" />
-    <Compile Include="Entity\Item\Animals.cs" />
-    <Compile Include="Entity\Item\SimEntity.cs" />
-    <Compile Include="Entity\Item\Parts.cs" />
-    <Compile Include="Entity\Item\Resources.cs" />
-    <Compile Include="Entity\Item\SimItem.cs" />
+    <Compile Include="Entity\Animals.cs" />
+    <Compile Include="Entity\SimEntity.cs" />
+    <Compile Include="Entity\Parts.cs" />
+    <Compile Include="Entity\Resources.cs" />
+    <Compile Include="Entity\SimItem.cs" />
     <Compile Include="Entity\Person\Disease.cs" />
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />

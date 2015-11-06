@@ -49,11 +49,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Total amount of money the vehicle and party members have to work with as a whole.
-        /// </summary>
-        public float Balance { get; private set; }
-
-        /// <summary>
         ///     References all of the people inside of the vehicle.
         /// </summary>
         public IEnumerable<Person> Passengers
@@ -80,6 +75,31 @@ namespace TrailEntities
         ///     Total number of miles the vehicle has traveled since the start of the simulation.
         /// </summary>
         public int Odometer { get; private set; }
+
+        /// <summary>
+        ///     Returns the total value of all the cash the vehicle and all party members currently have.
+        ///     Setting this value will change the quantity of dollar bills in player inventory.
+        /// </summary>
+        public float Balance
+        {
+            get { return _inventory[SimEntity.Cash].TotalValue; }
+            private set
+            {
+                // Skip if the quantity already matches the value we are going to set it to.
+                if (value.Equals(_inventory[SimEntity.Cash].Quantity))
+                    return;
+
+                // Check if the value being set is zero, if so just reset it.
+                if (value <= 0)
+                {
+                    _inventory[SimEntity.Cash].Reset();
+                }
+                else
+                {
+                    _inventory[SimEntity.Cash] = new SimItem(_inventory[SimEntity.Cash], (int)value);
+                }
+            }
+        }
 
         /// <summary>
         ///     Name of the entity as it should be known in the simulation.
@@ -233,22 +253,13 @@ namespace TrailEntities
         /// </summary>
         public void BuyItem(SimItem transaction)
         {
-            var totalCost = transaction.Cost*transaction.Quantity;
-            if (!(Balance >= totalCost))
+            // Check of the player can afford this item.
+            if (Balance <= transaction.TotalValue)
                 return;
 
-            Balance -= totalCost;
-            _inventory.Add(transaction.Category, transaction);
-        }
-
-        /// <summary>
-        ///     Removes the item from the inventory of the vehicle and adds it's cost multiplied by quantity to balance.
-        /// </summary>
-        public void SellItem(SimItem transaction)
-        {
-            var totalEarnings = transaction.Cost*transaction.Quantity;
-            Balance += totalEarnings;
-            _inventory.Remove(transaction.Category);
+            // Create new item based on old one, with new quantity value from store, trader, random event, etc.
+            Balance -= transaction.TotalValue;
+            _inventory[transaction.Category] = new SimItem(_inventory[transaction.Category], transaction.MinQuantity);
         }
 
         /// <summary>
@@ -257,7 +268,7 @@ namespace TrailEntities
         /// <param name="startingMonies">Amount of money the vehicle should have to work with.</param>
         public void ResetVehicle(int startingMonies)
         {
-            _inventory = new Dictionary<SimEntity, SimItem>();
+            _inventory = new Dictionary<SimEntity, SimItem>(GameSimulationApp.DefaultInventory);
             Balance = startingMonies;
             _passengers = new HashSet<Person>();
             Ration = RationLevel.Filling;

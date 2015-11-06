@@ -17,11 +17,11 @@ namespace TrailEntities
         /// <summary>
         ///     Creates a new store transaction tracker.
         /// </summary>
-        /// <param name="showAdvice">Sets the bool for showing store advice, defaults to false.</param>
-        public StoreInfo(bool showAdvice = false)
+        /// <param name="shouldShowAdvice">Sets the bool for showing store advice, defaults to false.</param>
+        public StoreInfo(bool shouldShowAdvice = false)
         {
-            ShowStoreAdvice = showAdvice;
-            _totalTransactions = new Dictionary<SimEntity, SimItem>(Resources.DefaultStore);
+            ShouldShowStoreAdvice = shouldShowAdvice;
+            _totalTransactions = new Dictionary<SimEntity, SimItem>(GameSimulationApp.DefaultInventory);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace TrailEntities
         /// </summary>
         public StoreInfo()
         {
-            ShowStoreAdvice = false;
+            ShouldShowStoreAdvice = false;
             _totalTransactions = new Dictionary<SimEntity, SimItem>();
         }
 
@@ -44,7 +44,7 @@ namespace TrailEntities
         /// <summary>
         ///     Determines if we have already shown the advice to the player.
         /// </summary>
-        public bool ShowStoreAdvice { get; set; }
+        public bool ShouldShowStoreAdvice { get; set; }
 
         public void ClearTransactions()
         {
@@ -72,20 +72,13 @@ namespace TrailEntities
         /// </summary>
         public void AddItem(SimItem simItem, int amount)
         {
-            // Create the tuple for the SimItem to add.
-            var incomingPurchase = new SimItem(simItem, amount);
-
-            // Remove any existing tuple with this SimItem name, we will replace it.
-            RemoveItem(simItem);
-
-            // Add the new tuple to replace the one we just removed.
-            _totalTransactions.Add(incomingPurchase.Category, incomingPurchase);
+            _totalTransactions[simItem.Category] = new SimItem(simItem, amount);
         }
 
         /// <summary>
         ///     Removes an SimItem from the list of pending transactions. If it does not exist then nothing will happen.
         /// </summary>
-        public void RemoveItem(IEntity item)
+        public void RemoveItem(SimItem item)
         {
             // Loop through every single transaction.
             var copyList = new Dictionary<SimEntity, SimItem>(_totalTransactions);
@@ -95,8 +88,8 @@ namespace TrailEntities
                 if (!transaction.Key.Equals(item.Category))
                     continue;
 
-                // Remove that SimItem from transaction list.
-                _totalTransactions.Remove(item.Category);
+                // Reset the simulation item to default values, meaning the player has none of them.
+                _totalTransactions[item.Category].Reset();
                 break;
             }
         }

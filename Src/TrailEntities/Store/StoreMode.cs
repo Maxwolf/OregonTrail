@@ -10,16 +10,6 @@ namespace TrailEntities
     public sealed class StoreMode : GameMode<StoreCommands>
     {
         /// <summary>
-        ///     Represents a string that represents a currency value of zero dollars and zero cents.
-        /// </summary>
-        private const string ZERO_MONIES = "$0.00";
-
-        /// <summary>
-        ///     Represents a string that represents an item that should be in the store but for some reason we could not find it.
-        /// </summary>
-        private const string ITEM_NOT_FOUND = "[ITEM NOT FOUND]";
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.StoreMode" /> class.
         /// </summary>
         public StoreMode(bool showAdvice = false) : base(false)
@@ -122,26 +112,12 @@ namespace TrailEntities
         /// </summary>
         private void LeaveStore()
         {
-            // First point of interest has a few extra checks before player allowed on the trail.
-            if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest())
+            // Complain if the player does not have any oxen to pull their vehicle.
+            if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest() &&
+                StoreInfo.Transactions[SimEntity.Animal].Quantity <= 0)
             {
-                // Check if the player has any oxen to pull their vehicle.
-                var boughtOxen = false;
-                foreach (var pendingBuy in StoreInfo.Transactions)
-                {
-                    if (!(pendingBuy.Key.Equals(SimEntity.Animal)))
-                        continue;
-
-                    boughtOxen = true;
-                    break;
-                }
-
-                // Complain if the player does not have any oxen to pull their vehicle.
-                if (!boughtOxen)
-                {
-                    CurrentState = new MissingItemState(Parts.Oxen, this, StoreInfo);
-                    return;
-                }
+                CurrentState = new MissingItemState(Parts.Oxen, this, StoreInfo);
+                return;
             }
 
             // Check if player can afford the items they have selected.
@@ -153,31 +129,6 @@ namespace TrailEntities
 
             // Remove the store if we make this far!
             RemoveModeNextTick();
-        }
-
-        /// <summary>
-        ///     Removes item from the store and adds it to the players inventory.
-        /// </summary>
-        private void BuyItems(SimItem transaction)
-        {
-            var playerCost = transaction.Cost*transaction.Quantity;
-            if (GameSimulationApp.Instance.Vehicle.Balance < playerCost)
-                return;
-
-            GameSimulationApp.Instance.Vehicle.BuyItem(transaction);
-        }
-
-        /// <summary>
-        ///     Removes an item from the player, and adds it to the store inventory.
-        /// </summary>
-        public void SellItem(SimItem transaction)
-        {
-            var storeCost = transaction.Cost*transaction.Quantity;
-            if (storeCost <= 0)
-                return;
-
-            BuyItems(transaction);
-            GameSimulationApp.Instance.Vehicle.SellItem(transaction);
         }
 
         /// <summary>
@@ -213,10 +164,6 @@ namespace TrailEntities
                 GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
             }
 
-            // Skip processing of store transactions if there are not any items that need transacting.
-            if (!StoreInfo.Transactions.Any())
-                return;
-
             // Process all of the pending transactions in the store receipt info object.
             foreach (var transaction in StoreInfo.Transactions)
             {
@@ -245,19 +192,35 @@ namespace TrailEntities
 
             // Clear all the commands store had, then re-populate the list with them again so we can change the titles dynamically.
             ClearCommands();
+
+            // Animals
             AddCommand(BuyOxen, StoreCommands.BuyOxen,
                 $"Oxen              {StoreInfo.Transactions[SimEntity.Animal].ToString(isFirstPoint)}");
-            AddCommand(BuyFood, StoreCommands.BuyFood, $"Food              {StoreInfo.Transactions[SimEntity.Food]}");
+
+            // Food
+            AddCommand(BuyFood, StoreCommands.BuyFood, $"Food              {StoreInfo.Transactions[SimEntity.Food].ToString(isFirstPoint)}");
+
+            // Clothes
             AddCommand(BuyClothing, StoreCommands.BuyClothing,
                 $"Clothing          {StoreInfo.Transactions[SimEntity.Clothes].ToString(isFirstPoint)}");
+
+            // Bullets
             AddCommand(BuyAmmunition, StoreCommands.BuyAmmunition,
                 $"Ammunition        {StoreInfo.Transactions[SimEntity.Ammo].ToString(isFirstPoint)}");
+
+            // Wheel
             AddCommand(BuySpareWheels, StoreCommands.BuySpareWheel,
                 $"Vehicle wheels    {StoreInfo.Transactions[SimEntity.Wheel].ToString(isFirstPoint)}");
+
+            // Axle
             AddCommand(BuySpareAxles, StoreCommands.BuySpareAxles,
                 $"Vehicle axles     {StoreInfo.Transactions[SimEntity.Axle].ToString(isFirstPoint)}");
+
+            // Tongue
             AddCommand(BuySpareTongues, StoreCommands.BuySpareTongues,
                 $"Vehicle tongues   {StoreInfo.Transactions[SimEntity.Tongue].ToString(isFirstPoint)}");
+
+            // Exit store
             AddCommand(LeaveStore, StoreCommands.LeaveStore, "Leave store");
 
             // Footer text for below menu.
@@ -276,9 +239,9 @@ namespace TrailEntities
             MenuFooter = footerText.ToString();
 
             // Trigger the store advice automatically on the first location and one time only.
-            if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest() && StoreInfo.ShowStoreAdvice)
+            if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest() && StoreInfo.ShouldShowStoreAdvice)
             {
-                StoreInfo.ShowStoreAdvice = false;
+                StoreInfo.ShouldShowStoreAdvice = false;
                 StoreAdvice();
             }
         }

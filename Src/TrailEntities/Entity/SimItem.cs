@@ -9,7 +9,8 @@ namespace TrailEntities
     public sealed class SimItem : IEntity
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.SimItem" /> class. The quantity property will be set to
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.SimItem" /> class. The quantity property will be set
+        ///     to
         ///     whatever the minimum amount of the SimItem is.
         /// </summary>
         public SimItem(
@@ -20,17 +21,19 @@ namespace TrailEntities
             int maxQuantity,
             float cost,
             int weight = 1,
-            int minimumQuantity = 1)
+            int minimumQuantity = 1,
+            int startingQuantity = 0)
         {
             // Complain if minimum amount is zero, you cannot have zero of something.
             if (minimumQuantity <= 0)
                 throw new ArgumentException(
-                    "Cannot set minimum amount of an SimItem to be zero, you cannot have nothing of something!");
+                    "Cannot set minimum quantity of an SimItem to be zero, you cannot have nothing of something!");
 
             // Setup quantity based on minimum amount.
-            MinimumQuantity = minimumQuantity;
+            StartingQuantity = startingQuantity;
+            MinQuantity = minimumQuantity;
             MaxQuantity = maxQuantity;
-            Quantity = minimumQuantity;
+            Quantity = startingQuantity;
 
             // Identification of SimItem should be unique, we should also be able to refer to multiples and per.
             Category = category;
@@ -56,10 +59,15 @@ namespace TrailEntities
             if (newQuantity > oldSimItem.MaxQuantity)
                 throw new ArgumentException("New quantity for SimItem cannot be larger than predefined maximum!");
 
+            // Complain if new quantity is less than minimum.
+            if (newQuantity < oldSimItem.MinQuantity)
+                throw new ArgumentException("New quantity for SimItem cannot be smaller than minimum quantity!");
+
             // Set updated quantity values, plus ceiling and floor.
             Quantity = newQuantity;
+            MinQuantity = oldSimItem.MinQuantity;
             MaxQuantity = oldSimItem.MaxQuantity;
-            MinimumQuantity = oldSimItem.MinimumQuantity;
+            StartingQuantity = oldSimItem.StartingQuantity;
 
             // Display name and SimItem entity type.
             Name = oldSimItem.Name;
@@ -71,9 +79,14 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Minimum number of this item the player must purchase for it to be considered actually in his inventory.
+        /// </summary>
+        internal int MinQuantity { get; }
+
+        /// <summary>
         ///     Total number of the items the player is going to be taking.
         /// </summary>
-        public int Quantity { get; }
+        public int Quantity { get; private set; }
 
         /// <summary>
         ///     Cost of the SimItem in monies.
@@ -87,28 +100,39 @@ namespace TrailEntities
         public string DelineatingUnit { get; }
 
         /// <summary>
-        ///     When multiple of this SimItem exist in a stack or need to be referenced, such as "10 pounds of food" the 'pounds' is
-        ///     very important to get correct in context. Another example of this property being used is for Oxen SimItem, a single Ox
+        ///     When multiple of this SimItem exist in a stack or need to be referenced, such as "10 pounds of food" the 'pounds'
+        ///     is
+        ///     very important to get correct in context. Another example of this property being used is for Oxen SimItem, a single
+        ///     Ox
         ///     is the delineating and the plural form would be "Oxen".
         /// </summary>
         public string PluralForm { get; }
 
         /// <summary>
-        ///     Weight of a single SimItem of this type, the original game used pounds so that is roughly what this should represent.
+        ///     Weight of a single SimItem of this type, the original game used pounds so that is roughly what this should
+        ///     represent.
         /// </summary>
         private int Weight { get; }
 
         /// <summary>
         ///     Total number of items this SimItem represents.
         /// </summary>
-        private int MinimumQuantity { get; }
+        private int StartingQuantity { get; }
 
         /// <summary>
         ///     Total weight of all food items this represents multiplied by base minimum weight.
         /// </summary>
         public int TotalWeight
         {
-            get { return Weight*MinimumQuantity; }
+            get { return Weight*Quantity; }
+        }
+
+        /// <summary>
+        ///     Returns the total value of the item which is it's quantity multiplied by it's base cost value.
+        /// </summary>
+        public float TotalValue
+        {
+            get { return Cost*Quantity; }
         }
 
         /// <summary>
@@ -117,7 +141,8 @@ namespace TrailEntities
         public int MaxQuantity { get; }
 
         /// <summary>
-        ///     Determines what type of SimItem this is, used by the simulation to help sort the items and quickly iterate over them
+        ///     Determines what type of SimItem this is, used by the simulation to help sort the items and quickly iterate over
+        ///     them
         ///     when looking for a particular piece of data in the vehicles inventory list.
         /// </summary>
         public SimEntity Category { get; }
@@ -229,6 +254,16 @@ namespace TrailEntities
             var hash = 23;
             hash = (hash*31) + Name.GetHashCode();
             return hash;
+        }
+
+        /// <summary>
+        ///     Forcefully resets the quantity to whatever the starting quantity was configured to be when the item was created.
+        /// </summary>
+        public void Reset()
+        {
+            Quantity = StartingQuantity;
+
+            // TODO: Adjust cost of item, create multiplier that can be used to make items more expensive with curve.
         }
 
         /// <summary>

@@ -1,35 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace TrailEntities
+﻿namespace TrailEntities
 {
     /// <summary>
     ///     Defines items which are used by the vehicle party members, typically consuming them everyday.
     /// </summary>
     public static class Resources
     {
-        /// <summary>
-        ///     References all of the default store items that any clerk will offer to sell you. This is also true for the store
-        ///     purchasing mode that keeps track of purchases that need to be made.
-        /// </summary>
-        public static IDictionary<SimEntity, SimItem> DefaultStore
-        {
-            get
-            {
-                // Build up the default items every store will have, their prices increase with distance from starting point.
-                var defaultStoreInventory = new Dictionary<SimEntity, SimItem>
-                {
-                    {SimEntity.Animal, Parts.Oxen},
-                    {SimEntity.Clothes, Clothing},
-                    {SimEntity.Ammo, Bullets},
-                    {SimEntity.Wheel, Parts.Wheel},
-                    {SimEntity.Axle, Parts.Axle},
-                    {SimEntity.Tongue, Parts.Tongue},
-                    {SimEntity.Food, Food}
-                };
-                return defaultStoreInventory;
-            }
-        }
-
         /// <summary>
         ///     Worn by the vehicle party members to keep them warm when it is cold outside from climate simulation, without them
         ///     the players risk illness and death.
@@ -81,6 +56,16 @@ namespace TrailEntities
         public static SimItem Cash
         {
             get { return new SimItem(SimEntity.Cash, "Cash", "dollars", "dollar", int.MaxValue, 1, 0); }
+        }
+
+        /// <summary>
+        ///     Defines items that fit into no other category in the list but still need to be simulated. Typically this takes the
+        ///     form on non-consumable but still useful items like a coffee cup or a band-aid that the party can use to help
+        ///     themselves or provide some creature comfort but cannot heal them.
+        /// </summary>
+        public static SimItem Aid
+        {
+            get { return new SimItem(SimEntity.Aid, "Aid", "pills", "pill", 50, 0.50f, 0); }
         }
     }
 }

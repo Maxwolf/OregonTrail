@@ -27,7 +27,7 @@ namespace TrailEntities
             DistanceLength = distanceLength;
 
             // Use the null coalescing operator and an instance of empty List.
-            _storeItems = new Dictionary<SimEntity, SimItem>(Resources.DefaultStore);
+            _storeItems = new Dictionary<SimEntity, SimItem>(GameSimulationApp.DefaultInventory);
 
             // We know the settlement has a store if there are items in it to sell.
             HasStore = _storeItems.Count > 0;
