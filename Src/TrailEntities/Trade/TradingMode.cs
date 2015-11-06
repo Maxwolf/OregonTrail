@@ -9,11 +9,11 @@ namespace TrailEntities
     /// </summary>
     public sealed class TradingMode : GameMode<TradingCommands>
     {
-        private readonly HashSet<Item> _possibleTrades;
+        private readonly HashSet<SimItem> _possibleTrades;
 
         public TradingMode() : base(false)
         {
-            _possibleTrades = new HashSet<Item>();
+            _possibleTrades = new HashSet<SimItem>();
         }
 
         public override ModeType ModeType
@@ -21,7 +21,7 @@ namespace TrailEntities
             get { return ModeType.Trade; }
         }
 
-        public IEnumerable<Item> PossibleTrades
+        public IEnumerable<SimItem> PossibleTrades
         {
             get { return _possibleTrades; }
         }
@@ -35,7 +35,7 @@ namespace TrailEntities
             throw new NotImplementedException();
         }
 
-        public void TradeAttempt(Item item)
+        public void TradeAttempt(SimItem simItem)
         {
             // Cannot trade if there are no offers.
             if (_possibleTrades.Count <= 0)

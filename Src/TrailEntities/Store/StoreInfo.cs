@@ -12,7 +12,7 @@ namespace TrailEntities
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        private Dictionary<SimEntity, Item> _totalTransactions;
+        private Dictionary<SimEntity, SimItem> _totalTransactions;
 
         /// <summary>
         ///     Creates a new store transaction tracker.
@@ -21,7 +21,7 @@ namespace TrailEntities
         public StoreInfo(bool showAdvice = false)
         {
             ShowStoreAdvice = showAdvice;
-            _totalTransactions = new Dictionary<SimEntity, Item>(Resources.DefaultStore);
+            _totalTransactions = new Dictionary<SimEntity, SimItem>(Resources.DefaultStore);
         }
 
         /// <summary>
@@ -30,13 +30,13 @@ namespace TrailEntities
         public StoreInfo()
         {
             ShowStoreAdvice = false;
-            _totalTransactions = new Dictionary<SimEntity, Item>();
+            _totalTransactions = new Dictionary<SimEntity, SimItem>();
         }
 
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        public IDictionary<SimEntity, Item> Transactions
+        public IDictionary<SimEntity, SimItem> Transactions
         {
             get { return _totalTransactions; }
         }
@@ -68,34 +68,34 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Adds an item to the list of pending transactions. If it already exists it will be replaced.
+        ///     Adds an SimItem to the list of pending transactions. If it already exists it will be replaced.
         /// </summary>
-        public void AddItem(Item item, int amount)
+        public void AddItem(SimItem simItem, int amount)
         {
-            // Create the tuple for the item to add.
-            var incomingPurchase = new Item(item, amount);
+            // Create the tuple for the SimItem to add.
+            var incomingPurchase = new SimItem(simItem, amount);
 
-            // Remove any existing tuple with this item name, we will replace it.
-            RemoveItem(item);
+            // Remove any existing tuple with this SimItem name, we will replace it.
+            RemoveItem(simItem);
 
             // Add the new tuple to replace the one we just removed.
             _totalTransactions.Add(incomingPurchase.Category, incomingPurchase);
         }
 
         /// <summary>
-        ///     Removes an item from the list of pending transactions. If it does not exist then nothing will happen.
+        ///     Removes an SimItem from the list of pending transactions. If it does not exist then nothing will happen.
         /// </summary>
         public void RemoveItem(IEntity item)
         {
             // Loop through every single transaction.
-            var copyList = new Dictionary<SimEntity, Item>(_totalTransactions);
+            var copyList = new Dictionary<SimEntity, SimItem>(_totalTransactions);
             foreach (var transaction in copyList)
             {
-                // Check if item name matches incoming one.
+                // Check if SimItem name matches incoming one.
                 if (!transaction.Key.Equals(item.Category))
                     continue;
 
-                // Remove that item from transaction list.
+                // Remove that SimItem from transaction list.
                 _totalTransactions.Remove(item.Category);
                 break;
             }

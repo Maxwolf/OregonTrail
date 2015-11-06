@@ -39,7 +39,7 @@
     <Compile Include="Entity\Item\SimEntity.cs" />
     <Compile Include="Entity\Item\Parts.cs" />
     <Compile Include="Entity\Item\Resources.cs" />
-    <Compile Include="Entity\Item\Item.cs" />
+    <Compile Include="Entity\Item\SimItem.cs" />
     <Compile Include="Entity\Person\Disease.cs" />
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />

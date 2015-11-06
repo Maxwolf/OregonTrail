@@ -158,7 +158,7 @@ namespace TrailEntities
         /// <summary>
         ///     Removes item from the store and adds it to the players inventory.
         /// </summary>
-        private void BuyItems(Item transaction)
+        private void BuyItems(SimItem transaction)
         {
             var playerCost = transaction.Cost*transaction.Quantity;
             if (GameSimulationApp.Instance.Vehicle.Balance < playerCost)
@@ -170,7 +170,7 @@ namespace TrailEntities
         /// <summary>
         ///     Removes an item from the player, and adds it to the store inventory.
         /// </summary>
-        public void SellItem(Item transaction)
+        public void SellItem(SimItem transaction)
         {
             var storeCost = transaction.Cost*transaction.Quantity;
             if (storeCost <= 0)

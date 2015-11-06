@@ -10,7 +10,7 @@ namespace TrailEntities
     {
         private List<string> _playerNames;
         private Profession _playerProfession;
-        private List<Item> _startingInventory;
+        private List<SimItem> _startingInventory;
         private int _startingMonies;
         private Months _startingMonth;
 
@@ -21,7 +21,7 @@ namespace TrailEntities
         {
             _playerNames = new List<string>();
             _playerProfession = Profession.Banker;
-            _startingInventory = new List<Item>();
+            _startingInventory = new List<SimItem>();
             _startingMonies = 0;
             _startingMonth = Months.March;
             Modified = false;
@@ -59,7 +59,7 @@ namespace TrailEntities
         ///     References all of the starting items that the player decided to purchase from the first store interface they are
         ///     shown.
         /// </summary>
-        public List<Item> StartingInventory
+        public List<SimItem> StartingInventory
         {
             get { return _startingInventory; }
             set

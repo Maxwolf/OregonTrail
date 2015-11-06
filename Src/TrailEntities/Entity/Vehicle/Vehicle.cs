@@ -23,7 +23,7 @@ namespace TrailEntities
         /// <summary>
         ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
         /// </summary>
-        private Dictionary<SimEntity, Item> _inventory;
+        private Dictionary<SimEntity, SimItem> _inventory;
 
         /// <summary>
         ///     References all of the people inside of the vehicle.
@@ -43,7 +43,7 @@ namespace TrailEntities
         /// <summary>
         ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
         /// </summary>
-        public IDictionary<SimEntity, Item> Inventory
+        public IDictionary<SimEntity, SimItem> Inventory
         {
             get { return _inventory; }
         }
@@ -231,7 +231,7 @@ namespace TrailEntities
         /// <summary>
         ///     Adds the item to the inventory of the vehicle and subtracts it's cost multiplied by quantity from balance.
         /// </summary>
-        public void BuyItem(Item transaction)
+        public void BuyItem(SimItem transaction)
         {
             var totalCost = transaction.Cost*transaction.Quantity;
             if (!(Balance >= totalCost))
@@ -244,7 +244,7 @@ namespace TrailEntities
         /// <summary>
         ///     Removes the item from the inventory of the vehicle and adds it's cost multiplied by quantity to balance.
         /// </summary>
-        public void SellItem(Item transaction)
+        public void SellItem(SimItem transaction)
         {
             var totalEarnings = transaction.Cost*transaction.Quantity;
             Balance += totalEarnings;
@@ -257,7 +257,7 @@ namespace TrailEntities
         /// <param name="startingMonies">Amount of money the vehicle should have to work with.</param>
         public void ResetVehicle(int startingMonies)
         {
-            _inventory = new Dictionary<SimEntity, Item>();
+            _inventory = new Dictionary<SimEntity, SimItem>();
             Balance = startingMonies;
             _passengers = new HashSet<Person>();
             Ration = RationLevel.Filling;

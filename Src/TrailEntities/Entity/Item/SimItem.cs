@@ -4,15 +4,15 @@ using System.Diagnostics;
 namespace TrailEntities
 {
     /// <summary>
-    ///     Defines a base item which can represent almost any commodity the player can purchase for the party or vehicle.
+    ///     Defines a base SimItem which can represent almost any commodity the player can purchase for the party or vehicle.
     /// </summary>
-    public sealed class Item : IEntity
+    public sealed class SimItem : IEntity
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Item" /> class. The quantity property will be set to
-        ///     whatever the minimum amount of the item is.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.SimItem" /> class. The quantity property will be set to
+        ///     whatever the minimum amount of the SimItem is.
         /// </summary>
-        public Item(
+        public SimItem(
             SimEntity category,
             string name,
             string pluralForm,
@@ -25,49 +25,49 @@ namespace TrailEntities
             // Complain if minimum amount is zero, you cannot have zero of something.
             if (minimumQuantity <= 0)
                 throw new ArgumentException(
-                    "Cannot set minimum amount of an item to be zero, you cannot have nothing of something!");
+                    "Cannot set minimum amount of an SimItem to be zero, you cannot have nothing of something!");
 
             // Setup quantity based on minimum amount.
             MinimumQuantity = minimumQuantity;
             MaxQuantity = maxQuantity;
             Quantity = minimumQuantity;
 
-            // Identification of item should be unique, we should also be able to refer to multiples and per.
+            // Identification of SimItem should be unique, we should also be able to refer to multiples and per.
             Category = category;
             Name = name;
             PluralForm = pluralForm;
             DelineatingUnit = delineatingUnit;
 
-            // Determines how much the item costs in monies.
+            // Determines how much the SimItem costs in monies.
             Cost = cost;
 
-            // Weight of the item, traditionally this was done in pounds.
+            // Weight of the SimItem, traditionally this was done in pounds.
             Weight = weight;
         }
 
         /// <summary>
-        ///     Creates a new item from previous instance and with updated quantity.
+        ///     Creates a new SimItem from previous instance and with updated quantity.
         /// </summary>
-        /// <param name="oldItem">Old item that is going to be replaced.</param>
-        /// <param name="newQuantity">Updated quantity the new item will have.</param>
-        public Item(Item oldItem, int newQuantity)
+        /// <param name="oldSimItem">Old SimItem that is going to be replaced.</param>
+        /// <param name="newQuantity">Updated quantity the new SimItem will have.</param>
+        public SimItem(SimItem oldSimItem, int newQuantity)
         {
             // Complain if new quantity is above maximum.
-            if (newQuantity > oldItem.MaxQuantity)
-                throw new ArgumentException("New quantity for item cannot be larger than predefined maximum!");
+            if (newQuantity > oldSimItem.MaxQuantity)
+                throw new ArgumentException("New quantity for SimItem cannot be larger than predefined maximum!");
 
             // Set updated quantity values, plus ceiling and floor.
             Quantity = newQuantity;
-            MaxQuantity = oldItem.MaxQuantity;
-            MinimumQuantity = oldItem.MinimumQuantity;
+            MaxQuantity = oldSimItem.MaxQuantity;
+            MinimumQuantity = oldSimItem.MinimumQuantity;
 
-            // Display name and item entity type.
-            Name = oldItem.Name;
-            Category = oldItem.Category;
-            Cost = oldItem.Cost;
-            DelineatingUnit = oldItem.DelineatingUnit;
-            PluralForm = oldItem.PluralForm;
-            Weight = oldItem.Weight;
+            // Display name and SimItem entity type.
+            Name = oldSimItem.Name;
+            Category = oldSimItem.Category;
+            Cost = oldSimItem.Cost;
+            DelineatingUnit = oldSimItem.DelineatingUnit;
+            PluralForm = oldSimItem.PluralForm;
+            Weight = oldSimItem.Weight;
         }
 
         /// <summary>
@@ -76,30 +76,30 @@ namespace TrailEntities
         public int Quantity { get; }
 
         /// <summary>
-        ///     Cost of the item in monies.
+        ///     Cost of the SimItem in monies.
         /// </summary>
         public float Cost { get; }
 
         /// <summary>
-        ///     Single unit of the items name, for example is there is an Oxen item each one of those items is referred to as an
+        ///     Single unit of the items name, for example is there is an Oxen SimItem each one of those items is referred to as an
         ///     'ox'.
         /// </summary>
         public string DelineatingUnit { get; }
 
         /// <summary>
-        ///     When multiple of this item exist in a stack or need to be referenced, such as "10 pounds of food" the 'pounds' is
-        ///     very important to get correct in context. Another example of this property being used is for Oxen item, a single Ox
+        ///     When multiple of this SimItem exist in a stack or need to be referenced, such as "10 pounds of food" the 'pounds' is
+        ///     very important to get correct in context. Another example of this property being used is for Oxen SimItem, a single Ox
         ///     is the delineating and the plural form would be "Oxen".
         /// </summary>
         public string PluralForm { get; }
 
         /// <summary>
-        ///     Weight of a single item of this type, the original game used pounds so that is roughly what this should represent.
+        ///     Weight of a single SimItem of this type, the original game used pounds so that is roughly what this should represent.
         /// </summary>
         private int Weight { get; }
 
         /// <summary>
-        ///     Total number of items this item represents.
+        ///     Total number of items this SimItem represents.
         /// </summary>
         private int MinimumQuantity { get; }
 
@@ -117,13 +117,13 @@ namespace TrailEntities
         public int MaxQuantity { get; }
 
         /// <summary>
-        ///     Determines what type of item this is, used by the simulation to help sort the items and quickly iterate over them
+        ///     Determines what type of SimItem this is, used by the simulation to help sort the items and quickly iterate over them
         ///     when looking for a particular piece of data in the vehicles inventory list.
         /// </summary>
         public SimEntity Category { get; }
 
         /// <summary>
-        ///     Display name of the item as it should be known to players.
+        ///     Display name of the SimItem as it should be known to players.
         /// </summary>
         public string Name { get; }
 
@@ -232,7 +232,7 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Shows off a representation of the item as cost per delineating unit of the particular item.
+        ///     Shows off a representation of the SimItem as cost per delineating unit of the particular SimItem.
         /// </summary>
         /// <returns></returns>
         public string ToString(bool storeMode)

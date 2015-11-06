@@ -11,7 +11,7 @@ namespace TrailEntities
         /// <summary>
         ///     Reference to all of the items this landmark has for sale in a store.
         /// </summary>
-        private Dictionary<SimEntity, Item> _storeItems;
+        private Dictionary<SimEntity, SimItem> _storeItems;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Location" /> class.
@@ -27,7 +27,7 @@ namespace TrailEntities
             DistanceLength = distanceLength;
 
             // Use the null coalescing operator and an instance of empty List.
-            _storeItems = new Dictionary<SimEntity, Item>(Resources.DefaultStore);
+            _storeItems = new Dictionary<SimEntity, SimItem>(Resources.DefaultStore);
 
             // We know the settlement has a store if there are items in it to sell.
             HasStore = _storeItems.Count > 0;
@@ -56,7 +56,7 @@ namespace TrailEntities
         /// <summary>
         ///     Defines a list of items which the store has inside of it which were established in the constructor for the store.
         /// </summary>
-        public IDictionary<SimEntity, Item> StoreItems
+        public IDictionary<SimEntity, SimItem> StoreItems
         {
             get { return _storeItems; }
         }

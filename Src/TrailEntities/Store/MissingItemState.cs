@@ -4,28 +4,28 @@ using System.Text;
 namespace TrailEntities
 {
     /// <summary>
-    ///     Informs the player they need to purchase at least a single one of the specified item in order to continue. This is
+    ///     Informs the player they need to purchase at least a single one of the specified SimItem in order to continue. This is
     ///     used in the new game mode to force the player to have at least one oxen to pull their vehicle in order to start the
     ///     simulation.
     /// </summary>
     public sealed class MissingItemState : ModeState<StoreInfo>
     {
         /// <summary>
-        ///     Determines what item entity the player is actually missing.
+        ///     Determines what SimItem entity the player is actually missing.
         /// </summary>
-        private readonly Item _missingItemEntity;
+        private readonly SimItem _missingSimItemEntity;
 
         /// <summary>
-        ///     Determines if we have already told the player they need to purchase a particular item.
+        ///     Determines if we have already told the player they need to purchase a particular SimItem.
         /// </summary>
         private bool _informedAboutMissingItem;
 
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public MissingItemState(Item mustPurchaseEntity, IMode gameMode, StoreInfo userData) : base(gameMode, userData)
+        public MissingItemState(SimItem mustPurchaseEntity, IMode gameMode, StoreInfo userData) : base(gameMode, userData)
         {
-            _missingItemEntity = mustPurchaseEntity;
+            _missingSimItemEntity = mustPurchaseEntity;
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace TrailEntities
         {
             var missingItem = new StringBuilder();
             missingItem.Append(
-                $"You need to purchase at least a single {_missingItemEntity.DelineatingUnit} in order to begin your trip!{Environment.NewLine}");
+                $"You need to purchase at least a single {_missingSimItemEntity.DelineatingUnit} in order to begin your trip!{Environment.NewLine}");
 
             missingItem.Append(GameSimulationApp.PRESS_ENTER);
             return missingItem.ToString();
