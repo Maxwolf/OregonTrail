@@ -153,12 +153,12 @@ namespace TrailEntities
 
         public void TickClimate()
         {
-            var possibleClimate = GetTemperatureByMonth(GameSimulationApp.Instance.Time.CurrentMonth);
-            var possibleTemperature = GameSimulationApp.Instance.Random.Next((int) possibleClimate.MeanDailyMin,
+            var possibleClimate = GetTemperatureByMonth(GameSimApp.Instance.Time.CurrentMonth);
+            var possibleTemperature = GameSimApp.Instance.Random.Next((int) possibleClimate.MeanDailyMin,
                 (int) possibleClimate.MeanDailyMax);
 
             // Make it so climate doesn't change every single day (ex. 4 days of clear skies, 2 of rain).
-            var someRandom = GameSimulationApp.Instance.Random.NextDouble();
+            var someRandom = GameSimApp.Instance.Random.NextDouble();
             if (someRandom > NextWeatherChance)
             {
                 return;
@@ -170,10 +170,10 @@ namespace TrailEntities
             if (possibleTemperature > possibleClimate.AverageDailyTemperature)
             {
                 // Determine if this should be a very hot day or not for the region.
-                if (GameSimulationApp.Instance.Random.GetRandomBoolean())
+                if (GameSimApp.Instance.Random.GetRandomBoolean())
                 {
                     // It was a very hot day!
-                    switch (GameSimulationApp.Instance.Random.Next(5))
+                    switch (GameSimApp.Instance.Random.Next(5))
                     {
                         case 0:
                             CurrentWeather = WeatherCondition.Clear;
@@ -194,19 +194,19 @@ namespace TrailEntities
                         case 4:
                             CurrentWeather = WeatherCondition.ChanceOfTStorm;
                             NextWeatherChance = 0.30d;
-                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimApp.Instance.Random.NextDouble();
                             break;
                         case 5:
                             CurrentWeather = WeatherCondition.ChanceOfRain;
                             NextWeatherChance = 0.33d;
-                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimApp.Instance.Random.NextDouble();
                             break;
                     }
                 }
                 else
                 {
                     // It was a nice day outside!
-                    switch (GameSimulationApp.Instance.Random.Next(5))
+                    switch (GameSimApp.Instance.Random.Next(5))
                     {
                         case 0:
                             CurrentWeather = WeatherCondition.Clear;
@@ -227,12 +227,12 @@ namespace TrailEntities
                         case 4:
                             CurrentWeather = WeatherCondition.ChanceOfTStorm;
                             NextWeatherChance = 0.60d;
-                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimApp.Instance.Random.NextDouble();
                             break;
                         case 5:
                             CurrentWeather = WeatherCondition.ChanceOfRain;
                             NextWeatherChance = 0.56d;
-                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimApp.Instance.Random.NextDouble();
                             break;
                     }
                 }
@@ -240,20 +240,20 @@ namespace TrailEntities
             else
             {
                 // It was a bad day outside!
-                if (possibleClimate.MeanMonthlyRainfall > GameSimulationApp.Instance.Random.NextDouble())
+                if (possibleClimate.MeanMonthlyRainfall > GameSimApp.Instance.Random.NextDouble())
                 {
                     // Terrible weather!
-                    switch (GameSimulationApp.Instance.Random.Next(8))
+                    switch (GameSimApp.Instance.Random.Next(8))
                     {
                         case 0:
                             CurrentWeather = WeatherCondition.ScatteredThunderstroms;
                             NextWeatherChance = 0.90d;
-                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimApp.Instance.Random.NextDouble();
                             break;
                         case 1:
                             CurrentWeather = WeatherCondition.ScatteredShowers;
                             NextWeatherChance = 0.85d;
-                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimApp.Instance.Random.NextDouble();
                             break;
                         case 2:
                             CurrentWeather = WeatherCondition.MostlySunny;
@@ -262,7 +262,7 @@ namespace TrailEntities
                         case 3:
                             CurrentWeather = WeatherCondition.Thunderstorm;
                             NextWeatherChance = 0.90d;
-                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimApp.Instance.Random.NextDouble();
                             break;
                         case 4:
                             CurrentWeather = WeatherCondition.Haze;
@@ -289,7 +289,7 @@ namespace TrailEntities
                 else
                 {
                     // Very cold bad day!
-                    switch (GameSimulationApp.Instance.Random.Next(5))
+                    switch (GameSimApp.Instance.Random.Next(5))
                     {
                         case 0:
                             CurrentWeather = WeatherCondition.Flurries;
@@ -314,7 +314,7 @@ namespace TrailEntities
                         case 5:
                             CurrentWeather = WeatherCondition.Storm;
                             NextWeatherChance = 0.85d;
-                            DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                            DisasterChance = (float) GameSimApp.Instance.Random.NextDouble();
                             break;
                     }
                 }
@@ -332,7 +332,7 @@ namespace TrailEntities
                         CurrentWeather == WeatherCondition.FreezingDrizzle)
                     {
                         // Randomly select another type to replace it with because of temp being to high!
-                        switch (GameSimulationApp.Instance.Random.Next(5))
+                        switch (GameSimApp.Instance.Random.Next(5))
                         {
                             case 0:
                                 CurrentWeather = WeatherCondition.Clear;
@@ -353,12 +353,12 @@ namespace TrailEntities
                             case 4:
                                 CurrentWeather = WeatherCondition.ChanceOfTStorm;
                                 NextWeatherChance = 0.45d;
-                                DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                                DisasterChance = (float) GameSimApp.Instance.Random.NextDouble();
                                 break;
                             case 5:
                                 CurrentWeather = WeatherCondition.ChanceOfRain;
                                 NextWeatherChance = 0.55d;
-                                DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                                DisasterChance = (float) GameSimApp.Instance.Random.NextDouble();
                                 break;
                         }
                     }
@@ -371,7 +371,7 @@ namespace TrailEntities
                 if (ClimateClassificationType == ClimateClassification.Polar)
                 {
                     // Polar regions get a bonus for heat reduction.
-                    InsideTemperature -= GameSimulationApp.Instance.Random.Next(1, 3);
+                    InsideTemperature -= GameSimApp.Instance.Random.Next(1, 3);
                 }
                 else
                 {

@@ -12,31 +12,32 @@ namespace TrailEntities
         /// </summary>
         public static IEnumerable<Location> OregonTrail()
         {
+            // TODO: Replace with completely dynamic generation of trail.
             var trail = new[]
             {
-                new Location("Independence", 0),
-                new River("Kansas River Crossing", 83),
-                new River("Big Blue River Crossing", 119),
-                new Location("Fort Kearney", 250),
-                new Location("Chimney Rock", 86),
-                new Location("Fort Laramie", 190),
-                new Location("Independence Rock", 152),
-                new ForkInRoad("South Pass", 219, new List<Location>
+                new Location("Independence", true),
+                new River("Kansas River Crossing"),
+                new River("Big Blue River Crossing"),
+                new Location("Fort Kearney", true),
+                new Location("Chimney Rock"),
+                new Location("Fort Laramie", true),
+                new Location("Independence Rock"),
+                new ForkInRoad("South Pass", new List<Location>
                 {
-                    new Location("Fort Bridger", 162),
-                    new River("Green River Shortcut", 144)
+                    new Location("Fort Bridger", true),
+                    new River("Green River Shortcut")
                 }),
-                new River("Green River Crossing", 94),
-                new Location("Soda Springs", 57),
-                new Location("Fort Hall", 182),
-                new River("Snake River Crossing", 114),
-                new Location("Fort Boise", 94),
-                new ForkInRoad("Blue Mountains", 91, new List<Location>
+                new River("Green River Crossing"),
+                new Location("Soda Springs"),
+                new Location("Fort Hall", true),
+                new River("Snake River Crossing"),
+                new Location("Fort Boise", true),
+                new ForkInRoad("Blue Mountains", new List<Location>
                 {
-                    new Location("Fort Walla Walla", 120),
-                    new Location("The Dalles", 146)
+                    new Location("Fort Walla Walla", true),
+                    new Location("The Dalles")
                 }),
-                new Location("Oregon City", 85)
+                new Location("Oregon City")
             };
             return trail;
         }

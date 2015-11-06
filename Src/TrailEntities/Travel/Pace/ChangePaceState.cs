@@ -23,7 +23,7 @@ namespace TrailEntities
             _pace = new StringBuilder();
             _pace.Append($"{Environment.NewLine}Change pace{Environment.NewLine}");
             _pace.Append(
-                $"(currently \"{GameSimulationApp.Instance.Vehicle.Pace}\"){Environment.NewLine}{Environment.NewLine}");
+                $"(currently \"{GameSimApp.Instance.Vehicle.Pace}\"){Environment.NewLine}{Environment.NewLine}");
             _pace.Append($"The pace at which you travel{Environment.NewLine}");
             _pace.Append($"can change. Your choices are:{Environment.NewLine}{Environment.NewLine}");
             _pace.Append($"1. a steady pace{Environment.NewLine}");
@@ -51,15 +51,15 @@ namespace TrailEntities
             switch (input.ToUpperInvariant())
             {
                 case "1":
-                    GameSimulationApp.Instance.Vehicle.ChangePace(TravelPace.Steady);
+                    GameSimApp.Instance.Vehicle.ChangePace(TravelPace.Steady);
                     ParentMode.CurrentState = null;
                     break;
                 case "2":
-                    GameSimulationApp.Instance.Vehicle.ChangePace(TravelPace.Strenuous);
+                    GameSimApp.Instance.Vehicle.ChangePace(TravelPace.Strenuous);
                     ParentMode.CurrentState = null;
                     break;
                 case "3":
-                    GameSimulationApp.Instance.Vehicle.ChangePace(TravelPace.Grueling);
+                    GameSimApp.Instance.Vehicle.ChangePace(TravelPace.Grueling);
                     ParentMode.CurrentState = null;
                     break;
                 case "4":

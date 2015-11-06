@@ -59,7 +59,7 @@ namespace TrailEntities
         /// </summary>
         private static void CloseSimulation()
         {
-            GameSimulationApp.Instance.Destroy();
+            GameSimApp.Instance.Destroy();
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace TrailEntities
         /// </summary>
         private static void ChooseManagementOptions()
         {
-            GameSimulationApp.Instance.AddMode(ModeType.ManagementOptions);
+            GameSimApp.Instance.AddMode(ModeType.ManagementOptions);
         }
 
         /// <summary>

@@ -28,7 +28,7 @@ namespace TrailEntities
         /// <summary>
         ///     References all of the people inside of the vehicle.
         /// </summary>
-        private HashSet<Person> _passengers;
+        private List<Person> _passengers;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Vehicle" /> class.
@@ -38,6 +38,7 @@ namespace TrailEntities
             ResetVehicle(0);
             Name = "Vehicle";
             Pace = TravelPace.Steady;
+            Mileage = 1;
         }
 
         /// <summary>
@@ -77,6 +78,13 @@ namespace TrailEntities
         public int Odometer { get; private set; }
 
         /// <summary>
+        ///     In general, you will travel 200 miles plus some additional distance which depends upon the quality of your team of
+        ///     oxen. This mileage figure is an ideal, assuming nothing goes wrong. If you run into problems, mileage is subtracted
+        ///     from this ideal figure; the revised total is printed at the start of the next trip segment.
+        /// </summary>
+        public int Mileage { get; private set; }
+
+        /// <summary>
         ///     Returns the total value of all the cash the vehicle and all party members currently have.
         ///     Setting this value will change the quantity of dollar bills in player inventory.
         /// </summary>
@@ -96,7 +104,7 @@ namespace TrailEntities
                 }
                 else
                 {
-                    _inventory[SimEntity.Cash] = new SimItem(_inventory[SimEntity.Cash], (int)value);
+                    _inventory[SimEntity.Cash] = new SimItem(_inventory[SimEntity.Cash], (int) value);
                 }
             }
         }
@@ -268,9 +276,9 @@ namespace TrailEntities
         /// <param name="startingMonies">Amount of money the vehicle should have to work with.</param>
         public void ResetVehicle(int startingMonies)
         {
-            _inventory = new Dictionary<SimEntity, SimItem>(GameSimulationApp.DefaultInventory);
+            _inventory = new Dictionary<SimEntity, SimItem>(GameSimApp.DefaultInventory);
             Balance = startingMonies;
-            _passengers = new HashSet<Person>();
+            _passengers = new List<Person>();
             Ration = RationLevel.Filling;
             RepairStatus = RepairStatus.Good;
             Odometer = 0;
@@ -279,10 +287,42 @@ namespace TrailEntities
         /// <summary>
         ///     Processes logic and events for vehicle, also progresses down the trail and keeps track of mileage for this turn.
         /// </summary>
-        public void TickVehicle(int miles)
+        public void TickVehicle()
         {
-            // Increase mileage on the vehicle by the amount traveled.
-            Odometer += miles;
+            // Figure out how far we need to go to reach the next point.
+            Mileage = GameSimApp.Instance.Trail.DistanceToNextLocation;
+
+            // Determine how many miles we can move in a day on the trail based on amount of monies player spent on oxen to pull vehicle.
+            var cost_animals = GameSimApp.Instance.Vehicle.Inventory[SimEntity.Animal].TotalValue;
+            Mileage = (int) (Mileage + 200 + (cost_animals - 220)/5 + 10*GameSimApp.Instance.Random.NextDouble());
+
+            // Sometimes things just go slow on the trail.
+            Mileage = (int) (Mileage - 45 - GameSimApp.Instance.Random.NextDouble()/.02f);
+
+            // Determines how much food party members in the vehicle will eat today.
+            var cost_food = Inventory[SimEntity.Food].TotalValue;
+            var two_weeks_fraction = (2040 - Odometer)/(Mileage - Odometer);
+            cost_food = cost_food - 8 - 5*(int) Ration;
+            if (cost_food >= 13)
+            {
+                cost_food = cost_food + (1 - two_weeks_fraction)*(8 + 5*(int) Ration);
+                //cost_food = cost_food + 8 + 5*(int) Ration;
+                Inventory[SimEntity.Food] = new SimItem(Inventory[SimEntity.Food], (int) cost_food);
+            }
+
+            // TODO: Determine if weather will slow us down.
+            
+            // Loop through all the people in the vehicle and tick them.
+            foreach (var person in _passengers)
+            {
+                person.TickPerson();
+            }
+
+            // Check for random events that might trigger. Typically they will alter inventory, people, vehicle, etc. They can even attach new game modes and modify states of others.
+            GameSimApp.Instance.Director.CheckRandomEvents();
+
+            // Use our altered mileage to affect how far the vehicle has traveled in todays tick..
+            Odometer += Mileage;
         }
 
         /// <summary>

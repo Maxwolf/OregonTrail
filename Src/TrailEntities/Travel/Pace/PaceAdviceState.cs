@@ -48,7 +48,7 @@ namespace TrailEntities
             _paceHelp.Append($"exhausted, and your health suffers.{Environment.NewLine}{Environment.NewLine}");
 
             // Wait for user input...
-            _paceHelp.Append(GameSimulationApp.PRESS_ENTER);
+            _paceHelp.Append(GameSimApp.PRESS_ENTER);
         }
 
         /// <summary>

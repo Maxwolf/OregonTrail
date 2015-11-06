@@ -28,7 +28,7 @@ namespace TrailEntities
             currentTopTen.Append($"{Environment.NewLine}Current Top Ten List{Environment.NewLine}{Environment.NewLine}");
 
             // Create text table representation of default high score list.
-            var table = GameSimulationApp.Instance.ScoreTopTen.ToStringTable(
+            var table = GameSimApp.Instance.ScoreTopTen.ToStringTable(
                 u => u.Name,
                 u => u.Points,
                 u => u.Rating);

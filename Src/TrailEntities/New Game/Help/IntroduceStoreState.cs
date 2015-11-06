@@ -27,7 +27,7 @@ namespace TrailEntities
             _storeHelp.Append($"{Environment.NewLine}You can buy whatever you need at{Environment.NewLine}");
             _storeHelp.Append($"Matt's General Store.{Environment.NewLine}{Environment.NewLine}");
 
-            _storeHelp.Append(GameSimulationApp.PRESS_ENTER);
+            _storeHelp.Append(GameSimApp.PRESS_ENTER);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace TrailEntities
 
             _knowsAboutMatt = true;
             ParentMode.RemoveModeNextTick();
-            GameSimulationApp.Instance.AddMode(ModeType.InitialPurchases);
+            GameSimApp.Instance.AddMode(ModeType.InitialPurchases);
         }
     }
 }

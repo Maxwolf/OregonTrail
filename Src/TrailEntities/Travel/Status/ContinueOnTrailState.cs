@@ -40,13 +40,13 @@ namespace TrailEntities
         public override string GetStateTUI()
         {
             var nextStop = new StringBuilder();
-            var nextPoint = GameSimulationApp.Instance.Trail.GetNextLocation();
+            var nextPoint = GameSimApp.Instance.Trail.GetNextLocation();
             nextStop.Append(
-                $"{Environment.NewLine}From {ParentMode.CurrentPoint.Name} it is {nextPoint.DistanceLength}{Environment.NewLine}");
+                $"{Environment.NewLine}From {ParentMode.CurrentPoint.Name} it is {GameSimApp.Instance.Trail.DistanceToNextLocation}{Environment.NewLine}");
             nextStop.Append($"miles to the {nextPoint.Name}{Environment.NewLine}{Environment.NewLine}");
 
             // Wait for user input...
-            nextStop.Append(GameSimulationApp.PRESS_ENTER);
+            nextStop.Append(GameSimApp.PRESS_ENTER);
             return nextStop.ToString();
         }
 

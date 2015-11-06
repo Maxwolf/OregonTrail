@@ -128,7 +128,7 @@
     <Compile Include="Travel\TravelInfo.cs" />
     <Compile Include="Travel\TravelMode.cs" />
     <Compile Include="Trail\River.cs" />
-    <Compile Include="GameSimulationApp.cs" />
+    <Compile Include="GameSimApp.cs" />
     <Compile Include="Climate\ClimateClassification.cs" />
     <Compile Include="Climate\ClimateData.cs" />
     <Compile Include="Climate\WeatherCondition.cs" />
@@ -138,7 +138,7 @@
     <Compile Include="Time\Months.cs" />
     <Compile Include="Trail\TrailRegistry.cs" />
     <Compile Include="Climate\ClimateSim.cs" />
-    <Compile Include="SimulationApp.cs" />
+    <Compile Include="SimApp.cs" />
     <Compile Include="Time\TimeSim.cs" />
     <Compile Include="Trail\ForkInRoad.cs" />
     <Compile Include="Trail\TrailSim.cs" />

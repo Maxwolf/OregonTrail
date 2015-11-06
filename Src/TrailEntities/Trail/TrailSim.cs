@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace TrailEntities
@@ -24,26 +25,12 @@ namespace TrailEntities
             // Builds the trail passed on parameter, sets location to negative one for startup.
             Locations = new List<Location>(trail);
 
-            // Calculate the total trail distance on startup so we can reference it during calculations.
-            foreach (var location in Locations)
-            {
-                TotalTrailLength += location.DistanceLength;
-            }
-
             // Startup location on the trail and distance to next point so it triggers immediately when we tick the first day.
             LocationIndex = -1;
-            DistanceToNextPoint = 0;
+            DistanceToNextLocation = 0;
         }
 
-        /// <summary>
-        ///     Holds the calculated total distance of the trail from all points on it added up.
-        /// </summary>
-        public int TotalTrailLength { get; }
-
-        /// <summary>
-        ///     Reference to how many ticks are between the players vehicle and the next point of interest.
-        /// </summary>
-        public int DistanceToNextPoint { get; private set; }
+        public int DistanceToNextLocation { get; private set; }
 
         /// <summary>
         ///     Current location of the players vehicle as index of points of interest list.
@@ -63,34 +50,62 @@ namespace TrailEntities
         public void ArriveAtNextLocation()
         {
             // Get the current and next locations.
-            var nextPoint = GetNextLocation();
             var currentPoint = GetCurrentLocation();
 
-            // Setup next travel distance requirement.
-            DistanceToNextPoint = nextPoint.DistanceLength;
+            // Check for end of game in miles.
+            if (total_miles >= 2040)
+            {
+                endgame(diereason.trailend)
+                return;
+            }
 
-            // Called when we decide to continue on the trail from a location on it.
-            LocationIndex++;
+            // Check if we need to keep going or if we have reached the end of the trail.
+            if (LocationIndex >= Locations.Count)
+            {
+                // Setup next travel distance requirement.
+                DistanceToNextLocation = CalculateNextPointDistance();
+
+                // Called when we decide to continue on the trail from a location on it.
+                LocationIndex++;
+            }
 
             // Fire method to do some work and attach game modes based on this.
             OnReachedPointOfInterest(currentPoint);
         }
 
         /// <summary>
+        ///     In general, you will travel 200 miles plus some additional distance which depends upon the quality of your team of
+        ///     oxen. This mileage figure is an ideal, assuming nothing goes wrong. If you run into problems, mileage is subtracted
+        ///     from this ideal figure; the revised total is printed at the start of the next trip segment.
+        /// </summary>
+        /// <returns>The expected mileage over the next two week segment.</returns>
+        private static int CalculateNextPointDistance()
+        {
+            // Get the total amount of monies the player has spent on animals to pull their vehicle.
+            var cost_animals = GameSimApp.Instance.Vehicle.Inventory[SimEntity.Animal].TotalValue;
+
+            // Variables that will hold the distance we should travel in the next day.
+            var total_miles = GameSimApp.Instance.Vehicle.Mileage +
+                              GameSimApp.Instance.Trail.DistanceToNextLocation + (cost_animals - 110)/2.5 +
+                              10*GameSimApp.Instance.Random.NextDouble();
+
+            return (int) Math.Abs(total_miles);
+        }
+
+        /// <summary>
         ///     Advances the vehicle to the next point of interest on the path. Returns TRUE if we have arrived at the next point,
         ///     FALSE if this method should be called more to advance vehicle down the trail.
         /// </summary>
-        /// <param name="distanceMovedThisTurn">Number of miles the vehicle should move this day.</param>
-        public void DecreaseDistanceToNextLocation(int distanceMovedThisTurn)
+        public void DecreaseDistanceToNextLocation()
         {
             // Move us towards the next point.
-            DistanceToNextPoint -= distanceMovedThisTurn;
+            DistanceToNextLocation -= GameSimApp.Instance.Vehicle.Mileage;
 
             // If distance to next area reaches zero or below we will arrive at next location.
-            if (DistanceToNextPoint > 0)
+            if (DistanceToNextLocation > 0)
                 return;
 
-            DistanceToNextPoint = 0;
+            DistanceToNextLocation = 0;
         }
 
         /// <summary>
@@ -128,7 +143,7 @@ namespace TrailEntities
         /// <returns>TRUE if first point on trail, FALSE if not.</returns>
         public bool IsFirstPointOfInterest()
         {
-            return LocationIndex <= 0 && GameSimulationApp.Instance.TotalTurns <= 0;
+            return LocationIndex <= 0 && GameSimApp.Instance.TotalTurns <= 0;
         }
 
         /// <summary>
@@ -141,7 +156,7 @@ namespace TrailEntities
         private void OnReachedPointOfInterest(Location nextPoint)
         {
             // Attach some game mode based on the relevance of the next point type.
-            GameSimulationApp.Instance.AddMode(nextPoint.ModeType);
+            GameSimApp.Instance.AddMode(nextPoint.ModeType);
 
             // Fire event here for API subscribers to know point was reached. 
             OnReachPointOfInterest?.Invoke(nextPoint);
@@ -152,8 +167,7 @@ namespace TrailEntities
         /// </summary>
         public bool ReachedNextPoint()
         {
-            return
-                GameSimulationApp.Instance.Trail.DistanceToNextPoint.Equals(GetCurrentLocation().DistanceLength);
+            return DistanceToNextLocation.Equals(GameSimApp.Instance.Vehicle.Mileage);
         }
     }
 }

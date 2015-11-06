@@ -33,17 +33,17 @@ namespace TrailEntities
         public override string GetStateTUI()
         {
             var welcomePoint = new StringBuilder();
-            if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest())
+            if (GameSimApp.Instance.Trail.IsFirstPointOfInterest())
             {
                 // First point of interest has slightly different message about time travel.
                 welcomePoint.Append(
-                    $"Going back to {GameSimulationApp.Instance.Time.CurrentYear}...{Environment.NewLine}");
+                    $"Going back to {GameSimApp.Instance.Time.CurrentYear}...{Environment.NewLine}");
             }
             else
             {
                 // Every other point of interest will say the name and current date.
                 welcomePoint.Append(ParentMode.CurrentPoint);
-                welcomePoint.Append(GameSimulationApp.Instance.Time.Date);
+                welcomePoint.Append(GameSimApp.Instance.Time.Date);
             }
 
             welcomePoint.Append("Press RETURN KEY to continue");

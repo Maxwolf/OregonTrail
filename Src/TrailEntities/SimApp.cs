@@ -7,7 +7,7 @@ namespace TrailEntities
     /// <summary>
     ///     Base simulation class that deals with ticks, time, named pipes, and game modes.
     /// </summary>
-    public abstract class SimulationApp : TickSim
+    public abstract class SimApp : TickSim
     {
         public delegate void EndGame();
 
@@ -30,9 +30,9 @@ namespace TrailEntities
         private const string GAMEMODE_EMPTY_TUI = "[NO GAME MODE ATTACHED]";
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailGame.SimApp" /> class.
         /// </summary>
-        protected SimulationApp()
+        protected SimApp()
         {
             // References all of the active game modes that need to be ticked.
             Modes = new Dictionary<ModeType, IMode>();

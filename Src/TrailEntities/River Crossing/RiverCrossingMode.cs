@@ -14,8 +14,8 @@ namespace TrailEntities
         /// </summary>
         public RiverCrossingMode() : base(false)
         {
-            Depth = GameSimulationApp.Instance.Random.Next(1, 20);
-            FerryCost = GameSimulationApp.Instance.Random.Next(3, 8);
+            Depth = GameSimApp.Instance.Random.Next(1, 20);
+            FerryCost = GameSimApp.Instance.Random.Next(3, 8);
         }
 
         public int Depth { get; }

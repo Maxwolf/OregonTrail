@@ -23,7 +23,7 @@ namespace TrailEntities
         public BuyInitialItemsState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
-            GameSimulationApp.Instance.SetData(userData);
+            GameSimApp.Instance.SetData(userData);
             _hasAttachedStore = false;
 
             // Create text we will display to user about the store before they actually load that game mode.
@@ -35,7 +35,7 @@ namespace TrailEntities
             _storeHelp.Append($"cash, but you don't have to{Environment.NewLine}");
             _storeHelp.Append($"spend it all now.{Environment.NewLine}{Environment.NewLine}");
 
-            _storeHelp.Append(GameSimulationApp.PRESS_ENTER);
+            _storeHelp.Append(GameSimApp.PRESS_ENTER);
         }
 
         /// <summary>

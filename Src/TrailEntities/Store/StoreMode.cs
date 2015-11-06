@@ -113,7 +113,7 @@ namespace TrailEntities
         private void LeaveStore()
         {
             // Complain if the player does not have any oxen to pull their vehicle.
-            if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest() &&
+            if (GameSimApp.Instance.Trail.IsFirstPointOfInterest() &&
                 StoreInfo.Transactions[SimEntity.Animal].Quantity <= 0)
             {
                 CurrentState = new MissingItemState(Parts.Oxen, this, StoreInfo);
@@ -121,7 +121,7 @@ namespace TrailEntities
             }
 
             // Check if player can afford the items they have selected.
-            if (GameSimulationApp.Instance.Vehicle.Balance < StoreInfo.GetTransactionTotalCost())
+            if (GameSimApp.Instance.Vehicle.Balance < StoreInfo.GetTransactionTotalCost())
             {
                 CurrentState = new StoreDebtState(this, StoreInfo);
                 return;
@@ -159,15 +159,15 @@ namespace TrailEntities
                 return;
 
             // When detaching the store for first time we need to move the vehicle to the first spot on our virtual trail.
-            if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest())
+            if (GameSimApp.Instance.Trail.IsFirstPointOfInterest())
             {
-                GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
+                GameSimApp.Instance.Trail.ArriveAtNextLocation();
             }
 
             // Process all of the pending transactions in the store receipt info object.
             foreach (var transaction in StoreInfo.Transactions)
             {
-                GameSimulationApp.Instance.Vehicle.BuyItem(transaction.Value);
+                GameSimApp.Instance.Vehicle.BuyItem(transaction.Value);
             }
 
             // Remove all the transactions now that we have processed them.
@@ -183,12 +183,12 @@ namespace TrailEntities
             var headerText = new StringBuilder();
             headerText.Append($"--------------------------------{Environment.NewLine}");
             headerText.Append($"{CurrentPoint?.Name} General Store{Environment.NewLine}");
-            headerText.Append($"{GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
+            headerText.Append($"{GameSimApp.Instance.Time.Date}{Environment.NewLine}");
             headerText.Append("--------------------------------");
             MenuHeader = headerText.ToString();
 
             // Keep track if this is the first point of interest, it will alter how the store shows values.
-            var isFirstPoint = GameSimulationApp.Instance.Trail.IsFirstPointOfInterest();
+            var isFirstPoint = GameSimApp.Instance.Trail.IsFirstPointOfInterest();
 
             // Clear all the commands store had, then re-populate the list with them again so we can change the titles dynamically.
             ClearCommands();
@@ -229,17 +229,17 @@ namespace TrailEntities
 
             // Calculate how much monies the player has and the total amount of monies owed to store for pending transaction receipt.
             var totalBill = StoreInfo.GetTransactionTotalCost();
-            var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
+            var amountPlayerHas = GameSimApp.Instance.Vehicle.Balance - totalBill;
 
             // If at first location we show the total cost of the bill so far the player has racked up.
-            footerText.Append(GameSimulationApp.Instance.Trail.IsFirstPointOfInterest()
+            footerText.Append(GameSimApp.Instance.Trail.IsFirstPointOfInterest()
                 ? $"Total bill:            {totalBill.ToString("C2")}" +
                   $"{Environment.NewLine}Amount you have:       {amountPlayerHas.ToString("C2")}"
-                : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
+                : $"You have {GameSimApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
             MenuFooter = footerText.ToString();
 
             // Trigger the store advice automatically on the first location and one time only.
-            if (GameSimulationApp.Instance.Trail.IsFirstPointOfInterest() && StoreInfo.ShouldShowStoreAdvice)
+            if (GameSimApp.Instance.Trail.IsFirstPointOfInterest() && StoreInfo.ShouldShowStoreAdvice)
             {
                 StoreInfo.ShouldShowStoreAdvice = false;
                 StoreAdvice();

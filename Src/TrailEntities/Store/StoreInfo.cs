@@ -21,7 +21,7 @@ namespace TrailEntities
         public StoreInfo(bool shouldShowAdvice = false)
         {
             ShouldShowStoreAdvice = shouldShowAdvice;
-            _totalTransactions = new Dictionary<SimEntity, SimItem>(GameSimulationApp.DefaultInventory);
+            _totalTransactions = new Dictionary<SimEntity, SimItem>(GameSimApp.DefaultInventory);
         }
 
         /// <summary>

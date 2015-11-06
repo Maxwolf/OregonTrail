@@ -7,7 +7,7 @@ namespace TrailEntities
     /// <summary>
     ///     Receiver - The main logic will be implemented here and it knows how to perform the necessary actions.
     /// </summary>
-    public sealed class GameSimulationApp : SimulationApp
+    public sealed class GameSimApp : SimApp
     {
         /// <summary>
         ///     Holds a constant representation of the string telling the user to press enter key to continue so we don't repeat
@@ -22,9 +22,9 @@ namespace TrailEntities
         public const int MAX_PLAYERS = 4;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimApp" /> class.
         /// </summary>
-        private GameSimulationApp()
+        private GameSimApp()
         {
             // Repair status reference dictionary.
             RepairLevels = new Dictionary<string, int>();
@@ -49,7 +49,7 @@ namespace TrailEntities
         ///     Singleton instance for the entire game simulation, does not block the calling thread though only listens for
         ///     commands.
         /// </summary>
-        public static GameSimulationApp Instance { get; private set; }
+        public static GameSimApp Instance { get; private set; }
 
         /// <summary>
         ///     Manages time in a linear since from the provided ticks in base simulation class. Handles days, months, and years.
@@ -172,7 +172,7 @@ namespace TrailEntities
                 throw new InvalidOperationException(
                     "Unable to create new instance of game simulation since it already exists!");
 
-            Instance = new GameSimulationApp();
+            Instance = new GameSimApp();
         }
 
         protected override void OnDestroy()
@@ -324,45 +324,25 @@ namespace TrailEntities
         /// <param name="dayCount">Total number of days in the simulation that have passed.</param>
         private void TimeSimulation_DayEndEvent(int dayCount)
         {
+            // Each day we tick the weather, vehicle, and the people in it.
+            Climate.TickClimate();
+
+            // Update total distance traveled on vehicle if we have not reached the point.
+            Vehicle.TickVehicle();
+
             // Grab the total amount of monies the player has spent on the items in their inventory.
-            var cost_food = Vehicle.Inventory[SimEntity.Food].TotalValue;
             var cost_ammo = Vehicle.Inventory[SimEntity.Ammo].TotalValue;
-            var cost_animals = Vehicle.Inventory[SimEntity.Animal].TotalValue;
             var cost_clothes = Vehicle.Inventory[SimEntity.Clothes].TotalValue;
             var cost_aid = Vehicle.Inventory[SimEntity.Aid].TotalValue;
             var start_cash = Vehicle.Inventory[SimEntity.Cash].TotalValue;
 
-            // Variables that will hold the distance we should travel in the next day.
-            var total_miles = 0;
-            var two_weeks_fraction = 0;
-
-            // Mileage and food consumption calculations for next two-week block on trail.
-            two_weeks_fraction = two_weeks_fraction*14;
-            two_weeks_fraction = two_weeks_fraction + 1;
-            two_weeks_fraction = (Trail.TotalTrailLength - Vehicle.Odometer)/(total_miles - Vehicle.Odometer);
-            cost_food = cost_food + (1 - two_weeks_fraction)*(8 + 5*(int) Vehicle.Ration);
-            total_miles = (int) (total_miles + 200 + (cost_animals - 220)/5 + Random.Next(0, 100));
-
-            // Make anything larger than standard work week divisible by two.
-            if (two_weeks_fraction > 5)
-            {
-                two_weeks_fraction = two_weeks_fraction - 7;
-            }
-
             // Move towards the next location on the trail.
-            Trail.DecreaseDistanceToNextLocation(total_miles);
+            Trail.DecreaseDistanceToNextLocation();
 
-            if (Trail.DistanceToNextPoint <= 0)
+            // Check if we have arrive at the next location.
+            if (Trail.DistanceToNextLocation <= 0)
             {
                 Trail.ArriveAtNextLocation();
-            }
-            else
-            {
-                // Each day we tick the weather, vehicle, and the people in it.
-                Climate.TickClimate();
-
-                // Update total distance traveled on vehicle if we have not reached the point.
-                Vehicle.TickVehicle(total_miles);
             }
         }
     }

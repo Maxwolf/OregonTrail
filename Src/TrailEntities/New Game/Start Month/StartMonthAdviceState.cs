@@ -38,7 +38,7 @@ namespace TrailEntities
             _startMonthHelp.Append($"the weather will still be cool.{Environment.NewLine}{Environment.NewLine}");
 
             // Wait for user input...
-            _startMonthHelp.Append(GameSimulationApp.PRESS_ENTER);
+            _startMonthHelp.Append(GameSimApp.PRESS_ENTER);
         }
 
         public override bool AcceptsInput

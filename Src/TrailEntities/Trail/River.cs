@@ -7,7 +7,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailCommon.Location" /> class.
         /// </summary>
-        public River(string name, int distanceLength) : base(name, distanceLength)
+        public River(string name) : base(name)
         {
         }
 

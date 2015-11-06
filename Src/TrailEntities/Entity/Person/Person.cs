@@ -182,5 +182,36 @@ namespace TrailEntities
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        ///     Determines the amount of miles the party is able to travel with a given individual. Will check for illness, cold
+        ///     weather, starvation from having zero food, healing when resting, and if needed killing them off from simulation.
+        /// </summary>
+        public void TickPerson()
+        {
+            if (100*GameSimApp.Instance.Random.NextDouble() < 10 + 35*((int) GameSimApp.Instance.Vehicle.Ration - 1))
+            {
+                //"mild illness---medicine used"
+                total_miles = total_miles - 5;
+                cost_aid = cost_aid - 2;
+            }
+            else if (100*GameSimApp.Instance.Random.NextDouble() <
+                100 - (40/4*((int) GameSimApp.Instance.Vehicle.Ration - 1)))
+            {
+                //"bad illness---medicine used"
+                total_miles = total_miles - 5;
+                cost_aid = cost_aid - 5;
+            }
+            else
+            {
+                cost_aid = cost_aid - 10;
+                illness = 1;
+            }
+
+            if (cost_aid < 0)
+            {
+                EndGame(DieReason.OutOfSupplies);
+            }
+        }
     }
 }

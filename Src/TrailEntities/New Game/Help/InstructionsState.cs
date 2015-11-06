@@ -50,7 +50,7 @@ namespace TrailEntities
             _playInfo.Append($" wagon parts for unexpected emergencies){Environment.NewLine}{Environment.NewLine}");
 
             // Wait for user input...
-            _playInfo.Append(GameSimulationApp.PRESS_ENTER);
+            _playInfo.Append(GameSimApp.PRESS_ENTER);
         }
 
         /// <summary>

@@ -48,7 +48,7 @@ namespace TrailEntities
                 ? $"days{Environment.NewLine}{Environment.NewLine}"
                 : $"day{Environment.NewLine}{Environment.NewLine}");
 
-            rest.Append(GameSimulationApp.PRESS_ENTER);
+            rest.Append(GameSimApp.PRESS_ENTER);
             return rest.ToString();
         }
 

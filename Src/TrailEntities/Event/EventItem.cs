@@ -43,7 +43,7 @@ namespace TrailEntities
             _eventEnum = eventEnum;
 
             // Set timestamp for when the event occurred.
-            Timestamp = GameSimulationApp.Instance.Time.Date;
+            Timestamp = GameSimApp.Instance.Time.Date;
         }
 
         /// <summary>

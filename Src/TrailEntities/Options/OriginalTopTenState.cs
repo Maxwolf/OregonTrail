@@ -39,7 +39,7 @@ namespace TrailEntities
             sourceTopTen.AppendLine(table);
 
             // Wait for user input...
-            sourceTopTen.Append(GameSimulationApp.PRESS_ENTER);
+            sourceTopTen.Append(GameSimApp.PRESS_ENTER);
             return sourceTopTen.ToString();
         }
 

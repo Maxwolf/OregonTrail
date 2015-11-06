@@ -19,11 +19,11 @@
  * Snows in the mountains and river disasters occur on the plains
  * Clothes and wagon parts increase 2.5 dollars
  * Food increases .10 dollars and bullets increase 2.5 dollars
- * Oxen go up to 5 dollars at each fort
+ * Oxen go up 5 dollars at each fort
  * When you rest at a land mark people often heal quicker than on the trail
  * Locations have fresh water flag if enabled doubles change for dysentery
    and cholera
- * Maximum amound of weight that can be carried back after a hunt
+ * Maximum amount of weight that can be carried back after a hunt
    is 250 lbs of food
  * The less buffalo you kill the better deal you shall receive
    from Indian wanting clothes

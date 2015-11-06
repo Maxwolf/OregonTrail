@@ -15,16 +15,16 @@ namespace TrailGame
             Console.CancelKeyPress += Console_CancelKeyPress;
 
             // Create game simulation singleton instance, and start it.
-            GameSimulationApp.Create();
+            GameSimApp.Create();
 
             // Hook event to know when screen buffer wants to redraw the entire console screen.
-            GameSimulationApp.Instance.ScreenBufferDirtyEvent += Simulation_ScreenBufferDirtyEvent;
+            GameSimApp.Instance.ScreenBufferDirtyEvent += Simulation_ScreenBufferDirtyEvent;
 
             // Prevent console session from closing.
-            while (GameSimulationApp.Instance != null)
+            while (GameSimApp.Instance != null)
             {
                 // Simulation takes any numbers of pulses to determine seconds elapsed.
-                GameSimulationApp.Instance.Tick();
+                GameSimApp.Instance.Tick();
 
                 // Check if a key is being pressed, without blocking thread.
                 if (Console.KeyAvailable)
@@ -37,13 +37,13 @@ namespace TrailGame
                     switch (key.Key)
                     {
                         case ConsoleKey.Enter:
-                            GameSimulationApp.Instance.SendInputBuffer();
+                            GameSimApp.Instance.SendInputBuffer();
                             break;
                         case ConsoleKey.Backspace:
-                            GameSimulationApp.Instance.RemoteLastCharOfInputBuffer();
+                            GameSimApp.Instance.RemoteLastCharOfInputBuffer();
                             break;
                         default:
-                            GameSimulationApp.Instance.SendKeyCharToInputBuffer(key.KeyChar);
+                            GameSimApp.Instance.SendKeyCharToInputBuffer(key.KeyChar);
                             break;
                     }
                 }
@@ -77,7 +77,7 @@ namespace TrailGame
         private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
             // Destroy the simulation.
-            GameSimulationApp.Instance.Destroy();
+            GameSimApp.Instance.Destroy();
 
             // Stop the operating system from killing the entire process.
             e.Cancel = true;

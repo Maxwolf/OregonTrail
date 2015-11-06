@@ -7,42 +7,9 @@ if (illness=1 || injury=1)
 
 ---------------[TURN]---------------
 
-// Check for end of game in miles.
-if (total_miles >= 2040)
-{
-	endgame(diereason.trailend)
-	return;
-}
-
-TickTime();
-
-// Food check.
-if (cost_food <= 0)
-	cost_food=0
-
-// Ammunition check.
-if cost_ammo <= 0
-	cost_ammo=0
-
-// Clothing check.
-if cost_clothes <= 0
-	cost_clothes=0
-
-// Supplies check.
-if cost_aid <= 0)
-	cost_aid=0
-
 // Low food warning.
 if (cost_food >= 13)
-{
-	cost_food=int(cost_food)
-	cost_ammo=int(cost_ammo)
-	cost_clothes=int(cost_clothes)
-	cost_aid=int(cost_aid)
-	start_cash=int(start_cash)
-	total_miles=int(total_miles)
-	distance_traveled=total_miles
-	
+{	
 	if (illness=1 || injury=1)
 	{
 		start_cash=start_cash-20
@@ -79,17 +46,7 @@ else
 	"you'd better do some hunting or buy food and soon!!!!"
 }
 
-turn_number=turn_number+1
-two_weeks_fraction=(2040-distance_traveled)/(total_miles-distance_traveled)
-cost_food=cost_food+(1-two_weeks_fraction)*(8+5*eat_command)
-total_miles=total_miles+200+(cost_animals-220)/5+10*rnd(0)
 climate_blizzard=no_clothes=0
-
-two_weeks_fraction=int(two_weeks_fraction*14)
-turn_number=turn_number*14+two_weeks_fraction
-two_weeks_fraction=two_weeks_fraction+1
-if two_weeks_fraction<5 then 5560
-two_weeks_fraction=two_weeks_fraction-7
 
 IF TOTAL_MILES <= 950 THEN 1230
 IF RND(0)*10>9-((TOTAL_MILES/100-15) ** 2+72)/((TOTAL_MILES/100-15) ** 2+12) THEN 4560
@@ -104,8 +61,6 @@ COST_AID=COST_AID-5
 COST_AMMO=COST_AMMO-200
 TOTAL_MILES=TOTAL_MILES-20-30*RND(0)
 GOTO 4860
-PRINT "THE GOING GETS SLOW"
-TOTAL_MILES=TOTAL_MILES-45-RND(0)/.02
 IF CLEAR_SOUTHPASS=1 THEN 4900
 CLEAR_SOUTHPASS=1
 IF RND(0)<.8 THEN 4970
@@ -154,28 +109,6 @@ if (shoot_time <= 1)
 	
 if (100*rnd(0)<13*shoot_time)
 	"you missed---and your dinner got away....."
-	
----------------[STORE]---------------
-start_cash=700-cost_animals-cost_food-cost_ammo-cost_clothes-cost_aid
-start_cash=start_cash-fort_debt
-cost_food=cost_food+2/3*fort_debt
-cost_ammo=int(cost_ammo+2/3+fort_debt*50)
-cost_clothes=cost_clothes+2/3*fort_debt
-cost_aid=cost_aid+2/3*fort_debt
-
----------------[EATING]---------------
-if (cost_food >= 13)
-	"you'd better do some hunting or buy food and soon!!!!"
-	
-if (cost_food >= 13)
-{
-	cost_food=cost_food-8-5*eat_command
-}
-else if (cost_food >= 0)
-{
-	"you can'start_cash eat that well"
-	cost_food=cost_food+8+5*eat_command
-}
 
 ---------------[RIDERS]---------------
 riderChance=rnd(0)*10;
@@ -256,20 +189,6 @@ else
 }
 
 ---------------[RANDOM EVENTS]---------------
-
-int RollDice()
-{
-	event_counter=0;
-	event_counter=event_counter+1;
-	return Random.Next(100);
-}
-
-diceRoll = DiceRoll();
-if (diceRoll > events.Count)
-{
-	event_counter=event_counter+1
-}
-
 switch(event_counter)
 {
 	case 6:
@@ -447,47 +366,6 @@ void checkclimate()
 	}
 }
 
----------------[ILLNESS]---------------
-injury=illness=clear_southpass=clear_bluemountains=total_miles=clear_southpass_setmileage=turn_number=0
-
-void CheckIllness()
-{
-
-	if 100*rnd(0)<10+35*(eat_command-1)
-	{
-		"mild illness---medicine used"
-		total_miles=total_miles-5
-		cost_aid=cost_aid-2
-		goto 6440
-	}
-
-	if 100*rnd(0)<100-(40/4*(eat_command-1))
-	{	
-		print "bad illness---medicine used"
-		total_miles=total_miles-5
-		cost_aid=cost_aid-5
-
-	}
-	
-	print "serious illness---"
-	print "you must stop for medical attention"
-	cost_aid=cost_aid-10
-	illness=1
-	
-	if (cost_aid<0)
-	{
-		EndGame(DieReason.OutOfSupplies);
-	}	
-	
-	if (climate_blizzard=1)
-	{
-		if (total_miles>950)
-		{
-			clear_southpass_setmileage=1
-		}
-	}
-}
-
 ---------------[DEATH]---------------
 246 turns=you have been on the trail too long
 your family dies in the first blizzard of winter
@@ -557,13 +435,6 @@ if (start_cash>0)
 	
 if (cost_food>0)
 	cost_food=0
-
-// Final winning stats
-"INT(COST_FOOD),
-INT(COST_AMMO),
-INT(COST_CLOTHES),
-INT(COST_AID),
-INT(START_CASH)"
   
 "PRESIDENT JAMES K. POLK SENDS YOU HIS"
 "HEARTIEST CONGRATULATIONS"

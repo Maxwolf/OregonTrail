@@ -16,28 +16,15 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Location" /> class.
         /// </summary>
-        public Location(
-            string name,
-            int distanceLength)
+        public Location(string name, bool storeOpen = false)
         {
             // Name of the point as it should be known to the player.
             Name = name;
 
-            // How many 'miles' the player and his vehicle must travel to reach this point.
-            DistanceLength = distanceLength;
-
-            // Use the null coalescing operator and an instance of empty List.
-            _storeItems = new Dictionary<SimEntity, SimItem>(GameSimulationApp.DefaultInventory);
-
             // We know the settlement has a store if there are items in it to sell.
-            HasStore = _storeItems.Count > 0;
+            _storeItems = new Dictionary<SimEntity, SimItem>(GameSimApp.DefaultInventory);
+            HasStore = _storeItems.Count > 0 && storeOpen;
         }
-
-        /// <summary>
-        ///     Determines the total number of 'miles' which the vehicle must travel before it is considered to have arrived at the
-        ///     next point of interest.
-        /// </summary>
-        public int DistanceLength { get; }
 
         /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
@@ -61,10 +48,6 @@ namespace TrailEntities
             get { return _storeItems; }
         }
 
-        /// <summary>
-        ///     Determines if this location has a store, calculation is made by checking count of store items making it a computed
-        ///     property.
-        /// </summary>
         public bool HasStore { get; }
     }
 }

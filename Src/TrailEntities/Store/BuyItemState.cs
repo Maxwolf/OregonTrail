@@ -35,7 +35,7 @@ namespace TrailEntities
         {
             // Figure out what we owe already from other store items, then how many of the SimItem we can afford.
             var _currentBalance =
-                (int) (GameSimulationApp.Instance.Vehicle.Balance - userData.GetTransactionTotalCost());
+                (int) (GameSimApp.Instance.Vehicle.Balance - userData.GetTransactionTotalCost());
             _purchaseLimit = (int) (_currentBalance/simItemToBuy.Cost);
 
             // Prevent negative numbers and set credit limit to zero if it drops below that.
