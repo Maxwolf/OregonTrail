@@ -12,7 +12,7 @@ namespace TrailEntities
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        private HashSet<StoreTransactionItem> _totalTransactions;
+        private HashSet<Item> _totalTransactions;
 
         /// <summary>
         ///     Creates a new store transaction tracker.
@@ -21,7 +21,8 @@ namespace TrailEntities
         public StoreInfo(bool showAdvice = false)
         {
             ShowStoreAdvice = showAdvice;
-            _totalTransactions = new HashSet<StoreTransactionItem>();
+            _totalTransactions = new HashSet<Item>();
+
         }
 
         /// <summary>
@@ -30,13 +31,13 @@ namespace TrailEntities
         public StoreInfo()
         {
             ShowStoreAdvice = false;
-            _totalTransactions = new HashSet<StoreTransactionItem>();
+            _totalTransactions = new HashSet<Item>();
         }
 
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        public IEnumerable<StoreTransactionItem> Transactions
+        public IEnumerable<Item> Transactions
         {
             get { return _totalTransactions; }
         }
@@ -58,9 +59,9 @@ namespace TrailEntities
         {
             // Loop through all transactions and multiply amount by cost.
             float totalCost = 0;
-            foreach (var tuple in _totalTransactions)
+            foreach (var item in _totalTransactions)
             {
-                totalCost += tuple.Quantity*tuple.Item.Cost;
+                totalCost += item.Quantity*item.Cost;
             }
 
             // Cast to unsigned integer and return.
@@ -73,7 +74,7 @@ namespace TrailEntities
         public void AddItem(Item item, int amount)
         {
             // Create the tuple for the item to add.
-            var incomingPurchase = new StoreTransactionItem(amount, item);
+            var incomingPurchase = new Item(item, amount);
 
             // Remove any existing tuple with this item name, we will replace it.
             RemoveItem(item);
@@ -88,11 +89,11 @@ namespace TrailEntities
         public void RemoveItem(IEntity item)
         {
             // Loop through every single transaction.
-            var copyList = new HashSet<StoreTransactionItem>(_totalTransactions);
+            var copyList = new HashSet<Item>(_totalTransactions);
             foreach (var transaction in copyList)
             {
                 // Check if item name matches incoming one.
-                if (!transaction.Item.Equals(item))
+                if (!transaction.Equals(item))
                     continue;
 
                 // Remove that tuple from transaction list.

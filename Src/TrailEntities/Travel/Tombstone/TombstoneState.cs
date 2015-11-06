@@ -5,7 +5,7 @@ namespace TrailEntities
     /// <summary>
     ///     Used when the party leader dies, no matter what happens this prevents the rest of the game from moving forward and
     ///     everybody dies. This state offers up the chance for the person to leave a personal epitaph of their existence as a
-    ///     warning or really whatever. Part of the fun is not knowing what they will say!
+    ///     warning or really whatever. Wheel of the fun is not knowing what they will say!
     /// </summary>
     public sealed class TombstoneState : ModeState<TravelInfo>
     {

@@ -35,7 +35,7 @@ namespace TrailEntities
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Points" /> class.
         /// </summary>
-        public Points(Type resource, int pointsAwarded,
+        public Points(Item resource, int pointsAwarded,
             int perAmount = DEFAULT_PER_AMOUNT, string optionalDisplayName = DEFAULT_DISPLAY_NAME)
         {
             // Complain if the per amount is zero, the developer is doing it wrong.
@@ -57,7 +57,7 @@ namespace TrailEntities
         /// <summary>
         ///     Represents the item we will be comparing with other items for, cost is not evaluated in any of these calculations.
         /// </summary>
-        private Type Resource { get; }
+        private Item Resource { get; }
 
         /// <summary>
         ///     Representation of the point scoring as a string that can be displayed visually to user so they understand the
@@ -66,7 +66,7 @@ namespace TrailEntities
         public override string ToString()
         {
             // Check if optional display name is being used.
-            var displayName = Resource.Name;
+            var displayName = Resource.ToString();
             if (!string.IsNullOrEmpty(_optionalDisplayName) &&
                 !string.IsNullOrWhiteSpace(_optionalDisplayName))
             {

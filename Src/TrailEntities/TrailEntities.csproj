@@ -35,23 +35,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\IEntity.cs" />
-    <Compile Include="Entity\Items\Animal\Animal.cs" />
-    <Compile Include="Entity\Items\Animal\Bear.cs" />
-    <Compile Include="Entity\Items\Animal\Buffalo.cs" />
-    <Compile Include="Entity\Items\Animal\Caribou.cs" />
-    <Compile Include="Entity\Items\Animal\Deer.cs" />
-    <Compile Include="Entity\Items\Animal\Duck.cs" />
-    <Compile Include="Entity\Items\Animal\Goose.cs" />
-    <Compile Include="Entity\Items\Animal\Rabbit.cs" />
-    <Compile Include="Entity\Items\Animal\Squirrel.cs" />
-    <Compile Include="Entity\Items\Resource\Bullets.cs" />
-    <Compile Include="Entity\Items\Resource\Clothing.cs" />
-    <Compile Include="Entity\Items\Resource\Food.cs" />
-    <Compile Include="Entity\Items\Item.cs" />
-    <Compile Include="Entity\Items\Part\Part.cs" />
-    <Compile Include="Entity\Items\Part\PartAxle.cs" />
-    <Compile Include="Entity\Items\Part\PartTongue.cs" />
-    <Compile Include="Entity\Items\Part\PartWheel.cs" />
+    <Compile Include="Entity\Item\Animals.cs" />
+    <Compile Include="Entity\Item\SimEntity.cs" />
+    <Compile Include="Entity\Item\Parts.cs" />
+    <Compile Include="Entity\Item\Resources.cs" />
+    <Compile Include="Entity\Item\Item.cs" />
     <Compile Include="Entity\Person\Disease.cs" />
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />
@@ -125,7 +113,6 @@
     <Compile Include="Store\StoreCommands.cs" />
     <Compile Include="Store\StoreDebtState.cs" />
     <Compile Include="Store\StoreInfo.cs" />
-    <Compile Include="Store\StoreTransactionItem.cs" />
     <Compile Include="Trade\TradingCommands.cs" />
     <Compile Include="Travel\Status\ChangeRationsState.cs" />
     <Compile Include="Travel\Pace\ChangePaceState.cs" />
@@ -149,12 +136,10 @@
     <Compile Include="Time\TickSim.cs" />
     <Compile Include="Time\Date.cs" />
     <Compile Include="Time\Months.cs" />
-    <Compile Include="Store\StoreRegistry.cs" />
     <Compile Include="Trail\TrailRegistry.cs" />
     <Compile Include="Climate\ClimateSim.cs" />
     <Compile Include="SimulationApp.cs" />
     <Compile Include="Time\TimeSim.cs" />
-    <Compile Include="Entity\Items\Part\Oxen.cs" />
     <Compile Include="Trail\ForkInRoad.cs" />
     <Compile Include="Trail\TrailSim.cs" />
     <Compile Include="Entity\Person\Person.cs" />

@@ -44,6 +44,15 @@ namespace TrailEntities
         public string Name { get; }
 
         /// <summary>
+        ///     Defines what type of entity this will take the role of in the simulation. Depending on this value the simulation
+        ///     will affect how it is treated, points tabulated, and interactions governed.
+        /// </summary>
+        public SimEntity Category
+        {
+            get { return SimEntity.Person;}
+        }
+
+        /// <summary>
         ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
         /// </summary>
         /// <returns>

@@ -23,7 +23,7 @@ namespace TrailEntities
         /// <summary>
         ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
         /// </summary>
-        private HashSet<Item> _inventory;
+        private Dictionary<SimEntity, Item> _inventory;
 
         /// <summary>
         ///     References all of the people inside of the vehicle.
@@ -43,7 +43,7 @@ namespace TrailEntities
         /// <summary>
         ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
         /// </summary>
-        public IEnumerable<Item> Inventory
+        public IDictionary<SimEntity, Item> Inventory
         {
             get { return _inventory; }
         }
@@ -85,6 +85,15 @@ namespace TrailEntities
         ///     Name of the entity as it should be known in the simulation.
         /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        ///     Defines what type of entity this will take the role of in the simulation. Depending on this value the simulation
+        ///     will affect how it is treated, points tabulated, and interactions governed.
+        /// </summary>
+        public SimEntity Category
+        {
+            get { return SimEntity.Vehicle; }
+        }
 
         /// <summary>
         ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
@@ -222,24 +231,24 @@ namespace TrailEntities
         /// <summary>
         ///     Adds the item to the inventory of the vehicle and subtracts it's cost multiplied by quantity from balance.
         /// </summary>
-        public void BuyItem(StoreTransactionItem transaction)
+        public void BuyItem(Item transaction)
         {
-            var totalCost = transaction.Item.Cost*transaction.Quantity;
+            var totalCost = transaction.Cost*transaction.Quantity;
             if (!(Balance >= totalCost))
                 return;
 
             Balance -= totalCost;
-            _inventory.Add(transaction.Item);
+            _inventory.Add(transaction.Category, transaction);
         }
 
         /// <summary>
         ///     Removes the item from the inventory of the vehicle and adds it's cost multiplied by quantity to balance.
         /// </summary>
-        public void SellItem(StoreTransactionItem transaction)
+        public void SellItem(Item transaction)
         {
-            var totalEarnings = transaction.Item.Cost*transaction.Quantity;
+            var totalEarnings = transaction.Cost*transaction.Quantity;
             Balance += totalEarnings;
-            _inventory.Remove(transaction.Item);
+            _inventory.Remove(transaction.Category);
         }
 
         /// <summary>
@@ -248,7 +257,7 @@ namespace TrailEntities
         /// <param name="startingMonies">Amount of money the vehicle should have to work with.</param>
         public void ResetVehicle(int startingMonies)
         {
-            _inventory = new HashSet<Item>();
+            _inventory = new Dictionary<SimEntity, Item>();
             Balance = startingMonies;
             _passengers = new HashSet<Person>();
             Ration = RationLevel.Filling;

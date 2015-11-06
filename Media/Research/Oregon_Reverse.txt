@@ -85,6 +85,12 @@ cost_food=cost_food+(1-two_weeks_fraction)*(8+5*eat_command)
 total_miles=total_miles+200+(cost_animals-220)/5+10*rnd(0)
 climate_blizzard=no_clothes=0
 
+two_weeks_fraction=int(two_weeks_fraction*14)
+turn_number=turn_number*14+two_weeks_fraction
+two_weeks_fraction=two_weeks_fraction+1
+if two_weeks_fraction<5 then 5560
+two_weeks_fraction=two_weeks_fraction-7
+
 IF TOTAL_MILES <= 950 THEN 1230
 IF RND(0)*10>9-((TOTAL_MILES/100-15) ** 2+72)/((TOTAL_MILES/100-15) ** 2+12) THEN 4560
 PRINT "RUGGED MOUNTAINS"

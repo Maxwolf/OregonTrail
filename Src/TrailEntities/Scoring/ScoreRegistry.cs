@@ -32,23 +32,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Build up a list of repair status scoring for people objects.
-        /// </summary>
-        public static IEnumerable<HealthScoring> PeoplePoints
-        {
-            get
-            {
-                return new List<HealthScoring>
-                {
-                    new HealthScoring(RepairStatus.Good, 500),
-                    new HealthScoring(RepairStatus.Fair, 400),
-                    new HealthScoring(RepairStatus.Poor, 300),
-                    new HealthScoring(RepairStatus.VeryPoor, 200)
-                };
-            }
-        }
-
-        /// <summary>
         ///     Reference to points that will be given for entities of given matching types in this list.
         /// </summary>
         public static IEnumerable<Points> ResourcePoints
@@ -57,13 +40,16 @@ namespace TrailEntities
             {
                 return new List<Points>
                 {
-                    new Points(typeof (Vehicle), 50),
-                    new Points(typeof (Oxen), 4),
-                    new Points(typeof (Part), 2),
-                    new Points(typeof (Clothing), 2),
-                    new Points(typeof (Bullets), 1, 50),
-                    new Points(typeof (Food), 1, 25),
-                    new Points(typeof (int), 1, 5, "Cash")
+                    new Points(Resources.Person, 800),
+                    new Points(Resources.Vehicle, 50),
+                    new Points(Parts.Oxen, 4),
+                    new Points(Parts.Wheel, 2),
+                    new Points(Parts.Axle, 2),
+                    new Points(Parts.Tongue, 2),
+                    new Points(Resources.Clothing, 2),
+                    new Points(Resources.Bullets, 1, 50),
+                    new Points(Resources.Food, 1, 25),
+                    new Points(Resources.Cash, 1, 5)
                 };
             }
         }

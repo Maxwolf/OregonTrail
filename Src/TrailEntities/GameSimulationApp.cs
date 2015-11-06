@@ -11,6 +11,11 @@ namespace TrailEntities
     public sealed class GameSimulationApp : SimulationApp
     {
         /// <summary>
+        /// References all of the possible repair status mapped to their string and integer values for easy compares without using reflection all the time.
+        /// </summary>
+        public Dictionary<string, int> RepairLevels { get; }
+
+        /// <summary>
         ///     Holds a constant representation of the string telling the user to press enter key to continue so we don't repeat
         ///     ourselves.
         /// </summary>
@@ -163,14 +168,6 @@ namespace TrailEntities
             if (Time != null)
             {
                 Time.DayEndEvent -= TimeSimulation_DayEndEvent;
-                Time.MonthEndEvent -= TimeSimulation_MonthEndEvent;
-                Time.YearEndEvent -= TimeSimulation_YearEndEvent;
-            }
-
-            // Unhook any events used by vehicle.
-            if (Vehicle != null)
-            {
-                Vehicle.OnVehicleChangePace -= OnVehicleChangePace;
             }
 
             // Unhook director for random events.
@@ -203,8 +200,6 @@ namespace TrailEntities
             // Linear time simulation with ticks.
             Time = new TimeSim(1848, Months.March, 1);
             Time.DayEndEvent += TimeSimulation_DayEndEvent;
-            Time.MonthEndEvent += TimeSimulation_MonthEndEvent;
-            Time.YearEndEvent += TimeSimulation_YearEndEvent;
 
             // Scoring tracker and tabulator for end game results from current simulation state.
             ScoreTopTen = new List<Highscore>(ScoreRegistry.TopTenDefaults);
@@ -221,7 +216,6 @@ namespace TrailEntities
 
             // Vehicle information and events for changing face and rations.
             Vehicle = new Vehicle();
-            Vehicle.OnVehicleChangePace += OnVehicleChangePace;
 
             // Attach traveling mode since that is the default and bottom most game mode.
             AddMode(ModeType.Travel);
@@ -286,15 +280,17 @@ namespace TrailEntities
             }
         }
 
-        private void OnVehicleChangePace()
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
+        /// </summary>
+        private GameSimulationApp()
         {
-            // TODO: Change the simulation pace to whatever the linear time simulation is doing.
-            Console.WriteLine("Travel pace changed to " + Vehicle.Pace);
-        }
-
-        private void TimeSimulation_YearEndEvent(int yearCount)
-        {
-            //Console.WriteLine("Year end!");
+            // Repair status reference dictionary.
+            RepairLevels = new Dictionary<string, int>();
+            foreach (var repairStat in Enum.GetNames(typeof(RepairStatus)))
+            {
+                RepairLevels.Add(repairStat, Convert.ToInt32(repairStat));
+            }
         }
 
         /// <summary>
@@ -303,7 +299,7 @@ namespace TrailEntities
         /// <param name="dayCount">Total number of days in the simulation that have passed.</param>
         private void TimeSimulation_DayEndEvent(int dayCount)
         {
-            var cost_food = Vehicle.Inventory.FirstOrDefault(i => i is Food).TotalWeight;
+            var cost_food = Vehicle.Inventory[SimEntity.Food].TotalWeight;
             var cost_ammo = 0;
             var cost_animals = 0;
             var cost_clothes = 0;
@@ -340,11 +336,6 @@ namespace TrailEntities
                 // Update total distance traveled on vehicle if we have not reached the point.
                 Vehicle.TickVehicle(total_miles);
             }
-        }
-
-        private void TimeSimulation_MonthEndEvent(int monthCount)
-        {
-            //Console.WriteLine("Month end!");
         }
     }
 }

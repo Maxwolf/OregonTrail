@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 
 namespace TrailEntities
@@ -15,9 +14,6 @@ namespace TrailEntities
         /// </summary>
         public bool HasLookedAround { get; set; }
 
-
-        //public bool CanHunt
-
         /// <summary>
         ///     Used when the player is traveling on the trail between locations. Also known as drive state in travel game mode.
         /// </summary>
@@ -26,7 +22,7 @@ namespace TrailEntities
             get
             {
                 // Get the current food item from vehicle inventory.
-                var foodItem = GameSimulationApp.Instance.Vehicle.Inventory.FirstOrDefault(i => i is Food);
+                var foodItem = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Food];
 
                 // Set default food status text, update to actual food item total weight if it exists.
                 var foodStatus = "0 pounds";

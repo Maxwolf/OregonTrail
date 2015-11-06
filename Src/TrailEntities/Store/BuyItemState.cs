@@ -24,6 +24,12 @@ namespace TrailEntities
         /// </summary>
         private int _purchaseLimit;
 
+        /// <summary>
+        ///     Attaches a state that will allow the player to purchase a certain number of a particular item.
+        /// </summary>
+        /// <param name="itemToBuy">Item to purchase.</param>
+        /// <param name="gameMode">Current game mode that requested this.</param>
+        /// <param name="userData">Any special user data associated with this state and mode.</param>
         public BuyItemState(Item itemToBuy, IMode gameMode, StoreInfo userData)
             : base(gameMode, userData)
         {
@@ -37,8 +43,8 @@ namespace TrailEntities
                 _purchaseLimit = 0;
 
             // Set the credit limit to be the carry limit if they player has lots of monies and can buy many, we must limit them!
-            if (_purchaseLimit > itemToBuy.CarryLimit)
-                _purchaseLimit = itemToBuy.CarryLimit;
+            if (_purchaseLimit > itemToBuy.MaxQuantity)
+                _purchaseLimit = itemToBuy.MaxQuantity;
 
             // Add some information about how many you can buy and total amount you can carry.
             _itemBuyText = new StringBuilder();
@@ -90,7 +96,7 @@ namespace TrailEntities
                 return;
 
             // Check that number is less than or equal to limit that is hard-coded.
-            if (parsedInputNumber > _itemToBuy.CarryLimit)
+            if (parsedInputNumber > _itemToBuy.MaxQuantity)
                 return;
 
             // Add the item the player wants in given amount 

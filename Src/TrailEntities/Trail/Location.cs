@@ -11,16 +11,14 @@ namespace TrailEntities
         /// <summary>
         ///     Reference to all of the items this landmark has for sale in a store.
         /// </summary>
-        private HashSet<Item> _storeItems;
+        private Dictionary<SimEntity, Item> _storeItems;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Location" /> class.
         /// </summary>
         public Location(
             string name,
-            int distanceLength,
-            IEnumerable<Item> pointInventory = null,
-            bool canRest = true)
+            int distanceLength)
         {
             // Name of the point as it should be known to the player.
             Name = name;
@@ -28,14 +26,23 @@ namespace TrailEntities
             // How many 'miles' the player and his vehicle must travel to reach this point.
             DistanceLength = distanceLength;
 
+            // Build up the default items every store will have, their prices increase with distance from starting point.
+            var defaultStoreInventory = new Dictionary<SimEntity, Item>
+            {
+                {SimEntity.Animal, Parts.Oxen},
+                {SimEntity.Clothes, Resources.Clothing},
+                {SimEntity.Ammo, Resources.Bullets},
+                {SimEntity.Wheel, Parts.Wheel},
+                {SimEntity.Axle, Parts.Axle},
+                {SimEntity.Tongue, Parts.Tongue},
+                {SimEntity.Food, Resources.Food}
+            };
+
             // Use the null coalescing operator and an instance of empty List.
-            _storeItems = new HashSet<Item>(pointInventory ?? new HashSet<Item>());
+            _storeItems = new Dictionary<SimEntity, Item>(defaultStoreInventory);
 
             // We know the settlement has a store if there are items in it to sell.
             HasStore = _storeItems.Count > 0;
-
-            // Setup basic information about this settlement.
-            CanRest = canRest;
         }
 
         /// <summary>
@@ -61,7 +68,7 @@ namespace TrailEntities
         /// <summary>
         ///     Defines a list of items which the store has inside of it which were established in the constructor for the store.
         /// </summary>
-        public IEnumerable<Item> StoreItems
+        public IDictionary<SimEntity, Item> StoreItems
         {
             get { return _storeItems; }
         }
@@ -71,12 +78,5 @@ namespace TrailEntities
         ///     property.
         /// </summary>
         public bool HasStore { get; }
-
-        /// <summary>
-        ///     Determines if the player can rest here, it is an optional parameter with default value of true. Typically the only
-        ///     time in a trail where you cannot rest is when you reach the last location in the game before point calculation game
-        ///     mode is attached.
-        /// </summary>
-        public bool CanRest { get; }
     }
 }
