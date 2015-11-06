@@ -66,7 +66,7 @@ namespace TrailEntities
         public override string ToString()
         {
             // Check if optional display name is being used.
-            var displayName = Resource.ToString();
+            var displayName = Resource.Name;
             if (!string.IsNullOrEmpty(_optionalDisplayName) &&
                 !string.IsNullOrWhiteSpace(_optionalDisplayName))
             {

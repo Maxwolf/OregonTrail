@@ -26,20 +26,8 @@ namespace TrailEntities
             // How many 'miles' the player and his vehicle must travel to reach this point.
             DistanceLength = distanceLength;
 
-            // Build up the default items every store will have, their prices increase with distance from starting point.
-            var defaultStoreInventory = new Dictionary<SimEntity, Item>
-            {
-                {SimEntity.Animal, Parts.Oxen},
-                {SimEntity.Clothes, Resources.Clothing},
-                {SimEntity.Ammo, Resources.Bullets},
-                {SimEntity.Wheel, Parts.Wheel},
-                {SimEntity.Axle, Parts.Axle},
-                {SimEntity.Tongue, Parts.Tongue},
-                {SimEntity.Food, Resources.Food}
-            };
-
             // Use the null coalescing operator and an instance of empty List.
-            _storeItems = new Dictionary<SimEntity, Item>(defaultStoreInventory);
+            _storeItems = new Dictionary<SimEntity, Item>(Resources.DefaultStore);
 
             // We know the settlement has a store if there are items in it to sell.
             HasStore = _storeItems.Count > 0;

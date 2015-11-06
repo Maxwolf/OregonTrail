@@ -53,28 +53,22 @@ namespace TrailEntities
         public Item(Item oldItem, int newQuantity)
         {
             // Complain if new quantity is above maximum.
-            if (newQuantity > MaxQuantity)
+            if (newQuantity > oldItem.MaxQuantity)
                 throw new ArgumentException("New quantity for item cannot be larger than predefined maximum!");
 
-            // Set updated quantity.
+            // Set updated quantity values, plus ceiling and floor.
             Quantity = newQuantity;
+            MaxQuantity = oldItem.MaxQuantity;
+            MinimumQuantity = oldItem.MinimumQuantity;
 
-            // Set other various item properties.
+            // Display name and item entity type.
+            Name = oldItem.Name;
+            Category = oldItem.Category;
             Cost = oldItem.Cost;
             DelineatingUnit = oldItem.DelineatingUnit;
             PluralForm = oldItem.PluralForm;
             Weight = oldItem.Weight;
-            MinimumQuantity = oldItem.MinimumQuantity;
-            MaxQuantity = oldItem.MaxQuantity;
-            Category = oldItem.Category;
-            Name = oldItem.Name;
         }
-
-        /// <summary>
-        ///     Determines what type of item this is, used by the simulation to help sort the items and quickly iterate over them
-        ///     when looking for a particular piece of data in the vehicles inventory list.
-        /// </summary>
-        public SimEntity Category { get; }
 
         /// <summary>
         ///     Total number of the items the player is going to be taking.
@@ -121,6 +115,12 @@ namespace TrailEntities
         ///     Limit on the number of items that are possible to have of this particular type.
         /// </summary>
         public int MaxQuantity { get; }
+
+        /// <summary>
+        ///     Determines what type of item this is, used by the simulation to help sort the items and quickly iterate over them
+        ///     when looking for a particular piece of data in the vehicles inventory list.
+        /// </summary>
+        public SimEntity Category { get; }
 
         /// <summary>
         ///     Display name of the item as it should be known to players.
@@ -237,9 +237,20 @@ namespace TrailEntities
         /// <returns></returns>
         public string ToString(bool storeMode)
         {
-            return storeMode
+            return !storeMode
                 ? $"{Cost.ToString("F2")} per {DelineatingUnit}"
                 : (Quantity*Cost).ToString("C2");
+        }
+
+        /// <summary>
+        ///     Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        ///     A string that represents the current object.
+        /// </returns>
+        public override string ToString()
+        {
+            return ToString(false);
         }
     }
 }

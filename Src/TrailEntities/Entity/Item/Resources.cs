@@ -1,10 +1,35 @@
-﻿namespace TrailEntities
+﻿using System.Collections.Generic;
+
+namespace TrailEntities
 {
     /// <summary>
     ///     Defines items which are used by the vehicle party members, typically consuming them everyday.
     /// </summary>
     public static class Resources
     {
+        /// <summary>
+        ///     References all of the default store items that any clerk will offer to sell you. This is also true for the store
+        ///     purchasing mode that keeps track of purchases that need to be made.
+        /// </summary>
+        public static IDictionary<SimEntity, Item> DefaultStore
+        {
+            get
+            {
+                // Build up the default items every store will have, their prices increase with distance from starting point.
+                var defaultStoreInventory = new Dictionary<SimEntity, Item>
+                {
+                    {SimEntity.Animal, Parts.Oxen},
+                    {SimEntity.Clothes, Clothing},
+                    {SimEntity.Ammo, Bullets},
+                    {SimEntity.Wheel, Parts.Wheel},
+                    {SimEntity.Axle, Parts.Axle},
+                    {SimEntity.Tongue, Parts.Tongue},
+                    {SimEntity.Food, Food}
+                };
+                return defaultStoreInventory;
+            }
+        }
+
         /// <summary>
         ///     Worn by the vehicle party members to keep them warm when it is cold outside from climate simulation, without them
         ///     the players risk illness and death.

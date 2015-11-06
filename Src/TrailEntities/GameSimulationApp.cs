@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace TrailEntities
@@ -10,11 +9,6 @@ namespace TrailEntities
     /// </summary>
     public sealed class GameSimulationApp : SimulationApp
     {
-        /// <summary>
-        /// References all of the possible repair status mapped to their string and integer values for easy compares without using reflection all the time.
-        /// </summary>
-        public Dictionary<string, int> RepairLevels { get; }
-
         /// <summary>
         ///     Holds a constant representation of the string telling the user to press enter key to continue so we don't repeat
         ///     ourselves.
@@ -26,6 +20,25 @@ namespace TrailEntities
         ///     names are asked for in new game mode.
         /// </summary>
         public const int MAX_PLAYERS = 4;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
+        /// </summary>
+        private GameSimulationApp()
+        {
+            // Repair status reference dictionary.
+            RepairLevels = new Dictionary<string, int>();
+            foreach (var repairStat in Enum.GetNames(typeof (RepairStatus)))
+            {
+                RepairLevels.Add(repairStat, (int) Enum.Parse(typeof (RepairStatus), repairStat));
+            }
+        }
+
+        /// <summary>
+        ///     References all of the possible repair status mapped to their string and integer values for easy compares without
+        ///     using reflection all the time.
+        /// </summary>
+        public Dictionary<string, int> RepairLevels { get; }
 
         /// <summary>
         ///     Keeps track of all the points of interest we want to visit from beginning to end that makeup the entire journey.
@@ -277,19 +290,6 @@ namespace TrailEntities
                     return new OptionsMode();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(modeType), modeType, null);
-            }
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
-        /// </summary>
-        private GameSimulationApp()
-        {
-            // Repair status reference dictionary.
-            RepairLevels = new Dictionary<string, int>();
-            foreach (var repairStat in Enum.GetNames(typeof(RepairStatus)))
-            {
-                RepairLevels.Add(repairStat, Convert.ToInt32(repairStat));
             }
         }
 

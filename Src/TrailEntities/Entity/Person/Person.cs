@@ -49,7 +49,7 @@ namespace TrailEntities
         /// </summary>
         public SimEntity Category
         {
-            get { return SimEntity.Person;}
+            get { return SimEntity.Person; }
         }
 
         /// <summary>

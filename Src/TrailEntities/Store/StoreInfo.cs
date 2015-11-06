@@ -12,7 +12,7 @@ namespace TrailEntities
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        private HashSet<Item> _totalTransactions;
+        private Dictionary<SimEntity, Item> _totalTransactions;
 
         /// <summary>
         ///     Creates a new store transaction tracker.
@@ -21,8 +21,7 @@ namespace TrailEntities
         public StoreInfo(bool showAdvice = false)
         {
             ShowStoreAdvice = showAdvice;
-            _totalTransactions = new HashSet<Item>();
-
+            _totalTransactions = new Dictionary<SimEntity, Item>(Resources.DefaultStore);
         }
 
         /// <summary>
@@ -31,13 +30,13 @@ namespace TrailEntities
         public StoreInfo()
         {
             ShowStoreAdvice = false;
-            _totalTransactions = new HashSet<Item>();
+            _totalTransactions = new Dictionary<SimEntity, Item>();
         }
 
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        public IEnumerable<Item> Transactions
+        public IDictionary<SimEntity, Item> Transactions
         {
             get { return _totalTransactions; }
         }
@@ -61,7 +60,7 @@ namespace TrailEntities
             float totalCost = 0;
             foreach (var item in _totalTransactions)
             {
-                totalCost += item.Quantity*item.Cost;
+                totalCost += item.Value.Quantity*item.Value.Cost;
             }
 
             // Cast to unsigned integer and return.
@@ -80,7 +79,7 @@ namespace TrailEntities
             RemoveItem(item);
 
             // Add the new tuple to replace the one we just removed.
-            _totalTransactions.Add(incomingPurchase);
+            _totalTransactions.Add(incomingPurchase.Category, incomingPurchase);
         }
 
         /// <summary>
@@ -89,15 +88,15 @@ namespace TrailEntities
         public void RemoveItem(IEntity item)
         {
             // Loop through every single transaction.
-            var copyList = new HashSet<Item>(_totalTransactions);
+            var copyList = new Dictionary<SimEntity, Item>(_totalTransactions);
             foreach (var transaction in copyList)
             {
                 // Check if item name matches incoming one.
-                if (!transaction.Equals(item))
+                if (!transaction.Key.Equals(item.Category))
                     continue;
 
-                // Remove that tuple from transaction list.
-                _totalTransactions.Remove(transaction);
+                // Remove that item from transaction list.
+                _totalTransactions.Remove(item.Category);
                 break;
             }
         }

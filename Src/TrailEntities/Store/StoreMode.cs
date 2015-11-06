@@ -19,14 +19,6 @@ namespace TrailEntities
         /// </summary>
         private const string ITEM_NOT_FOUND = "[ITEM NOT FOUND]";
 
-        private string _axlesAmount;
-        private string _bulletsAmount;
-        private string _clothingAmount;
-        private string _foodAmount;
-        private string _oxenAmount;
-        private string _tonguesAmount;
-        private string _wheelsAmount;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.StoreMode" /> class.
         /// </summary>
@@ -137,7 +129,7 @@ namespace TrailEntities
                 var boughtOxen = false;
                 foreach (var pendingBuy in StoreInfo.Transactions)
                 {
-                    if (!(pendingBuy.Category.Equals(SimEntity.Animal)))
+                    if (!(pendingBuy.Key.Equals(SimEntity.Animal)))
                         continue;
 
                     boughtOxen = true;
@@ -228,7 +220,7 @@ namespace TrailEntities
             // Process all of the pending transactions in the store receipt info object.
             foreach (var transaction in StoreInfo.Transactions)
             {
-                GameSimulationApp.Instance.Vehicle.BuyItem(transaction);
+                GameSimulationApp.Instance.Vehicle.BuyItem(transaction.Value);
             }
 
             // Remove all the transactions now that we have processed them.
@@ -240,81 +232,6 @@ namespace TrailEntities
         /// </summary>
         private void UpdateDebts()
         {
-            // We will only modify store visualization of prices when at the first location on the trail.
-            var firstPoint = GameSimulationApp.Instance.Trail.IsFirstPointOfInterest();
-            if (firstPoint)
-            {
-                // First store is slightly different and shows total monies against store transactions items instead.
-                _oxenAmount = ZERO_MONIES;
-                _foodAmount = ZERO_MONIES;
-                _clothingAmount = ZERO_MONIES;
-                _bulletsAmount = ZERO_MONIES;
-                _wheelsAmount = ZERO_MONIES;
-                _axlesAmount = ZERO_MONIES;
-                _tonguesAmount = ZERO_MONIES;
-
-                // Loop through every pending transaction and match it item type, the transaction will print out a nice cost of itself.
-                foreach (var pendingBuy in StoreInfo.Transactions)
-                {
-                    if (pendingBuy.Category.Equals(SimEntity.Animal))
-                        _oxenAmount = pendingBuy.ToString();
-
-                    if (pendingBuy.Category.Equals(SimEntity.Food))
-                        _foodAmount = pendingBuy.ToString();
-
-                    if (pendingBuy.Category.Equals(SimEntity.Clothes))
-                        _clothingAmount = pendingBuy.ToString();
-
-                    if (pendingBuy.Category.Equals(SimEntity.Ammo))
-                        _bulletsAmount = pendingBuy.ToString();
-
-                    if (pendingBuy.Category.Equals(SimEntity.Wheel))
-                        _wheelsAmount = pendingBuy.ToString();
-
-                    if (pendingBuy.Category.Equals(SimEntity.Axle))
-                        _axlesAmount = pendingBuy.ToString();
-
-                    if (pendingBuy.Category.Equals(SimEntity.Tongue))
-                        _tonguesAmount = pendingBuy.ToString();
-                }
-            }
-            else
-            {
-                // Default store print out looks for matching items the store sells.
-                _oxenAmount = ITEM_NOT_FOUND;
-                _foodAmount = ITEM_NOT_FOUND;
-                _clothingAmount = ITEM_NOT_FOUND;
-                _bulletsAmount = ITEM_NOT_FOUND;
-                _wheelsAmount = ITEM_NOT_FOUND;
-                _axlesAmount = ITEM_NOT_FOUND;
-                _tonguesAmount = ITEM_NOT_FOUND;
-
-                // Loop through every item the store sells and print out what it costs per unit.
-                foreach (var storeItem in CurrentPoint.StoreItems)
-                {
-                    if (storeItem.Key.Equals(SimEntity.Animal))
-                        _oxenAmount = storeItem.ToString();
-
-                    if (storeItem.Key.Equals(SimEntity.Food))
-                        _foodAmount = storeItem.ToString();
-
-                    if (storeItem.Key.Equals(SimEntity.Clothes))
-                        _clothingAmount = storeItem.ToString();
-
-                    if (storeItem.Key.Equals(SimEntity.Ammo))
-                        _bulletsAmount = storeItem.ToString();
-
-                    if (storeItem.Key.Equals(SimEntity.Wheel))
-                        _wheelsAmount = storeItem.ToString();
-
-                    if (storeItem.Key.Equals(SimEntity.Axle))
-                        _axlesAmount = storeItem.ToString();
-
-                    if (storeItem.Key.Equals(SimEntity.Tongue))
-                        _tonguesAmount = storeItem.ToString();
-                }
-            }
-
             // Header text for above menu.
             var headerText = new StringBuilder();
             headerText.Append($"--------------------------------{Environment.NewLine}");
@@ -323,15 +240,24 @@ namespace TrailEntities
             headerText.Append("--------------------------------");
             MenuHeader = headerText.ToString();
 
+            // Keep track if this is the first point of interest, it will alter how the store shows values.
+            var isFirstPoint = GameSimulationApp.Instance.Trail.IsFirstPointOfInterest();
+
             // Clear all the commands store had, then re-populate the list with them again so we can change the titles dynamically.
             ClearCommands();
-            AddCommand(BuyOxen, StoreCommands.BuyOxen, $"Oxen              {_oxenAmount}");
-            AddCommand(BuyFood, StoreCommands.BuyFood, $"Food              {_foodAmount}");
-            AddCommand(BuyClothing, StoreCommands.BuyClothing, $"Clothing          {_clothingAmount}");
-            AddCommand(BuyAmmunition, StoreCommands.BuyAmmunition, $"Ammunition        {_bulletsAmount}");
-            AddCommand(BuySpareWheels, StoreCommands.BuySpareWheel, $"Vehicle wheels    {_wheelsAmount}");
-            AddCommand(BuySpareAxles, StoreCommands.BuySpareAxles, $"Vehicle axles     {_axlesAmount}");
-            AddCommand(BuySpareTongues, StoreCommands.BuySpareTongues, $"Vehicle tongues   {_tonguesAmount}");
+            AddCommand(BuyOxen, StoreCommands.BuyOxen,
+                $"Oxen              {StoreInfo.Transactions[SimEntity.Animal].ToString(isFirstPoint)}");
+            AddCommand(BuyFood, StoreCommands.BuyFood, $"Food              {StoreInfo.Transactions[SimEntity.Food]}");
+            AddCommand(BuyClothing, StoreCommands.BuyClothing,
+                $"Clothing          {StoreInfo.Transactions[SimEntity.Clothes].ToString(isFirstPoint)}");
+            AddCommand(BuyAmmunition, StoreCommands.BuyAmmunition,
+                $"Ammunition        {StoreInfo.Transactions[SimEntity.Ammo].ToString(isFirstPoint)}");
+            AddCommand(BuySpareWheels, StoreCommands.BuySpareWheel,
+                $"Vehicle wheels    {StoreInfo.Transactions[SimEntity.Wheel].ToString(isFirstPoint)}");
+            AddCommand(BuySpareAxles, StoreCommands.BuySpareAxles,
+                $"Vehicle axles     {StoreInfo.Transactions[SimEntity.Axle].ToString(isFirstPoint)}");
+            AddCommand(BuySpareTongues, StoreCommands.BuySpareTongues,
+                $"Vehicle tongues   {StoreInfo.Transactions[SimEntity.Tongue].ToString(isFirstPoint)}");
             AddCommand(LeaveStore, StoreCommands.LeaveStore, "Leave store");
 
             // Footer text for below menu.

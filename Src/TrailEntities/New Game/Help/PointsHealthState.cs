@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace TrailEntities
@@ -37,11 +34,10 @@ namespace TrailEntities
             _pointsHealth.Append($"in good health!{Environment.NewLine}{Environment.NewLine}");
 
             // Build a text table from people point distribution with custom headers.
-            var _status = RepairStatus.Good;
             var partyTextTable = GameSimulationApp.Instance.RepairLevels.Values.ToStringTable(
                 new[] {"Health of Party", "Points per Person"},
-                u => Enum.TryParse(u.ToString(), true, out _status),
-                u => GameSimulationApp.Instance.RepairLevels[_status.ToString()]);
+                u => Enum.Parse(typeof (RepairStatus), u.ToString()).ToString(),
+                u => u);
 
             // Print the table to the screen buffer.
             _pointsHealth.AppendLine(partyTextTable);
