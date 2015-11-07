@@ -22,6 +22,11 @@ namespace TrailEntities
         public const int MAX_PLAYERS = 4;
 
         /// <summary>
+        ///     Defines the maximum number of miles the vehicle is allowed to travel before the game is considered forcefully over.
+        /// </summary>
+        public const int TRAIL_LENGTH = 2040;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimApp" /> class.
         /// </summary>
         private GameSimApp()
@@ -83,6 +88,31 @@ namespace TrailEntities
         ///     (246 days) or approximately two-thousand (2000) miles.
         /// </summary>
         public int TotalTurns { get; private set; }
+
+        /// <summary>
+        ///     References all of the default store items that any clerk will offer to sell you. This is also true for the store
+        ///     purchasing mode that keeps track of purchases that need to be made.
+        /// </summary>
+        internal static IDictionary<SimEntity, SimItem> DefaultInventory
+        {
+            get
+            {
+                // Build up the default items every store will have, their prices increase with distance from starting point.
+                var defaultStoreInventory = new Dictionary<SimEntity, SimItem>
+                {
+                    {SimEntity.Animal, Parts.Oxen},
+                    {SimEntity.Clothes, Resources.Clothing},
+                    {SimEntity.Ammo, Resources.Bullets},
+                    {SimEntity.Wheel, Parts.Wheel},
+                    {SimEntity.Axle, Parts.Axle},
+                    {SimEntity.Tongue, Parts.Tongue},
+                    {SimEntity.Food, Resources.Food},
+                    {SimEntity.Aid, Resources.Aid},
+                    {SimEntity.Cash, Resources.Cash}
+                };
+                return defaultStoreInventory;
+            }
+        }
 
         /// <summary>
         ///     Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
@@ -292,31 +322,6 @@ namespace TrailEntities
                     return new EndGameMode();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(modeType), modeType, null);
-            }
-        }
-
-        /// <summary>
-        ///     References all of the default store items that any clerk will offer to sell you. This is also true for the store
-        ///     purchasing mode that keeps track of purchases that need to be made.
-        /// </summary>
-        internal static IDictionary<SimEntity, SimItem> DefaultInventory
-        {
-            get
-            {
-                // Build up the default items every store will have, their prices increase with distance from starting point.
-                var defaultStoreInventory = new Dictionary<SimEntity, SimItem>
-                {
-                    {SimEntity.Animal, Parts.Oxen},
-                    {SimEntity.Clothes, Resources.Clothing},
-                    {SimEntity.Ammo, Resources.Bullets},
-                    {SimEntity.Wheel, Parts.Wheel},
-                    {SimEntity.Axle, Parts.Axle},
-                    {SimEntity.Tongue, Parts.Tongue},
-                    {SimEntity.Food, Resources.Food},
-                    {SimEntity.Aid, Resources.Aid},
-                    {SimEntity.Cash, Resources.Cash}
-                };
-                return defaultStoreInventory;
             }
         }
 

@@ -327,7 +327,7 @@ namespace TrailEntities
 
             // Determines how much food party members in the vehicle will eat today.
             var cost_food = Inventory[SimEntity.Food].TotalValue;
-            var two_weeks_fraction = (2040 - Odometer)/(Mileage - Odometer);
+            var two_weeks_fraction = (GameSimApp.TRAIL_LENGTH - Odometer)/(Mileage - Odometer);
             cost_food = cost_food - 8 - 5*(int) Ration;
             if (cost_food >= 13)
             {

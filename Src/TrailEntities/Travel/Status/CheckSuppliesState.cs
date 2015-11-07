@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace TrailEntities
 {
@@ -11,14 +10,14 @@ namespace TrailEntities
     public sealed class CheckSuppliesState : ModeState<TravelInfo>
     {
         /// <summary>
-        /// Holds the computed list of current inventory items in the vehicle that are used by all party members.
-        /// </summary>
-        private StringBuilder _supplies;
-
-        /// <summary>
-        /// Determines if the player is finished looking at their current inventory supply listing.
+        ///     Determines if the player is finished looking at their current inventory supply listing.
         /// </summary>
         private bool _hasCheckedSupplies;
+
+        /// <summary>
+        ///     Holds the computed list of current inventory items in the vehicle that are used by all party members.
+        /// </summary>
+        private StringBuilder _supplies;
 
         /// <summary>
         ///     This constructor will be used by the other one
@@ -27,7 +26,6 @@ namespace TrailEntities
         {
             // Build up representation of supplies once in constructor and then reference when asked for render.
             _supplies = new StringBuilder();
-
         }
 
         /// <summary>

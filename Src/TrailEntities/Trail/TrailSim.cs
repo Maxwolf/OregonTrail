@@ -64,7 +64,7 @@ namespace TrailEntities
                 // Fire method to do some work and attach game modes based on this.
                 OnReachedPointOfInterest(currentPoint);
             }
-            else if (GameSimApp.Instance.Vehicle.Odometer >= 2040)
+            else if (GameSimApp.Instance.Vehicle.Odometer >= GameSimApp.TRAIL_LENGTH)
             {
                 // Check for end of game in miles.
                 GameSimApp.Instance.AddMode(ModeType.EndGame);
