@@ -98,7 +98,7 @@ namespace TrailEntities
             get
             {
                 // Build up the default items every store will have, their prices increase with distance from starting point.
-                var defaultStoreInventory = new Dictionary<SimEntity, SimItem>
+                var defaultInventory = new Dictionary<SimEntity, SimItem>
                 {
                     {SimEntity.Animal, Parts.Oxen},
                     {SimEntity.Clothes, Resources.Clothing},
@@ -109,7 +109,7 @@ namespace TrailEntities
                     {SimEntity.Food, Resources.Food},
                     {SimEntity.Cash, Resources.Cash}
                 };
-                return defaultStoreInventory;
+                return defaultInventory;
             }
         }
 
@@ -212,12 +212,6 @@ namespace TrailEntities
                 Time.DayEndEvent -= TimeSimulation_DayEndEvent;
             }
 
-            // Unhook director for random events.
-            if (Director != null)
-            {
-                Director.EventAdded -= OnDirectorAddEvent;
-            }
-
             // Destroy all instances.
             ScoreTopTen = null;
             Time = null;
@@ -247,11 +241,8 @@ namespace TrailEntities
             ScoreTopTen = new List<Highscore>(ScoreRegistry.TopTenDefaults);
             // TODO: Load custom list from JSON with user high scores altered from defaults.
 
-            // Director event manager, and his delegate.
+            // Environment, weather, conditions, climate, tail, stats, event director, etc.
             Director = new EventSim();
-            Director.EventAdded += OnDirectorAddEvent;
-
-            // Environment, weather, conditions, climate, tail, stats.
             Climate = new ClimateSim(ClimateClassification.Moderate);
             Trail = new TrailSim(TrailRegistry.OregonTrail());
             TotalTurns = 0;
@@ -264,29 +255,6 @@ namespace TrailEntities
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
             AddMode(ModeType.MainMenu);
-        }
-
-        /// <summary>
-        ///     Fired when one of the sub-routines in the simulation determines that a random event should occur to the player.
-        ///     Once this has been processed and created this event will get fired and the data passed into it for decision making
-        ///     at this point in the simulation.
-        /// </summary>
-        /// <remarks>
-        ///     All events will want to affect the vehicle, players inside it, or the inventory items they hold. All events will
-        ///     want to print a message telling the user what happened. Some events will want to attach a new game mode and then
-        ///     deal with the processing after it has been removed.
-        /// </remarks>
-        /// <param name="whatHappened">Event with data describing what is happening to the player as they travel down the trail.</param>
-        private void OnDirectorAddEvent(IEventItem whatHappened)
-        {
-            // TODO: Pause the simulation.
-
-            // TODO: Attach a game mode or alter the state of travel mode to show message about event.
-
-
-            // Makes the event do whatever it is going to do.
-            // NOTE: Data will very likely change or party members die after this is run...
-            whatHappened.Execute();
         }
 
         /// <summary>

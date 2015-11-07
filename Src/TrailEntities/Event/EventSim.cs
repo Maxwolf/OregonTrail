@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace TrailEntities
 {
@@ -9,8 +8,6 @@ namespace TrailEntities
     /// </summary>
     public sealed class EventSim
     {
-        public delegate void EventAdd(IEventItem eventItem);
-
         /// <summary>
         ///     Reference to the last event that the dice rolled on, this is cleared and reset to next value each time the dice are
         ///     rolled.
@@ -20,40 +17,32 @@ namespace TrailEntities
         /// <summary>
         ///     References all of the events that have been triggered by the system in chronological order they occurred.
         /// </summary>
-        private Dictionary<string, IEventItem> _events;
+        private OrderedDictionary<string, EventItem> _events;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.EventSim" /> class.
         /// </summary>
         public EventSim()
         {
-            _events = new Dictionary<string, IEventItem>();
+            _events = new OrderedDictionary<string, EventItem>();
             _eventCounter = 0;
         }
 
         /// <summary>
         ///     Stores all previous and current events in the system, saved and loaded with simulation.
         /// </summary>
-        public IDictionary<string, IEventItem> Events
+        public IDictionary<string, EventItem> Events
         {
             get { return _events; }
         }
 
         /// <summary>
-        ///     Handles delegate for knowing when a new event has been added.
-        /// </summary>
-        public event EventAdd EventAdded;
-
-        /// <summary>
         ///     Adds a new event to the list of current events.
         /// </summary>
-        public void AddEvent(IEventItem eventItem)
+        public void AddEvent(EventItem eventItem)
         {
             // Adds the event to the list, no duplicate events are allowed.
             _events.Add(eventItem.Name, eventItem);
-
-            // Fire event!
-            EventAdded?.Invoke(eventItem);
         }
 
         /// <summary>

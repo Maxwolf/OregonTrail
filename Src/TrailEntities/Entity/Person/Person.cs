@@ -20,7 +20,6 @@ namespace TrailEntities
             IsLeader = isLeader;
             DaysStarving = 0;
             Health = RepairStatus.Good;
-            Ration = RationLevel.Filling;
         }
 
         /// <summary>
@@ -33,36 +32,30 @@ namespace TrailEntities
             IsLeader = false;
             DaysStarving = 0;
             Health = RepairStatus.Good;
-            Ration = RationLevel.Filling;
         }
-
-        /// <summary>
-        ///     Determines how much food every day this person eats in pounds.
-        /// </summary>
-        public RationLevel Ration { get; }
 
         /// <summary>
         ///     Current health of this person which is enum that also represents the total points they are currently worth.
         /// </summary>
-        public RepairStatus Health { get; private set; }
+        private RepairStatus Health { get; set; }
 
         /// <summary>
         ///     Determines how many total consecutive days this player has not eaten any food. If this continues for more than five
         ///     (5) days then the probability they will die increases exponentially.
         /// </summary>
-        public int DaysStarving { get; }
+        private int DaysStarving { get; }
 
         /// <summary>
         ///     Profession of this person, typically if the leader is a banker then the entire family is all bankers for sanity
         ///     sake.
         /// </summary>
-        public Profession Profession { get; }
+        private Profession Profession { get; }
 
         /// <summary>
         ///     Determines if this person is the party leader, without this person the game will end. The others cannot go on
         ///     without them.
         /// </summary>
-        public bool IsLeader { get; }
+        private bool IsLeader { get; }
 
         /// <summary>
         ///     Name of the person as they should be known by other players and the simulation.
