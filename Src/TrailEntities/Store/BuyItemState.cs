@@ -14,15 +14,16 @@ namespace TrailEntities
         private StringBuilder _itemBuyText;
 
         /// <summary>
-        ///     Reference to the SimItem the player wishes to purchase from the store, it will be added to receipt list of it can.
-        /// </summary>
-        private SimItem _simItemToBuy;
-
-        /// <summary>
-        ///     Reference to the total amount of items the player can purchase of SimItem of this particular type from this store with
+        ///     Reference to the total amount of items the player can purchase of SimItem of this particular type from this store
+        ///     with
         ///     the money they have.
         /// </summary>
         private int _purchaseLimit;
+
+        /// <summary>
+        ///     Reference to the SimItem the player wishes to purchase from the store, it will be added to receipt list of it can.
+        /// </summary>
+        private SimItem _simItemToBuy;
 
         /// <summary>
         ///     Attaches a state that will allow the player to purchase a certain number of a particular SimItem.

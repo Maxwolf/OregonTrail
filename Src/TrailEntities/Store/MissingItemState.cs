@@ -4,7 +4,8 @@ using System.Text;
 namespace TrailEntities
 {
     /// <summary>
-    ///     Informs the player they need to purchase at least a single one of the specified SimItem in order to continue. This is
+    ///     Informs the player they need to purchase at least a single one of the specified SimItem in order to continue. This
+    ///     is
     ///     used in the new game mode to force the player to have at least one oxen to pull their vehicle in order to start the
     ///     simulation.
     /// </summary>
@@ -23,7 +24,8 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public MissingItemState(SimItem mustPurchaseEntity, IMode gameMode, StoreInfo userData) : base(gameMode, userData)
+        public MissingItemState(SimItem mustPurchaseEntity, IMode gameMode, StoreInfo userData)
+            : base(gameMode, userData)
         {
             _missingSimItemEntity = mustPurchaseEntity;
         }

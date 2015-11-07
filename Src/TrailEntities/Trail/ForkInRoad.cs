@@ -3,7 +3,8 @@
 namespace TrailEntities
 {
     /// <summary>
-    /// Offers up a decision when traveling on the trail, there are normally one of many possible outcomes from which the player can choose. The trade-off generally is 
+    ///     Offers up a decision when traveling on the trail, there are normally one of many possible outcomes from which the
+    ///     player can choose. The trade-off generally is
     /// </summary>
     public sealed class ForkInRoad : Location
     {

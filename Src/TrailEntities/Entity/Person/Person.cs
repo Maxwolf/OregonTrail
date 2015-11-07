@@ -176,7 +176,7 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Determines the amount of miles the party is able to travel with a given individual. Will check for Illness, cold
+        ///     Determines the amount of miles the party is able to travel with a given individual. Will check for Medical, cold
         ///     weather, starvation from having zero food, healing when resting, and if needed killing them off from simulation.
         /// </summary>
         public void TickPerson()

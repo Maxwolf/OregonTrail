@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace TrailEntities
 {
@@ -9,52 +12,61 @@ namespace TrailEntities
     public sealed class EventSim
     {
         /// <summary>
-        ///     Reference to the last event that the dice rolled on, this is cleared and reset to next value each time the dice are
-        ///     rolled.
-        /// </summary>
-        private int _eventCounter;
-
-        /// <summary>
         ///     References all of the events that have been triggered by the system in chronological order they occurred.
         /// </summary>
-        private OrderedDictionary<string, EventItem> _events;
+        private SortedDictionary<string, TravelEvent> _events;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.EventSim" /> class.
         /// </summary>
         public EventSim()
         {
-            _events = new OrderedDictionary<string, EventItem>();
-            _eventCounter = 0;
+            // Create a new dictionary of events, set counter to zero for random event selector.
+            _events = new SortedDictionary<string, TravelEvent>();
+            PopulateEvents();
         }
 
         /// <summary>
         ///     Stores all previous and current events in the system, saved and loaded with simulation.
         /// </summary>
-        public IDictionary<string, EventItem> Events
+        public IDictionary<string, TravelEvent> Events
         {
             get { return _events; }
         }
 
         /// <summary>
-        ///     Adds a new event to the list of current events.
+        ///     Using reflection get all the event item types in the project so we can dynamically add them to the list of
+        ///     available events for the simulation to roll the dice against.
         /// </summary>
-        public void AddEvent(EventItem eventItem)
+        private void PopulateEvents()
         {
-            // Adds the event to the list, no duplicate events are allowed.
-            _events.Add(eventItem.Name, eventItem);
+            // Get all the types marked with the random event attribute.
+            var eventTypes = GetTypesWith<TravelEventAttribute>(true);
+
+            // Loop through all the types we got from reflection.
+            foreach (var eventType in eventTypes)
+            {
+                // Cast type as event item and create instance of it.
+                var eventItem = Activator.CreateInstance(eventType) as TravelEvent;
+
+                // Adds the event to the list, no duplicate events are allowed.
+                if (eventItem != null && !_events.ContainsKey(eventItem.Name))
+                    _events.Add(eventItem.Name, eventItem);
+            }
         }
 
         /// <summary>
-        ///     Rolls the virtual dice!
+        ///     Find all the classes which have a custom attribute I've defined on them, and I want to be able to find them
+        ///     on-the-fly when an application is using my library.
         /// </summary>
-        /// <returns>Random number based on current party status.</returns>
-        private int RollDice()
+        /// <remarks>http://stackoverflow.com/a/720171</remarks>
+        private static IEnumerable<Type> GetTypesWith<TAttribute>(bool inherit)
+            where TAttribute : Attribute
         {
-            // TODO: Use formula to determine random number used to select event.
-            _eventCounter = 0;
-            _eventCounter++;
-            return GameSimApp.Instance.Random.Next(100);
+            return from a in AppDomain.CurrentDomain.GetAssemblies()
+                from t in a.GetTypes()
+                where t.IsDefined(typeof (TAttribute), inherit)
+                select t;
         }
 
         /// <summary>
@@ -67,15 +79,10 @@ namespace TrailEntities
             if (_events.Count <= 0)
                 return;
 
-            // Roll the virtual dice!
-            var diceRoll = RollDice();
-            if (diceRoll > _events.Count)
-            {
-                _eventCounter++;
-            }
-
-            // Executes the event that the dice roll selected.
-            _events[_eventCounter].Execute();
+            // Rolls the virtual dice and executes event if one is found that matches index.
+            var foundEvent = _events.ElementAtOrDefault(GameSimApp.Instance.Random.Next(100));
+            Debug.Print("Executing event: " + foundEvent.Key);
+            foundEvent.Value?.Execute();
         }
 
         /// <summary>
@@ -88,7 +95,12 @@ namespace TrailEntities
                 string.IsNullOrWhiteSpace(eventName))
                 return;
 
-            // Check event names for matching
+            // Check event names for matching that of one in our dictionary.
+            if (_events[eventName] != null)
+            {
+                // Fire the event if we found it in the dictionary.
+                _events[eventName].Execute();
+            }
         }
     }
 }
