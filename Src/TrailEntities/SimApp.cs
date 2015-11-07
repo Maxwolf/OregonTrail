@@ -159,7 +159,7 @@ namespace TrailEntities
         private void TickTUI()
         {
             // Get the current text user interface data from inheriting class.
-            var tuiContent = OnTickTUI();
+            var tuiContent = RenderMode();
             if (ScreenBuffer.Equals(tuiContent, StringComparison.InvariantCultureIgnoreCase))
                 return;
 
@@ -224,10 +224,10 @@ namespace TrailEntities
         /// <summary>
         ///     Prints game mode specific text and options.
         /// </summary>
-        protected virtual string OnTickTUI()
+        protected virtual string RenderMode()
         {
             // If TUI for active game mode is not null or empty then use it.
-            var activeModeTUI = ActiveMode?.GetTUI();
+            var activeModeTUI = ActiveMode?.OnRenderMode();
             if (!string.IsNullOrEmpty(activeModeTUI))
                 return activeModeTUI;
 

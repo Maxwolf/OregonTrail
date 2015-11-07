@@ -235,7 +235,7 @@ namespace TrailEntities
         ///     Fired by simulation when it wants to request latest text user interface data for the game mode, this is used to
         ///     display to user console specific information about what the simulation wants.
         /// </summary>
-        public string GetTUI()
+        public string OnRenderMode()
         {
             // Build up string representation of the current state of the game mode.
             var modeTUI = new StringBuilder();
@@ -267,7 +267,7 @@ namespace TrailEntities
             else
             {
                 // Added any descriptive text about the mode, like stats, health, weather, location, etc.
-                var prependMessage = CurrentState?.GetStateTUI();
+                var prependMessage = CurrentState?.OnRenderState();
                 if (!string.IsNullOrEmpty(prependMessage))
                     modeTUI.Append($"{prependMessage}{Environment.NewLine}");
             }

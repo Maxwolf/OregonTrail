@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -10,19 +11,41 @@ namespace TrailEntities
     public sealed class CheckSuppliesState : ModeState<TravelInfo>
     {
         /// <summary>
+        /// Holds the computed list of current inventory items in the vehicle that are used by all party members.
+        /// </summary>
+        private StringBuilder _supplies;
+
+        /// <summary>
+        /// Determines if the player is finished looking at their current inventory supply listing.
+        /// </summary>
+        private bool _hasCheckedSupplies;
+
+        /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public CheckSuppliesState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
+            // Build up representation of supplies once in constructor and then reference when asked for render.
+            _supplies = new StringBuilder();
+
+        }
+
+        /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public override bool AcceptsInput
+        {
+            get { return false; }
         }
 
         /// <summary>
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
-        public override string GetStateTUI()
+        public override string OnRenderState()
         {
-            throw new NotImplementedException();
+            return _supplies.ToString();
         }
 
         /// <summary>
@@ -31,7 +54,11 @@ namespace TrailEntities
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            if (_hasCheckedSupplies)
+                return;
+
+            _hasCheckedSupplies = true;
+            ParentMode.CurrentState = null;
         }
     }
 }

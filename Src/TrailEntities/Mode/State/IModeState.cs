@@ -24,7 +24,7 @@ namespace TrailEntities
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
-        string GetStateTUI();
+        string OnRenderState();
 
         /// <summary>
         ///     Fired when the game mode current state is not null and input buffer does not match any known command.

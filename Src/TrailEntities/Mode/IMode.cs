@@ -47,7 +47,7 @@ namespace TrailEntities
         /// <summary>
         ///     Grabs the text user interface string that will be used for debugging on console application.
         /// </summary>
-        string GetTUI();
+        string OnRenderMode();
 
         /// <summary>
         ///     Ticks the internal logic of the game mode so that it may perform linear operations.

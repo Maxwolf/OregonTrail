@@ -64,7 +64,7 @@ namespace TrailEntities
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
-        public override string GetStateTUI()
+        public override string OnRenderState()
         {
             return _paceHelp.ToString();
         }

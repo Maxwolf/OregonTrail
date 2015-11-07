@@ -48,7 +48,7 @@ namespace TrailEntities
             get { return true; }
         }
 
-        public override string GetStateTUI()
+        public override string OnRenderState()
         {
             return _professionChooser.ToString();
         }

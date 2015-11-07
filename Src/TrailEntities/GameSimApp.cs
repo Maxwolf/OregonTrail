@@ -124,7 +124,7 @@ namespace TrailEntities
         /// <summary>
         ///     Prints game mode specific text and options.
         /// </summary>
-        protected override string OnTickTUI()
+        protected override string RenderMode()
         {
             // Spinning ticker that shows activity, lets us know if application hangs or freezes.
             var tui = new StringBuilder();
@@ -139,7 +139,7 @@ namespace TrailEntities
             tui.Append($"Turns: {TotalTurns.ToString("D4")}{Environment.NewLine}");
 
             // Prints game mode specific text and options. This typically is menus from commands, or states showing some information.
-            tui.Append($"{base.OnTickTUI()}{Environment.NewLine}");
+            tui.Append($"{base.RenderMode()}{Environment.NewLine}");
 
             // Only print and accept user input if there is a game mode and menu system to support it.
             if (AcceptingInput)

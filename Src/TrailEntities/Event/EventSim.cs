@@ -67,6 +67,10 @@ namespace TrailEntities
         /// </summary>
         public void CheckRandomEvents()
         {
+            // Check if there are any events we can process.
+            if (_events.Count <= 0)
+                return;
+
             // Roll the virtual dice!
             var diceRoll = RollDice();
             if (diceRoll > _events.Count)

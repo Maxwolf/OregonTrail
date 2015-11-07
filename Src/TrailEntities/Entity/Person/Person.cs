@@ -214,6 +214,7 @@ namespace TrailEntities
             // Check if you have been killed by Illness.
             if (cost_aid < 0)
             {
+                // TODO: Check if leader died or party member.
                 GameSimApp.Instance.AddMode(ModeType.EndGame);
             }
         }

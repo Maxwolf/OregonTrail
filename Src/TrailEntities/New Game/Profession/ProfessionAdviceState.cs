@@ -43,7 +43,7 @@ namespace TrailEntities
             get { return false; }
         }
 
-        public override string GetStateTUI()
+        public override string OnRenderState()
         {
             return _job.ToString();
         }
