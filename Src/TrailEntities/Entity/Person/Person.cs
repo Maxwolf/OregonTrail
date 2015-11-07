@@ -4,6 +4,10 @@ using System.Linq;
 
 namespace TrailEntities
 {
+    /// <summary>
+    ///     Represents a human-being. Gender is not tracked, we only care about them as an entity that consumes food and their
+    ///     health.
+    /// </summary>
     public sealed class Person : IEntity
     {
         /// <summary>
@@ -32,16 +36,37 @@ namespace TrailEntities
             Ration = RationLevel.Filling;
         }
 
+        /// <summary>
+        ///     Determines how much food every day this person eats in pounds.
+        /// </summary>
         public RationLevel Ration { get; }
 
+        /// <summary>
+        ///     Current health of this person which is enum that also represents the total points they are currently worth.
+        /// </summary>
         public RepairStatus Health { get; private set; }
 
+        /// <summary>
+        ///     Determines how many total consecutive days this player has not eaten any food. If this continues for more than five
+        ///     (5) days then the probability they will die increases exponentially.
+        /// </summary>
         public int DaysStarving { get; }
 
+        /// <summary>
+        ///     Profession of this person, typically if the leader is a banker then the entire family is all bankers for sanity
+        ///     sake.
+        /// </summary>
         public Profession Profession { get; }
 
+        /// <summary>
+        ///     Determines if this person is the party leader, without this person the game will end. The others cannot go on
+        ///     without them.
+        /// </summary>
         public bool IsLeader { get; }
 
+        /// <summary>
+        ///     Name of the person as they should be known by other players and the simulation.
+        /// </summary>
         public string Name { get; }
 
         /// <summary>
@@ -157,46 +182,21 @@ namespace TrailEntities
             return hash;
         }
 
-        public void Eat(RationLevel amount)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Rest()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RepairVehicle()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsStarving()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsDead()
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         ///     Determines the amount of miles the party is able to travel with a given individual. Will check for Illness, cold
         ///     weather, starvation from having zero food, healing when resting, and if needed killing them off from simulation.
         /// </summary>
         public void TickPerson()
         {
-            if (100*GameSimApp.Instance.Random.NextDouble() < 
+            if (100*GameSimApp.Instance.Random.NextDouble() <
                 10 + 35*((int) GameSimApp.Instance.Vehicle.Ration - 1))
             {
                 // Mild illness.
                 GameSimApp.Instance.Vehicle.ReduceMileage(5);
                 Health = RepairStatus.Fair;
             }
-            else if (100*GameSimApp.Instance.Random.NextDouble() <
-                100 - (40/GameSimApp.Instance.Vehicle.Passengers.Count()*((int) GameSimApp.Instance.Vehicle.Ration - 1)))
+            else if (100*GameSimApp.Instance.Random.NextDouble() < 100 -
+                     (40/GameSimApp.Instance.Vehicle.Passengers.Count()*((int) GameSimApp.Instance.Vehicle.Ration - 1)))
             {
                 // Bad illness.
                 Health = RepairStatus.Poor;
@@ -208,12 +208,20 @@ namespace TrailEntities
                 // TODO: Pick an actual severe illness from list, roll the dice for it on very low health.
             }
 
-            // Check if you have been killed by illness, 
+            // Check if party leader or a member of it has been killed by an illness.
             if (Health == RepairStatus.VeryPoor &&
-                GameSimApp.Instance.Random.Next((int)Health) <= 0)
+                GameSimApp.Instance.Random.Next((int) Health) <= 0)
             {
-                // TODO: Check if leader died or party member.
-                GameSimApp.Instance.AddMode(ModeType.EndGame);
+                // Check if leader died or party member.
+                if (IsLeader)
+                {
+                    GameSimApp.Instance.AddMode(ModeType.EndGame);
+                }
+                else
+                {
+                    // Fire event that a party member has died.
+                    GameSimApp.Instance.Director.TriggerEvent("DeathPlayer");
+                }
             }
         }
     }
