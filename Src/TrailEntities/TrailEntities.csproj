@@ -47,15 +47,15 @@
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />
     <Compile Include="Event\IEventItem.cs" />
-    <Compile Include="New Game\Help\IntroduceStoreState.cs" />
+    <Compile Include="Main Menu\Help\IntroduceStoreState.cs" />
     <Compile Include="Scoring\Highscore.cs" />
     <Compile Include="Scoring\Performance.cs" />
     <Compile Include="Options\EraseCurrentTopTenState.cs" />
     <Compile Include="Options\EraseTombstoneState.cs" />
     <Compile Include="Scoring\HealthScoring.cs" />
-    <Compile Include="New Game\Help\PointsHealthState.cs" />
-    <Compile Include="New Game\Help\PointsOccupationState.cs" />
-    <Compile Include="New Game\Help\PointsResourcesState.cs" />
+    <Compile Include="Main Menu\Help\PointsHealthState.cs" />
+    <Compile Include="Main Menu\Help\PointsOccupationState.cs" />
+    <Compile Include="Main Menu\Help\PointsResourcesState.cs" />
     <Compile Include="Scoring\Points.cs" />
     <Compile Include="Scoring\ScoreRegistry.cs" />
     <Compile Include="Options\OriginalTopTenState.cs" />
@@ -95,17 +95,17 @@
     <Compile Include="Mode\ModeChoiceItem.cs" />
     <Compile Include="Mode\State\ModeState.cs" />
     <Compile Include="Mode\ModeType.cs" />
-    <Compile Include="New Game\BuyInitialItemsState.cs" />
-    <Compile Include="New Game\CurrentTopTenState.cs" />
-    <Compile Include="New Game\Names\InputPlayerNameState.cs" />
-    <Compile Include="New Game\Help\InstructionsState.cs" />
-    <Compile Include="New Game\NewGameCommands.cs" />
-    <Compile Include="New Game\NewGameInfo.cs" />
-    <Compile Include="New Game\Profession\ProfessionAdviceState.cs" />
-    <Compile Include="New Game\Profession\SelectProfessionState.cs" />
-    <Compile Include="New Game\Names\ConfirmPlayerNamesState.cs" />
-    <Compile Include="New Game\Start Month\SelectStartingMonthState.cs" />
-    <Compile Include="New Game\Start Month\StartMonthAdviceState.cs" />
+    <Compile Include="Main Menu\BuyInitialItemsState.cs" />
+    <Compile Include="Main Menu\CurrentTopTenState.cs" />
+    <Compile Include="Main Menu\Names\InputPlayerNameState.cs" />
+    <Compile Include="Main Menu\Help\InstructionsState.cs" />
+    <Compile Include="Main Menu\MainMenuCommands.cs" />
+    <Compile Include="Main Menu\MainMenuInfo.cs" />
+    <Compile Include="Main Menu\Profession\ProfessionAdviceState.cs" />
+    <Compile Include="Main Menu\Profession\SelectProfessionState.cs" />
+    <Compile Include="Main Menu\Names\ConfirmPlayerNamesState.cs" />
+    <Compile Include="Main Menu\Start Month\SelectStartingMonthState.cs" />
+    <Compile Include="Main Menu\Start Month\StartMonthAdviceState.cs" />
     <Compile Include="Options\OptionCommands.cs" />
     <Compile Include="Options\OptionInfo.cs" />
     <Compile Include="Options\OptionsMode.cs" />
@@ -152,7 +152,7 @@
     <Compile Include="Trade\TradingMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entity\Vehicle\Vehicle.cs" />
-    <Compile Include="New Game\NewGameMode.cs" />
+    <Compile Include="Main Menu\MainMenuMode.cs" />
     <Compile Include="Widget\Randomizer.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -8,7 +8,7 @@ namespace TrailEntities
     ///     a chance to confirm their selection in another state, reset if they don't like it, and also generate a random user
     ///     name if they just press enter at the prompt for a name.
     /// </summary>
-    public sealed class InputPlayerNameState : ModeState<NewGameInfo>
+    public sealed class InputPlayerNameState : ModeState<MainMenuInfo>
     {
         /// <summary>
         ///     Index in the list of player names we are going to be inserting into.
@@ -24,7 +24,7 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public InputPlayerNameState(int playerNameIndex, IMode gameMode, NewGameInfo userData)
+        public InputPlayerNameState(int playerNameIndex, IMode gameMode, MainMenuInfo userData)
             : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
@@ -42,21 +42,21 @@ namespace TrailEntities
             {
                 case 0:
                     _inputNamesHelp.Append(Environment.NewLine +
-                                           $"{NewGameMode.LEADER_QUESTION}");
+                                           $"{MainMenuMode.LEADER_QUESTION}");
                     break;
                 case 1:
                     _inputNamesHelp.Append(Environment.NewLine +
-                                           $"{NewGameMode.MEMBERS_QUESTION}" +
+                                           $"{MainMenuMode.MEMBERS_QUESTION}" +
                                            $"{Environment.NewLine}{Environment.NewLine}");
                     break;
                 case 2:
                     _inputNamesHelp.Append(Environment.NewLine +
-                                           $"{NewGameMode.MEMBERS_QUESTION}" +
+                                           $"{MainMenuMode.MEMBERS_QUESTION}" +
                                            $"{Environment.NewLine}{Environment.NewLine}");
                     break;
                 case 3:
                     _inputNamesHelp.Append(Environment.NewLine +
-                                           $"{NewGameMode.MEMBERS_QUESTION}" +
+                                           $"{MainMenuMode.MEMBERS_QUESTION}" +
                                            $"{Environment.NewLine}{Environment.NewLine}");
                     break;
             }

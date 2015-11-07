@@ -6,7 +6,7 @@ namespace TrailEntities
     /// <summary>
     ///     Shows basic information about how the game works, how traveling works, rules for winning and losing.
     /// </summary>
-    public sealed class InstructionsState : ModeState<NewGameInfo>
+    public sealed class InstructionsState : ModeState<MainMenuInfo>
     {
         /// <summary>
         ///     Determines if the player has read the instructions.
@@ -21,7 +21,7 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public InstructionsState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public InstructionsState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             _playInfo = new StringBuilder();
             _playInfo.Append($"Your journey over the Oregon Trail takes place in 1847. Start{Environment.NewLine}");

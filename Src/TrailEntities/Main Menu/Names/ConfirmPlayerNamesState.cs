@@ -8,7 +8,7 @@ namespace TrailEntities
     ///     would indeed like to use all the entered names they have provided or had randomly generated for them by just
     ///     pressing enter.
     /// </summary>
-    public sealed class ConfirmPlayerNamesState : ModeState<NewGameInfo>
+    public sealed class ConfirmPlayerNamesState : ModeState<MainMenuInfo>
     {
         /// <summary>
         ///     References the party text so we only have to construct it once and then print the result.
@@ -18,7 +18,7 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ConfirmPlayerNamesState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public ConfirmPlayerNamesState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
             GameSimApp.Instance.SetData(userData);
@@ -26,7 +26,7 @@ namespace TrailEntities
             // Create string builder, counter, print info about party members.
             _confirmPartyText = new StringBuilder();
             _confirmPartyText.Append(
-                $"{Environment.NewLine}{NewGameMode.MEMBERS_QUESTION}{Environment.NewLine}{Environment.NewLine}");
+                $"{Environment.NewLine}{MainMenuMode.MEMBERS_QUESTION}{Environment.NewLine}{Environment.NewLine}");
             var crewNumber = 1;
 
             // Loop through every player and print their name.

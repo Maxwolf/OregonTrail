@@ -422,32 +422,27 @@ namespace TrailEntities
         private void OnReceiveInputBuffer(string returnedLine)
         {
             // Only process menu items for game mode when current state is null, or there are no menu choices to select from.
-            if (CurrentState == null && _menuChoices?.Count > 0)
+            if (CurrentState == null &&
+                _menuChoices?.Count > 0 &&
+                !string.IsNullOrEmpty(returnedLine) &&
+                !string.IsNullOrWhiteSpace(returnedLine))
             {
                 // Loop through every added menu choice.
                 foreach (var menuChoice in _menuChoices)
                 {
-                    try
-                    {
-                        // Attempt to convert the returned line into generic enum.
-                        var parsedCommandValue = (T) Enum.Parse(typeof (T), returnedLine, true);
-                        if (Enum.IsDefined(typeof (T), parsedCommandValue) |
-                            parsedCommandValue.ToString(CultureInfo.InvariantCulture).Contains(","))
-                        {
-                            // Check if the received input buffer matches any of them.
-                            if (!parsedCommandValue.Equals(menuChoice.Command))
-                                continue;
+                    // Attempt to convert the returned line into generic enum.
+                    var parsedCommandValue = (T) Enum.Parse(typeof (T), returnedLine, true);
+                    if (!(Enum.IsDefined(typeof (T), parsedCommandValue) |
+                          parsedCommandValue.ToString(CultureInfo.InvariantCulture).Contains(",")))
+                        continue;
 
-                            // If it matches then invoke the bound action in the simulation.
-                            menuChoice.Action.Invoke();
-                            return;
-                        }
-                    }
-                    catch (ArgumentException)
-                    {
-                        // Pass input buffer to current state if it doesn't match any known command.
-                        break;
-                    }
+                    // Check if the received input buffer matches any of them.
+                    if (!parsedCommandValue.Equals(menuChoice.Command))
+                        continue;
+
+                    // If it matches then invoke the bound action in the simulation.
+                    menuChoice.Action.Invoke();
+                    return;
                 }
             }
             else

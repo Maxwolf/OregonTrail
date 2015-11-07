@@ -6,7 +6,7 @@ namespace TrailEntities
     /// <summary>
     ///     Shows the player information about what the various starting months mean.
     /// </summary>
-    public sealed class StartMonthAdviceState : ModeState<NewGameInfo>
+    public sealed class StartMonthAdviceState : ModeState<MainMenuInfo>
     {
         /// <summary>
         ///     References if the user has pressed any key to get rid of the starting month advice.
@@ -18,7 +18,7 @@ namespace TrailEntities
         /// </summary>
         private StringBuilder _startMonthHelp;
 
-        public StartMonthAdviceState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public StartMonthAdviceState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Have not shown this yet.
             _hasShownStartMonthAdvice = false;

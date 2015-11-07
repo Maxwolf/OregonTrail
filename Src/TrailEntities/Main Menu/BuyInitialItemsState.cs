@@ -7,7 +7,7 @@ namespace TrailEntities
     ///     Spawns a new game mode in the game simulation while maintaining the state of previous one so when we bounce back we
     ///     can move from here to next state.
     /// </summary>
-    public sealed class BuyInitialItemsState : ModeState<NewGameInfo>
+    public sealed class BuyInitialItemsState : ModeState<MainMenuInfo>
     {
         /// <summary>
         ///     Keeps track if we have shown the information about what items the player should consider important before attaching
@@ -20,7 +20,7 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one.
         /// </summary>
-        public BuyInitialItemsState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public BuyInitialItemsState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
             GameSimApp.Instance.SetData(userData);

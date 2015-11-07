@@ -107,7 +107,6 @@ namespace TrailEntities
                     {SimEntity.Axle, Parts.Axle},
                     {SimEntity.Tongue, Parts.Tongue},
                     {SimEntity.Food, Resources.Food},
-                    {SimEntity.Aid, Resources.Aid},
                     {SimEntity.Cash, Resources.Cash}
                 };
                 return defaultStoreInventory;
@@ -129,7 +128,7 @@ namespace TrailEntities
         ///     path and all the points of interest on it.
         /// </summary>
         /// <param name="startingInfo">User data object that was passed around the new game mode and populated by user selections.</param>
-        public override void SetData(NewGameInfo startingInfo)
+        public override void SetData(MainMenuInfo startingInfo)
         {
             base.SetData(startingInfo);
 
@@ -264,7 +263,7 @@ namespace TrailEntities
             AddMode(ModeType.Travel);
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            AddMode(ModeType.NewGame);
+            AddMode(ModeType.MainMenu);
         }
 
         /// <summary>
@@ -306,8 +305,8 @@ namespace TrailEntities
                     return new ForkInRoadMode();
                 case ModeType.Hunt:
                     return new HuntingMode();
-                case ModeType.NewGame:
-                    return new NewGameMode();
+                case ModeType.MainMenu:
+                    return new MainMenuMode();
                 case ModeType.RiverCrossing:
                     return new RiverCrossingMode();
                 case ModeType.Store:

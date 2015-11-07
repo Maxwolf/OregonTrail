@@ -6,7 +6,7 @@ namespace TrailEntities
     /// <summary>
     ///     Introduces the player to the concept of a store as being run by a person by the name of Matt.
     /// </summary>
-    public sealed class IntroduceStoreState : ModeState<NewGameInfo>
+    public sealed class IntroduceStoreState : ModeState<MainMenuInfo>
     {
         /// <summary>
         ///     Determines if the player now knows who Matt is.
@@ -21,7 +21,7 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public IntroduceStoreState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public IntroduceStoreState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             _storeHelp = new StringBuilder();
             _storeHelp.Append($"{Environment.NewLine}You can buy whatever you need at{Environment.NewLine}");

@@ -25,7 +25,7 @@
         /// <summary>
         ///     Allows the configuration of party names, player profession, and purchasing initial items for trip.
         /// </summary>
-        NewGame,
+        MainMenu,
 
         /// <summary>
         ///     Shows final point count, resets simulation data, asks if user wants to return to main menu or close the

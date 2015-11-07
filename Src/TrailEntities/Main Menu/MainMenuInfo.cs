@@ -6,7 +6,7 @@ namespace TrailEntities
     ///     Holds all of the information required to kick-start a running game simulation onto a trail path with people,
     ///     professions, vehicle, starting items, and all stats related to luck and repair skill.
     /// </summary>
-    public sealed class NewGameInfo
+    public sealed class MainMenuInfo
     {
         private List<string> _playerNames;
         private Profession _playerProfession;
@@ -15,9 +15,9 @@ namespace TrailEntities
         private Months _startingMonth;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.NewGameInfo" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.MainMenuInfo" /> class.
         /// </summary>
-        public NewGameInfo()
+        public MainMenuInfo()
         {
             _playerNames = new List<string>();
             _playerProfession = Profession.Banker;

@@ -293,7 +293,7 @@ namespace TrailEntities
 
             // Create new item based on old one, with new quantity value from store, trader, random event, etc.
             Balance -= transaction.TotalValue;
-            _inventory[transaction.Category] = new SimItem(_inventory[transaction.Category], transaction.MinQuantity);
+            _inventory[transaction.Category] = new SimItem(_inventory[transaction.Category], transaction.Quantity);
         }
 
         /// <summary>
@@ -337,6 +337,7 @@ namespace TrailEntities
             }
 
             // TODO: Determine if weather will slow us down.
+
 
             // Loop through all the people in the vehicle and tick them.
             foreach (var person in _passengers)

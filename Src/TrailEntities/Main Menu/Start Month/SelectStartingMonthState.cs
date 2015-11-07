@@ -7,7 +7,7 @@ namespace TrailEntities
     ///     Offers the player the ability to change the starting month of the simulation, this affects how many resources will
     ///     be available to them and the severity of the random events they encounter along the trail.
     /// </summary>
-    public sealed class SelectStartingMonthState : ModeState<NewGameInfo>
+    public sealed class SelectStartingMonthState : ModeState<MainMenuInfo>
     {
         /// <summary>
         ///     References the string representing the question about starting month, only builds it once and holds in memory while
@@ -18,7 +18,7 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public SelectStartingMonthState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public SelectStartingMonthState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
             GameSimApp.Instance.SetData(userData);

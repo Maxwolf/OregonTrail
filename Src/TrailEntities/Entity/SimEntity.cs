@@ -63,12 +63,6 @@
         Food,
 
         /// <summary>
-        ///     Aid is generally considered any other supplies that are not directly consumable. This could be anything from a
-        ///     coffee cup, band-aid, or really anything the simulation doesn't need to directly keep track of.
-        /// </summary>
-        Aid,
-
-        /// <summary>
         ///     Represents paper currency which can be exchanged for goods at store. The game makes no attempt at money delineation
         ///     outside of quantity of single dollars.
         /// </summary>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 
 namespace TrailEntities
@@ -164,6 +163,12 @@ namespace TrailEntities
                 GameSimApp.Instance.Trail.ArriveAtNextLocation();
             }
 
+            // Modify the vehicles cash from purchases they made.
+            var totalBill = StoreInfo.GetTransactionTotalCost();
+            var amountPlayerHas = GameSimApp.Instance.Vehicle.Balance - totalBill;
+            StoreInfo.Transactions[SimEntity.Cash] = new SimItem(StoreInfo.Transactions[SimEntity.Cash],
+                (int) amountPlayerHas);
+
             // Process all of the pending transactions in the store receipt info object.
             foreach (var transaction in StoreInfo.Transactions)
             {
@@ -198,7 +203,8 @@ namespace TrailEntities
                 $"Oxen              {StoreInfo.Transactions[SimEntity.Animal].ToString(isFirstPoint)}");
 
             // Food
-            AddCommand(BuyFood, StoreCommands.BuyFood, $"Food              {StoreInfo.Transactions[SimEntity.Food].ToString(isFirstPoint)}");
+            AddCommand(BuyFood, StoreCommands.BuyFood,
+                $"Food              {StoreInfo.Transactions[SimEntity.Food].ToString(isFirstPoint)}");
 
             // Clothes
             AddCommand(BuyClothing, StoreCommands.BuyClothing,

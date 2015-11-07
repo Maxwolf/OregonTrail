@@ -55,14 +55,6 @@ namespace TrailEntities
         /// <param name="newQuantity">Updated quantity the new SimItem will have.</param>
         public SimItem(SimItem oldSimItem, int newQuantity)
         {
-            // Complain if new quantity is above maximum.
-            if (newQuantity > oldSimItem.MaxQuantity)
-                throw new ArgumentException("New quantity for SimItem cannot be larger than predefined maximum!");
-
-            // Complain if new quantity is less than minimum.
-            if (newQuantity < oldSimItem.MinQuantity)
-                throw new ArgumentException("New quantity for SimItem cannot be smaller than minimum quantity!");
-
             // Set updated quantity values, plus ceiling and floor.
             Quantity = newQuantity;
             MinQuantity = oldSimItem.MinQuantity;
@@ -81,7 +73,7 @@ namespace TrailEntities
         /// <summary>
         ///     Minimum number of this item the player must purchase for it to be considered actually in his inventory.
         /// </summary>
-        internal int MinQuantity { get; }
+        private int MinQuantity { get; }
 
         /// <summary>
         ///     Total number of the items the player is going to be taking.
@@ -117,7 +109,7 @@ namespace TrailEntities
         /// <summary>
         ///     Total number of items this SimItem represents.
         /// </summary>
-        private int StartingQuantity { get; }
+        public int StartingQuantity { get; }
 
         /// <summary>
         ///     Total weight of all food items this represents multiplied by base minimum weight.

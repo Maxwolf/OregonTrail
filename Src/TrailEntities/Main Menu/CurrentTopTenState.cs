@@ -7,12 +7,12 @@ namespace TrailEntities
     ///     References the top ten players in regards to final score they earned at the end of the game, this list is by
     ///     default hard-coded by players have the chance to save their own scores to the list if they beat the default values.
     /// </summary>
-    public sealed class CurrentTopTenState : ModeState<NewGameInfo>
+    public sealed class CurrentTopTenState : ModeState<MainMenuInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CurrentTopTenState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public CurrentTopTenState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
         }
 

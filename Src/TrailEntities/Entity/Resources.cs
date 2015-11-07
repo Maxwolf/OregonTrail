@@ -57,15 +57,5 @@
         {
             get { return new SimItem(SimEntity.Cash, "Cash", "dollars", "dollar", int.MaxValue, 1, 0); }
         }
-
-        /// <summary>
-        ///     Defines items that fit into no other category in the list but still need to be simulated. Typically this takes the
-        ///     form on non-consumable but still useful items like a coffee cup or a band-aid that the party can use to help
-        ///     themselves or provide some creature comfort but cannot heal them.
-        /// </summary>
-        public static SimItem Aid
-        {
-            get { return new SimItem(SimEntity.Aid, "Aid", "pills", "pill", 50, 0.50f, 0); }
-        }
     }
 }

@@ -8,7 +8,7 @@ namespace TrailEntities
     ///     ability to choose names, professions, buy initial items, and starting month. The final thing it offers is ability
     ///     to change any of these values before actually starting the game as a final confirmation.
     /// </summary>
-    public sealed class NewGameMode : GameMode<NewGameCommands>
+    public sealed class MainMenuMode : GameMode<MainMenuCommands>
     {
         /// <summary>
         ///     Asked for the first party member.
@@ -21,23 +21,23 @@ namespace TrailEntities
         public const string MEMBERS_QUESTION = "What are the first names of the \nthree other members in your party?";
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.NewGameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.MainMenuMode" /> class.
         /// </summary>
-        public NewGameMode() : base(false)
+        public MainMenuMode() : base(false)
         {
             // Basic information to start a new simulation.
-            NewGameInfo = new NewGameInfo();
+            MainMenuInfo = new MainMenuInfo();
 
             var headerText = new StringBuilder();
             headerText.Append($"{Environment.NewLine}The Oregon Trail{Environment.NewLine}{Environment.NewLine}");
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
 
-            AddCommand(TravelTheTrail, NewGameCommands.TravelTheTrail, "Travel the trail");
-            AddCommand(LearnAboutTrail, NewGameCommands.LearnAboutTheTrail, "Learn about the trail");
-            AddCommand(SeeTopTen, NewGameCommands.SeeTheOregonTopTen, "See the Oregon Top Ten");
-            AddCommand(ChooseManagementOptions, NewGameCommands.ChooseManagementOptions, "Choose Management Options");
-            AddCommand(CloseSimulation, NewGameCommands.CloseSimulation, "End");
+            AddCommand(TravelTheTrail, MainMenuCommands.TravelTheTrail, "Travel the trail");
+            AddCommand(LearnAboutTrail, MainMenuCommands.LearnAboutTheTrail, "Learn about the trail");
+            AddCommand(SeeTopTen, MainMenuCommands.SeeTheOregonTopTen, "See the Oregon Top Ten");
+            AddCommand(ChooseManagementOptions, MainMenuCommands.ChooseManagementOptions, "Choose Management Options");
+            AddCommand(CloseSimulation, MainMenuCommands.CloseSimulation, "End");
         }
 
         /// <summary>
@@ -46,13 +46,13 @@ namespace TrailEntities
         /// </summary>
         public override ModeType ModeType
         {
-            get { return ModeType.NewGame; }
+            get { return ModeType.MainMenu; }
         }
 
         /// <summary>
         ///     Default values for new game.
         /// </summary>
-        private NewGameInfo NewGameInfo { get; }
+        private MainMenuInfo MainMenuInfo { get; }
 
         /// <summary>
         ///     Does exactly what it says on the tin, closes the simulation and releases all memory.
@@ -75,7 +75,7 @@ namespace TrailEntities
         /// </summary>
         private void SeeTopTen()
         {
-            CurrentState = new CurrentTopTenState(this, NewGameInfo);
+            CurrentState = new CurrentTopTenState(this, MainMenuInfo);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace TrailEntities
         /// </summary>
         private void LearnAboutTrail()
         {
-            CurrentState = new InstructionsState(this, NewGameInfo);
+            CurrentState = new InstructionsState(this, MainMenuInfo);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace TrailEntities
         /// </summary>
         private void TravelTheTrail()
         {
-            CurrentState = new SelectProfessionState(this, NewGameInfo);
+            CurrentState = new SelectProfessionState(this, MainMenuInfo);
         }
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     ///     List of all the commands for starting a new game, this is basically the main menu of the simulation.
     /// </summary>
-    public enum NewGameCommands
+    public enum MainMenuCommands
     {
         /// <summary>
         ///     Begins data entry for starting a new game such as selecting professions, names, starting items, etc.

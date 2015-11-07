@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace TrailEntities
 {
@@ -33,7 +34,7 @@ namespace TrailEntities
 
         public RationLevel Ration { get; }
 
-        public RepairStatus Health { get; }
+        public RepairStatus Health { get; private set; }
 
         public int DaysStarving { get; }
 
@@ -133,8 +134,6 @@ namespace TrailEntities
         /// <returns>
         ///     true if the specified objects are equal; otherwise, false.
         /// </returns>
-        /// <param name="x">The first object of type <paramref name="T" /> to compare.</param>
-        /// <param name="y">The second object of type <paramref name="T" /> to compare.</param>
         public bool Equals(IEntity x, IEntity y)
         {
             return x.Equals(y);
@@ -189,39 +188,33 @@ namespace TrailEntities
         /// </summary>
         public void TickPerson()
         {
-            // Grab the current cost of aid the player has
-            var cost_aid = GameSimApp.Instance.Vehicle.Inventory[SimEntity.Aid].TotalValue;
-
-            if (100*GameSimApp.Instance.Random.NextDouble() < 10 + 35*((int) GameSimApp.Instance.Vehicle.Ration - 1))
+            if (100*GameSimApp.Instance.Random.NextDouble() < 
+                10 + 35*((int) GameSimApp.Instance.Vehicle.Ration - 1))
             {
                 // Mild illness.
                 GameSimApp.Instance.Vehicle.ReduceMileage(5);
-                cost_aid = cost_aid - 2;
+                Health = RepairStatus.Fair;
             }
             else if (100*GameSimApp.Instance.Random.NextDouble() <
-                100 - (40/4*((int) GameSimApp.Instance.Vehicle.Ration - 1)))
+                100 - (40/GameSimApp.Instance.Vehicle.Passengers.Count()*((int) GameSimApp.Instance.Vehicle.Ration - 1)))
             {
                 // Bad illness.
-                cost_aid = cost_aid - 5;
+                Health = RepairStatus.Poor;
             }
             else
             {
                 // Severe illness.
-                cost_aid = cost_aid - 10;
-                Illness = true;
+                Health = RepairStatus.VeryPoor;
+                // TODO: Pick an actual severe illness from list, roll the dice for it on very low health.
             }
 
-            // Check if you have been killed by Illness.
-            if (cost_aid < 0)
+            // Check if you have been killed by illness, 
+            if (Health == RepairStatus.VeryPoor &&
+                GameSimApp.Instance.Random.Next((int)Health) <= 0)
             {
                 // TODO: Check if leader died or party member.
                 GameSimApp.Instance.AddMode(ModeType.EndGame);
             }
         }
-
-        /// <summary>
-        /// Determines if the player currently is inflicted with an illness.
-        /// </summary>
-        public bool Illness { get; private set; }
     }
 }

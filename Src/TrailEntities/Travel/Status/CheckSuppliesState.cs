@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -26,6 +27,28 @@ namespace TrailEntities
         {
             // Build up representation of supplies once in constructor and then reference when asked for render.
             _supplies = new StringBuilder();
+            _supplies.AppendLine($"{Environment.NewLine}Your Supplies{Environment.NewLine}");
+
+            // Loop through every inventory item in the vehicle.
+            foreach (var item in GameSimApp.Instance.Vehicle.Inventory)
+            {
+                // Get the next item in the vehicle inventory.
+                var itemName = item.Value.Name.ToLowerInvariant();
+
+                // Determine if this item is money and needs special formatting.
+                var itemFormattedQuantity = item.Value.Quantity.ToString("N0");
+                if (item.Key == SimEntity.Cash)
+                    itemFormattedQuantity = item.Value.Quantity.ToString("C2");
+
+                // Place tab characters between the item name and the quantity.
+                _supplies.AppendFormat("{0} {1}{2}",
+                    itemName.PadRight(15),
+                    itemFormattedQuantity.PadLeft(3),
+                    Environment.NewLine);
+            }
+
+            // Wait for user input...
+            _supplies.Append($"{Environment.NewLine}{GameSimApp.PRESS_ENTER}");
         }
 
         /// <summary>

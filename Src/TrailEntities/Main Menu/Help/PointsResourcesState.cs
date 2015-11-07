@@ -7,7 +7,7 @@ namespace TrailEntities
     ///     Second panel on point information, shows how the number of resources you end the game with contribute to your final
     ///     score.
     /// </summary>
-    public sealed class PointsResourcesState : ModeState<NewGameInfo>
+    public sealed class PointsResourcesState : ModeState<MainMenuInfo>
     {
         /// <summary>
         ///     Represents the switch for knowing if the player is done reading this information state.
@@ -22,7 +22,7 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsResourcesState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public PointsResourcesState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             _pointsItems = new StringBuilder();
             _pointsItems.Append($"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");

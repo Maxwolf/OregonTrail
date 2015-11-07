@@ -406,19 +406,6 @@ if (total_miles >= 2040)
 {
 	"you finally arrived at oregon city"
 	"after 2040 long miles---hooray!!!!!"
-	
-	two_weeks_fraction=int(two_weeks_fraction*14)
-	turn_number=turn_number*14+two_weeks_fraction
-	two_weeks_fraction=two_weeks_fraction+1
-	
-	if (two_weeks_fraction<5)
-	{
-		
-	}
-	else
-	{
-		two_weeks_fraction=two_weeks_fraction-7
-	}
 }
 
 if (cost_ammo>0)

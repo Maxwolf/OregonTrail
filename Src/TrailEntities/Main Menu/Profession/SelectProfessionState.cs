@@ -8,7 +8,7 @@ namespace TrailEntities
     ///     starting amount of money their party has access to when purchasing starting items for the journey on the trail path
     ///     simulation.
     /// </summary>
-    public sealed class SelectProfessionState : ModeState<NewGameInfo>
+    public sealed class SelectProfessionState : ModeState<MainMenuInfo>
     {
         /// <summary>
         ///     References the string for the profession selection so it is only constructed once.
@@ -18,7 +18,7 @@ namespace TrailEntities
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public SelectProfessionState(IMode gameMode, NewGameInfo userData) : base(gameMode, userData)
+        public SelectProfessionState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Set the profession to default value in case we are retrying this.
             UserData.PlayerProfession = Profession.Banker;
