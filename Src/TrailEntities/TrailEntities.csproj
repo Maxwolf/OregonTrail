@@ -34,6 +34,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="End Game\EndGameCommands.cs" />
+    <Compile Include="End Game\EndGameInfo.cs" />
+    <Compile Include="End Game\EndGameMode.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\Animals.cs" />
     <Compile Include="Entity\SimEntity.cs" />
@@ -58,8 +61,8 @@
     <Compile Include="Options\OriginalTopTenState.cs" />
     <Compile Include="Travel\Status\DriveState.cs" />
     <Compile Include="Travel\Pace\PaceAdviceState.cs" />
-    <Compile Include="Travel\PointsState.cs" />
-    <Compile Include="Travel\Tombstone\TombstoneState.cs" />
+    <Compile Include="End Game\PointsState.cs" />
+    <Compile Include="End Game\TombstoneState.cs" />
     <Compile Include="Widget\SpinningPixel.cs" />
     <Compile Include="Widget\MarqueeBar.cs" />
     <Compile Include="Widget\TextProgress.cs" />
@@ -72,8 +75,8 @@
     <Compile Include="Event\Animal\AnimalEvent.cs" />
     <Compile Include="Event\Animal\AnimalEventItem.cs" />
     <Compile Include="Event\EventItem.cs" />
-    <Compile Include="Event\Medical\MedicalEvent.cs" />
-    <Compile Include="Event\Medical\MedicalEventItem.cs" />
+    <Compile Include="Event\Illness\IllnessEvent.cs" />
+    <Compile Include="Event\Illness\IllnessEventItem.cs" />
     <Compile Include="Event\Warning\WarningEventItem.cs" />
     <Compile Include="Event\Warning\WarningEvent.cs" />
     <Compile Include="Event\Weather\WeatherEvent.cs" />

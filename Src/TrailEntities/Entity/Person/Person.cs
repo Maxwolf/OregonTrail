@@ -184,34 +184,43 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Determines the amount of miles the party is able to travel with a given individual. Will check for illness, cold
+        ///     Determines the amount of miles the party is able to travel with a given individual. Will check for Illness, cold
         ///     weather, starvation from having zero food, healing when resting, and if needed killing them off from simulation.
         /// </summary>
         public void TickPerson()
         {
+            // Grab the current cost of aid the player has
+            var cost_aid = GameSimApp.Instance.Vehicle.Inventory[SimEntity.Aid].TotalValue;
+
             if (100*GameSimApp.Instance.Random.NextDouble() < 10 + 35*((int) GameSimApp.Instance.Vehicle.Ration - 1))
             {
-                //"mild illness---medicine used"
-                total_miles = total_miles - 5;
+                // Mild illness.
+                GameSimApp.Instance.Vehicle.ReduceMileage(5);
                 cost_aid = cost_aid - 2;
             }
             else if (100*GameSimApp.Instance.Random.NextDouble() <
                 100 - (40/4*((int) GameSimApp.Instance.Vehicle.Ration - 1)))
             {
-                //"bad illness---medicine used"
-                total_miles = total_miles - 5;
+                // Bad illness.
                 cost_aid = cost_aid - 5;
             }
             else
             {
+                // Severe illness.
                 cost_aid = cost_aid - 10;
-                illness = 1;
+                Illness = true;
             }
 
+            // Check if you have been killed by Illness.
             if (cost_aid < 0)
             {
-                EndGame(DieReason.OutOfSupplies);
+                GameSimApp.Instance.AddMode(ModeType.EndGame);
             }
         }
+
+        /// <summary>
+        /// Determines if the player currently is inflicted with an illness.
+        /// </summary>
+        public bool Illness { get; private set; }
     }
 }

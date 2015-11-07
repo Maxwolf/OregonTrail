@@ -288,6 +288,8 @@ namespace TrailEntities
                     return new TradingMode();
                 case ModeType.ManagementOptions:
                     return new OptionsMode();
+                case ModeType.EndGame:
+                    return new EndGameMode();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(modeType), modeType, null);
             }
@@ -333,7 +335,6 @@ namespace TrailEntities
             // Grab the total amount of monies the player has spent on the items in their inventory.
             var cost_ammo = Vehicle.Inventory[SimEntity.Ammo].TotalValue;
             var cost_clothes = Vehicle.Inventory[SimEntity.Clothes].TotalValue;
-            var cost_aid = Vehicle.Inventory[SimEntity.Aid].TotalValue;
             var start_cash = Vehicle.Inventory[SimEntity.Cash].TotalValue;
 
             // Move towards the next location on the trail.

@@ -28,6 +28,12 @@
         NewGame,
 
         /// <summary>
+        ///     Shows final point count, resets simulation data, asks if user wants to return to main menu or close the
+        ///     application.
+        /// </summary>
+        EndGame,
+
+        /// <summary>
         ///     Forces the player to make a choice about how to cross the river, they can ford the river, caulk their wagon and
         ///     float, or pay to take a ferry across.
         /// </summary>

@@ -227,6 +227,32 @@ namespace TrailEntities
             return hash;
         }
 
+        /// <summary>
+        ///     Reduces the total mileage the vehicle has rolled to move within the next two week block section. Will not allow
+        ///     mileage to be reduced below zero.
+        /// </summary>
+        /// <param name="amount">Amount of mileage that will be reduced.</param>
+        internal void ReduceMileage(int amount)
+        {
+            // Check if current mileage is below zero.
+            if (Mileage <= 0)
+                return;
+
+            // Calculate new mileage.
+            var updatedMileage = Mileage - amount;
+
+            // Check if updated mileage is below zero.
+            if (updatedMileage <= 0)
+                updatedMileage = 0;
+
+            // Check that mileage doesn't already exist as this value somehow.
+            if (!updatedMileage.Equals(Mileage))
+            {
+                // Set mileage to new updated value.
+                Mileage = updatedMileage;
+            }
+        }
+
         public event OnChangePace OnVehicleChangePace;
 
         public event OnChangeRation OnVehicleChangeRations;
@@ -311,7 +337,7 @@ namespace TrailEntities
             }
 
             // TODO: Determine if weather will slow us down.
-            
+
             // Loop through all the people in the vehicle and tick them.
             foreach (var person in _passengers)
             {

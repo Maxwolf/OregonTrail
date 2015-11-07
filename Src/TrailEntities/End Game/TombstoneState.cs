@@ -7,12 +7,12 @@ namespace TrailEntities
     ///     everybody dies. This state offers up the chance for the person to leave a personal epitaph of their existence as a
     ///     warning or really whatever. Wheel of the fun is not knowing what they will say!
     /// </summary>
-    public sealed class TombstoneState : ModeState<TravelInfo>
+    public sealed class TombstoneState : ModeState<EndGameInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public TombstoneState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public TombstoneState(IMode gameMode, EndGameInfo userData) : base(gameMode, userData)
         {
         }
 

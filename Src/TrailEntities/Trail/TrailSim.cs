@@ -52,25 +52,23 @@ namespace TrailEntities
             // Get the current and next locations.
             var currentPoint = GetCurrentLocation();
 
-            // Check for end of game in miles.
-            if (total_miles >= 2040)
-            {
-                endgame(diereason.trailend)
-                return;
-            }
-
             // Check if we need to keep going or if we have reached the end of the trail.
-            if (LocationIndex >= Locations.Count)
+            if (LocationIndex <= Locations.Count)
             {
                 // Setup next travel distance requirement.
                 DistanceToNextLocation = CalculateNextPointDistance();
 
                 // Called when we decide to continue on the trail from a location on it.
                 LocationIndex++;
-            }
 
-            // Fire method to do some work and attach game modes based on this.
-            OnReachedPointOfInterest(currentPoint);
+                // Fire method to do some work and attach game modes based on this.
+                OnReachedPointOfInterest(currentPoint);
+            }
+            else if (GameSimApp.Instance.Vehicle.Odometer >= 2040)
+            {
+                // Check for end of game in miles.
+                GameSimApp.Instance.AddMode(ModeType.EndGame);
+            }
         }
 
         /// <summary>

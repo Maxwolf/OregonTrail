@@ -2,14 +2,14 @@
 
 namespace TrailEntities
 {
-    public sealed class MedicalEventItem : EventItem<Person, MedicalEvent>
+    public sealed class IllnessEventItem : EventItem<Person, IllnessEvent>
     {
         /// <summary>
         ///     Create a new event item that can be passed to the simulation director.
         /// </summary>
         /// <param name="eventTarget">Simulation compatible entity which will be affected.</param>
         /// <param name="eventEnum">Enumeration that will be passed to result along with target for event execution.</param>
-        public MedicalEventItem(Person eventTarget, MedicalEvent eventEnum) : base(eventTarget, eventEnum)
+        public IllnessEventItem(Person eventTarget, IllnessEvent eventEnum) : base(eventTarget, eventEnum)
         {
         }
 
@@ -19,41 +19,41 @@ namespace TrailEntities
         /// </summary>
         /// <param name="eventTarget">Entity which will be affected by this method.</param>
         /// <param name="eventEnum">Enumeration that helps this method determine what should be done.</param>
-        protected override void OnEventExecute(Person eventTarget, MedicalEvent eventEnum)
+        protected override void OnEventExecute(Person eventTarget, IllnessEvent eventEnum)
         {
             switch (eventEnum)
             {
-                case MedicalEvent.SprainedMuscle:
+                case IllnessEvent.SprainedMuscle:
                     break;
-                case MedicalEvent.SprainedShoulder:
+                case IllnessEvent.SprainedShoulder:
                     break;
-                case MedicalEvent.TyphoidFever:
+                case IllnessEvent.TyphoidFever:
                     break;
-                case MedicalEvent.Concussion:
+                case IllnessEvent.Concussion:
                     break;
-                case MedicalEvent.BrokenArm:
+                case IllnessEvent.BrokenArm:
                     break;
-                case MedicalEvent.DeathCompanion:
+                case IllnessEvent.DeathCompanion:
                     break;
-                case MedicalEvent.DeathPlayer:
+                case IllnessEvent.DeathPlayer:
                     break;
-                case MedicalEvent.SufferingExhaustion:
+                case IllnessEvent.SufferingExhaustion:
                     break;
-                case MedicalEvent.TurnForWorse:
+                case IllnessEvent.TurnForWorse:
                     break;
-                case MedicalEvent.Cholera:
+                case IllnessEvent.Cholera:
                     break;
-                case MedicalEvent.MountainFever:
+                case IllnessEvent.MountainFever:
                     break;
-                case MedicalEvent.Dysentery:
+                case IllnessEvent.Dysentery:
                     break;
-                case MedicalEvent.Measles:
+                case IllnessEvent.Measles:
                     break;
-                case MedicalEvent.Gangrene:
+                case IllnessEvent.Gangrene:
                     break;
-                case MedicalEvent.WellAgain:
+                case IllnessEvent.WellAgain:
                     break;
-                case MedicalEvent.Fever:
+                case IllnessEvent.Fever:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(eventEnum), eventEnum, null);

@@ -1,6 +1,6 @@
 ﻿namespace TrailEntities
 {
-    public enum MedicalEvent
+    public enum IllnessEvent
     {
         SprainedMuscle,
         SprainedShoulder,

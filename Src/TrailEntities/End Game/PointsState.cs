@@ -7,12 +7,12 @@ namespace TrailEntities
     ///     just attach this state to the travel mode and it will show the final score and reset the game and return to main
     ///     menu when the player is done.
     /// </summary>
-    public sealed class PointsState : ModeState<TravelInfo>
+    public sealed class PointsState : ModeState<EndGameInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public PointsState(IMode gameMode, EndGameInfo userData) : base(gameMode, userData)
         {
         }
 
