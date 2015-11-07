@@ -22,9 +22,10 @@ namespace TrailEntities
         /// <summary>
         ///     Create a new event item that can be passed to the simulation director.
         /// </summary>
+        /// <param name="name">Name of the event as it is known internally by director, can also be called by this manually. Used as unique key also.</param>
         /// <param name="eventTarget">Simulation compatible entity which will be affected.</param>
         /// <param name="eventEnum">Enumeration that will be passed to result along with target for event execution.</param>
-        protected EventItem(EventTarget eventTarget, EventEnum eventEnum)
+        protected EventItem(string name, EventTarget eventTarget, EventEnum eventEnum)
         {
             // Complain the generics implemented are not of an enum type.
             if (!typeof (EventEnum).IsEnum)
@@ -41,10 +42,18 @@ namespace TrailEntities
             // Set data about event.
             _eventTarget = eventTarget;
             _eventEnum = eventEnum;
+            Name = name;
 
             // Set timestamp for when the event occurred.
             Timestamp = GameSimApp.Instance.Time.Date;
         }
+
+        /// <summary>
+        ///     Name of the event as it will be known in the directory system, can also be used to call it manually by name.
+        ///     Another thing is this also is used as a key in dictionary of all events, hopefully preventing developers from
+        ///     adding the same event more than once to the list.
+        /// </summary>
+        public string Name { get; }
 
         /// <summary>
         ///     Each event result has the ability to execute method.

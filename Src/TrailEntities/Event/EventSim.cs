@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TrailEntities
 {
@@ -11,28 +12,29 @@ namespace TrailEntities
         public delegate void EventAdd(IEventItem eventItem);
 
         /// <summary>
-        /// Reference to the last event that the dice rolled on, this is cleared and reset to next value each time the dice are rolled.
+        ///     Reference to the last event that the dice rolled on, this is cleared and reset to next value each time the dice are
+        ///     rolled.
         /// </summary>
         private int _eventCounter;
 
         /// <summary>
         ///     References all of the events that have been triggered by the system in chronological order they occurred.
         /// </summary>
-        private List<IEventItem> _events;
+        private Dictionary<string, IEventItem> _events;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.EventSim" /> class.
         /// </summary>
         public EventSim()
         {
-            _events = new List<IEventItem>();
+            _events = new Dictionary<string, IEventItem>();
             _eventCounter = 0;
         }
 
         /// <summary>
         ///     Stores all previous and current events in the system, saved and loaded with simulation.
         /// </summary>
-        public IEnumerable<IEventItem> Events
+        public IDictionary<string, IEventItem> Events
         {
             get { return _events; }
         }
@@ -48,14 +50,19 @@ namespace TrailEntities
         public void AddEvent(IEventItem eventItem)
         {
             // Adds the event to the list, no duplicate events are allowed.
-            _events.Add(eventItem);
+            _events.Add(eventItem.Name, eventItem);
 
             // Fire event!
             EventAdded?.Invoke(eventItem);
         }
 
+        /// <summary>
+        ///     Rolls the virtual dice!
+        /// </summary>
+        /// <returns>Random number based on current party status.</returns>
         private int RollDice()
         {
+            // TODO: Use formula to determine random number used to select event.
             _eventCounter = 0;
             _eventCounter++;
             return GameSimApp.Instance.Random.Next(100);
@@ -80,6 +87,19 @@ namespace TrailEntities
 
             // Executes the event that the dice roll selected.
             _events[_eventCounter].Execute();
+        }
+
+        /// <summary>
+        ///     Forcefully triggers an event that has been added to the active list by it's key.
+        /// </summary>
+        public void TriggerEvent(string eventName)
+        {
+            // Check if the inputted event name is null or not.
+            if (string.IsNullOrEmpty(eventName) ||
+                string.IsNullOrWhiteSpace(eventName))
+                return;
+
+            // Check event names for matching
         }
     }
 }

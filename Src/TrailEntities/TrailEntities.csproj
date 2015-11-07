@@ -46,6 +46,7 @@
     <Compile Include="Entity\Person\Disease.cs" />
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />
+    <Compile Include="Event\Events.cs" />
     <Compile Include="Event\IEventItem.cs" />
     <Compile Include="Main Menu\Help\IntroduceStoreState.cs" />
     <Compile Include="Scoring\Highscore.cs" />

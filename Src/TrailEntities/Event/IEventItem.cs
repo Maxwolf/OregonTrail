@@ -24,6 +24,13 @@
         Date Timestamp { get; set; }
 
         /// <summary>
+        ///     Name of the event as it will be known in the directory system, can also be used to call it manually by name.
+        ///     Another thing is this also is used as a key in dictionary of all events, hopefully preventing developers from
+        ///     adding the same event more than once to the list.
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         ///     Each event result has the ability to execute method.
         /// </summary>
         void Execute();
