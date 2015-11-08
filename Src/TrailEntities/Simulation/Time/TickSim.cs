@@ -1,7 +1,7 @@
 ﻿using System;
 using TrailEntities.Widget;
 
-namespace TrailEntities.Simulation.Time
+namespace TrailEntities.Simulation
 {
     /// <summary>
     ///     Keeps track of the total number of ticks and keeps track of time relative to seconds with every pulse to the
@@ -53,7 +53,7 @@ namespace TrailEntities.Simulation.Time
         private SpinningPixel _spinningPixel;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.Time.TickSim" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.TickSim" /> class.
         /// </summary>
         protected TickSim()
         {

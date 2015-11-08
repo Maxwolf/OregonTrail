@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Simulation.Director
+﻿namespace TrailEntities.Simulation
 {
     /// <summary>
     ///     Defines the different kinds of events the simulation supports, used for sorting and easy grabbing of events by type

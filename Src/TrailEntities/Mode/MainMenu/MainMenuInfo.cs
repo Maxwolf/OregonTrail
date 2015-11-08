@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using TrailEntities.Entity;
-using TrailEntities.Simulation.Time;
+using TrailEntities.Simulation;
 
 namespace TrailEntities.Mode
 {

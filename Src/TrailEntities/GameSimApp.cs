@@ -5,10 +5,6 @@ using TrailEntities.Entity;
 using TrailEntities.Mode;
 using TrailEntities.Scoring;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Climate;
-using TrailEntities.Simulation.Director;
-using TrailEntities.Simulation.Time;
-using TrailEntities.Simulation.Trail;
 
 namespace TrailEntities
 {

@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Linq;
 using TrailEntities.Event;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Director;
 
 namespace TrailEntities.Entity
 {

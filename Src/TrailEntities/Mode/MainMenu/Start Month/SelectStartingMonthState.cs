@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation.Time;
+using TrailEntities.Simulation;
 
 namespace TrailEntities.Mode
 {

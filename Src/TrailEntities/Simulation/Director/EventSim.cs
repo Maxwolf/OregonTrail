@@ -7,7 +7,7 @@ using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Mode;
 
-namespace TrailEntities.Simulation.Director
+namespace TrailEntities.Simulation
 {
     /// <summary>
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
@@ -26,7 +26,7 @@ namespace TrailEntities.Simulation.Director
         private SortedDictionary<string, EventItem> _events;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.Director.EventSim" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.EventSim" /> class.
         /// </summary>
         public EventSim()
         {

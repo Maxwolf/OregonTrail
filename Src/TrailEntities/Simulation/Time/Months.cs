@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Simulation.Time
+﻿namespace TrailEntities.Simulation
 {
     public enum Months
     {

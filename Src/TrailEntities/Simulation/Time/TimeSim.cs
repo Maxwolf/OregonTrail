@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Simulation.Time
+﻿namespace TrailEntities.Simulation
 {
     /// <summary>
     ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time

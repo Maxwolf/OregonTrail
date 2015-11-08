@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Simulation.Climate
+﻿namespace TrailEntities.Simulation
 {
     public enum ClimateClassification
     {

@@ -1,7 +1,6 @@
 ﻿using TrailEntities.Entity;
-using TrailEntities.Simulation.Time;
 
-namespace TrailEntities.Simulation.Director
+namespace TrailEntities.Simulation
 {
     /// <summary>
     ///     Represents an event that has occurred in the simulations past.
@@ -9,7 +8,7 @@ namespace TrailEntities.Simulation.Director
     public sealed class EventHistoryItem
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.Director.EventHistoryItem" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.EventHistoryItem" /> class.
         /// </summary>
         public EventHistoryItem(IEntity entity, EventItem eventItem)
         {

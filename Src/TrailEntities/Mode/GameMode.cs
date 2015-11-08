@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Trail;
 
 namespace TrailEntities.Mode
 {

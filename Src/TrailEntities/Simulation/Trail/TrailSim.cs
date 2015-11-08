@@ -4,7 +4,7 @@ using System.Linq;
 using TrailEntities.Entity;
 using TrailEntities.Mode;
 
-namespace TrailEntities.Simulation.Trail
+namespace TrailEntities.Simulation
 {
     /// <summary>
     ///     Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps

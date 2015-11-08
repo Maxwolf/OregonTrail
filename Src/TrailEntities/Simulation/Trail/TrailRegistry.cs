@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TrailEntities.Simulation.Trail
+namespace TrailEntities.Simulation
 {
     /// <summary>
     ///     Complete trails the player can travel on using the simulation. Some are remakes and others new.

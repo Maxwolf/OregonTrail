@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Director;
 
 namespace TrailEntities.Entity
 {
