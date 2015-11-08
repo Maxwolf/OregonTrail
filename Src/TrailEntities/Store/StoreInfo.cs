@@ -19,7 +19,6 @@ namespace TrailEntities
         /// </summary>
         public StoreInfo()
         {
-            ShouldShowStoreAdvice = GameSimApp.Instance.Trail.IsFirstLocation();
             _totalTransactions = new Dictionary<SimEntity, SimItem>(GameSimApp.DefaultInventory);
         }
 
@@ -30,11 +29,6 @@ namespace TrailEntities
         {
             get { return _totalTransactions; }
         }
-
-        /// <summary>
-        ///     Determines if we have already shown the advice to the player.
-        /// </summary>
-        public bool ShouldShowStoreAdvice { get; set; }
 
         public void ClearTransactions()
         {

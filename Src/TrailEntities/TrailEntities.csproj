@@ -47,6 +47,7 @@
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />
     <Compile Include="Event\EventCategory.cs" />
+    <Compile Include="Event\EventHistoryItem.cs" />
     <Compile Include="Event\EventItem.cs" />
     <Compile Include="Event\Medical\DeathCompanion.cs" />
     <Compile Include="Event\Medical\DeathPlayer.cs" />

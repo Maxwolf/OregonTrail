@@ -119,6 +119,7 @@ namespace TrailEntities
         /// </summary>
         public void TakeTurn()
         {
+            // Advance the turn counter.
             TotalTurns++;
             Time.TickTime();
         }
@@ -208,9 +209,11 @@ namespace TrailEntities
         {
             // Unhook delegates from linear time simulation.
             if (Time != null)
-            {
                 Time.DayEndEvent -= TimeSimulation_DayEndEvent;
-            }
+
+            // Event director has event for when he triggers events.
+            if (Director != null)
+                Director.OnEventTriggered -= Director_OnEventTriggered;
 
             // Destroy all instances.
             ScoreTopTen = null;
@@ -241,8 +244,11 @@ namespace TrailEntities
             ScoreTopTen = new List<Highscore>(ScoreRegistry.TopTenDefaults);
             // TODO: Load custom list from JSON with user high scores altered from defaults.
 
-            // Environment, weather, conditions, climate, tail, stats, event director, etc.
+            // Event director and his event to know when events trigger.
             Director = new EventSim();
+            Director.OnEventTriggered += Director_OnEventTriggered;
+
+            // Environment, weather, conditions, climate, tail, stats, etc.
             Climate = new ClimateSim(ClimateClassification.Moderate);
             Trail = new TrailSim(TrailRegistry.OregonTrail());
             TotalTurns = 0;
@@ -255,6 +261,19 @@ namespace TrailEntities
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
             AddMode(ModeType.MainMenu);
+        }
+
+        /// <summary>
+        ///     Fired when the event director triggers an event because it rolled the dice and hit it or it was forcefully
+        ///     triggered by some method under a defined condition.
+        /// </summary>
+        /// <param name="eventItem">
+        ///     Event that wants to be executed, the director has only passed this object to us to perform work
+        ///     with.
+        /// </param>
+        private void Director_OnEventTriggered(EventItem eventItem)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

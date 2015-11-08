@@ -14,14 +14,15 @@ namespace TrailEntities
     public sealed class EventSim
     {
         /// <summary>
-        ///     Defines the name of the event invoker method name that will be called after created event item from object type.
+        ///     Fired when an event has been triggered by the director.
         /// </summary>
-        private const string INVOKER_METHOD_NAME = "Execute";
+        /// <param name="eventItem">Event that was triggered.</param>
+        public delegate void EventTriggered(EventItem eventItem);
 
         /// <summary>
         ///     References all of the events that have been triggered by the system in chronological order they occurred.
         /// </summary>
-        private SortedDictionary<string, Type> _events;
+        private SortedDictionary<string, EventItem> _events;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.EventSim" /> class.
@@ -29,17 +30,24 @@ namespace TrailEntities
         public EventSim()
         {
             // Create a new dictionary of events, set counter to zero for random event selector.
-            _events = new SortedDictionary<string, Type>();
+            _events = new SortedDictionary<string, EventItem>();
+
+            // Create a new list for event history.
+            EventHistory = new List<EventHistoryItem>();
+
+            // Use reflection to obtain and create list of all events the simulation will use.
             PopulateEvents();
         }
 
         /// <summary>
-        ///     Stores all previous and current events in the system, saved and loaded with simulation.
+        ///     Contains history of events that have happened.
         /// </summary>
-        public IDictionary<string, Type> Events
-        {
-            get { return _events; }
-        }
+        public List<EventHistoryItem> EventHistory { get; }
+
+        /// <summary>
+        ///     Fired when an event has been triggered by the director.
+        /// </summary>
+        public event EventTriggered OnEventTriggered;
 
         /// <summary>
         ///     Using reflection get all the event item types in the project so we can dynamically add them to the list of
@@ -57,9 +65,22 @@ namespace TrailEntities
                 if (eventType.IsAbstract)
                     continue;
 
-                // Adds the event item to the list, no duplicate events are allowed.
-                if (!_events.ContainsKey(eventType.Name))
-                    _events.Add(eventType.Name, eventType);
+                // Get the constructor and create an instance of event item.
+                var instantiatedType = Activator.CreateInstance(
+                    eventType,
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+                    null,
+                    new object[] {eventType.Name},
+                    CultureInfo.InvariantCulture);
+
+                // Attempt to cash this instantiated type into an event item.
+                var castedEventItem = instantiatedType as EventItem;
+                if (castedEventItem == null)
+                    continue;
+
+                // Adds the event item to the dictionary, no duplicate events are allowed.
+                if (!_events.ContainsKey(castedEventItem.Name))
+                    _events.Add(castedEventItem.Name, castedEventItem);
             }
         }
 
@@ -81,7 +102,7 @@ namespace TrailEntities
         ///     Loops through all of the registered events with the director and begins rolling the virtual dice to see if any of
         ///     them trigger.
         /// </summary>
-        public void CheckRandomEvents()
+        public void TriggerRandomEvent()
         {
             // Check if there are any events we can process.
             if (_events.Count <= 0)
@@ -96,11 +117,42 @@ namespace TrailEntities
                 return;
 
             // Check if the event value is null or default value.
-            if (foundEvent.Equals(default(KeyValuePair<string, Type>)))
+            if (foundEvent.Equals(default(KeyValuePair<string, EventItem>)))
                 return;
 
             // Pass off execution to helper method that will construct event instance from type.
-            TriggerEvent(foundEvent.Key);
+            TriggerEventByName(foundEvent.Key);
+        }
+
+        /// <summary>
+        ///     Gathers all of the events by specified type and then rolls the virtual dice to determine if any of the events in
+        ///     the enumeration should trigger.
+        /// </summary>
+        /// <param name="eventType">Event type the dice will be rolled against and attempted to trigger.</param>
+        public void TriggerEventByType(EventCategory eventType)
+        {
+            // Create list we will use to store events of wanted type.
+            var eventTypeList = new List<EventItem>();
+
+            // Gather up all the events by the specified type.
+            foreach (var valuePairEvent in _events)
+            {
+                if (valuePairEvent.Value.Category.Equals(eventType))
+                {
+                    eventTypeList.Add(valuePairEvent.Value);
+                }
+            }
+
+            // Roll the virtual dice and look for event to trigger.
+            var foundEvent = eventTypeList.ElementAtOrDefault(GameSimApp.Instance.Random.Next(100));
+            if (foundEvent != null)
+            {
+                // Pass off execution to helper method that will construct event instance from type.
+                TriggerEventByName(foundEvent.Name);
+            }
+
+            // Cleanup copied event instances.
+            eventTypeList.Clear();
         }
 
         /// <summary>
@@ -111,13 +163,13 @@ namespace TrailEntities
         public void TriggerEvent(Type eventType)
         {
             // Pass off execution to helper method that will construct event instance from type.
-            TriggerEvent(eventType.Name);
+            TriggerEventByName(eventType.Name);
         }
 
         /// <summary>
         ///     Forcefully triggers an event that has been added to the active list by it's key.
         /// </summary>
-        private void TriggerEvent(string eventName)
+        private void TriggerEventByName(string eventName)
         {
             // Check if event name is null or empty whitespace.
             if (string.IsNullOrEmpty(eventName) ||
@@ -128,28 +180,23 @@ namespace TrailEntities
             if (_events[eventName] == null)
                 return;
 
-            // Get the constructor and create an instance of event item.
-            var instantiatedType = Activator.CreateInstance(
-                _events[eventName],
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
-                null,
-                new object[] {_events[eventName].Name},
-                CultureInfo.InvariantCulture);
-
-            // Get the event item method by name manually.
-            var eventMethod = _events[eventName].GetMethod(INVOKER_METHOD_NAME);
-
             // Invoke with a parameter string builder object we will get a string back from execute method.
             var eventInputParameter = new StringBuilder();
-            var eventTUI = eventMethod.Invoke(instantiatedType, new object[] {eventInputParameter}) as string;
+            var eventTUI = _events[eventName].Execute(eventInputParameter);
 
             // Check if the event text user interface from execute method is null or empty whitespace.
             if (string.IsNullOrEmpty(eventTUI) ||
                 string.IsNullOrWhiteSpace(eventTUI))
                 return;
 
-            // Attach the random event game mode so we can show the user the text about the event.
-            GameSimApp.Instance.AddMode(ModeType.RandomEvent);
+            // Grab the event item,
+            var eventItem = _events[eventName];
+
+            // Fire off event so primary game simulation knows we executed an event with an event.
+            OnEventTriggered?.Invoke(eventItem);
+
+            // Add event to history of events we have executed.
+            EventHistory.Add(new EventHistoryItem(eventItem));
         }
     }
 }

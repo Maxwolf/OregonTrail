@@ -16,7 +16,14 @@ namespace TrailEntities
             // User data for states, keeps track of all new game information.
             StoreInfo = new StoreInfo();
 
+            // Print out store good and their prices for user selection.
             UpdateDebts();
+
+            // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game mode also (travel mode always there).
+            if (GameSimApp.Instance.Trail.IsFirstLocation() && GameSimApp.Instance.ModeCount > 1)
+            {
+                StoreAdvice();
+            }
         }
 
         /// <summary>
@@ -148,7 +155,6 @@ namespace TrailEntities
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        /// <param name="modeType"></param>
         protected override void OnModeRemoved(ModeType modeType)
         {
             base.OnModeRemoved(modeType);
@@ -243,13 +249,6 @@ namespace TrailEntities
                   $"{Environment.NewLine}Amount you have:       {amountPlayerHas.ToString("C2")}"
                 : $"You have {GameSimApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
             MenuFooter = footerText.ToString();
-
-            // Trigger the store advice automatically on the first location and one time only.
-            if (GameSimApp.Instance.Trail.IsFirstLocation() && StoreInfo.ShouldShowStoreAdvice)
-            {
-                StoreInfo.ShouldShowStoreAdvice = false;
-                StoreAdvice();
-            }
         }
     }
 }

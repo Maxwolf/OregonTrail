@@ -76,6 +76,14 @@ namespace TrailEntities
         }
 
         /// <summary>
+        ///     Returns the total number of active game modes that are currently loaded into the simulation.
+        /// </summary>
+        public int ModeCount
+        {
+            get { return Modes.Count; }
+        }
+
+        /// <summary>
         ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
         ///     of themselves like stores and trades.
         /// </summary>

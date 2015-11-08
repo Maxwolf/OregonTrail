@@ -56,15 +56,15 @@
         HuntForFood = 8,
 
         /// <summary>
-        ///     using "Talk," you can talk to fellow travelers to further the story or for advice.  If you don't know what to do,
-        ///     talk to someone or consult the Guide.
-        /// </summary>
-        TalkToPeople = 9,
-
-        /// <summary>
         ///     You can only buy items at forts along the trail.  If you're at a fort, click "Buy" to see what is in stock.  Prices
         ///     increase the farther along the trail you go.
         /// </summary>
-        BuySupplies = 10
+        BuySupplies = 9,
+
+        /// <summary>
+        ///     using "Talk," you can talk to fellow travelers to further the story or for advice.  If you don't know what to do,
+        ///     talk to someone or consult the Guide.
+        /// </summary>
+        TalkToPeople = 10
     }
 }

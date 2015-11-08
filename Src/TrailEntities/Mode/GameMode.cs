@@ -455,7 +455,6 @@ namespace TrailEntities
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        /// <param name="modeType">The mode that is about to be removed.</param>
         protected virtual void OnModeRemoved(ModeType modeType)
         {
             GameSimApp.Instance.Trail.OnReachPointOfInterest -= OnReachNextLocation;
