@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using TrailEntities.Event;
 
 namespace TrailEntities.Entity
 {
@@ -325,16 +326,14 @@ namespace TrailEntities.Entity
             // Sometimes things just go slow on the trail.
             Mileage = (int) (Mileage - 45 - GameSimApp.Instance.Random.NextDouble()/.02f);
 
-            // TODO: Determine if weather will slow us down.
-
             // Loop through all the people in the vehicle and tick them.
             foreach (var person in _passengers)
             {
                 person.TickPerson();
             }
 
-            // Check for random events that might trigger regardless of calculations we make.
-            GameSimApp.Instance.Director.TriggerRandomEvent();
+            // Check for random events that might trigger regardless of calculations made.
+            GameSimApp.Instance.Director.TriggerEventByType(this, EventCategory.Vehicle);
 
             // Use our altered mileage to affect how far the vehicle has traveled in todays tick..
             Odometer += Mileage;

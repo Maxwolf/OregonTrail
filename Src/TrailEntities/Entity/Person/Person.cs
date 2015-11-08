@@ -179,6 +179,8 @@ namespace TrailEntities.Entity
             }
             else
             {
+                // TODO: Complain about low food with event warning.
+
                 // Otherwise we begin to starve.
                 DaysStarving++;
             }
@@ -210,7 +212,7 @@ namespace TrailEntities.Entity
                 GameSimApp.Instance.Vehicle.ReduceMileage(15);
 
                 // Pick an actual severe illness from list, roll the dice for it on very low health.
-                GameSimApp.Instance.Director.TriggerEventByType(EventCategory.Medical);
+                GameSimApp.Instance.Director.TriggerEventByType(this, EventCategory.Person);
             }
 
             if (Health == RepairStatus.VeryPoor &&
@@ -220,14 +222,14 @@ namespace TrailEntities.Entity
                 GameSimApp.Instance.Vehicle.ReduceMileage(50);
 
                 // Check if leader died or party member.
-                GameSimApp.Instance.Director.TriggerEvent(IsLeader
+                GameSimApp.Instance.Director.TriggerEvent(this, IsLeader
                     ? typeof (DeathPlayer)
                     : typeof (DeathCompanion));
             }
         }
 
         /// <summary>
-        ///     Determines the amount of miles the party is able to travel with a given individual. Will check for Medical, cold
+        ///     Determines the amount of miles the party is able to travel with a given individual. Will check for Person, cold
         ///     weather, starvation from having zero food, healing when resting, and if needed killing them off from simulation.
         /// </summary>
         public void TickPerson()

@@ -21,7 +21,7 @@ namespace TrailEntities.Event
         /// </summary>
         public override EventCategory Category
         {
-            get { return EventCategory.Medical; }
+            get { return EventCategory.Person; }
         }
 
         /// <summary>

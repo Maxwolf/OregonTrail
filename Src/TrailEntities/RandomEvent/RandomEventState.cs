@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using TrailEntities.Entity;
 using TrailEntities.Event;
 using TrailEntities.Mode;
 
@@ -28,11 +29,12 @@ namespace TrailEntities
         /// </summary>
         /// <param name="gameMode">Parent game mode of this state.</param>
         /// <param name="userData">Custom user data for this game mode that is shared across all states.</param>
+        /// <param name="simEntity">Simulation entity that triggered the event to occur in the first place.</param>
         /// <param name="eventItem">
         ///     The actual event that director wants executed and information displayed to user about what it
         ///     does.
         /// </param>
-        public RandomEventState(IMode gameMode, RandomEventInfo userData, EventItem eventItem)
+        public RandomEventState(IMode gameMode, RandomEventInfo userData, IEntity simEntity, EventItem eventItem)
             : base(gameMode, userData)
         {
             // Create new string builder that will hold event execution data.
@@ -47,7 +49,7 @@ namespace TrailEntities
                     $"Executed random event {eventItem.Name} from director, but it returned no text data!");
 
             // Add the text to our output about the random event.
-            _randomEventText.AppendLine($"{eventText}{Environment.NewLine}");
+            _randomEventText.AppendLine($"{simEntity.Name} {eventText}{Environment.NewLine}");
 
             // Wait for user input...
             _randomEventText.Append(GameSimApp.PRESS_ENTER);

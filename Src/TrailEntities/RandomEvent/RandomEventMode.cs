@@ -1,4 +1,5 @@
-﻿using TrailEntities.Event;
+﻿using TrailEntities.Entity;
+using TrailEntities.Event;
 using TrailEntities.Mode;
 
 namespace TrailEntities
@@ -38,14 +39,10 @@ namespace TrailEntities
         ///     Fired when the event director triggers an event because it rolled the dice and hit it or it was forcefully
         ///     triggered by some method under a defined condition.
         /// </summary>
-        /// <param name="eventItem">
-        ///     Event that wants to be executed, the director has only passed this object to us to perform work
-        ///     with.
-        /// </param>
-        private void Director_OnEventTriggered(EventItem eventItem)
+        private void Director_OnEventTriggered(IEntity simEntity, EventItem eventItem)
         {
             // Attached the random event state when we intercept an event it would like us to trigger.
-            CurrentState = new RandomEventState(this, eventInfo, eventItem);
+            CurrentState = new RandomEventState(this, eventInfo, simEntity, eventItem);
         }
 
         /// <summary>

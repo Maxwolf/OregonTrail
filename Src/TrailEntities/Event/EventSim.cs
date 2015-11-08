@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using TrailEntities.Entity;
 using TrailEntities.Mode;
 
 namespace TrailEntities.Event
@@ -17,8 +18,7 @@ namespace TrailEntities.Event
         /// <summary>
         ///     Fired when an event has been triggered by the director.
         /// </summary>
-        /// <param name="eventItem">Event that was triggered.</param>
-        public delegate void EventTriggered(EventItem eventItem);
+        public delegate void EventTriggered(IEntity simEntity, EventItem eventItem);
 
         /// <summary>
         ///     References all of the events that have been triggered by the system in chronological order they occurred.
@@ -100,37 +100,12 @@ namespace TrailEntities.Event
         }
 
         /// <summary>
-        ///     Loops through all of the registered events with the director and begins rolling the virtual dice to see if any of
-        ///     them trigger.
-        /// </summary>
-        public void TriggerRandomEvent()
-        {
-            // Check if there are any events we can process.
-            if (_events.Count <= 0)
-                return;
-
-            // Rolls the virtual dice and executes event if one is found that matches index.
-            var foundEvent = _events.ElementAtOrDefault(GameSimApp.Instance.Random.Next(100));
-
-            // Check if the event key is empty or null.
-            if (string.IsNullOrEmpty(foundEvent.Key) ||
-                string.IsNullOrWhiteSpace(foundEvent.Key))
-                return;
-
-            // Check if the event value is null or default value.
-            if (foundEvent.Equals(default(KeyValuePair<string, EventItem>)))
-                return;
-
-            // Pass off execution to helper method that will construct event instance from type.
-            TriggerEventByName(foundEvent.Key);
-        }
-
-        /// <summary>
         ///     Gathers all of the events by specified type and then rolls the virtual dice to determine if any of the events in
         ///     the enumeration should trigger.
         /// </summary>
+        /// <param name="simEntity">Entity which will be affected by event if triggered.</param>
         /// <param name="eventType">Event type the dice will be rolled against and attempted to trigger.</param>
-        public void TriggerEventByType(EventCategory eventType)
+        public void TriggerEventByType(IEntity simEntity, EventCategory eventType)
         {
             // Create list we will use to store events of wanted type.
             var eventTypeList = new List<EventItem>();
@@ -149,7 +124,7 @@ namespace TrailEntities.Event
             if (foundEvent != null)
             {
                 // Pass off execution to helper method that will construct event instance from type.
-                TriggerEventByName(foundEvent.Name);
+                TriggerEventByName(simEntity, foundEvent.Name);
             }
 
             // Cleanup copied event instances.
@@ -160,17 +135,18 @@ namespace TrailEntities.Event
         ///     Accepts a type of class that can be used to create a given event, this way they can be referenced in code by their
         ///     actual class name which is what is used by the internal simulation event directors dictionary of available events.
         /// </summary>
+        /// <param name="simEntity">Entity that would like to be tied to event being triggered.</param>
         /// <param name="eventType">Type of event that should be triggered, if it exists in loaded event dictionary in director.</param>
-        public void TriggerEvent(Type eventType)
+        public void TriggerEvent(IEntity simEntity, Type eventType)
         {
             // Pass off execution to helper method that will construct event instance from type.
-            TriggerEventByName(eventType.Name);
+            TriggerEventByName(simEntity, eventType.Name);
         }
 
         /// <summary>
         ///     Forcefully triggers an event that has been added to the active list by it's key.
         /// </summary>
-        private void TriggerEventByName(string eventName)
+        private void TriggerEventByName(IEntity simEntity, string eventName)
         {
             // Check if event name is null or empty whitespace.
             if (string.IsNullOrEmpty(eventName) ||
@@ -197,10 +173,10 @@ namespace TrailEntities.Event
             GameSimApp.Instance.AddMode(ModeType.RandomEvent);
 
             // Fire off event so primary game simulation knows we executed an event with an event.
-            OnEventTriggered?.Invoke(eventItem);
+            OnEventTriggered?.Invoke(simEntity, eventItem);
 
             // Add event to history of events we have executed.
-            EventHistory.Add(new EventHistoryItem(eventItem));
+            EventHistory.Add(new EventHistoryItem(simEntity, eventItem));
         }
     }
 }

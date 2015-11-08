@@ -7,9 +7,9 @@
     public enum EventCategory
     {
         /// <summary>
-        ///     When something bad happens to vehicle or party members.
+        ///     When something bad happens to vehicle.
         /// </summary>
-        Accident = 1,
+        Vehicle = 1,
 
         /// <summary>
         ///     Something bad happens to oxen pulling the vehicle.
@@ -19,7 +19,7 @@
         /// <summary>
         ///     Something bad happens to party member such as disease or illness.
         /// </summary>
-        Medical = 3,
+        Person = 3,
 
         /// <summary>
         ///     Warnings about low food, medical problems, weather, etc.
@@ -29,11 +29,11 @@
         /// <summary>
         ///     Used for displaying information about severe weather like blizzards and storms.
         /// </summary>
-        Weather = 5,
+        Climate = 5,
 
         /// <summary>
         ///     Wild animals, Indians, wolves, riders, and various other critters and strangers that you can encounter.
         /// </summary>
-        Wild = 6
+        Attack = 6
     }
 }

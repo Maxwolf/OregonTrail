@@ -7,7 +7,7 @@
     {
         /// <summary>
         ///     Worn by the vehicle party members to keep them warm when it is cold outside from climate simulation, without them
-        ///     the players risk Medical and death.
+        ///     the players risk Person and death.
         /// </summary>
         public static SimItem Clothing
         {

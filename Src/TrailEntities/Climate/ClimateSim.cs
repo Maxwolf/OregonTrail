@@ -154,6 +154,8 @@ namespace TrailEntities.Climate
 
         public void TickClimate()
         {
+            // TODO: Fire off events for weather related events so this simulation will directly affect the simulation.
+
             var possibleClimate = GetTemperatureByMonth(GameSimApp.Instance.Time.CurrentMonth);
             var possibleTemperature = GameSimApp.Instance.Random.Next((int) possibleClimate.MeanDailyMin,
                 (int) possibleClimate.MeanDailyMax);

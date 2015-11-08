@@ -1,4 +1,5 @@
-﻿using TrailEntities.Time;
+﻿using TrailEntities.Entity;
+using TrailEntities.Time;
 
 namespace TrailEntities.Event
 {
@@ -10,15 +11,23 @@ namespace TrailEntities.Event
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Event.EventHistoryItem" /> class.
         /// </summary>
-        public EventHistoryItem(EventItem eventItem)
+        public EventHistoryItem(IEntity entity, EventItem eventItem)
         {
             // When the event happened.
             Timestamp = GameSimApp.Instance.Time.Date;
+
+            // Who triggered the event.
+            SourceEntity = entity;
 
             // What the event name and category were.
             EventName = eventItem.Name;
             EventType = eventItem.Category;
         }
+
+        /// <summary>
+        ///     Determines what entity in the simulation triggered the event or rolled the dice for it to happen.
+        /// </summary>
+        public IEntity SourceEntity { get; }
 
         /// <summary>
         ///     Defines what category of event this was.
