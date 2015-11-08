@@ -10,7 +10,7 @@ using TrailEntities.Hunting;
 using TrailEntities.MainMenu;
 using TrailEntities.Mode;
 using TrailEntities.Options;
-using TrailEntities.RiverCrossing;
+using TrailEntities.RiverCross;
 using TrailEntities.Scoring;
 using TrailEntities.Store;
 using TrailEntities.Time;
@@ -291,7 +291,7 @@ namespace TrailEntities
                 case ModeType.MainMenu:
                     return new MainMenuMode();
                 case ModeType.RiverCrossing:
-                    return new RiverCrossingMode();
+                    return new RiverCrossMode();
                 case ModeType.Store:
                     return new StoreMode();
                 case ModeType.Trade:

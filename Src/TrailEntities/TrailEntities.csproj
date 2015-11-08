@@ -53,6 +53,14 @@
     <Compile Include="Event\Medical\DeathPlayer.cs" />
     <Compile Include="Event\RandomEventAttribute.cs" />
     <Compile Include="MainMenu\Help\IntroduceStoreState.cs" />
+    <Compile Include="RiverCross\CampByRiverState.cs" />
+    <Compile Include="RiverCross\FerryNoMoniesState.cs" />
+    <Compile Include="RiverCross\Help\CaulkRiverHelpState.cs" />
+    <Compile Include="RiverCross\Help\FerryHelpState.cs" />
+    <Compile Include="RiverCross\Help\FordRiverHelpState.cs" />
+    <Compile Include="RiverCross\Help\RiverPromptState.cs" />
+    <Compile Include="RiverCross\RiverCrossInfo.cs" />
+    <Compile Include="RiverCross\UseFerryConfirmState.cs" />
     <Compile Include="Scoring\Highscore.cs" />
     <Compile Include="Scoring\Performance.cs" />
     <Compile Include="Options\EraseCurrentTopTenState.cs" />
@@ -102,7 +110,7 @@
     <Compile Include="Options\OptionCommands.cs" />
     <Compile Include="Options\OptionInfo.cs" />
     <Compile Include="Options\OptionsMode.cs" />
-    <Compile Include="RiverCrossing\RiverCrossingCommands.cs" />
+    <Compile Include="RiverCross\RiverCrossCommands.cs" />
     <Compile Include="Store\BuyItemState.cs" />
     <Compile Include="Store\MissingItemState.cs" />
     <Compile Include="Store\StoreAdviceState.cs" />
@@ -140,7 +148,7 @@
     <Compile Include="Trail\TrailSim.cs" />
     <Compile Include="Entity\Person\Person.cs" />
     <Compile Include="Hunting\HuntingMode.cs" />
-    <Compile Include="RiverCrossing\RiverCrossingMode.cs" />
+    <Compile Include="RiverCross\RiverCrossMode.cs" />
     <Compile Include="Store\StoreMode.cs" />
     <Compile Include="Trade\TradingMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
