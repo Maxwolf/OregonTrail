@@ -24,7 +24,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private int adviceCount;
 
-        public StoreAdviceState(IMode gameMode, StoreInfo userData) : base(gameMode, userData)
+        public StoreAdviceState(GameMode gameMode, StoreInfo userData) : base(gameMode, userData)
         {
             _hasReadAdvice = false;
             _storeHelp = new StringBuilder();
@@ -104,7 +104,7 @@ namespace TrailEntities.Mode
             if (_hasReadAdvice)
                 return;
 
-            ParentMode.CurrentState = null;
+            ParentGameMode.CurrentState = null;
             _hasReadAdvice = true;
         }
     }

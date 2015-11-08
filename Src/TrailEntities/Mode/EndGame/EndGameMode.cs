@@ -3,8 +3,8 @@
     /// <summary>
     ///     Attached when the party leader dies, or the vehicle reaches the end of the trail.
     /// </summary>
-    [GameMode(ModeCategory.EndGame)]
-    public sealed class EndGameMode : GameMode<EndGameCommands>
+    [GameMode(ModeCategory.EndGame, typeof(EndGameCommands), typeof(EndGameInfo))]
+    public sealed class EndGameMode : GameMode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.

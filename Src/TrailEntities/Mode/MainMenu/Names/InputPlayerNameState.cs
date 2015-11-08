@@ -24,7 +24,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public InputPlayerNameState(int playerNameIndex, IMode gameMode, MainMenuInfo userData)
+        public InputPlayerNameState(int playerNameIndex, GameMode gameMode, MainMenuInfo userData)
             : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
@@ -42,21 +42,21 @@ namespace TrailEntities.Mode
             {
                 case 0:
                     _inputNamesHelp.Append(Environment.NewLine +
-                                           $"{MainMenuMode.LEADER_QUESTION}");
+                                           $"{MainMenuGameMode.LEADER_QUESTION}");
                     break;
                 case 1:
                     _inputNamesHelp.Append(Environment.NewLine +
-                                           $"{MainMenuMode.MEMBERS_QUESTION}" +
+                                           $"{MainMenuGameMode.MEMBERS_QUESTION}" +
                                            $"{Environment.NewLine}{Environment.NewLine}");
                     break;
                 case 2:
                     _inputNamesHelp.Append(Environment.NewLine +
-                                           $"{MainMenuMode.MEMBERS_QUESTION}" +
+                                           $"{MainMenuGameMode.MEMBERS_QUESTION}" +
                                            $"{Environment.NewLine}{Environment.NewLine}");
                     break;
                 case 3:
                     _inputNamesHelp.Append(Environment.NewLine +
-                                           $"{MainMenuMode.MEMBERS_QUESTION}" +
+                                           $"{MainMenuGameMode.MEMBERS_QUESTION}" +
                                            $"{Environment.NewLine}{Environment.NewLine}");
                     break;
             }
@@ -112,7 +112,7 @@ namespace TrailEntities.Mode
                 }
 
                 // Attach state to confirm randomized name selection, skipping manual entry with the return.
-                ParentMode.CurrentState = new ConfirmPlayerNamesState(ParentMode, UserData);
+                ParentGameMode.CurrentState = new ConfirmPlayerNamesState(ParentGameMode, UserData);
                 return;
             }
 
@@ -122,11 +122,11 @@ namespace TrailEntities.Mode
             if (_playerNameIndex + 1 < GameSimApp.MAX_PLAYERS)
             {
                 // Change the state of the game mode to confirm the name we just entered.
-                ParentMode.CurrentState = new InputPlayerNameState(_playerNameIndex + 1, ParentMode, UserData);
+                ParentGameMode.CurrentState = new InputPlayerNameState(_playerNameIndex + 1, ParentGameMode, UserData);
             }
             else
             {
-                ParentMode.CurrentState = new ConfirmPlayerNamesState(ParentMode, UserData);
+                ParentGameMode.CurrentState = new ConfirmPlayerNamesState(ParentGameMode, UserData);
             }
         }
 

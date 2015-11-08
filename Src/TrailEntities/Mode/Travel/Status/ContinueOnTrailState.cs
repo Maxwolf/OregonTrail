@@ -20,7 +20,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ContinueOnTrailState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public ContinueOnTrailState(GameMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
         }
 
@@ -42,7 +42,7 @@ namespace TrailEntities.Mode
             var nextStop = new StringBuilder();
             var nextPoint = GameSimApp.Instance.Trail.GetNextLocation();
             nextStop.Append(
-                $"{Environment.NewLine}From {ParentMode.CurrentPoint.Name} it is {GameSimApp.Instance.Trail.DistanceToNextLocation}{Environment.NewLine}");
+                $"{Environment.NewLine}From {ParentGameMode.CurrentPoint.Name} it is {GameSimApp.Instance.Trail.DistanceToNextLocation}{Environment.NewLine}");
             nextStop.Append($"miles to the {nextPoint.Name}{Environment.NewLine}{Environment.NewLine}");
 
             // Wait for user input...
@@ -62,7 +62,7 @@ namespace TrailEntities.Mode
             // Simulate next two-week block of time, calculate mileage, check events...
             hasContinuedOnTrail = true;
             UserData.HasLookedAround = false;
-            ParentMode.CurrentState = new DriveState(ParentMode, UserData);
+            ParentGameMode.CurrentState = new DriveState(ParentGameMode, UserData);
         }
     }
 }

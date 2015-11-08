@@ -14,7 +14,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CrossingResultState(IMode gameMode, RiverCrossInfo userData) : base(gameMode, userData)
+        public CrossingResultState(GameMode gameMode, RiverCrossInfo userData) : base(gameMode, userData)
         {
             _crossingResult = new StringBuilder();
 
@@ -42,8 +42,8 @@ namespace TrailEntities.Mode
 
             // Exits the river crossing mode and returns to travel game mode.
             _readCrossingResult = true;
-            ParentMode.CurrentState = null;
-            ParentMode.RemoveModeNextTick();
+            ParentGameMode.CurrentState = null;
+            ParentGameMode.RemoveModeNextTick();
         }
     }
 }

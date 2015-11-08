@@ -19,7 +19,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private StringBuilder _job;
 
-        public ProfessionAdviceState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public ProfessionAdviceState(GameMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Information about professions and how they work.
             _job = new StringBuilder();
@@ -55,7 +55,7 @@ namespace TrailEntities.Mode
 
             // Return the select profession state if we are ready for that.
             _hasReadProfessionAdvice = true;
-            ParentMode.CurrentState = new SelectProfessionState(ParentMode, UserData);
+            ParentGameMode.CurrentState = new SelectProfessionState(ParentGameMode, UserData);
         }
     }
 }

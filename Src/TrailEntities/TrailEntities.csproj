@@ -46,17 +46,20 @@
     <Compile Include="Entity\Person\Disease.cs" />
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />
-    <Compile Include="Simulation\Director\EventCategory.cs" />
+    <Compile Include="Mode\ForkInRoad\ForkInRoadInfo.cs" />
+    <Compile Include="Mode\Hunting\HuntingInfo.cs" />
+    <Compile Include="Mode\Trade\TradeInfo.cs" />
+    <Compile Include="Event\EventCategory.cs" />
     <Compile Include="Simulation\Director\EventHistoryItem.cs" />
-    <Compile Include="Simulation\Director\EventItem.cs" />
+    <Compile Include="Event\EventItem.cs" />
     <Compile Include="Event\Medical\DeathCompanion.cs" />
     <Compile Include="Event\Medical\DeathPlayer.cs" />
-    <Compile Include="Simulation\Director\RandomEventAttribute.cs" />
+    <Compile Include="Event\RandomEventAttribute.cs" />
     <Compile Include="Mode\MainMenu\Help\IntroduceStoreState.cs" />
     <Compile Include="Mode\GameModeAttribute.cs" />
     <Compile Include="Mode\RandomEvent\RandomEventCommands.cs" />
     <Compile Include="Mode\RandomEvent\RandomEventInfo.cs" />
-    <Compile Include="Mode\RandomEvent\RandomEventMode.cs" />
+    <Compile Include="Mode\RandomEvent\RandomEventGameMode.cs" />
     <Compile Include="Mode\RiverCross\CampByRiverState.cs" />
     <Compile Include="Mode\RiverCross\CrossChoice.cs" />
     <Compile Include="Mode\RiverCross\CrossingResultState.cs" />
@@ -93,13 +96,9 @@
     <Compile Include="Entity\Vehicle\RepairStatus.cs" />
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
     <Compile Include="Mode\ForkInRoad\ForkInRoadCommands.cs" />
-    <Compile Include="Mode\ForkInRoad\ForkInRoadMode.cs" />
-    <Compile Include="Mode\ForkInRoad\IForkInRoadMode.cs" />
+    <Compile Include="Mode\ForkInRoad\ForkInRoadGameMode.cs" />
     <Compile Include="Mode\GameMode.cs" />
     <Compile Include="Mode\Hunting\HuntingCommands.cs" />
-    <Compile Include="Mode\Hunting\IHuntingMode.cs" />
-    <Compile Include="Mode\IMode.cs" />
-    <Compile Include="Mode\IModeChoiceItem.cs" />
     <Compile Include="Mode\State\IModeState.cs" />
     <Compile Include="Mode\ModeChoiceItem.cs" />
     <Compile Include="Mode\State\ModeState.cs" />
@@ -117,7 +116,7 @@
     <Compile Include="Mode\MainMenu\Start Month\StartMonthAdviceState.cs" />
     <Compile Include="Mode\Options\OptionCommands.cs" />
     <Compile Include="Mode\Options\OptionInfo.cs" />
-    <Compile Include="Mode\Options\OptionsMode.cs" />
+    <Compile Include="Mode\Options\OptionsGameMode.cs" />
     <Compile Include="Mode\RiverCross\RiverCrossCommands.cs" />
     <Compile Include="Mode\Store\BuyItemState.cs" />
     <Compile Include="Mode\Store\MissingItemState.cs" />
@@ -138,7 +137,7 @@
     <Compile Include="Mode\Travel\TalkToPeopleState.cs" />
     <Compile Include="Mode\Travel\TravelCommands.cs" />
     <Compile Include="Mode\Travel\TravelInfo.cs" />
-    <Compile Include="Mode\Travel\TravelMode.cs" />
+    <Compile Include="Mode\Travel\TravelGameMode.cs" />
     <Compile Include="Simulation\Trail\River.cs" />
     <Compile Include="GameSimApp.cs" />
     <Compile Include="Simulation\Climate\ClimateClassification.cs" />
@@ -155,13 +154,13 @@
     <Compile Include="Simulation\Trail\ForkInRoad.cs" />
     <Compile Include="Simulation\Trail\TrailSim.cs" />
     <Compile Include="Entity\Person\Person.cs" />
-    <Compile Include="Mode\Hunting\HuntingMode.cs" />
-    <Compile Include="Mode\RiverCross\RiverCrossMode.cs" />
-    <Compile Include="Mode\Store\StoreMode.cs" />
-    <Compile Include="Mode\Trade\TradingMode.cs" />
+    <Compile Include="Mode\Hunting\HuntingGameMode.cs" />
+    <Compile Include="Mode\RiverCross\RiverCrossGameMode.cs" />
+    <Compile Include="Mode\Store\StoreGameMode.cs" />
+    <Compile Include="Mode\Trade\TradingGameMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entity\Vehicle\Vehicle.cs" />
-    <Compile Include="Mode\MainMenu\MainMenuMode.cs" />
+    <Compile Include="Mode\MainMenu\MainMenuGameMode.cs" />
     <Compile Include="Widget\Randomizer.cs" />
   </ItemGroup>
   <ItemGroup>

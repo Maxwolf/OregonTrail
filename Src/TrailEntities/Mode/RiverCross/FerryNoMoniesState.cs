@@ -12,7 +12,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public FerryNoMoniesState(IMode gameMode, RiverCrossInfo userData) : base(gameMode, userData)
+        public FerryNoMoniesState(GameMode gameMode, RiverCrossInfo userData) : base(gameMode, userData)
         {
         }
 

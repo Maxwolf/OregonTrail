@@ -10,7 +10,7 @@
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public RestQuestionState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public RestQuestionState(GameMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
         }
 
@@ -35,8 +35,8 @@
                 return;
 
             // If player rests for more than one day then set the resting state to that, otherwise just go back to travel menu.
-            ParentMode.CurrentState = parsedInputNumber > 0
-                ? new RestingState(ParentMode, UserData, parsedInputNumber)
+            ParentGameMode.CurrentState = parsedInputNumber > 0
+                ? new RestingState(ParentGameMode, UserData, parsedInputNumber)
                 : null;
         }
     }

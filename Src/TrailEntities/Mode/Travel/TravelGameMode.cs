@@ -7,13 +7,13 @@ namespace TrailEntities.Mode
     ///     Primary game mode of the simulation, used to show simulation advancing through linear time. Shows all major stats
     ///     of party and vehicle, plus climate and other things like distance traveled and distance to next point.
     /// </summary>
-    [GameMode(ModeCategory.Travel)]
-    public sealed class TravelMode : GameMode<TravelCommands>
+    [GameMode(ModeCategory.Travel, typeof(TravelCommands), typeof(TravelInfo))]
+    public sealed class TravelGameMode : GameMode
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.TravelMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode.TravelGameMode" /> class.
         /// </summary>
-        public TravelMode() : base(false)
+        public TravelGameMode() : base(false)
         {
             // Keep track of basic information about menu choices, vehicle and party stats, trades, advice, etc.
             TravelInfo = new TravelInfo();

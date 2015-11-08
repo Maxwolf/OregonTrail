@@ -18,7 +18,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public OriginalTopTenState(IMode gameMode, OptionInfo userData) : base(gameMode, userData)
+        public OriginalTopTenState(GameMode gameMode, OptionInfo userData) : base(gameMode, userData)
         {
         }
 
@@ -55,7 +55,7 @@ namespace TrailEntities.Mode
                 return;
 
             _doneSeeingOriginalTopTen = true;
-            ParentMode.CurrentState = null;
+            ParentGameMode.CurrentState = null;
         }
     }
 }

@@ -18,7 +18,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private StringBuilder _startMonthHelp;
 
-        public StartMonthAdviceState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public StartMonthAdviceState(GameMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Have not shown this yet.
             _hasShownStartMonthAdvice = false;
@@ -59,7 +59,7 @@ namespace TrailEntities.Mode
 
             // Return to starting month selection state.
             _hasShownStartMonthAdvice = true;
-            ParentMode.CurrentState = new SelectStartingMonthState(ParentMode, UserData);
+            ParentGameMode.CurrentState = new SelectStartingMonthState(ParentGameMode, UserData);
         }
     }
 }

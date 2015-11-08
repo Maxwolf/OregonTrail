@@ -12,7 +12,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public EraseTombstoneState(IMode gameMode, OptionInfo userData) : base(gameMode, userData)
+        public EraseTombstoneState(GameMode gameMode, OptionInfo userData) : base(gameMode, userData)
         {
         }
 
@@ -51,10 +51,10 @@ namespace TrailEntities.Mode
             {
                 case "Y":
                     // TODO: Clear tombstone message list, delete file that was loaded from disk...
-                    ParentMode.CurrentState = null;
+                    ParentGameMode.CurrentState = null;
                     break;
                 default:
-                    ParentMode.CurrentState = null;
+                    ParentGameMode.CurrentState = null;
                     break;
             }
         }

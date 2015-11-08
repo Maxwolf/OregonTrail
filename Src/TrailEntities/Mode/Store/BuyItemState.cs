@@ -32,7 +32,7 @@ namespace TrailEntities.Mode
         /// <param name="simItemToBuy">SimItem to purchase.</param>
         /// <param name="gameMode">Current game mode that requested this.</param>
         /// <param name="userData">Any special user data associated with this state and mode.</param>
-        public BuyItemState(SimItem simItemToBuy, IMode gameMode, StoreInfo userData)
+        public BuyItemState(SimItem simItemToBuy, GameMode gameMode, StoreInfo userData)
             : base(gameMode, userData)
         {
             // Figure out what we owe already from other store items, then how many of the SimItem we can afford.
@@ -89,7 +89,7 @@ namespace TrailEntities.Mode
             if (parsedInputNumber <= 0)
             {
                 UserData.RemoveItem(_simItemToBuy);
-                ParentMode.CurrentState = null;
+                ParentGameMode.CurrentState = null;
                 return;
             }
 
@@ -105,7 +105,7 @@ namespace TrailEntities.Mode
             UserData.AddItem(_simItemToBuy, parsedInputNumber);
 
             // Return to the store menu.
-            ParentMode.CurrentState = null;
+            ParentGameMode.CurrentState = null;
         }
     }
 }

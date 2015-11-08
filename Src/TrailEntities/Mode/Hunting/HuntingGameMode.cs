@@ -7,13 +7,13 @@ namespace TrailEntities.Mode
     ///     kill them and when the round is over the amount of meat is determined by what animals are killed. The player party
     ///     can only take back up to one hundred pounds of whatever the value was back to the wagon regardless of what it was.
     /// </summary>
-    [GameMode(ModeCategory.Hunt)]
-    public sealed class HuntingMode : GameMode<HuntingCommands>, IHuntingMode
+    [GameMode(ModeCategory.Hunt, typeof(HuntingCommands), typeof(HuntingInfo))]
+    public sealed class HuntingGameMode : GameMode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public HuntingMode() : base(true)
+        public HuntingGameMode() : base(true)
         {
         }
 

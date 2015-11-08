@@ -16,7 +16,7 @@ namespace TrailEntities.Mode
         private Dictionary<SimEntity, SimItem> _totalTransactions;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.StoreInfo" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode.StoreInfo" /> class.
         /// </summary>
         public StoreInfo()
         {

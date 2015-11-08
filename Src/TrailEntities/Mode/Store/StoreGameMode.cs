@@ -7,13 +7,13 @@ namespace TrailEntities.Mode
     /// <summary>
     ///     Manages a general store where the player can buy food, clothes, bullets, and parts for their vehicle.
     /// </summary>
-    [GameMode(ModeCategory.Store)]
-    public sealed class StoreMode : GameMode<StoreCommands>
+    [GameMode(ModeCategory.Store, typeof(StoreCommands), typeof(StoreInfo))]
+    public sealed class StoreGameMode : GameMode
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.StoreMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode.StoreGameMode" /> class.
         /// </summary>
-        public StoreMode() : base(false)
+        public StoreGameMode() : base(false)
         {
             // User data for states, keeps track of all new game information.
             StoreInfo = new StoreInfo();

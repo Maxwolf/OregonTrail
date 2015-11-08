@@ -22,7 +22,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsOccupationState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public PointsOccupationState(GameMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             _pointsProfession = new StringBuilder();
             _pointsProfession.Append(
@@ -68,7 +68,7 @@ namespace TrailEntities.Mode
 
             // Return to options menu.
             _hasSeenProfessionHelp = true;
-            ParentMode.CurrentState = null;
+            ParentGameMode.CurrentState = null;
         }
     }
 }

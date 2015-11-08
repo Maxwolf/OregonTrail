@@ -13,7 +13,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CurrentTopTenState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public CurrentTopTenState(GameMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
         }
 
@@ -51,11 +51,11 @@ namespace TrailEntities.Mode
             {
                 case "Y":
                     // Show the user information about point distribution.
-                    ParentMode.CurrentState = new PointsHealthState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new PointsHealthState(ParentGameMode, UserData);
                     break;
                 default:
                     // Go back to the options menu.
-                    ParentMode.CurrentState = null;
+                    ParentGameMode.CurrentState = null;
                     break;
             }
         }

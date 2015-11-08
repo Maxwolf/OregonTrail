@@ -18,7 +18,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public StoreDebtState(IMode gameMode, StoreInfo userData) : base(gameMode, userData)
+        public StoreDebtState(GameMode gameMode, StoreInfo userData) : base(gameMode, userData)
         {
         }
 
@@ -57,7 +57,7 @@ namespace TrailEntities.Mode
                 return;
 
             _hasComplainedAboutDebt = true;
-            ParentMode.CurrentState = null;
+            ParentGameMode.CurrentState = null;
         }
     }
 }

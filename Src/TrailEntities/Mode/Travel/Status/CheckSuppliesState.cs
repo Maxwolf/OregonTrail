@@ -24,7 +24,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CheckSuppliesState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public CheckSuppliesState(GameMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
             // Build up representation of supplies once in constructor and then reference when asked for render.
             _supplies = new StringBuilder();
@@ -80,7 +80,7 @@ namespace TrailEntities.Mode
                 return;
 
             _hasCheckedSupplies = true;
-            ParentMode.CurrentState = null;
+            ParentGameMode.CurrentState = null;
         }
     }
 }

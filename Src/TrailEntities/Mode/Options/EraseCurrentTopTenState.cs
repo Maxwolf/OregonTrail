@@ -12,7 +12,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public EraseCurrentTopTenState(IMode gameMode, OptionInfo userData) : base(gameMode, userData)
+        public EraseCurrentTopTenState(GameMode gameMode, OptionInfo userData) : base(gameMode, userData)
         {
         }
 
@@ -48,10 +48,10 @@ namespace TrailEntities.Mode
             {
                 case "Y":
                     // TODO: Clear the current top ten list, reset to defaults, delete the custom one, re-save with defaults...
-                    ParentMode.CurrentState = null;
+                    ParentGameMode.CurrentState = null;
                     break;
                 default:
-                    ParentMode.CurrentState = null;
+                    ParentGameMode.CurrentState = null;
                     break;
             }
         }

@@ -22,7 +22,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PaceAdviceState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public PaceAdviceState(GameMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
             // Steady
             _paceHelp = new StringBuilder();
@@ -80,7 +80,7 @@ namespace TrailEntities.Mode
 
             // Go back to the travel menu.
             _seenPaceHelp = true;
-            ParentMode.CurrentState = new ChangePaceState(ParentMode, UserData);
+            ParentGameMode.CurrentState = new ChangePaceState(ParentGameMode, UserData);
         }
     }
 }

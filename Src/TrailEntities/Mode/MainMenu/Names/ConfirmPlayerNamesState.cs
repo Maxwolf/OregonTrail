@@ -18,7 +18,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ConfirmPlayerNamesState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public ConfirmPlayerNamesState(GameMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
             GameSimApp.Instance.SetData(userData);
@@ -26,7 +26,7 @@ namespace TrailEntities.Mode
             // Create string builder, counter, print info about party members.
             _confirmPartyText = new StringBuilder();
             _confirmPartyText.Append(
-                $"{Environment.NewLine}{MainMenuMode.MEMBERS_QUESTION}{Environment.NewLine}{Environment.NewLine}");
+                $"{Environment.NewLine}{MainMenuGameMode.MEMBERS_QUESTION}{Environment.NewLine}{Environment.NewLine}");
             var crewNumber = 1;
 
             // Loop through every player and print their name.
@@ -72,14 +72,14 @@ namespace TrailEntities.Mode
             {
                 case "Y":
                     // Move along to confirming profession for party leader if user is happy with names.
-                    ParentMode.CurrentState = new SelectStartingMonthState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new SelectStartingMonthState(ParentGameMode, UserData);
                     break;
                 default:
                     // Clear all previous names we are going to try this again.
                     UserData.PlayerNames.Clear();
 
                     // Go back to the beginning of the player name selection chain.
-                    ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
+                    ParentGameMode.CurrentState = new InputPlayerNameState(0, ParentGameMode, UserData);
                     break;
             }
         }

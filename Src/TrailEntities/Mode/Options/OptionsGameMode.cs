@@ -8,8 +8,8 @@ namespace TrailEntities.Mode
     ///     Glorified options menu for the game that allows player to remove top ten high scores, remove saved games, erase
     ///     tombstone messages, etc.
     /// </summary>
-    [GameMode(ModeCategory.Options)]
-    public sealed class OptionsMode : GameMode<OptionCommands>
+    [GameMode(ModeCategory.Options, typeof(OptionCommands), typeof(OptionInfo))]
+    public sealed class OptionsGameMode : GameMode
     {
         /// <summary>
         ///     References all of the possible options we want to keep track of while moving between management options mode.
@@ -17,9 +17,9 @@ namespace TrailEntities.Mode
         private OptionInfo _optionInfo;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.OptionsMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode.OptionsGameMode" /> class.
         /// </summary>
-        public OptionsMode() : base(false)
+        public OptionsGameMode() : base(false)
         {
             // Info object for states.
             _optionInfo = new OptionInfo();

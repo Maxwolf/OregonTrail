@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
+using TrailEntities.Event;
 using TrailEntities.Simulation;
 
 namespace TrailEntities.Mode
@@ -33,7 +34,7 @@ namespace TrailEntities.Mode
         ///     The actual event that director wants executed and information displayed to user about what it
         ///     does.
         /// </param>
-        public RandomEventState(IMode gameMode, RandomEventInfo userData, IEntity simEntity, EventItem eventItem)
+        public RandomEventState(GameMode gameMode, RandomEventInfo userData, IEntity simEntity, EventItem eventItem)
             : base(gameMode, userData)
         {
             // Create new string builder that will hold event execution data.
@@ -73,7 +74,7 @@ namespace TrailEntities.Mode
                 return;
 
             _readRandomEventText = true;
-            ParentMode.CurrentState = null;
+            ParentGameMode.CurrentState = null;
         }
     }
 }

@@ -5,13 +5,13 @@
     ///     trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how
     ///     bad it is.
     /// </summary>
-    [GameMode(ModeCategory.RiverCrossing)]
-    public sealed class RiverCrossMode : GameMode<RiverCrossCommands>
+    [GameMode(ModeCategory.RiverCrossing, typeof(RiverCrossCommands), typeof(RiverCrossInfo))]
+    public sealed class RiverCrossGameMode : GameMode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public RiverCrossMode() : base(false)
+        public RiverCrossGameMode() : base(false)
         {
             // Create new river crossing information object.
             RiverCrossInfo = new RiverCrossInfo();

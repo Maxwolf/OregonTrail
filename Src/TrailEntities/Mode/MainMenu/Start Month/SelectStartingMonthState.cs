@@ -19,7 +19,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public SelectStartingMonthState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public SelectStartingMonthState(GameMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
             GameSimApp.Instance.SetData(userData);
@@ -66,31 +66,31 @@ namespace TrailEntities.Mode
             {
                 case "1":
                     UserData.StartingMonth = Months.March;
-                    ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new BuyInitialItemsState(ParentGameMode, UserData);
                     break;
                 case "2":
                     UserData.StartingMonth = Months.April;
-                    ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new BuyInitialItemsState(ParentGameMode, UserData);
                     break;
                 case "3":
                     UserData.StartingMonth = Months.May;
-                    ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new BuyInitialItemsState(ParentGameMode, UserData);
                     break;
                 case "4":
                     UserData.StartingMonth = Months.June;
-                    ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new BuyInitialItemsState(ParentGameMode, UserData);
                     break;
                 case "5":
                     UserData.StartingMonth = Months.July;
-                    ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new BuyInitialItemsState(ParentGameMode, UserData);
                     break;
                 case "6":
                     // Shows information about what the different starting months mean.
-                    ParentMode.CurrentState = new StartMonthAdviceState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new StartMonthAdviceState(ParentGameMode, UserData);
                     break;
                 default:
                     UserData.StartingMonth = Months.March;
-                    ParentMode.CurrentState = new SelectStartingMonthState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new SelectStartingMonthState(ParentGameMode, UserData);
                     break;
             }
         }

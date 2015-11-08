@@ -19,7 +19,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public SelectProfessionState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public SelectProfessionState(GameMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Set the profession to default value in case we are retrying this.
             UserData.PlayerProfession = Profession.Banker;
@@ -62,28 +62,28 @@ namespace TrailEntities.Mode
                 case "1":
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
+                    ParentGameMode.CurrentState = new InputPlayerNameState(0, ParentGameMode, UserData);
                     break;
                 case "2":
                     UserData.PlayerProfession = Profession.Carpenter;
                     UserData.StartingMonies = 800;
-                    ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
+                    ParentGameMode.CurrentState = new InputPlayerNameState(0, ParentGameMode, UserData);
                     break;
                 case "3":
                     UserData.PlayerProfession = Profession.Farmer;
                     UserData.StartingMonies = 400;
-                    ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
+                    ParentGameMode.CurrentState = new InputPlayerNameState(0, ParentGameMode, UserData);
                     break;
                 case "4":
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    ParentMode.CurrentState = new ProfessionAdviceState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new ProfessionAdviceState(ParentGameMode, UserData);
                     break;
                 default:
                     // If there is some invalid selection just start the process over again.
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    ParentMode.CurrentState = new SelectProfessionState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new SelectProfessionState(ParentGameMode, UserData);
                     break;
             }
         }

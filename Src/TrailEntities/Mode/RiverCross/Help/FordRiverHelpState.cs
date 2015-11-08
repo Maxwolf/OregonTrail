@@ -15,7 +15,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public FordRiverHelpState(IMode gameMode, RiverCrossInfo userData) : base(gameMode, userData)
+        public FordRiverHelpState(GameMode gameMode, RiverCrossInfo userData) : base(gameMode, userData)
         {
             _fordRiverHelp = new StringBuilder();
         }
@@ -39,7 +39,7 @@ namespace TrailEntities.Mode
                 return;
 
             _hasReadFordRiverHelp = true;
-            ParentMode.CurrentState = new CaulkRiverHelpState(ParentMode, UserData);
+            ParentGameMode.CurrentState = new CaulkRiverHelpState(ParentGameMode, UserData);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public MissingItemState(SimItem mustPurchaseEntity, IMode gameMode, StoreInfo userData)
+        public MissingItemState(SimItem mustPurchaseEntity, GameMode gameMode, StoreInfo userData)
             : base(gameMode, userData)
         {
             _missingSimItemEntity = mustPurchaseEntity;
@@ -64,7 +64,7 @@ namespace TrailEntities.Mode
                 return;
 
             _informedAboutMissingItem = true;
-            ParentMode.CurrentState = null;
+            ParentGameMode.CurrentState = null;
         }
     }
 }

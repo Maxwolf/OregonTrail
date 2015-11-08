@@ -21,7 +21,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public IntroduceStoreState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public IntroduceStoreState(GameMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             _storeHelp = new StringBuilder();
             _storeHelp.Append($"{Environment.NewLine}You can buy whatever you need at{Environment.NewLine}");
@@ -58,7 +58,7 @@ namespace TrailEntities.Mode
                 return;
 
             _knowsAboutMatt = true;
-            ParentMode.RemoveModeNextTick();
+            ParentGameMode.RemoveModeNextTick();
             GameSimApp.Instance.AttachMode(ModeCategory.Store);
         }
     }

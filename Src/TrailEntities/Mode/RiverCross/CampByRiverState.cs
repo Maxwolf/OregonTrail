@@ -11,7 +11,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CampByRiverState(IMode gameMode, RiverCrossInfo userData) : base(gameMode, userData)
+        public CampByRiverState(GameMode gameMode, RiverCrossInfo userData) : base(gameMode, userData)
         {
         }
 

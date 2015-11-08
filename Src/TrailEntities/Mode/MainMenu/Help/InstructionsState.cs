@@ -21,7 +21,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public InstructionsState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public InstructionsState(GameMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             _playInfo = new StringBuilder();
             _playInfo.Append($"Your journey over the Oregon Trail takes place in 1847. Start{Environment.NewLine}");
@@ -82,7 +82,7 @@ namespace TrailEntities.Mode
                 return;
 
             _hasReadInstructions = true;
-            ParentMode.CurrentState = null;
+            ParentGameMode.CurrentState = null;
         }
     }
 }

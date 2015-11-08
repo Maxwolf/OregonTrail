@@ -19,7 +19,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ChangePaceState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public ChangePaceState(GameMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
             _pace = new StringBuilder();
             _pace.Append($"{Environment.NewLine}Change pace{Environment.NewLine}");
@@ -53,21 +53,21 @@ namespace TrailEntities.Mode
             {
                 case "1":
                     GameSimApp.Instance.Vehicle.ChangePace(TravelPace.Steady);
-                    ParentMode.CurrentState = null;
+                    ParentGameMode.CurrentState = null;
                     break;
                 case "2":
                     GameSimApp.Instance.Vehicle.ChangePace(TravelPace.Strenuous);
-                    ParentMode.CurrentState = null;
+                    ParentGameMode.CurrentState = null;
                     break;
                 case "3":
                     GameSimApp.Instance.Vehicle.ChangePace(TravelPace.Grueling);
-                    ParentMode.CurrentState = null;
+                    ParentGameMode.CurrentState = null;
                     break;
                 case "4":
-                    ParentMode.CurrentState = new PaceAdviceState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new PaceAdviceState(ParentGameMode, UserData);
                     break;
                 default:
-                    ParentMode.CurrentState = new ChangePaceState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new ChangePaceState(ParentGameMode, UserData);
                     break;
             }
         }

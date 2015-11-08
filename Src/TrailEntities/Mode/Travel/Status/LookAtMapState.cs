@@ -24,7 +24,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public LookAtMapState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public LookAtMapState(GameMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
             // Create visual progress representation of the trail.
             _map = new StringBuilder();
@@ -65,7 +65,7 @@ namespace TrailEntities.Mode
                 return;
 
             _hasLookedAtMap = true;
-            ParentMode.CurrentState = null;
+            ParentGameMode.CurrentState = null;
         }
     }
 }

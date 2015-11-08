@@ -14,7 +14,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public LookAroundQuestionState(IMode gameMode, TravelInfo userData)
+        public LookAroundQuestionState(GameMode gameMode, TravelInfo userData)
             : base(gameMode, userData)
         {
         }
@@ -27,7 +27,7 @@ namespace TrailEntities.Mode
         {
             // Wait for input on deciding if we should take a look around.
             var pointReached = new StringBuilder();
-            pointReached.Append($"You are now at the {ParentMode.CurrentPoint.Name}.{Environment.NewLine}");
+            pointReached.Append($"You are now at the {ParentGameMode.CurrentPoint.Name}.{Environment.NewLine}");
             pointReached.Append("Would you like to look around? Y/N");
             return pointReached.ToString();
         }
@@ -42,10 +42,10 @@ namespace TrailEntities.Mode
             switch (input.ToUpperInvariant())
             {
                 case "Y":
-                    ParentMode.CurrentState = new LookAroundState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new LookAroundState(ParentGameMode, UserData);
                     break;
                 default:
-                    ParentMode.CurrentState = null;
+                    ParentGameMode.CurrentState = null;
                     break;
             }
         }

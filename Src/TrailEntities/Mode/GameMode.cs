@@ -12,8 +12,7 @@ namespace TrailEntities.Mode
     ///     keeps track of all currently loaded game modes and will only tick the top-most one so they can be stacked and clear
     ///     out until there are none.
     /// </summary>
-    public abstract class GameMode : Comparer<IMode>, IComparable<GameMode>, IEquatable<GameMode>,
-        IEqualityComparer<GameMode>, IMode
+    public abstract class GameMode : Comparer<GameMode>, IComparable<GameMode>, IEquatable<GameMode>, IEqualityComparer<GameMode>
     {
         /// <summary>
         ///     Keeps track of the current game mode state, if null then there is no state attached and menu is shown.
@@ -24,7 +23,7 @@ namespace TrailEntities.Mode
         ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
         ///     spawned it.
         /// </summary>
-        private HashSet<IModeChoiceItem<T>> _menuChoices;
+        private HashSet<ModeChoiceItem> _menuChoices;
 
         /// <summary>
         ///     Holds the footer text that we will place below menu but before input buffer text.
@@ -51,7 +50,7 @@ namespace TrailEntities.Mode
             _showCommandNamesInMenu = showCommandNamesInMenu;
 
             // Create empty list of menu choices.
-            _menuChoices = new HashSet<IModeChoiceItem<T>>();
+            _menuChoices = new HashSet<ModeChoiceItem>();
 
             // Menu header and footer is empty strings by default.
             _menuHeader = string.Empty;
@@ -96,18 +95,45 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Compares the current object with another object of the same type.
+        ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
+        ///     class where they become available.
         /// </summary>
-        /// <returns>
-        ///     A value that indicates the relative order of the objects being compared. The return value has the following
-        ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This
-        ///     object is equal to <paramref name="other" />. Greater than zero This object is greater than
-        ///     <paramref name="other" />.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public int CompareTo(GameMode other)
+        public Location CurrentPoint { get; }
+
+        /// <summary>
+        ///     Determines if the game mode should not be ticked if it is active but instead removed. The mode when set to being
+        ///     removed will not actually be removed until the simulation attempts to tick it and realizes that this is set to true
+        ///     and then it will be removed.
+        /// </summary>
+        public bool ShouldRemoveMode { get; private set; }
+
+        /// <summary>
+        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     simulation.
+        /// </summary>
+        public abstract ModeCategory ModeCategory { get; }
+
+        /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public virtual bool AcceptsInput
         {
-            return Compare(this, other);
+            get { return !ShouldRemoveMode; }
+        }
+
+        /// <summary>
+        ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and
+        ///     then detach.
+        /// </summary>
+        public IModeState CurrentState
+        {
+            get { return _currentState; }
+            set
+            {
+                _currentState = value;
+                OnStateChanged();
+            }
         }
 
         /// <summary>
@@ -172,19 +198,6 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
-        ///     class where they become available.
-        /// </summary>
-        public Location CurrentPoint { get; }
-
-        /// <summary>
-        ///     Determines if the game mode should not be ticked if it is active but instead removed. The mode when set to being
-        ///     removed will not actually be removed until the simulation attempts to tick it and realizes that this is set to true
-        ///     and then it will be removed.
-        /// </summary>
-        public bool ShouldRemoveMode { get; private set; }
-
-        /// <summary>
         ///     Sets the flag for this game mode to be removed the next time it is ticked by the simulation.
         /// </summary>
         public void RemoveModeNextTick()
@@ -195,35 +208,6 @@ namespace TrailEntities.Mode
 
             // Allows any data structures that care about themselves to save before the next tick comes.
             OnModeRemoved(ModeCategory);
-        }
-
-        /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
-        ///     simulation.
-        /// </summary>
-        public abstract ModeCategory ModeCategory { get; }
-
-        /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public virtual bool AcceptsInput
-        {
-            get { return !ShouldRemoveMode; }
-        }
-
-        /// <summary>
-        ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and
-        ///     then detach.
-        /// </summary>
-        public IModeState CurrentState
-        {
-            get { return _currentState; }
-            set
-            {
-                _currentState = value;
-                OnStateChanged();
-            }
         }
 
         /// <summary>
@@ -313,7 +297,7 @@ namespace TrailEntities.Mode
         /// </returns>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
-        public override int Compare(IMode x, IMode y)
+        public override int Compare(GameMode x, GameMode y)
         {
             Debug.Assert(x != null, "x != null");
             Debug.Assert(y != null, "y != null");
@@ -337,7 +321,7 @@ namespace TrailEntities.Mode
         ///     <paramref name="other" />.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public int CompareTo(IMode other)
+        public int CompareTo(GameMode other)
         {
             Debug.Assert(other != null, "other != null");
 
@@ -374,9 +358,9 @@ namespace TrailEntities.Mode
         /// <param name="action">Method that will be run when the choice is made.</param>
         /// <param name="command">Associated command that will trigger the respective action in the active game mode.</param>
         /// <param name="description">Text that will be shown to user so they know what the choice means.</param>
-        protected void AddCommand(Action action, T command, string description)
+        protected void AddCommand(Action action, object command, string description)
         {
-            var menuChoice = new ModeChoiceItem<T>(command, action, description);
+            var menuChoice = new ModeChoiceItem(command, action, description);
             if (!_menuChoices.Contains(menuChoice))
             {
                 _menuChoices.Add(menuChoice);

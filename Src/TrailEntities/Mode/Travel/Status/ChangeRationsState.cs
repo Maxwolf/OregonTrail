@@ -19,7 +19,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ChangeRationsState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public ChangeRationsState(GameMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
             _ration = new StringBuilder();
             _ration.Append($"{Environment.NewLine}Change food rations{Environment.NewLine}");
@@ -55,18 +55,18 @@ namespace TrailEntities.Mode
             {
                 case "1":
                     GameSimApp.Instance.Vehicle.ChangeRations(RationLevel.Filling);
-                    ParentMode.CurrentState = null;
+                    ParentGameMode.CurrentState = null;
                     break;
                 case "2":
                     GameSimApp.Instance.Vehicle.ChangeRations(RationLevel.Meager);
-                    ParentMode.CurrentState = null;
+                    ParentGameMode.CurrentState = null;
                     break;
                 case "3":
                     GameSimApp.Instance.Vehicle.ChangeRations(RationLevel.BareBones);
-                    ParentMode.CurrentState = null;
+                    ParentGameMode.CurrentState = null;
                     break;
                 default:
-                    ParentMode.CurrentState = new ChangeRationsState(ParentMode, UserData);
+                    ParentGameMode.CurrentState = new ChangeRationsState(ParentGameMode, UserData);
                     break;
             }
         }

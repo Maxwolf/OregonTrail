@@ -22,7 +22,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public RestingState(IMode gameMode, TravelInfo userData, int daysToRest) : base(gameMode, userData)
+        public RestingState(GameMode gameMode, TravelInfo userData, int daysToRest) : base(gameMode, userData)
         {
             _daysToRest = daysToRest;
         }
@@ -66,7 +66,7 @@ namespace TrailEntities.Mode
             if (!_hasRested)
             {
                 _hasRested = true;
-                ParentMode.CurrentState = null;
+                ParentGameMode.CurrentState = null;
             }
         }
     }

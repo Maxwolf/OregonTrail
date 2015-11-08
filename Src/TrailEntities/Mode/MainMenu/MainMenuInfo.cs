@@ -17,7 +17,7 @@ namespace TrailEntities.Mode
         private Months _startingMonth;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.MainMenuInfo" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode.MainMenuInfo" /> class.
         /// </summary>
         public MainMenuInfo()
         {

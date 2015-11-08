@@ -20,7 +20,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one.
         /// </summary>
-        public BuyInitialItemsState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public BuyInitialItemsState(GameMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
             GameSimApp.Instance.SetData(userData);
@@ -68,7 +68,7 @@ namespace TrailEntities.Mode
 
             // Change the game mode to be a store which can work with this data.
             _hasAttachedStore = true;
-            ParentMode.CurrentState = new IntroduceStoreState(ParentMode, UserData);
+            ParentGameMode.CurrentState = new IntroduceStoreState(ParentGameMode, UserData);
         }
     }
 }

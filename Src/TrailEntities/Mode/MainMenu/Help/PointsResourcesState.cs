@@ -24,7 +24,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsResourcesState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public PointsResourcesState(GameMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             _pointsItems = new StringBuilder();
             _pointsItems.Append($"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");
@@ -76,7 +76,7 @@ namespace TrailEntities.Mode
 
             // The next state will explain information about profession selection acting as handicap for point multiplier.
             _hasShownResourceInfo = true;
-            ParentMode.CurrentState = new PointsOccupationState(ParentMode, UserData);
+            ParentGameMode.CurrentState = new PointsOccupationState(ParentGameMode, UserData);
         }
     }
 }

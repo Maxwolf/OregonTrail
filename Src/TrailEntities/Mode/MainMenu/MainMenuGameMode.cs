@@ -8,8 +8,8 @@ namespace TrailEntities.Mode
     ///     ability to choose names, professions, buy initial items, and starting month. The final thing it offers is ability
     ///     to change any of these values before actually starting the game as a final confirmation.
     /// </summary>
-    [GameMode(ModeCategory.MainMenu)]
-    public sealed class MainMenuMode : GameMode<MainMenuCommands>
+    [GameMode(ModeCategory.MainMenu, typeof(MainMenuCommands), typeof(MainMenuInfo))]
+    public sealed class MainMenuGameMode : GameMode
     {
         /// <summary>
         ///     Asked for the first party member.
@@ -22,9 +22,9 @@ namespace TrailEntities.Mode
         public const string MEMBERS_QUESTION = "What are the first names of the \nthree other members in your party?";
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.MainMenuMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode.MainMenuGameMode" /> class.
         /// </summary>
-        public MainMenuMode() : base(false)
+        public MainMenuGameMode() : base(false)
         {
             // Basic information to start a new simulation.
             MainMenuInfo = new MainMenuInfo();

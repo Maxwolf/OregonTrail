@@ -35,7 +35,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public DriveState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public DriveState(GameMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
             // We don't create it in the constructor, will update with ticks.
             _drive = new StringBuilder();
@@ -109,7 +109,7 @@ namespace TrailEntities.Mode
 
             // Stop ticks and close this state.
             _shouldTakeTickTurns = false;
-            ParentMode.CurrentState = null;
+            ParentGameMode.CurrentState = null;
         }
     }
 }

@@ -3,15 +3,15 @@ using TrailEntities.Simulation;
 
 namespace TrailEntities.Mode
 {
-    [GameMode(ModeCategory.ForkInRoad)]
-    public sealed class ForkInRoadMode : GameMode<ForkInRoadCommands>, IForkInRoadMode
+    [GameMode(ModeCategory.ForkInRoad, typeof(ForkInRoadCommands), typeof(ForkInRoadInfo))]
+    public sealed class ForkInRoadGameMode : GameMode
     {
         private readonly HashSet<Location> _skipChoices;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
         /// </summary>
-        public ForkInRoadMode() : base(false)
+        public ForkInRoadGameMode() : base(false)
         {
             _skipChoices = new HashSet<Location>();
         }

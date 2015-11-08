@@ -23,7 +23,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsHealthState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public PointsHealthState(GameMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Build up string of help about points for people.
             _pointsHealth = new StringBuilder();
@@ -77,7 +77,7 @@ namespace TrailEntities.Mode
 
             // Onward to information about items!
             _seenHealthPointsHelp = true;
-            ParentMode.CurrentState = new PointsResourcesState(ParentMode, UserData);
+            ParentGameMode.CurrentState = new PointsResourcesState(ParentGameMode, UserData);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public LookAroundState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public LookAroundState(GameMode gameMode, TravelInfo userData) : base(gameMode, userData)
         {
         }
 
@@ -42,7 +42,7 @@ namespace TrailEntities.Mode
             else
             {
                 // Every other point of interest will say the name and current date.
-                welcomePoint.Append(ParentMode.CurrentPoint);
+                welcomePoint.Append(ParentGameMode.CurrentPoint);
                 welcomePoint.Append(GameSimApp.Instance.Time.Date);
             }
 
@@ -60,7 +60,7 @@ namespace TrailEntities.Mode
                 return;
 
             UserData.HasLookedAround = true;
-            ParentMode.CurrentState = null;
+            ParentGameMode.CurrentState = null;
         }
     }
 }

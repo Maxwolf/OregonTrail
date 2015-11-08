@@ -13,9 +13,9 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        protected ModeState(IMode gameMode, T userData)
+        protected ModeState(GameMode gameMode, T userData)
         {
-            ParentMode = gameMode;
+            ParentGameMode = gameMode;
             UserData = userData;
         }
 
@@ -28,7 +28,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     Current parent game mode which this state is binded to and is doing work on behalf of.
         /// </summary>
-        protected IMode ParentMode { get; }
+        protected GameMode ParentGameMode { get; }
 
         /// <summary>
         ///     Compares the current object with another object of the same type.
@@ -98,7 +98,7 @@ namespace TrailEntities.Mode
             }
 
             if (UserData.Equals(other.UserData) &&
-                ParentMode.Equals(other.ParentMode))
+                ParentGameMode.Equals(other.ParentGameMode))
             {
                 return true;
             }
@@ -112,7 +112,7 @@ namespace TrailEntities.Mode
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
         public virtual bool AcceptsInput
         {
-            get { return !ParentMode.ShouldRemoveMode; }
+            get { return !ParentGameMode.ShouldRemoveMode; }
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace TrailEntities.Mode
         {
             var hash = 23;
             hash = (hash*31) + UserData.GetHashCode();
-            hash = (hash*31) + ParentMode.GetHashCode();
+            hash = (hash*31) + ParentGameMode.GetHashCode();
             return hash;
         }
     }
