@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using TrailEntities.Mode;
+using TrailEntities.Widget;
 
 namespace TrailEntities.Simulation
 {
@@ -36,11 +39,14 @@ namespace TrailEntities.Simulation
         protected SimApp()
         {
             // References all of the active game modes that need to be ticked.
-            Modes = new Dictionary<ModeCategory, IMode>();
+            AttachedModes = new SortedDictionary<ModeCategory, IMode>();
 
             // Start with a clear input and screen buffer.
             InputBuffer = string.Empty;
             ScreenBuffer = string.Empty;
+
+            // Grab all the game modes we can use via attributes.
+            PopulateRefereceModes();
         }
 
         /// <summary>
@@ -62,33 +68,61 @@ namespace TrailEntities.Simulation
         {
             get
             {
-                return (ActiveMode != null && ActiveMode.CurrentState == null && ActiveMode.AcceptsInput) ||
-                       (ActiveMode?.CurrentState != null && ActiveMode.AcceptsInput &&
-                        ActiveMode.CurrentState.AcceptsInput);
+                return (AttachedMode != null && AttachedMode.CurrentState == null && AttachedMode.AcceptsInput) ||
+                       (AttachedMode?.CurrentState != null && AttachedMode.AcceptsInput &&
+                        AttachedMode.CurrentState.AcceptsInput);
             }
         }
 
         /// <summary>
         ///     References the current active game mode, or the last attached game mode in the simulation.
         /// </summary>
-        protected IMode ActiveMode
+        protected IMode AttachedMode
         {
-            get { return Modes.LastOrDefault().Value; }
+            get { return AttachedModes.LastOrDefault().Value; }
         }
 
         /// <summary>
         ///     Returns the total number of active game modes that are currently loaded into the simulation.
         /// </summary>
-        public int ModeCount
+        public int AttachedModeCount
         {
-            get { return Modes.Count; }
+            get { return AttachedModes.Count; }
         }
 
         /// <summary>
         ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
         ///     of themselves like stores and trades.
         /// </summary>
-        protected Dictionary<ModeCategory, IMode> Modes { get; }
+        protected SortedDictionary<ModeCategory, IMode> AttachedModes { get; }
+
+        /// <summary>
+        ///     Provides a constant reference list of all currently available game modes at runtime, created during simulation
+        ///     startup.
+        /// </summary>
+        private SortedDictionary<ModeCategory, Type> ModeReference { get; }
+
+        /// <summary>
+        ///     Figures out what game modes the simulation has available to it in the form of system types. Once it generates a
+        ///     list they will be checked and then added to internal list of game modes we can reference at runtime for on the fly
+        ///     creation.
+        /// </summary>
+        private void PopulateRefereceModes()
+        {
+            // Get all the types marked with the game mode attribute.
+            var modeTypes = AttributeHelper.GetTypesWith<GameModeAttribute>(false);
+
+            // Loop through all classes marked with game mode attribute.
+            foreach (var modeType in modeTypes)
+            {
+                // Attempt to cast found and activated object type as game mode interface compatible.
+                var castedMode = AttributeHelper.GetInstanceByType(modeType) as IMode;
+                if (castedMode == null)
+                    continue;
+
+                ModeReference.Add(castedMode.ModeCategory, modeType);
+            }
+        }
 
         /// <summary>
         ///     Removes any and all inactive game modes that need to be removed from the simulation.
@@ -96,11 +130,11 @@ namespace TrailEntities.Simulation
         private void RemoveDirtyModes()
         {
             // Ensure the mode exists as active mode.
-            if (ActiveMode == null)
+            if (AttachedMode == null)
                 throw new InvalidOperationException("Attempted to remove active mode when it is null!");
 
             // Create copy of all modes so we can destroy while iterating.
-            var copyModes = new Dictionary<ModeCategory, IMode>(Modes);
+            var copyModes = new Dictionary<ModeCategory, IMode>(AttachedModes);
             foreach (var mode in copyModes)
             {
                 // Skip if the mode doesn't want to be removed.
@@ -108,11 +142,11 @@ namespace TrailEntities.Simulation
                     continue;
 
                 // Remove the mode from list if it is flagged for removal.
-                Modes.Remove(mode.Key);
+                AttachedModes.Remove(mode.Key);
 
                 // Fire virtual method which will allow game simulation above and attempt to pass this data along to internal game mode and game mode states.
-                if (ActiveMode != null)
-                    OnModeChanged(ActiveMode.ModeCategory);
+                if (AttachedMode != null)
+                    OnModeChanged(AttachedMode.ModeCategory);
             }
             copyModes.Clear();
         }
@@ -187,15 +221,15 @@ namespace TrailEntities.Simulation
         ///     Creates and adds the specified game mode to the simulation if it does not already exist in the list of modes.
         /// </summary>
         /// <param name="modeCategory">Enumeration value of the mode which should be created.</param>
-        public void AddMode(ModeCategory modeCategory)
+        public void AttachMode(ModeCategory modeCategory)
         {
             // Check if any other modes match the one we are adding.
-            if (Modes.ContainsKey(modeCategory))
+            if (AttachedModes.ContainsKey(modeCategory))
                 return;
 
             // Add the game mode to the simulation now that we know it does not exist in the stack yet.
-            Modes.Add(modeCategory, OnModeChange(modeCategory));
-            ModeChangedEvent?.Invoke(Modes[modeCategory].ModeCategory);
+            AttachedModes.Add(modeCategory, OnModeChange(modeCategory));
+            ModeChangedEvent?.Invoke(AttachedModes[modeCategory].ModeCategory);
         }
 
         /// <summary>
@@ -209,7 +243,7 @@ namespace TrailEntities.Simulation
             ModeChangedEvent?.Invoke(modeCategory);
 
             // Pass the information along to active game mode.
-            ActiveMode?.OnModeChanged(modeCategory);
+            AttachedMode?.OnModeChanged(modeCategory);
         }
 
         /// <summary>
@@ -236,12 +270,12 @@ namespace TrailEntities.Simulation
         protected virtual string RenderMode()
         {
             // If TUI for active game mode is not null or empty then use it.
-            var activeModeTUI = ActiveMode?.OnRenderMode();
+            var activeModeTUI = AttachedMode?.OnRenderMode();
             if (!string.IsNullOrEmpty(activeModeTUI))
                 return activeModeTUI;
 
             // Otherwise, display default message if null for mode.
-            return ActiveMode == null ? GAMEMODE_EMPTY_TUI : GAMEMODE_DEFAULT_TUI;
+            return AttachedMode == null ? GAMEMODE_EMPTY_TUI : GAMEMODE_DEFAULT_TUI;
         }
 
         /// <summary>
@@ -249,7 +283,11 @@ namespace TrailEntities.Simulation
         ///     that should be able to be parsed into a valid command that can be run on the current game mode.
         /// </summary>
         /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
-        protected abstract void OnInputBufferReturned(string returnedLine);
+        private void OnInputBufferReturned(string returnedLine)
+        {
+            // Pass command along to currently active game mode if it exists.
+            AttachedMode?.SendInputBuffer(returnedLine.Trim());
+        }
 
         /// <summary>
         ///     Attaches the traveling mode and removes the new game mode if it exists, this begins the simulation down the trail
@@ -261,7 +299,17 @@ namespace TrailEntities.Simulation
             NewgameEvent?.Invoke();
         }
 
-        protected abstract IMode OnModeChange(ModeCategory modeCategory);
+        /// <summary>
+        ///     Fired when a new game mode wants to be attached to the list of active modes. It is also worth noting that the most
+        ///     recently added game mode is the only one that will get ticked until it is removed and the next one below is gets
+        ///     the tick pulse.
+        /// </summary>
+        /// <param name="modeCategory">Category of the mode that wants to be attached to running simulation.</param>
+        /// <returns>Created and activated instance of the game mode.</returns>
+        private IMode OnModeChange(ModeCategory modeCategory)
+        {
+            return AttachedModes[modeCategory];
+        }
 
         /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
@@ -273,7 +321,7 @@ namespace TrailEntities.Simulation
 
             InputBuffer = string.Empty;
             ScreenBuffer = string.Empty;
-            Modes.Clear();
+            AttachedModes.Clear();
             EndgameEvent?.Invoke();
         }
 
@@ -303,11 +351,11 @@ namespace TrailEntities.Simulation
         private void TickModes()
         {
             // If the active mode is not null and flag is set to remove then do that!
-            if (ActiveMode != null && ActiveMode.ShouldRemoveMode)
+            if (AttachedMode != null && AttachedMode.ShouldRemoveMode)
                 RemoveDirtyModes();
 
             // Otherwise just tick the game mode logic.
-            ActiveMode?.TickMode();
+            AttachedMode?.TickMode();
         }
     }
 }

@@ -12,8 +12,8 @@ namespace TrailEntities.Mode
     ///     keeps track of all currently loaded game modes and will only tick the top-most one so they can be stacked and clear
     ///     out until there are none.
     /// </summary>
-    public abstract class GameMode<T> : Comparer<IMode>, IComparable<GameMode<T>>, IEquatable<GameMode<T>>,
-        IEqualityComparer<GameMode<T>>, IMode where T : struct, IComparable, IFormattable, IConvertible
+    public abstract class GameMode : Comparer<IMode>, IComparable<GameMode>, IEquatable<GameMode>,
+        IEqualityComparer<GameMode>, IMode
     {
         /// <summary>
         ///     Keeps track of the current game mode state, if null then there is no state attached and menu is shown.
@@ -49,12 +49,6 @@ namespace TrailEntities.Mode
         {
             // Determines if the menu system should show raw command names in the menu rendering or just number selections by enum value.
             _showCommandNamesInMenu = showCommandNamesInMenu;
-
-            // Complain the generics implemented is not of an enum type.
-            if (!typeof (T).IsEnum)
-            {
-                throw new InvalidCastException("T must be an enumerated type!");
-            }
 
             // Create empty list of menu choices.
             _menuChoices = new HashSet<IModeChoiceItem<T>>();
@@ -111,7 +105,7 @@ namespace TrailEntities.Mode
         ///     <paramref name="other" />.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public int CompareTo(GameMode<T> other)
+        public int CompareTo(GameMode other)
         {
             return Compare(this, other);
         }
@@ -122,7 +116,7 @@ namespace TrailEntities.Mode
         /// <returns>
         ///     true if the specified objects are equal; otherwise, false.
         /// </returns>
-        public bool Equals(GameMode<T> x, GameMode<T> y)
+        public bool Equals(GameMode x, GameMode y)
         {
             return x.Equals(y);
         }
@@ -138,7 +132,7 @@ namespace TrailEntities.Mode
         ///     The type of <paramref name="obj" /> is a reference type and
         ///     <paramref name="obj" /> is null.
         /// </exception>
-        public int GetHashCode(GameMode<T> obj)
+        public int GetHashCode(GameMode obj)
         {
             return obj.GetHashCode();
         }
@@ -150,7 +144,7 @@ namespace TrailEntities.Mode
         ///     true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(GameMode<T> other)
+        public bool Equals(GameMode other)
         {
             // Reference equality check
             if (this == other)
@@ -372,23 +366,6 @@ namespace TrailEntities.Mode
         protected virtual void OnStateChanged()
         {
             // Nothing to see here, move along...
-        }
-
-        /// <summary>
-        ///     Because of how generics work in C# we need to have the ability to override a method in implementing classes to get
-        ///     back the correct commands for the implementation from abstract class inheritance chain. On the bright side it
-        ///     enforces the commands returned to be of the specified enum in generics.
-        /// </summary>
-        /// <remarks>http://stackoverflow.com/a/5042675</remarks>
-        private static T[] GetCommands()
-        {
-            // Complain the generics implemented is not of an enum type.
-            if (!typeof (T).IsEnum)
-            {
-                throw new InvalidCastException("T must be an enumerated type!");
-            }
-
-            return Enum.GetValues(typeof (T)) as T[];
         }
 
         /// <summary>

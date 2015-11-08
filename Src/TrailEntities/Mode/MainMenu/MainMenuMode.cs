@@ -68,7 +68,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private static void ChooseManagementOptions()
         {
-            GameSimApp.Instance.AddMode(ModeCategory.Options);
+            GameSimApp.Instance.AttachMode(ModeCategory.Options);
         }
 
         /// <summary>

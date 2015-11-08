@@ -1,4 +1,5 @@
-﻿using TrailEntities.Entity;
+﻿using System;
+using TrailEntities.Entity;
 using TrailEntities.Simulation;
 
 namespace TrailEntities.Mode
@@ -7,7 +8,7 @@ namespace TrailEntities.Mode
     ///     Attached by the event director when it wants to execute an event against the simulation. It will attach this mode,
     ///     which then hooks the event delegate it will trigger right after this class finishes initializing.
     /// </summary>
-    [GameMode(ModeCategory.RandomEvent)]
+    [GameMode(ModeCategory.RandomEvent, typeof (RandomEventCommands))]
     public sealed class RandomEventMode : GameMode<RandomEventCommands>
     {
         /// <summary>

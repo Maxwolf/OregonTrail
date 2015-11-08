@@ -10,6 +10,11 @@ namespace TrailEntities.Mode
     public class GameModeAttribute : Attribute
     {
         /// <summary>
+        ///     Will hold an enumeration of all the available commands in this game mode.
+        /// </summary>
+        private Type _commands;
+
+        /// <summary>
         ///     Defines what type of game mode the attribute is decorated on will represent in the game simulation.
         /// </summary>
         private ModeCategory _modeType;
@@ -17,9 +22,14 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     Defines what type of game mode the attribute is decorated on will represent in the game simulation.
         /// </summary>
-        public GameModeAttribute(ModeCategory modeCategory)
+        public GameModeAttribute(ModeCategory modeCategory, Type commands)
         {
+            // Complain the generics implemented is not of an enum type.
+            if (!commands.IsEnum)
+                throw new InvalidCastException("Commands parameter on game mode attribute must be an enumerated type!");
+
             _modeType = modeCategory;
+            _commands = commands;
         }
     }
 }

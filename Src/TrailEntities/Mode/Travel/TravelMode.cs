@@ -50,7 +50,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void BuySupplies()
         {
-            GameSimApp.Instance.AddMode(ModeCategory.Store);
+            GameSimApp.Instance.AttachMode(ModeCategory.Store);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace TrailEntities.Mode
         private void AttemptToTrade()
         {
             CurrentState = null;
-            GameSimApp.Instance.AddMode(ModeCategory.Trade);
+            GameSimApp.Instance.AttachMode(ModeCategory.Trade);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace TrailEntities.Mode
         private void HuntForFood()
         {
             CurrentState = null;
-            GameSimApp.Instance.AddMode(ModeCategory.Hunt);
+            GameSimApp.Instance.AttachMode(ModeCategory.Hunt);
         }
 
         /// <summary>

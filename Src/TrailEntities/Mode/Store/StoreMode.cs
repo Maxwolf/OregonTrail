@@ -22,7 +22,7 @@ namespace TrailEntities.Mode
             UpdateDebts();
 
             // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game mode also (travel mode always there).
-            if (GameSimApp.Instance.Trail.IsFirstLocation() && GameSimApp.Instance.ModeCount > 1)
+            if (GameSimApp.Instance.Trail.IsFirstLocation() && GameSimApp.Instance.AttachedModeCount > 1)
             {
                 StoreAdvice();
             }

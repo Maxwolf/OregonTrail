@@ -79,7 +79,7 @@ namespace TrailEntities
         ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
         ///     game modes, people, and vehicles.
         /// </summary>
-        public EventSim Director { get; private set; }
+        public DirectorSim Director { get; private set; }
 
         /// <summary>
         ///     Current vessel which the player character and his party are traveling inside of, provides means of transportation
@@ -165,9 +165,9 @@ namespace TrailEntities
             tui.Append($"[ {TickPhase} ] - ");
 
             // Keeps track of active mode name and active mode current state name for debugging purposes.
-            tui.Append(ActiveMode?.CurrentState != null
-                ? $"Mode({Modes.Count}): {ActiveMode}({ActiveMode.CurrentState}) - "
-                : $"Mode({Modes.Count}): {ActiveMode}(NO STATE) - ");
+            tui.Append(AttachedMode?.CurrentState != null
+                ? $"Mode({AttachedModes.Count}): {AttachedMode}({AttachedMode.CurrentState}) - "
+                : $"Mode({AttachedModes.Count}): {AttachedMode}(NO STATE) - ");
 
             // Total number of turns that have passed in the simulation.
             tui.Append($"Turns: {TotalTurns.ToString("D4")}{Environment.NewLine}");
@@ -184,17 +184,6 @@ namespace TrailEntities
 
             // Outputs the result of the string builder to TUI builder above.
             return tui.ToString();
-        }
-
-        /// <summary>
-        ///     Fired by messaging system or user interface that wants to interact with the simulation by sending string command
-        ///     that should be able to be parsed into a valid command that can be run on the current game mode.
-        /// </summary>
-        /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
-        protected override void OnInputBufferReturned(string returnedLine)
-        {
-            // Pass command along to currently active game mode if it exists.
-            ActiveMode?.SendInputBuffer(returnedLine.Trim());
         }
 
         /// <summary>
@@ -245,7 +234,7 @@ namespace TrailEntities
             // TODO: Load custom list from JSON with user high scores altered from defaults.
 
             // Environment, weather, conditions, climate, tail, stats, event director, etc.
-            Director = new EventSim();
+            Director = new DirectorSim();
             Climate = new ClimateSim(ClimateClassification.Moderate);
             Trail = new TrailSim(TrailRegistry.OregonTrail());
             TotalTurns = 0;
@@ -254,46 +243,10 @@ namespace TrailEntities
             Vehicle = new Vehicle();
 
             // Attach traveling mode since that is the default and bottom most game mode.
-            AddMode(ModeCategory.Travel);
+            AttachMode(ModeCategory.Travel);
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            AddMode(ModeCategory.MainMenu);
-        }
-
-        /// <summary>
-        ///     Change to new view mode when told that internal logic wants to display view options to player for a specific set of
-        ///     data in the simulation.
-        /// </summary>
-        /// <param name="modeCategory">Enumeration of the game mode that requested to be attached.</param>
-        /// <returns>New game mode instance based on the mode input parameter.</returns>
-        protected override IMode OnModeChange(ModeCategory modeCategory)
-        {
-            // TODO: Replace mode activation with class activator and custom attribute.
-            switch (modeCategory)
-            {
-                case ModeCategory.Travel:
-                    return new TravelMode();
-                case ModeCategory.ForkInRoad:
-                    return new ForkInRoadMode();
-                case ModeCategory.Hunt:
-                    return new HuntingMode();
-                case ModeCategory.MainMenu:
-                    return new MainMenuMode();
-                case ModeCategory.RiverCrossing:
-                    return new RiverCrossMode();
-                case ModeCategory.Store:
-                    return new StoreMode();
-                case ModeCategory.Trade:
-                    return new TradingMode();
-                case ModeCategory.Options:
-                    return new OptionsMode();
-                case ModeCategory.EndGame:
-                    return new EndGameMode();
-                case ModeCategory.RandomEvent:
-                    return new RandomEventMode();
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(modeCategory), modeCategory, null);
-            }
+            AttachMode(ModeCategory.MainMenu);
         }
 
         /// <summary>

@@ -59,7 +59,7 @@ namespace TrailEntities.Mode
 
             _knowsAboutMatt = true;
             ParentMode.RemoveModeNextTick();
-            GameSimApp.Instance.AddMode(ModeCategory.Store);
+            GameSimApp.Instance.AttachMode(ModeCategory.Store);
         }
     }
 }

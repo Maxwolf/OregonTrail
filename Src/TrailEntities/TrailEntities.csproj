@@ -83,6 +83,8 @@
     <Compile Include="Mode\Travel\Pace\PaceAdviceState.cs" />
     <Compile Include="Mode\EndGame\PointsState.cs" />
     <Compile Include="Mode\EndGame\TombstoneState.cs" />
+    <Compile Include="Widget\AttributeHelper.cs" />
+    <Compile Include="Widget\EnumExtensions.cs" />
     <Compile Include="Widget\SpinningPixel.cs" />
     <Compile Include="Widget\MarqueeBar.cs" />
     <Compile Include="Widget\TextProgress.cs" />
@@ -142,7 +144,7 @@
     <Compile Include="Simulation\Climate\ClimateClassification.cs" />
     <Compile Include="Simulation\Climate\ClimateData.cs" />
     <Compile Include="Simulation\Climate\WeatherCondition.cs" />
-    <Compile Include="Simulation\Director\EventSim.cs" />
+    <Compile Include="Simulation\Director\DirectorSim.cs" />
     <Compile Include="Simulation\Time\TickSim.cs" />
     <Compile Include="Simulation\Time\Date.cs" />
     <Compile Include="Simulation\Time\Months.cs" />

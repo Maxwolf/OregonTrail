@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Mode;
+using TrailEntities.Widget;
 
 namespace TrailEntities.Simulation
 {
@@ -13,7 +12,7 @@ namespace TrailEntities.Simulation
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
     ///     game simulation normally.
     /// </summary>
-    public sealed class EventSim
+    public sealed class DirectorSim
     {
         /// <summary>
         ///     Fired when an event has been triggered by the director.
@@ -26,9 +25,9 @@ namespace TrailEntities.Simulation
         private SortedDictionary<string, EventItem> _events;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.EventSim" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.DirectorSim" /> class.
         /// </summary>
-        public EventSim()
+        public DirectorSim()
         {
             // Create a new dictionary of events, set counter to zero for random event selector.
             _events = new SortedDictionary<string, EventItem>();
@@ -57,25 +56,13 @@ namespace TrailEntities.Simulation
         private void PopulateEvents()
         {
             // Get all the types marked with the random event attribute.
-            var eventTypes = GetTypesWith<RandomEventAttribute>(true);
+            var eventTypes = AttributeHelper.GetTypesWith<RandomEventAttribute>(true);
 
             // Loop through all the types we got from reflection.
             foreach (var eventType in eventTypes)
             {
-                // Check if the class is abstract base class, we don't want to add that.
-                if (eventType.IsAbstract)
-                    continue;
-
-                // Get the constructor and create an instance of event item.
-                var instantiatedType = Activator.CreateInstance(
-                    eventType,
-                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
-                    null,
-                    new object[] {eventType.Name},
-                    CultureInfo.InvariantCulture);
-
                 // Attempt to cash this instantiated type into an event item.
-                var castedEventItem = instantiatedType as EventItem;
+                var castedEventItem = AttributeHelper.GetInstanceByType(eventType) as EventItem;
                 if (castedEventItem == null)
                     continue;
 
@@ -83,20 +70,6 @@ namespace TrailEntities.Simulation
                 if (!_events.ContainsKey(castedEventItem.Name))
                     _events.Add(castedEventItem.Name, castedEventItem);
             }
-        }
-
-        /// <summary>
-        ///     Find all the classes which have a custom attribute I've defined on them, and I want to be able to find them
-        ///     on-the-fly when an application is using my library.
-        /// </summary>
-        /// <remarks>http://stackoverflow.com/a/720171</remarks>
-        private static IEnumerable<Type> GetTypesWith<TAttribute>(bool inherit)
-            where TAttribute : Attribute
-        {
-            return from a in AppDomain.CurrentDomain.GetAssemblies()
-                from t in a.GetTypes()
-                where t.IsDefined(typeof (TAttribute), inherit)
-                select t;
         }
 
         /// <summary>
@@ -170,7 +143,7 @@ namespace TrailEntities.Simulation
             var eventItem = _events[eventName];
 
             // Attach random event game mode before triggering event since it will listen for it using event delegate.
-            GameSimApp.Instance.AddMode(ModeCategory.RandomEvent);
+            GameSimApp.Instance.AttachMode(ModeCategory.RandomEvent);
 
             // Fire off event so primary game simulation knows we executed an event with an event.
             OnEventTriggered?.Invoke(simEntity, eventItem);
