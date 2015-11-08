@@ -60,6 +60,12 @@
         /// <summary>
         ///     Allows the player to reset top ten high scores, remove saved games, remove tombstone messages, etc.
         /// </summary>
-        ManagementOptions
+        ManagementOptions,
+
+        /// <summary>
+        ///     Attached when the event director has determined that a particular event needs to be executed against the vehicle or
+        ///     party members.
+        /// </summary>
+        RandomEvent
     }
 }

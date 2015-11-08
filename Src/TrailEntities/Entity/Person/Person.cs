@@ -206,15 +206,9 @@ namespace TrailEntities
                 GameSimApp.Instance.Random.Next((int) Health) <= 0)
             {
                 // Check if leader died or party member.
-                if (IsLeader)
-                {
-                    GameSimApp.Instance.AddMode(ModeType.EndGame);
-                }
-                else
-                {
-                    // Fire event that a party member has died.
-                    GameSimApp.Instance.Director.TriggerEvent("DeathPlayer");
-                }
+                GameSimApp.Instance.Director.TriggerEvent(IsLeader
+                    ? typeof(DeathPlayer)
+                    : typeof(DeathCompanion));
             }
         }
     }

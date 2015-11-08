@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -15,6 +14,11 @@ namespace TrailEntities
     public sealed class EventSim
     {
         /// <summary>
+        ///     Defines the name of the event invoker method name that will be called after created event item from object type.
+        /// </summary>
+        private const string INVOKER_METHOD_NAME = "Execute";
+
+        /// <summary>
         ///     References all of the events that have been triggered by the system in chronological order they occurred.
         /// </summary>
         private SortedDictionary<string, Type> _events;
@@ -27,9 +31,6 @@ namespace TrailEntities
             // Create a new dictionary of events, set counter to zero for random event selector.
             _events = new SortedDictionary<string, Type>();
             PopulateEvents();
-
-            // Test event!
-            TriggerEvent("DeathPlayer");
         }
 
         /// <summary>
@@ -98,14 +99,25 @@ namespace TrailEntities
             if (foundEvent.Equals(default(KeyValuePair<string, Type>)))
                 return;
 
-            Debug.Print("Executing event: " + foundEvent.Key);
+            // Pass off execution to helper method that will construct event instance from type.
             TriggerEvent(foundEvent.Key);
+        }
+
+        /// <summary>
+        ///     Accepts a type of class that can be used to create a given event, this way they can be referenced in code by their
+        ///     actual class name which is what is used by the internal simulation event directors dictionary of available events.
+        /// </summary>
+        /// <param name="eventType">Type of event that should be triggered, if it exists in loaded event dictionary in director.</param>
+        public void TriggerEvent(Type eventType)
+        {
+            // Pass off execution to helper method that will construct event instance from type.
+            TriggerEvent(eventType.Name);
         }
 
         /// <summary>
         ///     Forcefully triggers an event that has been added to the active list by it's key.
         /// </summary>
-        public void TriggerEvent(string eventName)
+        private void TriggerEvent(string eventName)
         {
             // Check if event name is null or empty whitespace.
             if (string.IsNullOrEmpty(eventName) ||
@@ -117,21 +129,27 @@ namespace TrailEntities
                 return;
 
             // Get the constructor and create an instance of event item.
-            var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
             var instantiatedType = Activator.CreateInstance(
                 _events[eventName],
-                flags,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
                 null,
-                new object[] { _events[eventName].Name },
+                new object[] {_events[eventName].Name},
                 CultureInfo.InvariantCulture);
 
             // Get the event item method by name manually.
-            var eventMethod = _events[eventName].GetMethod("Execute");
+            var eventMethod = _events[eventName].GetMethod(INVOKER_METHOD_NAME);
 
             // Invoke with a parameter string builder object we will get a string back from execute method.
-            var eventTUI = new StringBuilder();
-            var eventValue = eventMethod.Invoke(instantiatedType, new object[] {eventTUI});
-            Debug.Print("Event spat back string: " + eventValue);
+            var eventInputParameter = new StringBuilder();
+            var eventTUI = eventMethod.Invoke(instantiatedType, new object[] {eventInputParameter}) as string;
+
+            // Check if the event text user interface from execute method is null or empty whitespace.
+            if (string.IsNullOrEmpty(eventTUI) ||
+                string.IsNullOrWhiteSpace(eventTUI))
+                return;
+
+            // Attach the random event game mode so we can show the user the text about the event.
+            GameSimApp.Instance.AddMode(ModeType.RandomEvent);
         }
     }
 }
