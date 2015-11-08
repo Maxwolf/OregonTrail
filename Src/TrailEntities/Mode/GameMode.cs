@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
-using TrailEntities.Trail;
+using TrailEntities.Simulation;
+using TrailEntities.Simulation.Trail;
 
 namespace TrailEntities.Mode
 {
@@ -168,7 +169,7 @@ namespace TrailEntities.Mode
                 return false;
             }
 
-            if (ModeType.Equals(other.ModeType) &&
+            if (ModeCategory.Equals(other.ModeCategory) &&
                 _currentState.Equals(other._currentState))
             {
                 return true;
@@ -200,14 +201,14 @@ namespace TrailEntities.Mode
             CurrentState = null;
 
             // Allows any data structures that care about themselves to save before the next tick comes.
-            OnModeRemoved(ModeType);
+            OnModeRemoved(ModeCategory);
         }
 
         /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public abstract ModeType ModeType { get; }
+        public abstract ModeCategory ModeCategory { get; }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
@@ -301,8 +302,8 @@ namespace TrailEntities.Mode
         ///     Fired when the active game mode has been changed, this allows any underlying mode to know about a change in
         ///     simulation.
         /// </summary>
-        /// <param name="modeType">Current mode which the simulation is changing to.</param>
-        public virtual void OnModeChanged(ModeType modeType)
+        /// <param name="modeCategory">Current mode which the simulation is changing to.</param>
+        public virtual void OnModeChanged(ModeCategory modeCategory)
         {
             // Pass info along if current state exists.
             CurrentState?.OnParentModeChanged();
@@ -324,7 +325,7 @@ namespace TrailEntities.Mode
             Debug.Assert(x != null, "x != null");
             Debug.Assert(y != null, "y != null");
 
-            var result = x.ModeType.CompareTo(y.ModeType);
+            var result = x.ModeCategory.CompareTo(y.ModeCategory);
             if (result != 0) return result;
 
             result = x.CurrentState.CompareTo(y.CurrentState);
@@ -347,7 +348,7 @@ namespace TrailEntities.Mode
         {
             Debug.Assert(other != null, "other != null");
 
-            var result = other.ModeType.CompareTo(ModeType);
+            var result = other.ModeCategory.CompareTo(ModeCategory);
             if (result != 0) return result;
 
             result = other.CurrentState.CompareTo(CurrentState);
@@ -456,7 +457,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        protected virtual void OnModeRemoved(ModeType modeType)
+        protected virtual void OnModeRemoved(ModeCategory modeCategory)
         {
             GameSimApp.Instance.Trail.OnReachPointOfInterest -= OnReachNextLocation;
             _menuChoices = null;
@@ -470,7 +471,7 @@ namespace TrailEntities.Mode
         /// </returns>
         public override string ToString()
         {
-            return ModeType.ToString();
+            return ModeCategory.ToString();
         }
 
         /// <summary>
@@ -483,7 +484,7 @@ namespace TrailEntities.Mode
         {
             var hash = 23;
             hash = (hash*31) + CurrentState.GetHashCode();
-            hash = (hash*31) + ModeType.GetHashCode();
+            hash = (hash*31) + ModeCategory.GetHashCode();
             return hash;
         }
     }

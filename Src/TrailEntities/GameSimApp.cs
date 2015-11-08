@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TrailEntities.Climate;
-using TrailEntities.EndGame;
 using TrailEntities.Entity;
-using TrailEntities.Event;
-using TrailEntities.ForkInRoad;
-using TrailEntities.Hunting;
-using TrailEntities.MainMenu;
 using TrailEntities.Mode;
-using TrailEntities.Options;
-using TrailEntities.RiverCross;
+using TrailEntities.Mode.EndGame;
+using TrailEntities.Mode.ForkInRoad;
+using TrailEntities.Mode.Hunting;
+using TrailEntities.Mode.MainMenu;
+using TrailEntities.Mode.Options;
+using TrailEntities.Mode.RiverCross;
+using TrailEntities.Mode.Store;
+using TrailEntities.Mode.Trade;
+using TrailEntities.Mode.Travel;
 using TrailEntities.Scoring;
-using TrailEntities.Store;
-using TrailEntities.Time;
-using TrailEntities.Trade;
-using TrailEntities.Trail;
-using TrailEntities.Travel;
+using TrailEntities.Simulation;
+using TrailEntities.Simulation.Climate;
+using TrailEntities.Simulation.Director;
+using TrailEntities.Simulation.Time;
+using TrailEntities.Simulation.Trail;
 
 namespace TrailEntities
 {
     /// <summary>
     ///     Receiver - The main logic will be implemented here and it knows how to perform the necessary actions.
     /// </summary>
-    public sealed class GameSimApp : SimApp
+    public sealed class GameSimApp : SimBaseApp
     {
         /// <summary>
         ///     Holds a constant representation of the string telling the user to press enter key to continue so we don't repeat
@@ -266,45 +267,45 @@ namespace TrailEntities
             Vehicle = new Vehicle();
 
             // Attach traveling mode since that is the default and bottom most game mode.
-            AddMode(ModeType.Travel);
+            AddMode(ModeCategory.Travel);
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            AddMode(ModeType.MainMenu);
+            AddMode(ModeCategory.MainMenu);
         }
 
         /// <summary>
         ///     Change to new view mode when told that internal logic wants to display view options to player for a specific set of
         ///     data in the simulation.
         /// </summary>
-        /// <param name="modeType">Enumeration of the game mode that requested to be attached.</param>
+        /// <param name="modeCategory">Enumeration of the game mode that requested to be attached.</param>
         /// <returns>New game mode instance based on the mode input parameter.</returns>
-        protected override IMode OnModeChange(ModeType modeType)
+        protected override IMode OnModeChange(ModeCategory modeCategory)
         {
             // TODO: Replace mode activation with class activator and custom attribute.
-            switch (modeType)
+            switch (modeCategory)
             {
-                case ModeType.Travel:
+                case ModeCategory.Travel:
                     return new TravelMode();
-                case ModeType.ForkInRoad:
+                case ModeCategory.ForkInRoad:
                     return new ForkInRoadMode();
-                case ModeType.Hunt:
+                case ModeCategory.Hunt:
                     return new HuntingMode();
-                case ModeType.MainMenu:
+                case ModeCategory.MainMenu:
                     return new MainMenuMode();
-                case ModeType.RiverCrossing:
+                case ModeCategory.RiverCrossing:
                     return new RiverCrossMode();
-                case ModeType.Store:
+                case ModeCategory.Store:
                     return new StoreMode();
-                case ModeType.Trade:
+                case ModeCategory.Trade:
                     return new TradingMode();
-                case ModeType.ManagementOptions:
+                case ModeCategory.Options:
                     return new OptionsMode();
-                case ModeType.EndGame:
+                case ModeCategory.EndGame:
                     return new EndGameMode();
-                case ModeType.RandomEvent:
+                case ModeCategory.RandomEvent:
                     return new RandomEventMode();
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(modeType), modeType, null);
+                    throw new ArgumentOutOfRangeException(nameof(modeCategory), modeCategory, null);
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using TrailEntities.Trail;
+using TrailEntities.Simulation.Trail;
 
 namespace TrailEntities.Mode
 {
@@ -20,7 +20,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     Defines the type of game mode this is and what it's purpose will be intended for.
         /// </summary>
-        ModeType ModeType { get; }
+        ModeCategory ModeCategory { get; }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
@@ -66,7 +66,7 @@ namespace TrailEntities.Mode
         ///     Fired when the active game mode has been changed, this allows any underlying mode to know about a change in
         ///     simulation.
         /// </summary>
-        /// <param name="modeType">Current mode which the simulation is changing to.</param>
-        void OnModeChanged(ModeType modeType);
+        /// <param name="modeCategory">Current mode which the simulation is changing to.</param>
+        void OnModeChanged(ModeCategory modeCategory);
     }
 }
