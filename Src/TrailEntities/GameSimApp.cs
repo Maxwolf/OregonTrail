@@ -1,6 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TrailEntities.Climate;
+using TrailEntities.EndGame;
+using TrailEntities.Entity;
+using TrailEntities.Event;
+using TrailEntities.ForkInRoad;
+using TrailEntities.Hunting;
+using TrailEntities.MainMenu;
+using TrailEntities.Mode;
+using TrailEntities.Options;
+using TrailEntities.RiverCrossing;
+using TrailEntities.Scoring;
+using TrailEntities.Store;
+using TrailEntities.Time;
+using TrailEntities.Trade;
+using TrailEntities.Trail;
+using TrailEntities.Travel;
 
 namespace TrailEntities
 {
@@ -304,8 +320,6 @@ namespace TrailEntities
                     return new OptionsMode();
                 case ModeType.EndGame:
                     return new EndGameMode();
-                case ModeType.RandomEvent:
-                    return new RandomEventMode();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(modeType), modeType, null);
             }

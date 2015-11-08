@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TrailEntities
+namespace TrailEntities.Entity
 {
     /// <summary>
     ///     Base interface for all entities in the simulation, this is used as a constraint for generics in event system.

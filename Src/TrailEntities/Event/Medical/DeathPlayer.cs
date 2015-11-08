@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace TrailEntities
+namespace TrailEntities.Event
 {
     /// <summary>
     ///     Party leader has died! This will end the entire simulation since the others cannot go on without the leader.

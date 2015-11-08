@@ -1,4 +1,4 @@
-﻿namespace TrailEntities
+﻿namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Since the view for game modes is separated from the actual logic being performed we need a logical way to know what
@@ -54,12 +54,6 @@
         /// <summary>
         ///     Allows the player to reset top ten high scores, remove saved games, remove tombstone messages, etc.
         /// </summary>
-        ManagementOptions,
-
-        /// <summary>
-        ///     Attached when the event director has determined that a particular event needs to be executed against the vehicle or
-        ///     party members.
-        /// </summary>
-        RandomEvent
+        ManagementOptions
     }
 }

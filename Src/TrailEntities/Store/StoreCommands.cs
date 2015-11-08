@@ -1,4 +1,4 @@
-﻿namespace TrailEntities
+﻿namespace TrailEntities.Store
 {
     /// <summary>
     ///     Holds all of the available commands a store can make, it will pull the store items from the current point of

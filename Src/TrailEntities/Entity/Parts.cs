@@ -1,4 +1,4 @@
-﻿namespace TrailEntities
+﻿namespace TrailEntities.Entity
 {
     /// <summary>
     ///     Defines a bunch of items that are used as parts in the vehicle.

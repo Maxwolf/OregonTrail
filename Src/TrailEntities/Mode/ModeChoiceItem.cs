@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrailEntities
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Defines a choice in the dynamic action selection system for a given game mode. This is intended to be used by a

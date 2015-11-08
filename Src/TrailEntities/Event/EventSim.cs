@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace TrailEntities
+namespace TrailEntities.Event
 {
     /// <summary>
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
@@ -25,7 +25,7 @@ namespace TrailEntities
         private SortedDictionary<string, EventItem> _events;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.EventSim" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Event.EventSim" /> class.
         /// </summary>
         public EventSim()
         {

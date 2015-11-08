@@ -1,4 +1,4 @@
-﻿namespace TrailEntities
+﻿namespace TrailEntities.Entity
 {
     /// <summary>
     ///     The pace at which you travel can change.

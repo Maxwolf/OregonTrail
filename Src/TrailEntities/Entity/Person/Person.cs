@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using TrailEntities.Event;
 
-namespace TrailEntities
+namespace TrailEntities.Entity
 {
     /// <summary>
     ///     Represents a human-being. Gender is not tracked, we only care about them as an entity that consumes food and their
@@ -11,7 +12,7 @@ namespace TrailEntities
     public sealed class Person : IEntity
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Person" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Entity.Person" /> class.
         /// </summary>
         public Person(Profession profession, string name, bool isLeader)
         {
@@ -23,7 +24,7 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Person" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Entity.Person" /> class.
         /// </summary>
         public Person()
         {

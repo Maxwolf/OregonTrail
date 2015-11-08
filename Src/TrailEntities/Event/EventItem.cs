@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace TrailEntities
+namespace TrailEntities.Event
 {
     /// <summary>
     ///     Represents an event that can be triggered by the event director when vehicle is traveling along the trail.

@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace TrailEntities
+namespace TrailEntities.Widget
 {
     /// <summary>
     ///     Converts lists of objects into string table representations of themselves.

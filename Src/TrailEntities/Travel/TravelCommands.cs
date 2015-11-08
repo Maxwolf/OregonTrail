@@ -1,4 +1,4 @@
-﻿namespace TrailEntities
+﻿namespace TrailEntities.Travel
 {
     /// <summary>
     ///     All of the commands associated with the traveling game mode which is one of the primary simulation game modes since

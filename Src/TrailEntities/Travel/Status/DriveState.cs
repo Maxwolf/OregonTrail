@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Text;
+using TrailEntities.Mode;
+using TrailEntities.Widget;
 
-namespace TrailEntities
+namespace TrailEntities.Travel
 {
     /// <summary>
     ///     Attached to the travel mode when the player requests to continue on the trail. This shows a ping-pong progress bar

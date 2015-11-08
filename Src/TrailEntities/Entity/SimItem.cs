@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace TrailEntities
+namespace TrailEntities.Entity
 {
     /// <summary>
     ///     Defines a base SimItem which can represent almost any commodity the player can purchase for the party or vehicle.
@@ -9,7 +9,7 @@ namespace TrailEntities
     public sealed class SimItem : IEntity
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.SimItem" /> class. The quantity property will be set
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Entity.SimItem" /> class. The quantity property will be set
         ///     to
         ///     whatever the minimum amount of the SimItem is.
         /// </summary>

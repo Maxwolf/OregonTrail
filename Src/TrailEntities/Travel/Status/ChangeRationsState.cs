@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Text;
+using TrailEntities.Entity;
+using TrailEntities.Mode;
 
-namespace TrailEntities
+namespace TrailEntities.Travel
 {
     /// <summary>
     ///     Allows the player to change the amount of food their party members will have access to in a given day, the purpose

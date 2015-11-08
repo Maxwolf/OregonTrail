@@ -1,4 +1,4 @@
-﻿namespace TrailEntities
+﻿namespace TrailEntities.Entity
 {
     /// <summary>
     ///     Defines all the possible types of items, used for sorting and quickly being able to determine type when iterating

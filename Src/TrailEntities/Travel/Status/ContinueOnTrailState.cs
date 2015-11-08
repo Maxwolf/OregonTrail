@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Text;
+using TrailEntities.Mode;
 
-namespace TrailEntities
+namespace TrailEntities.Travel
 {
     /// <summary>
     ///     Attached when the player wants to continue on the trail, and doing so will force them to leave that point and be

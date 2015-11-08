@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TrailEntities
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Requires type parameter that is a reference type with a constructor.

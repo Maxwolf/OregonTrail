@@ -1,4 +1,6 @@
-﻿namespace TrailEntities
+﻿using TrailEntities.Mode;
+
+namespace TrailEntities.Hunting
 {
     public interface IHuntingMode : IMode
     {

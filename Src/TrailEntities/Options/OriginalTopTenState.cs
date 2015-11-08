@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Text;
+using TrailEntities.Mode;
+using TrailEntities.Scoring;
+using TrailEntities.Widget;
 
-namespace TrailEntities
+namespace TrailEntities.Options
 {
     /// <summary>
     ///     Shows the player hard-coded top ten list as it is known internally in static list.

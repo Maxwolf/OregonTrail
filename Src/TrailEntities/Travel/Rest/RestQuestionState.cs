@@ -1,4 +1,6 @@
-﻿namespace TrailEntities
+﻿using TrailEntities.Mode;
+
+namespace TrailEntities.Travel
 {
     /// <summary>
     ///     Attaches a state that will ask the player how long they would like to rest in the number of days, zero is a valid

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Text;
+using TrailEntities.Entity;
 
-namespace TrailEntities
+namespace TrailEntities.Travel
 {
     /// <summary>
     ///     Holds all the information about traveling that we want to know, such as how long we need to go until next point,

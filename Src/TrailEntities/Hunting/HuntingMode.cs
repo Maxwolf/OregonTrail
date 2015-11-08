@@ -1,6 +1,7 @@
 ﻿using System;
+using TrailEntities.Mode;
 
-namespace TrailEntities
+namespace TrailEntities.Hunting
 {
     /// <summary>
     ///     Used to allow the players party to hunt for wild animals, shooting bullet items into the animals will successfully

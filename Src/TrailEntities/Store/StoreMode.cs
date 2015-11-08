@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Text;
+using TrailEntities.Entity;
+using TrailEntities.Mode;
 
-namespace TrailEntities
+namespace TrailEntities.Store
 {
     /// <summary>
     ///     Manages a general store where the player can buy food, clothes, bullets, and parts for their vehicle.
@@ -9,7 +11,7 @@ namespace TrailEntities
     public sealed class StoreMode : GameMode<StoreCommands>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.StoreMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Store.StoreMode" /> class.
         /// </summary>
         public StoreMode() : base(false)
         {

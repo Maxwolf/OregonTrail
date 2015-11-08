@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace TrailEntities
+namespace TrailEntities.Event
 {
     /// <summary>
     ///     Called when one of your party members dies that is not the leader of the group, the game will still be able to

@@ -1,4 +1,6 @@
-﻿namespace TrailEntities
+﻿using TrailEntities.Time;
+
+namespace TrailEntities.Event
 {
     /// <summary>
     ///     Represents an event that has occurred in the simulations past.
@@ -6,7 +8,7 @@
     public sealed class EventHistoryItem
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.EventHistoryItem" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Event.EventHistoryItem" /> class.
         /// </summary>
         public EventHistoryItem(EventItem eventItem)
         {

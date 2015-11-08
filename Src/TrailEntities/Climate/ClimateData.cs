@@ -1,4 +1,6 @@
-﻿namespace TrailEntities
+﻿using TrailEntities.Time;
+
+namespace TrailEntities.Climate
 {
     public class ClimateData
     {

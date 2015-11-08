@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using TrailEntities.Trail;
 
-namespace TrailEntities
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Underlying game mode interface, used by base simulation to keep track of what data should currently have control

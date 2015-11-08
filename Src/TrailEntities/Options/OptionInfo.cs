@@ -1,4 +1,4 @@
-﻿namespace TrailEntities
+﻿namespace TrailEntities.Options
 {
     /// <summary>
     ///     Keeps track of all the flags the user sets for

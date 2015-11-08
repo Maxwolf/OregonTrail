@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
+using TrailEntities.Trail;
 
-namespace TrailEntities
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Facilitates the ability to control the entire simulation with the passes interface reference. Server simulation

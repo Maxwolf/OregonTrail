@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using TrailEntities.Entity;
+using TrailEntities.Mode;
 
-namespace TrailEntities
+namespace TrailEntities.Trail
 {
     /// <summary>
     ///     Defines a location in the game that is added to a list of points that make up the entire trail which the player and
@@ -14,7 +16,7 @@ namespace TrailEntities
         private Dictionary<SimEntity, SimItem> _storeItems;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Location" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Trail.Location" /> class.
         /// </summary>
         public Location(string name, bool storeOpen = false)
         {

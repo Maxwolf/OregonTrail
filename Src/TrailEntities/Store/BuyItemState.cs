@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Text;
+using TrailEntities.Entity;
+using TrailEntities.Mode;
 
-namespace TrailEntities
+namespace TrailEntities.Store
 {
     /// <summary>
     ///     Allows the player to purchase a number of oxen to pull their vehicle.

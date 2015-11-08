@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrailEntities
+namespace TrailEntities.Widget
 {
     public class Randomizer
     {

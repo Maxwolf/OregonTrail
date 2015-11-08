@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace TrailEntities
+namespace TrailEntities.Widget
 {
     /// <summary>
     ///     Progress bar that is drawn in characters and is a ping-pong marquee action bouncing back and fourth.

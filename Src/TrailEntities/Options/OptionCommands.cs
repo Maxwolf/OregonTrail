@@ -1,4 +1,4 @@
-﻿namespace TrailEntities
+﻿namespace TrailEntities.Options
 {
     /// <summary>
     ///     Defines all of the management options for the game like removing tombstones, resetting high scores, and lets you

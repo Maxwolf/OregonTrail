@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using TrailEntities.Mode;
 
-namespace TrailEntities
+namespace TrailEntities.Store
 {
     /// <summary>
     ///     If the player cannot afford to leave the store because they have attempted to purchase more items than they are

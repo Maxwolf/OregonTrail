@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace TrailEntities
+namespace TrailEntities.Entity
 {
     /// <summary>
     ///     Vessel that holds all the players, their inventory, money, and keeps track of total miles traveled in the form of
@@ -31,7 +31,7 @@ namespace TrailEntities
         private List<Person> _passengers;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Vehicle" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Entity.Vehicle" /> class.
         /// </summary>
         public Vehicle()
         {

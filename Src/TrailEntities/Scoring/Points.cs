@@ -1,6 +1,7 @@
 ﻿using System;
+using TrailEntities.Entity;
 
-namespace TrailEntities
+namespace TrailEntities.Scoring
 {
     /// <summary>
     ///     Represents a given type of point that can take in a object of a given type in the concrete handler and we will
@@ -33,7 +34,7 @@ namespace TrailEntities
         private readonly int _perAmount;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Points" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Scoring.Points" /> class.
         /// </summary>
         public Points(SimItem resource, int pointsAwarded,
             int perAmount = DEFAULT_PER_AMOUNT, string optionalDisplayName = DEFAULT_DISPLAY_NAME)

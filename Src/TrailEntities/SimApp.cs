@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TrailEntities.MainMenu;
+using TrailEntities.Mode;
+using TrailEntities.Time;
 
 namespace TrailEntities
 {

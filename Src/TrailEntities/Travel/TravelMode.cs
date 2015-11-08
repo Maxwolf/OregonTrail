@@ -1,6 +1,8 @@
 ﻿using System.Text;
+using TrailEntities.Mode;
+using TrailEntities.Trail;
 
-namespace TrailEntities
+namespace TrailEntities.Travel
 {
     /// <summary>
     ///     Primary game mode of the simulation, used to show simulation advancing through linear time. Shows all major stats
@@ -9,7 +11,7 @@ namespace TrailEntities
     public sealed class TravelMode : GameMode<TravelCommands>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.TravelMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Travel.TravelMode" /> class.
         /// </summary>
         public TravelMode() : base(false)
         {

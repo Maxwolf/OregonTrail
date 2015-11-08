@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TrailEntities
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Defines interface for game mode state which can show data, accept input, add new game modes, set new state, and
