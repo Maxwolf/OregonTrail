@@ -24,18 +24,6 @@ namespace TrailEntities.Entity
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Entity.Person" /> class.
-        /// </summary>
-        public Person()
-        {
-            Profession = Profession.Banker;
-            Name = "UNKNOWN PERSON";
-            IsLeader = false;
-            DaysStarving = 0;
-            Health = RepairStatus.Good;
-        }
-
-        /// <summary>
         ///     Current health of this person which is enum that also represents the total points they are currently worth.
         /// </summary>
         private RepairStatus Health { get; set; }
@@ -44,7 +32,7 @@ namespace TrailEntities.Entity
         ///     Determines how many total consecutive days this player has not eaten any food. If this continues for more than five
         ///     (5) days then the probability they will die increases exponentially.
         /// </summary>
-        private int DaysStarving { get; }
+        private int DaysStarving { get; set; }
 
         /// <summary>
         ///     Profession of this person, typically if the leader is a banker then the entire family is all bankers for sanity
@@ -177,10 +165,29 @@ namespace TrailEntities.Entity
         }
 
         /// <summary>
-        ///     Determines the amount of miles the party is able to travel with a given individual. Will check for Medical, cold
-        ///     weather, starvation from having zero food, healing when resting, and if needed killing them off from simulation.
+        ///     Determines how much food party members in the vehicle will eat today.
         /// </summary>
-        public void TickPerson()
+        private void ConsumeFood()
+        {
+            var cost_food = GameSimApp.Instance.Vehicle.Inventory[SimEntity.Food].TotalValue;
+            cost_food = cost_food - 8 - 5*(int) GameSimApp.Instance.Vehicle.Ration;
+            if (cost_food >= 13)
+            {
+                // Consume the food since we still have some.
+                GameSimApp.Instance.Vehicle.Inventory[SimEntity.Food] =
+                    new SimItem(GameSimApp.Instance.Vehicle.Inventory[SimEntity.Food], (int) cost_food);
+            }
+            else
+            {
+                // Otherwise we begin to starve.
+                DaysStarving++;
+            }
+        }
+
+        /// <summary>
+        ///     Check if party leader or a member of it has been killed by an illness.
+        /// </summary>
+        private void CheckIllness()
         {
             if (100*GameSimApp.Instance.Random.NextDouble() <
                 10 + 35*((int) GameSimApp.Instance.Vehicle.Ration - 1))
@@ -193,24 +200,40 @@ namespace TrailEntities.Entity
                      (40/GameSimApp.Instance.Vehicle.Passengers.Count()*((int) GameSimApp.Instance.Vehicle.Ration - 1)))
             {
                 // Bad illness.
+                GameSimApp.Instance.Vehicle.ReduceMileage(10);
                 Health = RepairStatus.Poor;
             }
             else
             {
                 // Severe illness.
                 Health = RepairStatus.VeryPoor;
-                // TODO: Pick an actual severe illness from list, roll the dice for it on very low health.
+                GameSimApp.Instance.Vehicle.ReduceMileage(15);
+
+                // Pick an actual severe illness from list, roll the dice for it on very low health.
+                GameSimApp.Instance.Director.TriggerEventByType(EventCategory.Medical);
             }
 
-            // Check if party leader or a member of it has been killed by an illness.
             if (Health == RepairStatus.VeryPoor &&
                 GameSimApp.Instance.Random.Next((int) Health) <= 0)
             {
+                // Some dying makes everybody take a huge morale hit.
+                GameSimApp.Instance.Vehicle.ReduceMileage(50);
+
                 // Check if leader died or party member.
                 GameSimApp.Instance.Director.TriggerEvent(IsLeader
-                    ? typeof(DeathPlayer)
-                    : typeof(DeathCompanion));
+                    ? typeof (DeathPlayer)
+                    : typeof (DeathCompanion));
             }
+        }
+
+        /// <summary>
+        ///     Determines the amount of miles the party is able to travel with a given individual. Will check for Medical, cold
+        ///     weather, starvation from having zero food, healing when resting, and if needed killing them off from simulation.
+        /// </summary>
+        public void TickPerson()
+        {
+            ConsumeFood();
+            CheckIllness();
         }
     }
 }

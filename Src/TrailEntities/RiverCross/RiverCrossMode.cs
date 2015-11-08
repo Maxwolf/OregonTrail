@@ -1,5 +1,4 @@
-﻿using System;
-using TrailEntities.Mode;
+﻿using TrailEntities.Mode;
 
 namespace TrailEntities.RiverCross
 {
@@ -27,9 +26,10 @@ namespace TrailEntities.RiverCross
         }
 
         /// <summary>
-        /// Defines all of the information like river depth and ferry cost which will be randomly generated when this object is created.
+        ///     Defines all of the information like river depth and ferry cost which will be randomly generated when this object is
+        ///     created.
         /// </summary>
-        private RiverCrossInfo RiverCrossInfo { get; set; }
+        private RiverCrossInfo RiverCrossInfo { get; }
 
         /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
@@ -45,7 +45,7 @@ namespace TrailEntities.RiverCross
         /// </summary>
         private void GetMoreInformation()
         {
-            throw new NotImplementedException();
+            CurrentState = new FordRiverHelpState(this, RiverCrossInfo);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace TrailEntities.RiverCross
         /// </summary>
         private void WaitForWeather()
         {
-            throw new NotImplementedException();
+            CurrentState = new CampByRiverState(this, RiverCrossInfo);
         }
 
         /// <summary>
@@ -62,7 +62,8 @@ namespace TrailEntities.RiverCross
         /// </summary>
         private void UseFerry()
         {
-            throw new NotImplementedException();
+            RiverCrossInfo.CrossingType = CrossChoice.Ferry;
+            CurrentState = new UseFerryConfirmState(this, RiverCrossInfo);
         }
 
         /// <summary>
@@ -71,7 +72,8 @@ namespace TrailEntities.RiverCross
         /// </summary>
         private void CaulkVehicle()
         {
-            throw new NotImplementedException();
+            RiverCrossInfo.CrossingType = CrossChoice.Caulk;
+            CurrentState = new CrossingResultState(this, RiverCrossInfo);
         }
 
         /// <summary>
@@ -80,7 +82,8 @@ namespace TrailEntities.RiverCross
         /// </summary>
         private void FordRiver()
         {
-            throw new NotImplementedException();
+            RiverCrossInfo.CrossingType = CrossChoice.Ford;
+            CurrentState = new CrossingResultState(this, RiverCrossInfo);
         }
 
         /// <summary>
@@ -89,7 +92,6 @@ namespace TrailEntities.RiverCross
         /// </summary>
         public override void TickMode()
         {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -98,7 +100,6 @@ namespace TrailEntities.RiverCross
         /// <param name="modeType"></param>
         protected override void OnModeRemoved(ModeType modeType)
         {
-            throw new NotImplementedException();
         }
     }
 }

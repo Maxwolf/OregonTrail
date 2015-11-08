@@ -53,7 +53,12 @@
     <Compile Include="Event\Medical\DeathPlayer.cs" />
     <Compile Include="Event\RandomEventAttribute.cs" />
     <Compile Include="MainMenu\Help\IntroduceStoreState.cs" />
+    <Compile Include="RandomEvent\RandomEventCommands.cs" />
+    <Compile Include="RandomEvent\RandomEventInfo.cs" />
+    <Compile Include="RandomEvent\RandomEventMode.cs" />
     <Compile Include="RiverCross\CampByRiverState.cs" />
+    <Compile Include="RiverCross\CrossChoice.cs" />
+    <Compile Include="RiverCross\CrossingResultState.cs" />
     <Compile Include="RiverCross\FerryNoMoniesState.cs" />
     <Compile Include="RiverCross\Help\CaulkRiverHelpState.cs" />
     <Compile Include="RiverCross\Help\FerryHelpState.cs" />
@@ -72,7 +77,7 @@
     <Compile Include="Scoring\Points.cs" />
     <Compile Include="Scoring\ScoreRegistry.cs" />
     <Compile Include="Options\OriginalTopTenState.cs" />
-    <Compile Include="Travel\RandomEventState.cs" />
+    <Compile Include="RandomEvent\RandomEventState.cs" />
     <Compile Include="Travel\Status\DriveState.cs" />
     <Compile Include="Travel\Pace\PaceAdviceState.cs" />
     <Compile Include="EndGame\PointsState.cs" />

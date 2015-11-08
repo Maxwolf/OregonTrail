@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using TrailEntities.Mode;
 
 namespace TrailEntities.Event
 {
@@ -191,6 +192,9 @@ namespace TrailEntities.Event
 
             // Grab the event item,
             var eventItem = _events[eventName];
+
+            // Attach random event game mode before triggering event since it will listen for it using event delegate.
+            GameSimApp.Instance.AddMode(ModeType.RandomEvent);
 
             // Fire off event so primary game simulation knows we executed an event with an event.
             OnEventTriggered?.Invoke(eventItem);

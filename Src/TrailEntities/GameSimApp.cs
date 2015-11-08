@@ -280,6 +280,7 @@ namespace TrailEntities
         /// <returns>New game mode instance based on the mode input parameter.</returns>
         protected override IMode OnModeChange(ModeType modeType)
         {
+            // TODO: Replace mode activation with class activator and custom attribute.
             switch (modeType)
             {
                 case ModeType.Travel:
@@ -300,6 +301,8 @@ namespace TrailEntities
                     return new OptionsMode();
                 case ModeType.EndGame:
                     return new EndGameMode();
+                case ModeType.RandomEvent:
+                    return new RandomEventMode();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(modeType), modeType, null);
             }

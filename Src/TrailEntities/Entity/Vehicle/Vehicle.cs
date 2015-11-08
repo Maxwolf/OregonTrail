@@ -325,19 +325,7 @@ namespace TrailEntities.Entity
             // Sometimes things just go slow on the trail.
             Mileage = (int) (Mileage - 45 - GameSimApp.Instance.Random.NextDouble()/.02f);
 
-            // Determines how much food party members in the vehicle will eat today.
-            var cost_food = Inventory[SimEntity.Food].TotalValue;
-            var two_weeks_fraction = (GameSimApp.TRAIL_LENGTH - Odometer)/(Mileage - Odometer);
-            cost_food = cost_food - 8 - 5*(int) Ration;
-            if (cost_food >= 13)
-            {
-                cost_food = cost_food + (1 - two_weeks_fraction)*(8 + 5*(int) Ration);
-                //cost_food = cost_food + 8 + 5*(int) Ration;
-                Inventory[SimEntity.Food] = new SimItem(Inventory[SimEntity.Food], (int) cost_food);
-            }
-
             // TODO: Determine if weather will slow us down.
-
 
             // Loop through all the people in the vehicle and tick them.
             foreach (var person in _passengers)
@@ -345,7 +333,7 @@ namespace TrailEntities.Entity
                 person.TickPerson();
             }
 
-            // Check for random events that might trigger.
+            // Check for random events that might trigger regardless of calculations we make.
             GameSimApp.Instance.Director.TriggerRandomEvent();
 
             // Use our altered mileage to affect how far the vehicle has traveled in todays tick..

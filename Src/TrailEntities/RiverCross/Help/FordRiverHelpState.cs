@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using TrailEntities.Mode;
 
 namespace TrailEntities.RiverCross
@@ -8,11 +9,16 @@ namespace TrailEntities.RiverCross
     /// </summary>
     public sealed class FordRiverHelpState : ModeState<RiverCrossInfo>
     {
+        private bool _hasReadFordRiverHelp;
+
+        private StringBuilder _fordRiverHelp;
+
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public FordRiverHelpState(IMode gameMode, RiverCrossInfo userData) : base(gameMode, userData)
         {
+            _fordRiverHelp = new StringBuilder();
         }
 
         /// <summary>
@@ -30,7 +36,11 @@ namespace TrailEntities.RiverCross
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            if (_hasReadFordRiverHelp)
+                return;
+
+            _hasReadFordRiverHelp = true;
+            ParentMode.CurrentState = new CaulkRiverHelpState(ParentMode, UserData);
         }
     }
 }

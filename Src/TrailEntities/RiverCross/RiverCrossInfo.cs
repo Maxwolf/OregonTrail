@@ -14,7 +14,14 @@
             // Randomly generates statistics about the river each time you cross it.
             Depth = GameSimApp.Instance.Random.Next(1, 20);
             FerryCost = GameSimApp.Instance.Random.Next(3, 8);
+            RiverWidth = GameSimApp.Instance.Random.Next(20, 350);
+            CrossingType = CrossChoice.Ford;
         }
+
+        /// <summary>
+        /// Determines how the vehicle and party members would like to cross the river.
+        /// </summary>
+        public CrossChoice CrossingType { get; set; }
 
         /// <summary>
         ///     Determines how deep the river is in feet.
@@ -25,5 +32,11 @@
         ///     Determines how much the ferry operator will charge to cross the river.
         /// </summary>
         public int FerryCost { get; }
+
+        /// <summary>
+        ///     Determines how wide the river is and how big the dice roll is for something terrible happening to the vehicle and
+        ///     party members.
+        /// </summary>
+        public int RiverWidth { get; }
     }
 }

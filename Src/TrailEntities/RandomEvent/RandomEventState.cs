@@ -3,14 +3,14 @@ using System.Text;
 using TrailEntities.Event;
 using TrailEntities.Mode;
 
-namespace TrailEntities.Travel
+namespace TrailEntities
 {
     /// <summary>
     ///     Used when the event director fires event that game simulation subscribes to which passes along events that should
     ///     be triggered when they occur so this state can be attached to the travel mode and also have the event data passed
     ///     into it so it may be executed and data shown in text user interface for this state.
     /// </summary>
-    public sealed class RandomEventState : ModeState<TravelInfo>
+    public sealed class RandomEventState : ModeState<RandomEventInfo>
     {
         /// <summary>
         ///     Holds all of the text from the random event after it executes so we can display it to the user without having to
@@ -32,7 +32,8 @@ namespace TrailEntities.Travel
         ///     The actual event that director wants executed and information displayed to user about what it
         ///     does.
         /// </param>
-        public RandomEventState(IMode gameMode, TravelInfo userData, EventItem eventItem) : base(gameMode, userData)
+        public RandomEventState(IMode gameMode, RandomEventInfo userData, EventItem eventItem)
+            : base(gameMode, userData)
         {
             // Create new string builder that will hold event execution data.
             _randomEventText = new StringBuilder();
@@ -42,7 +43,8 @@ namespace TrailEntities.Travel
 
             // Complain if the event text is empty.
             if (string.IsNullOrEmpty(eventText) || string.IsNullOrWhiteSpace(eventText))
-                throw new InvalidOperationException($"Executed random event {eventItem.Name} from director, but it returned no text data!");
+                throw new InvalidOperationException(
+                    $"Executed random event {eventItem.Name} from director, but it returned no text data!");
 
             // Add the text to our output about the random event.
             _randomEventText.AppendLine($"{eventText}{Environment.NewLine}");

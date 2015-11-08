@@ -4,9 +4,8 @@ using TrailEntities.Mode;
 namespace TrailEntities.RiverCross
 {
     /// <summary>
-    ///     Attached when the user would like to sleep by the river in an attempt to pass time and see if the current weather
-    ///     conditions improve which in turn will improve their chances of crossing the river. The wider the river they need to
-    ///     cross and the better the weather the greater the chances the vehicle will succeed.
+    ///     Attached if the player decides to rest by the river for a specified amount of time. Events will still tick here as
+    ///     the number of days is moved through.
     /// </summary>
     public sealed class CampByRiverState : ModeState<RiverCrossInfo>
     {
