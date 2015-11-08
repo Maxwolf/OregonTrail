@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation;
 
-namespace TrailEntities.Mode.MainMenu
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Spawns a new game mode in the game simulation while maintaining the state of previous one so when we bounce back we

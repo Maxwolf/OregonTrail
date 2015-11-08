@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Scoring;
-using TrailEntities.Simulation;
 using TrailEntities.Widget;
 
-namespace TrailEntities.Mode.MainMenu
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Second panel on point information, shows how the number of resources you end the game with contribute to your final

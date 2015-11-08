@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Mode.RiverCross
+﻿namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Manages a boolean event where the player needs to make a choice before they can move onto the next location on the

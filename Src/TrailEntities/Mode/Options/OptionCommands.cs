@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Mode.Options
+﻿namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Defines all of the management options for the game like removing tombstones, resetting high scores, and lets you

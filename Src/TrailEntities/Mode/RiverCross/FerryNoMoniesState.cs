@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrailEntities.Mode.RiverCross
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Attached when the user attempts to cross the river using the ferry, confirms they would like to but does not have

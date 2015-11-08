@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Mode.RiverCross
+﻿namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Defines all of the commands that are needed to cross a river.

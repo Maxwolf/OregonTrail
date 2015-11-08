@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Simulation;
 
-namespace TrailEntities.Mode.Travel
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Shows all the players supplies that they currently have in their vehicle inventory, along with the amount of money

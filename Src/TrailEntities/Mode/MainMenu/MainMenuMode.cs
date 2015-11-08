@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation;
 
-namespace TrailEntities.Mode.MainMenu
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Allows the user to completely configure the simulation before they start off on the trail path. It will offer up
@@ -23,7 +22,7 @@ namespace TrailEntities.Mode.MainMenu
         public const string MEMBERS_QUESTION = "What are the first names of the \nthree other members in your party?";
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.MainMenu.MainMenuMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.MainMenuMode" /> class.
         /// </summary>
         public MainMenuMode() : base(false)
         {

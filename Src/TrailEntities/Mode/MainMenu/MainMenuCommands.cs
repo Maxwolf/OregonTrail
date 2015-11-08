@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Mode.MainMenu
+﻿namespace TrailEntities.Mode
 {
     /// <summary>
     ///     List of all the commands for starting a new game, this is basically the main menu of the simulation.

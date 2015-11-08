@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation;
 
-namespace TrailEntities.Mode.Store
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Offers up some free information about what items are important to the player and what they mean for the during the

@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Mode.ForkInRoad
+﻿namespace TrailEntities.Mode
 {
     public interface IForkInRoadMode : IMode
     {

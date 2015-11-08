@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Simulation;
 using TrailEntities.Widget;
 
-namespace TrailEntities.Mode.MainMenu
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     First panel on point information, shows how health of party members contributes to final score.

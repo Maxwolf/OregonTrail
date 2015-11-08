@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Mode.Trade
+﻿namespace TrailEntities.Mode
 {
     public enum TradingCommands
     {

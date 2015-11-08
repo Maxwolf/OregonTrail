@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation;
 
-namespace TrailEntities.Mode.MainMenu
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Shows the player information about what the various starting months mean.

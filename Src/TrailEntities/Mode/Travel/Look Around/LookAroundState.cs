@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation;
 
-namespace TrailEntities.Mode.Travel
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Tells the player about the point of interest they have just arrived at if they choose to look at it. Some locations

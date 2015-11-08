@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace TrailEntities.Mode.Options
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Erases all the saved JSON tombstone epitaphs on the disk so other players will not encounter them, new ones can be

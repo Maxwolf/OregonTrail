@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrailEntities.Mode.Travel
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Attaches a game state that will loop through random advice that is associated with the given point of interest.

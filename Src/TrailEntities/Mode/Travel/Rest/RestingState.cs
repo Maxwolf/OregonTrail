@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation;
 
-namespace TrailEntities.Mode.Travel
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Keeps track of a set number of days and every time the game mode is ticked a day is simulated and days to rest

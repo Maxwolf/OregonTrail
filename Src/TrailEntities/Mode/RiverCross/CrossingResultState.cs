@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace TrailEntities.Mode.RiverCross
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Runs the player over the river based on the crossing information. Depending on what happens a message will be

@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Text;
 
-namespace TrailEntities.Mode.Options
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Glorified options menu for the game that allows player to remove top ten high scores, remove saved games, erase
@@ -17,7 +17,7 @@ namespace TrailEntities.Mode.Options
         private OptionInfo _optionInfo;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.Options.OptionsMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.OptionsMode" /> class.
         /// </summary>
         public OptionsMode() : base(false)
         {

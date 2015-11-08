@@ -148,7 +148,7 @@
     <Compile Include="Simulation\Time\Months.cs" />
     <Compile Include="Simulation\Trail\TrailRegistry.cs" />
     <Compile Include="Simulation\Climate\ClimateSim.cs" />
-    <Compile Include="Simulation\SimBaseApp.cs" />
+    <Compile Include="Simulation\SimApp.cs" />
     <Compile Include="Simulation\Time\TimeSim.cs" />
     <Compile Include="Simulation\Trail\ForkInRoad.cs" />
     <Compile Include="Simulation\Trail\TrailSim.cs" />

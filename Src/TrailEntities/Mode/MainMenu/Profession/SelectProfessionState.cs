@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Simulation;
 
-namespace TrailEntities.Mode.MainMenu
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Facilitates the ability for a user to select a given profession for the party leader. This will determine the

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Simulation;
 
-namespace TrailEntities.Mode.Travel
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Allows the player to alter how many 'miles' their vehicle will attempt to travel in a given day, this also changes

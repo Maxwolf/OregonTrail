@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Simulation;
 
-namespace TrailEntities.Mode.Store
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Informs the player they need to purchase at least a single one of the specified SimItem in order to continue. This

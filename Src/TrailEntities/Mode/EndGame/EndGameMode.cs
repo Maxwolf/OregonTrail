@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Mode.EndGame
+﻿namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Attached when the party leader dies, or the vehicle reaches the end of the trail.

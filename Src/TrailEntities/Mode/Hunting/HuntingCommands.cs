@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Mode.Hunting
+﻿namespace TrailEntities.Mode
 {
     public enum HuntingCommands
     {

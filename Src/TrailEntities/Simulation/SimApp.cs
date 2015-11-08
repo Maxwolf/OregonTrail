@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using TrailEntities.Mode;
-using TrailEntities.Mode.MainMenu;
 using TrailEntities.Simulation.Time;
 
 namespace TrailEntities.Simulation
@@ -10,7 +9,7 @@ namespace TrailEntities.Simulation
     /// <summary>
     ///     Base simulation class that deals with ticks, time, named pipes, and game modes.
     /// </summary>
-    public abstract class SimBaseApp : TickSim
+    public abstract class SimApp : TickSim
     {
         public delegate void EndGame();
 
@@ -33,9 +32,9 @@ namespace TrailEntities.Simulation
         private const string GAMEMODE_EMPTY_TUI = "[NO GAME MODE ATTACHED]";
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailGame.SimBaseApp" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailGame.SimApp" /> class.
         /// </summary>
-        protected SimBaseApp()
+        protected SimApp()
         {
             // References all of the active game modes that need to be ticked.
             Modes = new Dictionary<ModeCategory, IMode>();

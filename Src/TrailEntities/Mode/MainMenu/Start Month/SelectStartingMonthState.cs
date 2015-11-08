@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation;
 using TrailEntities.Simulation.Time;
 
-namespace TrailEntities.Mode.MainMenu
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Offers the player the ability to change the starting month of the simulation, this affects how many resources will

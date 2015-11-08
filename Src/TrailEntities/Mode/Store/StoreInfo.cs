@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using TrailEntities.Entity;
-using TrailEntities.Simulation;
 
-namespace TrailEntities.Mode.Store
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Before any items are removed, or added to the store all the interactions are stored in receipt info object. When
@@ -17,7 +16,7 @@ namespace TrailEntities.Mode.Store
         private Dictionary<SimEntity, SimItem> _totalTransactions;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.Store.StoreInfo" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.StoreInfo" /> class.
         /// </summary>
         public StoreInfo()
         {

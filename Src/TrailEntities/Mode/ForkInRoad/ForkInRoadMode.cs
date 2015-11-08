@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TrailEntities.Simulation.Trail;
 
-namespace TrailEntities.Mode.ForkInRoad
+namespace TrailEntities.Mode
 {
     [GameMode(ModeCategory.ForkInRoad)]
     public sealed class ForkInRoadMode : GameMode<ForkInRoadCommands>, IForkInRoadMode

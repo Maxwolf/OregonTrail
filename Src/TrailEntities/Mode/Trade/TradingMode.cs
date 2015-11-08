@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TrailEntities.Entity;
 
-namespace TrailEntities.Mode.Trade
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Handles the interaction of the player party and another AI controlled party that offers up items for trading which

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrailEntities.Mode.RiverCross
+namespace TrailEntities.Mode
 {
     public sealed class CaulkRiverHelpState : ModeState<RiverCrossInfo>
     {

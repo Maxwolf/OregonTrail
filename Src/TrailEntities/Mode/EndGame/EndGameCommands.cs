@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Mode.EndGame
+﻿namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Defines the commands that can be used when the end game mode is attached and currently the active game mode in the

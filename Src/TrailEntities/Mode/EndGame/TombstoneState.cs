@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrailEntities.Mode.EndGame
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Used when the party leader dies, no matter what happens this prevents the rest of the game from moving forward and

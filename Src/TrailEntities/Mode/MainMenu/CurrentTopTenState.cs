@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation;
 using TrailEntities.Widget;
 
-namespace TrailEntities.Mode.MainMenu
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     References the top ten players in regards to final score they earned at the end of the game, this list is by

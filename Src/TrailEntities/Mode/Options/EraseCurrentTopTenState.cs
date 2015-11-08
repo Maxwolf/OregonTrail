@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace TrailEntities.Mode.Options
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Confirm the player wishes to the destroy the current top ten list and reset it back to the hard-coded default

@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Mode.EndGame
+﻿namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Carries and processes the information related to tabulating end game score, also has the ability to reset the

@@ -2,7 +2,7 @@
 using TrailEntities.Entity;
 using TrailEntities.Simulation.Time;
 
-namespace TrailEntities.Mode.MainMenu
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Holds all of the information required to kick-start a running game simulation onto a trail path with people,
@@ -17,7 +17,7 @@ namespace TrailEntities.Mode.MainMenu
         private Months _startingMonth;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.MainMenu.MainMenuInfo" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Mode.MainMenuInfo" /> class.
         /// </summary>
         public MainMenuInfo()
         {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace TrailEntities.Mode.RiverCross
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Information about what fording a river means and how it works for the player vehicle and their party members.

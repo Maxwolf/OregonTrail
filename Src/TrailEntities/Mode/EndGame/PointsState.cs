@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrailEntities.Mode.EndGame
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Shows point tabulation based on current simulation statistics. This way if the player dies or finishes the game we

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrailEntities.Mode.RiverCross
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Shown to the user the first time they cross a river, this way it can be explained to them they must cross it in

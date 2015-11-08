@@ -3,15 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Mode;
-using TrailEntities.Mode.EndGame;
-using TrailEntities.Mode.ForkInRoad;
-using TrailEntities.Mode.Hunting;
-using TrailEntities.Mode.MainMenu;
-using TrailEntities.Mode.Options;
-using TrailEntities.Mode.RiverCross;
-using TrailEntities.Mode.Store;
-using TrailEntities.Mode.Trade;
-using TrailEntities.Mode.Travel;
 using TrailEntities.Scoring;
 using TrailEntities.Simulation;
 using TrailEntities.Simulation.Climate;
@@ -24,7 +15,7 @@ namespace TrailEntities
     /// <summary>
     ///     Receiver - The main logic will be implemented here and it knows how to perform the necessary actions.
     /// </summary>
-    public sealed class GameSimApp : SimBaseApp
+    public sealed class GameSimApp : SimApp
     {
         /// <summary>
         ///     Holds a constant representation of the string telling the user to press enter key to continue so we don't repeat

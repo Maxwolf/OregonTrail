@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrailEntities.Mode.RiverCross
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Explains to the user how many monies and days they will be charged to cross the river using the ferry and to

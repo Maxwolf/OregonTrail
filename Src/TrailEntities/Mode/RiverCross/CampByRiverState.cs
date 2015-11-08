@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrailEntities.Mode.RiverCross
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Attached if the player decides to rest by the river for a specified amount of time. Events will still tick here as

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation;
 using TrailEntities.Widget;
 
-namespace TrailEntities.Mode.Travel
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Shows the player their vehicle and list of all the points in the trail they could possibly travel to. It marks the

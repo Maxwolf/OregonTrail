@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Mode.RiverCross
+﻿namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Determines what kind of river crossing the player would like to perform the time comes to dice roll the probability
