@@ -33,7 +33,7 @@ namespace TrailEntities
         public override string OnRenderState()
         {
             var welcomePoint = new StringBuilder();
-            if (GameSimApp.Instance.Trail.IsFirstPointOfInterest())
+            if (GameSimApp.Instance.Trail.IsFirstLocation())
             {
                 // First point of interest has slightly different message about time travel.
                 welcomePoint.Append(

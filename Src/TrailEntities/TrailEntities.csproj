@@ -53,6 +53,7 @@
     <Compile Include="Event\RandomEventAttribute.cs" />
     <Compile Include="Main Menu\Help\IntroduceStoreState.cs" />
     <Compile Include="Random Event\RandomEventCommands.cs" />
+    <Compile Include="Random Event\RandomEventMode.cs" />
     <Compile Include="Scoring\Highscore.cs" />
     <Compile Include="Scoring\Performance.cs" />
     <Compile Include="Options\EraseCurrentTopTenState.cs" />

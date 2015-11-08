@@ -279,14 +279,14 @@ namespace TrailEntities
                     return new RiverCrossingMode();
                 case ModeType.Store:
                     return new StoreMode();
-                case ModeType.InitialPurchases:
-                    return new StoreMode(true);
                 case ModeType.Trade:
                     return new TradingMode();
                 case ModeType.ManagementOptions:
                     return new OptionsMode();
                 case ModeType.EndGame:
                     return new EndGameMode();
+                case ModeType.RandomEvent:
+                    return new RandomEventMode();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(modeType), modeType, null);
             }

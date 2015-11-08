@@ -57,7 +57,7 @@ namespace TrailEntities
         private void ContinueOnTrail()
         {
             // Player just starting this section of the trail will get prompt about total distance needed to cover it before starting.
-            if (!GameSimApp.Instance.Trail.ReachedNextPoint() && !GameSimApp.Instance.Trail.IsFirstPointOfInterest())
+            if (!GameSimApp.Instance.Trail.ReachedNextPoint() && !GameSimApp.Instance.Trail.IsFirstLocation())
             {
                 CurrentState = new DriveState(this, TravelInfo);
             }
@@ -163,11 +163,11 @@ namespace TrailEntities
             base.OnReachNextLocation(nextPoint);
 
             // On the first point we are going to force the look around state onto the traveling mode without asking.
-            if (GameSimApp.Instance.Trail.IsFirstPointOfInterest())
+            if (GameSimApp.Instance.Trail.IsFirstLocation())
             {
                 CurrentState = new LookAroundState(this, TravelInfo);
             }
-            else if (!GameSimApp.Instance.Trail.IsFirstPointOfInterest() &&
+            else if (!GameSimApp.Instance.Trail.IsFirstLocation() &&
                      GameSimApp.Instance.Vehicle.Odometer > 0 &&
                      GameSimApp.Instance.TotalTurns > 0)
             {

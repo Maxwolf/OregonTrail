@@ -139,7 +139,7 @@ namespace TrailEntities
         ///     states to check this for doing special actions on the first move.
         /// </summary>
         /// <returns>TRUE if first point on trail, FALSE if not.</returns>
-        public bool IsFirstPointOfInterest()
+        public bool IsFirstLocation()
         {
             return LocationIndex <= 0 && GameSimApp.Instance.TotalTurns <= 0;
         }

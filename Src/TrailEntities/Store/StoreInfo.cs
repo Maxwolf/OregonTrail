@@ -15,22 +15,12 @@ namespace TrailEntities
         private Dictionary<SimEntity, SimItem> _totalTransactions;
 
         /// <summary>
-        ///     Creates a new store transaction tracker.
-        /// </summary>
-        /// <param name="shouldShowAdvice">Sets the bool for showing store advice, defaults to false.</param>
-        public StoreInfo(bool shouldShowAdvice = false)
-        {
-            ShouldShowStoreAdvice = shouldShowAdvice;
-            _totalTransactions = new Dictionary<SimEntity, SimItem>(GameSimApp.DefaultInventory);
-        }
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.StoreInfo" /> class.
         /// </summary>
         public StoreInfo()
         {
-            ShouldShowStoreAdvice = false;
-            _totalTransactions = new Dictionary<SimEntity, SimItem>();
+            ShouldShowStoreAdvice = GameSimApp.Instance.Trail.IsFirstLocation();
+            _totalTransactions = new Dictionary<SimEntity, SimItem>(GameSimApp.DefaultInventory);
         }
 
         /// <summary>
