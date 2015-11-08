@@ -47,8 +47,9 @@
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />
     <Compile Include="Event\EventCategory.cs" />
-    <Compile Include="Event\Events.cs" />
-    <Compile Include="Event\TravelEventAttribute.cs" />
+    <Compile Include="Event\EventItem.cs" />
+    <Compile Include="Event\Medical\DeathPlayer.cs" />
+    <Compile Include="Event\RandomEventAttribute.cs" />
     <Compile Include="Main Menu\Help\IntroduceStoreState.cs" />
     <Compile Include="Scoring\Highscore.cs" />
     <Compile Include="Scoring\Performance.cs" />
@@ -74,7 +75,6 @@
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
     <Compile Include="Event\Accident\AccidentEvent.cs" />
     <Compile Include="Event\Animal\AnimalEvent.cs" />
-    <Compile Include="Event\TravelEvent.cs" />
     <Compile Include="Event\Medical\IllnessEvent.cs" />
     <Compile Include="Event\Warning\WarningEvent.cs" />
     <Compile Include="Event\Weather\WeatherEvent.cs" />

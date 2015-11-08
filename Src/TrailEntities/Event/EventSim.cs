@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 
 namespace TrailEntities
 {
@@ -14,7 +17,7 @@ namespace TrailEntities
         /// <summary>
         ///     References all of the events that have been triggered by the system in chronological order they occurred.
         /// </summary>
-        private SortedDictionary<string, TravelEvent> _events;
+        private SortedDictionary<string, Type> _events;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.EventSim" /> class.
@@ -22,14 +25,17 @@ namespace TrailEntities
         public EventSim()
         {
             // Create a new dictionary of events, set counter to zero for random event selector.
-            _events = new SortedDictionary<string, TravelEvent>();
+            _events = new SortedDictionary<string, Type>();
             PopulateEvents();
+
+            // Test event!
+            TriggerEvent("DeathPlayer");
         }
 
         /// <summary>
         ///     Stores all previous and current events in the system, saved and loaded with simulation.
         /// </summary>
-        public IDictionary<string, TravelEvent> Events
+        public IDictionary<string, Type> Events
         {
             get { return _events; }
         }
@@ -41,17 +47,18 @@ namespace TrailEntities
         private void PopulateEvents()
         {
             // Get all the types marked with the random event attribute.
-            var eventTypes = GetTypesWith<TravelEventAttribute>(true);
+            var eventTypes = GetTypesWith<RandomEventAttribute>(true);
 
             // Loop through all the types we got from reflection.
             foreach (var eventType in eventTypes)
             {
-                // Cast type as event item and create instance of it.
-                var eventItem = Activator.CreateInstance(eventType) as TravelEvent;
+                // Check if the class is abstract base class, we don't want to add that.
+                if (eventType.IsAbstract)
+                    continue;
 
-                // Adds the event to the list, no duplicate events are allowed.
-                if (eventItem != null && !_events.ContainsKey(eventItem.Name))
-                    _events.Add(eventItem.Name, eventItem);
+                // Adds the event item to the list, no duplicate events are allowed.
+                if (!_events.ContainsKey(eventType.Name))
+                    _events.Add(eventType.Name, eventType);
             }
         }
 
@@ -81,8 +88,18 @@ namespace TrailEntities
 
             // Rolls the virtual dice and executes event if one is found that matches index.
             var foundEvent = _events.ElementAtOrDefault(GameSimApp.Instance.Random.Next(100));
+
+            // Check if the event key is empty or null.
+            if (string.IsNullOrEmpty(foundEvent.Key) ||
+                string.IsNullOrWhiteSpace(foundEvent.Key))
+                return;
+
+            // Check if the event value is null or default value.
+            if (foundEvent.Equals(default(KeyValuePair<string, Type>)))
+                return;
+
             Debug.Print("Executing event: " + foundEvent.Key);
-            foundEvent.Value?.Execute();
+            TriggerEvent(foundEvent.Key);
         }
 
         /// <summary>
@@ -90,17 +107,31 @@ namespace TrailEntities
         /// </summary>
         public void TriggerEvent(string eventName)
         {
-            // Check if the inputted event name is null or not.
+            // Check if event name is null or empty whitespace.
             if (string.IsNullOrEmpty(eventName) ||
                 string.IsNullOrWhiteSpace(eventName))
                 return;
 
-            // Check event names for matching that of one in our dictionary.
-            if (_events[eventName] != null)
-            {
-                // Fire the event if we found it in the dictionary.
-                _events[eventName].Execute();
-            }
+            // Check event object is null.
+            if (_events[eventName] == null)
+                return;
+
+            // Get the constructor and create an instance of event item.
+            var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+            var instantiatedType = Activator.CreateInstance(
+                _events[eventName],
+                flags,
+                null,
+                new object[] { _events[eventName].Name },
+                CultureInfo.InvariantCulture);
+
+            // Get the event item method by name manually.
+            var eventMethod = _events[eventName].GetMethod("Execute");
+
+            // Invoke with a parameter string builder object we will get a string back from execute method.
+            var eventTUI = new StringBuilder();
+            var eventValue = eventMethod.Invoke(instantiatedType, new object[] {eventTUI});
+            Debug.Print("Event spat back string: " + eventValue);
         }
     }
 }

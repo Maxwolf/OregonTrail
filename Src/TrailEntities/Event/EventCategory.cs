@@ -7,11 +7,6 @@
     public enum EventCategory
     {
         /// <summary>
-        ///     Reserved for default event initialization.
-        /// </summary>
-        Unknown = 0,
-
-        /// <summary>
         ///     When something bad happens to vehicle or party members.
         /// </summary>
         Accident = 1,
