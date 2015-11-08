@@ -345,7 +345,7 @@ namespace TrailEntities.Entity
                 person.TickPerson();
             }
 
-            // Check for random events that might trigger. Typically they will alter inventory, people, vehicle, etc. They can even attach new game modes and modify states of others.
+            // Check for random events that might trigger.
             GameSimApp.Instance.Director.TriggerRandomEvent();
 
             // Use our altered mileage to affect how far the vehicle has traveled in todays tick..

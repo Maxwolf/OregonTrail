@@ -62,6 +62,7 @@ namespace TrailEntities.Travel
 
             // Simulate next two-week block of time, calculate mileage, check events...
             hasContinuedOnTrail = true;
+            UserData.HasLookedAround = false;
             ParentMode.CurrentState = new DriveState(ParentMode, UserData);
         }
     }

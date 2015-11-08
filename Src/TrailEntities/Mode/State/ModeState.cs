@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace TrailEntities.Mode
 {
@@ -50,8 +51,6 @@ namespace TrailEntities.Mode
         /// <returns>
         ///     true if the specified objects are equal; otherwise, false.
         /// </returns>
-        /// <param name="x">The first object of type <paramref name="T" /> to compare.</param>
-        /// <param name="y">The second object of type <paramref name="T" /> to compare.</param>
         public bool Equals(ModeState<T> x, ModeState<T> y)
         {
             return x.Equals(y);
@@ -202,12 +201,10 @@ namespace TrailEntities.Mode
         /// </returns>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
-        /// <exception cref="T:System.ArgumentException">
-        ///     Type <paramref name="T" /> does not implement either the
-        ///     <see cref="T:System.IComparable`1" /> generic interface or the <see cref="T:System.IComparable" /> interface.
-        /// </exception>
         public override int Compare(ModeState<T> x, ModeState<T> y)
         {
+            Debug.Assert(x != null, "x != null");
+            Debug.Assert(y != null, "y != null");
             var result = string.Compare(x.GetType().Name, y.GetType().Name, StringComparison.Ordinal);
             if (result != 0) return result;
 

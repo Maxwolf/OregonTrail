@@ -29,10 +29,10 @@ namespace TrailEntities.Event
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.
         /// </summary>
-        public override string Execute(StringBuilder tui)
+        public override string Execute(StringBuilder eventActionDescription)
         {
-            tui.Append("Party member has died");
-            return tui.ToString();
+            eventActionDescription.Append("Party member has died");
+            return eventActionDescription.ToString();
         }
     }
 }

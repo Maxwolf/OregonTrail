@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using TrailEntities.Event;
 using TrailEntities.Mode;
 
 namespace TrailEntities.Travel
@@ -11,10 +13,42 @@ namespace TrailEntities.Travel
     public sealed class RandomEventState : ModeState<TravelInfo>
     {
         /// <summary>
-        ///     This constructor will be used by the other one
+        ///     Holds all of the text from the random event after it executes so we can display it to the user without having to
+        ///     run it again.
         /// </summary>
-        public RandomEventState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        private StringBuilder _randomEventText;
+
+        /// <summary>
+        ///     Determines if the player is done reading about what the random event has done to them.
+        /// </summary>
+        private bool _readRandomEventText;
+
+        /// <summary>
+        ///     Random event class is typically attached via an event delegate being triggered somewhere else in the simulation.
+        /// </summary>
+        /// <param name="gameMode">Parent game mode of this state.</param>
+        /// <param name="userData">Custom user data for this game mode that is shared across all states.</param>
+        /// <param name="eventItem">
+        ///     The actual event that director wants executed and information displayed to user about what it
+        ///     does.
+        /// </param>
+        public RandomEventState(IMode gameMode, TravelInfo userData, EventItem eventItem) : base(gameMode, userData)
         {
+            // Create new string builder that will hold event execution data.
+            _randomEventText = new StringBuilder();
+
+            // Execute the event which should return us some text to display to user about what it did to running simulation.
+            var eventText = eventItem.Execute(_randomEventText);
+
+            // Complain if the event text is empty.
+            if (string.IsNullOrEmpty(eventText) || string.IsNullOrWhiteSpace(eventText))
+                throw new InvalidOperationException($"Executed random event {eventItem.Name} from director, but it returned no text data!");
+
+            // Add the text to our output about the random event.
+            _randomEventText.AppendLine($"{eventText}{Environment.NewLine}");
+
+            // Wait for user input...
+            _randomEventText.Append(GameSimApp.PRESS_ENTER);
         }
 
         /// <summary>
@@ -23,7 +57,7 @@ namespace TrailEntities.Travel
         /// </summary>
         public override string OnRenderState()
         {
-            throw new NotImplementedException();
+            return _randomEventText.ToString();
         }
 
         /// <summary>
@@ -32,7 +66,11 @@ namespace TrailEntities.Travel
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            if (_readRandomEventText)
+                return;
+
+            _readRandomEventText = true;
+            ParentMode.CurrentState = null;
         }
     }
 }

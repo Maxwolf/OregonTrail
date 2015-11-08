@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using TrailEntities.Event;
 using TrailEntities.Mode;
 using TrailEntities.Trail;
 
@@ -15,6 +16,9 @@ namespace TrailEntities.Travel
         /// </summary>
         public TravelMode() : base(false)
         {
+            // Event director has event to know when events are triggered.
+            GameSimApp.Instance.Director.OnEventTriggered += Director_OnEventTriggered;
+
             // Keep track of basic information about menu choices, vehicle and party stats, trades, advice, etc.
             TravelInfo = new TravelInfo();
 
@@ -38,6 +42,18 @@ namespace TrailEntities.Travel
         }
 
         /// <summary>
+        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
+        /// </summary>
+        protected override void OnModeRemoved(ModeType modeType)
+        {
+            base.OnModeRemoved(modeType);
+
+            // Event director has event for when he triggers events.
+            if (GameSimApp.Instance.Director != null)
+                GameSimApp.Instance.Director.OnEventTriggered -= Director_OnEventTriggered;
+        }
+
+        /// <summary>
         ///     Attaches state that picks strings from array at random to show from point of interest.
         /// </summary>
         private void TalkToPeople()
@@ -51,6 +67,20 @@ namespace TrailEntities.Travel
         private void BuySupplies()
         {
             GameSimApp.Instance.AddMode(ModeType.Store);
+        }
+
+        /// <summary>
+        ///     Fired when the event director triggers an event because it rolled the dice and hit it or it was forcefully
+        ///     triggered by some method under a defined condition.
+        /// </summary>
+        /// <param name="eventItem">
+        ///     Event that wants to be executed, the director has only passed this object to us to perform work
+        ///     with.
+        /// </param>
+        private void Director_OnEventTriggered(EventItem eventItem)
+        {
+            // Set the current state of the travel mode to be random event mode.
+            CurrentState = new RandomEventState(this, TravelInfo, eventItem);
         }
 
         /// <summary>
