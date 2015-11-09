@@ -23,7 +23,7 @@ namespace TrailEntities.Game.MainMenu
         public ConfirmPlayerNamesState(ModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
-            GameSimApp.Instance.SetData(userData);
+            GameSimulationApp.Instance.SetData(userData);
 
             // Create string builder, counter, print info about party members.
             _confirmPartyText = new StringBuilder();

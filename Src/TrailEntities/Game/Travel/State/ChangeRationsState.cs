@@ -26,7 +26,7 @@ namespace TrailEntities.Game.Travel
             _ration = new StringBuilder();
             _ration.Append($"{Environment.NewLine}Change food rations{Environment.NewLine}");
             _ration.Append(
-                $"(currently \"{GameSimApp.Instance.Vehicle.Ration}\"){Environment.NewLine}{Environment.NewLine}");
+                $"(currently \"{GameSimulationApp.Instance.Vehicle.Ration}\"){Environment.NewLine}{Environment.NewLine}");
             _ration.Append($"The amount of food the people in{Environment.NewLine}");
             _ration.Append($"your party eat each day can{Environment.NewLine}");
             _ration.Append($"change. These amounts are:{Environment.NewLine}{Environment.NewLine}");
@@ -56,15 +56,15 @@ namespace TrailEntities.Game.Travel
             switch (input.ToUpperInvariant())
             {
                 case "1":
-                    GameSimApp.Instance.Vehicle.ChangeRations(RationLevel.Filling);
+                    GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.Filling);
                     ParentMode.RemoveState();
                     break;
                 case "2":
-                    GameSimApp.Instance.Vehicle.ChangeRations(RationLevel.Meager);
+                    GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.Meager);
                     ParentMode.RemoveState();
                     break;
                 case "3":
-                    GameSimApp.Instance.Vehicle.ChangeRations(RationLevel.BareBones);
+                    GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.BareBones);
                     ParentMode.RemoveState();
                     break;
                 default:

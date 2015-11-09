@@ -51,7 +51,7 @@ namespace TrailEntities.Game.Travel
                 ? $"days{Environment.NewLine}{Environment.NewLine}"
                 : $"day{Environment.NewLine}{Environment.NewLine}");
 
-            rest.Append(GameSimApp.PRESS_ENTER);
+            rest.Append(GameSimulationApp.PRESS_ENTER);
             return rest.ToString();
         }
 

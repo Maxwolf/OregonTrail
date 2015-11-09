@@ -54,10 +54,10 @@ namespace TrailEntities.Mode
             _menuFooter = string.Empty;
 
             // Hook event to know when we have reached a location point of interest.
-            GameSimApp.Instance.Trail.OnReachPointOfInterest += OnReachNextLocation;
+            GameSimulationApp.Instance.Trail.OnReachPointOfInterest += OnReachNextLocation;
 
             // Cast the current point of interest into a settlement object since that is where stores are.
-            CurrentPoint = GameSimApp.Instance.Trail.GetCurrentLocation();
+            CurrentPoint = GameSimulationApp.Instance.Trail.GetCurrentLocation();
             if (CurrentPoint == null)
                 throw new InvalidCastException("Unable to get current location from trail simulation!");
         }
@@ -66,7 +66,7 @@ namespace TrailEntities.Mode
         ///     Parses the type of state passed in as parameter and creates the state by manually calling the constructor on it and
         ///     passing instances of parent game gameMode and user info object.
         /// </summary>
-        /// <param name="state">Type of the gameMode state class which should be attached to this game gameMode.</param>
+        /// <param name="state">EventType of the gameMode state class which should be attached to this game gameMode.</param>
         public void AddState(Type state)
         {
             // Check if the type is a class.
@@ -420,7 +420,7 @@ namespace TrailEntities.Mode
         /// </summary>
         protected virtual void OnModeRemoved(GameMode modeType)
         {
-            GameSimApp.Instance.Trail.OnReachPointOfInterest -= OnReachNextLocation;
+            GameSimulationApp.Instance.Trail.OnReachPointOfInterest -= OnReachNextLocation;
             _menuChoices = null;
         }
 

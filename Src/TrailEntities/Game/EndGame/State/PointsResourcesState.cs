@@ -47,7 +47,7 @@ namespace TrailEntities.Game.EndGame
             _pointsItems.AppendLine(partyTable);
 
             // Wait for player input before going to next information state...
-            _pointsItems.Append(GameSimApp.PRESS_ENTER);
+            _pointsItems.Append(GameSimulationApp.PRESS_ENTER);
         }
 
         /// <summary>

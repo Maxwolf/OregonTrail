@@ -11,7 +11,7 @@ namespace TrailEntities.Simulation
     /// <summary>
     ///     Base simulation class that deals with ticks, time, named pipes, and game GameMode.
     /// </summary>
-    public abstract class SimApp : TickSim
+    public abstract class SimulationApp : TickSimulation
     {
         public delegate void EndGame();
 
@@ -40,9 +40,9 @@ namespace TrailEntities.Simulation
         private ModeFactory _modeFactory;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailGame.SimApp" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
         /// </summary>
-        protected SimApp()
+        protected SimulationApp()
         {
             // References all of the active game GameMode that need to be ticked.
             AttachedModes = new SortedDictionary<GameMode, ModeProduct>();

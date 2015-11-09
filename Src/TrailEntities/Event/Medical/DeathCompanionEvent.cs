@@ -6,13 +6,13 @@ namespace TrailEntities.Event.Medical
     ///     Called when one of your party members dies that is not the leader of the group, the game will still be able to
     ///     continue without this person.
     /// </summary>
-    public sealed class DeathCompanion : EventItem
+    public sealed class DeathCompanionEvent : DirectorEventItem
     {
         /// <summary>
         ///     Creates a new event item using class activator and reflection to pass in name to constructor manually.
         /// </summary>
         /// <param name="name">Name of the event as it should be known to the simulation, used as key in list of all events.</param>
-        public DeathCompanion(string name) : base(name)
+        public DeathCompanionEvent(string name) : base(name)
         {
         }
 
@@ -20,9 +20,9 @@ namespace TrailEntities.Event.Medical
         ///     References what type of event this event is going to register as, allows for easy sorting and filtering by event
         ///     director.
         /// </summary>
-        public override EventCategory Category
+        public override EventType EventType
         {
-            get { return EventCategory.Person; }
+            get { return EventType.Person; }
         }
 
         /// <summary>

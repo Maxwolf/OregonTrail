@@ -28,7 +28,7 @@ namespace TrailEntities.Game.MainMenu
             UserData.StartingMonies = 1600;
 
             // Pass the game data to the simulation for each new game mode state.
-            GameSimApp.Instance.SetData(userData);
+            GameSimulationApp.Instance.SetData(userData);
 
             // Loop through every profession in the enumeration.
             _professionChooser = new StringBuilder();

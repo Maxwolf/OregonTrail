@@ -32,29 +32,29 @@ namespace TrailEntities.Game.Travel
         /// <param name="gameMode">Parent game mode of this state.</param>
         /// <param name="userData">Custom user data for this game mode that is shared across all states.</param>
         /// <param name="simEntity">Simulation entity that triggered the event to occur in the first place.</param>
-        /// <param name="eventItem">
+        /// <param name="directorEventItem">
         ///     The actual event that director wants executed and information displayed to user about what it
         ///     does.
         /// </param>
-        public RandomEventState(ModeProduct gameMode, RandomEventInfo userData, IEntity simEntity, EventItem eventItem)
+        public RandomEventState(ModeProduct gameMode, RandomEventInfo userData, IEntity simEntity, DirectorEventItem directorEventItem)
             : base(gameMode, userData)
         {
             // Create new string builder that will hold event execution data.
             _randomEventText = new StringBuilder();
 
             // Execute the event which should return us some text to display to user about what it did to running simulation.
-            var eventText = eventItem.Execute(_randomEventText);
+            var eventText = directorEventItem.Execute(_randomEventText);
 
             // Complain if the event text is empty.
             if (string.IsNullOrEmpty(eventText) || string.IsNullOrWhiteSpace(eventText))
                 throw new InvalidOperationException(
-                    $"Executed random event {eventItem.Name} from director, but it returned no text data!");
+                    $"Executed random event {directorEventItem.Name} from director, but it returned no text data!");
 
             // Add the text to our output about the random event.
             _randomEventText.AppendLine($"{simEntity.Name} {eventText}{Environment.NewLine}");
 
             // Wait for user input...
-            _randomEventText.Append(GameSimApp.PRESS_ENTER);
+            _randomEventText.Append(GameSimulationApp.PRESS_ENTER);
         }
 
         /// <summary>

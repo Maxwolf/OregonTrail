@@ -51,7 +51,7 @@ namespace TrailEntities.Game.Travel
         /// </summary>
         private void BuySupplies()
         {
-            GameSimApp.Instance.AttachMode(GameMode.Store);
+            GameSimulationApp.Instance.AttachMode(GameMode.Store);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace TrailEntities.Game.Travel
         private void ContinueOnTrail()
         {
             // Player just starting this section of the trail will get prompt about total distance needed to cover it before starting.
-            if (!GameSimApp.Instance.Trail.ReachedNextPoint() && !GameSimApp.Instance.Trail.IsFirstLocation())
+            if (!GameSimulationApp.Instance.Trail.ReachedNextPoint() && !GameSimulationApp.Instance.Trail.IsFirstLocation())
             {
                 AddState(typeof(DriveState));
             }
@@ -118,7 +118,7 @@ namespace TrailEntities.Game.Travel
         private void AttemptToTrade()
         {
             RemoveState();
-            GameSimApp.Instance.AttachMode(GameMode.Trade);
+            GameSimulationApp.Instance.AttachMode(GameMode.Trade);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace TrailEntities.Game.Travel
         private void HuntForFood()
         {
             RemoveState();
-            GameSimApp.Instance.AttachMode(GameMode.Hunt);
+            GameSimulationApp.Instance.AttachMode(GameMode.Hunt);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace TrailEntities.Game.Travel
         {
             // Header text for above menu comes from travel info object.
             var headerText = new StringBuilder();
-            headerText.Append(TravelInfo.TravelStatus(GameSimApp.Instance.Trail.ReachedNextPoint()));
+            headerText.Append(TravelInfo.TravelStatus(GameSimulationApp.Instance.Trail.ReachedNextPoint()));
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
 
@@ -166,13 +166,13 @@ namespace TrailEntities.Game.Travel
             base.OnReachNextLocation(nextPoint);
 
             // On the first point we are going to force the look around state onto the traveling gameMode without asking.
-            if (GameSimApp.Instance.Trail.IsFirstLocation())
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation())
             {
                 AddState(typeof(LookAroundState));
             }
-            else if (!GameSimApp.Instance.Trail.IsFirstLocation() &&
-                     GameSimApp.Instance.Vehicle.Odometer > 0 &&
-                     GameSimApp.Instance.TotalTurns > 0)
+            else if (!GameSimulationApp.Instance.Trail.IsFirstLocation() &&
+                     GameSimulationApp.Instance.Vehicle.Odometer > 0 &&
+                     GameSimulationApp.Instance.TotalTurns > 0)
             {
                 // Ensure we only ask if the player wants to stop when it is really not the first turn.
                 AddState(typeof(LookAroundQuestionState));

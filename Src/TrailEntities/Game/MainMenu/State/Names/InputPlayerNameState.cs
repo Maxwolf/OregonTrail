@@ -30,7 +30,7 @@ namespace TrailEntities.Game.MainMenu
             : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
-            GameSimApp.Instance.SetData(userData);
+            GameSimulationApp.Instance.SetData(userData);
 
             // Copy over current name index and question text to ask.
             _playerNameIndex = playerNameIndex;
@@ -70,7 +70,7 @@ namespace TrailEntities.Game.MainMenu
                 var crewNumber = 1;
 
                 // Loop through every player and print their name.
-                for (var index = 0; index < GameSimApp.MAX_PLAYERS; index++)
+                for (var index = 0; index < GameSimulationApp.MAX_PLAYERS; index++)
                 {
                     var name = string.Empty;
                     if (index < UserData.PlayerNames.Count)
@@ -108,7 +108,7 @@ namespace TrailEntities.Game.MainMenu
             if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
             {
                 // Only fill out names for slots that are empty.
-                for (var i = 0; i < (GameSimApp.MAX_PLAYERS - _playerNameIndex); i++)
+                for (var i = 0; i < (GameSimulationApp.MAX_PLAYERS - _playerNameIndex); i++)
                 {
                     UserData.PlayerNames.Insert(_playerNameIndex, GetPlayerName());
                 }
@@ -121,7 +121,7 @@ namespace TrailEntities.Game.MainMenu
             // Add the name to list since we will have something at this point even if randomly generated.
             UserData.PlayerNames.Insert(_playerNameIndex, input);
 
-            ParentMode.AddState(_playerNameIndex + 1 < GameSimApp.MAX_PLAYERS
+            ParentMode.AddState(_playerNameIndex + 1 < GameSimulationApp.MAX_PLAYERS
                 ? typeof (InputPlayerNameState)
                 : typeof (ConfirmPlayerNamesState));
         }
@@ -137,7 +137,7 @@ namespace TrailEntities.Game.MainMenu
                 "Kristy", "Sharice", "Joanna", "Chrystal", "Genevie", "Angela", "Ruthann", "Viva", "Iris", "Anderson",
                 "Siobhan", "Karey", "Jolie", "Carlene", "Lekisha", "Buck"
             };
-            return names[GameSimApp.Instance.Random.Next(names.Length)];
+            return names[GameSimulationApp.Instance.Random.Next(names.Length)];
         }
     }
 }

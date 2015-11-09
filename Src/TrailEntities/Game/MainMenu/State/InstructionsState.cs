@@ -29,7 +29,7 @@ namespace TrailEntities.Game.MainMenu
             _playInfo.Append($"Your journey over the Oregon Trail takes place in 1847. Start{Environment.NewLine}");
             _playInfo.Append($"ing in Independence, Missouri, you plan to take your family of{Environment.NewLine}");
             _playInfo.Append(
-                $"five over {GameSimApp.TRAIL_LENGTH} tough miles to Oregon City.{Environment.NewLine}{Environment.NewLine}");
+                $"five over {GameSimulationApp.TRAIL_LENGTH} tough miles to Oregon City.{Environment.NewLine}{Environment.NewLine}");
 
             _playInfo.Append($"Having saved for the trip, you bought a wagon and{Environment.NewLine}");
             _playInfo.Append($"now have to purchase the following items:{Environment.NewLine}{Environment.NewLine}");
@@ -53,7 +53,7 @@ namespace TrailEntities.Game.MainMenu
             _playInfo.Append($" wagon parts for unexpected emergencies){Environment.NewLine}{Environment.NewLine}");
 
             // Wait for user input...
-            _playInfo.Append(GameSimApp.PRESS_ENTER);
+            _playInfo.Append(GameSimulationApp.PRESS_ENTER);
         }
 
         /// <summary>

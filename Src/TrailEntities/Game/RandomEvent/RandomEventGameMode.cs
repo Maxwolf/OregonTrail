@@ -25,7 +25,7 @@ namespace TrailEntities.Game.RandomEvent
             eventInfo = new RandomEventInfo();
 
             // Event director has event to know when events are triggered.
-            GameSimApp.Instance.Director.OnEventTriggered += Director_OnEventTriggered;
+            GameSimulationApp.Instance.EventDirector.OnEventTriggered += Director_OnEventTriggered;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace TrailEntities.Game.RandomEvent
         ///     Fired when the event director triggers an event because it rolled the dice and hit it or it was forcefully
         ///     triggered by some method under a defined condition.
         /// </summary>
-        private void Director_OnEventTriggered(IEntity simEntity, EventItem eventItem)
+        private void Director_OnEventTriggered(IEntity simEntity, DirectorEventItem directorEventItem)
         {
             // Attached the random event state when we intercept an event it would like us to trigger.
             // TODO: Put event data into random event info object.
@@ -56,8 +56,8 @@ namespace TrailEntities.Game.RandomEvent
             base.OnModeRemoved(modeType);
 
             // Event director has event for when he triggers events.
-            if (GameSimApp.Instance.Director != null)
-                GameSimApp.Instance.Director.OnEventTriggered -= Director_OnEventTriggered;
+            if (GameSimulationApp.Instance.EventDirector != null)
+                GameSimulationApp.Instance.EventDirector.OnEventTriggered -= Director_OnEventTriggered;
         }
     }
 }

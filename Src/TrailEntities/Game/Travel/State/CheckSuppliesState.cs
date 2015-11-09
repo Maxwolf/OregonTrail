@@ -33,7 +33,7 @@ namespace TrailEntities.Game.Travel
             _supplies.AppendLine($"{Environment.NewLine}Your Supplies{Environment.NewLine}");
 
             // Loop through every inventory item in the vehicle.
-            foreach (var item in GameSimApp.Instance.Vehicle.Inventory)
+            foreach (var item in GameSimulationApp.Instance.Vehicle.Inventory)
             {
                 // Get the next item in the vehicle inventory.
                 var itemName = item.Value.Name.ToLowerInvariant();
@@ -51,7 +51,7 @@ namespace TrailEntities.Game.Travel
             }
 
             // Wait for user input...
-            _supplies.Append($"{Environment.NewLine}{GameSimApp.PRESS_ENTER}");
+            _supplies.Append($"{Environment.NewLine}{GameSimulationApp.PRESS_ENTER}");
         }
 
         /// <summary>

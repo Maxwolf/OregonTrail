@@ -3,35 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Event;
 using TrailEntities.Mode;
+using TrailEntities.Simulation;
 using TrailEntities.Widget;
 
-namespace TrailEntities.Simulation.Director
+namespace TrailEntities.Event
 {
     /// <summary>
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
     ///     game simulation normally.
     /// </summary>
-    public sealed class DirectorSim
+    public sealed class EventDirector
     {
         /// <summary>
         ///     Fired when an event has been triggered by the director.
         /// </summary>
-        public delegate void EventTriggered(IEntity simEntity, EventItem eventItem);
+        public delegate void EventTriggered(IEntity simEntity, DirectorEventItem directorEventItem);
 
         /// <summary>
         ///     References all of the events that have been triggered by the system in chronological order they occurred.
         /// </summary>
-        private SortedDictionary<string, EventItem> _events;
+        private SortedDictionary<string, DirectorEventItem> _events;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.Director.DirectorSim" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.EventDirector.EventDirector" /> class.
         /// </summary>
-        public DirectorSim()
+        public EventDirector()
         {
             // Create a new dictionary of events, set counter to zero for random event selector.
-            _events = new SortedDictionary<string, EventItem>();
+            _events = new SortedDictionary<string, DirectorEventItem>();
 
             // Create a new list for event history.
             EventHistory = new List<EventHistoryItem>();
@@ -57,13 +57,13 @@ namespace TrailEntities.Simulation.Director
         private void PopulateEvents()
         {
             // Get all the types marked with the random event attribute.
-            var eventTypes = AttributeHelper.GetTypesWith<RandomEventAttribute>(true);
+            var eventTypes = AttributeHelper.GetTypesWith<DirectorEventAttribute>(true);
 
             // Loop through all the types we got from reflection.
             foreach (var eventType in eventTypes)
             {
                 // Attempt to cash this instantiated type into an event item.
-                var castedEventItem = AttributeHelper.GetInstanceByType(eventType) as EventItem;
+                var castedEventItem = AttributeHelper.GetInstanceByType(eventType) as DirectorEventItem;
                 if (castedEventItem == null)
                     continue;
 
@@ -79,22 +79,22 @@ namespace TrailEntities.Simulation.Director
         /// </summary>
         /// <param name="simEntity">Entity which will be affected by event if triggered.</param>
         /// <param name="eventType">Event type the dice will be rolled against and attempted to trigger.</param>
-        public void TriggerEventByType(IEntity simEntity, EventCategory eventType)
+        public void TriggerEventByType(IEntity simEntity, EventType eventType)
         {
             // Create list we will use to store events of wanted type.
-            var eventTypeList = new List<EventItem>();
+            var eventTypeList = new List<DirectorEventItem>();
 
             // Gather up all the events by the specified type.
             foreach (var valuePairEvent in _events)
             {
-                if (valuePairEvent.Value.Category.Equals(eventType))
+                if (valuePairEvent.Value.EventType.Equals(eventType))
                 {
                     eventTypeList.Add(valuePairEvent.Value);
                 }
             }
 
             // Roll the virtual dice and look for event to trigger.
-            var foundEvent = eventTypeList.ElementAtOrDefault(GameSimApp.Instance.Random.Next(100));
+            var foundEvent = eventTypeList.ElementAtOrDefault(GameSimulationApp.Instance.Random.Next(100));
             if (foundEvent != null)
             {
                 // Pass off execution to helper method that will construct event instance from type.
@@ -110,7 +110,7 @@ namespace TrailEntities.Simulation.Director
         ///     actual class name which is what is used by the internal simulation event directors dictionary of available events.
         /// </summary>
         /// <param name="simEntity">Entity that would like to be tied to event being triggered.</param>
-        /// <param name="eventType">Type of event that should be triggered, if it exists in loaded event dictionary in director.</param>
+        /// <param name="eventType">EventType of event that should be triggered, if it exists in loaded event dictionary in director.</param>
         public void TriggerEvent(IEntity simEntity, Type eventType)
         {
             // Pass off execution to helper method that will construct event instance from type.
@@ -144,7 +144,7 @@ namespace TrailEntities.Simulation.Director
             var eventItem = _events[eventName];
 
             // Attach random event game gameMode before triggering event since it will listen for it using event delegate.
-            GameSimApp.Instance.AttachMode(GameMode.RandomEvent);
+            GameSimulationApp.Instance.AttachMode(GameMode.RandomEvent);
 
             // Fire off event so primary game simulation knows we executed an event with an event.
             OnEventTriggered?.Invoke(simEntity, eventItem);

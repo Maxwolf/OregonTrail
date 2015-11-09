@@ -42,13 +42,13 @@ namespace TrailEntities.Game.Travel
         public override string OnRenderState()
         {
             var nextStop = new StringBuilder();
-            var nextPoint = GameSimApp.Instance.Trail.GetNextLocation();
+            var nextPoint = GameSimulationApp.Instance.Trail.GetNextLocation();
             nextStop.Append(
-                $"{Environment.NewLine}From {ParentMode.CurrentPoint.Name} it is {GameSimApp.Instance.Trail.DistanceToNextLocation}{Environment.NewLine}");
+                $"{Environment.NewLine}From {ParentMode.CurrentPoint.Name} it is {GameSimulationApp.Instance.Trail.DistanceToNextLocation}{Environment.NewLine}");
             nextStop.Append($"miles to the {nextPoint.Name}{Environment.NewLine}{Environment.NewLine}");
 
             // Wait for user input...
-            nextStop.Append(GameSimApp.PRESS_ENTER);
+            nextStop.Append(GameSimulationApp.PRESS_ENTER);
             return nextStop.ToString();
         }
 

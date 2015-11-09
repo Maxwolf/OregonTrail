@@ -4,7 +4,7 @@
     ///     Defines the different kinds of events the simulation supports, used for sorting and easy grabbing of events by type
     ///     for dice rolling purposes when picking random events.
     /// </summary>
-    public enum EventCategory
+    public enum EventType
     {
         /// <summary>
         ///     When something bad happens to vehicle.

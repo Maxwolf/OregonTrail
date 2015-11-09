@@ -4,12 +4,12 @@ using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Entity.Person;
 using TrailEntities.Entity.Vehicle;
+using TrailEntities.Event;
 using TrailEntities.Game;
 using TrailEntities.Game.MainMenu;
 using TrailEntities.Game.Scoring;
 using TrailEntities.Mode;
 using TrailEntities.Simulation.Climate;
-using TrailEntities.Simulation.Director;
 using TrailEntities.Simulation.Time;
 using TrailEntities.Simulation.Trail;
 
@@ -18,7 +18,7 @@ namespace TrailEntities.Simulation
     /// <summary>
     ///     Receiver - The main logic will be implemented here and it knows how to perform the necessary actions.
     /// </summary>
-    public sealed class GameSimApp : SimApp
+    public sealed class GameSimulationApp : SimulationApp
     {
         /// <summary>
         ///     Holds a constant representation of the string telling the user to press enter key to continue so we don't repeat
@@ -38,9 +38,9 @@ namespace TrailEntities.Simulation
         public const int TRAIL_LENGTH = 2040;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimApp" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
         /// </summary>
-        private GameSimApp()
+        private GameSimulationApp()
         {
             // Repair status reference dictionary.
             RepairLevels = new Dictionary<string, int>();
@@ -59,23 +59,23 @@ namespace TrailEntities.Simulation
         /// <summary>
         ///     Keeps track of all the points of interest we want to visit from beginning to end that makeup the entire journey.
         /// </summary>
-        public TrailSim Trail { get; private set; }
+        public TrailSimulation Trail { get; private set; }
 
         /// <summary>
         ///     Singleton instance for the entire game simulation, does not block the calling thread though only listens for
         ///     commands.
         /// </summary>
-        public static GameSimApp Instance { get; private set; }
+        public static GameSimulationApp Instance { get; private set; }
 
         /// <summary>
         ///     Manages time in a linear since from the provided ticks in base simulation class. Handles days, months, and years.
         /// </summary>
-        public TimeSim Time { get; private set; }
+        public TimeSimulation Time { get; private set; }
 
         /// <summary>
         ///     Manages weather, temperature, humidity, and current grazing level for living animals.
         /// </summary>
-        public ClimateSim Climate { get; private set; }
+        public ClimateSimulation Climate { get; private set; }
 
         /// <summary>
         ///     Keeps track of the total number of points the player has earned through the course of the game.
@@ -86,7 +86,7 @@ namespace TrailEntities.Simulation
         ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
         ///     game GameMode, people, and vehicles.
         /// </summary>
-        public DirectorSim Director { get; private set; }
+        public EventDirector EventDirector { get; private set; }
 
         /// <summary>
         ///     Current vessel which the player character and his party are traveling inside of, provides means of transportation
@@ -202,7 +202,7 @@ namespace TrailEntities.Simulation
                 throw new InvalidOperationException(
                     "Unable to create new instance of game simulation since it already exists!");
 
-            Instance = new GameSimApp();
+            Instance = new GameSimulationApp();
         }
 
         protected override void OnDestroy()
@@ -215,7 +215,7 @@ namespace TrailEntities.Simulation
             ScoreTopTen = null;
             Time = null;
             Climate = null;
-            Director = null;
+            EventDirector = null;
             Trail = null;
             TotalTurns = 0;
             Vehicle = null;
@@ -233,7 +233,7 @@ namespace TrailEntities.Simulation
             base.OnFirstTick();
 
             // Linear time simulation with ticks.
-            Time = new TimeSim(1848, Months.March, 1);
+            Time = new TimeSimulation(1848, Months.March, 1);
             Time.DayEndEvent += TimeSimulation_DayEndEvent;
 
             // Scoring tracker and tabulator for end game results from current simulation state.
@@ -241,9 +241,9 @@ namespace TrailEntities.Simulation
             // TODO: Load custom list from JSON with user high scores altered from defaults.
 
             // Environment, weather, conditions, climate, tail, stats, event director, etc.
-            Director = new DirectorSim();
-            Climate = new ClimateSim(ClimateClassification.Moderate);
-            Trail = new TrailSim(TrailRegistry.OregonTrail());
+            EventDirector = new EventDirector();
+            Climate = new ClimateSimulation(ClimateClassification.Moderate);
+            Trail = new TrailSimulation(TrailRegistry.OregonTrail());
             TotalTurns = 0;
 
             // Vehicle information and events for changing face and rations.

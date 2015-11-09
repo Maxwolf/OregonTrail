@@ -8,7 +8,7 @@ namespace TrailEntities.Simulation.Time
     ///     system. The idea being that no matter what pulses our simulation like game engine, operating system, framework,
     ///     windows form, phone app, browser we can figure out what a second is from this.
     /// </summary>
-    public abstract class TickSim
+    public abstract class TickSimulation
     {
         /// <summary>
         ///     First tick of the simulation after startup.
@@ -53,9 +53,9 @@ namespace TrailEntities.Simulation.Time
         private SpinningPixel _spinningPixel;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.Time.TickSim" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.Time.TickSimulation" /> class.
         /// </summary>
-        protected TickSim()
+        protected TickSimulation()
         {
             // Date and time the simulation was started, which we use as benchmark for all future time passed.
             _lastTickTime = DateTime.UtcNow;

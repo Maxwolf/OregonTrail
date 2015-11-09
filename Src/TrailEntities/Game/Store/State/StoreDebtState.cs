@@ -42,9 +42,9 @@ namespace TrailEntities.Game.Store
             storeDebt.Append(
                 $"Whoa there partner! I see you got {UserData.Transactions.Count()} items to buy that are worth {UserData.GetTransactionTotalCost().ToString("C2")}.{Environment.NewLine}");
             storeDebt.Append(
-                $"You only got {GameSimApp.Instance.Vehicle.Balance.ToString("C2")}! Put some items back in order to leave the store...{Environment.NewLine}");
+                $"You only got {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")}! Put some items back in order to leave the store...{Environment.NewLine}");
 
-            storeDebt.Append(GameSimApp.PRESS_ENTER);
+            storeDebt.Append(GameSimulationApp.PRESS_ENTER);
             return storeDebt.ToString();
         }
 

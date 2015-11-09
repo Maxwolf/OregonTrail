@@ -10,7 +10,7 @@ namespace TrailEntities.Simulation.Trail
     ///     Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps
     ///     track of the vehicles current position on the trail and provides helper methods to quickly access it.
     /// </summary>
-    public sealed class TrailSim
+    public sealed class TrailSimulation
     {
         /// <summary>
         ///     Delegate that passes along the next point of interest that was reached to the event and any subscribers to it.
@@ -22,7 +22,7 @@ namespace TrailEntities.Simulation.Trail
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Trail" /> class.
         /// </summary>
         /// <param name="trail">Collection of points of interest which make up the trail the player is going to travel.</param>
-        public TrailSim(IEnumerable<Location> trail)
+        public TrailSimulation(IEnumerable<Location> trail)
         {
             // Builds the trail passed on parameter, sets location to negative one for startup.
             Locations = new List<Location>(trail);
@@ -66,10 +66,10 @@ namespace TrailEntities.Simulation.Trail
                 // Fire method to do some work and attach game GameMode based on this.
                 OnReachedPointOfInterest(currentPoint);
             }
-            else if (GameSimApp.Instance.Vehicle.Odometer >= GameSimApp.TRAIL_LENGTH)
+            else if (GameSimulationApp.Instance.Vehicle.Odometer >= GameSimulationApp.TRAIL_LENGTH)
             {
                 // Check for end of game in miles.
-                GameSimApp.Instance.AttachMode(GameMode.EndGame);
+                GameSimulationApp.Instance.AttachMode(GameMode.EndGame);
             }
         }
 
@@ -82,12 +82,12 @@ namespace TrailEntities.Simulation.Trail
         private static int CalculateNextPointDistance()
         {
             // Get the total amount of monies the player has spent on animals to pull their vehicle.
-            var cost_animals = GameSimApp.Instance.Vehicle.Inventory[SimEntity.Animal].TotalValue;
+            var cost_animals = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Animal].TotalValue;
 
             // Variables that will hold the distance we should travel in the next day.
-            var total_miles = GameSimApp.Instance.Vehicle.Mileage +
-                              GameSimApp.Instance.Trail.DistanceToNextLocation + (cost_animals - 110)/2.5 +
-                              10*GameSimApp.Instance.Random.NextDouble();
+            var total_miles = GameSimulationApp.Instance.Vehicle.Mileage +
+                              GameSimulationApp.Instance.Trail.DistanceToNextLocation + (cost_animals - 110)/2.5 +
+                              10*GameSimulationApp.Instance.Random.NextDouble();
 
             return (int) Math.Abs(total_miles);
         }
@@ -99,7 +99,7 @@ namespace TrailEntities.Simulation.Trail
         public void DecreaseDistanceToNextLocation()
         {
             // Move us towards the next point.
-            DistanceToNextLocation -= GameSimApp.Instance.Vehicle.Mileage;
+            DistanceToNextLocation -= GameSimulationApp.Instance.Vehicle.Mileage;
 
             // If distance to next area reaches zero or below we will arrive at next location.
             if (DistanceToNextLocation > 0)
@@ -143,7 +143,7 @@ namespace TrailEntities.Simulation.Trail
         /// <returns>TRUE if first point on trail, FALSE if not.</returns>
         public bool IsFirstLocation()
         {
-            return LocationIndex <= 0 && GameSimApp.Instance.TotalTurns <= 0;
+            return LocationIndex <= 0 && GameSimulationApp.Instance.TotalTurns <= 0;
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace TrailEntities.Simulation.Trail
         private void OnReachedPointOfInterest(Location nextPoint)
         {
             // Attach some game gameMode based on the relevance of the next point type.
-            GameSimApp.Instance.AttachMode(nextPoint.ModeType);
+            GameSimulationApp.Instance.AttachMode(nextPoint.ModeType);
 
             // Fire event here for API subscribers to know point was reached. 
             OnReachPointOfInterest?.Invoke(nextPoint);
@@ -167,7 +167,7 @@ namespace TrailEntities.Simulation.Trail
         /// </summary>
         public bool ReachedNextPoint()
         {
-            return DistanceToNextLocation.Equals(GameSimApp.Instance.Vehicle.Mileage);
+            return DistanceToNextLocation.Equals(GameSimulationApp.Instance.Vehicle.Mileage);
         }
     }
 }

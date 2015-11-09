@@ -32,11 +32,11 @@ namespace TrailEntities.Game.Travel
             _map = new StringBuilder();
             _map.Append($"{Environment.NewLine}Trail progress{Environment.NewLine}");
             _map.AppendLine(TextProgress.DrawProgressBar(
-                GameSimApp.Instance.Trail.LocationIndex,
-                GameSimApp.Instance.Trail.Locations.Count, 32));
+                GameSimulationApp.Instance.Trail.LocationIndex,
+                GameSimulationApp.Instance.Trail.Locations.Count, 32));
 
             // Wait for user input...
-            _map.Append($"{Environment.NewLine}{GameSimApp.PRESS_ENTER}");
+            _map.Append($"{Environment.NewLine}{GameSimulationApp.PRESS_ENTER}");
         }
 
         /// <summary>

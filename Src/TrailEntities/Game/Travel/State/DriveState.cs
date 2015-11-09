@@ -96,7 +96,7 @@ namespace TrailEntities.Game.Travel
             _swayBarText = _marqueeBar.Step();
 
             // Advances the simulation forward by a day every second (or each tick of simulation).
-            GameSimApp.Instance.TakeTurn();
+            GameSimulationApp.Instance.TakeTurn();
         }
 
         /// <summary>

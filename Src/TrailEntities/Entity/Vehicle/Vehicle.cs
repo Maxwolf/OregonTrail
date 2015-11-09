@@ -305,7 +305,7 @@ namespace TrailEntities.Entity.Vehicle
         /// <param name="startingMonies">Amount of money the vehicle should have to work with.</param>
         public void ResetVehicle(int startingMonies)
         {
-            _inventory = new Dictionary<SimEntity, SimItem>(GameSimApp.DefaultInventory);
+            _inventory = new Dictionary<SimEntity, SimItem>(GameSimulationApp.DefaultInventory);
             Balance = startingMonies;
             _passengers = new List<Person.Person>();
             Ration = RationLevel.Filling;
@@ -319,14 +319,14 @@ namespace TrailEntities.Entity.Vehicle
         public void TickVehicle()
         {
             // Figure out how far we need to go to reach the next point.
-            Mileage = GameSimApp.Instance.Trail.DistanceToNextLocation;
+            Mileage = GameSimulationApp.Instance.Trail.DistanceToNextLocation;
 
             // Determine how many miles we can move in a day on the trail based on amount of monies player spent on oxen to pull vehicle.
-            var cost_animals = GameSimApp.Instance.Vehicle.Inventory[SimEntity.Animal].TotalValue;
-            Mileage = (int) (Mileage + 200 + (cost_animals - 220)/5 + 10*GameSimApp.Instance.Random.NextDouble());
+            var cost_animals = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Animal].TotalValue;
+            Mileage = (int) (Mileage + 200 + (cost_animals - 220)/5 + 10*GameSimulationApp.Instance.Random.NextDouble());
 
             // Sometimes things just go slow on the trail.
-            Mileage = (int) (Mileage - 45 - GameSimApp.Instance.Random.NextDouble()/.02f);
+            Mileage = (int) (Mileage - 45 - GameSimulationApp.Instance.Random.NextDouble()/.02f);
 
             // Loop through all the people in the vehicle and tick them.
             foreach (var person in _passengers)
@@ -335,7 +335,7 @@ namespace TrailEntities.Entity.Vehicle
             }
 
             // Check for random events that might trigger regardless of calculations made.
-            GameSimApp.Instance.Director.TriggerEventByType(this, EventCategory.Vehicle);
+            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventType.Vehicle);
 
             // Use our altered mileage to affect how far the vehicle has traveled in todays tick..
             Odometer += Mileage;

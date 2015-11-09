@@ -76,7 +76,7 @@ namespace TrailEntities.Game.Store
             }
 
             // Wait for user input...
-            _storeHelp.Append(GameSimApp.PRESS_ENTER);
+            _storeHelp.Append(GameSimulationApp.PRESS_ENTER);
         }
 
         /// <summary>

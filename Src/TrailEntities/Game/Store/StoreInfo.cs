@@ -21,7 +21,7 @@ namespace TrailEntities.Game.Store
         /// </summary>
         public StoreInfo()
         {
-            _totalTransactions = new Dictionary<SimEntity, SimItem>(GameSimApp.DefaultInventory);
+            _totalTransactions = new Dictionary<SimEntity, SimItem>(GameSimulationApp.DefaultInventory);
         }
 
         /// <summary>

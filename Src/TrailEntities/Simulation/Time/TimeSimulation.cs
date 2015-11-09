@@ -4,7 +4,7 @@
     ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
     ///     simulation by one day. There are also other options and events for checking state, and changing state.
     /// </summary>
-    public sealed class TimeSim
+    public sealed class TimeSimulation
     {
         public delegate void DayHandler(int dayCount);
 
@@ -15,7 +15,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.SimulationTime" /> class.
         /// </summary>
-        public TimeSim(int startingYear, Months startingMonth, int startingDay)
+        public TimeSimulation(int startingYear, Months startingMonth, int startingDay)
         {
             // Create a new time object for our simulation.
             CurrentYear = startingYear;

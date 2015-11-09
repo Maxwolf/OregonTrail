@@ -23,7 +23,7 @@ namespace TrailEntities.Game.Store
             UpdateDebts();
 
             // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game gameMode also (travel gameMode always there).
-            if (GameSimApp.Instance.Trail.IsFirstLocation() && GameSimApp.Instance.AttachedModeCount > 1)
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation() && GameSimulationApp.Instance.AttachedModeCount > 1)
             {
                 StoreAdvice();
             }
@@ -120,7 +120,7 @@ namespace TrailEntities.Game.Store
         private void LeaveStore()
         {
             // Complain if the player does not have any oxen to pull their vehicle.
-            if (GameSimApp.Instance.Trail.IsFirstLocation() &&
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation() &&
                 StoreInfo.Transactions[SimEntity.Animal].Quantity <= 0)
             {
                 AddState(typeof(MissingItemState));
@@ -128,7 +128,7 @@ namespace TrailEntities.Game.Store
             }
 
             // Check if player can afford the items they have selected.
-            if (GameSimApp.Instance.Vehicle.Balance < StoreInfo.GetTransactionTotalCost())
+            if (GameSimulationApp.Instance.Vehicle.Balance < StoreInfo.GetTransactionTotalCost())
             {
                 AddState(typeof(StoreDebtState));
                 return;
@@ -150,21 +150,21 @@ namespace TrailEntities.Game.Store
                 return;
 
             // When detaching the store for first time we need to move the vehicle to the first spot on our virtual trail.
-            if (GameSimApp.Instance.Trail.IsFirstLocation())
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation())
             {
-                GameSimApp.Instance.Trail.ArriveAtNextLocation();
+                GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
             }
 
             // Modify the vehicles cash from purchases they made.
             var totalBill = StoreInfo.GetTransactionTotalCost();
-            var amountPlayerHas = GameSimApp.Instance.Vehicle.Balance - totalBill;
+            var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
             StoreInfo.Transactions[SimEntity.Cash] = new SimItem(StoreInfo.Transactions[SimEntity.Cash],
                 (int) amountPlayerHas);
 
             // Process all of the pending transactions in the store receipt info object.
             foreach (var transaction in StoreInfo.Transactions)
             {
-                GameSimApp.Instance.Vehicle.BuyItem(transaction.Value);
+                GameSimulationApp.Instance.Vehicle.BuyItem(transaction.Value);
             }
 
             // Remove all the transactions now that we have processed them.
@@ -180,12 +180,12 @@ namespace TrailEntities.Game.Store
             var headerText = new StringBuilder();
             headerText.Append($"--------------------------------{Environment.NewLine}");
             headerText.Append($"{CurrentPoint?.Name} General Store{Environment.NewLine}");
-            headerText.Append($"{GameSimApp.Instance.Time.Date}{Environment.NewLine}");
+            headerText.Append($"{GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
             headerText.Append("--------------------------------");
             MenuHeader = headerText.ToString();
 
             // Keep track if this is the first point of interest, it will alter how the store shows values.
-            var isFirstPoint = GameSimApp.Instance.Trail.IsFirstLocation();
+            var isFirstPoint = GameSimulationApp.Instance.Trail.IsFirstLocation();
 
             // Clear all the commands store had, then re-populate the list with them again so we can change the titles dynamically.
             ClearCommands();
@@ -227,13 +227,13 @@ namespace TrailEntities.Game.Store
 
             // Calculate how much monies the player has and the total amount of monies owed to store for pending transaction receipt.
             var totalBill = StoreInfo.GetTransactionTotalCost();
-            var amountPlayerHas = GameSimApp.Instance.Vehicle.Balance - totalBill;
+            var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
 
             // If at first location we show the total cost of the bill so far the player has racked up.
-            footerText.Append(GameSimApp.Instance.Trail.IsFirstLocation()
+            footerText.Append(GameSimulationApp.Instance.Trail.IsFirstLocation()
                 ? $"Total bill:            {totalBill.ToString("C2")}" +
                   $"{Environment.NewLine}Amount you have:       {amountPlayerHas.ToString("C2")}"
-                : $"You have {GameSimApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
+                : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
             MenuFooter = footerText.ToString();
         }
     }

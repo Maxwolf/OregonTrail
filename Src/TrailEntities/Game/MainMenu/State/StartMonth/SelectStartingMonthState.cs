@@ -25,7 +25,7 @@ namespace TrailEntities.Game.MainMenu
         public SelectStartingMonthState(ModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Pass the game data to the simulation for each new game mode state.
-            GameSimApp.Instance.SetData(userData);
+            GameSimulationApp.Instance.SetData(userData);
 
             // Tell the user they need to make a decision.
             _startMonthQuestion = new StringBuilder();

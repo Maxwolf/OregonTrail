@@ -52,7 +52,7 @@ namespace TrailEntities.Game.Store
             missingItem.Append(
                 $"You need to purchase at least a single {_missingSimItemEntity.DelineatingUnit} in order to begin your trip!{Environment.NewLine}");
 
-            missingItem.Append(GameSimApp.PRESS_ENTER);
+            missingItem.Append(GameSimulationApp.PRESS_ENTER);
             return missingItem.ToString();
         }
 

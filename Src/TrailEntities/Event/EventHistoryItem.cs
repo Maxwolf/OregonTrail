@@ -1,8 +1,8 @@
 ﻿using TrailEntities.Entity;
-using TrailEntities.Event;
+using TrailEntities.Simulation;
 using TrailEntities.Simulation.Time;
 
-namespace TrailEntities.Simulation.Director
+namespace TrailEntities.Event
 {
     /// <summary>
     ///     Represents an event that has occurred in the simulations past.
@@ -10,19 +10,19 @@ namespace TrailEntities.Simulation.Director
     public sealed class EventHistoryItem
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.Director.EventHistoryItem" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.EventDirector.EventHistoryItem" /> class.
         /// </summary>
-        public EventHistoryItem(IEntity entity, EventItem eventItem)
+        public EventHistoryItem(IEntity entity, DirectorEventItem directorEventItem)
         {
             // When the event happened.
-            Timestamp = GameSimApp.Instance.Time.Date;
+            Timestamp = GameSimulationApp.Instance.Time.Date;
 
             // Who triggered the event.
             SourceEntity = entity;
 
             // What the event name and category were.
-            EventName = eventItem.Name;
-            EventType = eventItem.Category;
+            EventName = directorEventItem.Name;
+            EventType = directorEventItem.EventType;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace TrailEntities.Simulation.Director
         /// <summary>
         ///     Defines what category of event this was.
         /// </summary>
-        public EventCategory EventType { get; }
+        public EventType EventType { get; }
 
         /// <summary>
         ///     Holds the name of the event that was fired.

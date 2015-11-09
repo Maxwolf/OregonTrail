@@ -37,7 +37,7 @@ namespace TrailEntities.Game.MainMenu
             _job.Append($"number of points and the{Environment.NewLine}");
             _job.Append($"banker earns the least.{Environment.NewLine}{Environment.NewLine}");
 
-            _job.Append(GameSimApp.PRESS_ENTER);
+            _job.Append(GameSimulationApp.PRESS_ENTER);
         }
 
         public override bool AcceptsInput

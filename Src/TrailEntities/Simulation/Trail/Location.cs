@@ -24,7 +24,7 @@ namespace TrailEntities.Simulation.Trail
             Name = name;
 
             // We know the settlement has a store if there are items in it to sell.
-            _storeItems = new Dictionary<SimEntity, SimItem>(GameSimApp.DefaultInventory);
+            _storeItems = new Dictionary<SimEntity, SimItem>(GameSimulationApp.DefaultInventory);
             HasStore = _storeItems.Count > 0 && storeOpen;
         }
 

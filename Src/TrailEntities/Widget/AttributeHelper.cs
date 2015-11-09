@@ -39,7 +39,7 @@ namespace TrailEntities.Widget
         /// <summary>
         ///     Inspects types for public, non-public constructors we can use or an instance of the given object.
         /// </summary>
-        /// <param name="objectType">Type of object we would like to create instance of.</param>
+        /// <param name="objectType">EventType of object we would like to create instance of.</param>
         /// <returns>Activated instance of object type. Ready to be casted to whatever the developer wants.</returns>
         public static object GetInstanceByType(Type objectType)
         {

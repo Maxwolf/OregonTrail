@@ -39,7 +39,7 @@ namespace TrailEntities.Game.EndGame
             _pointsHealth.Append($"in good health!{Environment.NewLine}{Environment.NewLine}");
 
             // Build a text table from people point distribution with custom headers.
-            var partyTextTable = GameSimApp.Instance.RepairLevels.Values.ToStringTable(
+            var partyTextTable = GameSimulationApp.Instance.RepairLevels.Values.ToStringTable(
                 new[] {"Health of Party", "Points per Person"},
                 u => Enum.Parse(typeof (RepairStatus), u.ToString()).ToString(),
                 u => u);
@@ -48,7 +48,7 @@ namespace TrailEntities.Game.EndGame
             _pointsHealth.AppendLine(partyTextTable);
 
             // Wait for use input...
-            _pointsHealth.Append(GameSimApp.PRESS_ENTER);
+            _pointsHealth.Append(GameSimulationApp.PRESS_ENTER);
         }
 
         /// <summary>

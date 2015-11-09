@@ -172,13 +172,13 @@ namespace TrailEntities.Entity.Person
         /// </summary>
         private void ConsumeFood()
         {
-            var cost_food = GameSimApp.Instance.Vehicle.Inventory[SimEntity.Food].TotalValue;
-            cost_food = cost_food - 8 - 5*(int) GameSimApp.Instance.Vehicle.Ration;
+            var cost_food = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Food].TotalValue;
+            cost_food = cost_food - 8 - 5*(int) GameSimulationApp.Instance.Vehicle.Ration;
             if (cost_food >= 13)
             {
                 // Consume the food since we still have some.
-                GameSimApp.Instance.Vehicle.Inventory[SimEntity.Food] =
-                    new SimItem(GameSimApp.Instance.Vehicle.Inventory[SimEntity.Food], (int) cost_food);
+                GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Food] =
+                    new SimItem(GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Food], (int) cost_food);
             }
             else
             {
@@ -194,40 +194,40 @@ namespace TrailEntities.Entity.Person
         /// </summary>
         private void CheckIllness()
         {
-            if (100*GameSimApp.Instance.Random.NextDouble() <
-                10 + 35*((int) GameSimApp.Instance.Vehicle.Ration - 1))
+            if (100*GameSimulationApp.Instance.Random.NextDouble() <
+                10 + 35*((int) GameSimulationApp.Instance.Vehicle.Ration - 1))
             {
                 // Mild illness.
-                GameSimApp.Instance.Vehicle.ReduceMileage(5);
+                GameSimulationApp.Instance.Vehicle.ReduceMileage(5);
                 Health = RepairStatus.Fair;
             }
-            else if (100*GameSimApp.Instance.Random.NextDouble() < 100 -
-                     (40/GameSimApp.Instance.Vehicle.Passengers.Count()*((int) GameSimApp.Instance.Vehicle.Ration - 1)))
+            else if (100*GameSimulationApp.Instance.Random.NextDouble() < 100 -
+                     (40/GameSimulationApp.Instance.Vehicle.Passengers.Count()*((int) GameSimulationApp.Instance.Vehicle.Ration - 1)))
             {
                 // Bad illness.
-                GameSimApp.Instance.Vehicle.ReduceMileage(10);
+                GameSimulationApp.Instance.Vehicle.ReduceMileage(10);
                 Health = RepairStatus.Poor;
             }
             else
             {
                 // Severe illness.
                 Health = RepairStatus.VeryPoor;
-                GameSimApp.Instance.Vehicle.ReduceMileage(15);
+                GameSimulationApp.Instance.Vehicle.ReduceMileage(15);
 
                 // Pick an actual severe illness from list, roll the dice for it on very low health.
-                GameSimApp.Instance.Director.TriggerEventByType(this, EventCategory.Person);
+                GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventType.Person);
             }
 
             if (Health == RepairStatus.VeryPoor &&
-                GameSimApp.Instance.Random.Next((int) Health) <= 0)
+                GameSimulationApp.Instance.Random.Next((int) Health) <= 0)
             {
                 // Some dying makes everybody take a huge morale hit.
-                GameSimApp.Instance.Vehicle.ReduceMileage(50);
+                GameSimulationApp.Instance.Vehicle.ReduceMileage(50);
 
                 // Check if leader died or party member.
-                GameSimApp.Instance.Director.TriggerEvent(this, IsLeader
-                    ? typeof (DeathPlayer)
-                    : typeof (DeathCompanion));
+                GameSimulationApp.Instance.EventDirector.TriggerEvent(this, IsLeader
+                    ? typeof (DeathPlayerEvent)
+                    : typeof (DeathCompanionEvent));
             }
         }
 

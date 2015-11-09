@@ -24,7 +24,7 @@ namespace TrailEntities.Game.Travel
             get
             {
                 // Get the current food item from vehicle inventory.
-                var foodItem = GameSimApp.Instance.Vehicle.Inventory[SimEntity.Food];
+                var foodItem = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Food];
 
                 // Set default food status text, update to actual food item total weight if it exists.
                 var foodStatus = "0 pounds";
@@ -34,14 +34,14 @@ namespace TrailEntities.Game.Travel
                 // Build up the status for the vehicle as it moves through the simulation.
                 var driveStatus = new StringBuilder();
                 driveStatus.Append($"--------------------------------{Environment.NewLine}");
-                driveStatus.Append($"Date: {GameSimApp.Instance.Time.Date}{Environment.NewLine}");
-                driveStatus.Append($"Weather: {GameSimApp.Instance.Climate.CurrentWeather}{Environment.NewLine}");
-                driveStatus.Append($"Health: {GameSimApp.Instance.Vehicle.RepairStatus}{Environment.NewLine}");
+                driveStatus.Append($"Date: {GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
+                driveStatus.Append($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}{Environment.NewLine}");
+                driveStatus.Append($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}{Environment.NewLine}");
                 driveStatus.Append($"Food: {foodStatus}{Environment.NewLine}");
                 driveStatus.Append(
-                    $"Next landmark: {GameSimApp.Instance.Trail.DistanceToNextLocation} miles{Environment.NewLine}");
+                    $"Next landmark: {GameSimulationApp.Instance.Trail.DistanceToNextLocation} miles{Environment.NewLine}");
                 driveStatus.Append(
-                    $"Miles traveled: {GameSimApp.Instance.Vehicle.Odometer} miles{Environment.NewLine}");
+                    $"Miles traveled: {GameSimulationApp.Instance.Vehicle.Odometer} miles{Environment.NewLine}");
                 driveStatus.Append($"--------------------------------{Environment.NewLine}");
                 return driveStatus.ToString();
             }
@@ -60,17 +60,17 @@ namespace TrailEntities.Game.Travel
             // Only add the location name if we are on the next point, otherwise we should not show this.
             if (showLocationName)
             {
-                var currentTrailLocation = GameSimApp.Instance.Trail.GetCurrentLocation();
+                var currentTrailLocation = GameSimulationApp.Instance.Trail.GetCurrentLocation();
                 if (currentTrailLocation != null)
                     locationStatus.AppendLine(currentTrailLocation.Name);
             }
 
-            locationStatus.Append($"{GameSimApp.Instance.Time.Date}{Environment.NewLine}");
+            locationStatus.Append($"{GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
             locationStatus.Append($"--------------------------------{Environment.NewLine}");
-            locationStatus.Append($"Weather: {GameSimApp.Instance.Climate.CurrentWeather}{Environment.NewLine}");
-            locationStatus.Append($"Health: {GameSimApp.Instance.Vehicle.RepairStatus}{Environment.NewLine}");
-            locationStatus.Append($"Pace: {GameSimApp.Instance.Vehicle.Pace}{Environment.NewLine}");
-            locationStatus.Append($"Rations: {GameSimApp.Instance.Vehicle.Ration}{Environment.NewLine}");
+            locationStatus.Append($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}{Environment.NewLine}");
+            locationStatus.Append($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}{Environment.NewLine}");
+            locationStatus.Append($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}{Environment.NewLine}");
+            locationStatus.Append($"Rations: {GameSimulationApp.Instance.Vehicle.Ration}{Environment.NewLine}");
             locationStatus.Append($"--------------------------------{Environment.NewLine}");
             return locationStatus.ToString();
         }
