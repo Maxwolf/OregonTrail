@@ -22,13 +22,15 @@ namespace TrailEntities.Game.MainMenu
         /// </summary>
         public const string MEMBERS_QUESTION = "What are the first names of the \nthree other members in your party?";
 
+
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct.MainMenuGameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public MainMenuGameMode() : base(false)
+        public MainMenuGameMode(IModeInfo userData, bool showCommandNamesInMenu, MainMenuInfo mainMenuInfo)
+            : base(userData, showCommandNamesInMenu)
         {
             // Basic information to start a new simulation.
-            MainMenuInfo = new MainMenuInfo();
+            MainMenuInfo = mainMenuInfo;
 
             var headerText = new StringBuilder();
             headerText.Append($"{Environment.NewLine}The Oregon Trail{Environment.NewLine}{Environment.NewLine}");
@@ -77,7 +79,7 @@ namespace TrailEntities.Game.MainMenu
         /// </summary>
         private void SeeTopTen()
         {
-            AddState(typeof(CurrentTopTenState));
+            AddState(typeof (CurrentTopTenState));
         }
 
         /// <summary>
@@ -85,7 +87,7 @@ namespace TrailEntities.Game.MainMenu
         /// </summary>
         private void LearnAboutTrail()
         {
-            AddState(typeof(InstructionsState));
+            AddState(typeof (InstructionsState));
         }
 
         /// <summary>
@@ -93,7 +95,7 @@ namespace TrailEntities.Game.MainMenu
         /// </summary>
         private void TravelTheTrail()
         {
-            AddState(typeof(SelectProfessionState));
+            AddState(typeof (SelectProfessionState));
         }
     }
 }

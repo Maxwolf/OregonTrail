@@ -5,7 +5,6 @@ using TrailEntities.Entity;
 using TrailEntities.Entity.Person;
 using TrailEntities.Entity.Vehicle;
 using TrailEntities.Event;
-using TrailEntities.Game;
 using TrailEntities.Game.MainMenu;
 using TrailEntities.Game.Scoring;
 using TrailEntities.Mode;
@@ -136,10 +135,14 @@ namespace TrailEntities.Simulation
         }
 
         /// <summary>
-        ///     Attaches the traveling gameMode and removes the new game gameMode if it exists, this begins the simulation down the trail
+        ///     Attaches the traveling gameMode and removes the new game gameMode if it exists, this begins the simulation down the
+        ///     trail
         ///     path and all the points of interest on it.
         /// </summary>
-        /// <param name="startingInfo">User data object that was passed around the new game gameMode and populated by user selections.</param>
+        /// <param name="startingInfo">
+        ///     User data object that was passed around the new game gameMode and populated by user
+        ///     selections.
+        /// </param>
         public override void SetData(MainMenuInfo startingInfo)
         {
             base.SetData(startingInfo);

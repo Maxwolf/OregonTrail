@@ -1,4 +1,5 @@
-﻿using TrailEntities.Simulation;
+﻿using TrailEntities.Mode;
+using TrailEntities.Simulation;
 
 namespace TrailEntities.Game.RiverCross
 {
@@ -6,7 +7,7 @@ namespace TrailEntities.Game.RiverCross
     ///     Defines information about the current river crossing game mode the player has come across and needs to decide how
     ///     they would like to proceed.
     /// </summary>
-    public sealed class RiverCrossInfo
+    public sealed class RiverCrossInfo : IModeInfo
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TileEntities.RiverCrossInfo" /> class.
@@ -21,7 +22,7 @@ namespace TrailEntities.Game.RiverCross
         }
 
         /// <summary>
-        /// Determines how the vehicle and party members would like to cross the river.
+        ///     Determines how the vehicle and party members would like to cross the river.
         /// </summary>
         public RiverCrossChoice CrossingType { get; set; }
 

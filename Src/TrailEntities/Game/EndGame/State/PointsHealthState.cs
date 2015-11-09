@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity.Vehicle;
-using TrailEntities.Game.MainMenu;
 using TrailEntities.Mode;
 using TrailEntities.Simulation;
 using TrailEntities.Widget;
@@ -11,7 +10,7 @@ namespace TrailEntities.Game.EndGame
     /// <summary>
     ///     First panel on point information, shows how health of party members contributes to final score.
     /// </summary>
-    public sealed class PointsHealthState : ModeStateProduct
+    public sealed class PointsHealthState : StateProduct
     {
         /// <summary>
         ///     Reference to information about scoring based on party health.
@@ -26,7 +25,7 @@ namespace TrailEntities.Game.EndGame
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsHealthState(ModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public PointsHealthState(IModeProduct parentMode, IModeInfo userData) : base(parentMode, userData)
         {
             // Build up string of help about points for people.
             _pointsHealth = new StringBuilder();
@@ -52,15 +51,6 @@ namespace TrailEntities.Game.EndGame
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return false; }
-        }
-
-        /// <summary>
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
@@ -80,7 +70,7 @@ namespace TrailEntities.Game.EndGame
 
             // Onward to information about items!
             _seenHealthPointsHelp = true;
-            ParentMode.AddState(typeof(PointsResourcesState));
+            ParentMode.AddState(typeof (PointsResourcesState));
         }
     }
 }

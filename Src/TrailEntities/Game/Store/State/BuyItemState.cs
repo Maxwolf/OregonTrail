@@ -9,7 +9,7 @@ namespace TrailEntities.Game.Store
     /// <summary>
     ///     Allows the player to purchase a number of oxen to pull their vehicle.
     /// </summary>
-    public sealed class BuyItemState : ModeStateProduct
+    public sealed class BuyItemState : StateProduct
     {
         /// <summary>
         ///     Help text to ask the player a question about how many of the particular SimItem they would like to purchase.

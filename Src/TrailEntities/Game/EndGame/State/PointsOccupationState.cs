@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Game.MainMenu;
 using TrailEntities.Mode;
 using TrailEntities.Simulation;
 
@@ -10,7 +9,7 @@ namespace TrailEntities.Game.EndGame
     ///     Third and final panel on point information, explains how players profession selection affects final scoring as a
     ///     multiplier since starting as a banker is a handicap.
     /// </summary>
-    public sealed class PointsOccupationState : ModeStateProduct
+    public sealed class PointsOccupationState : StateProduct
     {
         /// <summary>
         ///     Determines if the player is done looking at information on profession scoring.
@@ -25,7 +24,7 @@ namespace TrailEntities.Game.EndGame
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsOccupationState(ModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public PointsOccupationState(IModeProduct gameMode, IModeInfo userData) : base(gameMode, userData)
         {
             _pointsProfession = new StringBuilder();
             _pointsProfession.Append(

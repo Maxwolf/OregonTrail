@@ -8,7 +8,7 @@ namespace TrailEntities.Game.RiverCross
     ///     enough money at this point this state will be attached and explain to the user they cannot use the ferry and must
     ///     pick one of the other two options.
     /// </summary>
-    public sealed class FerryNoMoniesState : ModeStateProduct
+    public sealed class FerryNoMoniesState : StateProduct
     {
         /// <summary>
         ///     This constructor will be used by the other one

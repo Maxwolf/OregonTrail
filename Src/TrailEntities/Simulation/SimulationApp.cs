@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TrailEntities.Game;
 using TrailEntities.Game.MainMenu;
 using TrailEntities.Mode;
 using TrailEntities.Simulation.Time;
@@ -56,7 +55,8 @@ namespace TrailEntities.Simulation
         }
 
         /// <summary>
-        ///     Holds the last known representation of the game simulation and current gameMode text user interface, only pushes update
+        ///     Holds the last known representation of the game simulation and current gameMode text user interface, only pushes
+        ///     update
         ///     when a change occurs.
         /// </summary>
         private string ScreenBuffer { get; set; }
@@ -67,7 +67,8 @@ namespace TrailEntities.Simulation
         protected string InputBuffer { get; private set; }
 
         /// <summary>
-        ///     Determines if this simulation is currently accepting input at all, the conditions for this require some game gameMode
+        ///     Determines if this simulation is currently accepting input at all, the conditions for this require some game
+        ///     gameMode
         ///     to be attached and or active move to not be null.
         /// </summary>
         protected bool AcceptingInput
@@ -209,7 +210,7 @@ namespace TrailEntities.Simulation
                 return;
 
             // Add the game gameMode to the simulation now that we know it does not exist in the stack yet.
-            AttachedModes.Add(modeType, _modeFactory.CreateMode(modeType));
+            AttachedModes.Add(modeType, _modeFactory.CreateInstance(modeType));
             ModeChangedEvent?.Invoke(AttachedModes[modeType].ModeType);
         }
 
@@ -257,10 +258,14 @@ namespace TrailEntities.Simulation
         }
 
         /// <summary>
-        ///     Attaches the traveling gameMode and removes the new game gameMode if it exists, this begins the simulation down the trail
+        ///     Attaches the traveling gameMode and removes the new game gameMode if it exists, this begins the simulation down the
+        ///     trail
         ///     path and all the points of interest on it.
         /// </summary>
-        /// <param name="startingInfo">User data object that was passed around the new game gameMode and populated by user selections.</param>
+        /// <param name="startingInfo">
+        ///     User data object that was passed around the new game gameMode and populated by user
+        ///     selections.
+        /// </param>
         public virtual void SetData(MainMenuInfo startingInfo)
         {
             NewgameEvent?.Invoke();

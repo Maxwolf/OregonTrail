@@ -12,12 +12,13 @@ namespace TrailEntities.Game.Store
     public sealed class StoreGameMode : ModeProduct
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct.StoreGameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public StoreGameMode() : base(false)
+        public StoreGameMode(IModeInfo userData, bool showCommandNamesInMenu, StoreInfo storeInfo)
+            : base(userData, showCommandNamesInMenu)
         {
             // User data for states, keeps track of all new game information.
-            StoreInfo = new StoreInfo();
+            StoreInfo = storeInfo;
 
             // Print out store good and their prices for user selection.
             UpdateDebts();
@@ -30,10 +31,11 @@ namespace TrailEntities.Game.Store
         }
 
         /// <summary>
-        ///     Defines the text prefix which will go above the menu, used to show any useful information the game gameMode might need
+        ///     Defines the text prefix which will go above the menu, used to show any useful information the game gameMode might
+        ///     need
         ///     to at the top of menu selections.
         /// </summary>
-        protected override string MenuHeader { get; set; }
+        public override string MenuHeader { get; set; }
 
         /// <summary>
         ///     Defines the current game gameMode the inheriting class is going to take responsibility for when attached to the
@@ -54,7 +56,7 @@ namespace TrailEntities.Game.Store
         /// </summary>
         private void BuyOxen()
         {
-            AddState(typeof(BuyItemState));
+            AddState(typeof (BuyItemState));
         }
 
         /// <summary>
@@ -62,7 +64,7 @@ namespace TrailEntities.Game.Store
         /// </summary>
         private void BuyFood()
         {
-            AddState(typeof(BuyItemState));
+            AddState(typeof (BuyItemState));
         }
 
         /// <summary>
@@ -70,7 +72,7 @@ namespace TrailEntities.Game.Store
         /// </summary>
         private void BuyClothing()
         {
-            AddState(typeof(BuyItemState));
+            AddState(typeof (BuyItemState));
         }
 
         /// <summary>
@@ -78,7 +80,7 @@ namespace TrailEntities.Game.Store
         /// </summary>
         private void BuyAmmunition()
         {
-            AddState(typeof(BuyItemState));
+            AddState(typeof (BuyItemState));
         }
 
         /// <summary>
@@ -86,7 +88,7 @@ namespace TrailEntities.Game.Store
         /// </summary>
         private void BuySpareWheels()
         {
-            AddState(typeof(BuyItemState));
+            AddState(typeof (BuyItemState));
         }
 
         /// <summary>
@@ -94,7 +96,7 @@ namespace TrailEntities.Game.Store
         /// </summary>
         private void BuySpareAxles()
         {
-            AddState(typeof(BuyItemState));
+            AddState(typeof (BuyItemState));
         }
 
         /// <summary>
@@ -102,16 +104,17 @@ namespace TrailEntities.Game.Store
         /// </summary>
         private void BuySpareTongues()
         {
-            AddState(typeof(BuyItemState));
+            AddState(typeof (BuyItemState));
         }
 
         /// <summary>
-        ///     Attaches a game gameMode state what will show the player some basic information about what the various items mean and
+        ///     Attaches a game gameMode state what will show the player some basic information about what the various items mean
+        ///     and
         ///     what their purpose is in the simulation.
         /// </summary>
         private void StoreAdvice()
         {
-            AddState(typeof(StoreAdviceState));
+            AddState(typeof (StoreAdviceState));
         }
 
         /// <summary>
@@ -123,14 +126,14 @@ namespace TrailEntities.Game.Store
             if (GameSimulationApp.Instance.Trail.IsFirstLocation() &&
                 StoreInfo.Transactions[SimEntity.Animal].Quantity <= 0)
             {
-                AddState(typeof(MissingItemState));
+                AddState(typeof (MissingItemState));
                 return;
             }
 
             // Check if player can afford the items they have selected.
             if (GameSimulationApp.Instance.Vehicle.Balance < StoreInfo.GetTransactionTotalCost())
             {
-                AddState(typeof(StoreDebtState));
+                AddState(typeof (StoreDebtState));
                 return;
             }
 
@@ -141,7 +144,7 @@ namespace TrailEntities.Game.Store
         /// <summary>
         ///     Fired when this game gameMode is removed from the list of available and ticked GameMode in the simulation.
         /// </summary>
-        protected override void OnModeRemoved(GameMode modeType)
+        public override void OnModeRemoved(GameMode modeType)
         {
             base.OnModeRemoved(modeType);
 

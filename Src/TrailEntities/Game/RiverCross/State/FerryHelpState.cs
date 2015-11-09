@@ -3,7 +3,7 @@ using TrailEntities.Mode;
 
 namespace TrailEntities.Game.RiverCross
 {
-    public sealed class FerryHelpState : ModeStateProduct
+    public sealed class FerryHelpState : StateProduct
     {
         /// <summary>
         ///     This constructor will be used by the other one

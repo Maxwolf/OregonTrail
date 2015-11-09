@@ -12,7 +12,7 @@ namespace TrailEntities.Game.EndGame
     ///     Second panel on point information, shows how the number of resources you end the game with contribute to your final
     ///     score.
     /// </summary>
-    public sealed class PointsResourcesState : ModeStateProduct
+    public sealed class PointsResourcesState : StateProduct
     {
         /// <summary>
         ///     Represents the switch for knowing if the player is done reading this information state.
@@ -79,7 +79,7 @@ namespace TrailEntities.Game.EndGame
 
             // The next state will explain information about profession selection acting as handicap for point multiplier.
             _hasShownResourceInfo = true;
-            ParentMode.AddState(typeof(PointsOccupationState));
+            ParentMode.AddState(typeof (PointsOccupationState));
         }
     }
 }

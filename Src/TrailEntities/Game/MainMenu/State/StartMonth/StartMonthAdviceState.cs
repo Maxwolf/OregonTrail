@@ -8,7 +8,7 @@ namespace TrailEntities.Game.MainMenu
     /// <summary>
     ///     Shows the player information about what the various starting months mean.
     /// </summary>
-    public sealed class StartMonthAdviceState : ModeStateProduct
+    public sealed class StartMonthAdviceState : StateProduct
     {
         /// <summary>
         ///     References if the user has pressed any key to get rid of the starting month advice.
@@ -61,7 +61,7 @@ namespace TrailEntities.Game.MainMenu
 
             // Return to starting month selection state.
             _hasShownStartMonthAdvice = true;
-            ParentMode.AddState(typeof(SelectStartingMonthState));
+            ParentMode.AddState(typeof (SelectStartingMonthState));
         }
     }
 }

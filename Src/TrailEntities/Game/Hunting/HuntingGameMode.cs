@@ -13,7 +13,7 @@ namespace TrailEntities.Game.Hunting
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public HuntingGameMode() : base(true)
+        public HuntingGameMode(IModeInfo userData, bool showCommandNamesInMenu) : base(userData, showCommandNamesInMenu)
         {
         }
 

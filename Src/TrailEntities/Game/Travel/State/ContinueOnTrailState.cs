@@ -11,7 +11,7 @@ namespace TrailEntities.Game.Travel
     ///     inform the player of the next points name, the distance away that it is, and that is all it will close and
     ///     simulation resume after return key is pressed.
     /// </summary>
-    public sealed class ContinueOnTrailState : ModeStateProduct
+    public sealed class ContinueOnTrailState : StateProduct
     {
         /// <summary>
         ///     Keeps track if we have already triggered the state to remove itself after telling player about distance to next
@@ -64,7 +64,7 @@ namespace TrailEntities.Game.Travel
             // Simulate next two-week block of time, calculate mileage, check events...
             hasContinuedOnTrail = true;
             UserData.HasLookedAround = false;
-            ParentMode.AddState(typeof(DriveState));
+            ParentMode.AddState(typeof (DriveState));
         }
     }
 }

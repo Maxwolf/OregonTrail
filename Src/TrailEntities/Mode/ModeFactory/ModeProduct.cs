@@ -13,14 +13,13 @@ namespace TrailEntities.Mode
     ///     keeps track of all currently loaded game GameMode and will only tick the top-most one so they can be stacked
     ///     and clear out until there are none.
     /// </summary>
-    public abstract class ModeProduct : Comparer<ModeProduct>, IComparable<ModeProduct>, IEquatable<ModeProduct>,
-        IEqualityComparer<ModeProduct>
+    public abstract class ModeProduct : IModeProduct
     {
         /// <summary>
         ///     Reference to all of the possible commands that this game gameMode supports routing back to the game simulation that
         ///     spawned it.
         /// </summary>
-        private HashSet<ModeChoiceItem> _menuChoices;
+        private SortedDictionary<Enum, ModeChoiceItem> _menuChoices;
 
         /// <summary>
         ///     Holds the footer text that we will place below menu but before input buffer text.
@@ -41,13 +40,16 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        protected ModeProduct(bool showCommandNamesInMenu)
+        protected ModeProduct(IModeInfo userData, bool showCommandNamesInMenu)
         {
             // Determines if the menu system should show raw command names in the menu rendering or just number selections by enum value.
             _showCommandNamesInMenu = showCommandNamesInMenu;
 
+            // Copies over the user data object which will also be passed to any attached state.
+            UserData = userData;
+
             // Create empty list of menu choices.
-            _menuChoices = new HashSet<ModeChoiceItem>();
+            _menuChoices = new SortedDictionary<Enum, ModeChoiceItem>();
 
             // Menu header and footer is empty strings by default.
             _menuHeader = string.Empty;
@@ -63,34 +65,11 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Parses the type of state passed in as parameter and creates the state by manually calling the constructor on it and
-        ///     passing instances of parent game gameMode and user info object.
-        /// </summary>
-        /// <param name="state">EventType of the gameMode state class which should be attached to this game gameMode.</param>
-        public void AddState(Type state)
-        {
-            // Check if the type is a class.
-            if (!state.IsClass)
-                return;
-
-            d
-
-            //CurrentState
-        }
-
-        /// <summary>
-        /// Clears the current state in this simulation game gameMode, resetting it back to default of empty revealing command menu.
-        /// </summary>
-        public void RemoveState()
-        {
-            CurrentState = null;
-        }
-
-        /// <summary>
-        ///     Defines the text prefix which will go above the menu, used to show any useful information the game gameMode might need
+        ///     Defines the text prefix which will go above the menu, used to show any useful information the game gameMode might
+        ///     need
         ///     to at the top of menu selections.
         /// </summary>
-        protected virtual string MenuHeader
+        public virtual string MenuHeader
         {
             get { return _menuHeader; }
             set { _menuHeader = value; }
@@ -100,7 +79,7 @@ namespace TrailEntities.Mode
         ///     Similar to the header this will define some text that should go below the menu selection but before the user input
         ///     field.
         /// </summary>
-        protected virtual string MenuFooter
+        public virtual string MenuFooter
         {
             get { return _menuFooter; }
             set { _menuFooter = value; }
@@ -122,7 +101,8 @@ namespace TrailEntities.Mode
         public Location CurrentPoint { get; }
 
         /// <summary>
-        ///     Determines if the game gameMode should not be ticked if it is active but instead removed. The gameMode when set to being
+        ///     Determines if the game gameMode should not be ticked if it is active but instead removed. The gameMode when set to
+        ///     being
         ///     removed will not actually be removed until the simulation attempts to tick it and realizes that this is set to true
         ///     and then it will be removed.
         /// </summary>
@@ -144,93 +124,39 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Holds the current state which this gameMode is in, a gameMode will cycle through available states until it is finished and
+        ///     Holds the current state which this gameMode is in, a gameMode will cycle through available states until it is
+        ///     finished and
         ///     then detach.
         /// </summary>
-        internal ModeStateProduct CurrentState { get; private set; }
+        public StateProduct CurrentState { get; private set; }
 
         /// <summary>
-        ///     Compares the current object with another object of the same type.
+        ///     User data objects for game modes and any attached states on them.
         /// </summary>
-        /// <returns>
-        ///     A value that indicates the relative order of the objects being compared. The return value has the following
-        ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This
-        ///     object is equal to <paramref name="other" />. Greater than zero This object is greater than
-        ///     <paramref name="other" />.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public int CompareTo(ModeProduct other)
+        public IModeInfo UserData { get; }
+
+        /// <summary>
+        ///     Parses the type of state passed in as parameter and creates the state by manually calling the constructor on it and
+        ///     passing instances of parent game gameMode and user info object.
+        /// </summary>
+        /// <param name="state">EventType of the gameMode state class which should be attached to this game gameMode.</param>
+        public void AddState(Type state)
         {
-            Debug.Assert(other != null, "other != null");
+            // Check if the type is a class.
+            if (!state.IsClass)
+                return;
 
-            var result = other.ModeType.CompareTo(ModeType);
-            if (result != 0) return result;
 
-            result = other.CurrentState.CompareTo(CurrentState);
-            if (result != 0) return result;
-
-            return result;
+            //CurrentState
         }
 
         /// <summary>
-        ///     Determines whether the specified objects are equal.
+        ///     Clears the current state in this simulation game gameMode, resetting it back to default of empty revealing command
+        ///     menu.
         /// </summary>
-        /// <returns>
-        ///     true if the specified objects are equal; otherwise, false.
-        /// </returns>
-        public bool Equals(ModeProduct x, ModeProduct y)
+        public void RemoveState()
         {
-            return x.Equals(y);
-        }
-
-        /// <summary>
-        ///     Returns a hash code for the specified object.
-        /// </summary>
-        /// <returns>
-        ///     A hash code for the specified object.
-        /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object" /> for which a hash code is to be returned.</param>
-        /// <exception cref="T:System.ArgumentNullException">
-        ///     The type of <paramref name="obj" /> is a reference type and
-        ///     <paramref name="obj" /> is null.
-        /// </exception>
-        public int GetHashCode(ModeProduct obj)
-        {
-            return obj.GetHashCode();
-        }
-
-        /// <summary>
-        ///     Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        ///     true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ModeProduct other)
-        {
-            // Reference equality check
-            if (this == other)
-            {
-                return true;
-            }
-
-            if (other == null)
-            {
-                return false;
-            }
-
-            if (other.GetType() != GetType())
-            {
-                return false;
-            }
-
-            if (ModeType.Equals(other.ModeType) &&
-                CurrentState.Equals(other.CurrentState))
-            {
-                return true;
-            }
-
-            return false;
+            CurrentState = null;
         }
 
         /// <summary>
@@ -268,8 +194,8 @@ namespace TrailEntities.Mode
                 {
                     // Name of command and then description of what it does, the command is all we really care about.
                     modeTUI.Append(_showCommandNamesInMenu
-                        ? $"  {menuChoices}. {menuChoice.Command} - {menuChoice.Description}{Environment.NewLine}"
-                        : $"  {menuChoices}. {menuChoice.Description}{Environment.NewLine}");
+                        ? $"  {menuChoices}. {menuChoice.Key} - {menuChoice.Value.Description}{Environment.NewLine}"
+                        : $"  {menuChoices}. {menuChoice.Value.Description}{Environment.NewLine}");
 
                     // Increment the menu choices number shown to user.
                     menuChoices++;
@@ -312,63 +238,40 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
-        /// </summary>
-        /// <returns>
-        ///     A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />, as shown in
-        ///     the following table.Value Meaning Less than zero<paramref name="x" /> is less than <paramref name="y" />.Zero
-        ///     <paramref name="x" /> equals <paramref name="y" />.Greater than zero<paramref name="x" /> is greater than
-        ///     <paramref name="y" />.
-        /// </returns>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        public override int Compare(ModeProduct x, ModeProduct y)
-        {
-            Debug.Assert(x != null, "x != null");
-            Debug.Assert(y != null, "y != null");
-
-            var result = x.ModeType.CompareTo(y.ModeType);
-            if (result != 0) return result;
-
-            result = x.CurrentState.CompareTo(y.CurrentState);
-            if (result != 0) return result;
-
-            return result;
-        }
-
-        /// <summary>
         ///     Fired when trail simulation has determined the vehicle and player party has reached the next point of interest in
         ///     the trail.
         /// </summary>
-        protected virtual void OnReachNextLocation(Location nextPoint)
+        public virtual void OnReachNextLocation(Location nextPoint)
         {
             Debug.Assert(nextPoint != null, "nextPoint != null");
         }
 
         /// <summary>
-        ///     Adds a new game gameMode menu selection that will be available to send as a command for this specific game gameMode.
+        ///     Adds a new game gameMode menu selection that will be available to send as a command for this specific game
+        ///     gameMode.
         ///     Description for the enumeration will be taken from it's description attribute, if it does not exist will just be
         ///     enum value.
         /// </summary>
         /// <param name="action">Method that will be run when the choice is made.</param>
         /// <param name="command">Associated command that will trigger the respective action in the active game gameMode.</param>
-        protected void AddCommand(Action action, Enum command)
+        public void AddCommand(Action action, Enum command)
         {
             AddCommand(action, command, command.ToDescriptionAttribute());
         }
 
         /// <summary>
-        ///     Adds a new game gameMode menu selection that will be available to send as a command for this specific game gameMode.
+        ///     Adds a new game gameMode menu selection that will be available to send as a command for this specific game
+        ///     gameMode.
         /// </summary>
         /// <param name="action">Method that will be run when the choice is made.</param>
         /// <param name="command">Associated command that will trigger the respective action in the active game gameMode.</param>
         /// <param name="description">Text that will be shown to user so they know what the choice means.</param>
-        protected void AddCommand(Action action, Enum command, string description)
+        public void AddCommand(Action action, Enum command, string description)
         {
             var menuChoice = new ModeChoiceItem(command, action, description);
-            if (!_menuChoices.Contains(menuChoice))
+            if (!_menuChoices.ContainsKey(command))
             {
-                _menuChoices.Add(menuChoice);
+                _menuChoices.Add(command, menuChoice);
             }
         }
 
@@ -377,18 +280,19 @@ namespace TrailEntities.Mode
         ///     in the
         ///     menu to match purchasing decisions.
         /// </summary>
-        protected void ClearCommands()
+        public void ClearCommands()
         {
             _menuChoices.Clear();
         }
 
         /// <summary>
         ///     Fired by the currently ticking and active game gameMode in the simulation. Implementation is left entirely up to
-        ///     concrete handlers for game gameMode. Processes menu items for game gameMode when current state is null, or there are no
+        ///     concrete handlers for game gameMode. Processes menu items for game gameMode when current state is null, or there
+        ///     are no
         ///     menu choices to select from.
         /// </summary>
         /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
-        private void OnReceiveInputBuffer(string returnedLine)
+        public void OnReceiveInputBuffer(string returnedLine)
         {
             if (CurrentState == null &&
                 _menuChoices?.Count > 0 &&
@@ -399,12 +303,12 @@ namespace TrailEntities.Mode
                 foreach (var menuChoice in _menuChoices)
                 {
                     // Check if the received input buffer matches any of them, ignore culture and casing.
-                    if (!returnedLine.Equals(menuChoice.Command.ToString(),
+                    if (!returnedLine.Equals(menuChoice.Key.ToString(),
                         StringComparison.InvariantCultureIgnoreCase))
                         continue;
 
                     // If it matches then invoke the bound action in the simulation.
-                    menuChoice.Action.Invoke();
+                    menuChoice.Value.Action.Invoke();
                     return;
                 }
             }
@@ -418,7 +322,7 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     Fired when this game gameMode is removed from the list of available and ticked GameMode in the simulation.
         /// </summary>
-        protected virtual void OnModeRemoved(GameMode modeType)
+        public virtual void OnModeRemoved(GameMode modeType)
         {
             GameSimulationApp.Instance.Trail.OnReachPointOfInterest -= OnReachNextLocation;
             _menuChoices = null;
@@ -433,19 +337,6 @@ namespace TrailEntities.Mode
         public override string ToString()
         {
             return ModeType.ToString();
-        }
-
-        /// <summary>
-        ///     Serves as a hash function for a particular type.
-        /// </summary>
-        /// <returns>
-        ///     A hash code for the current <see cref="T:System.Object" />.
-        /// </returns>
-        public override int GetHashCode()
-        {
-            var hash = 23;
-            hash = (hash*31) + ModeType.GetHashCode();
-            return hash;
         }
     }
 }

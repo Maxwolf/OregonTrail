@@ -3,7 +3,8 @@
 namespace TrailEntities.Game.Travel
 {
     /// <summary>
-    ///     All of the commands associated with the traveling game gameMode which is one of the primary simulation game GameMode since
+    ///     All of the commands associated with the traveling game gameMode which is one of the primary simulation game
+    ///     GameMode since
     ///     it is at the bottom of the game GameMode stack and all others will be stacking on top of it.
     /// </summary>
     public enum TravelCommands

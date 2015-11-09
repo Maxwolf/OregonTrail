@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TrailEntities.Entity;
 using TrailEntities.Entity.Person;
+using TrailEntities.Mode;
 using TrailEntities.Simulation.Time;
 
 namespace TrailEntities.Game.MainMenu
@@ -9,7 +10,7 @@ namespace TrailEntities.Game.MainMenu
     ///     Holds all of the information required to kick-start a running game simulation onto a trail path with people,
     ///     professions, vehicle, starting items, and all stats related to luck and repair skill.
     /// </summary>
-    public sealed class MainMenuInfo
+    public sealed class MainMenuInfo : IModeInfo
     {
         private List<string> _playerNames;
         private Profession _playerProfession;

@@ -55,7 +55,7 @@ namespace TrailEntities.Mode
         ///     user info object, and commands for the incoming game gameMode.
         /// </summary>
         /// <returns>Fully created and activated game gameMode ready to be added to simulation active modes list.</returns>
-        internal ModeProduct CreateMode(GameMode mode)
+        internal ModeProduct CreateInstance(GameMode mode)
         {
             // Check if the key for the desired game gameMode exists in reference list.
             if (!Modes.ContainsKey(mode))

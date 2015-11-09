@@ -11,7 +11,7 @@ namespace TrailEntities.Game.MainMenu
     ///     References the top ten players in regards to final score they earned at the end of the game, this list is by
     ///     default hard-coded by players have the chance to save their own scores to the list if they beat the default values.
     /// </summary>
-    public sealed class CurrentTopTenState : ModeStateProduct
+    public sealed class CurrentTopTenState : StateProduct
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -54,7 +54,7 @@ namespace TrailEntities.Game.MainMenu
             {
                 case "Y":
                     // Show the user information about point distribution.
-                    ParentMode.AddState(typeof(PointsHealthState));
+                    ParentMode.AddState(typeof (PointsHealthState));
                     break;
                 default:
                     // Go back to the options menu.

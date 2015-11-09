@@ -11,7 +11,7 @@ namespace TrailEntities.Game.Travel
     ///     spot they are on and all the spots they have visited, shows percentage for completion and some other basic
     ///     statistics about the journey that could only be seen from this state.
     /// </summary>
-    public sealed class LookAtMapState : ModeStateProduct
+    public sealed class LookAtMapState : StateProduct
     {
         /// <summary>
         ///     Determines if the player is done looking at the map and total progress of their journey.

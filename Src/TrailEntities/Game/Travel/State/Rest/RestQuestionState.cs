@@ -7,7 +7,7 @@ namespace TrailEntities.Game.Travel
     ///     response and will not do anything. If greater than zero we will attach another state to tick that many days by in
     ///     the simulation.
     /// </summary>
-    public sealed class RestQuestionState : ModeStateProduct
+    public sealed class RestQuestionState : StateProduct
     {
         /// <summary>
         ///     This constructor will be used by the other one

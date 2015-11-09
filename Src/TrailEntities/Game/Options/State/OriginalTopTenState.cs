@@ -10,7 +10,7 @@ namespace TrailEntities.Game.Options
     /// <summary>
     ///     Shows the player hard-coded top ten list as it is known internally in static list.
     /// </summary>
-    public sealed class OriginalTopTenState : ModeStateProduct
+    public sealed class OriginalTopTenState : StateProduct
     {
         /// <summary>
         ///     Determines if the player is done reading the original top ten list.

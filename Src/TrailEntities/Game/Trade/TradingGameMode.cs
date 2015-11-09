@@ -13,7 +13,10 @@ namespace TrailEntities.Game.Trade
     {
         private readonly HashSet<SimItem> _possibleTrades;
 
-        public TradingGameMode() : base(false)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
+        /// </summary>
+        public TradingGameMode(IModeInfo userData, bool showCommandNamesInMenu) : base(userData, showCommandNamesInMenu)
         {
             _possibleTrades = new HashSet<SimItem>();
         }
@@ -48,7 +51,7 @@ namespace TrailEntities.Game.Trade
         ///     Fired when this game gameMode is removed from the list of available and ticked GameMode in the simulation.
         /// </summary>
         /// <param name="modeType"></param>
-        protected override void OnModeRemoved(GameMode modeType)
+        public override void OnModeRemoved(GameMode modeType)
         {
             throw new NotImplementedException();
         }

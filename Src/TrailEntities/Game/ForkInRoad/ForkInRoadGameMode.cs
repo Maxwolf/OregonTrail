@@ -15,9 +15,10 @@ namespace TrailEntities.Game.ForkInRoad
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public ForkInRoadGameMode() : base(false)
+        public ForkInRoadGameMode(IModeInfo userData, bool showCommandNamesInMenu, HashSet<Location> skipChoices)
+            : base(userData, showCommandNamesInMenu)
         {
-            _skipChoices = new HashSet<Location>();
+            _skipChoices = skipChoices;
         }
 
         public IEnumerable<Location> SkipChoices

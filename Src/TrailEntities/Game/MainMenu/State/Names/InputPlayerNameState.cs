@@ -10,7 +10,7 @@ namespace TrailEntities.Game.MainMenu
     ///     a chance to confirm their selection in another state, reset if they don't like it, and also generate a random user
     ///     name if they just press enter at the prompt for a name.
     /// </summary>
-    public sealed class InputPlayerNameState : ModeStateProduct
+    public sealed class InputPlayerNameState : StateProduct
     {
         /// <summary>
         ///     Index in the list of player names we are going to be inserting into.
@@ -114,7 +114,7 @@ namespace TrailEntities.Game.MainMenu
                 }
 
                 // Attach state to confirm randomized name selection, skipping manual entry with the return.
-                ParentMode.AddState(typeof(ConfirmPlayerNamesState));
+                ParentMode.AddState(typeof (ConfirmPlayerNamesState));
                 return;
             }
 

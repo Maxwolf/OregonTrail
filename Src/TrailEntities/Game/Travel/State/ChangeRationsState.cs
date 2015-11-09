@@ -11,7 +11,7 @@ namespace TrailEntities.Game.Travel
     ///     of which is to limit the amount they take in to slow the loss of food per pound. This has many affects on the
     ///     simulation such as disease, chance for breaking body parts, and or complete death from starvation.
     /// </summary>
-    public sealed class ChangeRationsState : ModeStateProduct
+    public sealed class ChangeRationsState : StateProduct
     {
         /// <summary>
         ///     Builds up the ration information and selection text.
@@ -68,7 +68,7 @@ namespace TrailEntities.Game.Travel
                     ParentMode.RemoveState();
                     break;
                 default:
-                    ParentMode.AddState(typeof(ChangeRationsState));
+                    ParentMode.AddState(typeof (ChangeRationsState));
                     break;
             }
         }

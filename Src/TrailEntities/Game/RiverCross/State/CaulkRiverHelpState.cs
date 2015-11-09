@@ -3,7 +3,7 @@ using TrailEntities.Mode;
 
 namespace TrailEntities.Game.RiverCross
 {
-    public sealed class CaulkRiverHelpState : ModeStateProduct
+    public sealed class CaulkRiverHelpState : StateProduct
     {
         /// <summary>
         ///     This constructor will be used by the other one

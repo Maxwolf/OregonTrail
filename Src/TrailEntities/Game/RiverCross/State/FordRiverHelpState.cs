@@ -7,11 +7,10 @@ namespace TrailEntities.Game.RiverCross
     /// <summary>
     ///     Information about what fording a river means and how it works for the player vehicle and their party members.
     /// </summary>
-    public sealed class FordRiverHelpState : ModeStateProduct
+    public sealed class FordRiverHelpState : StateProduct
     {
-        private bool _hasReadFordRiverHelp;
-
         private StringBuilder _fordRiverHelp;
+        private bool _hasReadFordRiverHelp;
 
         /// <summary>
         ///     This constructor will be used by the other one
@@ -40,7 +39,7 @@ namespace TrailEntities.Game.RiverCross
                 return;
 
             _hasReadFordRiverHelp = true;
-            ParentMode.AddState(typeof(CaulkRiverHelpState));
+            ParentMode.AddState(typeof (CaulkRiverHelpState));
         }
     }
 }

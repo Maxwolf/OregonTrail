@@ -11,7 +11,7 @@ namespace TrailEntities.Game.Travel
     ///     the rate at which random events that are considered bad will occur along with other factors in the simulation such
     ///     as making players more susceptible to disease and also making them hungry more often.
     /// </summary>
-    public sealed class ChangePaceState : ModeStateProduct
+    public sealed class ChangePaceState : StateProduct
     {
         /// <summary>
         ///     String builder for the changing pace text.
@@ -66,10 +66,10 @@ namespace TrailEntities.Game.Travel
                     ParentMode.RemoveState();
                     break;
                 case "4":
-                    ParentMode.AddState(typeof(PaceAdviceState));
+                    ParentMode.AddState(typeof (PaceAdviceState));
                     break;
                 default:
-                    ParentMode.AddState(typeof(ChangePaceState));
+                    ParentMode.AddState(typeof (ChangePaceState));
                     break;
             }
         }

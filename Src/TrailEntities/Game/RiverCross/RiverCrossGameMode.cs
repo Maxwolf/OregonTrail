@@ -12,10 +12,11 @@ namespace TrailEntities.Game.RiverCross
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public RiverCrossGameMode() : base(false)
+        public RiverCrossGameMode(IModeInfo userData, bool showCommandNamesInMenu, RiverCrossInfo riverCrossInfo)
+            : base(userData, showCommandNamesInMenu)
         {
             // Create new river crossing information object.
-            RiverCrossInfo = new RiverCrossInfo();
+            RiverCrossInfo = riverCrossInfo;
 
             // Add all of the commands for crossing a river.
             AddCommand(FordRiver, RiverCrossCommands.FordRiver);
@@ -41,7 +42,8 @@ namespace TrailEntities.Game.RiverCross
         }
 
         /// <summary>
-        ///     Attached a state on top of the river crossing gameMode to explain what the different options mean and how they work.
+        ///     Attached a state on top of the river crossing gameMode to explain what the different options mean and how they
+        ///     work.
         /// </summary>
         private void GetMoreInformation()
         {
@@ -98,7 +100,7 @@ namespace TrailEntities.Game.RiverCross
         ///     Fired when this game gameMode is removed from the list of available and ticked GameMode in the simulation.
         /// </summary>
         /// <param name="modeType"></param>
-        protected override void OnModeRemoved(GameMode modeType)
+        public override void OnModeRemoved(GameMode modeType)
         {
         }
     }

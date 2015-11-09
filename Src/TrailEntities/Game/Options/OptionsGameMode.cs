@@ -17,13 +17,15 @@ namespace TrailEntities.Game.Options
         /// </summary>
         private OptionInfo _optionInfo;
 
+
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct.OptionsGameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public OptionsGameMode() : base(false)
+        public OptionsGameMode(IModeInfo userData, bool showCommandNamesInMenu, OptionInfo optionInfo)
+            : base(userData, showCommandNamesInMenu)
         {
             // Info object for states.
-            _optionInfo = new OptionInfo();
+            _optionInfo = optionInfo;
 
             // Header text.
             var headerText = new StringBuilder();
@@ -64,7 +66,7 @@ namespace TrailEntities.Game.Options
         /// </summary>
         private void EraseTombstoneMessages()
         {
-            AddState(typeof(EraseTombstoneState));
+            AddState(typeof (EraseTombstoneState));
         }
 
         /// <summary>
@@ -72,7 +74,7 @@ namespace TrailEntities.Game.Options
         /// </summary>
         private void EraseCurrentTopTen()
         {
-            AddState(typeof(EraseCurrentTopTenState));
+            AddState(typeof (EraseCurrentTopTenState));
         }
 
         /// <summary>
@@ -80,7 +82,7 @@ namespace TrailEntities.Game.Options
         /// </summary>
         private void SeeOriginalTopTen()
         {
-            AddState(typeof(OriginalTopTenState));
+            AddState(typeof (OriginalTopTenState));
         }
     }
 }

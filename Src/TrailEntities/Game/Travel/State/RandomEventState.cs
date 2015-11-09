@@ -13,7 +13,7 @@ namespace TrailEntities.Game.Travel
     ///     be triggered when they occur so this state can be attached to the travel mode and also have the event data passed
     ///     into it so it may be executed and data shown in text user interface for this state.
     /// </summary>
-    public sealed class RandomEventState : ModeStateProduct
+    public sealed class RandomEventState : StateProduct
     {
         /// <summary>
         ///     Holds all of the text from the random event after it executes so we can display it to the user without having to
@@ -36,7 +36,8 @@ namespace TrailEntities.Game.Travel
         ///     The actual event that director wants executed and information displayed to user about what it
         ///     does.
         /// </param>
-        public RandomEventState(ModeProduct gameMode, RandomEventInfo userData, IEntity simEntity, DirectorEventItem directorEventItem)
+        public RandomEventState(ModeProduct gameMode, RandomEventInfo userData, IEntity simEntity,
+            DirectorEventItem directorEventItem)
             : base(gameMode, userData)
         {
             // Create new string builder that will hold event execution data.

@@ -6,25 +6,28 @@ using TrailEntities.Simulation.Trail;
 namespace TrailEntities.Game.Travel
 {
     /// <summary>
-    ///     Primary game gameMode of the simulation, used to show simulation advancing through linear time. Shows all major stats
+    ///     Primary game gameMode of the simulation, used to show simulation advancing through linear time. Shows all major
+    ///     stats
     ///     of party and vehicle, plus climate and other things like distance traveled and distance to next point.
     /// </summary>
     public sealed class TravelGameMode : ModeProduct
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct.TravelGameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public TravelGameMode() : base(false)
+        public TravelGameMode(IModeInfo userData, bool showCommandNamesInMenu, TravelInfo travelInfo)
+            : base(userData, showCommandNamesInMenu)
         {
             // Keep track of basic information about menu choices, vehicle and party stats, trades, advice, etc.
-            TravelInfo = new TravelInfo();
+            TravelInfo = travelInfo;
 
             // Update menu with proper choices.
             UpdateLocation();
         }
 
         /// <summary>
-        ///     Traveling game gameMode has a gameMode state information object that is used to keep track of any important info about the
+        ///     Traveling game gameMode has a gameMode state information object that is used to keep track of any important info
+        ///     about the
         ///     state like how many days we should rest.
         /// </summary>
         private TravelInfo TravelInfo { get; }
@@ -43,7 +46,7 @@ namespace TrailEntities.Game.Travel
         /// </summary>
         private void TalkToPeople()
         {
-            AddState(typeof(TalkToPeopleState));
+            AddState(typeof (TalkToPeopleState));
         }
 
         /// <summary>
@@ -60,13 +63,14 @@ namespace TrailEntities.Game.Travel
         private void ContinueOnTrail()
         {
             // Player just starting this section of the trail will get prompt about total distance needed to cover it before starting.
-            if (!GameSimulationApp.Instance.Trail.ReachedNextPoint() && !GameSimulationApp.Instance.Trail.IsFirstLocation())
+            if (!GameSimulationApp.Instance.Trail.ReachedNextPoint() &&
+                !GameSimulationApp.Instance.Trail.IsFirstLocation())
             {
-                AddState(typeof(DriveState));
+                AddState(typeof (DriveState));
             }
             else
             {
-                AddState(typeof(ContinueOnTrailState));
+                AddState(typeof (ContinueOnTrailState));
             }
         }
 
@@ -75,7 +79,7 @@ namespace TrailEntities.Game.Travel
         /// </summary>
         private void CheckSupplies()
         {
-            AddState(typeof(CheckSuppliesState));
+            AddState(typeof (CheckSuppliesState));
         }
 
         /// <summary>
@@ -84,7 +88,7 @@ namespace TrailEntities.Game.Travel
         /// </summary>
         private void LookAtMap()
         {
-            AddState(typeof(LookAtMapState));
+            AddState(typeof (LookAtMapState));
         }
 
         /// <summary>
@@ -92,7 +96,7 @@ namespace TrailEntities.Game.Travel
         /// </summary>
         private void ChangePace()
         {
-            AddState(typeof(ChangePaceState));
+            AddState(typeof (ChangePaceState));
         }
 
         /// <summary>
@@ -100,7 +104,7 @@ namespace TrailEntities.Game.Travel
         /// </summary>
         private void ChangeFoodRations()
         {
-            AddState(typeof(ChangeRationsState));
+            AddState(typeof (ChangeRationsState));
         }
 
         /// <summary>
@@ -109,7 +113,7 @@ namespace TrailEntities.Game.Travel
         /// </summary>
         private void StopToRest()
         {
-            AddState(typeof(RestQuestionState));
+            AddState(typeof (RestQuestionState));
         }
 
         /// <summary>
@@ -122,7 +126,8 @@ namespace TrailEntities.Game.Travel
         }
 
         /// <summary>
-        ///     Attaches a new gameMode on top of this one that allows the player to hunt for animals and kill them using bullets for a
+        ///     Attaches a new gameMode on top of this one that allows the player to hunt for animals and kill them using bullets
+        ///     for a
         ///     specified time limit.
         /// </summary>
         private void HuntForFood()
@@ -161,21 +166,21 @@ namespace TrailEntities.Game.Travel
         ///     the trail.
         /// </summary>
         /// <param name="nextPoint"></param>
-        protected override void OnReachNextLocation(Location nextPoint)
+        public override void OnReachNextLocation(Location nextPoint)
         {
             base.OnReachNextLocation(nextPoint);
 
             // On the first point we are going to force the look around state onto the traveling gameMode without asking.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation())
             {
-                AddState(typeof(LookAroundState));
+                AddState(typeof (LookAroundState));
             }
             else if (!GameSimulationApp.Instance.Trail.IsFirstLocation() &&
                      GameSimulationApp.Instance.Vehicle.Odometer > 0 &&
                      GameSimulationApp.Instance.TotalTurns > 0)
             {
                 // Ensure we only ask if the player wants to stop when it is really not the first turn.
-                AddState(typeof(LookAroundQuestionState));
+                AddState(typeof (LookAroundQuestionState));
             }
         }
     }

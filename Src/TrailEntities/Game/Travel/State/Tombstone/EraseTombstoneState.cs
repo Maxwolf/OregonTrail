@@ -9,7 +9,7 @@ namespace TrailEntities.Game.Travel
     ///     Erases all the saved JSON tombstone epitaphs on the disk so other players will not encounter them, new ones can be
     ///     created then.
     /// </summary>
-    public sealed class EraseTombstoneState : ModeStateProduct
+    public sealed class EraseTombstoneState : StateProduct
     {
         /// <summary>
         ///     This constructor will be used by the other one

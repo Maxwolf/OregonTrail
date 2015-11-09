@@ -10,7 +10,7 @@ namespace TrailEntities.Game.Store
     ///     Spawns a new game mode in the game simulation while maintaining the state of previous one so when we bounce back we
     ///     can move from here to next state.
     /// </summary>
-    public sealed class BuyInitialItemsState : ModeStateProduct
+    public sealed class BuyInitialItemsState : StateProduct
     {
         /// <summary>
         ///     Keeps track if we have shown the information about what items the player should consider important before attaching
@@ -71,7 +71,7 @@ namespace TrailEntities.Game.Store
 
             // Change the game mode to be a store which can work with this data.
             _hasAttachedStore = true;
-            ParentMode.AddState(typeof(IntroduceStoreState));
+            ParentMode.AddState(typeof (IntroduceStoreState));
         }
     }
 }

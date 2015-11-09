@@ -9,7 +9,7 @@ namespace TrailEntities.Game.Store
     ///     If the player cannot afford to leave the store because they have attempted to purchase more items than they are
     ///     capable of carrying and or purchasing this will be displayed to inform the user they need to pay up.
     /// </summary>
-    public sealed class StoreDebtState : ModeStateProduct
+    public sealed class StoreDebtState : StateProduct
     {
         /// <summary>
         ///     Determines if we have already told the player about their debt.

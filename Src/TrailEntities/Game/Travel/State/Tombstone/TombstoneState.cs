@@ -9,7 +9,7 @@ namespace TrailEntities.Game.Travel
     ///     everybody dies. This state offers up the chance for the person to leave a personal epitaph of their existence as a
     ///     warning or really whatever. Wheel of the fun is not knowing what they will say!
     /// </summary>
-    public sealed class TombstoneState : ModeStateProduct
+    public sealed class TombstoneState : StateProduct
     {
         /// <summary>
         ///     This constructor will be used by the other one

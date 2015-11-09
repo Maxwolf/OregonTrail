@@ -11,7 +11,7 @@ namespace TrailEntities.Game.MainMenu
     ///     starting amount of money their party has access to when purchasing starting items for the journey on the trail path
     ///     simulation.
     /// </summary>
-    public sealed class SelectProfessionState : ModeStateProduct
+    public sealed class SelectProfessionState : StateProduct
     {
         /// <summary>
         ///     References the string for the profession selection so it is only constructed once.
@@ -64,29 +64,29 @@ namespace TrailEntities.Game.MainMenu
                 case "1":
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    ParentMode.AddState(typeof(InputPlayerNameState));
+                    ParentMode.AddState(typeof (InputPlayerNameState));
                     break;
                 case "2":
                     UserData.PlayerProfession = Profession.Carpenter;
                     UserData.StartingMonies = 800;
-                    ParentMode.AddState(typeof(InputPlayerNameState));
+                    ParentMode.AddState(typeof (InputPlayerNameState));
                     break;
                 case "3":
                     UserData.PlayerProfession = Profession.Farmer;
                     UserData.StartingMonies = 400;
-                    ParentMode.AddState(typeof(InputPlayerNameState));
+                    ParentMode.AddState(typeof (InputPlayerNameState));
                     break;
                 case "4":
                     // Shows information about what the different profession choices mean.
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    ParentMode.AddState(typeof(ProfessionAdviceState));
+                    ParentMode.AddState(typeof (ProfessionAdviceState));
                     break;
                 default:
                     // If there is some invalid selection just start the process over again.
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    ParentMode.AddState(typeof(SelectProfessionState));
+                    ParentMode.AddState(typeof (SelectProfessionState));
                     break;
             }
         }

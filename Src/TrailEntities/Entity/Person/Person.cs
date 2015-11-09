@@ -202,7 +202,8 @@ namespace TrailEntities.Entity.Person
                 Health = RepairStatus.Fair;
             }
             else if (100*GameSimulationApp.Instance.Random.NextDouble() < 100 -
-                     (40/GameSimulationApp.Instance.Vehicle.Passengers.Count()*((int) GameSimulationApp.Instance.Vehicle.Ration - 1)))
+                     (40/GameSimulationApp.Instance.Vehicle.Passengers.Count()*
+                      ((int) GameSimulationApp.Instance.Vehicle.Ration - 1)))
             {
                 // Bad illness.
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(10);

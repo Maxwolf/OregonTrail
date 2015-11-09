@@ -9,12 +9,12 @@ namespace TrailEntities.Mode
     /// </summary>
     public sealed class ModeChoiceItem
     {
-        public ModeChoiceItem(object command, Action action, string description)
+        public ModeChoiceItem(Enum command, Action action, string description)
         {
             // Complain the generics implemented is not of an enum type.
             if (!command.GetType().IsEnum)
             {
-                throw new InvalidCastException("ModeProduct choice command must be an enumerated type!");
+                throw new InvalidCastException("T must be an enumerated type!");
             }
 
             // Pass along the information about this choice.
@@ -23,8 +23,8 @@ namespace TrailEntities.Mode
             Description = description;
         }
 
-        public object Command { get; }
-        public string Description { get;}
-        public Action Action { get; }
+        public Enum Command { get; private set; }
+        public string Description { get; set; }
+        public Action Action { get; set; }
     }
 }

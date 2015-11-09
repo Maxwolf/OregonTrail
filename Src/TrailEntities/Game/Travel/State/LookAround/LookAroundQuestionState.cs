@@ -10,7 +10,7 @@ namespace TrailEntities.Game.Travel
     ///     the constructor there is a default boolean value to skip the question asking part and force a look around event to
     ///     occur without player consent.
     /// </summary>
-    public sealed class LookAroundQuestionState : ModeStateProduct
+    public sealed class LookAroundQuestionState : StateProduct
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -43,7 +43,7 @@ namespace TrailEntities.Game.Travel
             switch (input.ToUpperInvariant())
             {
                 case "Y":
-                    ParentMode.AddState(typeof(LookAroundState));
+                    ParentMode.AddState(typeof (LookAroundState));
                     break;
                 default:
                     ParentMode.RemoveState();

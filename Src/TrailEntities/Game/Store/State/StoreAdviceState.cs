@@ -9,7 +9,7 @@ namespace TrailEntities.Game.Store
     ///     Offers up some free information about what items are important to the player and what they mean for the during the
     ///     course of the simulation.
     /// </summary>
-    public sealed class StoreAdviceState : ModeStateProduct
+    public sealed class StoreAdviceState : StateProduct
     {
         /// <summary>
         ///     Keeps track if the player has read all the advice and this dialog needs to be closed.
@@ -105,7 +105,7 @@ namespace TrailEntities.Game.Store
             // On the last advice panel we flip a normal boolean to know we are definitely done here.
             if (_hasReadAdvice)
                 return;
-            
+
             _hasReadAdvice = true;
             ParentMode.RemoveState();
         }

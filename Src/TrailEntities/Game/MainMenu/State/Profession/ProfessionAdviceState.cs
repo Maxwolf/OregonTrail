@@ -9,7 +9,7 @@ namespace TrailEntities.Game.MainMenu
     ///     Shows information about what the player leader professions mean and how it affects the party, vehicle, game
     ///     difficulty, and scoring at the end (if they make it).
     /// </summary>
-    public sealed class ProfessionAdviceState : ModeStateProduct
+    public sealed class ProfessionAdviceState : StateProduct
     {
         /// <summary>
         ///     Determines if the player is done reading the profession advice.
@@ -21,7 +21,7 @@ namespace TrailEntities.Game.MainMenu
         /// </summary>
         private StringBuilder _job;
 
-        public ProfessionAdviceState(ModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public ProfessionAdviceState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Information about professions and how they work.
             _job = new StringBuilder();
@@ -57,7 +57,7 @@ namespace TrailEntities.Game.MainMenu
 
             // Return the select profession state if we are ready for that.
             _hasReadProfessionAdvice = true;
-            ParentMode.AddState(typeof(SelectProfessionState));
+            ParentMode.AddState(typeof (SelectProfessionState));
         }
     }
 }

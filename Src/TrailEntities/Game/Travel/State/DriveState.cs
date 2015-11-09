@@ -11,7 +11,7 @@ namespace TrailEntities.Game.Travel
     ///     moving back and fourth which lets the player know they are moving. Stats are also shown from the travel info
     ///     object, if any random events occur they will be selected from this state.
     /// </summary>
-    public sealed class DriveState : ModeStateProduct
+    public sealed class DriveState : StateProduct
     {
         /// <summary>
         ///     Holds the current drive state, since we can size up the situation at any time.
@@ -84,7 +84,7 @@ namespace TrailEntities.Game.Travel
         /// <summary>
         ///     Forces the current game mode state to update itself, this typically results in moving to the next state.
         /// </summary>
-        protected internal override void TickState()
+        public override void TickState()
         {
             base.TickState();
 

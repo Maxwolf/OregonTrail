@@ -11,7 +11,7 @@ namespace TrailEntities.Game.MainMenu
     ///     Offers the player the ability to change the starting month of the simulation, this affects how many resources will
     ///     be available to them and the severity of the random events they encounter along the trail.
     /// </summary>
-    public sealed class SelectStartingMonthState : ModeStateProduct
+    public sealed class SelectStartingMonthState : StateProduct
     {
         /// <summary>
         ///     References the string representing the question about starting month, only builds it once and holds in memory while
@@ -69,31 +69,31 @@ namespace TrailEntities.Game.MainMenu
             {
                 case "1":
                     UserData.StartingMonth = Months.March;
-                    ParentMode.AddState(typeof(BuyInitialItemsState));
+                    ParentMode.AddState(typeof (BuyInitialItemsState));
                     break;
                 case "2":
                     UserData.StartingMonth = Months.April;
-                    ParentMode.AddState(typeof(BuyInitialItemsState));
+                    ParentMode.AddState(typeof (BuyInitialItemsState));
                     break;
                 case "3":
                     UserData.StartingMonth = Months.May;
-                    ParentMode.AddState(typeof(BuyInitialItemsState));
+                    ParentMode.AddState(typeof (BuyInitialItemsState));
                     break;
                 case "4":
                     UserData.StartingMonth = Months.June;
-                    ParentMode.AddState(typeof(BuyInitialItemsState));
+                    ParentMode.AddState(typeof (BuyInitialItemsState));
                     break;
                 case "5":
                     UserData.StartingMonth = Months.July;
-                    ParentMode.AddState(typeof(BuyInitialItemsState));
+                    ParentMode.AddState(typeof (BuyInitialItemsState));
                     break;
                 case "6":
                     // Shows information about what the different starting months mean.
-                    ParentMode.AddState(typeof(StartMonthAdviceState));
+                    ParentMode.AddState(typeof (StartMonthAdviceState));
                     break;
                 default:
                     UserData.StartingMonth = Months.March;
-                    ParentMode.AddState(typeof(SelectStartingMonthState));
+                    ParentMode.AddState(typeof (SelectStartingMonthState));
                     break;
             }
         }

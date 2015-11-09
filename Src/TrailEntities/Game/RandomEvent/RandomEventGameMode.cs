@@ -7,7 +7,8 @@ using TrailEntities.Simulation;
 namespace TrailEntities.Game.RandomEvent
 {
     /// <summary>
-    ///     Attached by the event director when it wants to execute an event against the simulation. It will attach this gameMode,
+    ///     Attached by the event director when it wants to execute an event against the simulation. It will attach this
+    ///     gameMode,
     ///     which then hooks the event delegate it will trigger right after this class finishes initializing.
     /// </summary>
     public sealed class RandomEventGameMode : ModeProduct
@@ -20,9 +21,10 @@ namespace TrailEntities.Game.RandomEvent
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public RandomEventGameMode() : base(false)
+        public RandomEventGameMode(IModeInfo userData, bool showCommandNamesInMenu, RandomEventInfo eventInfo)
+            : base(userData, showCommandNamesInMenu)
         {
-            eventInfo = new RandomEventInfo();
+            this.eventInfo = eventInfo;
 
             // Event director has event to know when events are triggered.
             GameSimulationApp.Instance.EventDirector.OnEventTriggered += Director_OnEventTriggered;
@@ -45,13 +47,13 @@ namespace TrailEntities.Game.RandomEvent
         {
             // Attached the random event state when we intercept an event it would like us to trigger.
             // TODO: Put event data into random event info object.
-            AddState(typeof(RandomEventState));
+            AddState(typeof (RandomEventState));
         }
 
         /// <summary>
         ///     Fired when this game gameMode is removed from the list of available and ticked GameMode in the simulation.
         /// </summary>
-        protected override void OnModeRemoved(GameMode modeType)
+        public override void OnModeRemoved(GameMode modeType)
         {
             base.OnModeRemoved(modeType);
 

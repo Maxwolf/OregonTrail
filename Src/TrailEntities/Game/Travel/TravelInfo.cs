@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
+using TrailEntities.Mode;
 using TrailEntities.Simulation;
 
 namespace TrailEntities.Game.Travel
@@ -9,7 +10,7 @@ namespace TrailEntities.Game.Travel
     ///     Holds all the information about traveling that we want to know, such as how long we need to go until next point,
     ///     what our current mode is like moving, paused, etc.
     /// </summary>
-    public sealed class TravelInfo
+    public sealed class TravelInfo : IModeInfo
     {
         /// <summary>
         ///     Determines if the player has looked around at the location before prompting them with any decision making.

@@ -48,7 +48,9 @@
     <Compile Include="Entity\Person\RationLevel.cs" />
     <Compile Include="Game\ForkInRoad\ForkInRoadInfo.cs" />
     <Compile Include="Game\Hunting\HuntingInfo.cs" />
-    <Compile Include="Mode\ModeFactory.cs" />
+    <Compile Include="Mode\ModeFactory\IModeInfo.cs" />
+    <Compile Include="Mode\ModeFactory\IModeProduct.cs" />
+    <Compile Include="Mode\ModeFactory\ModeFactory.cs" />
     <Compile Include="Game\Trade\TradeInfo.cs" />
     <Compile Include="Event\EventType.cs" />
     <Compile Include="Event\EventHistoryItem.cs" />
@@ -56,7 +58,8 @@
     <Compile Include="Event\Medical\DeathCompanionEvent.cs" />
     <Compile Include="Event\Medical\DeathPlayerEvent.cs" />
     <Compile Include="Event\DirectorEventAttribute.cs" />
-    <Compile Include="Mode\ModeStateFactory.cs" />
+    <Compile Include="Mode\StateFactory\IStateProduct.cs" />
+    <Compile Include="Mode\StateFactory\StateFactory.cs" />
     <Compile Include="Game\Store\State\IntroduceStoreState.cs" />
     <Compile Include="Mode\GameModeAttribute.cs" />
     <Compile Include="Game\RandomEvent\RandomEventCommands.cs" />
@@ -88,6 +91,7 @@
     <Compile Include="Game\Travel\State\Pace\PaceAdviceState.cs" />
     <Compile Include="Game\EndGame\State\PointsState.cs" />
     <Compile Include="Game\Travel\State\Tombstone\TombstoneState.cs" />
+    <Compile Include="Mode\StateFactory\StateProduct.cs" />
     <Compile Include="Widget\AttributeHelper.cs" />
     <Compile Include="Widget\EnumExtensions.cs" />
     <Compile Include="Widget\SpinningPixel.cs" />
@@ -99,10 +103,9 @@
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
     <Compile Include="Game\ForkInRoad\ForkInRoadCommands.cs" />
     <Compile Include="Game\ForkInRoad\ForkInRoadGameMode.cs" />
-    <Compile Include="Mode\ModeProduct.cs" />
+    <Compile Include="Mode\ModeFactory\ModeProduct.cs" />
     <Compile Include="Game\Hunting\HuntingCommands.cs" />
     <Compile Include="Mode\ModeChoiceItem.cs" />
-    <Compile Include="Mode\ModeStateProduct.cs" />
     <Compile Include="Mode\GameMode.cs" />
     <Compile Include="Game\Store\State\BuyInitialItemsState.cs" />
     <Compile Include="Game\MainMenu\State\CurrentTopTenState.cs" />

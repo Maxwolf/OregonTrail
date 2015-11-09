@@ -9,7 +9,7 @@ namespace TrailEntities.Game.Travel
     ///     Shows information about what the different pace settings mean in terms for the simulation and how they will affect
     ///     vehicle, party, and events.
     /// </summary>
-    public sealed class PaceAdviceState : ModeStateProduct
+    public sealed class PaceAdviceState : StateProduct
     {
         /// <summary>
         ///     String builder to hold all the information for pace help so we only build it once and then reference it.
@@ -82,7 +82,7 @@ namespace TrailEntities.Game.Travel
 
             // Go back to the travel menu.
             _seenPaceHelp = true;
-            ParentMode.AddState(typeof(ChangePaceState));
+            ParentMode.AddState(typeof (ChangePaceState));
         }
     }
 }

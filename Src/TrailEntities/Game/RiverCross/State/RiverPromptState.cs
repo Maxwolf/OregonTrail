@@ -8,7 +8,7 @@ namespace TrailEntities.Game.RiverCross
     ///     order to continue and there is no going around. We tell them how deep the water is and how many feed across the
     ///     river is they will need to travel.
     /// </summary>
-    public sealed class RiverPromptState : ModeStateProduct
+    public sealed class RiverPromptState : StateProduct
     {
         /// <summary>
         ///     This constructor will be used by the other one

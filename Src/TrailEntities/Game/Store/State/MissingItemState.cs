@@ -12,7 +12,7 @@ namespace TrailEntities.Game.Store
     ///     used in the new game mode to force the player to have at least one oxen to pull their vehicle in order to start the
     ///     simulation.
     /// </summary>
-    public sealed class MissingItemState : ModeStateProduct
+    public sealed class MissingItemState : StateProduct
     {
         /// <summary>
         ///     Determines what SimItem entity the player is actually missing.

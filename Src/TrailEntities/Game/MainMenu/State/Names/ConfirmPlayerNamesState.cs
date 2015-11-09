@@ -10,7 +10,7 @@ namespace TrailEntities.Game.MainMenu
     ///     would indeed like to use all the entered names they have provided or had randomly generated for them by just
     ///     pressing enter.
     /// </summary>
-    public sealed class ConfirmPlayerNamesState : ModeStateProduct
+    public sealed class ConfirmPlayerNamesState : StateProduct
     {
         /// <summary>
         ///     References the party text so we only have to construct it once and then print the result.
@@ -81,7 +81,7 @@ namespace TrailEntities.Game.MainMenu
                     UserData.PlayerNames.Clear();
 
                     // Go back to the beginning of the player name selection chain.
-                    ParentMode.AddState(typeof(InputPlayerNameState));
+                    ParentMode.AddState(typeof (InputPlayerNameState));
                     break;
             }
         }

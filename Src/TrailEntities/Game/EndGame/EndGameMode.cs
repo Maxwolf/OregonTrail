@@ -10,7 +10,7 @@ namespace TrailEntities.Game.EndGame
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public EndGameMode() : base(false)
+        public EndGameMode() : base(new EndGameInfo(), false)
         {
         }
 

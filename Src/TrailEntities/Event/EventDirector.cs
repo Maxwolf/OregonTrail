@@ -110,7 +110,10 @@ namespace TrailEntities.Event
         ///     actual class name which is what is used by the internal simulation event directors dictionary of available events.
         /// </summary>
         /// <param name="simEntity">Entity that would like to be tied to event being triggered.</param>
-        /// <param name="eventType">EventType of event that should be triggered, if it exists in loaded event dictionary in director.</param>
+        /// <param name="eventType">
+        ///     EventType of event that should be triggered, if it exists in loaded event dictionary in
+        ///     director.
+        /// </param>
         public void TriggerEvent(IEntity simEntity, Type eventType)
         {
             // Pass off execution to helper method that will construct event instance from type.

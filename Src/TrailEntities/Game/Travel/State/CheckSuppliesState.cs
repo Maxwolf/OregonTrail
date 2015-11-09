@@ -11,7 +11,7 @@ namespace TrailEntities.Game.Travel
     ///     they have. This screen is not for looking at group stats, only items which are normally not shown unlike the travel
     ///     menu that shows basic party stats at all times.
     /// </summary>
-    public sealed class CheckSuppliesState : ModeStateProduct
+    public sealed class CheckSuppliesState : StateProduct
     {
         /// <summary>
         ///     Determines if the player is finished looking at their current inventory supply listing.

@@ -8,7 +8,7 @@ namespace TrailEntities.Game.RiverCross
     ///     confirm by saying yes. At this point the simulation will check if they have enough money or not and jump to the
     ///     next state accordingly.
     /// </summary>
-    public sealed class UseFerryConfirmState : ModeStateProduct
+    public sealed class UseFerryConfirmState : StateProduct
     {
         /// <summary>
         ///     This constructor will be used by the other one

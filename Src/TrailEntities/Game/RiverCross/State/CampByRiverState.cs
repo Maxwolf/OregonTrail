@@ -7,7 +7,7 @@ namespace TrailEntities.Game.RiverCross
     ///     Attached if the player decides to rest by the river for a specified amount of time. Events will still tick here as
     ///     the number of days is moved through.
     /// </summary>
-    public sealed class CampByRiverState : ModeStateProduct
+    public sealed class CampByRiverState : StateProduct
     {
         /// <summary>
         ///     This constructor will be used by the other one

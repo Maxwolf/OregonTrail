@@ -8,7 +8,7 @@ namespace TrailEntities.Game.MainMenu
     /// <summary>
     ///     Shows basic information about how the game works, how traveling works, rules for winning and losing.
     /// </summary>
-    public sealed class InstructionsState : ModeStateProduct
+    public sealed class InstructionsState : StateProduct
     {
         /// <summary>
         ///     Determines if the player has read the instructions.

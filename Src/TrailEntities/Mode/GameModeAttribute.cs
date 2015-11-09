@@ -3,7 +3,8 @@
 namespace TrailEntities.Mode
 {
     /// <summary>
-    ///     Intended to be used as decorations on the top of game gameMode classes so the game simulation can create a dictionary
+    ///     Intended to be used as decorations on the top of game gameMode classes so the game simulation can create a
+    ///     dictionary
     ///     of all available game GameMode on startup based on what type they are so they can be quickly activated.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
@@ -33,18 +34,19 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     Will hold an enumeration of all the available commands in this game gameMode.
         /// </summary>
-        public Type Commands { get; }
+        public Type Commands { get; private set; }
 
         /// <summary>
-        ///     Defines the type of object that will be created to act as intermediate object for all game gameMode states. It will be
+        ///     Defines the type of object that will be created to act as intermediate object for all game gameMode states. It will
+        ///     be
         ///     created when the game gameMode is attached to the simulation.
         /// </summary>
-        public Type UserData { get; }
+        public Type UserData { get; private set; }
 
         /// <summary>
         ///     Defines the actual game gameMode type which will be loaded into the simulation on startup using attributes and
         ///     reflection.
         /// </summary>
-        public Type Mode { get; set; }
+        public Type Mode { get; private set; }
     }
 }

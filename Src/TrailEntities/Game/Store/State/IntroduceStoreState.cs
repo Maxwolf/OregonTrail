@@ -9,7 +9,7 @@ namespace TrailEntities.Game.Store
     /// <summary>
     ///     Introduces the player to the concept of a store as being run by a person by the name of Matt.
     /// </summary>
-    public sealed class IntroduceStoreState : ModeStateProduct
+    public sealed class IntroduceStoreState : StateProduct
     {
         /// <summary>
         ///     Determines if the player now knows who Matt is.
