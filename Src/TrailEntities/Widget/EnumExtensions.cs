@@ -9,8 +9,10 @@ namespace TrailEntities.Widget
     /// </summary>
     public static class EnumExtensions
     {
-        // This extension method is broken out so you can use a similar pattern with 
-        // other MetaData elements in the future. This is your base method for each.
+        /// <summary>
+        ///     This extension method is broken out so you can use a similar pattern with other MetaData elements in the future.
+        ///     This is your base method for each.
+        /// </summary>
         public static T GetAttribute<T>(this Enum value) where T : Attribute
         {
             var type = value.GetType();
@@ -19,9 +21,10 @@ namespace TrailEntities.Widget
             return (T) attributes[0];
         }
 
-        // This method creates a specific call to the above method, requesting the
-        // Description MetaData attribute.
-        public static string ToName(this Enum value)
+        /// <summary>
+        ///     Specialized extension methods that feed of it to get the description.
+        /// </summary>
+        public static string ToDescriptionAttribute(this Enum value)
         {
             var attribute = value.GetAttribute<DescriptionAttribute>();
             return attribute == null ? value.ToString() : attribute.Description;
@@ -30,9 +33,6 @@ namespace TrailEntities.Widget
         /// <summary>
         ///     Converts a description attribute from a given enum type into value again.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="description"></param>
-        /// <returns></returns>
         public static T GetValueFromDescription<T>(string description)
         {
             var type = typeof (T);
@@ -57,17 +57,6 @@ namespace TrailEntities.Widget
             throw new ArgumentException(
                 "Could not convert string description back into enumeration value from " + typeof (T).Name,
                 nameof(description));
-        }
-
-        /// <summary>
-        ///     Specialized extension methods that feed of it to get the description.
-        /// </summary>
-        /// <param name="enumValue"></param>
-        /// <returns></returns>
-        public static string GetAttributeDescription(this Enum enumValue)
-        {
-            var attribute = enumValue.GetAttributeOfType<DescriptionAttribute>();
-            return attribute == null ? string.Empty : attribute.Description;
         }
 
         /// <summary>

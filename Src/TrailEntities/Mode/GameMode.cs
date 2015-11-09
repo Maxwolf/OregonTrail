@@ -1,451 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Text;
-using TrailEntities.Simulation;
-
-namespace TrailEntities.Mode
+﻿namespace TrailEntities.Mode
 {
     /// <summary>
-    ///     Facilitates the ability to control the entire simulation with the passes interface reference. Server simulation
-    ///     keeps track of all currently loaded game modes and will only tick the top-most one so they can be stacked and clear
-    ///     out until there are none.
+    ///     Since the view for game GameMode is separated from the actual logic being performed we need a logical way to know what
+    ///     view to attach on the view. This enum serves that purpose, it is required to add any new game GameMode the simulation
+    ///     needs to know about to this enumeration along with game gameMode attribute to define required classes for game gameMode.
     /// </summary>
-    public abstract class GameMode : Comparer<GameMode>, IComparable<GameMode>, IEquatable<GameMode>, IEqualityComparer<GameMode>
+    public enum GameMode
     {
         /// <summary>
-        ///     Keeps track of the current game mode state, if null then there is no state attached and menu is shown.
+        ///     Primary game gameMode used for advancing simulation down the trail.
         /// </summary>
-        private IModeState _currentState;
+        [GameMode(typeof(TravelGameMode), typeof(TravelCommands), typeof(TravelInfo))]
+        Travel,
 
         /// <summary>
-        ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
-        ///     spawned it.
+        ///     Forces the player to make a decision about where to go next on the trail.
         /// </summary>
-        private HashSet<ModeChoiceItem> _menuChoices;
+        [GameMode(typeof(ForkInRoadGameMode), typeof(ForkInRoadCommands), typeof(ForkInRoadInfo))]
+        ForkInRoad,
 
         /// <summary>
-        ///     Holds the footer text that we will place below menu but before input buffer text.
+        ///     Lets the player hunt for food to bring back to the vehicle.
         /// </summary>
-        private string _menuFooter;
+        [GameMode(typeof(HuntingGameMode), typeof(HuntingCommands), typeof(HuntingInfo))]
+        Hunt,
 
         /// <summary>
-        ///     Holds the prefix text that can go above the menu text if it exists.
+        ///     Allows the configuration of party names, player profession, and purchasing initial items for trip.
         /// </summary>
-        private string _menuHeader;
+        [GameMode(typeof(MainMenuGameMode), typeof(MainMenuCommands), typeof(MainMenuInfo))]
+        MainMenu,
 
         /// <summary>
-        ///     Determines if the command names for the particular action should be printed out alongside the number the user can
-        ///     press to control that particular enum.
+        ///     Shows final point count, resets simulation data, asks if user wants to return to main menu or close the
+        ///     application.
         /// </summary>
-        private bool _showCommandNamesInMenu;
+        [GameMode(typeof(EndGameMode), typeof(EndGameCommands), typeof(EndGameInfo))]
+        EndGame,
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        ///     Forces the player to make a choice about how to cross the river, they can ford the river, caulk their wagon and
+        ///     float, or pay to take a ferry across.
         /// </summary>
-        protected GameMode(bool showCommandNamesInMenu)
-        {
-            // Determines if the menu system should show raw command names in the menu rendering or just number selections by enum value.
-            _showCommandNamesInMenu = showCommandNamesInMenu;
-
-            // Create empty list of menu choices.
-            _menuChoices = new HashSet<ModeChoiceItem>();
-
-            // Menu header and footer is empty strings by default.
-            _menuHeader = string.Empty;
-            _menuFooter = string.Empty;
-
-            // Hook event to know when we have reached a location point of interest.
-            GameSimApp.Instance.Trail.OnReachPointOfInterest += OnReachNextLocation;
-
-            // Cast the current point of interest into a settlement object since that is where stores are.
-            CurrentPoint = GameSimApp.Instance.Trail.GetCurrentLocation();
-            if (CurrentPoint == null)
-                throw new InvalidCastException("Unable to get current point of interest from trail simulation!");
-        }
+        [GameMode(typeof(RiverCrossGameMode), typeof(RiverCrossCommands), typeof(RiverCrossInfo))]
+        RiverCrossing,
 
         /// <summary>
-        ///     Defines the text prefix which will go above the menu, used to show any useful information the game mode might need
-        ///     to at the top of menu selections.
+        ///     Facilitates purchasing items from a list, prices can change per store as there is no central lookup for this
+        ///     information.
         /// </summary>
-        protected virtual string MenuHeader
-        {
-            get { return _menuHeader; }
-            set { _menuHeader = value; }
-        }
+        [GameMode(typeof(StoreGameMode), typeof(StoreCommands), typeof(StoreInfo))]
+        Store,
 
         /// <summary>
-        ///     Similar to the header this will define some text that should go below the menu selection but before the user input
-        ///     field.
+        ///     Facilitates trading items with a fake AI vehicle, a list is created and values randomly selected from it for
+        ///     possible trades.
         /// </summary>
-        protected virtual string MenuFooter
-        {
-            get { return _menuFooter; }
-            set { _menuFooter = value; }
-        }
+        [GameMode(typeof(TradingGameMode), typeof(TradingCommands), typeof(TradeInfo))]
+        Trade,
 
         /// <summary>
-        ///     Determines if the command names for the particular action should be printed out alongside the number the user can
-        ///     press to control that particular enum.
+        ///     Allows the player to reset top ten high scores, remove saved games, remove tombstone messages, etc.
         /// </summary>
-        public virtual bool ShowCommandNamesInMenu
-        {
-            get { return _showCommandNamesInMenu; }
-        }
+        [GameMode(typeof(OptionsGameMode), typeof(OptionCommands), typeof(OptionInfo))]
+        Options,
 
         /// <summary>
-        ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
-        ///     class where they become available.
+        ///     Random event gameMode is attached by the event director which then listens for the event it will throw at it over event
+        ///     delegate the random event gameMode will subscribe to.
         /// </summary>
-        public Location CurrentPoint { get; }
-
-        /// <summary>
-        ///     Determines if the game mode should not be ticked if it is active but instead removed. The mode when set to being
-        ///     removed will not actually be removed until the simulation attempts to tick it and realizes that this is set to true
-        ///     and then it will be removed.
-        /// </summary>
-        public bool ShouldRemoveMode { get; private set; }
-
-        /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
-        ///     simulation.
-        /// </summary>
-        public abstract ModeCategory ModeCategory { get; }
-
-        /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public virtual bool AcceptsInput
-        {
-            get { return !ShouldRemoveMode; }
-        }
-
-        /// <summary>
-        ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and
-        ///     then detach.
-        /// </summary>
-        public IModeState CurrentState
-        {
-            get { return _currentState; }
-            set
-            {
-                _currentState = value;
-                OnStateChanged();
-            }
-        }
-
-        /// <summary>
-        ///     Determines whether the specified objects are equal.
-        /// </summary>
-        /// <returns>
-        ///     true if the specified objects are equal; otherwise, false.
-        /// </returns>
-        public bool Equals(GameMode x, GameMode y)
-        {
-            return x.Equals(y);
-        }
-
-        /// <summary>
-        ///     Returns a hash code for the specified object.
-        /// </summary>
-        /// <returns>
-        ///     A hash code for the specified object.
-        /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object" /> for which a hash code is to be returned.</param>
-        /// <exception cref="T:System.ArgumentNullException">
-        ///     The type of <paramref name="obj" /> is a reference type and
-        ///     <paramref name="obj" /> is null.
-        /// </exception>
-        public int GetHashCode(GameMode obj)
-        {
-            return obj.GetHashCode();
-        }
-
-        /// <summary>
-        ///     Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        ///     true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(GameMode other)
-        {
-            // Reference equality check
-            if (this == other)
-            {
-                return true;
-            }
-
-            if (other == null)
-            {
-                return false;
-            }
-
-            if (other.GetType() != GetType())
-            {
-                return false;
-            }
-
-            if (ModeCategory.Equals(other.ModeCategory) &&
-                _currentState.Equals(other._currentState))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        ///     Sets the flag for this game mode to be removed the next time it is ticked by the simulation.
-        /// </summary>
-        public void RemoveModeNextTick()
-        {
-            // Forcefully detaches any state that was active before calling mode removed.
-            ShouldRemoveMode = true;
-            CurrentState = null;
-
-            // Allows any data structures that care about themselves to save before the next tick comes.
-            OnModeRemoved(ModeCategory);
-        }
-
-        /// <summary>
-        ///     Fired by simulation when it wants to request latest text user interface data for the game mode, this is used to
-        ///     display to user console specific information about what the simulation wants.
-        /// </summary>
-        public string OnRenderMode()
-        {
-            // Build up string representation of the current state of the game mode.
-            var modeTUI = new StringBuilder();
-
-            // Only add menu choices if there are some to actually add, otherwise just return the string buffer now.
-            if (_menuChoices?.Count > 0 && CurrentState == null)
-            {
-                // Header text for above menu.
-                if (!string.IsNullOrEmpty(MenuHeader))
-                    modeTUI.Append($"{MenuHeader}{Environment.NewLine}{Environment.NewLine}");
-
-                // Loop through the menu choices and add each one to the mode text user interface.
-                var menuChoices = 1;
-                foreach (var menuChoice in _menuChoices)
-                {
-                    // Name of command and then description of what it does, the command is all we really care about.
-                    modeTUI.Append(_showCommandNamesInMenu
-                        ? $"  {menuChoices}. {menuChoice.Command} - {menuChoice.Description}{Environment.NewLine}"
-                        : $"  {menuChoices}. {menuChoice.Description}{Environment.NewLine}");
-
-                    // Increment the menu choices number shown to user.
-                    menuChoices++;
-                }
-
-                // Footer text for below menu.
-                if (!string.IsNullOrEmpty(MenuFooter))
-                    modeTUI.Append($"{MenuFooter}{Environment.NewLine}");
-            }
-            else
-            {
-                // Added any descriptive text about the mode, like stats, health, weather, location, etc.
-                var prependMessage = CurrentState?.OnRenderState();
-                if (!string.IsNullOrEmpty(prependMessage))
-                    modeTUI.Append($"{prependMessage}{Environment.NewLine}");
-            }
-
-            // Returns the string buffer we constructed for this game mode to the simulation so it can be displayed.
-            return modeTUI.ToString();
-        }
-
-        /// <summary>
-        ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
-        ///     top-most game mode.
-        /// </summary>
-        public virtual void TickMode()
-        {
-            // Tick the logic in the current state if it not null.
-            CurrentState?.TickState();
-        }
-
-        /// <summary>
-        ///     Fired by messaging system or user interface that wants to interact with the simulation by sending string command
-        ///     that should be able to be parsed into a valid command that can be run on the current game mode.
-        /// </summary>
-        /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
-        public void SendInputBuffer(string returnedLine)
-        {
-            OnReceiveInputBuffer(returnedLine);
-        }
-
-        /// <summary>
-        ///     Fired when the active game mode has been changed, this allows any underlying mode to know about a change in
-        ///     simulation.
-        /// </summary>
-        /// <param name="modeCategory">Current mode which the simulation is changing to.</param>
-        public virtual void OnModeChanged(ModeCategory modeCategory)
-        {
-            // Pass info along if current state exists.
-            CurrentState?.OnParentModeChanged();
-        }
-
-        /// <summary>
-        ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
-        /// </summary>
-        /// <returns>
-        ///     A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />, as shown in
-        ///     the following table.Value Meaning Less than zero<paramref name="x" /> is less than <paramref name="y" />.Zero
-        ///     <paramref name="x" /> equals <paramref name="y" />.Greater than zero<paramref name="x" /> is greater than
-        ///     <paramref name="y" />.
-        /// </returns>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
-        public override int Compare(GameMode x, GameMode y)
-        {
-            Debug.Assert(x != null, "x != null");
-            Debug.Assert(y != null, "y != null");
-
-            var result = x.ModeCategory.CompareTo(y.ModeCategory);
-            if (result != 0) return result;
-
-            result = x.CurrentState.CompareTo(y.CurrentState);
-            if (result != 0) return result;
-
-            return result;
-        }
-
-        /// <summary>
-        ///     Compares the current object with another object of the same type.
-        /// </summary>
-        /// <returns>
-        ///     A value that indicates the relative order of the objects being compared. The return value has the following
-        ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This
-        ///     object is equal to <paramref name="other" />. Greater than zero This object is greater than
-        ///     <paramref name="other" />.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public int CompareTo(GameMode other)
-        {
-            Debug.Assert(other != null, "other != null");
-
-            var result = other.ModeCategory.CompareTo(ModeCategory);
-            if (result != 0) return result;
-
-            result = other.CurrentState.CompareTo(CurrentState);
-            if (result != 0) return result;
-
-            return result;
-        }
-
-        /// <summary>
-        ///     Fired when trail simulation has determined the vehicle and player party has reached the next point of interest in
-        ///     the trail.
-        /// </summary>
-        protected virtual void OnReachNextLocation(Location nextPoint)
-        {
-            Debug.Assert(nextPoint != null, "nextPoint != null");
-        }
-
-        /// <summary>
-        ///     Fired when the current game modes state is altered, it could be removed and null or a new one added up to
-        ///     implementation to check.
-        /// </summary>
-        protected virtual void OnStateChanged()
-        {
-            // Nothing to see here, move along...
-        }
-
-        /// <summary>
-        ///     Adds a new game mode menu selection that will be available to send as a command for this specific game mode.
-        /// </summary>
-        /// <param name="action">Method that will be run when the choice is made.</param>
-        /// <param name="command">Associated command that will trigger the respective action in the active game mode.</param>
-        /// <param name="description">Text that will be shown to user so they know what the choice means.</param>
-        protected void AddCommand(Action action, object command, string description)
-        {
-            var menuChoice = new ModeChoiceItem(command, action, description);
-            if (!_menuChoices.Contains(menuChoice))
-            {
-                _menuChoices.Add(menuChoice);
-            }
-        }
-
-        /// <summary>
-        ///     Forces the menu choices to be cleared out, this is used by modes like the store to refresh the data shown in the
-        ///     menu to match purchasing decisions.
-        /// </summary>
-        protected void ClearCommands()
-        {
-            _menuChoices.Clear();
-        }
-
-        /// <summary>
-        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
-        ///     concrete handlers for game mode.
-        /// </summary>
-        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
-        private void OnReceiveInputBuffer(string returnedLine)
-        {
-            // Only process menu items for game mode when current state is null, or there are no menu choices to select from.
-            if (CurrentState == null &&
-                _menuChoices?.Count > 0 &&
-                !string.IsNullOrEmpty(returnedLine) &&
-                !string.IsNullOrWhiteSpace(returnedLine))
-            {
-                // Loop through every added menu choice.
-                foreach (var menuChoice in _menuChoices)
-                {
-                    // Attempt to convert the returned line into generic enum.
-                    var parsedCommandValue = (T) Enum.Parse(typeof (T), returnedLine, true);
-                    if (!(Enum.IsDefined(typeof (T), parsedCommandValue) |
-                          parsedCommandValue.ToString(CultureInfo.InvariantCulture).Contains(",")))
-                        continue;
-
-                    // Check if the received input buffer matches any of them.
-                    if (!parsedCommandValue.Equals(menuChoice.Command))
-                        continue;
-
-                    // If it matches then invoke the bound action in the simulation.
-                    menuChoice.Action.Invoke();
-                    return;
-                }
-            }
-            else
-            {
-                // Pass the input buffer to the current state, if it manages to get this far.
-                CurrentState?.OnInputBufferReturned(returnedLine);
-            }
-        }
-
-        /// <summary>
-        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
-        /// </summary>
-        protected virtual void OnModeRemoved(ModeCategory modeCategory)
-        {
-            GameSimApp.Instance.Trail.OnReachPointOfInterest -= OnReachNextLocation;
-            _menuChoices = null;
-        }
-
-        /// <summary>
-        ///     Returns a string that represents the current object.
-        /// </summary>
-        /// <returns>
-        ///     A string that represents the current object.
-        /// </returns>
-        public override string ToString()
-        {
-            return ModeCategory.ToString();
-        }
-
-        /// <summary>
-        ///     Serves as a hash function for a particular type.
-        /// </summary>
-        /// <returns>
-        ///     A hash code for the current <see cref="T:System.Object" />.
-        /// </returns>
-        public override int GetHashCode()
-        {
-            var hash = 23;
-            hash = (hash*31) + CurrentState.GetHashCode();
-            hash = (hash*31) + ModeCategory.GetHashCode();
-            return hash;
-        }
+        [GameMode(typeof(RandomEventGameMode), typeof(RandomEventCommands), typeof(RandomEventInfo))]
+        RandomEvent
     }
 }

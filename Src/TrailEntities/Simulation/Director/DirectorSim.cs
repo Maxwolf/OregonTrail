@@ -143,8 +143,8 @@ namespace TrailEntities.Simulation
             // Grab the event item,
             var eventItem = _events[eventName];
 
-            // Attach random event game mode before triggering event since it will listen for it using event delegate.
-            GameSimApp.Instance.AttachMode(ModeCategory.RandomEvent);
+            // Attach random event game gameMode before triggering event since it will listen for it using event delegate.
+            GameSimApp.Instance.AttachMode(GameMode.RandomEvent);
 
             // Fire off event so primary game simulation knows we executed an event with an event.
             OnEventTriggered?.Invoke(simEntity, eventItem);

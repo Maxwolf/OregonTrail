@@ -14,7 +14,7 @@ namespace TrailEntities.Mode
             // Complain the generics implemented is not of an enum type.
             if (!command.GetType().IsEnum)
             {
-                throw new InvalidCastException("GameMode choice command must be an enumerated type!");
+                throw new InvalidCastException("ModeProduct choice command must be an enumerated type!");
             }
 
             // Pass along the information about this choice.

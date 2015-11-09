@@ -1,17 +1,17 @@
 ﻿using System.Text;
 using TrailEntities.Simulation;
+using TrailEntities.State;
 
 namespace TrailEntities.Mode
 {
     /// <summary>
-    ///     Primary game mode of the simulation, used to show simulation advancing through linear time. Shows all major stats
+    ///     Primary game gameMode of the simulation, used to show simulation advancing through linear time. Shows all major stats
     ///     of party and vehicle, plus climate and other things like distance traveled and distance to next point.
     /// </summary>
-    [GameMode(ModeCategory.Travel, typeof(TravelCommands), typeof(TravelInfo))]
-    public sealed class TravelGameMode : GameMode
+    public sealed class TravelGameMode : ModeProduct
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode.TravelGameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct.TravelGameMode" /> class.
         /// </summary>
         public TravelGameMode() : base(false)
         {
@@ -23,18 +23,18 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Traveling game mode has a mode state information object that is used to keep track of any important info about the
+        ///     Traveling game gameMode has a gameMode state information object that is used to keep track of any important info about the
         ///     state like how many days we should rest.
         /// </summary>
         private TravelInfo TravelInfo { get; }
 
         /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     Defines the current game gameMode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override GameMode ModeType
         {
-            get { return ModeCategory.Travel; }
+            get { return GameMode.Travel; }
         }
 
         /// <summary>
@@ -42,15 +42,15 @@ namespace TrailEntities.Mode
         /// </summary>
         private void TalkToPeople()
         {
-            CurrentState = new TalkToPeopleState(this, TravelInfo);
+            AddState(typeof(TalkToPeopleState));
         }
 
         /// <summary>
-        ///     Attached store game mode on top of existing game mode for purchasing items from this location.
+        ///     Attached store game gameMode on top of existing game gameMode for purchasing items from this location.
         /// </summary>
         private void BuySupplies()
         {
-            GameSimApp.Instance.AttachMode(ModeCategory.Store);
+            GameSimApp.Instance.AttachMode(GameMode.Store);
         }
 
         /// <summary>
@@ -61,11 +61,11 @@ namespace TrailEntities.Mode
             // Player just starting this section of the trail will get prompt about total distance needed to cover it before starting.
             if (!GameSimApp.Instance.Trail.ReachedNextPoint() && !GameSimApp.Instance.Trail.IsFirstLocation())
             {
-                CurrentState = new DriveState(this, TravelInfo);
+                AddState(typeof(DriveState));
             }
             else
             {
-                CurrentState = new ContinueOnTrailState(this, TravelInfo);
+                AddState(typeof(ContinueOnTrailState));
             }
         }
 
@@ -74,7 +74,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void CheckSupplies()
         {
-            CurrentState = new CheckSuppliesState(this, TravelInfo);
+            AddState(typeof(CheckSuppliesState));
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void LookAtMap()
         {
-            CurrentState = new LookAtMapState(this, TravelInfo);
+            AddState(typeof(LookAtMapState));
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void ChangePace()
         {
-            CurrentState = new ChangePaceState(this, TravelInfo);
+            AddState(typeof(ChangePaceState));
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void ChangeFoodRations()
         {
-            CurrentState = new ChangeRationsState(this, TravelInfo);
+            AddState(typeof(ChangeRationsState));
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void StopToRest()
         {
-            CurrentState = new RestQuestionState(this, TravelInfo);
+            AddState(typeof(RestQuestionState));
         }
 
         /// <summary>
@@ -116,18 +116,18 @@ namespace TrailEntities.Mode
         /// </summary>
         private void AttemptToTrade()
         {
-            CurrentState = null;
-            GameSimApp.Instance.AttachMode(ModeCategory.Trade);
+            RemoveState();
+            GameSimApp.Instance.AttachMode(GameMode.Trade);
         }
 
         /// <summary>
-        ///     Attaches a new mode on top of this one that allows the player to hunt for animals and kill them using bullets for a
+        ///     Attaches a new gameMode on top of this one that allows the player to hunt for animals and kill them using bullets for a
         ///     specified time limit.
         /// </summary>
         private void HuntForFood()
         {
-            CurrentState = null;
-            GameSimApp.Instance.AttachMode(ModeCategory.Hunt);
+            RemoveState();
+            GameSimApp.Instance.AttachMode(GameMode.Hunt);
         }
 
         /// <summary>
@@ -143,16 +143,16 @@ namespace TrailEntities.Mode
 
             // Reset and calculate what commands are allowed at this current point of interest on the trail.
             ClearCommands();
-            AddCommand(ContinueOnTrail, TravelCommands.ContinueOnTrail, "Continue on trail");
-            AddCommand(CheckSupplies, TravelCommands.CheckSupplies, "Check supplies");
-            AddCommand(LookAtMap, TravelCommands.LookAtMap, "Look at map");
-            AddCommand(ChangePace, TravelCommands.ChangePace, "Change pace");
-            AddCommand(ChangeFoodRations, TravelCommands.ChangeFoodRations, "Change food rations");
-            AddCommand(StopToRest, TravelCommands.StopToRest, "Stop to rest");
-            AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade, "Attempt to trade");
-            AddCommand(TalkToPeople, TravelCommands.TalkToPeople, "Talk to people");
-            AddCommand(BuySupplies, TravelCommands.BuySupplies, "Buy supplies");
-            AddCommand(HuntForFood, TravelCommands.HuntForFood, "Hunt for food");
+            AddCommand(ContinueOnTrail, TravelCommands.ContinueOnTrail);
+            AddCommand(CheckSupplies, TravelCommands.CheckSupplies);
+            AddCommand(LookAtMap, TravelCommands.LookAtMap);
+            AddCommand(ChangePace, TravelCommands.ChangePace);
+            AddCommand(ChangeFoodRations, TravelCommands.ChangeFoodRations);
+            AddCommand(StopToRest, TravelCommands.StopToRest);
+            AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
+            AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
+            AddCommand(BuySupplies, TravelCommands.BuySupplies);
+            AddCommand(HuntForFood, TravelCommands.HuntForFood);
         }
 
         /// <summary>
@@ -164,34 +164,18 @@ namespace TrailEntities.Mode
         {
             base.OnReachNextLocation(nextPoint);
 
-            // On the first point we are going to force the look around state onto the traveling mode without asking.
+            // On the first point we are going to force the look around state onto the traveling gameMode without asking.
             if (GameSimApp.Instance.Trail.IsFirstLocation())
             {
-                CurrentState = new LookAroundState(this, TravelInfo);
+                AddState(typeof(LookAroundState));
             }
             else if (!GameSimApp.Instance.Trail.IsFirstLocation() &&
                      GameSimApp.Instance.Vehicle.Odometer > 0 &&
                      GameSimApp.Instance.TotalTurns > 0)
             {
                 // Ensure we only ask if the player wants to stop when it is really not the first turn.
-                CurrentState = new LookAroundQuestionState(this, TravelInfo);
+                AddState(typeof(LookAroundQuestionState));
             }
-        }
-
-        /// <summary>
-        ///     Fired when the current game modes state is altered, it could be removed and null or a new one added up to
-        ///     implementation to check.
-        /// </summary>
-        protected override void OnStateChanged()
-        {
-            base.OnStateChanged();
-
-            // Skip if current state is not null.
-            if (CurrentState != null)
-                return;
-
-            // Update menu with proper choices.
-            UpdateLocation();
         }
     }
 }

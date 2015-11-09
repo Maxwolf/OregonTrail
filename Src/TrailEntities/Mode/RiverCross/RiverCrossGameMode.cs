@@ -1,15 +1,16 @@
-﻿namespace TrailEntities.Mode
+﻿using TrailEntities.State;
+
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Manages a boolean event where the player needs to make a choice before they can move onto the next location on the
     ///     trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how
     ///     bad it is.
     /// </summary>
-    [GameMode(ModeCategory.RiverCrossing, typeof(RiverCrossCommands), typeof(RiverCrossInfo))]
-    public sealed class RiverCrossGameMode : GameMode
+    public sealed class RiverCrossGameMode : ModeProduct
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
         public RiverCrossGameMode() : base(false)
         {
@@ -17,11 +18,11 @@
             RiverCrossInfo = new RiverCrossInfo();
 
             // Add all of the commands for crossing a river.
-            AddCommand(FordRiver, RiverCrossCommands.FordRiver, "attempt to ford the river");
-            AddCommand(CaulkVehicle, RiverCrossCommands.CaulkVehicle, "caulk the wagon and float it across");
-            AddCommand(UseFerry, RiverCrossCommands.UseFerry, "take a ferry across");
-            AddCommand(WaitForWeather, RiverCrossCommands.WaitForWeather, "wait to see if conditions improve");
-            AddCommand(GetMoreInformation, RiverCrossCommands.GetMoreInformation, "get more information");
+            AddCommand(FordRiver, RiverCrossCommands.FordRiver);
+            AddCommand(CaulkVehicle, RiverCrossCommands.CaulkVehicle);
+            AddCommand(UseFerry, RiverCrossCommands.UseFerry);
+            AddCommand(WaitForWeather, RiverCrossCommands.WaitForWeather);
+            AddCommand(GetMoreInformation, RiverCrossCommands.GetMoreInformation);
         }
 
         /// <summary>
@@ -31,20 +32,20 @@
         private RiverCrossInfo RiverCrossInfo { get; }
 
         /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     Defines the current game gameMode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override GameMode ModeType
         {
-            get { return ModeCategory.RiverCrossing; }
+            get { return GameMode.RiverCrossing; }
         }
 
         /// <summary>
-        ///     Attached a state on top of the river crossing mode to explain what the different options mean and how they work.
+        ///     Attached a state on top of the river crossing gameMode to explain what the different options mean and how they work.
         /// </summary>
         private void GetMoreInformation()
         {
-            CurrentState = new FordRiverHelpState(this, RiverCrossInfo);
+            AddState(typeof (FordRiverHelpState));
         }
 
         /// <summary>
@@ -52,7 +53,7 @@
         /// </summary>
         private void WaitForWeather()
         {
-            CurrentState = new CampByRiverState(this, RiverCrossInfo);
+            AddState(typeof (CampByRiverState));
         }
 
         /// <summary>
@@ -61,8 +62,8 @@
         /// </summary>
         private void UseFerry()
         {
-            RiverCrossInfo.CrossingType = CrossChoice.Ferry;
-            CurrentState = new UseFerryConfirmState(this, RiverCrossInfo);
+            RiverCrossInfo.CrossingType = RiverCrossChoice.Ferry;
+            AddState(typeof (UseFerryConfirmState));
         }
 
         /// <summary>
@@ -71,8 +72,8 @@
         /// </summary>
         private void CaulkVehicle()
         {
-            RiverCrossInfo.CrossingType = CrossChoice.Caulk;
-            CurrentState = new CrossingResultState(this, RiverCrossInfo);
+            RiverCrossInfo.CrossingType = RiverCrossChoice.Caulk;
+            AddState(typeof (CrossingResultState));
         }
 
         /// <summary>
@@ -81,23 +82,23 @@
         /// </summary>
         private void FordRiver()
         {
-            RiverCrossInfo.CrossingType = CrossChoice.Ford;
-            CurrentState = new CrossingResultState(this, RiverCrossInfo);
+            RiverCrossInfo.CrossingType = RiverCrossChoice.Ford;
+            AddState(typeof (CrossingResultState));
         }
 
         /// <summary>
         ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
-        ///     top-most game mode.
+        ///     top-most game gameMode.
         /// </summary>
         public override void TickMode()
         {
         }
 
         /// <summary>
-        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
+        ///     Fired when this game gameMode is removed from the list of available and ticked GameMode in the simulation.
         /// </summary>
-        /// <param name="modeCategory"></param>
-        protected override void OnModeRemoved(ModeCategory modeCategory)
+        /// <param name="modeType"></param>
+        protected override void OnModeRemoved(GameMode modeType)
         {
         }
     }

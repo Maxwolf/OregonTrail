@@ -3,13 +3,16 @@ using TrailEntities.Simulation;
 
 namespace TrailEntities.Mode
 {
-    [GameMode(ModeCategory.ForkInRoad, typeof(ForkInRoadCommands), typeof(ForkInRoadInfo))]
-    public sealed class ForkInRoadGameMode : GameMode
+    /// <summary>
+    ///     Defines a division in the trail where the player must decide about the direction they would like to keep traveling.
+    ///     The choice is not optional and one of the selections must be made before the trip can continue.
+    /// </summary>
+    public sealed class ForkInRoadGameMode : ModeProduct
     {
         private readonly HashSet<Location> _skipChoices;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
         public ForkInRoadGameMode() : base(false)
         {
@@ -22,12 +25,12 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     Defines the current game gameMode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override GameMode ModeType
         {
-            get { return ModeCategory.ForkInRoad; }
+            get { return GameMode.ForkInRoad; }
         }
     }
 }

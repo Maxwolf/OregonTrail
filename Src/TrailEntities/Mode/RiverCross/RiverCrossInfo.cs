@@ -1,4 +1,6 @@
-﻿namespace TrailEntities.Mode
+﻿using TrailEntities.Simulation;
+
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Defines information about the current river crossing game mode the player has come across and needs to decide how
@@ -15,13 +17,13 @@
             Depth = GameSimApp.Instance.Random.Next(1, 20);
             FerryCost = GameSimApp.Instance.Random.Next(3, 8);
             RiverWidth = GameSimApp.Instance.Random.Next(20, 350);
-            CrossingType = CrossChoice.Ford;
+            CrossingType = RiverCrossChoice.Ford;
         }
 
         /// <summary>
         /// Determines how the vehicle and party members would like to cross the river.
         /// </summary>
-        public CrossChoice CrossingType { get; set; }
+        public RiverCrossChoice CrossingType { get; set; }
 
         /// <summary>
         ///     Determines how deep the river is in feet.

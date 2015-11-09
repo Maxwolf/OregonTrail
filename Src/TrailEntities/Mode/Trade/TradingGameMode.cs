@@ -8,8 +8,7 @@ namespace TrailEntities.Mode
     ///     Handles the interaction of the player party and another AI controlled party that offers up items for trading which
     ///     the player can choose to accept or not.
     /// </summary>
-    [GameMode(ModeCategory.Trade, typeof(TradingCommands), typeof(TradeInfo))]
-    public sealed class TradingGameMode : GameMode
+    public sealed class TradingGameMode : ModeProduct
     {
         private readonly HashSet<SimItem> _possibleTrades;
 
@@ -18,9 +17,9 @@ namespace TrailEntities.Mode
             _possibleTrades = new HashSet<SimItem>();
         }
 
-        public override ModeCategory ModeCategory
+        public override GameMode ModeType
         {
-            get { return ModeCategory.Trade; }
+            get { return GameMode.Trade; }
         }
 
         public IEnumerable<SimItem> PossibleTrades
@@ -30,7 +29,7 @@ namespace TrailEntities.Mode
 
         /// <summary>
         ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
-        ///     top-most game mode.
+        ///     top-most game gameMode.
         /// </summary>
         public override void TickMode()
         {
@@ -45,10 +44,10 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
+        ///     Fired when this game gameMode is removed from the list of available and ticked GameMode in the simulation.
         /// </summary>
-        /// <param name="modeCategory"></param>
-        protected override void OnModeRemoved(ModeCategory modeCategory)
+        /// <param name="modeType"></param>
+        protected override void OnModeRemoved(GameMode modeType)
         {
             throw new NotImplementedException();
         }

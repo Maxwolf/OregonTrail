@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Text;
+using TrailEntities.State;
 
 namespace TrailEntities.Mode
 {
@@ -8,16 +9,15 @@ namespace TrailEntities.Mode
     ///     Glorified options menu for the game that allows player to remove top ten high scores, remove saved games, erase
     ///     tombstone messages, etc.
     /// </summary>
-    [GameMode(ModeCategory.Options, typeof(OptionCommands), typeof(OptionInfo))]
-    public sealed class OptionsGameMode : GameMode
+    public sealed class OptionsGameMode : ModeProduct
     {
         /// <summary>
-        ///     References all of the possible options we want to keep track of while moving between management options mode.
+        ///     References all of the possible options we want to keep track of while moving between management options gameMode.
         /// </summary>
         private OptionInfo _optionInfo;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode.OptionsGameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct.OptionsGameMode" /> class.
         /// </summary>
         public OptionsGameMode() : base(false)
         {
@@ -41,21 +41,20 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     Defines the current game gameMode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override GameMode ModeType
         {
-            get { return ModeCategory.Options; }
+            get { return GameMode.Options; }
         }
 
         /// <summary>
-        ///     Removes the management options game mode and returns to main menu which should be below it.
+        ///     Removes the management options game gameMode and returns to main menu which should be below it.
         /// </summary>
         private void ReturnToMainMenu()
         {
-            CurrentState = null;
-            RemoveModeNextTick();
+            SetShouldRemoveMode();
         }
 
         /// <summary>
@@ -64,7 +63,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void EraseTombstoneMessages()
         {
-            CurrentState = new EraseTombstoneState(this, _optionInfo);
+            AddState(typeof(EraseTombstoneState));
         }
 
         /// <summary>
@@ -72,7 +71,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void EraseCurrentTopTen()
         {
-            CurrentState = new EraseCurrentTopTenState(this, _optionInfo);
+            AddState(typeof(EraseCurrentTopTenState));
         }
 
         /// <summary>
@@ -80,7 +79,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void SeeOriginalTopTen()
         {
-            CurrentState = new OriginalTopTenState(this, _optionInfo);
+            AddState(typeof(OriginalTopTenState));
         }
     }
 }

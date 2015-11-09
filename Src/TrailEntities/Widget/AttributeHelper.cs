@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -25,6 +24,16 @@ namespace TrailEntities.Widget
                 from t in a.GetTypes()
                 where t.IsDefined(typeof (TAttribute), inherit)
                 select t;
+        }
+
+        /// <summary>
+        ///     Find the fields in an enum that have a specific attribute with a specific value.
+        /// </summary>
+        public static IEnumerable<T> GetAttributes<T>(this ICustomAttributeProvider source, bool inherit)
+            where T : Attribute
+        {
+            var attrs = source.GetCustomAttributes(typeof (T), inherit);
+            return (attrs != null) ? (T[]) attrs : Enumerable.Empty<T>();
         }
 
         /// <summary>

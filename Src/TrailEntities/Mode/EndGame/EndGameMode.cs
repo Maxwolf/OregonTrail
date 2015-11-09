@@ -3,23 +3,22 @@
     /// <summary>
     ///     Attached when the party leader dies, or the vehicle reaches the end of the trail.
     /// </summary>
-    [GameMode(ModeCategory.EndGame, typeof(EndGameCommands), typeof(EndGameInfo))]
-    public sealed class EndGameMode : GameMode
+    public sealed class EndGameMode : ModeProduct
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
         public EndGameMode() : base(false)
         {
         }
 
         /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     Defines the current game gameMode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override GameMode ModeType
         {
-            get { return ModeCategory.EndGame; }
+            get { return GameMode.EndGame; }
         }
     }
 }

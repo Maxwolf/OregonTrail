@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Text;
+using TrailEntities.Simulation;
+using TrailEntities.State;
 
 namespace TrailEntities.Mode
 {
@@ -8,8 +10,7 @@ namespace TrailEntities.Mode
     ///     ability to choose names, professions, buy initial items, and starting month. The final thing it offers is ability
     ///     to change any of these values before actually starting the game as a final confirmation.
     /// </summary>
-    [GameMode(ModeCategory.MainMenu, typeof(MainMenuCommands), typeof(MainMenuInfo))]
-    public sealed class MainMenuGameMode : GameMode
+    public sealed class MainMenuGameMode : ModeProduct
     {
         /// <summary>
         ///     Asked for the first party member.
@@ -22,7 +23,7 @@ namespace TrailEntities.Mode
         public const string MEMBERS_QUESTION = "What are the first names of the \nthree other members in your party?";
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode.MainMenuGameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct.MainMenuGameMode" /> class.
         /// </summary>
         public MainMenuGameMode() : base(false)
         {
@@ -42,12 +43,12 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     Defines the current game gameMode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override GameMode ModeType
         {
-            get { return ModeCategory.MainMenu; }
+            get { return GameMode.MainMenu; }
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private static void ChooseManagementOptions()
         {
-            GameSimApp.Instance.AttachMode(ModeCategory.Options);
+            GameSimApp.Instance.AttachMode(GameMode.Options);
         }
 
         /// <summary>
@@ -76,7 +77,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void SeeTopTen()
         {
-            CurrentState = new CurrentTopTenState(this, MainMenuInfo);
+            AddState(typeof(CurrentTopTenState));
         }
 
         /// <summary>
@@ -84,15 +85,15 @@ namespace TrailEntities.Mode
         /// </summary>
         private void LearnAboutTrail()
         {
-            CurrentState = new InstructionsState(this, MainMenuInfo);
+            AddState(typeof(InstructionsState));
         }
 
         /// <summary>
-        ///     Start with choosing profession in the new game mode, the others are chained together after this one.
+        ///     Start with choosing profession in the new game gameMode, the others are chained together after this one.
         /// </summary>
         private void TravelTheTrail()
         {
-            CurrentState = new SelectProfessionState(this, MainMenuInfo);
+            AddState(typeof(SelectProfessionState));
         }
     }
 }

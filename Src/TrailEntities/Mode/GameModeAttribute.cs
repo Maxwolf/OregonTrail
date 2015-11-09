@@ -3,47 +3,48 @@
 namespace TrailEntities.Mode
 {
     /// <summary>
-    ///     Intended to be used as decorations on the top of game mode classes so the game simulation can create a dictionary
-    ///     of all available game modes on startup based on what type they are so they can be quickly activated.
+    ///     Intended to be used as decorations on the top of game gameMode classes so the game simulation can create a dictionary
+    ///     of all available game GameMode on startup based on what type they are so they can be quickly activated.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
     public class GameModeAttribute : Attribute
     {
         /// <summary>
-        ///     Will hold an enumeration of all the available commands in this game mode.
+        ///     Defines what type of game gameMode the attribute is decorated on will represent in the game simulation.
         /// </summary>
-        private Type _commands;
-
-        /// <summary>
-        ///     Defines the type of object that will be created to act as intermediate object for all game mode states. It will be
-        ///     created when the game mode is attached to the simulation.
-        /// </summary>
-        private Type _modeInfo;
-
-        /// <summary>
-        ///     Defines what type of game mode the attribute is decorated on will represent in the game simulation.
-        /// </summary>
-        private ModeCategory _modeType;
-
-        /// <summary>
-        ///     Defines what type of game mode the attribute is decorated on will represent in the game simulation.
-        /// </summary>
-        public GameModeAttribute(ModeCategory modeCategory, Type commands, Type userData)
+        public GameModeAttribute(Type modeCategory, Type commands, Type userData)
         {
             // Complain the generics implemented is not of an enum type.
             if (!commands.IsEnum)
                 throw new InvalidCastException(
-                    "Commands parameter on game mode attribute must be an enumerated type!");
+                    "Commands parameter on game gameMode attribute must be an enumerated type!");
 
             // Complain if user data is not of class type.
             if (!userData.IsClass || !userData.IsAssignableFrom(typeof (object)))
                 throw new InvalidCastException(
-                    "Attempted to pass in game mode data object that is not inherited directly from object!");
+                    "Attempted to pass in game gameMode data object that is not inherited directly from object!");
 
             // Throw the data onto our local variables.
-            _modeInfo = userData;
-            _modeType = modeCategory;
-            _commands = commands;
+            UserData = userData;
+            Mode = modeCategory;
+            Commands = commands;
         }
+
+        /// <summary>
+        ///     Will hold an enumeration of all the available commands in this game gameMode.
+        /// </summary>
+        public Type Commands { get; }
+
+        /// <summary>
+        ///     Defines the type of object that will be created to act as intermediate object for all game gameMode states. It will be
+        ///     created when the game gameMode is attached to the simulation.
+        /// </summary>
+        public Type UserData { get; }
+
+        /// <summary>
+        ///     Defines the actual game gameMode type which will be loaded into the simulation on startup using attributes and
+        ///     reflection.
+        /// </summary>
+        public Type Mode { get; set; }
     }
 }

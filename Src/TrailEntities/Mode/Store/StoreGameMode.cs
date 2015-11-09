@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
+using TrailEntities.Simulation;
+using TrailEntities.State;
 
 namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Manages a general store where the player can buy food, clothes, bullets, and parts for their vehicle.
     /// </summary>
-    [GameMode(ModeCategory.Store, typeof(StoreCommands), typeof(StoreInfo))]
-    public sealed class StoreGameMode : GameMode
+    public sealed class StoreGameMode : ModeProduct
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode.StoreGameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct.StoreGameMode" /> class.
         /// </summary>
         public StoreGameMode() : base(false)
         {
@@ -21,7 +22,7 @@ namespace TrailEntities.Mode
             // Print out store good and their prices for user selection.
             UpdateDebts();
 
-            // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game mode also (travel mode always there).
+            // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game gameMode also (travel gameMode always there).
             if (GameSimApp.Instance.Trail.IsFirstLocation() && GameSimApp.Instance.AttachedModeCount > 1)
             {
                 StoreAdvice();
@@ -29,18 +30,18 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Defines the text prefix which will go above the menu, used to show any useful information the game mode might need
+        ///     Defines the text prefix which will go above the menu, used to show any useful information the game gameMode might need
         ///     to at the top of menu selections.
         /// </summary>
         protected override string MenuHeader { get; set; }
 
         /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     Defines the current game gameMode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override GameMode ModeType
         {
-            get { return ModeCategory.Store; }
+            get { return GameMode.Store; }
         }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void BuyOxen()
         {
-            CurrentState = new BuyItemState(Parts.Oxen, this, StoreInfo);
+            AddState(typeof(BuyItemState));
         }
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void BuyFood()
         {
-            CurrentState = new BuyItemState(Resources.Food, this, StoreInfo);
+            AddState(typeof(BuyItemState));
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void BuyClothing()
         {
-            CurrentState = new BuyItemState(Resources.Clothing, this, StoreInfo);
+            AddState(typeof(BuyItemState));
         }
 
         /// <summary>
@@ -77,7 +78,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void BuyAmmunition()
         {
-            CurrentState = new BuyItemState(Resources.Bullets, this, StoreInfo);
+            AddState(typeof(BuyItemState));
         }
 
         /// <summary>
@@ -85,8 +86,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void BuySpareWheels()
         {
-            CurrentState = new BuyItemState(Parts.Wheel, this,
-                StoreInfo);
+            AddState(typeof(BuyItemState));
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace TrailEntities.Mode
         /// </summary>
         private void BuySpareAxles()
         {
-            CurrentState = new BuyItemState(Parts.Axle, this, StoreInfo);
+            AddState(typeof(BuyItemState));
         }
 
         /// <summary>
@@ -102,21 +102,20 @@ namespace TrailEntities.Mode
         /// </summary>
         private void BuySpareTongues()
         {
-            CurrentState = new BuyItemState(Parts.Tongue, this,
-                StoreInfo);
+            AddState(typeof(BuyItemState));
         }
 
         /// <summary>
-        ///     Attaches a game mode state what will show the player some basic information about what the various items mean and
+        ///     Attaches a game gameMode state what will show the player some basic information about what the various items mean and
         ///     what their purpose is in the simulation.
         /// </summary>
         private void StoreAdvice()
         {
-            CurrentState = new StoreAdviceState(this, StoreInfo);
+            AddState(typeof(StoreAdviceState));
         }
 
         /// <summary>
-        ///     Detaches the store mode from the simulation and returns to the one previous.
+        ///     Detaches the store gameMode from the simulation and returns to the one previous.
         /// </summary>
         private void LeaveStore()
         {
@@ -124,45 +123,30 @@ namespace TrailEntities.Mode
             if (GameSimApp.Instance.Trail.IsFirstLocation() &&
                 StoreInfo.Transactions[SimEntity.Animal].Quantity <= 0)
             {
-                CurrentState = new MissingItemState(Parts.Oxen, this, StoreInfo);
+                AddState(typeof(MissingItemState));
                 return;
             }
 
             // Check if player can afford the items they have selected.
             if (GameSimApp.Instance.Vehicle.Balance < StoreInfo.GetTransactionTotalCost())
             {
-                CurrentState = new StoreDebtState(this, StoreInfo);
+                AddState(typeof(StoreDebtState));
                 return;
             }
 
             // Remove the store if we make this far!
-            RemoveModeNextTick();
+            SetShouldRemoveMode();
         }
 
         /// <summary>
-        ///     Fired when the current game modes state is altered, it could be removed and null or a new one added up to
-        ///     implementation to check.
+        ///     Fired when this game gameMode is removed from the list of available and ticked GameMode in the simulation.
         /// </summary>
-        protected override void OnStateChanged()
+        protected override void OnModeRemoved(GameMode modeType)
         {
-            base.OnStateChanged();
-
-            // Skip if current state is not null.
-            if (CurrentState != null)
-                return;
-
-            UpdateDebts();
-        }
-
-        /// <summary>
-        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
-        /// </summary>
-        protected override void OnModeRemoved(ModeCategory modeCategory)
-        {
-            base.OnModeRemoved(modeCategory);
+            base.OnModeRemoved(modeType);
 
             // Store is only going to process transactions on removal when it is the one up for removal.
-            if (modeCategory != ModeCategory.Store)
+            if (modeType != GameMode.Store)
                 return;
 
             // When detaching the store for first time we need to move the vehicle to the first spot on our virtual trail.

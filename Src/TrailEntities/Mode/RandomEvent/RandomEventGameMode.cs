@@ -2,15 +2,15 @@
 using TrailEntities.Entity;
 using TrailEntities.Event;
 using TrailEntities.Simulation;
+using TrailEntities.State;
 
 namespace TrailEntities.Mode
 {
     /// <summary>
-    ///     Attached by the event director when it wants to execute an event against the simulation. It will attach this mode,
+    ///     Attached by the event director when it wants to execute an event against the simulation. It will attach this gameMode,
     ///     which then hooks the event delegate it will trigger right after this class finishes initializing.
     /// </summary>
-    [GameMode(ModeCategory.RandomEvent, typeof (RandomEventCommands), typeof(RandomEventInfo))]
-    public sealed class RandomEventGameMode : GameMode
+    public sealed class RandomEventGameMode : ModeProduct
     {
         /// <summary>
         ///     Holds information and the event the director would like us to fire.
@@ -18,7 +18,7 @@ namespace TrailEntities.Mode
         private RandomEventInfo eventInfo;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
         public RandomEventGameMode() : base(false)
         {
@@ -29,12 +29,12 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     Defines the current game gameMode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override GameMode ModeType
         {
-            get { return ModeCategory.RandomEvent; }
+            get { return GameMode.RandomEvent; }
         }
 
         /// <summary>
@@ -44,15 +44,16 @@ namespace TrailEntities.Mode
         private void Director_OnEventTriggered(IEntity simEntity, EventItem eventItem)
         {
             // Attached the random event state when we intercept an event it would like us to trigger.
-            CurrentState = new RandomEventState(this, eventInfo, simEntity, eventItem);
+            // TODO: Put event data into random event info object.
+            AddState(typeof(RandomEventState));
         }
 
         /// <summary>
-        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
+        ///     Fired when this game gameMode is removed from the list of available and ticked GameMode in the simulation.
         /// </summary>
-        protected override void OnModeRemoved(ModeCategory modeCategory)
+        protected override void OnModeRemoved(GameMode modeType)
         {
-            base.OnModeRemoved(modeCategory);
+            base.OnModeRemoved(modeType);
 
             // Event director has event for when he triggers events.
             if (GameSimApp.Instance.Director != null)

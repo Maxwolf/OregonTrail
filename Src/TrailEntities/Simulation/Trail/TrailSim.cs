@@ -63,13 +63,13 @@ namespace TrailEntities.Simulation
                 // Called when we decide to continue on the trail from a location on it.
                 LocationIndex++;
 
-                // Fire method to do some work and attach game modes based on this.
+                // Fire method to do some work and attach game GameMode based on this.
                 OnReachedPointOfInterest(currentPoint);
             }
             else if (GameSimApp.Instance.Vehicle.Odometer >= GameSimApp.TRAIL_LENGTH)
             {
                 // Check for end of game in miles.
-                GameSimApp.Instance.AttachMode(ModeCategory.EndGame);
+                GameSimApp.Instance.AttachMode(GameMode.EndGame);
             }
         }
 
@@ -137,7 +137,7 @@ namespace TrailEntities.Simulation
         public event PointOfInterestReached OnReachPointOfInterest;
 
         /// <summary>
-        ///     Determines if the current point of interest is indeed the first one of the game, makes it easier for game modes and
+        ///     Determines if the current point of interest is indeed the first one of the game, makes it easier for game GameMode and
         ///     states to check this for doing special actions on the first move.
         /// </summary>
         /// <returns>TRUE if first point on trail, FALSE if not.</returns>
@@ -155,8 +155,8 @@ namespace TrailEntities.Simulation
         /// </param>
         private void OnReachedPointOfInterest(Location nextPoint)
         {
-            // Attach some game mode based on the relevance of the next point type.
-            GameSimApp.Instance.AttachMode(nextPoint.ModeCategory);
+            // Attach some game gameMode based on the relevance of the next point type.
+            GameSimApp.Instance.AttachMode(nextPoint.ModeType);
 
             // Fire event here for API subscribers to know point was reached. 
             OnReachPointOfInterest?.Invoke(nextPoint);
