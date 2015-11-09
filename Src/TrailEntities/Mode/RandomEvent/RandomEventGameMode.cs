@@ -2,7 +2,6 @@
 using TrailEntities.Entity;
 using TrailEntities.Event;
 using TrailEntities.Simulation;
-using TrailEntities.State;
 
 namespace TrailEntities.Mode
 {

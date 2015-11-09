@@ -146,7 +146,7 @@ namespace TrailEntities.Mode
         ///     Holds the current state which this gameMode is in, a gameMode will cycle through available states until it is finished and
         ///     then detach.
         /// </summary>
-        internal StateProduct CurrentState { get; private set; }
+        internal ModeStateProduct CurrentState { get; private set; }
 
         /// <summary>
         ///     Compares the current object with another object of the same type.

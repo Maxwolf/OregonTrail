@@ -4,7 +4,6 @@ using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Mode;
 using TrailEntities.Scoring;
-using TrailEntities.State;
 
 namespace TrailEntities.Simulation
 {
