@@ -1,4 +1,16 @@
-﻿namespace TrailEntities.Mode
+﻿using TrailEntities.Game;
+using TrailEntities.Game.EndGame;
+using TrailEntities.Game.ForkInRoad;
+using TrailEntities.Game.Hunting;
+using TrailEntities.Game.MainMenu;
+using TrailEntities.Game.Options;
+using TrailEntities.Game.RandomEvent;
+using TrailEntities.Game.RiverCross;
+using TrailEntities.Game.Store;
+using TrailEntities.Game.Trade;
+using TrailEntities.Game.Travel;
+
+namespace TrailEntities.Mode
 {
     /// <summary>
     ///     Since the view for game GameMode is separated from the actual logic being performed we need a logical way to know what

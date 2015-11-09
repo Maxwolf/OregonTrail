@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using TrailEntities.Entity.Vehicle;
 using TrailEntities.Event;
+using TrailEntities.Event.Medical;
 using TrailEntities.Simulation;
 
-namespace TrailEntities.Entity
+namespace TrailEntities.Entity.Person
 {
     /// <summary>
     ///     Represents a human-being. Gender is not tracked, we only care about them as an entity that consumes food and their
@@ -13,7 +15,7 @@ namespace TrailEntities.Entity
     public sealed class Person : IEntity
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Entity.Person" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Entity.Person.Person" /> class.
         /// </summary>
         public Person(Profession profession, string name, bool isLeader)
         {

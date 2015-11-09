@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Entity
+﻿namespace TrailEntities.Entity.Person
 {
     /// <summary>
     ///     Ailments which the player entities may come under the influence given enough of a roll chance to infect.

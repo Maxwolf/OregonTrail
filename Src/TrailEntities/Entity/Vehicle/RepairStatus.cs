@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Entity
+﻿namespace TrailEntities.Entity.Vehicle
 {
     /// <summary>
     ///     Overall health indicator for all entities in the simulation, we do not track health as a numeric value but as a

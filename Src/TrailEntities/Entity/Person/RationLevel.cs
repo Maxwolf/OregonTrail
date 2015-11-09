@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Entity
+﻿namespace TrailEntities.Entity.Person
 {
     /// <summary>
     ///     Amount of food people in party eat each day can change.

@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Simulation
+﻿namespace TrailEntities.Simulation.Climate
 {
     /// <summary>
     ///     Determines what the environment is like and goes into helping calculate roll chance. For example, experiencing

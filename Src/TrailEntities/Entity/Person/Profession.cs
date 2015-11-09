@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Entity
+﻿namespace TrailEntities.Entity.Person
 {
     public enum Profession
     {

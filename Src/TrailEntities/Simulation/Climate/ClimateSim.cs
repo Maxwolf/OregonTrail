@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using TrailEntities.Simulation.Time;
 
-namespace TrailEntities.Simulation
+namespace TrailEntities.Simulation.Climate
 {
     public sealed class ClimateSim
     {

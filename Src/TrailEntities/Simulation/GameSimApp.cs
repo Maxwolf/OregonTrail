@@ -2,8 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using TrailEntities.Entity;
+using TrailEntities.Entity.Person;
+using TrailEntities.Entity.Vehicle;
+using TrailEntities.Game;
+using TrailEntities.Game.MainMenu;
+using TrailEntities.Game.Scoring;
 using TrailEntities.Mode;
-using TrailEntities.Scoring;
+using TrailEntities.Simulation.Climate;
+using TrailEntities.Simulation.Director;
+using TrailEntities.Simulation.Time;
+using TrailEntities.Simulation.Trail;
 
 namespace TrailEntities.Simulation
 {

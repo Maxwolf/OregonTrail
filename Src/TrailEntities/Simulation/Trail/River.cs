@@ -1,7 +1,7 @@
 ﻿using System;
 using TrailEntities.Mode;
 
-namespace TrailEntities.Simulation
+namespace TrailEntities.Simulation.Trail
 {
     public sealed class River : Location
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TrailEntities.Mode;
 
-namespace TrailEntities.Simulation
+namespace TrailEntities.Simulation.Trail
 {
     /// <summary>
     ///     Offers up a decision when traveling on the trail, there are normally one of many possible outcomes from which the
@@ -12,7 +12,7 @@ namespace TrailEntities.Simulation
         private HashSet<Location> _skipChoices;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.ForkInRoad" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.Trail.ForkInRoad" /> class.
         /// </summary>
         public ForkInRoad(string name, IEnumerable<Location> skipChoices) : base(name)
         {
