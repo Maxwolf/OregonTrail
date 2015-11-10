@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using TrailEntities.Mode;
 
 namespace TrailEntities.Game
@@ -10,11 +11,16 @@ namespace TrailEntities.Game
     /// </summary>
     public sealed class UseFerryConfirmState : ModeState<RiverCrossInfo>
     {
+        private bool _seenPrompt;
+        private StringBuilder _prompt;
+
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public UseFerryConfirmState(IMode gameMode, RiverCrossInfo userData) : base(gameMode, userData)
         {
+            _prompt = new StringBuilder();
+            _prompt.Append("");
         }
 
         /// <summary>
@@ -23,7 +29,7 @@ namespace TrailEntities.Game
         /// </summary>
         public override string OnRenderState()
         {
-            throw new NotImplementedException();
+            return _prompt.ToString();
         }
 
         /// <summary>
@@ -32,7 +38,11 @@ namespace TrailEntities.Game
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            if (_seenPrompt)
+                return;
+
+            _seenPrompt = true;
+            ParentMode.CurrentState = null;
         }
     }
 }

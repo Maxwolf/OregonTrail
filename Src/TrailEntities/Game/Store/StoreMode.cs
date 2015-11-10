@@ -143,21 +143,6 @@ namespace TrailEntities.Game
         }
 
         /// <summary>
-        ///     Fired when the current game modes state is altered, it could be removed and null or a new one added up to
-        ///     implementation to check.
-        /// </summary>
-        protected override void OnStateChanged()
-        {
-            base.OnStateChanged();
-
-            // Skip if current state is not null.
-            if (CurrentState != null)
-                return;
-
-            UpdateDebts();
-        }
-
-        /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
         protected override void OnModeRemoved(ModeCategory modeCategory)

@@ -17,13 +17,13 @@ namespace TrailEntities.Game
             Depth = GameSimulationApp.Instance.Random.Next(1, 20);
             FerryCost = GameSimulationApp.Instance.Random.Next(3, 8);
             RiverWidth = GameSimulationApp.Instance.Random.Next(20, 350);
-            CrossingType = CrossChoice.Ford;
+            CrossingType = RiverCrossChoice.Ford;
         }
 
         /// <summary>
         ///     Determines how the vehicle and party members would like to cross the river.
         /// </summary>
-        public CrossChoice CrossingType { get; set; }
+        public RiverCrossChoice CrossingType { get; set; }
 
         /// <summary>
         ///     Determines how deep the river is in feet.

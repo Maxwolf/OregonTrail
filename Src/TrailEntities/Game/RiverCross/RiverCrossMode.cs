@@ -1,4 +1,5 @@
-﻿using TrailEntities.Mode;
+﻿using System;
+using TrailEntities.Mode;
 
 namespace TrailEntities.Game
 {
@@ -20,11 +21,11 @@ namespace TrailEntities.Game
             RiverCrossInfo = new RiverCrossInfo();
 
             // Add all of the commands for crossing a river.
-            AddCommand(FordRiver, RiverCrossCommands.FordRiver, "attempt to ford the river");
-            AddCommand(CaulkVehicle, RiverCrossCommands.CaulkVehicle, "caulk the wagon and float it across");
-            AddCommand(UseFerry, RiverCrossCommands.UseFerry, "take a ferry across");
-            AddCommand(WaitForWeather, RiverCrossCommands.WaitForWeather, "wait to see if conditions improve");
-            AddCommand(GetMoreInformation, RiverCrossCommands.GetMoreInformation, "get more information");
+            AddCommand(FordRiver, RiverCrossCommands.FordRiver);
+            AddCommand(CaulkVehicle, RiverCrossCommands.CaulkVehicle);
+            AddCommand(UseFerry, RiverCrossCommands.UseFerry);
+            AddCommand(WaitForWeather, RiverCrossCommands.WaitForWeather);
+            AddCommand(GetMoreInformation, RiverCrossCommands.GetMoreInformation);
         }
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void UseFerry()
         {
-            RiverCrossInfo.CrossingType = CrossChoice.Ferry;
+            RiverCrossInfo.CrossingType = RiverCrossChoice.Ferry;
             CurrentState = new UseFerryConfirmState(this, RiverCrossInfo);
         }
 
@@ -74,7 +75,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void CaulkVehicle()
         {
-            RiverCrossInfo.CrossingType = CrossChoice.Caulk;
+            RiverCrossInfo.CrossingType = RiverCrossChoice.Caulk;
             CurrentState = new CrossingResultState(this, RiverCrossInfo);
         }
 
@@ -84,7 +85,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void FordRiver()
         {
-            RiverCrossInfo.CrossingType = CrossChoice.Ford;
+            RiverCrossInfo.CrossingType = RiverCrossChoice.Ford;
             CurrentState = new CrossingResultState(this, RiverCrossInfo);
         }
 

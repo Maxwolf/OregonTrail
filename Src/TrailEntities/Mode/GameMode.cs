@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using TrailEntities.Simulation;
+using TrailEntities.Widget;
 
 namespace TrailEntities.Mode
 {
@@ -15,11 +16,6 @@ namespace TrailEntities.Mode
     public abstract class GameMode<T> : Comparer<IMode>, IComparable<GameMode<T>>, IEquatable<GameMode<T>>,
         IEqualityComparer<GameMode<T>>, IMode where T : struct, IComparable, IFormattable, IConvertible
     {
-        /// <summary>
-        ///     Keeps track of the current game mode state, if null then there is no state attached and menu is shown.
-        /// </summary>
-        private IModeState _currentState;
-
         /// <summary>
         ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
         ///     spawned it.
@@ -169,7 +165,7 @@ namespace TrailEntities.Mode
             }
 
             if (ModeCategory.Equals(other.ModeCategory) &&
-                _currentState.Equals(other._currentState))
+                CurrentState.Equals(other.CurrentState))
             {
                 return true;
             }
@@ -222,15 +218,7 @@ namespace TrailEntities.Mode
         ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and
         ///     then detach.
         /// </summary>
-        public IModeState CurrentState
-        {
-            get { return _currentState; }
-            set
-            {
-                _currentState = value;
-                OnStateChanged();
-            }
-        }
+        public IModeState CurrentState { get; set; }
 
         /// <summary>
         ///     Fired by simulation when it wants to request latest text user interface data for the game mode, this is used to
@@ -346,32 +334,12 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Fired when the active game mode has been changed, this allows any underlying mode to know about a change in
-        ///     simulation.
-        /// </summary>
-        /// <param name="modeCategory">Current mode which the simulation is changing to.</param>
-        public virtual void OnModeChanged(ModeCategory modeCategory)
-        {
-            // Pass info along if current state exists.
-            CurrentState?.OnParentModeChanged();
-        }
-
-        /// <summary>
         ///     Fired when trail simulation has determined the vehicle and player party has reached the next point of interest in
         ///     the trail.
         /// </summary>
         protected virtual void OnReachNextLocation(Location nextPoint)
         {
             Debug.Assert(nextPoint != null, "nextPoint != null");
-        }
-
-        /// <summary>
-        ///     Fired when the current game modes state is altered, it could be removed and null or a new one added up to
-        ///     implementation to check.
-        /// </summary>
-        protected virtual void OnStateChanged()
-        {
-            // Nothing to see here, move along...
         }
 
         /// <summary>
@@ -404,6 +372,18 @@ namespace TrailEntities.Mode
             {
                 _menuChoices.Add(menuChoice);
             }
+        }
+
+        /// <summary>
+        ///     Adds a new game menu selection with description pulled from attribute on command enumeration. This override is not
+        ///     meant for menu selections where you want to manually specify the description of the menu item, this way it will be
+        ///     pulled from enum description attribute.
+        /// </summary>
+        /// <param name="action">Method that will be run when the choice is made.</param>
+        /// <param name="command">Associated command that will trigger the respective action in the active game mode.</param>
+        protected void AddCommand(Action action, T command)
+        {
+            AddCommand(action, command, command.ToDescriptionAttribute());
         }
 
         /// <summary>

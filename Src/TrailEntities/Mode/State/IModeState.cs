@@ -31,11 +31,5 @@ namespace TrailEntities.Mode
         /// </summary>
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         void OnInputBufferReturned(string input);
-
-        /// <summary>
-        ///     Fired when the active game mode has been changed in parent game mode, this is intended for game mode states only so
-        ///     they can be aware of these changes and act on them if needed.
-        /// </summary>
-        void OnParentModeChanged();
     }
 }

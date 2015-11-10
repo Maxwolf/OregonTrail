@@ -58,7 +58,7 @@
     <Compile Include="Game\RandomEvent\RandomEventInfo.cs" />
     <Compile Include="Game\RandomEvent\RandomEventMode.cs" />
     <Compile Include="Game\RiverCross\State\CampByRiverState.cs" />
-    <Compile Include="Game\RiverCross\CrossChoice.cs" />
+    <Compile Include="Game\RiverCross\RiverCrossChoice.cs" />
     <Compile Include="Game\RiverCross\State\CrossingResultState.cs" />
     <Compile Include="Game\RiverCross\State\FerryNoMoniesState.cs" />
     <Compile Include="Game\RiverCross\State\Help\CaulkRiverHelpState.cs" />

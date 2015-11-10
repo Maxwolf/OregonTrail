@@ -180,21 +180,5 @@ namespace TrailEntities.Game
                 CurrentState = new LookAroundQuestionState(this, TravelInfo);
             }
         }
-
-        /// <summary>
-        ///     Fired when the current game modes state is altered, it could be removed and null or a new one added up to
-        ///     implementation to check.
-        /// </summary>
-        protected override void OnStateChanged()
-        {
-            base.OnStateChanged();
-
-            // Skip if current state is not null.
-            if (CurrentState != null)
-                return;
-
-            // Update menu with proper choices.
-            UpdateLocation();
-        }
     }
 }

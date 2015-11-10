@@ -7,6 +7,7 @@ using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Widget;
 
 namespace TrailEntities.Event
 {
@@ -22,17 +23,12 @@ namespace TrailEntities.Event
         public delegate void EventTriggered(IEntity simEntity, DirectorEventItem eventItem);
 
         /// <summary>
-        ///     References all of the events that have been triggered by the system in chronological order they occurred.
-        /// </summary>
-        private SortedDictionary<string, DirectorEventItem> _events;
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Event.EventDirector" /> class.
         /// </summary>
         public EventDirector()
         {
             // Create a new dictionary of events, set counter to zero for random event selector.
-            _events = new SortedDictionary<string, DirectorEventItem>();
+            Events = new SortedDictionary<string, DirectorEventItem>();
 
             // Create a new list for event history.
             EventHistory = new List<EventHistoryItem>();
@@ -40,6 +36,11 @@ namespace TrailEntities.Event
             // Use reflection to obtain and create list of all events the simulation will use.
             PopulateEvents();
         }
+
+        /// <summary>
+        ///     References all of the events that have been triggered by the system in chronological order they occurred.
+        /// </summary>
+        private SortedDictionary<string, DirectorEventItem> Events { get; }
 
         /// <summary>
         ///     Contains history of events that have happened.
@@ -58,7 +59,7 @@ namespace TrailEntities.Event
         private void PopulateEvents()
         {
             // Get all the types marked with the random event attribute.
-            var eventTypes = GetTypesWith<DirectorEventAttribute>(true);
+            var eventTypes = AttributeHelper.GetTypesWith<DirectorEventAttribute>(true);
 
             // Loop through all the types we got from reflection.
             foreach (var eventType in eventTypes)
@@ -81,38 +82,24 @@ namespace TrailEntities.Event
                     continue;
 
                 // Adds the event item to the dictionary, no duplicate events are allowed.
-                if (!_events.ContainsKey(castedEventItem.Name))
-                    _events.Add(castedEventItem.Name, castedEventItem);
+                if (!Events.ContainsKey(castedEventItem.Name))
+                    Events.Add(castedEventItem.Name, castedEventItem);
             }
-        }
-
-        /// <summary>
-        ///     Find all the classes which have a custom attribute I've defined on them, and I want to be able to find them
-        ///     on-the-fly when an application is using my library.
-        /// </summary>
-        /// <remarks>http://stackoverflow.com/a/720171</remarks>
-        private static IEnumerable<Type> GetTypesWith<TAttribute>(bool inherit)
-            where TAttribute : Attribute
-        {
-            return from a in AppDomain.CurrentDomain.GetAssemblies()
-                from t in a.GetTypes()
-                where t.IsDefined(typeof (TAttribute), inherit)
-                select t;
         }
 
         /// <summary>
         ///     Gathers all of the events by specified type and then rolls the virtual dice to determine if any of the events in
         ///     the enumeration should trigger.
         /// </summary>
-        /// <param name="simEntity">Entity which will be affected by event if triggered.</param>
+        /// <param name="sourceEntity">Entity which will be affected by event if triggered.</param>
         /// <param name="eventType">Event type the dice will be rolled against and attempted to trigger.</param>
-        public void TriggerEventByType(IEntity simEntity, EventCategory eventType)
+        public void TriggerEventByType(IEntity sourceEntity, EventCategory eventType)
         {
             // Create list we will use to store events of wanted type.
             var eventTypeList = new List<DirectorEventItem>();
 
             // Gather up all the events by the specified type.
-            foreach (var valuePairEvent in _events)
+            foreach (var valuePairEvent in Events)
             {
                 if (valuePairEvent.Value.Category.Equals(eventType))
                 {
@@ -125,7 +112,7 @@ namespace TrailEntities.Event
             if (foundEvent != null)
             {
                 // Pass off execution to helper method that will construct event instance from type.
-                TriggerEventByName(simEntity, foundEvent.Name);
+                TriggerEventByName(sourceEntity, foundEvent.Name);
             }
 
             // Cleanup copied event instances.
@@ -155,12 +142,12 @@ namespace TrailEntities.Event
                 return;
 
             // Check event object is null.
-            if (_events[eventName] == null)
+            if (Events[eventName] == null)
                 return;
 
             // Invoke with a parameter string builder object we will get a string back from execute method.
             var eventInputParameter = new StringBuilder();
-            var eventTUI = _events[eventName].Execute(eventInputParameter);
+            var eventTUI = Events[eventName].Execute(eventInputParameter);
 
             // Check if the event text user interface from execute method is null or empty whitespace.
             if (string.IsNullOrEmpty(eventTUI) ||
@@ -168,7 +155,7 @@ namespace TrailEntities.Event
                 return;
 
             // Grab the event item,
-            var eventItem = _events[eventName];
+            var eventItem = Events[eventName];
 
             // Attach random event game mode before triggering event since it will listen for it using event delegate.
             GameSimulationApp.Instance.AddMode(ModeCategory.RandomEvent);
