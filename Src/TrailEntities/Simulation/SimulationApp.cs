@@ -38,11 +38,18 @@ namespace TrailEntities.Simulation
         {
             // References all of the active game modes that need to be ticked.
             Modes = new Dictionary<ModeCategory, IMode>();
+            ModeFactory = new ModeFactory();
 
             // Start with a clear input and screen buffer.
             InputBuffer = string.Empty;
             ScreenBuffer = string.Empty;
         }
+
+        /// <summary>
+        ///     Factory pattern that will create game modes for it based on attribute at the top of each one that defines what mode
+        ///     category it is responsible for.
+        /// </summary>
+        public ModeFactory ModeFactory { get; set; }
 
         /// <summary>
         ///     Holds the last known representation of the game simulation and current mode text user interface, only pushes update
@@ -267,6 +274,7 @@ namespace TrailEntities.Simulation
         {
             base.OnDestroy();
 
+            ModeFactory = null;
             InputBuffer = string.Empty;
             ScreenBuffer = string.Empty;
             Modes.Clear();

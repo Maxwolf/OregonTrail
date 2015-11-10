@@ -143,7 +143,9 @@ namespace TrailEntities.Simulation
         /// <returns>TRUE if first point on trail, FALSE if not.</returns>
         public bool IsFirstLocation()
         {
-            return LocationIndex <= 0 && GameSimulationApp.Instance.TotalTurns <= 0;
+            return LocationIndex <= 0 &&
+                   GameSimulationApp.Instance.TotalTurns <= 0 &&
+                   GameSimulationApp.Instance.ModeFactory.RunCount[ModeCategory.Store] <= 0;
         }
 
         /// <summary>

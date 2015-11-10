@@ -247,7 +247,7 @@ namespace TrailEntities.Game
             var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
 
             // If at first location we show the total cost of the bill so far the player has racked up.
-            footerText.Append(GameSimulationApp.Instance.Trail.IsFirstLocation()
+            footerText.Append(isFirstPoint
                 ? $"Total bill:            {totalBill.ToString("C2")}" +
                   $"{Environment.NewLine}Amount you have:       {amountPlayerHas.ToString("C2")}"
                 : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
