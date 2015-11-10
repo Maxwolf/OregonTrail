@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using TrailEntities.Simulation;
 
 namespace TrailEntities.Event
 {

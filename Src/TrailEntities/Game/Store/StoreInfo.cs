@@ -13,20 +13,20 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        private Dictionary<SimulationEntity, Item> _totalTransactions;
+        private Dictionary<Entity.Entity, Item> _totalTransactions;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Game.StoreInfo" /> class.
         /// </summary>
         public StoreInfo()
         {
-            _totalTransactions = new Dictionary<SimulationEntity, Item>(GameSimulationApp.DefaultInventory);
+            _totalTransactions = new Dictionary<Entity.Entity, Item>(GameSimulationApp.DefaultInventory);
         }
 
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        public IDictionary<SimulationEntity, Item> Transactions
+        public IDictionary<Entity.Entity, Item> Transactions
         {
             get { return _totalTransactions; }
         }
@@ -66,7 +66,7 @@ namespace TrailEntities.Game
         public void RemoveItem(Item item)
         {
             // Loop through every single transaction.
-            var copyList = new Dictionary<SimulationEntity, Item>(_totalTransactions);
+            var copyList = new Dictionary<Entity.Entity, Item>(_totalTransactions);
             foreach (var transaction in copyList)
             {
                 // Check if Item name matches incoming one.

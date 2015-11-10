@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using TrailEntities.Event;
-using TrailEntities.Simulation;
 
 namespace TrailEntities.Entity
 {
@@ -56,9 +55,9 @@ namespace TrailEntities.Entity
         ///     Defines what type of entity this will take the role of in the simulation. Depending on this value the simulation
         ///     will affect how it is treated, points tabulated, and interactions governed.
         /// </summary>
-        public SimulationEntity Category
+        public Entity Category
         {
-            get { return SimulationEntity.Person; }
+            get { return Entity.Person; }
         }
 
         /// <summary>
@@ -170,13 +169,13 @@ namespace TrailEntities.Entity
         /// </summary>
         private void ConsumeFood()
         {
-            var cost_food = GameSimulationApp.Instance.Vehicle.Inventory[SimulationEntity.Food].TotalValue;
+            var cost_food = GameSimulationApp.Instance.Vehicle.Inventory[Entity.Food].TotalValue;
             cost_food = cost_food - 8 - 5*(int) GameSimulationApp.Instance.Vehicle.Ration;
             if (cost_food >= 13)
             {
                 // Consume the food since we still have some.
-                GameSimulationApp.Instance.Vehicle.Inventory[SimulationEntity.Food] =
-                    new Item(GameSimulationApp.Instance.Vehicle.Inventory[SimulationEntity.Food], (int) cost_food);
+                GameSimulationApp.Instance.Vehicle.Inventory[Entity.Food] =
+                    new Item(GameSimulationApp.Instance.Vehicle.Inventory[Entity.Food], (int) cost_food);
             }
             else
             {
@@ -200,7 +199,8 @@ namespace TrailEntities.Entity
                 Health = RepairStatus.Fair;
             }
             else if (100*GameSimulationApp.Instance.Random.NextDouble() < 100 -
-                     (40/GameSimulationApp.Instance.Vehicle.Passengers.Count()*((int) GameSimulationApp.Instance.Vehicle.Ration - 1)))
+                     (40/GameSimulationApp.Instance.Vehicle.Passengers.Count()*
+                      ((int) GameSimulationApp.Instance.Vehicle.Ration - 1)))
             {
                 // Bad illness.
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(10);

@@ -195,7 +195,7 @@ namespace TrailEntities.Simulation
                 return;
 
             // Add the game mode to the simulation now that we know it does not exist in the stack yet.
-            Modes.Add(modeCategory, OnModeChange(modeCategory));
+            Modes.Add(modeCategory, ModeFactory.CreateInstance(modeCategory));
             ModeChangedEvent?.Invoke(Modes[modeCategory].ModeCategory);
         }
 
@@ -208,9 +208,6 @@ namespace TrailEntities.Simulation
         {
             // Fire event that lets subscribers know we changed something.
             ModeChangedEvent?.Invoke(modeCategory);
-
-            // Pass the information along to active game mode.
-            ActiveMode?.OnModeChanged(modeCategory);
         }
 
         /// <summary>
@@ -261,8 +258,6 @@ namespace TrailEntities.Simulation
         {
             NewgameEvent?.Invoke();
         }
-
-        protected abstract IMode OnModeChange(ModeCategory modeCategory);
 
         /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can

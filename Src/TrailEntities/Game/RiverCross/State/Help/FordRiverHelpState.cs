@@ -9,9 +9,8 @@ namespace TrailEntities.Game
     /// </summary>
     public sealed class FordRiverHelpState : ModeState<RiverCrossInfo>
     {
-        private bool _hasReadFordRiverHelp;
-
         private StringBuilder _fordRiverHelp;
+        private bool _hasReadFordRiverHelp;
 
         /// <summary>
         ///     This constructor will be used by the other one

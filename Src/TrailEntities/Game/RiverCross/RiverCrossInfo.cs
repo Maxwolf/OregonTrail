@@ -19,7 +19,7 @@
         }
 
         /// <summary>
-        /// Determines how the vehicle and party members would like to cross the river.
+        ///     Determines how the vehicle and party members would like to cross the river.
         /// </summary>
         public CrossChoice CrossingType { get; set; }
 

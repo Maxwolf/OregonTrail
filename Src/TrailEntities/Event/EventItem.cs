@@ -5,7 +5,7 @@ namespace TrailEntities.Event
     /// <summary>
     ///     Represents an event that can be triggered by the event director when vehicle is traveling along the trail.
     /// </summary>
-    [RandomEvent]
+    [DirectorEvent]
     public abstract class EventItem
     {
         /// <summary>

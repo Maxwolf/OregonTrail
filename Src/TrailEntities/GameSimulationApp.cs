@@ -4,7 +4,6 @@ using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Event;
 using TrailEntities.Game;
-using TrailEntities.Game.RandomEvent;
 using TrailEntities.Mode;
 using TrailEntities.Scoring;
 using TrailEntities.Simulation;
@@ -100,21 +99,21 @@ namespace TrailEntities
         ///     References all of the default store items that any clerk will offer to sell you. This is also true for the store
         ///     purchasing mode that keeps track of purchases that need to be made.
         /// </summary>
-        internal static IDictionary<SimulationEntity, Item> DefaultInventory
+        internal static IDictionary<Entity.Entity, Item> DefaultInventory
         {
             get
             {
                 // Build up the default items every store will have, their prices increase with distance from starting point.
-                var defaultInventory = new Dictionary<SimulationEntity, Item>
+                var defaultInventory = new Dictionary<Entity.Entity, Item>
                 {
-                    {SimulationEntity.Animal, Parts.Oxen},
-                    {SimulationEntity.Clothes, Resources.Clothing},
-                    {SimulationEntity.Ammo, Resources.Bullets},
-                    {SimulationEntity.Wheel, Parts.Wheel},
-                    {SimulationEntity.Axle, Parts.Axle},
-                    {SimulationEntity.Tongue, Parts.Tongue},
-                    {SimulationEntity.Food, Resources.Food},
-                    {SimulationEntity.Cash, Resources.Cash}
+                    {Entity.Entity.Animal, Parts.Oxen},
+                    {Entity.Entity.Clothes, Resources.Clothing},
+                    {Entity.Entity.Ammo, Resources.Bullets},
+                    {Entity.Entity.Wheel, Parts.Wheel},
+                    {Entity.Entity.Axle, Parts.Axle},
+                    {Entity.Entity.Tongue, Parts.Tongue},
+                    {Entity.Entity.Food, Resources.Food},
+                    {Entity.Entity.Cash, Resources.Cash}
                 };
                 return defaultInventory;
             }
@@ -264,42 +263,6 @@ namespace TrailEntities
         }
 
         /// <summary>
-        ///     Change to new view mode when told that internal logic wants to display view options to player for a specific set of
-        ///     data in the simulation.
-        /// </summary>
-        /// <param name="modeCategory">Enumeration of the game mode that requested to be attached.</param>
-        /// <returns>New game mode instance based on the mode input parameter.</returns>
-        protected override IMode OnModeChange(ModeCategory modeCategory)
-        {
-            // TODO: Replace mode activation with class activator and custom attribute.
-            switch (modeCategory)
-            {
-                case ModeCategory.Travel:
-                    return new TravelMode();
-                case ModeCategory.ForkInRoad:
-                    return new ForkInRoadMode();
-                case ModeCategory.Hunt:
-                    return new HuntingMode();
-                case ModeCategory.MainMenu:
-                    return new MainMenuMode();
-                case ModeCategory.RiverCrossing:
-                    return new RiverCrossMode();
-                case ModeCategory.Store:
-                    return new StoreMode();
-                case ModeCategory.Trade:
-                    return new TradingMode();
-                case ModeCategory.Options:
-                    return new OptionsMode();
-                case ModeCategory.EndGame:
-                    return new EndGameMode();
-                case ModeCategory.RandomEvent:
-                    return new RandomEventMode();
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(modeCategory), modeCategory, null);
-            }
-        }
-
-        /// <summary>
         ///     Fired after each simulated day.
         /// </summary>
         /// <param name="dayCount">Total number of days in the simulation that have passed.</param>
@@ -312,9 +275,9 @@ namespace TrailEntities
             Vehicle.TickVehicle();
 
             // Grab the total amount of monies the player has spent on the items in their inventory.
-            var cost_ammo = Vehicle.Inventory[SimulationEntity.Ammo].TotalValue;
-            var cost_clothes = Vehicle.Inventory[SimulationEntity.Clothes].TotalValue;
-            var start_cash = Vehicle.Inventory[SimulationEntity.Cash].TotalValue;
+            var cost_ammo = Vehicle.Inventory[Entity.Entity.Ammo].TotalValue;
+            var cost_clothes = Vehicle.Inventory[Entity.Entity.Clothes].TotalValue;
+            var start_cash = Vehicle.Inventory[Entity.Entity.Cash].TotalValue;
 
             // Move towards the next location on the trail.
             Trail.DecreaseDistanceToNextLocation();

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using TrailEntities;
-using TrailEntities.Simulation;
 
 namespace TrailGame
 {

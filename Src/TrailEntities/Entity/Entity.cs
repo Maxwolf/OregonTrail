@@ -4,7 +4,7 @@
     ///     Defines all the possible types of items, used for sorting and quickly being able to determine type when iterating
     ///     over them in a list.
     /// </summary>
-    public enum SimulationEntity
+    public enum Entity
     {
         /// <summary>
         ///     Defines the vessel in which the party members, their inventory, monies, hopes and dreams, and everything else

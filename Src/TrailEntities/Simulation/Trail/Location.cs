@@ -13,7 +13,7 @@ namespace TrailEntities.Simulation
         /// <summary>
         ///     Reference to all of the items this landmark has for sale in a store.
         /// </summary>
-        private Dictionary<SimulationEntity, Item> _storeItems;
+        private Dictionary<Entity.Entity, Item> _storeItems;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.Location" /> class.
@@ -24,7 +24,7 @@ namespace TrailEntities.Simulation
             Name = name;
 
             // We know the settlement has a store if there are items in it to sell.
-            _storeItems = new Dictionary<SimulationEntity, Item>(GameSimulationApp.DefaultInventory);
+            _storeItems = new Dictionary<Entity.Entity, Item>(GameSimulationApp.DefaultInventory);
             HasStore = _storeItems.Count > 0 && storeOpen;
         }
 
@@ -45,7 +45,7 @@ namespace TrailEntities.Simulation
         /// <summary>
         ///     Defines a list of items which the store has inside of it which were established in the constructor for the store.
         /// </summary>
-        public IDictionary<SimulationEntity, Item> StoreItems
+        public IDictionary<Entity.Entity, Item> StoreItems
         {
             get { return _storeItems; }
         }

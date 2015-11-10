@@ -60,7 +60,8 @@ namespace TrailEntities.Game
         private void ContinueOnTrail()
         {
             // Player just starting this section of the trail will get prompt about total distance needed to cover it before starting.
-            if (!GameSimulationApp.Instance.Trail.ReachedNextPoint() && !GameSimulationApp.Instance.Trail.IsFirstLocation())
+            if (!GameSimulationApp.Instance.Trail.ReachedNextPoint() &&
+                !GameSimulationApp.Instance.Trail.IsFirstLocation())
             {
                 CurrentState = new DriveState(this, TravelInfo);
             }

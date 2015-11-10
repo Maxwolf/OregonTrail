@@ -9,12 +9,13 @@ namespace TrailEntities.Entity
     public sealed class Item : IEntity
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Entity.Item" /> class. The quantity property will be set
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Entity.Item" /> class. The quantity property will be
+        ///     set
         ///     to
         ///     whatever the minimum amount of the Item is.
         /// </summary>
         public Item(
-            SimulationEntity category,
+            Entity category,
             string name,
             string pluralForm,
             string delineatingUnit,
@@ -137,7 +138,7 @@ namespace TrailEntities.Entity
         ///     them
         ///     when looking for a particular piece of data in the vehicles inventory list.
         /// </summary>
-        public SimulationEntity Category { get; }
+        public Entity Category { get; }
 
         /// <summary>
         ///     Display name of the Item as it should be known to players.

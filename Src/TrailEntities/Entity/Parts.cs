@@ -11,7 +11,7 @@
         /// </summary>
         public static Item Oxen
         {
-            get { return new Item(SimulationEntity.Animal, "Oxen", "oxen", "ox", 20, 20, 0); }
+            get { return new Item(Entity.Animal, "Oxen", "oxen", "ox", 20, 20, 0); }
         }
 
         /// <summary>
@@ -20,7 +20,7 @@
         /// </summary>
         public static Item Axle
         {
-            get { return new Item(SimulationEntity.Axle, "Vehicle Axle", "axles", "axle", 3, 10, 0); }
+            get { return new Item(Entity.Axle, "Vehicle Axle", "axles", "axle", 3, 10, 0); }
         }
 
         /// <summary>
@@ -29,7 +29,7 @@
         /// </summary>
         public static Item Tongue
         {
-            get { return new Item(SimulationEntity.Tongue, "Vehicle Tongue", "tongues", "tongue", 3, 10, 0); }
+            get { return new Item(Entity.Tongue, "Vehicle Tongue", "tongues", "tongue", 3, 10, 0); }
         }
 
         /// <summary>
@@ -38,7 +38,7 @@
         /// </summary>
         public static Item Wheel
         {
-            get { return new Item(SimulationEntity.Wheel, "Vehicle Wheel", "wheels", "wheel", 3, 10, 0); }
+            get { return new Item(Entity.Wheel, "Vehicle Wheel", "wheels", "wheel", 3, 10, 0); }
         }
     }
 }

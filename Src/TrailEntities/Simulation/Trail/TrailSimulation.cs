@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TrailEntities.Entity;
 using TrailEntities.Mode;
 
 namespace TrailEntities.Simulation
@@ -82,7 +81,7 @@ namespace TrailEntities.Simulation
         private static int CalculateNextPointDistance()
         {
             // Get the total amount of monies the player has spent on animals to pull their vehicle.
-            var cost_animals = GameSimulationApp.Instance.Vehicle.Inventory[SimulationEntity.Animal].TotalValue;
+            var cost_animals = GameSimulationApp.Instance.Vehicle.Inventory[Entity.Entity.Animal].TotalValue;
 
             // Variables that will hold the distance we should travel in the next day.
             var total_miles = GameSimulationApp.Instance.Vehicle.Mileage +

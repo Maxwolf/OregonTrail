@@ -57,7 +57,7 @@ namespace TrailEntities.Event
         private void PopulateEvents()
         {
             // Get all the types marked with the random event attribute.
-            var eventTypes = GetTypesWith<RandomEventAttribute>(true);
+            var eventTypes = GetTypesWith<DirectorEventAttribute>(true);
 
             // Loop through all the types we got from reflection.
             foreach (var eventType in eventTypes)

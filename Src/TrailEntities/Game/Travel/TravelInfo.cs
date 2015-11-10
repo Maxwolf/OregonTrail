@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Entity;
 
 namespace TrailEntities.Game
 {
@@ -23,7 +22,7 @@ namespace TrailEntities.Game
             get
             {
                 // Get the current food item from vehicle inventory.
-                var foodItem = GameSimulationApp.Instance.Vehicle.Inventory[SimulationEntity.Food];
+                var foodItem = GameSimulationApp.Instance.Vehicle.Inventory[Entity.Entity.Food];
 
                 // Set default food status text, update to actual food item total weight if it exists.
                 var foodStatus = "0 pounds";

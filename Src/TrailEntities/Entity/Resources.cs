@@ -11,7 +11,7 @@
         /// </summary>
         public static Item Clothing
         {
-            get { return new Item(SimulationEntity.Clothes, "Clothing", "sets", "set", 50, 10); }
+            get { return new Item(Entity.Clothes, "Clothing", "sets", "set", 50, 10); }
         }
 
         /// <summary>
@@ -19,7 +19,7 @@
         /// </summary>
         public static Item Bullets
         {
-            get { return new Item(SimulationEntity.Ammo, "Ammunition", "boxes", "box", 99, 2, 0, 20); }
+            get { return new Item(Entity.Ammo, "Ammunition", "boxes", "box", 99, 2, 0, 20); }
         }
 
         /// <summary>
@@ -28,7 +28,7 @@
         /// </summary>
         public static Item Food
         {
-            get { return new Item(SimulationEntity.Food, "Food", "pounds", "pound", 2000, 0.20f); }
+            get { return new Item(Entity.Food, "Food", "pounds", "pound", 2000, 0.20f); }
         }
 
         /// <summary>
@@ -37,7 +37,7 @@
         /// </summary>
         public static Item Vehicle
         {
-            get { return new Item(SimulationEntity.Vehicle, "Vehicle", "vehicles", "vehicle", 2000, 50); }
+            get { return new Item(Entity.Vehicle, "Vehicle", "vehicles", "vehicle", 2000, 50); }
         }
 
         /// <summary>
@@ -46,7 +46,7 @@
         /// </summary>
         public static Item Person
         {
-            get { return new Item(SimulationEntity.Person, "Person", "people", "person", 2000, 0); }
+            get { return new Item(Entity.Person, "Person", "people", "person", 2000, 0); }
         }
 
         /// <summary>
@@ -55,7 +55,7 @@
         /// </summary>
         public static Item Cash
         {
-            get { return new Item(SimulationEntity.Cash, "Cash", "dollars", "dollar", int.MaxValue, 1, 0); }
+            get { return new Item(Entity.Cash, "Cash", "dollars", "dollar", int.MaxValue, 1, 0); }
         }
     }
 }
