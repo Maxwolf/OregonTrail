@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Event;
+using TrailEntities.Game;
+using TrailEntities.Game.RandomEvent;
 using TrailEntities.Mode;
-using TrailEntities.Mode.RandomEvent;
 using TrailEntities.Scoring;
 using TrailEntities.Simulation;
 
