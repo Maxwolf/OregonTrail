@@ -10,6 +10,7 @@ namespace TrailEntities.Game
     ///     the player can choose to accept or not.
     /// </summary>
     [GameMode(ModeCategory.Trade)]
+    // ReSharper disable once UnusedMember.Global
     public sealed class TradingMode : GameMode<TradingCommands>
     {
         private readonly HashSet<Item> _possibleTrades;

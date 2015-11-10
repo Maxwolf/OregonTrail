@@ -9,6 +9,7 @@ namespace TrailEntities.Game
     ///     of party and vehicle, plus climate and other things like distance traveled and distance to next point.
     /// </summary>
     [GameMode(ModeCategory.Travel)]
+    // ReSharper disable once UnusedMember.Global
     public sealed class TravelMode : GameMode<TravelCommands>
     {
         /// <summary>

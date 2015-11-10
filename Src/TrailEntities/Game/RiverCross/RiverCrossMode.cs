@@ -8,6 +8,7 @@ namespace TrailEntities.Game
     ///     bad it is.
     /// </summary>
     [GameMode(ModeCategory.RiverCrossing)]
+    // ReSharper disable once UnusedMember.Global
     public sealed class RiverCrossMode : GameMode<RiverCrossCommands>
     {
         /// <summary>

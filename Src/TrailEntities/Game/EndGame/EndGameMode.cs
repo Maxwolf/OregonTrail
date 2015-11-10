@@ -6,6 +6,7 @@ namespace TrailEntities.Game
     ///     Attached when the party leader dies, or the vehicle reaches the end of the trail.
     /// </summary>
     [GameMode(ModeCategory.EndGame)]
+    // ReSharper disable once UnusedMember.Global
     public sealed class EndGameMode : GameMode<EndGameCommands>
     {
         /// <summary>

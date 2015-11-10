@@ -5,7 +5,8 @@ using TrailEntities.Simulation;
 namespace TrailEntities.Game
 {
     [GameMode(ModeCategory.ForkInRoad)]
-    public sealed class ForkInRoadMode : GameMode<ForkInRoadCommands>, IForkInRoadMode
+    // ReSharper disable once UnusedMember.Global
+    public sealed class ForkInRoadMode : GameMode<ForkInRoadCommands>
     {
         private readonly HashSet<Location> _skipChoices;
 

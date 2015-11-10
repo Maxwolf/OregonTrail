@@ -10,6 +10,7 @@ namespace TrailEntities.Game
     ///     Manages a general store where the player can buy food, clothes, bullets, and parts for their vehicle.
     /// </summary>
     [GameMode(ModeCategory.Store)]
+    // ReSharper disable once UnusedMember.Global
     public sealed class StoreMode : GameMode<StoreCommands>
     {
         /// <summary>

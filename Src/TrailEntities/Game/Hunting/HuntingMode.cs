@@ -9,7 +9,8 @@ namespace TrailEntities.Game
     ///     can only take back up to one hundred pounds of whatever the value was back to the wagon regardless of what it was.
     /// </summary>
     [GameMode(ModeCategory.Hunt)]
-    public sealed class HuntingMode : GameMode<HuntingCommands>, IHuntingMode
+    // ReSharper disable once UnusedMember.Global
+    public sealed class HuntingMode : GameMode<HuntingCommands>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.

@@ -94,10 +94,8 @@
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
     <Compile Include="Game\ForkInRoad\ForkInRoadCommands.cs" />
     <Compile Include="Game\ForkInRoad\ForkInRoadMode.cs" />
-    <Compile Include="Game\ForkInRoad\IForkInRoadMode.cs" />
     <Compile Include="Mode\GameMode.cs" />
     <Compile Include="Game\Hunting\HuntingCommands.cs" />
-    <Compile Include="Game\Hunting\IHuntingMode.cs" />
     <Compile Include="Mode\IMode.cs" />
     <Compile Include="Mode\IModeChoiceItem.cs" />
     <Compile Include="Mode\State\IModeState.cs" />

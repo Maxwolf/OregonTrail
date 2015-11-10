@@ -10,6 +10,7 @@ namespace TrailEntities.Game
     ///     tombstone messages, etc.
     /// </summary>
     [GameMode(ModeCategory.Options)]
+    // ReSharper disable once UnusedMember.Global
     public sealed class OptionsMode : GameMode<OptionCommands>
     {
         /// <summary>

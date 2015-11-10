@@ -10,6 +10,7 @@ namespace TrailEntities.Game
     ///     which then hooks the event delegate it will trigger right after this class finishes initializing.
     /// </summary>
     [GameMode(ModeCategory.RandomEvent)]
+    // ReSharper disable once UnusedMember.Global
     public sealed class RandomEventMode : GameMode<RandomEventCommands>
     {
         /// <summary>

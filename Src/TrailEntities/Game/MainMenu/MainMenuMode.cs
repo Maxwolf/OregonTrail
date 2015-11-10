@@ -11,6 +11,7 @@ namespace TrailEntities.Game
     ///     to change any of these values before actually starting the game as a final confirmation.
     /// </summary>
     [GameMode(ModeCategory.MainMenu)]
+    // ReSharper disable once UnusedMember.Global
     public sealed class MainMenuMode : GameMode<MainMenuCommands>
     {
         /// <summary>
