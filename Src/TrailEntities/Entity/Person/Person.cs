@@ -215,7 +215,7 @@ namespace TrailEntities.Entity
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(15);
 
                 // Pick an actual severe illness from list, roll the dice for it on very low health.
-                GameSimulationApp.Instance.Director.TriggerEventByType(this, EventCategory.Person);
+                GameSimulationApp.Instance.Director.TriggerEventByType(this, EventType.Person);
             }
 
             if (Health == RepairStatus.VeryPoor &&

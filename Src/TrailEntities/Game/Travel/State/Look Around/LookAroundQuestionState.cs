@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Mode;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -15,7 +15,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public LookAroundQuestionState(IMode gameMode, TravelInfo userData)
+        public LookAroundQuestionState(IModeProduct gameMode, TravelInfo userData)
             : base(gameMode, userData)
         {
         }

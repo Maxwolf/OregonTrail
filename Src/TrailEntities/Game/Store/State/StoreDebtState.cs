@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -20,7 +20,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public StoreDebtState(IMode gameMode, StoreInfo userData) : base(gameMode, userData)
+        public StoreDebtState(IModeProduct gameMode, StoreInfo userData) : base(gameMode, userData)
         {
         }
 

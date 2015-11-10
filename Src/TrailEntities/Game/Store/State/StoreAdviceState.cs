@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -26,7 +26,7 @@ namespace TrailEntities.Game
         /// </summary>
         private int adviceCount;
 
-        public StoreAdviceState(IMode gameMode, StoreInfo userData) : base(gameMode, userData)
+        public StoreAdviceState(IModeProduct gameMode, StoreInfo userData) : base(gameMode, userData)
         {
             _hasReadAdvice = false;
             _storeHelp = new StringBuilder();

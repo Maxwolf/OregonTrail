@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 using TrailEntities.Widget;
 
 namespace TrailEntities.Game
@@ -25,7 +25,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsHealthState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public PointsHealthState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Build up string of help about points for people.
             _pointsHealth = new StringBuilder();

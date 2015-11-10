@@ -1,5 +1,5 @@
 ﻿using System;
-using TrailEntities.Mode;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -13,7 +13,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public TombstoneState(IMode gameMode, EndGameInfo userData) : base(gameMode, userData)
+        public TombstoneState(IModeProduct gameMode, EndGameInfo userData) : base(gameMode, userData)
         {
         }
 

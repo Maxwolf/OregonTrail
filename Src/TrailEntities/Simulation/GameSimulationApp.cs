@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Event;
 using TrailEntities.Game;
-using TrailEntities.Mode;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Simulation
 {
@@ -253,10 +252,10 @@ namespace TrailEntities.Simulation
             TotalTurns = 0;
 
             // Attach traveling mode since that is the default and bottom most game mode.
-            AddMode(ModeCategory.Travel);
+            AddMode(ModeType.Travel);
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            AddMode(ModeCategory.MainMenu);
+            AddMode(ModeType.MainMenu);
         }
 
         /// <summary>

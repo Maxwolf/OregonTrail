@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Mode;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -13,7 +13,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public EraseCurrentTopTenState(IMode gameMode, OptionInfo userData) : base(gameMode, userData)
+        public EraseCurrentTopTenState(IModeProduct gameMode, OptionInfo userData) : base(gameMode, userData)
         {
         }
 

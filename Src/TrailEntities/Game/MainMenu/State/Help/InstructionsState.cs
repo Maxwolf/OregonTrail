@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -23,7 +23,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public InstructionsState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public InstructionsState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             _playInfo = new StringBuilder();
             _playInfo.Append($"Your journey over the Oregon Trail takes place in 1847. Start{Environment.NewLine}");

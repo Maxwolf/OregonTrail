@@ -1,4 +1,4 @@
-﻿using TrailEntities.Mode;
+﻿using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -7,12 +7,12 @@ namespace TrailEntities.Game
     ///     trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how
     ///     bad it is.
     /// </summary>
-    [GameMode(ModeCategory.RiverCrossing)]
+    [GameMode(ModeType.RiverCrossing)]
     // ReSharper disable once UnusedMember.Global
-    public sealed class RiverCrossMode : GameMode<RiverCrossCommands>
+    public sealed class RiverCrossMode : ModeProduct<RiverCrossCommands>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
         public RiverCrossMode() : base(false)
         {
@@ -37,9 +37,9 @@ namespace TrailEntities.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override ModeType ModeType
         {
-            get { return ModeCategory.RiverCrossing; }
+            get { return ModeType.RiverCrossing; }
         }
 
         /// <summary>
@@ -99,8 +99,8 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        /// <param name="modeCategory"></param>
-        protected override void OnModeRemoved(ModeCategory modeCategory)
+        /// <param name="modeType"></param>
+        protected override void OnModeRemoved(ModeType modeType)
         {
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -24,7 +24,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PaceAdviceState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public PaceAdviceState(IModeProduct gameMode, TravelInfo userData) : base(gameMode, userData)
         {
             // Steady
             _paceHelp = new StringBuilder();

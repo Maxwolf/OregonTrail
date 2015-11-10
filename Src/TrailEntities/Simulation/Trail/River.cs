@@ -1,5 +1,5 @@
 ﻿using System;
-using TrailEntities.Mode;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Simulation
 {
@@ -12,9 +12,9 @@ namespace TrailEntities.Simulation
         {
         }
 
-        public override ModeCategory ModeCategory
+        public override ModeType ModeType
         {
-            get { return ModeCategory.RiverCrossing; }
+            get { return ModeType.RiverCrossing; }
         }
 
         public int Depth

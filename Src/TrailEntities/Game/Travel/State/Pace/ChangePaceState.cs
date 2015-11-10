@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -21,7 +21,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ChangePaceState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public ChangePaceState(IModeProduct gameMode, TravelInfo userData) : base(gameMode, userData)
         {
             _pace = new StringBuilder();
             _pace.Append($"{Environment.NewLine}Change pace{Environment.NewLine}");

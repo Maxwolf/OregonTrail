@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -21,7 +21,7 @@ namespace TrailEntities.Game
         /// </summary>
         private StringBuilder _job;
 
-        public ProfessionAdviceState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public ProfessionAdviceState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Information about professions and how they work.
             _job = new StringBuilder();

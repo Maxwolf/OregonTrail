@@ -1,6 +1,6 @@
 ﻿using System.Text;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -8,9 +8,9 @@ namespace TrailEntities.Game
     ///     Primary game mode of the simulation, used to show simulation advancing through linear time. Shows all major stats
     ///     of party and vehicle, plus climate and other things like distance traveled and distance to next point.
     /// </summary>
-    [GameMode(ModeCategory.Travel)]
+    [GameMode(ModeType.Travel)]
     // ReSharper disable once UnusedMember.Global
-    public sealed class TravelMode : GameMode<TravelCommands>
+    public sealed class TravelMode : ModeProduct<TravelCommands>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Game.TravelMode" /> class.
@@ -34,9 +34,9 @@ namespace TrailEntities.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override ModeType ModeType
         {
-            get { return ModeCategory.Travel; }
+            get { return ModeType.Travel; }
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuySupplies()
         {
-            GameSimulationApp.Instance.AddMode(ModeCategory.Store);
+            GameSimulationApp.Instance.AddMode(ModeType.Store);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace TrailEntities.Game
         private void AttemptToTrade()
         {
             CurrentState = null;
-            GameSimulationApp.Instance.AddMode(ModeCategory.Trade);
+            GameSimulationApp.Instance.AddMode(ModeType.Trade);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace TrailEntities.Game
         private void HuntForFood()
         {
             CurrentState = null;
-            GameSimulationApp.Instance.AddMode(ModeCategory.Hunt);
+            GameSimulationApp.Instance.AddMode(ModeType.Hunt);
         }
 
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using TrailEntities.Mode;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -14,7 +14,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public FordRiverHelpState(IMode gameMode, RiverCrossInfo userData) : base(gameMode, userData)
+        public FordRiverHelpState(IModeProduct gameMode, RiverCrossInfo userData) : base(gameMode, userData)
         {
             _fordRiverHelp = new StringBuilder();
         }

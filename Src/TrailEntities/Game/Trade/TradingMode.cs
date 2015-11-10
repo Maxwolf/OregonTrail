@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TrailEntities.Entity;
-using TrailEntities.Mode;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -9,9 +9,9 @@ namespace TrailEntities.Game
     ///     Handles the interaction of the player party and another AI controlled party that offers up items for trading which
     ///     the player can choose to accept or not.
     /// </summary>
-    [GameMode(ModeCategory.Trade)]
+    [GameMode(ModeType.Trade)]
     // ReSharper disable once UnusedMember.Global
-    public sealed class TradingMode : GameMode<TradingCommands>
+    public sealed class TradingMode : ModeProduct<TradingCommands>
     {
         private readonly HashSet<SimulationItem> _possibleTrades;
 
@@ -20,9 +20,9 @@ namespace TrailEntities.Game
             _possibleTrades = new HashSet<SimulationItem>();
         }
 
-        public override ModeCategory ModeCategory
+        public override ModeType ModeType
         {
-            get { return ModeCategory.Trade; }
+            get { return ModeType.Trade; }
         }
 
         public IEnumerable<SimulationItem> PossibleTrades
@@ -49,8 +49,8 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        /// <param name="modeCategory"></param>
-        protected override void OnModeRemoved(ModeCategory modeCategory)
+        /// <param name="modeType"></param>
+        protected override void OnModeRemoved(ModeType modeType)
         {
             throw new NotImplementedException();
         }

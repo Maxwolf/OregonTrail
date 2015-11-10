@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -23,7 +23,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public IntroduceStoreState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public IntroduceStoreState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             _storeHelp = new StringBuilder();
             _storeHelp.Append($"{Environment.NewLine}You can buy whatever you need at{Environment.NewLine}");
@@ -61,7 +61,7 @@ namespace TrailEntities.Game
 
             _knowsAboutMatt = true;
             ParentMode.RemoveModeNextTick();
-            GameSimulationApp.Instance.AddMode(ModeCategory.Store);
+            GameSimulationApp.Instance.AddMode(ModeType.Store);
         }
     }
 }

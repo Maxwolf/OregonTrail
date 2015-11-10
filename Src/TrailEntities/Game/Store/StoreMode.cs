@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
     /// <summary>
     ///     Manages a general store where the player can buy food, clothes, bullets, and parts for their vehicle.
     /// </summary>
-    [GameMode(ModeCategory.Store)]
+    [GameMode(ModeType.Store)]
     // ReSharper disable once UnusedMember.Global
-    public sealed class StoreMode : GameMode<StoreCommands>
+    public sealed class StoreMode : ModeProduct<StoreCommands>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Game.StoreMode" /> class.
@@ -41,9 +41,9 @@ namespace TrailEntities.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override ModeType ModeType
         {
-            get { return ModeCategory.Store; }
+            get { return ModeType.Store; }
         }
 
         /// <summary>
@@ -145,12 +145,12 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        protected override void OnModeRemoved(ModeCategory modeCategory)
+        protected override void OnModeRemoved(ModeType modeType)
         {
-            base.OnModeRemoved(modeCategory);
+            base.OnModeRemoved(modeType);
 
             // Store is only going to process transactions on removal when it is the one up for removal.
-            if (modeCategory != ModeCategory.Store)
+            if (modeType != ModeType.Store)
                 return;
 
             // When detaching the store for first time we need to move the vehicle to the first spot on our virtual trail.

@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
-    [GameMode(ModeCategory.ForkInRoad)]
+    [GameMode(ModeType.ForkInRoad)]
     // ReSharper disable once UnusedMember.Global
-    public sealed class ForkInRoadMode : GameMode<ForkInRoadCommands>
+    public sealed class ForkInRoadMode : ModeProduct<ForkInRoadCommands>
     {
         private readonly HashSet<Location> _skipChoices;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
         public ForkInRoadMode() : base(false)
         {
@@ -27,9 +27,9 @@ namespace TrailEntities.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override ModeType ModeType
         {
-            get { return ModeCategory.ForkInRoad; }
+            get { return ModeType.ForkInRoad; }
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -28,7 +28,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public MissingItemState(SimulationItem mustPurchaseEntity, IMode gameMode, StoreInfo userData)
+        public MissingItemState(SimulationItem mustPurchaseEntity, IModeProduct gameMode, StoreInfo userData)
             : base(gameMode, userData)
         {
             _missingItemEntity = mustPurchaseEntity;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TrailEntities.Mode;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Simulation
 {
@@ -19,9 +19,9 @@ namespace TrailEntities.Simulation
             _skipChoices = new HashSet<Location>(skipChoices);
         }
 
-        public override ModeCategory ModeCategory
+        public override ModeType ModeType
         {
-            get { return ModeCategory.ForkInRoad; }
+            get { return ModeType.ForkInRoad; }
         }
 
         public IEnumerable<Location> SkipChoices

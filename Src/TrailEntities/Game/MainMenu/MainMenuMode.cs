@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -10,10 +10,10 @@ namespace TrailEntities.Game
     ///     ability to choose names, professions, buy initial items, and starting month. The final thing it offers is ability
     ///     to change any of these values before actually starting the game as a final confirmation.
     /// </summary>
-    [GameMode(ModeCategory.MainMenu)]
+    [GameMode(ModeType.MainMenu)]
     // ReSharper disable once UnusedMember.Global
     // ReSharper disable once ClassNeverInstantiated.Global
-    public sealed class MainMenuMode : GameMode<MainMenuCommands>
+    public sealed class MainMenuMode : ModeProduct<MainMenuCommands>
     {
         /// <summary>
         ///     Asked for the first party member.
@@ -49,9 +49,9 @@ namespace TrailEntities.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override ModeType ModeType
         {
-            get { return ModeCategory.MainMenu; }
+            get { return ModeType.MainMenu; }
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace TrailEntities.Game
         /// </summary>
         private static void ChooseManagementOptions()
         {
-            GameSimulationApp.Instance.AddMode(ModeCategory.Options);
+            GameSimulationApp.Instance.AddMode(ModeType.Options);
         }
 
         /// <summary>

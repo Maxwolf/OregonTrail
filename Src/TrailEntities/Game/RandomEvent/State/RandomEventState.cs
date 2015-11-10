@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Event;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -31,23 +30,24 @@ namespace TrailEntities.Game
         /// <param name="gameMode">Parent game mode of this state.</param>
         /// <param name="userData">Custom user data for this game mode that is shared across all states.</param>
         /// <param name="simEntity">Simulation entity that triggered the event to occur in the first place.</param>
-        /// <param name="eventItem">
+        /// <param name="directorEvent">
         ///     The actual event that director wants executed and information displayed to user about what it
         ///     does.
         /// </param>
-        public RandomEventState(IMode gameMode, RandomEventInfo userData, IEntity simEntity, DirectorEventItem eventItem)
-            : base(gameMode, userData)
+        public RandomEventState(IModeProduct gameMode, RandomEventInfo userData, IEntity simEntity,
+            DirectorEvent directorEvent) : base(gameMode, userData)
         {
             // Create new string builder that will hold event execution data.
             _randomEventText = new StringBuilder();
 
             // Execute the event which should return us some text to display to user about what it did to running simulation.
-            var eventText = eventItem.Execute(_randomEventText);
+            directorEvent.Execute();
+            var eventText = directorEvent.Render();
 
             // Complain if the event text is empty.
             if (string.IsNullOrEmpty(eventText) || string.IsNullOrWhiteSpace(eventText))
                 throw new InvalidOperationException(
-                    $"Executed random event {eventItem.Name} from director, but it returned no text data!");
+                    $"Executed random event {directorEvent.Name} from director, but it returned no text data!");
 
             // Add the text to our output about the random event.
             _randomEventText.AppendLine($"{simEntity.Name} {eventText}{Environment.NewLine}");

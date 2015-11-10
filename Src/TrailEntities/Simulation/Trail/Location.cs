@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using TrailEntities.Entity;
-using TrailEntities.Mode;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Simulation
 {
@@ -32,9 +32,9 @@ namespace TrailEntities.Simulation
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public virtual ModeCategory ModeCategory
+        public virtual ModeType ModeType
         {
-            get { return ModeCategory.Travel; }
+            get { return ModeType.Travel; }
         }
 
         /// <summary>

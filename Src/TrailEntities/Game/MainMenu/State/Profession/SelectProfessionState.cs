@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -21,7 +21,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public SelectProfessionState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public SelectProfessionState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Set the profession to default value in case we are retrying this.
             UserData.PlayerProfession = Profession.Banker;

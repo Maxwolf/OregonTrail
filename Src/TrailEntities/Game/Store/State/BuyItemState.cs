@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -36,7 +36,7 @@ namespace TrailEntities.Game
         /// <param name="itemToBuy">SimulationItem to purchase.</param>
         /// <param name="gameMode">Current game mode that requested this.</param>
         /// <param name="userData">Any special user data associated with this state and mode.</param>
-        public BuyItemState(SimulationItem itemToBuy, IMode gameMode, StoreInfo userData)
+        public BuyItemState(SimulationItem itemToBuy, IModeProduct gameMode, StoreInfo userData)
             : base(gameMode, userData)
         {
             // Figure out what we owe already from other store items, then how many of the SimulationItem we can afford.

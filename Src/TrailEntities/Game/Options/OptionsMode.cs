@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Text;
-using TrailEntities.Mode;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -9,9 +9,9 @@ namespace TrailEntities.Game
     ///     Glorified options menu for the game that allows player to remove top ten high scores, remove saved games, erase
     ///     tombstone messages, etc.
     /// </summary>
-    [GameMode(ModeCategory.Options)]
+    [GameMode(ModeType.Options)]
     // ReSharper disable once UnusedMember.Global
-    public sealed class OptionsMode : GameMode<OptionCommands>
+    public sealed class OptionsMode : ModeProduct<OptionCommands>
     {
         /// <summary>
         ///     References all of the possible options we want to keep track of while moving between management options mode.
@@ -46,9 +46,9 @@ namespace TrailEntities.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override ModeType ModeType
         {
-            get { return ModeCategory.Options; }
+            get { return ModeType.Options; }
         }
 
         /// <summary>

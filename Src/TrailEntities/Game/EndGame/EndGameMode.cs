@@ -1,16 +1,16 @@
-﻿using TrailEntities.Mode;
+﻿using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
     /// <summary>
     ///     Attached when the party leader dies, or the vehicle reaches the end of the trail.
     /// </summary>
-    [GameMode(ModeCategory.EndGame)]
+    [GameMode(ModeType.EndGame)]
     // ReSharper disable once UnusedMember.Global
-    public sealed class EndGameMode : GameMode<EndGameCommands>
+    public sealed class EndGameMode : ModeProduct<EndGameCommands>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
         public EndGameMode() : base(false)
         {
@@ -20,9 +20,9 @@ namespace TrailEntities.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeCategory ModeCategory
+        public override ModeType ModeType
         {
-            get { return ModeCategory.EndGame; }
+            get { return ModeType.EndGame; }
         }
     }
 }

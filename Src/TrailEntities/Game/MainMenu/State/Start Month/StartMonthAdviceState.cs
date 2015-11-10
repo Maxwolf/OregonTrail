@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -20,7 +20,7 @@ namespace TrailEntities.Game
         /// </summary>
         private StringBuilder _startMonthHelp;
 
-        public StartMonthAdviceState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public StartMonthAdviceState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             // Have not shown this yet.
             _hasShownStartMonthAdvice = false;

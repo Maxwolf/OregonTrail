@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TrailEntities.Entity;
-using TrailEntities.Mode;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Simulation
 {
@@ -69,7 +69,7 @@ namespace TrailEntities.Simulation
             else if (GameSimulationApp.Instance.Vehicle.Odometer >= GameSimulationApp.TRAIL_LENGTH)
             {
                 // Check for end of game in miles.
-                GameSimulationApp.Instance.AddMode(ModeCategory.EndGame);
+                GameSimulationApp.Instance.AddMode(ModeType.EndGame);
             }
         }
 
@@ -145,7 +145,7 @@ namespace TrailEntities.Simulation
         {
             return LocationIndex <= 0 &&
                    GameSimulationApp.Instance.TotalTurns <= 0 &&
-                   GameSimulationApp.Instance.ModeFactory.RunCount[ModeCategory.Store] <= 1;
+                   GameSimulationApp.Instance.ModeFactory.RunCount[ModeType.Store] <= 1;
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace TrailEntities.Simulation
         private void OnReachedPointOfInterest(Location nextPoint)
         {
             // Attach some game mode based on the relevance of the next point type.
-            GameSimulationApp.Instance.AddMode(nextPoint.ModeCategory);
+            GameSimulationApp.Instance.AddMode(nextPoint.ModeType);
 
             // Fire event here for API subscribers to know point was reached. 
             OnReachPointOfInterest?.Invoke(nextPoint);

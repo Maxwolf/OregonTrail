@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 using TrailEntities.Widget;
 
 namespace TrailEntities.Game
@@ -25,7 +25,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsResourcesState(IMode gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public PointsResourcesState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
             _pointsItems = new StringBuilder();
             _pointsItems.Append($"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");

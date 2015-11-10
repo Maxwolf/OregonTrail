@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Mode;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 using TrailEntities.Widget;
 
 namespace TrailEntities.Game
@@ -26,7 +26,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public LookAtMapState(IMode gameMode, TravelInfo userData) : base(gameMode, userData)
+        public LookAtMapState(IModeProduct gameMode, TravelInfo userData) : base(gameMode, userData)
         {
             // Create visual progress representation of the trail.
             _map = new StringBuilder();

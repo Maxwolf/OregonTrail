@@ -1,5 +1,5 @@
 ﻿using System;
-using TrailEntities.Mode;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -8,20 +8,20 @@ namespace TrailEntities.Game
     ///     kill them and when the round is over the amount of meat is determined by what animals are killed. The player party
     ///     can only take back up to one hundred pounds of whatever the value was back to the wagon regardless of what it was.
     /// </summary>
-    [GameMode(ModeCategory.Hunt)]
+    [GameMode(ModeType.Hunt)]
     // ReSharper disable once UnusedMember.Global
-    public sealed class HuntingMode : GameMode<HuntingCommands>
+    public sealed class HuntingMode : ModeProduct<HuntingCommands>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.GameMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
         public HuntingMode() : base(true)
         {
         }
 
-        public override ModeCategory ModeCategory
+        public override ModeType ModeType
         {
-            get { return ModeCategory.Hunt; }
+            get { return ModeType.Hunt; }
         }
 
         /// <summary>
