@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TrailEntities.Entity;
 using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -9,7 +10,7 @@ namespace TrailEntities.Game
     ///     the game mode for the store is removed all the transactions will be completed and the players vehicle updated and
     ///     the store items removed, and balances of both updated respectfully.
     /// </summary>
-    public sealed class StoreInfo
+    public sealed class StoreInfo : IModeInfo
     {
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.

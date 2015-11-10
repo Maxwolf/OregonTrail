@@ -40,6 +40,8 @@
     <Compile Include="Event\Person\PersonEvent.cs" />
     <Compile Include="Event\Vehicle\VehicleEvent.cs" />
     <Compile Include="Event\Warning\WarningEvent.cs" />
+    <Compile Include="Simulation\Base\Mode\State\DialogState.cs" />
+    <Compile Include="Simulation\Base\Mode\State\IModeInfo.cs" />
     <Compile Include="Simulation\Director\EventFactory.cs" />
     <Compile Include="Game\EndGame\EndGameCommands.cs" />
     <Compile Include="Game\EndGame\EndGameInfo.cs" />

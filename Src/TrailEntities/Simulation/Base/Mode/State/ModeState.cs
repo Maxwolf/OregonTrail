@@ -5,10 +5,11 @@ using System.Diagnostics;
 namespace TrailEntities.Simulation.Mode
 {
     /// <summary>
-    ///     Requires type parameter that is a reference type with a constructor.
+    /// Requires type parameter that is a reference type with a constructor.
     /// </summary>
+    /// <typeparam name="T">Mode </typeparam>
     public abstract class ModeState<T> : Comparer<ModeState<T>>, IComparable<ModeState<T>>, IEquatable<ModeState<T>>,
-        IEqualityComparer<ModeState<T>>, IModeState where T : class, new()
+        IEqualityComparer<ModeState<T>>, IModeState where T : IModeInfo, new()
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -107,6 +108,15 @@ namespace TrailEntities.Simulation.Mode
         }
 
         /// <summary>
+        ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
+        ///     data for parent game mode.
+        /// </summary>
+        IModeInfo IModeState.UserData
+        {
+            get { return UserData; }
+        }
+
+        /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
@@ -167,15 +177,6 @@ namespace TrailEntities.Simulation.Mode
         public int CompareTo(IModeState other)
         {
             return string.Compare(other.GetType().Name, GetType().Name, StringComparison.Ordinal);
-        }
-
-        /// <summary>
-        ///     Fired when the active game mode has been changed in parent game mode, this is intended for game mode states only so
-        ///     they can be aware of these changes and act on them if needed.
-        /// </summary>
-        public virtual void OnParentModeChanged()
-        {
-            // Nothing to see here, move along...
         }
 
         /// <summary>
