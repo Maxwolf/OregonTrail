@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
-using TrailEntities.Game;
 using TrailEntities.Simulation;
 
 namespace TrailEntities.Mode
@@ -299,17 +298,6 @@ namespace TrailEntities.Mode
         }
 
         /// <summary>
-        ///     Fired when the active game mode has been changed, this allows any underlying mode to know about a change in
-        ///     simulation.
-        /// </summary>
-        /// <param name="modeCategory">Current mode which the simulation is changing to.</param>
-        public virtual void OnModeChanged(ModeCategory modeCategory)
-        {
-            // Pass info along if current state exists.
-            CurrentState?.OnParentModeChanged();
-        }
-
-        /// <summary>
         ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
         /// </summary>
         /// <returns>
@@ -355,6 +343,17 @@ namespace TrailEntities.Mode
             if (result != 0) return result;
 
             return result;
+        }
+
+        /// <summary>
+        ///     Fired when the active game mode has been changed, this allows any underlying mode to know about a change in
+        ///     simulation.
+        /// </summary>
+        /// <param name="modeCategory">Current mode which the simulation is changing to.</param>
+        public virtual void OnModeChanged(ModeCategory modeCategory)
+        {
+            // Pass info along if current state exists.
+            CurrentState?.OnParentModeChanged();
         }
 
         /// <summary>

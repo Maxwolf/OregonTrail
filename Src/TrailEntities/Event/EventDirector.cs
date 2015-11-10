@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using TrailEntities.Entity;
-using TrailEntities.Game;
 using TrailEntities.Mode;
 using TrailEntities.Simulation;
 

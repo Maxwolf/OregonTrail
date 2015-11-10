@@ -12,14 +12,14 @@ namespace TrailEntities.Mode
         /// <summary>
         ///     Defines what type of game mode the attribute is decorated on will represent in the game simulation.
         /// </summary>
-        public ModeCategory ModeType { get; private set; }
-
-        /// <summary>
-        ///     Defines what type of game mode the attribute is decorated on will represent in the game simulation.
-        /// </summary>
         public GameModeAttribute(ModeCategory modeCategory)
         {
             ModeType = modeCategory;
         }
+
+        /// <summary>
+        ///     Defines what type of game mode the attribute is decorated on will represent in the game simulation.
+        /// </summary>
+        public ModeCategory ModeType { get; private set; }
     }
 }

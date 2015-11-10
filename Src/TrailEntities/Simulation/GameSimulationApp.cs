@@ -118,7 +118,6 @@ namespace TrailEntities.Simulation
         }
 
 
-
         /// <summary>
         ///     Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
         ///     capacity or want to do so in this turn.
