@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Event;
+using TrailEntities.Game;
 using TrailEntities.Mode;
-using TrailEntities.Simulation;
 
-namespace TrailEntities.Game
+namespace TrailEntities.Simulation
 {
     /// <summary>
     ///     Receiver - The main logic will be implemented here and it knows how to perform the necessary actions.

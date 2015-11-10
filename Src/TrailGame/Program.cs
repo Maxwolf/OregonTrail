@@ -2,6 +2,7 @@
 using System.Threading;
 using TrailEntities;
 using TrailEntities.Game;
+using TrailEntities.Simulation;
 
 namespace TrailGame
 {

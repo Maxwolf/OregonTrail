@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TrailEntities.Game;
 using TrailEntities.Mode;
 
 namespace TrailEntities.Simulation
@@ -145,7 +144,7 @@ namespace TrailEntities.Simulation
         {
             return LocationIndex <= 0 &&
                    GameSimulationApp.Instance.TotalTurns <= 0 &&
-                   GameSimulationApp.Instance.ModeFactory.RunCount[ModeCategory.Store] <= 0;
+                   GameSimulationApp.Instance.ModeFactory.RunCount[ModeCategory.Store] <= 1;
         }
 
         /// <summary>

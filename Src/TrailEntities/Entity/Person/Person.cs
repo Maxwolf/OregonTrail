@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using TrailEntities.Event;
 using TrailEntities.Game;
+using TrailEntities.Simulation;
 
 namespace TrailEntities.Entity
 {

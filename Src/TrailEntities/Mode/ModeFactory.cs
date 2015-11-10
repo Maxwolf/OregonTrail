@@ -23,7 +23,7 @@ namespace TrailEntities.Mode
             ModeReference = new Dictionary<ModeCategory, Type>();
 
             // Initialize the mode history dictionary with every game mode type from enumeration.
-            foreach (var modeType in Enum.GetValues(typeof(ModeCategory)))
+            foreach (var modeType in Enum.GetValues(typeof (ModeCategory)))
             {
                 RunCount.Add((ModeCategory) modeType, 0);
             }

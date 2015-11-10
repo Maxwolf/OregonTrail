@@ -7,6 +7,7 @@ using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Game;
 using TrailEntities.Mode;
+using TrailEntities.Simulation;
 
 namespace TrailEntities.Event
 {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using TrailEntities.Mode;
+using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {

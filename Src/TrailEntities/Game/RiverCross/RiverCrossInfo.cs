@@ -1,4 +1,6 @@
-﻿namespace TrailEntities.Game
+﻿using TrailEntities.Simulation;
+
+namespace TrailEntities.Game
 {
     /// <summary>
     ///     Defines information about the current river crossing game mode the player has come across and needs to decide how
