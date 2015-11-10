@@ -23,11 +23,15 @@ namespace TrailEntities.Simulation
             ExecutionCount = new Dictionary<Tuple<EventType, string>, int>();
 
             // Collect all of the event types with the attribute decorated on them.
-            var randomEvents = AttributeHelper.GetTypesWith<EventDirectorAttribute>(false);
+            var randomEvents = AttributeHelper.GetTypesWith<EventDirectorAttribute>(true);
             foreach (var eventObject in randomEvents)
             {
+                // Check if the class is abstract base class, we don't want to add that.
+                if (eventObject.IsAbstract)
+                    continue;
+
                 // Get the attribute itself from the event we are working on, which gives us the event type enum.
-                var eventAttribute = eventObject.GetAttributes<EventDirectorAttribute>(false).First();
+                var eventAttribute = eventObject.GetAttributes<EventDirectorAttribute>(true).First();
                 var eventType = eventAttribute.EventType;
 
                 // Initialize the execution history dictionary with every event type.
@@ -77,7 +81,7 @@ namespace TrailEntities.Simulation
             if (!EventReference.ContainsValue(eventType))
                 throw new ArgumentException(
                     $"Attempted to create instance of {eventType.Name} without any known reference to it in event factory! " +
-                    $"Perhaps you are missing an attribute to define the event for reflection to correctly reference it.");
+                    "Perhaps you are missing an attribute to define the event for reflection to correctly reference it.");
 
             // Grab the key value pair from event references that matches inputted type via equality reference.
             var directorEventKeyValuePair = EventReference.FirstOrDefault(x => (x.Value == eventType));
@@ -86,7 +90,7 @@ namespace TrailEntities.Simulation
             if (directorEventKeyValuePair.Value.IsAbstract)
                 return null;
 
-            // Create the game mode, it will have parameterless constructor.
+            // Create the game mode, it will have constructor with one parameter.
             var eventInstance = Activator.CreateInstance(
                 directorEventKeyValuePair.Value,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
