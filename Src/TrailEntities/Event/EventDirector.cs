@@ -91,7 +91,7 @@ namespace TrailEntities.Event
         ///     Gathers all of the events by specified type and then rolls the virtual dice to determine if any of the events in
         ///     the enumeration should trigger.
         /// </summary>
-        /// <param name="sourceEntity">Entity which will be affected by event if triggered.</param>
+        /// <param name="sourceEntity">SimulationEntity which will be affected by event if triggered.</param>
         /// <param name="eventType">Event type the dice will be rolled against and attempted to trigger.</param>
         public void TriggerEventByType(IEntity sourceEntity, EventCategory eventType)
         {
@@ -123,7 +123,7 @@ namespace TrailEntities.Event
         ///     Accepts a type of class that can be used to create a given event, this way they can be referenced in code by their
         ///     actual class name which is what is used by the internal simulation event directors dictionary of available events.
         /// </summary>
-        /// <param name="simEntity">Entity that would like to be tied to event being triggered.</param>
+        /// <param name="simEntity">SimulationEntity that would like to be tied to event being triggered.</param>
         /// <param name="eventType">Type of event that should be triggered, if it exists in loaded event dictionary in director.</param>
         public void TriggerEvent(IEntity simEntity, Type eventType)
         {

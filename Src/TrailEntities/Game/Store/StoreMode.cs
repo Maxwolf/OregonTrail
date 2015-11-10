@@ -125,7 +125,7 @@ namespace TrailEntities.Game
         {
             // Complain if the player does not have any oxen to pull their vehicle.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation() &&
-                StoreInfo.Transactions[Entity.Entity.Animal].Quantity <= 0)
+                StoreInfo.Transactions[SimulationEntity.Animal].Quantity <= 0)
             {
                 CurrentState = new MissingItemState(Parts.Oxen, this, StoreInfo);
                 return;
@@ -162,8 +162,9 @@ namespace TrailEntities.Game
             // Modify the vehicles cash from purchases they made.
             var totalBill = StoreInfo.GetTransactionTotalCost();
             var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
-            StoreInfo.Transactions[Entity.Entity.Cash] = new Item(StoreInfo.Transactions[Entity.Entity.Cash],
-                (int) amountPlayerHas);
+            StoreInfo.Transactions[SimulationEntity.Cash] =
+                new SimulationItem(StoreInfo.Transactions[SimulationEntity.Cash],
+                    (int) amountPlayerHas);
 
             // Process all of the pending transactions in the store receipt info object.
             foreach (var transaction in StoreInfo.Transactions)
@@ -196,31 +197,31 @@ namespace TrailEntities.Game
 
             // Animals
             AddCommand(BuyOxen, StoreCommands.BuyOxen,
-                $"Oxen              {StoreInfo.Transactions[Entity.Entity.Animal].ToString(isFirstPoint)}");
+                $"Oxen              {StoreInfo.Transactions[SimulationEntity.Animal].ToString(isFirstPoint)}");
 
             // Food
             AddCommand(BuyFood, StoreCommands.BuyFood,
-                $"Food              {StoreInfo.Transactions[Entity.Entity.Food].ToString(isFirstPoint)}");
+                $"Food              {StoreInfo.Transactions[SimulationEntity.Food].ToString(isFirstPoint)}");
 
             // Clothes
             AddCommand(BuyClothing, StoreCommands.BuyClothing,
-                $"Clothing          {StoreInfo.Transactions[Entity.Entity.Clothes].ToString(isFirstPoint)}");
+                $"Clothing          {StoreInfo.Transactions[SimulationEntity.Clothes].ToString(isFirstPoint)}");
 
             // Bullets
             AddCommand(BuyAmmunition, StoreCommands.BuyAmmunition,
-                $"Ammunition        {StoreInfo.Transactions[Entity.Entity.Ammo].ToString(isFirstPoint)}");
+                $"Ammunition        {StoreInfo.Transactions[SimulationEntity.Ammo].ToString(isFirstPoint)}");
 
             // Wheel
             AddCommand(BuySpareWheels, StoreCommands.BuySpareWheel,
-                $"Vehicle wheels    {StoreInfo.Transactions[Entity.Entity.Wheel].ToString(isFirstPoint)}");
+                $"Vehicle wheels    {StoreInfo.Transactions[SimulationEntity.Wheel].ToString(isFirstPoint)}");
 
             // Axle
             AddCommand(BuySpareAxles, StoreCommands.BuySpareAxles,
-                $"Vehicle axles     {StoreInfo.Transactions[Entity.Entity.Axle].ToString(isFirstPoint)}");
+                $"Vehicle axles     {StoreInfo.Transactions[SimulationEntity.Axle].ToString(isFirstPoint)}");
 
             // Tongue
             AddCommand(BuySpareTongues, StoreCommands.BuySpareTongues,
-                $"Vehicle tongues   {StoreInfo.Transactions[Entity.Entity.Tongue].ToString(isFirstPoint)}");
+                $"Vehicle tongues   {StoreInfo.Transactions[SimulationEntity.Tongue].ToString(isFirstPoint)}");
 
             // Exit store
             AddCommand(LeaveStore, StoreCommands.LeaveStore, "Leave store");

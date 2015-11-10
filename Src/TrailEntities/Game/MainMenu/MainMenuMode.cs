@@ -12,6 +12,7 @@ namespace TrailEntities.Game
     /// </summary>
     [GameMode(ModeCategory.MainMenu)]
     // ReSharper disable once UnusedMember.Global
+    // ReSharper disable once ClassNeverInstantiated.Global
     public sealed class MainMenuMode : GameMode<MainMenuCommands>
     {
         /// <summary>
@@ -37,11 +38,11 @@ namespace TrailEntities.Game
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
 
-            AddCommand(TravelTheTrail, MainMenuCommands.TravelTheTrail, "Travel the trail");
-            AddCommand(LearnAboutTrail, MainMenuCommands.LearnAboutTheTrail, "Learn about the trail");
-            AddCommand(SeeTopTen, MainMenuCommands.SeeTheOregonTopTen, "See the Oregon Top Ten");
-            AddCommand(ChooseManagementOptions, MainMenuCommands.ChooseManagementOptions, "Choose Management Options");
-            AddCommand(CloseSimulation, MainMenuCommands.CloseSimulation, "End");
+            AddCommand(TravelTheTrail, MainMenuCommands.TravelTheTrail);
+            AddCommand(LearnAboutTrail, MainMenuCommands.LearnAboutTheTrail);
+            AddCommand(SeeTopTen, MainMenuCommands.SeeTheOregonTopTen);
+            AddCommand(ChooseManagementOptions, MainMenuCommands.ChooseManagementOptions);
+            AddCommand(CloseSimulation, MainMenuCommands.CloseSimulation);
         }
 
         /// <summary>

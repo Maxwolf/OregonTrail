@@ -4,18 +4,16 @@ using System.Diagnostics;
 namespace TrailEntities.Entity
 {
     /// <summary>
-    ///     Defines a base Item which can represent almost any commodity the player can purchase for the party or vehicle.
+    ///     Defines a base SimulationItem which can represent almost any commodity the player can purchase for the party or
+    ///     vehicle.
     /// </summary>
-    public sealed class Item : IEntity
+    public sealed class SimulationItem : IEntity
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Entity.Item" /> class. The quantity property will be
-        ///     set
-        ///     to
-        ///     whatever the minimum amount of the Item is.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.SimulationEntity.SimulationItem" /> class.
         /// </summary>
-        public Item(
-            Entity category,
+        public SimulationItem(
+            SimulationEntity category,
             string name,
             string pluralForm,
             string delineatingUnit,
@@ -28,7 +26,7 @@ namespace TrailEntities.Entity
             // Complain if minimum amount is zero, you cannot have zero of something.
             if (minimumQuantity <= 0)
                 throw new ArgumentException(
-                    "Cannot set minimum quantity of an Item to be zero, you cannot have nothing of something!");
+                    "Cannot set minimum quantity of an SimulationItem to be zero, you cannot have nothing of something!");
 
             // Setup quantity based on minimum amount.
             StartingQuantity = startingQuantity;
@@ -36,25 +34,25 @@ namespace TrailEntities.Entity
             MaxQuantity = maxQuantity;
             Quantity = startingQuantity;
 
-            // Identification of Item should be unique, we should also be able to refer to multiples and per.
+            // Identification of SimulationItem should be unique, we should also be able to refer to multiples and per.
             Category = category;
             Name = name;
             PluralForm = pluralForm;
             DelineatingUnit = delineatingUnit;
 
-            // Determines how much the Item costs in monies.
+            // Determines how much the SimulationItem costs in monies.
             Cost = cost;
 
-            // Weight of the Item, traditionally this was done in pounds.
+            // Weight of the SimulationItem, traditionally this was done in pounds.
             Weight = weight;
         }
 
         /// <summary>
-        ///     Creates a new Item from previous instance and with updated quantity.
+        ///     Creates a new SimulationItem from previous instance and with updated quantity.
         /// </summary>
-        /// <param name="oldItem">Old Item that is going to be replaced.</param>
-        /// <param name="newQuantity">Updated quantity the new Item will have.</param>
-        public Item(Item oldItem, int newQuantity)
+        /// <param name="oldItem">Old SimulationItem that is going to be replaced.</param>
+        /// <param name="newQuantity">Updated quantity the new SimulationItem will have.</param>
+        public SimulationItem(SimulationItem oldItem, int newQuantity)
         {
             // Set updated quantity values, plus ceiling and floor.
             Quantity = newQuantity;
@@ -62,7 +60,7 @@ namespace TrailEntities.Entity
             MaxQuantity = oldItem.MaxQuantity;
             StartingQuantity = oldItem.StartingQuantity;
 
-            // Display name and Item entity type.
+            // Display name and SimulationItem entity type.
             Name = oldItem.Name;
             Category = oldItem.Category;
             Cost = oldItem.Cost;
@@ -72,7 +70,7 @@ namespace TrailEntities.Entity
         }
 
         /// <summary>
-        ///     Minimum number of this item the player must purchase for it to be considered actually in his inventory.
+        ///     Minimum number of this SimulationItem the player must purchase for it to be considered actually in his inventory.
         /// </summary>
         private int MinQuantity { get; }
 
@@ -82,33 +80,36 @@ namespace TrailEntities.Entity
         public int Quantity { get; private set; }
 
         /// <summary>
-        ///     Cost of the Item in monies.
+        ///     Cost of the SimulationItem in monies.
         /// </summary>
         public float Cost { get; }
 
         /// <summary>
-        ///     Single unit of the items name, for example is there is an Oxen Item each one of those items is referred to as an
+        ///     Single unit of the items name, for example is there is an Oxen SimulationItem each one of those items is referred
+        ///     to as an
         ///     'ox'.
         /// </summary>
         public string DelineatingUnit { get; }
 
         /// <summary>
-        ///     When multiple of this Item exist in a stack or need to be referenced, such as "10 pounds of food" the 'pounds'
+        ///     When multiple of this SimulationItem exist in a stack or need to be referenced, such as "10 pounds of food" the
+        ///     'pounds'
         ///     is
-        ///     very important to get correct in context. Another example of this property being used is for Oxen Item, a single
+        ///     very important to get correct in context. Another example of this property being used is for Oxen SimulationItem, a
+        ///     single
         ///     Ox
         ///     is the delineating and the plural form would be "Oxen".
         /// </summary>
         public string PluralForm { get; }
 
         /// <summary>
-        ///     Weight of a single Item of this type, the original game used pounds so that is roughly what this should
+        ///     Weight of a single SimulationItem of this type, the original game used pounds so that is roughly what this should
         ///     represent.
         /// </summary>
         private int Weight { get; }
 
         /// <summary>
-        ///     Total number of items this Item represents.
+        ///     Total number of items this SimulationItem represents.
         /// </summary>
         public int StartingQuantity { get; }
 
@@ -121,7 +122,7 @@ namespace TrailEntities.Entity
         }
 
         /// <summary>
-        ///     Returns the total value of the item which is it's quantity multiplied by it's base cost value.
+        ///     Returns the total value of the SimulationItem which is it's quantity multiplied by it's base cost value.
         /// </summary>
         public float TotalValue
         {
@@ -134,14 +135,15 @@ namespace TrailEntities.Entity
         public int MaxQuantity { get; }
 
         /// <summary>
-        ///     Determines what type of Item this is, used by the simulation to help sort the items and quickly iterate over
+        ///     Determines what type of SimulationItem this is, used by the simulation to help sort the items and quickly iterate
+        ///     over
         ///     them
         ///     when looking for a particular piece of data in the vehicles inventory list.
         /// </summary>
-        public Entity Category { get; }
+        public SimulationEntity Category { get; }
 
         /// <summary>
-        ///     Display name of the Item as it should be known to players.
+        ///     Display name of the SimulationItem as it should be known to players.
         /// </summary>
         public string Name { get; }
 
@@ -250,17 +252,18 @@ namespace TrailEntities.Entity
         }
 
         /// <summary>
-        ///     Forcefully resets the quantity to whatever the starting quantity was configured to be when the item was created.
+        ///     Forcefully resets the quantity to whatever the starting quantity was configured to be when the SimulationItem was
+        ///     created.
         /// </summary>
         public void Reset()
         {
             Quantity = StartingQuantity;
 
-            // TODO: Adjust cost of item, create multiplier that can be used to make items more expensive with curve.
+            // TODO: Adjust cost of SimulationItem, create multiplier that can be used to make items more expensive with curve.
         }
 
         /// <summary>
-        ///     Shows off a representation of the Item as cost per delineating unit of the particular Item.
+        ///     Shows off a representation of the SimulationItem as cost per delineating unit of the particular SimulationItem.
         /// </summary>
         /// <returns></returns>
         public string ToString(bool storeMode)

@@ -12,32 +12,34 @@ namespace TrailEntities.Game
     public sealed class BuyItemState : ModeState<StoreInfo>
     {
         /// <summary>
-        ///     Help text to ask the player a question about how many of the particular Item they would like to purchase.
+        ///     Help text to ask the player a question about how many of the particular SimulationItem they would like to purchase.
         /// </summary>
         private StringBuilder _itemBuyText;
 
         /// <summary>
-        ///     Reference to the Item the player wishes to purchase from the store, it will be added to receipt list of it can.
+        ///     Reference to the SimulationItem the player wishes to purchase from the store, it will be added to receipt list of
+        ///     it can.
         /// </summary>
-        private Item _itemToBuy;
+        private SimulationItem _itemToBuy;
 
         /// <summary>
-        ///     Reference to the total amount of items the player can purchase of Item of this particular type from this store
+        ///     Reference to the total amount of items the player can purchase of SimulationItem of this particular type from this
+        ///     store
         ///     with
         ///     the money they have.
         /// </summary>
         private int _purchaseLimit;
 
         /// <summary>
-        ///     Attaches a state that will allow the player to purchase a certain number of a particular Item.
+        ///     Attaches a state that will allow the player to purchase a certain number of a particular SimulationItem.
         /// </summary>
-        /// <param name="itemToBuy">Item to purchase.</param>
+        /// <param name="itemToBuy">SimulationItem to purchase.</param>
         /// <param name="gameMode">Current game mode that requested this.</param>
         /// <param name="userData">Any special user data associated with this state and mode.</param>
-        public BuyItemState(Item itemToBuy, IMode gameMode, StoreInfo userData)
+        public BuyItemState(SimulationItem itemToBuy, IMode gameMode, StoreInfo userData)
             : base(gameMode, userData)
         {
-            // Figure out what we owe already from other store items, then how many of the Item we can afford.
+            // Figure out what we owe already from other store items, then how many of the SimulationItem we can afford.
             var _currentBalance =
                 (int) (GameSimulationApp.Instance.Vehicle.Balance - userData.GetTransactionTotalCost());
             _purchaseLimit = (int) (_currentBalance/itemToBuy.Cost);
@@ -53,7 +55,7 @@ namespace TrailEntities.Game
             // Add some information about how many you can buy and total amount you can carry.
             _itemBuyText = new StringBuilder();
 
-            // Change up question asked if plural form matches the name of the Item.
+            // Change up question asked if plural form matches the name of the SimulationItem.
             var pluralMatchesName = itemToBuy.PluralForm.Equals(itemToBuy.Name,
                 StringComparison.InvariantCultureIgnoreCase);
 
@@ -63,7 +65,7 @@ namespace TrailEntities.Game
 
             _itemBuyText.Append($"How many {itemToBuy.PluralForm.ToLowerInvariant()} to buy?");
 
-            // Set the Item to buy text.
+            // Set the SimulationItem to buy text.
             _itemToBuy = itemToBuy;
         }
 
@@ -87,7 +89,7 @@ namespace TrailEntities.Game
             if (!int.TryParse(input, out parsedInputNumber))
                 return;
 
-            // If the number is zero remove the purchase state for this Item and back to store menu.
+            // If the number is zero remove the purchase state for this SimulationItem and back to store menu.
             if (parsedInputNumber <= 0)
             {
                 UserData.RemoveItem(_itemToBuy);
@@ -103,7 +105,7 @@ namespace TrailEntities.Game
             if (parsedInputNumber > _itemToBuy.MaxQuantity)
                 return;
 
-            // Add the Item the player wants in given amount 
+            // Add the SimulationItem the player wants in given amount 
             UserData.AddItem(_itemToBuy, parsedInputNumber);
 
             // Return to the store menu.

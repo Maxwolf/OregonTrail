@@ -7,7 +7,8 @@ using TrailEntities.Simulation;
 namespace TrailEntities.Game
 {
     /// <summary>
-    ///     Informs the player they need to purchase at least a single one of the specified Item in order to continue. This
+    ///     Informs the player they need to purchase at least a single one of the specified SimulationItem in order to
+    ///     continue. This
     ///     is
     ///     used in the new game mode to force the player to have at least one oxen to pull their vehicle in order to start the
     ///     simulation.
@@ -15,19 +16,19 @@ namespace TrailEntities.Game
     public sealed class MissingItemState : ModeState<StoreInfo>
     {
         /// <summary>
-        ///     Determines what Item entity the player is actually missing.
+        ///     Determines what SimulationItem entity the player is actually missing.
         /// </summary>
-        private readonly Item _missingItemEntity;
+        private readonly SimulationItem _missingItemEntity;
 
         /// <summary>
-        ///     Determines if we have already told the player they need to purchase a particular Item.
+        ///     Determines if we have already told the player they need to purchase a particular SimulationItem.
         /// </summary>
         private bool _informedAboutMissingItem;
 
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public MissingItemState(Item mustPurchaseEntity, IMode gameMode, StoreInfo userData)
+        public MissingItemState(SimulationItem mustPurchaseEntity, IMode gameMode, StoreInfo userData)
             : base(gameMode, userData)
         {
             _missingItemEntity = mustPurchaseEntity;

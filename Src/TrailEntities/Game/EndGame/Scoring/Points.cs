@@ -36,7 +36,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Game.Points" /> class.
         /// </summary>
-        public Points(Item resource, int pointsAwarded,
+        public Points(SimulationItem resource, int pointsAwarded,
             int perAmount = DEFAULT_PER_AMOUNT, string optionalDisplayName = DEFAULT_DISPLAY_NAME)
         {
             // Complain if the per amount is zero, the developer is doing it wrong.
@@ -58,7 +58,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Represents the item we will be comparing with other items for, cost is not evaluated in any of these calculations.
         /// </summary>
-        private Item Resource { get; }
+        private SimulationItem Resource { get; }
 
         /// <summary>
         ///     Representation of the point scoring as a string that can be displayed visually to user so they understand the

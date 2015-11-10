@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using TrailEntities.Entity;
 using TrailEntities.Mode;
 using TrailEntities.Simulation;
 
@@ -39,7 +40,7 @@ namespace TrailEntities.Game
 
                 // Determine if this item is money and needs special formatting.
                 var itemFormattedQuantity = item.Value.Quantity.ToString("N0");
-                if (item.Key == Entity.Entity.Cash)
+                if (item.Key == SimulationEntity.Cash)
                     itemFormattedQuantity = item.Value.Quantity.ToString("C2");
 
                 // Place tab characters between the item name and the quantity.

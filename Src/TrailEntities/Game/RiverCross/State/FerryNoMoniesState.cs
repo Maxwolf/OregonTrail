@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using TrailEntities.Mode;
 
 namespace TrailEntities.Game
@@ -11,8 +10,8 @@ namespace TrailEntities.Game
     /// </summary>
     public sealed class FerryNoMoniesState : ModeState<RiverCrossInfo>
     {
-        private bool _seenPrompt;
         private StringBuilder _prompt;
+        private bool _seenPrompt;
 
         /// <summary>
         ///     This constructor will be used by the other one

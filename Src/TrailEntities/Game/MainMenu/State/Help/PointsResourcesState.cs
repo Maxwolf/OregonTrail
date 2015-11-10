@@ -36,7 +36,7 @@ namespace TrailEntities.Game
 
             // Build up the table of resource points and how they work for player.
             var partyTable = ScoreRegistry.ResourcePoints.ToStringTable(
-                new[] {"Resources of Party", "Points per Item"},
+                new[] {"Resources of Party", "Points per SimulationItem"},
                 u => u.ToString(),
                 u => u.PointsAwarded
                 );

@@ -14,20 +14,20 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        private Dictionary<Entity.Entity, Item> _totalTransactions;
+        private Dictionary<SimulationEntity, SimulationItem> _totalTransactions;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Game.StoreInfo" /> class.
         /// </summary>
         public StoreInfo()
         {
-            _totalTransactions = new Dictionary<Entity.Entity, Item>(GameSimulationApp.DefaultInventory);
+            _totalTransactions = new Dictionary<SimulationEntity, SimulationItem>(GameSimulationApp.DefaultInventory);
         }
 
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        public IDictionary<Entity.Entity, Item> Transactions
+        public IDictionary<SimulationEntity, SimulationItem> Transactions
         {
             get { return _totalTransactions; }
         }
@@ -54,27 +54,27 @@ namespace TrailEntities.Game
         }
 
         /// <summary>
-        ///     Adds an Item to the list of pending transactions. If it already exists it will be replaced.
+        ///     Adds an SimulationItem to the list of pending transactions. If it already exists it will be replaced.
         /// </summary>
-        public void AddItem(Item item, int amount)
+        public void AddItem(SimulationItem item, int amount)
         {
-            _totalTransactions[item.Category] = new Item(item, amount);
+            _totalTransactions[item.Category] = new SimulationItem(item, amount);
         }
 
         /// <summary>
-        ///     Removes an Item from the list of pending transactions. If it does not exist then nothing will happen.
+        ///     Removes an SimulationItem from the list of pending transactions. If it does not exist then nothing will happen.
         /// </summary>
-        public void RemoveItem(Item item)
+        public void RemoveItem(SimulationItem item)
         {
             // Loop through every single transaction.
-            var copyList = new Dictionary<Entity.Entity, Item>(_totalTransactions);
+            var copyList = new Dictionary<SimulationEntity, SimulationItem>(_totalTransactions);
             foreach (var transaction in copyList)
             {
-                // Check if Item name matches incoming one.
+                // Check if SimulationItem name matches incoming one.
                 if (!transaction.Key.Equals(item.Category))
                     continue;
 
-                // Reset the simulation item to default values, meaning the player has none of them.
+                // Reset the simulation SimulationItem to default values, meaning the player has none of them.
                 _totalTransactions[item.Category].Reset();
                 break;
             }

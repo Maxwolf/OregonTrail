@@ -13,7 +13,7 @@ namespace TrailEntities.Entity
     public sealed class Person : IEntity
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Entity.Person" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.SimulationEntity.Person" /> class.
         /// </summary>
         public Person(Profession profession, string name, bool isLeader)
         {
@@ -56,9 +56,9 @@ namespace TrailEntities.Entity
         ///     Defines what type of entity this will take the role of in the simulation. Depending on this value the simulation
         ///     will affect how it is treated, points tabulated, and interactions governed.
         /// </summary>
-        public Entity Category
+        public SimulationEntity Category
         {
-            get { return Entity.Person; }
+            get { return SimulationEntity.Person; }
         }
 
         /// <summary>
@@ -170,13 +170,14 @@ namespace TrailEntities.Entity
         /// </summary>
         private void ConsumeFood()
         {
-            var cost_food = GameSimulationApp.Instance.Vehicle.Inventory[Entity.Food].TotalValue;
+            var cost_food = GameSimulationApp.Instance.Vehicle.Inventory[SimulationEntity.Food].TotalValue;
             cost_food = cost_food - 8 - 5*(int) GameSimulationApp.Instance.Vehicle.Ration;
             if (cost_food >= 13)
             {
                 // Consume the food since we still have some.
-                GameSimulationApp.Instance.Vehicle.Inventory[Entity.Food] =
-                    new Item(GameSimulationApp.Instance.Vehicle.Inventory[Entity.Food], (int) cost_food);
+                GameSimulationApp.Instance.Vehicle.Inventory[SimulationEntity.Food] =
+                    new SimulationItem(GameSimulationApp.Instance.Vehicle.Inventory[SimulationEntity.Food],
+                        (int) cost_food);
             }
             else
             {

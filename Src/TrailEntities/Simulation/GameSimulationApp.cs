@@ -97,21 +97,21 @@ namespace TrailEntities.Simulation
         ///     References all of the default store items that any clerk will offer to sell you. This is also true for the store
         ///     purchasing mode that keeps track of purchases that need to be made.
         /// </summary>
-        internal static IDictionary<Entity.Entity, Item> DefaultInventory
+        internal static IDictionary<SimulationEntity, SimulationItem> DefaultInventory
         {
             get
             {
                 // Build up the default items every store will have, their prices increase with distance from starting point.
-                var defaultInventory = new Dictionary<Entity.Entity, Item>
+                var defaultInventory = new Dictionary<SimulationEntity, SimulationItem>
                 {
-                    {Entity.Entity.Animal, Parts.Oxen},
-                    {Entity.Entity.Clothes, Resources.Clothing},
-                    {Entity.Entity.Ammo, Resources.Bullets},
-                    {Entity.Entity.Wheel, Parts.Wheel},
-                    {Entity.Entity.Axle, Parts.Axle},
-                    {Entity.Entity.Tongue, Parts.Tongue},
-                    {Entity.Entity.Food, Resources.Food},
-                    {Entity.Entity.Cash, Resources.Cash}
+                    {SimulationEntity.Animal, Parts.Oxen},
+                    {SimulationEntity.Clothes, Resources.Clothing},
+                    {SimulationEntity.Ammo, Resources.Bullets},
+                    {SimulationEntity.Wheel, Parts.Wheel},
+                    {SimulationEntity.Axle, Parts.Axle},
+                    {SimulationEntity.Tongue, Parts.Tongue},
+                    {SimulationEntity.Food, Resources.Food},
+                    {SimulationEntity.Cash, Resources.Cash}
                 };
                 return defaultInventory;
             }
@@ -272,9 +272,9 @@ namespace TrailEntities.Simulation
             Vehicle.TickVehicle();
 
             // Grab the total amount of monies the player has spent on the items in their inventory.
-            var cost_ammo = Vehicle.Inventory[Entity.Entity.Ammo].TotalValue;
-            var cost_clothes = Vehicle.Inventory[Entity.Entity.Clothes].TotalValue;
-            var start_cash = Vehicle.Inventory[Entity.Entity.Cash].TotalValue;
+            var cost_ammo = Vehicle.Inventory[SimulationEntity.Ammo].TotalValue;
+            var cost_clothes = Vehicle.Inventory[SimulationEntity.Clothes].TotalValue;
+            var start_cash = Vehicle.Inventory[SimulationEntity.Cash].TotalValue;
 
             // Move towards the next location on the trail.
             Trail.DecreaseDistanceToNextLocation();

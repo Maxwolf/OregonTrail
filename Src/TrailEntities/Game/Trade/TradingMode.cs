@@ -13,11 +13,11 @@ namespace TrailEntities.Game
     // ReSharper disable once UnusedMember.Global
     public sealed class TradingMode : GameMode<TradingCommands>
     {
-        private readonly HashSet<Item> _possibleTrades;
+        private readonly HashSet<SimulationItem> _possibleTrades;
 
         public TradingMode() : base(false)
         {
-            _possibleTrades = new HashSet<Item>();
+            _possibleTrades = new HashSet<SimulationItem>();
         }
 
         public override ModeCategory ModeCategory
@@ -25,7 +25,7 @@ namespace TrailEntities.Game
             get { return ModeCategory.Trade; }
         }
 
-        public IEnumerable<Item> PossibleTrades
+        public IEnumerable<SimulationItem> PossibleTrades
         {
             get { return _possibleTrades; }
         }
@@ -39,7 +39,7 @@ namespace TrailEntities.Game
             throw new NotImplementedException();
         }
 
-        public void TradeAttempt(Item item)
+        public void TradeAttempt(SimulationItem item)
         {
             // Cannot trade if there are no offers.
             if (_possibleTrades.Count <= 0)

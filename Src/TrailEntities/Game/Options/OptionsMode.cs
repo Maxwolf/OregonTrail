@@ -36,10 +36,10 @@ namespace TrailEntities.Game
             MenuHeader = headerText.ToString();
 
             // Commands.
-            AddCommand(SeeOriginalTopTen, OptionCommands.SeeOriginalTopTen, "See the original Top Ten list");
-            AddCommand(EraseCurrentTopTen, OptionCommands.EraseCurrentTopTen, "Erase the current Top Ten list");
-            AddCommand(EraseTombstoneMessages, OptionCommands.EraseTomstoneMessages, "Erase the tombstone messages");
-            AddCommand(ReturnToMainMenu, OptionCommands.ReturnToMainMenu, "Return to the main menu");
+            AddCommand(SeeOriginalTopTen, OptionCommands.SeeOriginalTopTen);
+            AddCommand(EraseCurrentTopTen, OptionCommands.EraseCurrentTopTen);
+            AddCommand(EraseTombstoneMessages, OptionCommands.EraseTomstoneMessages);
+            AddCommand(ReturnToMainMenu, OptionCommands.ReturnToMainMenu);
         }
 
         /// <summary>

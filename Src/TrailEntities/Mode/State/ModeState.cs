@@ -136,15 +136,6 @@ namespace TrailEntities.Mode
         public abstract void OnInputBufferReturned(string input);
 
         /// <summary>
-        ///     Fired when the active game mode has been changed in parent game mode, this is intended for game mode states only so
-        ///     they can be aware of these changes and act on them if needed.
-        /// </summary>
-        public virtual void OnParentModeChanged()
-        {
-            // Nothing to see here, move along...
-        }
-
-        /// <summary>
         ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
         /// </summary>
         /// <returns>
@@ -176,6 +167,15 @@ namespace TrailEntities.Mode
         public int CompareTo(IModeState other)
         {
             return string.Compare(other.GetType().Name, GetType().Name, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        ///     Fired when the active game mode has been changed in parent game mode, this is intended for game mode states only so
+        ///     they can be aware of these changes and act on them if needed.
+        /// </summary>
+        public virtual void OnParentModeChanged()
+        {
+            // Nothing to see here, move along...
         }
 
         /// <summary>

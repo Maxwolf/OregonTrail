@@ -24,21 +24,21 @@ namespace TrailEntities.Game
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
-        /// </summary>
-        public override string OnRenderState()
-        {
-            return _crossingResult.ToString();
-        }
-
-        /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
         public override bool AcceptsInput
         {
             get { return false; }
+        }
+
+        /// <summary>
+        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
+        ///     waiting input, etc.
+        /// </summary>
+        public override string OnRenderState()
+        {
+            return _crossingResult.ToString();
         }
 
         /// <summary>

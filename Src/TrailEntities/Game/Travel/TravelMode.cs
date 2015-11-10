@@ -146,16 +146,16 @@ namespace TrailEntities.Game
 
             // Reset and calculate what commands are allowed at this current point of interest on the trail.
             ClearCommands();
-            AddCommand(ContinueOnTrail, TravelCommands.ContinueOnTrail, "Continue on trail");
-            AddCommand(CheckSupplies, TravelCommands.CheckSupplies, "Check supplies");
-            AddCommand(LookAtMap, TravelCommands.LookAtMap, "Look at map");
-            AddCommand(ChangePace, TravelCommands.ChangePace, "Change pace");
-            AddCommand(ChangeFoodRations, TravelCommands.ChangeFoodRations, "Change food rations");
-            AddCommand(StopToRest, TravelCommands.StopToRest, "Stop to rest");
-            AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade, "Attempt to trade");
-            AddCommand(TalkToPeople, TravelCommands.TalkToPeople, "Talk to people");
-            AddCommand(BuySupplies, TravelCommands.BuySupplies, "Buy supplies");
-            AddCommand(HuntForFood, TravelCommands.HuntForFood, "Hunt for food");
+            AddCommand(ContinueOnTrail, TravelCommands.ContinueOnTrail);
+            AddCommand(CheckSupplies, TravelCommands.CheckSupplies);
+            AddCommand(LookAtMap, TravelCommands.LookAtMap);
+            AddCommand(ChangePace, TravelCommands.ChangePace);
+            AddCommand(ChangeFoodRations, TravelCommands.ChangeFoodRations);
+            AddCommand(StopToRest, TravelCommands.StopToRest);
+            AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
+            AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
+            AddCommand(BuySupplies, TravelCommands.BuySupplies);
+            AddCommand(HuntForFood, TravelCommands.HuntForFood);
         }
 
         /// <summary>
