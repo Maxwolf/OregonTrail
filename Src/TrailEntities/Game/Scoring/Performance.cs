@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Scoring
+﻿namespace TrailEntities.Game
 {
     /// <summary>
     ///     Defines a rating the player can get based on the number of points they receive during the entire course of the

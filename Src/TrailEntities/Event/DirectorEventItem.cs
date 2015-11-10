@@ -6,13 +6,13 @@ namespace TrailEntities.Event
     ///     Represents an event that can be triggered by the event director when vehicle is traveling along the trail.
     /// </summary>
     [DirectorEvent]
-    public abstract class EventItem
+    public abstract class DirectorEventItem
     {
         /// <summary>
         ///     Creates a new event item using class activator and reflection to pass in name to constructor manually.
         /// </summary>
         /// <param name="name">Name of the event as it should be known to the simulation, used as key in list of all events.</param>
-        protected EventItem(string name)
+        protected DirectorEventItem(string name)
         {
             Name = name;
         }

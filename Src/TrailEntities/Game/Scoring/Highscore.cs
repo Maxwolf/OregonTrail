@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Scoring
+﻿namespace TrailEntities.Game
 {
     /// <summary>
     ///     Defines an object that keeps track of a particular high score of a given simulation round. This includes the name
@@ -8,7 +8,7 @@
     public sealed class Highscore
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Scoring.Highscore" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Game.Highscore" /> class.
         /// </summary>
         public Highscore(string name, int points, Performance rating)
         {

@@ -2,7 +2,7 @@
 using TrailEntities.Event;
 using TrailEntities.Mode;
 
-namespace TrailEntities.Game.RandomEvent
+namespace TrailEntities.Game
 {
     /// <summary>
     ///     Attached by the event director when it wants to execute an event against the simulation. It will attach this mode,
@@ -40,7 +40,7 @@ namespace TrailEntities.Game.RandomEvent
         ///     Fired when the event director triggers an event because it rolled the dice and hit it or it was forcefully
         ///     triggered by some method under a defined condition.
         /// </summary>
-        private void Director_OnEventTriggered(IEntity simEntity, EventItem eventItem)
+        private void Director_OnEventTriggered(IEntity simEntity, DirectorEventItem eventItem)
         {
             // Attached the random event state when we intercept an event it would like us to trigger.
             CurrentState = new RandomEventState(this, eventInfo, simEntity, eventItem);

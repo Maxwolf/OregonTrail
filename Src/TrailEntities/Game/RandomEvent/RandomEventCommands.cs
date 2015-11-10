@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Game.RandomEvent
+﻿namespace TrailEntities.Game
 {
     /// <summary>
     ///     Random events don't have any commands since they only execute some event that was passed to it and prints out

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TrailEntities.Entity;
 
-namespace TrailEntities.Scoring
+namespace TrailEntities.Game
 {
     /// <summary>
     ///     References a list of the original high scores that the game will default to if there are no custom user ones to

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using TrailEntities.Event;
+using TrailEntities.Game;
 
 namespace TrailEntities.Entity
 {
@@ -224,8 +225,8 @@ namespace TrailEntities.Entity
 
                 // Check if leader died or party member.
                 GameSimulationApp.Instance.Director.TriggerEvent(this, IsLeader
-                    ? typeof (DeathPlayer)
-                    : typeof (DeathCompanion));
+                    ? typeof (DeathPlayerEvent)
+                    : typeof (DeathCompanionEvent));
             }
         }
 

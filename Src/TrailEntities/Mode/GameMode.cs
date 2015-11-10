@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
+using TrailEntities.Game;
 using TrailEntities.Simulation;
 
 namespace TrailEntities.Mode

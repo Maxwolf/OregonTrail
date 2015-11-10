@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using TrailEntities.Entity;
+using TrailEntities.Game;
 using TrailEntities.Mode;
 
 namespace TrailEntities.Event
@@ -18,12 +19,12 @@ namespace TrailEntities.Event
         /// <summary>
         ///     Fired when an event has been triggered by the director.
         /// </summary>
-        public delegate void EventTriggered(IEntity simEntity, EventItem eventItem);
+        public delegate void EventTriggered(IEntity simEntity, DirectorEventItem eventItem);
 
         /// <summary>
         ///     References all of the events that have been triggered by the system in chronological order they occurred.
         /// </summary>
-        private SortedDictionary<string, EventItem> _events;
+        private SortedDictionary<string, DirectorEventItem> _events;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Event.EventDirector" /> class.
@@ -31,7 +32,7 @@ namespace TrailEntities.Event
         public EventDirector()
         {
             // Create a new dictionary of events, set counter to zero for random event selector.
-            _events = new SortedDictionary<string, EventItem>();
+            _events = new SortedDictionary<string, DirectorEventItem>();
 
             // Create a new list for event history.
             EventHistory = new List<EventHistoryItem>();
@@ -75,7 +76,7 @@ namespace TrailEntities.Event
                     CultureInfo.InvariantCulture);
 
                 // Attempt to cash this instantiated type into an event item.
-                var castedEventItem = instantiatedType as EventItem;
+                var castedEventItem = instantiatedType as DirectorEventItem;
                 if (castedEventItem == null)
                     continue;
 
@@ -108,7 +109,7 @@ namespace TrailEntities.Event
         public void TriggerEventByType(IEntity simEntity, EventCategory eventType)
         {
             // Create list we will use to store events of wanted type.
-            var eventTypeList = new List<EventItem>();
+            var eventTypeList = new List<DirectorEventItem>();
 
             // Gather up all the events by the specified type.
             foreach (var valuePairEvent in _events)

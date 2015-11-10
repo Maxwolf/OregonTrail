@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Event;
-using TrailEntities.Game;
 using TrailEntities.Mode;
-using TrailEntities.Scoring;
 using TrailEntities.Simulation;
 
-namespace TrailEntities
+namespace TrailEntities.Game
 {
     /// <summary>
     ///     Receiver - The main logic will be implemented here and it knows how to perform the necessary actions.
@@ -250,10 +248,8 @@ namespace TrailEntities
             Director = new EventDirector();
             Climate = new ClimateSimulation(ClimateClassification.Moderate);
             Trail = new TrailSimulation(TrailRegistry.OregonTrail());
-            TotalTurns = 0;
-
-            // Vehicle information and events for changing face and rations.
             Vehicle = new Vehicle();
+            TotalTurns = 0;
 
             // Attach traveling mode since that is the default and bottom most game mode.
             AddMode(ModeCategory.Travel);

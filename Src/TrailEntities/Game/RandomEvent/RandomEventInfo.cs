@@ -1,4 +1,4 @@
-﻿namespace TrailEntities.Game.RandomEvent
+﻿namespace TrailEntities.Game
 {
     /// <summary>
     ///     Random event mode does not have any special information to carry around between states since it's sole purpose in

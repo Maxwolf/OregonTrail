@@ -1,4 +1,5 @@
 ﻿using TrailEntities.Entity;
+using TrailEntities.Game;
 using TrailEntities.Simulation;
 
 namespace TrailEntities.Event
@@ -11,7 +12,7 @@ namespace TrailEntities.Event
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Event.EventHistoryItem" /> class.
         /// </summary>
-        public EventHistoryItem(IEntity entity, EventItem eventItem)
+        public EventHistoryItem(IEntity entity, DirectorEventItem eventItem)
         {
             // When the event happened.
             Timestamp = GameSimulationApp.Instance.Time.Date;

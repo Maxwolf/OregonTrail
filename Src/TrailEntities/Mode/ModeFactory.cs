@@ -1,6 +1,5 @@
 ﻿using System;
 using TrailEntities.Game;
-using TrailEntities.Game.RandomEvent;
 
 namespace TrailEntities.Mode
 {
