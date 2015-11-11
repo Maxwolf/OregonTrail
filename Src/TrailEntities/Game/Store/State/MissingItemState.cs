@@ -1,72 +1,44 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Entity;
-using TrailEntities.Simulation;
 using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
     /// <summary>
     ///     Informs the player they need to purchase at least a single one of the specified SimulationItem in order to
-    ///     continue. This
-    ///     is
-    ///     used in the new game mode to force the player to have at least one oxen to pull their vehicle in order to start the
-    ///     simulation.
+    ///     continue. This is used in the new game mode to force the player to have at least one oxen to pull their vehicle in
+    ///     order to start the simulation.
     /// </summary>
-    public sealed class MissingItemState : ModeState<StoreInfo>
+    public sealed class MissingItemState : DialogState<StoreInfo>
     {
-        /// <summary>
-        ///     Determines what SimulationItem entity the player is actually missing.
-        /// </summary>
-        private readonly SimulationItem _missingItemEntity;
-
-        /// <summary>
-        ///     Determines if we have already told the player they need to purchase a particular SimulationItem.
-        /// </summary>
-        private bool _informedAboutMissingItem;
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public MissingItemState(SimulationItem mustPurchaseEntity, IModeProduct gameMode, StoreInfo userData)
-            : base(gameMode, userData)
+        public MissingItemState(IModeProduct gameMode, StoreInfo userData) : base(gameMode, userData)
         {
-            _missingItemEntity = mustPurchaseEntity;
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
         /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return false; }
-        }
-
-        /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
-        /// </summary>
-        public override string OnRenderState()
+        protected override string OnDialogPrompt()
         {
             var missingItem = new StringBuilder();
             missingItem.Append(
-                $"You need to purchase at least a single {_missingItemEntity.DelineatingUnit} in order to begin your trip!{Environment.NewLine}");
-
-            missingItem.Append(GameSimulationApp.PRESS_ENTER);
+                $"You need to purchase at least a " +
+                $"single {UserData.MissingItemEntity.DelineatingUnit} in order " +
+                $"to begin your trip!{Environment.NewLine}");
             return missingItem.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void OnInputBufferReturned(string input)
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        protected override void OnDialogResponse(DialogResponse reponse)
         {
-            if (_informedAboutMissingItem)
-                return;
-
-            _informedAboutMissingItem = true;
+            UserData.MissingItemEntity = null;
             ParentMode.CurrentState = null;
         }
     }

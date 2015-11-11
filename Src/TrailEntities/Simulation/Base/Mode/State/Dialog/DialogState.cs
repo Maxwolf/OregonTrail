@@ -33,7 +33,10 @@ namespace TrailEntities.Simulation.Mode
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected abstract DialogType DialogType { get; }
+        protected virtual DialogType DialogType
+        {
+            get { return DialogType.Prompt; }
+        }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.

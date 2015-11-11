@@ -11,14 +11,8 @@ namespace TrailEntities.Game
     ///     inform the player of the next points name, the distance away that it is, and that is all it will close and
     ///     simulation resume after return key is pressed.
     /// </summary>
-    public sealed class ContinueOnTrailState : ModeState<TravelInfo>
+    public sealed class ContinueOnTrailState : DialogState<TravelInfo>
     {
-        /// <summary>
-        ///     Keeps track if we have already triggered the state to remove itself after telling player about distance to next
-        ///     one.
-        /// </summary>
-        private bool hasContinuedOnTrail;
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
@@ -27,19 +21,18 @@ namespace TrailEntities.Game
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
+        ///     desired behavior.
         /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
+        protected override DialogType DialogType
         {
-            get { return false; }
+            get { return DialogType.Prompt; }
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
+        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
         /// </summary>
-        public override string OnRenderState()
+        protected override string OnDialogPrompt()
         {
             var nextStop = new StringBuilder();
             var nextPoint = GameSimulationApp.Instance.Trail.GetNextLocation();
@@ -47,22 +40,16 @@ namespace TrailEntities.Game
                 $"{Environment.NewLine}From {ParentMode.CurrentPoint.Name} it is {GameSimulationApp.Instance.Trail.DistanceToNextLocation}{Environment.NewLine}");
             nextStop.Append($"miles to the {nextPoint.Name}{Environment.NewLine}{Environment.NewLine}");
 
-            // Wait for user input...
-            nextStop.Append(GameSimulationApp.PRESS_ENTER);
             return nextStop.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void OnInputBufferReturned(string input)
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        protected override void OnDialogResponse(DialogResponse reponse)
         {
-            if (hasContinuedOnTrail)
-                return;
-
-            // Simulate next two-week block of time, calculate mileage, check events...
-            hasContinuedOnTrail = true;
             UserData.HasLookedAround = false;
             ParentMode.CurrentState = new DriveState(ParentMode, UserData);
         }

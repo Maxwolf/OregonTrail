@@ -35,8 +35,8 @@ namespace TrailEntities.Game
             riverPrompt.AppendLine("You must cross the river in");
             riverPrompt.AppendLine("order to continue. The");
             riverPrompt.AppendLine("river at this point is");
-            riverPrompt.AppendLine("currently 618 feed across,");
-            riverPrompt.AppendLine("and 3.5 feet deep in the");
+            riverPrompt.AppendLine($"currently {UserData.RiverWidth} feet across,");
+            riverPrompt.AppendLine($"and {UserData.Depth} feet deep in the");
             riverPrompt.AppendLine("middle.");
             return riverPrompt.ToString();
         }

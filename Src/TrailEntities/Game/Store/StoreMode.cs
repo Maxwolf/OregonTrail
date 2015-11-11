@@ -127,7 +127,8 @@ namespace TrailEntities.Game
             if (GameSimulationApp.Instance.Trail.IsFirstLocation() &&
                 StoreInfo.Transactions[SimulationEntity.Animal].Quantity <= 0)
             {
-                CurrentState = new MissingItemState(Parts.Oxen, this, StoreInfo);
+                StoreInfo.MissingItemEntity = Parts.Oxen;
+                CurrentState = new MissingItemState(this, StoreInfo);
                 return;
             }
 

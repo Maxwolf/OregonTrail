@@ -9,13 +9,8 @@ namespace TrailEntities.Game
     /// <summary>
     ///     Shows the player hard-coded top ten list as it is known internally in static list.
     /// </summary>
-    public sealed class OriginalTopTenState : ModeState<OptionInfo>
+    public sealed class OriginalTopTenState : DialogState<OptionInfo>
     {
-        /// <summary>
-        ///     Determines if the player is done reading the original top ten list.
-        /// </summary>
-        private bool _doneSeeingOriginalTopTen;
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
@@ -24,10 +19,9 @@ namespace TrailEntities.Game
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
+        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
         /// </summary>
-        public override string OnRenderState()
+        protected override string OnDialogPrompt()
         {
             var sourceTopTen = new StringBuilder();
 
@@ -40,22 +34,16 @@ namespace TrailEntities.Game
                 u => u.Points,
                 u => u.Rating);
             sourceTopTen.AppendLine(table);
-
-            // Wait for user input...
-            sourceTopTen.Append(GameSimulationApp.PRESS_ENTER);
             return sourceTopTen.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void OnInputBufferReturned(string input)
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        protected override void OnDialogResponse(DialogResponse reponse)
         {
-            if (_doneSeeingOriginalTopTen)
-                return;
-
-            _doneSeeingOriginalTopTen = true;
             ParentMode.CurrentState = null;
         }
     }

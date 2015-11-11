@@ -130,7 +130,7 @@
     <Compile Include="Game\RiverCross\RiverCrossCommands.cs" />
     <Compile Include="Game\Store\State\BuyItemState.cs" />
     <Compile Include="Game\Store\State\MissingItemState.cs" />
-    <Compile Include="Game\Store\State\StoreAdviceState.cs" />
+    <Compile Include="Game\Store\StoreAdviceState.cs" />
     <Compile Include="Game\Store\StoreCommands.cs" />
     <Compile Include="Game\Store\State\StoreDebtState.cs" />
     <Compile Include="Game\Store\StoreInfo.cs" />

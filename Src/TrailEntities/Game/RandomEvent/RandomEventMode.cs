@@ -44,7 +44,9 @@ namespace TrailEntities.Game
         private void Director_OnEventTriggered(IEntity simEntity, DirectorEvent directorEvent)
         {
             // Attached the random event state when we intercept an event it would like us to trigger.
-            CurrentState = new RandomEventState(this, eventInfo, simEntity, directorEvent);
+            eventInfo.DirectorEvent = directorEvent;
+            eventInfo.SourceEntity = simEntity;
+            CurrentState = new RandomEventState(this, eventInfo);
         }
 
         /// <summary>

@@ -49,6 +49,11 @@ namespace TrailEntities.Game
         }
 
         /// <summary>
+        /// Determines how many days of rest the player had, and were simulated both in time and on event system.
+        /// </summary>
+        public int DaysToRest { get; internal set; }
+
+        /// <summary>
         ///     Used when the player stops at a location on the trail, or the travel game mode with no attached state. The
         ///     difference this state has from others is showing the name of the location, when between points we don't show this
         ///     since we already know the next point but don't want the player to know that.

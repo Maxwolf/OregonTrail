@@ -9,67 +9,52 @@ namespace TrailEntities.Game
     ///     Keeps track of a set number of days and every time the game mode is ticked a day is simulated and days to rest
     ///     subtracted until we are at zero, then the player can close the window but until then input will not be accepted.
     /// </summary>
-    public sealed class RestingState : ModeState<TravelInfo>
+    public sealed class RestingState : DialogState<TravelInfo>
     {
-        /// <summary>
-        ///     Number of days the player and his party would like to rest, if zero we just close right away.
-        /// </summary>
-        private int _daysToRest;
-
-        /// <summary>
-        ///     Keeps track if the player has rested the amount of time they wanted.
-        /// </summary>
-        private bool _hasRested;
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public RestingState(IModeProduct gameMode, TravelInfo userData, int daysToRest) : base(gameMode, userData)
+        public RestingState(IModeProduct gameMode, TravelInfo userData) : base(gameMode, userData)
         {
-            _daysToRest = daysToRest;
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
+        ///     desired behavior.
         /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
+        protected override DialogType DialogType
         {
-            get { return false; }
+            get { return DialogType.Prompt; }
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
+        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
         /// </summary>
-        public override string OnRenderState()
+        protected override string OnDialogPrompt()
         {
             var rest = new StringBuilder();
-            rest.Append($"You rest for {_daysToRest} ");
-            rest.Append(_daysToRest > 1
+            rest.Append($"You rest for {UserData.DaysToRest} ");
+            rest.Append(UserData.DaysToRest > 1
                 ? $"days{Environment.NewLine}{Environment.NewLine}"
                 : $"day{Environment.NewLine}{Environment.NewLine}");
-
-            rest.Append(GameSimulationApp.PRESS_ENTER);
             return rest.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void OnInputBufferReturned(string input)
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        protected override void OnDialogResponse(DialogResponse reponse)
         {
+            // TODO: Simulate the days to rest in time and event system, this will trigger random event game mode if required.
+
             // Not accepting user input when resting.
-            if (_daysToRest > 1)
+            if (UserData.DaysToRest > 1)
                 return;
 
             // Can only actually stop resting once.
-            if (!_hasRested)
-            {
-                _hasRested = true;
-                ParentMode.CurrentState = null;
-            }
+            ParentMode.CurrentState = null;
         }
     }
 }

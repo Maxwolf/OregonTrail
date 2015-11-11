@@ -33,6 +33,11 @@ namespace TrailEntities.Game
             get { return _totalTransactions; }
         }
 
+        /// <summary>
+        ///     Item which the player does not have enough of or is missing.
+        /// </summary>
+        internal SimulationItem MissingItemEntity { get; set; }
+
         public void ClearTransactions()
         {
             _totalTransactions.Clear();

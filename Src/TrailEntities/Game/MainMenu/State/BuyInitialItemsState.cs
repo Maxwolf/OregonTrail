@@ -9,16 +9,8 @@ namespace TrailEntities.Game
     ///     Spawns a new game mode in the game simulation while maintaining the state of previous one so when we bounce back we
     ///     can move from here to next state.
     /// </summary>
-    public sealed class BuyInitialItemsState : ModeState<MainMenuInfo>
+    public sealed class BuyInitialItemsState : DialogState<MainMenuInfo>
     {
-        /// <summary>
-        ///     Keeps track if we have shown the information about what items the player should consider important before attaching
-        ///     the actual store.
-        /// </summary>
-        private bool _hasAttachedStore;
-
-        private StringBuilder _storeHelp;
-
         /// <summary>
         ///     This constructor will be used by the other one.
         /// </summary>
@@ -26,50 +18,31 @@ namespace TrailEntities.Game
         {
             // Pass the game data to the simulation for each new game mode state.
             GameSimulationApp.Instance.SetData(userData);
-            _hasAttachedStore = false;
+        }
 
+        /// <summary>
+        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
+        /// </summary>
+        protected override string OnDialogPrompt()
+        {
             // Create text we will display to user about the store before they actually load that game mode.
-            _storeHelp = new StringBuilder();
+            var _storeHelp = new StringBuilder();
             _storeHelp.Append($"{Environment.NewLine}Before leaving Independence you{Environment.NewLine}");
             _storeHelp.Append($"should buy equipment and{Environment.NewLine}");
             _storeHelp.Append(
                 $"supplies. You have {UserData.StartingMonies.ToString("C2")} in{Environment.NewLine}{Environment.NewLine}");
             _storeHelp.Append($"cash, but you don't have to{Environment.NewLine}");
             _storeHelp.Append($"spend it all now.{Environment.NewLine}{Environment.NewLine}");
-
-            _storeHelp.Append(GameSimulationApp.PRESS_ENTER);
-        }
-
-        /// <summary>
-        ///     Disable input for the buy initial items since it's just telling the user something and only wants a key press event
-        ///     to continue and not actual input.
-        /// </summary>
-        public override bool AcceptsInput
-        {
-            get { return false; }
-        }
-
-        /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
-        /// </summary>
-        public override string OnRenderState()
-        {
             return _storeHelp.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void OnInputBufferReturned(string input)
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        protected override void OnDialogResponse(DialogResponse reponse)
         {
-            // Make sure we never do this twice for the same instance.
-            if (_hasAttachedStore)
-                return;
-
-            // Change the game mode to be a store which can work with this data.
-            _hasAttachedStore = true;
             ParentMode.CurrentState = new IntroduceStoreState(ParentMode, UserData);
         }
     }

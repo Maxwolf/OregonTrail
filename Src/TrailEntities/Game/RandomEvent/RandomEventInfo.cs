@@ -1,4 +1,6 @@
-﻿using TrailEntities.Simulation.Mode;
+﻿using TrailEntities.Entity;
+using TrailEntities.Simulation;
+using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -8,6 +10,15 @@ namespace TrailEntities.Game
     /// </summary>
     public sealed class RandomEventInfo : IModeInfo
     {
-        // Move along... nothing to see here.
+        /// <summary>
+        ///     Determines what event we will be firing when the random event state is attached.
+        /// </summary>
+        public DirectorEvent DirectorEvent { get; set; }
+
+        /// <summary>
+        ///     Determines what entity is going to be affected by the event. Example if event was illness, then source would be
+        ///     person entity.
+        /// </summary>
+        public IEntity SourceEntity { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation;
 using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
@@ -9,24 +8,30 @@ namespace TrailEntities.Game
     ///     Third and final panel on point information, explains how players profession selection affects final scoring as a
     ///     multiplier since starting as a banker is a handicap.
     /// </summary>
-    public sealed class PointsOccupationState : ModeState<MainMenuInfo>
+    public sealed class PointsOccupationState : DialogState<MainMenuInfo>
     {
-        /// <summary>
-        ///     Determines if the player is done looking at information on profession scoring.
-        /// </summary>
-        private bool _hasSeenProfessionHelp;
-
-        /// <summary>
-        ///     Built up string that will be representation of this state, only built during constructor.
-        /// </summary>
-        private StringBuilder _pointsProfession;
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public PointsOccupationState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
         {
-            _pointsProfession = new StringBuilder();
+        }
+
+        /// <summary>
+        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
+        ///     desired behavior.
+        /// </summary>
+        protected override DialogType DialogType
+        {
+            get { return DialogType.Prompt; }
+        }
+
+        /// <summary>
+        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
+        /// </summary>
+        protected override string OnDialogPrompt()
+        {
+            var _pointsProfession = new StringBuilder();
             _pointsProfession.Append(
                 $"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");
             _pointsProfession.Append($"You receive points for your{Environment.NewLine}");
@@ -37,39 +42,16 @@ namespace TrailEntities.Game
             _pointsProfession.Append($"points upon arriving in Oregon{Environment.NewLine}");
             _pointsProfession.Append($"as a carpenter, and triple{Environment.NewLine}");
             _pointsProfession.Append($"points for arriving as a farmer.{Environment.NewLine}");
-
-            _pointsProfession.Append(GameSimulationApp.PRESS_ENTER);
-        }
-
-        /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return false; }
-        }
-
-        /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
-        /// </summary>
-        public override string OnRenderState()
-        {
             return _pointsProfession.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void OnInputBufferReturned(string input)
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        protected override void OnDialogResponse(DialogResponse reponse)
         {
-            if (_hasSeenProfessionHelp)
-                return;
-
-            // Return to options menu.
-            _hasSeenProfessionHelp = true;
             ParentMode.CurrentState = null;
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation;
 using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
@@ -9,25 +8,31 @@ namespace TrailEntities.Game
     ///     Shows information about what the different pace settings mean in terms for the simulation and how they will affect
     ///     vehicle, party, and events.
     /// </summary>
-    public sealed class PaceAdviceState : ModeState<TravelInfo>
+    public sealed class PaceAdviceState : DialogState<TravelInfo>
     {
-        /// <summary>
-        ///     String builder to hold all the information for pace help so we only build it once and then reference it.
-        /// </summary>
-        private StringBuilder _paceHelp;
-
-        /// <summary>
-        ///     Determines if the player is done looking at information about travel pace.
-        /// </summary>
-        private bool _seenPaceHelp;
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public PaceAdviceState(IModeProduct gameMode, TravelInfo userData) : base(gameMode, userData)
         {
+        }
+
+        /// <summary>
+        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
+        ///     desired behavior.
+        /// </summary>
+        protected override DialogType DialogType
+        {
+            get { return DialogType.Prompt; }
+        }
+
+        /// <summary>
+        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
+        /// </summary>
+        protected override string OnDialogPrompt()
+        {
             // Steady
-            _paceHelp = new StringBuilder();
+            var _paceHelp = new StringBuilder();
             _paceHelp.Append($"{Environment.NewLine}steady - You travel about 8 hours a{Environment.NewLine}");
             _paceHelp.Append($"day, taking frequent rests. You take{Environment.NewLine}");
             _paceHelp.Append($"care not to get too tired.{Environment.NewLine}{Environment.NewLine}");
@@ -48,40 +53,16 @@ namespace TrailEntities.Game
             _paceHelp.Append($"enough sleep at night. You finish{Environment.NewLine}");
             _paceHelp.Append($"each day feeling absolutely{Environment.NewLine}");
             _paceHelp.Append($"exhausted, and your health suffers.{Environment.NewLine}{Environment.NewLine}");
-
-            // Wait for user input...
-            _paceHelp.Append(GameSimulationApp.PRESS_ENTER);
-        }
-
-        /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return false; }
-        }
-
-        /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
-        /// </summary>
-        public override string OnRenderState()
-        {
             return _paceHelp.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void OnInputBufferReturned(string input)
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        protected override void OnDialogResponse(DialogResponse reponse)
         {
-            if (_seenPaceHelp)
-                return;
-
-            // Go back to the travel menu.
-            _seenPaceHelp = true;
             ParentMode.CurrentState = new ChangePaceState(ParentMode, UserData);
         }
     }
