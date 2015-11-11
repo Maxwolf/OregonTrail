@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation;
 using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game

@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace TrailEntities.Simulation.Mode
 {
     /// <summary>
-    /// Requires type parameter that is a reference type with a constructor.
+    ///     Requires type parameter that is a reference type with a constructor.
     /// </summary>
     /// <typeparam name="T">Mode </typeparam>
     public abstract class ModeState<T> : Comparer<ModeState<T>>, IComparable<ModeState<T>>, IEquatable<ModeState<T>>,

@@ -49,7 +49,7 @@ namespace TrailEntities.Game
         }
 
         /// <summary>
-        /// Determines how many days of rest the player had, and were simulated both in time and on event system.
+        ///     Determines how many days of rest the player had, and were simulated both in time and on event system.
         /// </summary>
         public int DaysToRest { get; internal set; }
 

@@ -18,7 +18,6 @@ namespace TrailEntities.Game
         /// </summary>
         public CheckSuppliesState(IModeProduct gameMode, TravelInfo userData) : base(gameMode, userData)
         {
-
         }
 
         /// <summary>

@@ -36,7 +36,8 @@ namespace TrailEntities.Game
                     $"Executed random event {UserData.DirectorEvent.Name} from director, but it returned no text data!");
 
             // Add the text to our output about the random event.
-            _randomEventText.AppendLine($"{UserData.SourceEntity.Name} {UserData.DirectorEvent.Name} {eventText}{Environment.NewLine}");
+            _randomEventText.AppendLine(
+                $"{UserData.SourceEntity.Name} {UserData.DirectorEvent.Name} {eventText}{Environment.NewLine}");
             return _randomEventText.ToString();
         }
 
