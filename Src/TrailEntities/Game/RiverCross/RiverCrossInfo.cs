@@ -17,6 +17,7 @@ namespace TrailEntities.Game
             // Randomly generates statistics about the river each time you cross it.
             Depth = GameSimulationApp.Instance.Random.Next(1, 20);
             FerryCost = GameSimulationApp.Instance.Random.Next(3, 8);
+            FerryDelayInDays = GameSimulationApp.Instance.Random.Next(1, 10);
             RiverWidth = GameSimulationApp.Instance.Random.Next(20, 350);
             CrossingType = RiverCrossChoice.Ford;
         }
@@ -35,6 +36,12 @@ namespace TrailEntities.Game
         ///     Determines how much the ferry operator will charge to cross the river.
         /// </summary>
         public int FerryCost { get; }
+
+        /// <summary>
+        ///     Determines how many days of the simulation the ferry operator is backed up with other vehicles and cannot process
+        ///     yours until this time.
+        /// </summary>
+        public int FerryDelayInDays { get; }
 
         /// <summary>
         ///     Determines how wide the river is and how big the dice roll is for something terrible happening to the vehicle and

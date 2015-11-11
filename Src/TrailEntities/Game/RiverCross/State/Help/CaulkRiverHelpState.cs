@@ -3,48 +3,36 @@ using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
-    public sealed class CaulkRiverHelpState : ModeState<RiverCrossInfo>
+    public sealed class CaulkRiverHelpState : DialogState<RiverCrossInfo>
     {
-        private StringBuilder _prompt;
-        private bool _seenPrompt;
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public CaulkRiverHelpState(IModeProduct gameMode, RiverCrossInfo userData) : base(gameMode, userData)
         {
-            _prompt = new StringBuilder();
-            _prompt.Append("");
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
         /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
+        protected override string OnDialogPrompt()
         {
-            get { return false; }
+            var _caulkWagon = new StringBuilder();
+            _caulkWagon.AppendLine("To caulk the wagon means to");
+            _caulkWagon.AppendLine("seal it so that no water can");
+            _caulkWagon.AppendLine("get in. The wagon can then");
+            _caulkWagon.AppendLine("be floated across like a");
+            _caulkWagon.AppendLine("boat");
+            return _caulkWagon.ToString();
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        public override string OnRenderState()
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        protected override void OnDialogResponse(DialogResponse reponse)
         {
-            return _prompt.ToString();
-        }
-
-        /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
-        /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void OnInputBufferReturned(string input)
-        {
-            if (_seenPrompt)
-                return;
-
-            _seenPrompt = true;
             ParentMode.CurrentState = new FerryHelpState(ParentMode, UserData);
         }
     }

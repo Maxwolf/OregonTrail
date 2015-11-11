@@ -18,15 +18,6 @@ namespace TrailEntities.Game
         }
 
         /// <summary>
-        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
-        ///     desired behavior.
-        /// </summary>
-        protected override DialogType DialogType
-        {
-            get { return DialogType.Prompt; }
-        }
-
-        /// <summary>
         ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
         /// </summary>
         protected override string OnDialogPrompt()
@@ -48,8 +39,7 @@ namespace TrailEntities.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            if (reponse == DialogResponse.Continue)
-                ParentMode.CurrentState = new FordRiverHelpState(ParentMode, UserData);
+            ParentMode.CurrentState = new FordRiverHelpState(ParentMode, UserData);
         }
     }
 }
