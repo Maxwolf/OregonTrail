@@ -29,24 +29,24 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
         /// </summary>
-        protected override string OnDialogPrompt(StringBuilder dialogPrompt)
+        protected override string OnDialogPrompt()
         {
-            dialogPrompt.AppendLine("You must cross the river in");
-            dialogPrompt.AppendLine("order to continue. The");
-            dialogPrompt.AppendLine("river at this point is");
-            dialogPrompt.AppendLine("currently 618 feed across,");
-            dialogPrompt.AppendLine("and 3.5 feet deep in the");
-            dialogPrompt.AppendLine("middle.");
-            return dialogPrompt.ToString();
+            var riverPrompt = new StringBuilder();
+            riverPrompt.AppendLine("You must cross the river in");
+            riverPrompt.AppendLine("order to continue. The");
+            riverPrompt.AppendLine("river at this point is");
+            riverPrompt.AppendLine("currently 618 feed across,");
+            riverPrompt.AppendLine("and 3.5 feet deep in the");
+            riverPrompt.AppendLine("middle.");
+            return riverPrompt.ToString();
         }
 
         /// <summary>
         ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="promptType">References what type of dialog prompt this was configured to be before response was triggered.</param>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogType promptType, DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponse reponse)
         {
             if (reponse == DialogResponse.Continue)
                 ParentMode.CurrentState = new FordRiverHelpState(ParentMode, UserData);

@@ -25,6 +25,7 @@ namespace TrailEntities.Simulation.Mode
         /// </summary>
         protected DialogState(IModeProduct gameMode, T userData) : base(gameMode, userData)
         {
+            _prompt = new StringBuilder();
             StateActivate();
         }
 
@@ -40,13 +41,25 @@ namespace TrailEntities.Simulation.Mode
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
         public override bool AcceptsInput
         {
-            get { return false; }
+            get
+            {
+                switch (DialogType)
+                {
+                    case DialogType.Prompt:
+                        return false;
+                    case DialogType.YesNo:
+                    case DialogType.YesNoContinue:
+                        return true;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
         }
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
         /// </summary>
-        protected abstract string OnDialogPrompt(StringBuilder dialogPrompt);
+        protected abstract string OnDialogPrompt();
 
         /// <summary>
         ///     Fired when the constructor is called on the dialog state class. Collects string data that will be sent back to
@@ -55,8 +68,7 @@ namespace TrailEntities.Simulation.Mode
         private void StateActivate()
         {
             // Build up the dialog prompt using abstract methods to get text to show user.
-            _prompt = new StringBuilder();
-            _prompt.AppendLine(OnDialogPrompt(_prompt));
+            _prompt.Append(OnDialogPrompt());
 
             // Wait for user input by asking them to press ANY key.
             switch (DialogType)
@@ -99,15 +111,15 @@ namespace TrailEntities.Simulation.Mode
                 case "Y":
                 case "YES":
                 case "TRUE":
-                    OnDialogResponse(DialogType, DialogResponse.Yes);
+                    OnDialogResponse(DialogResponse.Yes);
                     return;
                 case "N":
                 case "NO":
                 case "FALSE":
-                    OnDialogResponse(DialogType, DialogResponse.No);
+                    OnDialogResponse(DialogResponse.No);
                     return;
                 default:
-                    OnDialogResponse(DialogType, DialogResponse.Continue);
+                    OnDialogResponse(DialogResponse.Continue);
                     return;
             }
         }
@@ -116,8 +128,7 @@ namespace TrailEntities.Simulation.Mode
         ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="promptType">References what type of dialog prompt this was configured to be before response was triggered.</param>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected abstract void OnDialogResponse(DialogType promptType, DialogResponse reponse);
+        protected abstract void OnDialogResponse(DialogResponse reponse);
     }
 }
