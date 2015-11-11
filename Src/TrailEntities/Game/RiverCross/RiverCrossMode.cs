@@ -25,6 +25,9 @@ namespace TrailEntities.Game
             AddCommand(UseFerry, RiverCrossCommands.UseFerry);
             AddCommand(WaitForWeather, RiverCrossCommands.WaitForWeather);
             AddCommand(GetMoreInformation, RiverCrossCommands.GetMoreInformation);
+
+            // Add the state that explains the player is at a river crossing and what is expected of them.
+            CurrentState = new RiverPromptState(this, RiverCrossInfo);
         }
 
         /// <summary>

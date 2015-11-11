@@ -19,6 +19,11 @@ namespace TrailEntities.Simulation
         public const string PRESS_ENTER = "Press ENTER KEY to continue";
 
         /// <summary>
+        ///     Holds constant representation of the text that is shown after a YES/NO question to the user.
+        /// </summary>
+        public const string PRESS_YESNO = "What is your response? Y/N";
+
+        /// <summary>
         ///     Defines the limit on the number of players for the vehicle that will be allowed. This also determines how many
         ///     names are asked for in new game mode.
         /// </summary>
