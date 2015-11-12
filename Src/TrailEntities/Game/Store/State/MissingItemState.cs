@@ -39,7 +39,8 @@ namespace TrailEntities.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             UserData.MissingItemEntity = null;
-            ParentMode.CurrentState = null;
+            //ParentMode.CurrentState = null;
+            ClearState();
         }
     }
 }

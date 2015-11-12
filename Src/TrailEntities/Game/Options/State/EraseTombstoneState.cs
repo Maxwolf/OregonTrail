@@ -52,10 +52,12 @@ namespace TrailEntities.Game
             {
                 case "Y":
                     // TODO: Clear tombstone message list, delete file that was loaded from disk...
-                    ParentMode.CurrentState = null;
+                    //ParentMode.CurrentState = null;
+                    ClearState();
                     break;
                 default:
-                    ParentMode.CurrentState = null;
+                    //ParentMode.CurrentState = null;
+                    ClearState();
                     break;
             }
         }

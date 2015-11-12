@@ -37,5 +37,15 @@ namespace TrailEntities.Simulation.Mode
         /// </summary>
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         void OnInputBufferReturned(string input);
+
+        /// <summary>
+        ///     Creates and adds the specified type of state to currently active game mode.
+        /// </summary>
+        void SetState(Type stateType);
+
+        /// <summary>
+        ///     Removes the current state from the active game mode.
+        /// </summary>
+        void ClearState();
     }
 }

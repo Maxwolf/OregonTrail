@@ -218,7 +218,15 @@ namespace TrailEntities.Simulation.Mode
         ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and
         ///     then detach.
         /// </summary>
-        public IModeState CurrentState { get; set; }
+        public IModeState CurrentState { get; private set; }
+
+        /// <summary>
+        ///     Removes the current state from the active game mode.
+        /// </summary>
+        public void ClearState()
+        {
+            CurrentState = null;
+        }
 
         /// <summary>
         ///     Fired by simulation when it wants to request latest text user interface data for the game mode, this is used to
@@ -331,6 +339,16 @@ namespace TrailEntities.Simulation.Mode
             if (result != 0) return result;
 
             return result;
+        }
+
+        /// <summary>
+        ///     Creates and adds the specified type of state to currently active game mode.
+        /// </summary>
+        public void SetState(Type stateType)
+        {
+            // TODO: Create state from type.
+            // TODO: Pass in user info casted to what it wants.
+            // TODO: Attach to current state property.
         }
 
         /// <summary>
@@ -462,7 +480,6 @@ namespace TrailEntities.Simulation.Mode
         public override int GetHashCode()
         {
             var hash = 23;
-            hash = (hash*31) + CurrentState.GetHashCode();
             hash = (hash*31) + ModeType.GetHashCode();
             return hash;
         }

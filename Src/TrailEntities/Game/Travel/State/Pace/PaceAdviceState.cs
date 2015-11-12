@@ -63,7 +63,8 @@ namespace TrailEntities.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            ParentMode.CurrentState = new ChangePaceState(ParentMode, UserData);
+            //ParentMode.CurrentState = new ChangePaceState(ParentMode, UserData);
+            SetState(typeof(ChangePaceState));
         }
     }
 }

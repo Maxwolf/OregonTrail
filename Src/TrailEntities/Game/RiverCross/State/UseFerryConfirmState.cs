@@ -48,9 +48,16 @@ namespace TrailEntities.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // TODO: Check if you have enough monies to use the ferry.
-            ParentMode.CurrentState = reponse == DialogResponse.Yes
-                ? new CrossingResultState(ParentMode, UserData)
-                : null;
+
+            switch (reponse)
+            {
+                case DialogResponse.Yes:
+                    SetState(typeof(CrossingResultState));
+                    break;
+                default:
+                    ClearState();
+                    break;
+            }
         }
     }
 }

@@ -146,6 +146,24 @@ namespace TrailEntities.Simulation.Mode
         public abstract void OnInputBufferReturned(string input);
 
         /// <summary>
+        ///     Creates and adds the specified type of state to currently active game mode.
+        /// </summary>
+        public void SetState(Type stateType)
+        {
+            // Pass the state wanted to the parent game mode.
+            ParentMode.SetState(stateType);
+        }
+
+        /// <summary>
+        ///     Removes the current state from the active game mode.
+        /// </summary>
+        public void ClearState()
+        {
+            // Refers to parent game mode to actually clear the state.
+            ParentMode.ClearState();
+        }
+
+        /// <summary>
         ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
         /// </summary>
         /// <returns>

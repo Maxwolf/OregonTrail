@@ -53,11 +53,13 @@ namespace TrailEntities.Game
             {
                 case "Y":
                     // Show the user information about point distribution.
-                    ParentMode.CurrentState = new PointsHealthState(ParentMode, UserData);
+                    //ParentMode.CurrentState = new PointsHealthState(ParentMode, UserData);
+                    SetState(typeof (PointsHealthState));
                     break;
                 default:
                     // Go back to the options menu.
-                    ParentMode.CurrentState = null;
+                    //ParentMode.CurrentState = null;
+                    ClearState();
                     break;
             }
         }

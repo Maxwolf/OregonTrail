@@ -31,13 +31,23 @@ namespace TrailEntities.Simulation.Mode
         ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and
         ///     then detach.
         /// </summary>
-        IModeState CurrentState { get; set; }
+        IModeState CurrentState { get; }
 
         /// <summary>
         ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
         ///     class where they become available.
         /// </summary>
         Location CurrentPoint { get; }
+
+        /// <summary>
+        ///     Creates and adds the specified type of state to currently active game mode.
+        /// </summary>
+        void SetState(Type stateType);
+
+        /// <summary>
+        ///     Removes the current state from the active game mode.
+        /// </summary>
+        void ClearState();
 
         /// <summary>
         ///     Sets the flag for this game mode to be removed the next time it is ticked by the simulation.

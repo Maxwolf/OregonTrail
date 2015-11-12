@@ -39,7 +39,8 @@ namespace TrailEntities.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            ParentMode.CurrentState = new FordRiverHelpState(ParentMode, UserData);
+            //ParentMode.CurrentState = new FordRiverHelpState(ParentMode, UserData);
+            SetState(typeof(FordRiverHelpState));
         }
     }
 }

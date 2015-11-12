@@ -46,7 +46,8 @@ namespace TrailEntities.Game
             // Attached the random event state when we intercept an event it would like us to trigger.
             eventInfo.DirectorEvent = directorEvent;
             eventInfo.SourceEntity = simEntity;
-            CurrentState = new RandomEventState(this, eventInfo);
+            //CurrentState = new RandomEventState(this, eventInfo);
+            SetState(typeof(RandomEventState));
         }
 
         /// <summary>

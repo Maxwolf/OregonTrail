@@ -52,7 +52,8 @@ namespace TrailEntities.Game
 
             // Exits the river crossing mode and returns to travel game mode.
             _readCrossingResult = true;
-            ParentMode.CurrentState = null;
+            //ParentMode.CurrentState = null;
+            ClearState();
             ParentMode.RemoveModeNextTick();
         }
     }

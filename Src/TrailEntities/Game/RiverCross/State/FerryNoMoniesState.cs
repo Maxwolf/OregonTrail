@@ -23,7 +23,9 @@ namespace TrailEntities.Game
         protected override string OnDialogPrompt()
         {
             var _prompt = new StringBuilder();
-            _prompt.Append("");
+            _prompt.AppendLine("You do not have enough");
+            _prompt.AppendLine("monies to take the");
+            _prompt.AppendLine("ferry.");
             return _prompt.ToString();
         }
 
@@ -34,7 +36,8 @@ namespace TrailEntities.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            ParentMode.CurrentState = null;
+            //ParentMode.CurrentState = null;
+            ClearState();
         }
     }
 }

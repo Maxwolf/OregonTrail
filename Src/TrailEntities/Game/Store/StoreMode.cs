@@ -56,7 +56,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuyOxen()
         {
-            CurrentState = new BuyItemState(Parts.Oxen, this, StoreInfo);
+            //CurrentState = new BuyItemState(Parts.Oxen, this, StoreInfo);
+            SetState(typeof(BuyItemState));
         }
 
         /// <summary>
@@ -64,7 +65,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuyFood()
         {
-            CurrentState = new BuyItemState(Resources.Food, this, StoreInfo);
+            //CurrentState = new BuyItemState(Resources.Food, this, StoreInfo);
+            SetState(typeof(BuyItemState));
         }
 
         /// <summary>
@@ -72,7 +74,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuyClothing()
         {
-            CurrentState = new BuyItemState(Resources.Clothing, this, StoreInfo);
+            //CurrentState = new BuyItemState(Resources.Clothing, this, StoreInfo);
+            SetState(typeof(BuyItemState));
         }
 
         /// <summary>
@@ -80,7 +83,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuyAmmunition()
         {
-            CurrentState = new BuyItemState(Resources.Bullets, this, StoreInfo);
+            //CurrentState = new BuyItemState(Resources.Bullets, this, StoreInfo);
+            SetState(typeof(BuyItemState));
         }
 
         /// <summary>
@@ -88,8 +92,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuySpareWheels()
         {
-            CurrentState = new BuyItemState(Parts.Wheel, this,
-                StoreInfo);
+            //CurrentState = new BuyItemState(Parts.Wheel, this, StoreInfo);
+            SetState(typeof(BuyItemState));
         }
 
         /// <summary>
@@ -97,7 +101,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuySpareAxles()
         {
-            CurrentState = new BuyItemState(Parts.Axle, this, StoreInfo);
+            //CurrentState = new BuyItemState(Parts.Axle, this, StoreInfo);
+            SetState(typeof(BuyItemState));
         }
 
         /// <summary>
@@ -105,8 +110,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuySpareTongues()
         {
-            CurrentState = new BuyItemState(Parts.Tongue, this,
-                StoreInfo);
+            //CurrentState = new BuyItemState(Parts.Tongue, this, StoreInfo);
+            SetState(typeof(BuyItemState));
         }
 
         /// <summary>
@@ -115,7 +120,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void StoreAdvice()
         {
-            CurrentState = new StoreAdviceState(this, StoreInfo);
+            //CurrentState = new StoreAdviceState(this, StoreInfo);
+            SetState(typeof(StoreAdviceState));
         }
 
         /// <summary>
@@ -128,14 +134,16 @@ namespace TrailEntities.Game
                 StoreInfo.Transactions[SimulationEntity.Animal].Quantity <= 0)
             {
                 StoreInfo.MissingItemEntity = Parts.Oxen;
-                CurrentState = new MissingItemState(this, StoreInfo);
+                //CurrentState = new MissingItemState(this, StoreInfo);
+                SetState(typeof(MissingItemState));
                 return;
             }
 
             // Check if player can afford the items they have selected.
             if (GameSimulationApp.Instance.Vehicle.Balance < StoreInfo.GetTransactionTotalCost())
             {
-                CurrentState = new StoreDebtState(this, StoreInfo);
+                //CurrentState = new StoreDebtState(this, StoreInfo);
+                SetState(typeof(StoreDebtState));
                 return;
             }
 

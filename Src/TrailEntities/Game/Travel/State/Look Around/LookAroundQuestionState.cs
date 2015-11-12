@@ -43,10 +43,12 @@ namespace TrailEntities.Game
             switch (input.ToUpperInvariant())
             {
                 case "Y":
-                    ParentMode.CurrentState = new LookAroundState(ParentMode, UserData);
+                    //ParentMode.CurrentState = new LookAroundState(ParentMode, UserData);
+                    SetState(typeof(LookAroundState));
                     break;
                 default:
-                    ParentMode.CurrentState = null;
+                    //ParentMode.CurrentState = null;
+                    ClearState();
                     break;
             }
         }

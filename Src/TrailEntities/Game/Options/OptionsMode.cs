@@ -56,7 +56,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void ReturnToMainMenu()
         {
-            CurrentState = null;
+            //CurrentState = null;
+            ClearState();
             RemoveModeNextTick();
         }
 
@@ -66,7 +67,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void EraseTombstoneMessages()
         {
-            CurrentState = new EraseTombstoneState(this, _optionInfo);
+            //CurrentState = new EraseTombstoneState(this, _optionInfo);
+            SetState(typeof(EraseTombstoneState));
         }
 
         /// <summary>
@@ -74,7 +76,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void EraseCurrentTopTen()
         {
-            CurrentState = new EraseCurrentTopTenState(this, _optionInfo);
+            //CurrentState = new EraseCurrentTopTenState(this, _optionInfo);
+            SetState(typeof(EraseCurrentTopTenState));
         }
 
         /// <summary>
@@ -82,7 +85,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void SeeOriginalTopTen()
         {
-            CurrentState = new OriginalTopTenState(this, _optionInfo);
+            //CurrentState = new OriginalTopTenState(this, _optionInfo);
+            SetState(typeof(OriginalTopTenState));
         }
     }
 }

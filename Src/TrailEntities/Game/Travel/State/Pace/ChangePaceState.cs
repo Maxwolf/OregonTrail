@@ -55,21 +55,26 @@ namespace TrailEntities.Game
             {
                 case "1":
                     GameSimulationApp.Instance.Vehicle.ChangePace(TravelPace.Steady);
-                    ParentMode.CurrentState = null;
+                    //ParentMode.CurrentState = null;
+                    ClearState();
                     break;
                 case "2":
                     GameSimulationApp.Instance.Vehicle.ChangePace(TravelPace.Strenuous);
-                    ParentMode.CurrentState = null;
+                    //ParentMode.CurrentState = null;
+                    ClearState();
                     break;
                 case "3":
                     GameSimulationApp.Instance.Vehicle.ChangePace(TravelPace.Grueling);
-                    ParentMode.CurrentState = null;
+                    //ParentMode.CurrentState = null;
+                    ClearState();
                     break;
                 case "4":
-                    ParentMode.CurrentState = new PaceAdviceState(ParentMode, UserData);
+                    //ParentMode.CurrentState = new PaceAdviceState(ParentMode, UserData);
+                    SetState(typeof(PaceAdviceState));
                     break;
                 default:
-                    ParentMode.CurrentState = new ChangePaceState(ParentMode, UserData);
+                    //ParentMode.CurrentState = new ChangePaceState(ParentMode, UserData);
+                    SetState(typeof(ChangePaceState));
                     break;
             }
         }

@@ -80,7 +80,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void SeeTopTen()
         {
-            CurrentState = new CurrentTopTenState(this, MainMenuInfo);
+            //CurrentState = new CurrentTopTenState(this, MainMenuInfo);
+            SetState(typeof(CurrentTopTenState));
         }
 
         /// <summary>
@@ -88,7 +89,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void LearnAboutTrail()
         {
-            CurrentState = new InstructionsState(this, MainMenuInfo);
+            //CurrentState = new InstructionsState(this, MainMenuInfo);
+            SetState(typeof(InstructionsState));
         }
 
         /// <summary>
@@ -96,7 +98,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void TravelTheTrail()
         {
-            CurrentState = new SelectProfessionState(this, MainMenuInfo);
+            //CurrentState = new SelectProfessionState(this, MainMenuInfo);
+            SetState(typeof(SelectProfessionState));
         }
     }
 }

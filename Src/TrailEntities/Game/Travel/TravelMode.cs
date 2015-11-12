@@ -44,7 +44,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void TalkToPeople()
         {
-            CurrentState = new TalkToPeopleState(this, TravelInfo);
+            //CurrentState = new TalkToPeopleState(this, TravelInfo);
+            SetState(typeof(TalkToPeopleState));
         }
 
         /// <summary>
@@ -64,11 +65,13 @@ namespace TrailEntities.Game
             if (!GameSimulationApp.Instance.Trail.ReachedNextPoint() &&
                 !GameSimulationApp.Instance.Trail.IsFirstLocation())
             {
-                CurrentState = new DriveState(this, TravelInfo);
+                //CurrentState = new DriveState(this, TravelInfo);
+                SetState(typeof(DriveState));
             }
             else
             {
-                CurrentState = new ContinueOnTrailState(this, TravelInfo);
+                //CurrentState = new ContinueOnTrailState(this, TravelInfo);
+                SetState(typeof(ContinueOnTrailState));
             }
         }
 
@@ -77,7 +80,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void CheckSupplies()
         {
-            CurrentState = new CheckSuppliesState(this, TravelInfo);
+            //CurrentState = new CheckSuppliesState(this, TravelInfo);
+            SetState(typeof(CheckSuppliesState));
         }
 
         /// <summary>
@@ -86,7 +90,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void LookAtMap()
         {
-            CurrentState = new LookAtMapState(this, TravelInfo);
+            //CurrentState = new LookAtMapState(this, TravelInfo);
+            SetState(typeof(LookAtMapState));
         }
 
         /// <summary>
@@ -94,7 +99,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void ChangePace()
         {
-            CurrentState = new ChangePaceState(this, TravelInfo);
+            //CurrentState = new ChangePaceState(this, TravelInfo);
+            SetState(typeof(ChangePaceState));
         }
 
         /// <summary>
@@ -102,7 +108,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void ChangeFoodRations()
         {
-            CurrentState = new ChangeRationsState(this, TravelInfo);
+            //CurrentState = new ChangeRationsState(this, TravelInfo);
+            SetState(typeof(ChangeRationsState));
         }
 
         /// <summary>
@@ -111,7 +118,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void StopToRest()
         {
-            CurrentState = new RestQuestionState(this, TravelInfo);
+            //CurrentState = new RestQuestionState(this, TravelInfo);
+            SetState(typeof(RestQuestionState));
         }
 
         /// <summary>
@@ -119,7 +127,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void AttemptToTrade()
         {
-            CurrentState = null;
+            //CurrentState = null;
+            ClearState();
             GameSimulationApp.Instance.AddMode(ModeType.Trade);
         }
 
@@ -129,7 +138,8 @@ namespace TrailEntities.Game
         /// </summary>
         private void HuntForFood()
         {
-            CurrentState = null;
+            //CurrentState = null;
+            ClearState();
             GameSimulationApp.Instance.AddMode(ModeType.Hunt);
         }
 
@@ -170,14 +180,16 @@ namespace TrailEntities.Game
             // On the first point we are going to force the look around state onto the traveling mode without asking.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation())
             {
-                CurrentState = new LookAroundState(this, TravelInfo);
+                //CurrentState = new LookAroundState(this, TravelInfo);
+                SetState(typeof(LookAroundState));
             }
             else if (!GameSimulationApp.Instance.Trail.IsFirstLocation() &&
                      GameSimulationApp.Instance.Vehicle.Odometer > 0 &&
                      GameSimulationApp.Instance.TotalTurns > 0)
             {
                 // Ensure we only ask if the player wants to stop when it is really not the first turn.
-                CurrentState = new LookAroundQuestionState(this, TravelInfo);
+                //CurrentState = new LookAroundQuestionState(this, TravelInfo);
+                SetState(typeof(LookAroundQuestionState));
             }
         }
     }

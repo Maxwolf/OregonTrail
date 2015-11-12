@@ -149,7 +149,7 @@
     <Compile Include="Game\Travel\TravelInfo.cs" />
     <Compile Include="Game\Travel\TravelMode.cs" />
     <Compile Include="Simulation\Trail\River.cs" />
-    <Compile Include="Simulation\GameSimulationApp.cs" />
+    <Compile Include="Simulation\Base\GameSimulationApp.cs" />
     <Compile Include="Simulation\Climate\ClimateClassification.cs" />
     <Compile Include="Simulation\Climate\ClimateData.cs" />
     <Compile Include="Simulation\Climate\WeatherCondition.cs" />
