@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation.Mode;
+using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {
@@ -44,7 +44,7 @@ namespace TrailEntities.Game
             {
                 case "Y":
                     //ParentMode.CurrentState = new LookAroundState(ParentMode, UserData);
-                    SetState(typeof(LookAroundState));
+                    SetState(typeof (LookAroundState));
                     break;
                 default:
                     //ParentMode.CurrentState = null;

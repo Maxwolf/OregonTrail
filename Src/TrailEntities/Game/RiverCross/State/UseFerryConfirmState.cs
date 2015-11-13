@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using TrailEntities.Simulation.Mode;
+using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {
@@ -52,7 +52,7 @@ namespace TrailEntities.Game
             switch (reponse)
             {
                 case DialogResponse.Yes:
-                    SetState(typeof(CrossingResultState));
+                    SetState(typeof (CrossingResultState));
                     break;
                 default:
                     ClearState();

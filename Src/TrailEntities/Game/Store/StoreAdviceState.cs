@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -76,7 +75,7 @@ namespace TrailEntities.Game
             }
 
             // Wait for user input...
-            _storeHelp.Append(GameSimulationApp.PRESS_ENTER);
+            _storeHelp.Append(InputManager.PRESS_ENTER);
         }
 
         /// <summary>

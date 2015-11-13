@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -45,7 +44,7 @@ namespace TrailEntities.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             ParentMode.RemoveModeNextTick();
-            GameSimulationApp.Instance.AddMode(ModeType.Store);
+            GameSimulationApp.Instance.WindowManager.AddMode(ModeType.Store);
         }
     }
 }

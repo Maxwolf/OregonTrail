@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using TrailEntities.Simulation.Mode;
+using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {
@@ -64,7 +64,7 @@ namespace TrailEntities.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             //ParentMode.CurrentState = new ChangePaceState(ParentMode, UserData);
-            SetState(typeof(ChangePaceState));
+            SetState(typeof (ChangePaceState));
         }
     }
 }

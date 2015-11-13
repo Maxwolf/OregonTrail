@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
+using TrailEntities.Scoring;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 using TrailEntities.Widget;
 
 namespace TrailEntities.Game
@@ -60,7 +60,7 @@ namespace TrailEntities.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             //ParentMode.CurrentState = new PointsOccupationState(ParentMode, UserData);
-            SetState(typeof(PointsOccupationState));
+            SetState(typeof (PointsOccupationState));
         }
     }
 }

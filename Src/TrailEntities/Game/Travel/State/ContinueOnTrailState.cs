@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -52,7 +51,7 @@ namespace TrailEntities.Game
         {
             UserData.HasLookedAround = false;
             //ParentMode.CurrentState = new DriveState(ParentMode, UserData);
-            SetState(typeof(DriveState));
+            SetState(typeof (DriveState));
         }
     }
 }

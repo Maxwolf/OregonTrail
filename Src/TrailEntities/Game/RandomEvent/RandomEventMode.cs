@@ -1,6 +1,5 @@
 ﻿using TrailEntities.Entity;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -47,7 +46,7 @@ namespace TrailEntities.Game
             eventInfo.DirectorEvent = directorEvent;
             eventInfo.SourceEntity = simEntity;
             //CurrentState = new RandomEventState(this, eventInfo);
-            SetState(typeof(RandomEventState));
+            SetState(typeof (RandomEventState));
         }
 
         /// <summary>

@@ -2,7 +2,6 @@
 using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -70,11 +69,11 @@ namespace TrailEntities.Game
                     break;
                 case "4":
                     //ParentMode.CurrentState = new PaceAdviceState(ParentMode, UserData);
-                    SetState(typeof(PaceAdviceState));
+                    SetState(typeof (PaceAdviceState));
                     break;
                 default:
                     //ParentMode.CurrentState = new ChangePaceState(ParentMode, UserData);
-                    SetState(typeof(ChangePaceState));
+                    SetState(typeof (ChangePaceState));
                     break;
             }
         }

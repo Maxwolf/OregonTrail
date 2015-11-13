@@ -1,4 +1,4 @@
-﻿using TrailEntities.Simulation.Mode;
+﻿using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {
@@ -28,7 +28,7 @@ namespace TrailEntities.Game
 
             // Add the state that explains the player is at a river crossing and what is expected of them.
             //CurrentState = new RiverPromptState(this, RiverCrossInfo);
-            SetState(typeof(RiverPromptState));
+            SetState(typeof (RiverPromptState));
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace TrailEntities.Game
         private void GetMoreInformation()
         {
             //CurrentState = new FordRiverHelpState(this, RiverCrossInfo);
-            SetState(typeof(FordRiverHelpState));
+            SetState(typeof (FordRiverHelpState));
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace TrailEntities.Game
         private void WaitForWeather()
         {
             //CurrentState = new CampByRiverState(this, RiverCrossInfo);
-            SetState(typeof(CampByRiverState));
+            SetState(typeof (CampByRiverState));
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace TrailEntities.Game
         {
             RiverCrossInfo.CrossingType = RiverCrossChoice.Ferry;
             //CurrentState = new UseFerryConfirmState(this, RiverCrossInfo);
-            SetState(typeof(UseFerryConfirmState));
+            SetState(typeof (UseFerryConfirmState));
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace TrailEntities.Game
         {
             RiverCrossInfo.CrossingType = RiverCrossChoice.Caulk;
             //CurrentState = new CrossingResultState(this, RiverCrossInfo);
-            SetState(typeof(CrossingResultState));
+            SetState(typeof (CrossingResultState));
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace TrailEntities.Game
         {
             RiverCrossInfo.CrossingType = RiverCrossChoice.Ford;
             //CurrentState = new CrossingResultState(this, RiverCrossInfo);
-            SetState(typeof(CrossingResultState));
+            SetState(typeof (CrossingResultState));
         }
 
         /// <summary>

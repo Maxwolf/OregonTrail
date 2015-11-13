@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Threading;
-using TrailEntities.Simulation;
+using TrailEntities;
 
 namespace TrailGame
 {
+    /// <summary>
+    ///     Game Simulation Application
+    /// </summary>
     internal static class Program
     {
         private static void Main()
@@ -18,7 +21,7 @@ namespace TrailGame
             GameSimulationApp.Create();
 
             // Hook event to know when screen buffer wants to redraw the entire console screen.
-            GameSimulationApp.Instance.ScreenBufferDirtyEvent += Simulation_ScreenBufferDirtyEvent;
+            GameSimulationApp.Instance.TextRenderer.ScreenBufferDirtyEvent += Simulation_ScreenBufferDirtyEvent;
 
             // Prevent console session from closing.
             while (GameSimulationApp.Instance != null)
@@ -37,13 +40,14 @@ namespace TrailGame
                     switch (key.Key)
                     {
                         case ConsoleKey.Enter:
-                            GameSimulationApp.Instance.SendInputBuffer();
+                            GameSimulationApp.Instance.InputManager.SendInputBufferAsCommand();
                             break;
                         case ConsoleKey.Backspace:
-                            GameSimulationApp.Instance.RemoteLastCharOfInputBuffer();
+                            GameSimulationApp.Instance.InputManager.RemoteLastCharOfInputBuffer();
                             break;
                         default:
-                            GameSimulationApp.Instance.SendKeyCharToInputBuffer(key.KeyChar);
+                            // if not enter or backspace we pass the key character to simulation individually.
+                            GameSimulationApp.Instance.InputManager.AddCharToInputBuffer(key.KeyChar);
                             break;
                     }
                 }

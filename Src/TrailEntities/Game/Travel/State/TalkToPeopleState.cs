@@ -1,5 +1,5 @@
 ﻿using System;
-using TrailEntities.Simulation.Mode;
+using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {

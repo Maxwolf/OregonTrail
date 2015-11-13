@@ -1,6 +1,5 @@
 ﻿using System;
 using TrailEntities.Entity;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Simulation
 {
@@ -75,7 +74,7 @@ namespace TrailEntities.Simulation
         private void ExecuteEvent(IEntity sourceEntity, DirectorEvent directorEvent)
         {
             // Attach random event game mode before triggering event since it will listen for it using event delegate.
-            GameSimulationApp.Instance.AddMode(ModeType.RandomEvent);
+            GameSimulationApp.Instance.WindowManager.AddMode(ModeType.RandomEvent);
 
             // Fire off event so primary game simulation knows we executed an event with an event.
             OnEventTriggered?.Invoke(sourceEntity, directorEvent);

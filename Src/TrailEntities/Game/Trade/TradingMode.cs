@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TrailEntities.Entity;
-using TrailEntities.Simulation.Mode;
+using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {

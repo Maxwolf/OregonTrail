@@ -2,7 +2,6 @@
 using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -72,7 +71,7 @@ namespace TrailEntities.Game
                     break;
                 default:
                     //ParentMode.CurrentState = new ChangeRationsState(ParentMode, UserData);
-                    SetState(typeof(ChangeRationsState));
+                    SetState(typeof (ChangeRationsState));
                     break;
             }
         }

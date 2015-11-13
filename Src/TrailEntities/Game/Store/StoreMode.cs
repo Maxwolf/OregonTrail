@@ -2,7 +2,6 @@
 using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -25,7 +24,8 @@ namespace TrailEntities.Game
             UpdateDebts();
 
             // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game mode also (travel mode always there).
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation() && GameSimulationApp.Instance.ModeCount > 1)
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation() &&
+                GameSimulationApp.Instance.WindowManager.ModeCount > 1)
             {
                 StoreAdvice();
             }
@@ -57,7 +57,7 @@ namespace TrailEntities.Game
         private void BuyOxen()
         {
             //CurrentState = new BuyItemState(Parts.Oxen, this, StoreInfo);
-            SetState(typeof(BuyItemState));
+            SetState(typeof (BuyItemState));
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace TrailEntities.Game
         private void BuyFood()
         {
             //CurrentState = new BuyItemState(Resources.Food, this, StoreInfo);
-            SetState(typeof(BuyItemState));
+            SetState(typeof (BuyItemState));
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace TrailEntities.Game
         private void BuyClothing()
         {
             //CurrentState = new BuyItemState(Resources.Clothing, this, StoreInfo);
-            SetState(typeof(BuyItemState));
+            SetState(typeof (BuyItemState));
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace TrailEntities.Game
         private void BuyAmmunition()
         {
             //CurrentState = new BuyItemState(Resources.Bullets, this, StoreInfo);
-            SetState(typeof(BuyItemState));
+            SetState(typeof (BuyItemState));
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace TrailEntities.Game
         private void BuySpareWheels()
         {
             //CurrentState = new BuyItemState(Parts.Wheel, this, StoreInfo);
-            SetState(typeof(BuyItemState));
+            SetState(typeof (BuyItemState));
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace TrailEntities.Game
         private void BuySpareAxles()
         {
             //CurrentState = new BuyItemState(Parts.Axle, this, StoreInfo);
-            SetState(typeof(BuyItemState));
+            SetState(typeof (BuyItemState));
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace TrailEntities.Game
         private void BuySpareTongues()
         {
             //CurrentState = new BuyItemState(Parts.Tongue, this, StoreInfo);
-            SetState(typeof(BuyItemState));
+            SetState(typeof (BuyItemState));
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace TrailEntities.Game
         private void StoreAdvice()
         {
             //CurrentState = new StoreAdviceState(this, StoreInfo);
-            SetState(typeof(StoreAdviceState));
+            SetState(typeof (StoreAdviceState));
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace TrailEntities.Game
             {
                 StoreInfo.MissingItemEntity = Parts.Oxen;
                 //CurrentState = new MissingItemState(this, StoreInfo);
-                SetState(typeof(MissingItemState));
+                SetState(typeof (MissingItemState));
                 return;
             }
 
@@ -143,7 +143,7 @@ namespace TrailEntities.Game
             if (GameSimulationApp.Instance.Vehicle.Balance < StoreInfo.GetTransactionTotalCost())
             {
                 //CurrentState = new StoreDebtState(this, StoreInfo);
-                SetState(typeof(StoreDebtState));
+                SetState(typeof (StoreDebtState));
                 return;
             }
 

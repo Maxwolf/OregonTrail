@@ -1,4 +1,4 @@
-﻿using TrailEntities.Simulation.Mode;
+﻿using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {
@@ -40,9 +40,9 @@ namespace TrailEntities.Game
             UserData.DaysToRest = parsedInputNumber;
             if (parsedInputNumber > 0)
                 //ParentMode.CurrentState = new RestingState(ParentMode, UserData);
-                SetState(typeof(RestingState));
+                SetState(typeof (RestingState));
             else
-                //ParentMode.CurrentState = null;
+            //ParentMode.CurrentState = null;
                 ClearState();
         }
     }

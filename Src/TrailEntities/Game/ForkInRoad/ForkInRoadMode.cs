@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {

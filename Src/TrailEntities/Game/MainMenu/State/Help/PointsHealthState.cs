@@ -2,7 +2,6 @@
 using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 using TrailEntities.Widget;
 
 namespace TrailEntities.Game
@@ -62,7 +61,7 @@ namespace TrailEntities.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             //ParentMode.CurrentState = new PointsResourcesState(ParentMode, UserData);
-            SetState(typeof(PointsResourcesState));
+            SetState(typeof (PointsResourcesState));
         }
     }
 }

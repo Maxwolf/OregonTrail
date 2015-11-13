@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -72,7 +71,7 @@ namespace TrailEntities.Game
         /// </summary>
         private static void ChooseManagementOptions()
         {
-            GameSimulationApp.Instance.AddMode(ModeType.Options);
+            GameSimulationApp.Instance.WindowManager.AddMode(ModeType.Options);
         }
 
         /// <summary>
@@ -81,7 +80,7 @@ namespace TrailEntities.Game
         private void SeeTopTen()
         {
             //CurrentState = new CurrentTopTenState(this, MainMenuInfo);
-            SetState(typeof(CurrentTopTenState));
+            SetState(typeof (CurrentTopTenState));
         }
 
         /// <summary>
@@ -90,7 +89,7 @@ namespace TrailEntities.Game
         private void LearnAboutTrail()
         {
             //CurrentState = new InstructionsState(this, MainMenuInfo);
-            SetState(typeof(InstructionsState));
+            SetState(typeof (InstructionsState));
         }
 
         /// <summary>
@@ -99,7 +98,7 @@ namespace TrailEntities.Game
         private void TravelTheTrail()
         {
             //CurrentState = new SelectProfessionState(this, MainMenuInfo);
-            SetState(typeof(SelectProfessionState));
+            SetState(typeof (SelectProfessionState));
         }
     }
 }

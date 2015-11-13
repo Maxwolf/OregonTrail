@@ -2,7 +2,6 @@
 using System.Text;
 using TrailEntities.Entity;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -65,32 +64,32 @@ namespace TrailEntities.Game
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
                     //ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
-                    SetState(typeof(InputPlayerNameState));
+                    SetState(typeof (InputPlayerNameState));
                     break;
                 case "2":
                     UserData.PlayerProfession = Profession.Carpenter;
                     UserData.StartingMonies = 800;
                     //ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
-                    SetState(typeof(InputPlayerNameState));
+                    SetState(typeof (InputPlayerNameState));
                     break;
                 case "3":
                     UserData.PlayerProfession = Profession.Farmer;
                     UserData.StartingMonies = 400;
                     //ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
-                    SetState(typeof(InputPlayerNameState));
+                    SetState(typeof (InputPlayerNameState));
                     break;
                 case "4":
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
                     //ParentMode.CurrentState = new ProfessionAdviceState(ParentMode, UserData);
-                    SetState(typeof(ProfessionAdviceState));
+                    SetState(typeof (ProfessionAdviceState));
                     break;
                 default:
                     // If there is some invalid selection just start the process over again.
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
                     //ParentMode.CurrentState = new SelectProfessionState(ParentMode, UserData);
-                    SetState(typeof(SelectProfessionState));
+                    SetState(typeof (SelectProfessionState));
                     break;
             }
         }

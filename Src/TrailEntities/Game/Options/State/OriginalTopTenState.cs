@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
+using TrailEntities.Scoring;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 using TrailEntities.Widget;
 
 namespace TrailEntities.Game

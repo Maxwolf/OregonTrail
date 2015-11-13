@@ -1,6 +1,4 @@
-﻿using TrailEntities.Simulation;
-
-namespace TrailEntities.Entity
+﻿namespace TrailEntities.Entity
 {
     /// <summary>
     ///     Defines a bunch of predefined animal items that can be hunted for food using bullets by the player.

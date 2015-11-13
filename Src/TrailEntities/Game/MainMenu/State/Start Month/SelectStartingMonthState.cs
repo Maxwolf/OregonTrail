@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -68,37 +67,37 @@ namespace TrailEntities.Game
                 case "1":
                     UserData.StartingMonth = Months.March;
                     //ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
-                    SetState(typeof(BuyInitialItemsState));
+                    SetState(typeof (BuyInitialItemsState));
                     break;
                 case "2":
                     UserData.StartingMonth = Months.April;
                     //ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
-                    SetState(typeof(BuyInitialItemsState));
+                    SetState(typeof (BuyInitialItemsState));
                     break;
                 case "3":
                     UserData.StartingMonth = Months.May;
                     //ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
-                    SetState(typeof(BuyInitialItemsState));
+                    SetState(typeof (BuyInitialItemsState));
                     break;
                 case "4":
                     UserData.StartingMonth = Months.June;
                     //ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
-                    SetState(typeof(BuyInitialItemsState));
+                    SetState(typeof (BuyInitialItemsState));
                     break;
                 case "5":
                     UserData.StartingMonth = Months.July;
                     //ParentMode.CurrentState = new BuyInitialItemsState(ParentMode, UserData);
-                    SetState(typeof(BuyInitialItemsState));
+                    SetState(typeof (BuyInitialItemsState));
                     break;
                 case "6":
                     // Shows information about what the different starting months mean.
                     //ParentMode.CurrentState = new StartMonthAdviceState(ParentMode, UserData);
-                    SetState(typeof(StartMonthAdviceState));
+                    SetState(typeof (StartMonthAdviceState));
                     break;
                 default:
                     UserData.StartingMonth = Months.March;
                     //ParentMode.CurrentState = new SelectStartingMonthState(ParentMode, UserData);
-                    SetState(typeof(SelectStartingMonthState));
+                    SetState(typeof (SelectStartingMonthState));
                     break;
             }
         }

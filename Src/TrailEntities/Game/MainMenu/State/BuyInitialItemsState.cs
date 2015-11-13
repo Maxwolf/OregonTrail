@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -44,7 +43,7 @@ namespace TrailEntities.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             //ParentMode.CurrentState = new IntroduceStoreState(ParentMode, UserData);
-            SetState(typeof(IntroduceStoreState));
+            SetState(typeof (IntroduceStoreState));
         }
     }
 }

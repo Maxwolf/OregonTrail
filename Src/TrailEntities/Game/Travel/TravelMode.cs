@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -45,7 +44,7 @@ namespace TrailEntities.Game
         private void TalkToPeople()
         {
             //CurrentState = new TalkToPeopleState(this, TravelInfo);
-            SetState(typeof(TalkToPeopleState));
+            SetState(typeof (TalkToPeopleState));
         }
 
         /// <summary>
@@ -53,7 +52,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuySupplies()
         {
-            GameSimulationApp.Instance.AddMode(ModeType.Store);
+            GameSimulationApp.Instance.WindowManager.AddMode(ModeType.Store);
         }
 
         /// <summary>
@@ -66,12 +65,12 @@ namespace TrailEntities.Game
                 !GameSimulationApp.Instance.Trail.IsFirstLocation())
             {
                 //CurrentState = new DriveState(this, TravelInfo);
-                SetState(typeof(DriveState));
+                SetState(typeof (DriveState));
             }
             else
             {
                 //CurrentState = new ContinueOnTrailState(this, TravelInfo);
-                SetState(typeof(ContinueOnTrailState));
+                SetState(typeof (ContinueOnTrailState));
             }
         }
 
@@ -81,7 +80,7 @@ namespace TrailEntities.Game
         private void CheckSupplies()
         {
             //CurrentState = new CheckSuppliesState(this, TravelInfo);
-            SetState(typeof(CheckSuppliesState));
+            SetState(typeof (CheckSuppliesState));
         }
 
         /// <summary>
@@ -91,7 +90,7 @@ namespace TrailEntities.Game
         private void LookAtMap()
         {
             //CurrentState = new LookAtMapState(this, TravelInfo);
-            SetState(typeof(LookAtMapState));
+            SetState(typeof (LookAtMapState));
         }
 
         /// <summary>
@@ -100,7 +99,7 @@ namespace TrailEntities.Game
         private void ChangePace()
         {
             //CurrentState = new ChangePaceState(this, TravelInfo);
-            SetState(typeof(ChangePaceState));
+            SetState(typeof (ChangePaceState));
         }
 
         /// <summary>
@@ -109,7 +108,7 @@ namespace TrailEntities.Game
         private void ChangeFoodRations()
         {
             //CurrentState = new ChangeRationsState(this, TravelInfo);
-            SetState(typeof(ChangeRationsState));
+            SetState(typeof (ChangeRationsState));
         }
 
         /// <summary>
@@ -119,7 +118,7 @@ namespace TrailEntities.Game
         private void StopToRest()
         {
             //CurrentState = new RestQuestionState(this, TravelInfo);
-            SetState(typeof(RestQuestionState));
+            SetState(typeof (RestQuestionState));
         }
 
         /// <summary>
@@ -129,7 +128,7 @@ namespace TrailEntities.Game
         {
             //CurrentState = null;
             ClearState();
-            GameSimulationApp.Instance.AddMode(ModeType.Trade);
+            GameSimulationApp.Instance.WindowManager.AddMode(ModeType.Trade);
         }
 
         /// <summary>
@@ -140,7 +139,7 @@ namespace TrailEntities.Game
         {
             //CurrentState = null;
             ClearState();
-            GameSimulationApp.Instance.AddMode(ModeType.Hunt);
+            GameSimulationApp.Instance.WindowManager.AddMode(ModeType.Hunt);
         }
 
         /// <summary>
@@ -181,7 +180,7 @@ namespace TrailEntities.Game
             if (GameSimulationApp.Instance.Trail.IsFirstLocation())
             {
                 //CurrentState = new LookAroundState(this, TravelInfo);
-                SetState(typeof(LookAroundState));
+                SetState(typeof (LookAroundState));
             }
             else if (!GameSimulationApp.Instance.Trail.IsFirstLocation() &&
                      GameSimulationApp.Instance.Vehicle.Odometer > 0 &&
@@ -189,7 +188,7 @@ namespace TrailEntities.Game
             {
                 // Ensure we only ask if the player wants to stop when it is really not the first turn.
                 //CurrentState = new LookAroundQuestionState(this, TravelInfo);
-                SetState(typeof(LookAroundQuestionState));
+                SetState(typeof (LookAroundQuestionState));
             }
         }
     }

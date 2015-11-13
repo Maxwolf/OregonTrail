@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using TrailEntities.Simulation;
-using TrailEntities.Simulation.Mode;
 
 namespace TrailEntities.Game
 {
@@ -115,7 +114,7 @@ namespace TrailEntities.Game
 
                 // Attach state to confirm randomized name selection, skipping manual entry with the return.
                 //ParentMode.CurrentState = new ConfirmPlayerNamesState(ParentMode, UserData);
-                SetState(typeof(ConfirmPlayerNamesState));
+                SetState(typeof (ConfirmPlayerNamesState));
                 return;
             }
 
@@ -126,12 +125,12 @@ namespace TrailEntities.Game
             {
                 // Change the state of the game mode to confirm the name we just entered.
                 //ParentMode.CurrentState = new InputPlayerNameState(_playerNameIndex + 1, ParentMode, UserData);
-                SetState(typeof(InputPlayerNameState));
+                SetState(typeof (InputPlayerNameState));
             }
             else
             {
                 //ParentMode.CurrentState = new ConfirmPlayerNamesState(ParentMode, UserData);
-                SetState(typeof(ConfirmPlayerNamesState));
+                SetState(typeof (ConfirmPlayerNamesState));
             }
         }
 

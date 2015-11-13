@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Text;
-using TrailEntities.Simulation.Mode;
+using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {
@@ -68,7 +68,7 @@ namespace TrailEntities.Game
         private void EraseTombstoneMessages()
         {
             //CurrentState = new EraseTombstoneState(this, _optionInfo);
-            SetState(typeof(EraseTombstoneState));
+            SetState(typeof (EraseTombstoneState));
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace TrailEntities.Game
         private void EraseCurrentTopTen()
         {
             //CurrentState = new EraseCurrentTopTenState(this, _optionInfo);
-            SetState(typeof(EraseCurrentTopTenState));
+            SetState(typeof (EraseCurrentTopTenState));
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace TrailEntities.Game
         private void SeeOriginalTopTen()
         {
             //CurrentState = new OriginalTopTenState(this, _optionInfo);
-            SetState(typeof(OriginalTopTenState));
+            SetState(typeof (OriginalTopTenState));
         }
     }
 }

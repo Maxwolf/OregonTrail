@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using TrailEntities.Simulation.Mode;
+using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {
@@ -37,7 +37,7 @@ namespace TrailEntities.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             //ParentMode.CurrentState = new CaulkRiverHelpState(ParentMode, UserData);
-            SetState(typeof(CaulkRiverHelpState));
+            SetState(typeof (CaulkRiverHelpState));
         }
     }
 }
