@@ -10,7 +10,7 @@ namespace TrailEntities.Game
     ///     starting amount of money their party has access to when purchasing starting items for the journey on the trail path
     ///     simulation.
     /// </summary>
-    public sealed class SelectProfessionState : ModeState<MainMenuInfo>
+    public sealed class SelectProfessionState : StateProduct<MainMenuInfo>
     {
         /// <summary>
         ///     References the string for the profession selection so it is only constructed once.

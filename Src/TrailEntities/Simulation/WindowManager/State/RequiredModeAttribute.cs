@@ -9,8 +9,16 @@ namespace TrailEntities.Simulation
     ///     and what user data IModeInfo object will be created.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
-    public sealed class GameStateAttribute : Attribute
+    public sealed class RequiredModeAttribute : Attribute
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:System.Attribute" /> class.
+        /// </summary>
+        public RequiredModeAttribute(ModeType parentMode)
+        {
+            ParentMode = parentMode;
+        }
+
         /// <summary>
         ///     Defines what the parent game mode of this particular state should be.
         /// </summary>

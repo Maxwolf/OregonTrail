@@ -31,7 +31,7 @@ namespace TrailEntities.Simulation
         ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and
         ///     then detach.
         /// </summary>
-        IModeState CurrentState { get; }
+        IStateProduct CurrentState { get; }
 
         /// <summary>
         ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier

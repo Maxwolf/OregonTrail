@@ -7,7 +7,7 @@ namespace TrailEntities.Simulation
     ///     Defines interface for game mode state which can show data, accept input, add new game modes, set new state, and
     ///     have user data custom per implementation.
     /// </summary>
-    public interface IModeState : IComparer<IModeState>, IComparable<IModeState>
+    public interface IStateProduct : IComparer<IStateProduct>, IComparable<IStateProduct>
     {
         /// <summary>
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the

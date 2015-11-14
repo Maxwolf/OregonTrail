@@ -23,13 +23,22 @@ namespace TrailEntities.Simulation
         private ModeFactory _modeFactory;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
+        ///     Keeps track of all the possible states a given game mode can have by using attributes and reflection to keep track
+        ///     of which user data object gets mapped to which particular state.
+        /// </summary>
+        private StateFactory _stateFactory;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.WindowManager" /> class.
         /// </summary>
         internal WindowManager()
         {
             // References all of the active game modes that need to be ticked.
             Modes = new Dictionary<ModeType, IModeProduct>();
             _modeFactory = new ModeFactory();
+
+            // References to states that can be attached to a particular game mode via attribute association.
+            _stateFactory = new StateFactory();
         }
 
         /// <summary>
@@ -94,6 +103,14 @@ namespace TrailEntities.Simulation
         }
 
         /// <summary>
+        ///     Creates and adds the specified type of state to currently active game mode.
+        /// </summary>
+        public IStateProduct CreateStateFromType(Type stateType)
+        {
+            return _stateFactory.CreateStateFromType(stateType, ActiveMode.ModeType);
+        }
+
+        /// <summary>
         ///     Removes any and all inactive game modes that need to be removed from the simulation.
         /// </summary>
         private void RemoveDirtyModes()
@@ -131,7 +148,7 @@ namespace TrailEntities.Simulation
                 return;
 
             // Add the game mode to the simulation now that we know it does not exist in the stack yet.
-            Modes.Add(modeType, _modeFactory.CreateInstance(modeType));
+            Modes.Add(modeType, _modeFactory.CreateMode(modeType));
             ModeChangedEvent?.Invoke(Modes[modeType].ModeType);
         }
 
@@ -157,8 +174,14 @@ namespace TrailEntities.Simulation
         /// </summary>
         public override void Destroy()
         {
+            // Mode factory and list of modes in simulation.
+            _modeFactory.Destroy();
             _modeFactory = null;
             Modes.Clear();
+
+            // State factory only references parent mode type, they are added directly to active mode so no list of them here.
+            _stateFactory.Destroy();
+            _stateFactory = null;
         }
 
         /// <summary>

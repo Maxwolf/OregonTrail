@@ -10,12 +10,6 @@ namespace TrailEntities.Simulation
     public sealed class InputManager : SimulationModule
     {
         /// <summary>
-        ///     Fired when the input buffer is going to be inserted into the running simulation for it to parse. Generally this is
-        ///     done by user pressing return key... but it could be really anything that updates it even manual entry in code.
-        /// </summary>
-        public delegate void InputBufferUpdated(string inputBuffer, string addedKeycharString);
-
-        /// <summary>
         ///     Fired when the input buffer has processed a queued command to be sent and has fired this event to let the
         ///     simulation know it wants him to deal with it.
         /// </summary>
@@ -84,9 +78,6 @@ namespace TrailEntities.Simulation
 
             // Add the character to the end of the input buffer.
             InputBuffer += addedKeyString;
-
-            // Fire event for all subscribers to get total buffer and added character string.
-            CharacterAddedToInputBuffer?.Invoke(InputBuffer, addedKeyString);
         }
 
         /// <summary>
@@ -130,12 +121,6 @@ namespace TrailEntities.Simulation
             // Adds the command to queue to be passed to simulation when input manager is ticked.
             _commandQueue.Enqueue(trimmedInput);
         }
-
-        /// <summary>
-        ///     Fired when the input buffer is going to be inserted into the running simulation for it to parse. Generally this is
-        ///     done by user pressing return key... but it could be really anything that updates it even manual entry in code.
-        /// </summary>
-        public event InputBufferUpdated CharacterAddedToInputBuffer;
 
         /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can

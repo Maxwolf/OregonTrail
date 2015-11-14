@@ -8,7 +8,7 @@ namespace TrailEntities.Game
     ///     This is not a huge list and players will eventually see the same advice if they keep coming back, only one piece of
     ///     advice should be shown and one day will advance in the simulation to prevent the player from just spamming it.
     /// </summary>
-    public sealed class TalkToPeopleState : ModeState<TravelInfo>
+    public sealed class TalkToPeopleState : StateProduct<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one

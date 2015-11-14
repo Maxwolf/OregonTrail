@@ -40,15 +40,15 @@
     <Compile Include="Event\Person\PersonEvent.cs" />
     <Compile Include="Event\Vehicle\VehicleEvent.cs" />
     <Compile Include="Event\Warning\WarningEvent.cs" />
-    <Compile Include="Simulation\InputManager.cs" />
-    <Compile Include="Simulation\Core\SimulationModule.cs" />
+    <Compile Include="Simulation\Modules\InputManager.cs" />
+    <Compile Include="Simulation\SimulationModule.cs" />
     <Compile Include="Simulation\WindowManager\State\Dialog\DialogState.cs" />
     <Compile Include="Simulation\WindowManager\State\Dialog\DialogResponse.cs" />
     <Compile Include="Simulation\WindowManager\State\Dialog\DialogType.cs" />
-    <Compile Include="Simulation\WindowManager\State\GameStateAttribute.cs" />
-    <Compile Include="Simulation\WindowManager\State\IModeInfo.cs" />
+    <Compile Include="Simulation\WindowManager\State\RequiredModeAttribute.cs" />
+    <Compile Include="Simulation\WindowManager\Mode\UserData\IModeInfo.cs" />
     <Compile Include="Simulation\WindowManager\State\StateFactory.cs" />
-    <Compile Include="Simulation\TextRenderer.cs" />
+    <Compile Include="Simulation\Modules\TextRenderer.cs" />
     <Compile Include="Simulation\WindowManager\WindowManager.cs" />
     <Compile Include="Simulation\Director\EventFactory.cs" />
     <Compile Include="Game\EndGame\EndGameCommands.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Event\Person\DeathPlayerEvent.cs" />
     <Compile Include="Simulation\Director\EventDirectorAttribute.cs" />
     <Compile Include="Game\MainMenu\State\Help\IntroduceStoreState.cs" />
-    <Compile Include="Simulation\WindowManager\GameModeAttribute.cs" />
+    <Compile Include="Simulation\WindowManager\Mode\GameModeAttribute.cs" />
     <Compile Include="Game\RandomEvent\RandomEventCommands.cs" />
     <Compile Include="Game\RandomEvent\RandomEventInfo.cs" />
     <Compile Include="Game\RandomEvent\RandomEventMode.cs" />
@@ -84,7 +84,7 @@
     <Compile Include="Game\RiverCross\State\Help\RiverPromptState.cs" />
     <Compile Include="Game\RiverCross\RiverCrossInfo.cs" />
     <Compile Include="Game\RiverCross\State\UseFerryConfirmState.cs" />
-    <Compile Include="Simulation\WindowManager\ModeFactory.cs" />
+    <Compile Include="Simulation\WindowManager\Mode\ModeFactory.cs" />
     <Compile Include="Scoring\Highscore.cs" />
     <Compile Include="Scoring\Performance.cs" />
     <Compile Include="Game\Options\State\EraseCurrentTopTenState.cs" />
@@ -111,14 +111,14 @@
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
     <Compile Include="Game\ForkInRoad\ForkInRoadCommands.cs" />
     <Compile Include="Game\ForkInRoad\ForkInRoadMode.cs" />
-    <Compile Include="Simulation\WindowManager\ModeProduct.cs" />
+    <Compile Include="Simulation\WindowManager\Mode\ModeProduct.cs" />
     <Compile Include="Game\Hunting\HuntingCommands.cs" />
-    <Compile Include="Simulation\WindowManager\IModeProduct.cs" />
-    <Compile Include="Simulation\WindowManager\Menu\IModeChoiceItem.cs" />
-    <Compile Include="Simulation\WindowManager\State\IModeState.cs" />
-    <Compile Include="Simulation\WindowManager\Menu\ModeChoiceItem.cs" />
-    <Compile Include="Simulation\WindowManager\State\ModeState.cs" />
-    <Compile Include="Simulation\WindowManager\ModeType.cs" />
+    <Compile Include="Simulation\WindowManager\Mode\IModeProduct.cs" />
+    <Compile Include="Simulation\WindowManager\Mode\Menu\IModeChoiceItem.cs" />
+    <Compile Include="Simulation\WindowManager\State\IStateProduct.cs" />
+    <Compile Include="Simulation\WindowManager\Mode\Menu\ModeChoiceItem.cs" />
+    <Compile Include="Simulation\WindowManager\State\StateProduct.cs" />
+    <Compile Include="Simulation\WindowManager\Mode\ModeType.cs" />
     <Compile Include="Game\MainMenu\State\BuyInitialItemsState.cs" />
     <Compile Include="Game\MainMenu\State\CurrentTopTenState.cs" />
     <Compile Include="Game\MainMenu\State\Names\InputPlayerNameState.cs" />
@@ -160,12 +160,12 @@
     <Compile Include="Simulation\Climate\ClimateData.cs" />
     <Compile Include="Simulation\Climate\WeatherCondition.cs" />
     <Compile Include="Simulation\Director\EventDirector.cs" />
-    <Compile Include="Simulation\Ticker.cs" />
+    <Compile Include="Simulation\Modules\Ticker.cs" />
     <Compile Include="Simulation\Time\Date.cs" />
     <Compile Include="Simulation\Time\Months.cs" />
     <Compile Include="Simulation\Trail\TrailRegistry.cs" />
     <Compile Include="Simulation\Climate\ClimateSimulation.cs" />
-    <Compile Include="Simulation\Core\SimulationApp.cs" />
+    <Compile Include="Simulation\SimulationApp.cs" />
     <Compile Include="Simulation\Time\TimeSimulation.cs" />
     <Compile Include="Simulation\Trail\Points\ForkInRoad.cs" />
     <Compile Include="Simulation\Trail\TrailSimulation.cs" />
@@ -177,7 +177,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entity\Vehicle\Vehicle.cs" />
     <Compile Include="Game\MainMenu\MainMenuMode.cs" />
-    <Compile Include="Simulation\Randomizer.cs" />
+    <Compile Include="Simulation\Modules\Randomizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Game\ForkInRoad\State\" />

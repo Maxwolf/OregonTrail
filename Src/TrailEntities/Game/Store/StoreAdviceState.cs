@@ -8,7 +8,7 @@ namespace TrailEntities.Game
     ///     Offers up some free information about what items are important to the player and what they mean for the during the
     ///     course of the simulation.
     /// </summary>
-    public sealed class StoreAdviceState : ModeState<StoreInfo>
+    public sealed class StoreAdviceState : StateProduct<StoreInfo>
     {
         /// <summary>
         ///     Keeps track if the player has read all the advice and this dialog needs to be closed.

@@ -9,7 +9,7 @@ namespace TrailEntities.Game
     ///     a chance to confirm their selection in another state, reset if they don't like it, and also generate a random user
     ///     name if they just press enter at the prompt for a name.
     /// </summary>
-    public sealed class InputPlayerNameState : ModeState<MainMenuInfo>
+    public sealed class InputPlayerNameState : StateProduct<MainMenuInfo>
     {
         /// <summary>
         ///     Index in the list of player names we are going to be inserting into.

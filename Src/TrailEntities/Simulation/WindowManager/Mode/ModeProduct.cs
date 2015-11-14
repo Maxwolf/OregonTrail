@@ -218,7 +218,7 @@ namespace TrailEntities.Simulation
         ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and
         ///     then detach.
         /// </summary>
-        public IModeState CurrentState { get; private set; }
+        public IStateProduct CurrentState { get; private set; }
 
         /// <summary>
         ///     Removes the current state from the active game mode.
@@ -344,15 +344,11 @@ namespace TrailEntities.Simulation
         /// <summary>
         ///     Creates and adds the specified type of state to currently active game mode.
         /// </summary>
+        /// <remarks>If mode does not support given state, an argument exception will be thrown!</remarks>
         public void SetState(Type stateType)
         {
-            // TODO: Create state from type.
-
-
-            // TODO: Pass in user info casted to what it wants.
-
-
-            // TODO: Attach to current state property.
+            // States and modes both direct calls to window manager for adding a state.
+            CurrentState = GameSimulationApp.Instance.WindowManager.CreateStateFromType(stateType);
         }
 
         /// <summary>

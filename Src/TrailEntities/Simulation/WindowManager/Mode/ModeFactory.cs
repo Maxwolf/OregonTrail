@@ -59,7 +59,7 @@ namespace TrailEntities.Simulation
         /// </summary>
         /// <param name="modeType">Enumeration of the game mode that requested to be attached.</param>
         /// <returns>New game mode instance based on the mode input parameter.</returns>
-        public IModeProduct CreateInstance(ModeType modeType)
+        public IModeProduct CreateMode(ModeType modeType)
         {
             // Grab the game mode type reference from inputted mode type enum.
             var modeToSpawn = LoadedModes[modeType];
@@ -80,6 +80,12 @@ namespace TrailEntities.Simulation
                 CultureInfo.InvariantCulture);
 
             return gameModeInstance as IModeProduct;
+        }
+
+        public void Destroy()
+        {
+            LoadedModes.Clear();
+            RunCount.Clear();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace TrailEntities.Game
     ///     like the first location will force the player to look around regardless if they want to or not and print a
     ///     different message about traveling back in time.
     /// </summary>
-    public sealed class LookAroundState : ModeState<TravelInfo>
+    public sealed class LookAroundState : StateProduct<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one

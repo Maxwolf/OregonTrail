@@ -9,7 +9,7 @@ namespace TrailEntities.Game
     ///     would indeed like to use all the entered names they have provided or had randomly generated for them by just
     ///     pressing enter.
     /// </summary>
-    public sealed class ConfirmPlayerNamesState : ModeState<MainMenuInfo>
+    public sealed class ConfirmPlayerNamesState : StateProduct<MainMenuInfo>
     {
         /// <summary>
         ///     References the party text so we only have to construct it once and then print the result.

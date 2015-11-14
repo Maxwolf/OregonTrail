@@ -24,7 +24,6 @@
 
             // Input manager needs event hook for knowing when buffer is sent.
             InputManager = new InputManager();
-            InputManager.CharacterAddedToInputBuffer += InputManager_CharacterAddedToInputBuffer;
             InputManager.InputManagerSendCommandEvent += InputManager_InputManagerSendCommandEvent;
         }
 
@@ -70,7 +69,10 @@
         /// </summary>
         private void Ticker_SystemTickEvent()
         {
+            // Back buffer for only sending text when changed.
             TextRenderer?.Tick();
+
+            // Rolls virtual dice.
             Random?.Tick();
         }
 
@@ -80,7 +82,10 @@
         /// <param name="simTicks">Total number of seconds that have passed by.</param>
         private void Ticker_SimulationTickEvent(ulong simTicks)
         {
+            // Sends commands if queue has any.
             InputManager?.Tick();
+
+            // Changes game mode and state when needed.
             WindowManager?.Tick();
         }
 
@@ -99,20 +104,6 @@
         protected abstract void OnFirstTick();
 
         /// <summary>
-        ///     Fired when the input manager gets data from user, this can happen separate from the ticking mechanisms of the
-        ///     simulation and allows for queuing of commands being sent in rapidly.
-        /// </summary>
-        /// <param name="inputBuffer">Text that is incoming from the buffer, possibly containing a command or nothing at all.</param>
-        /// <param name="addedKeycharString">
-        ///     Single character that was added to the input buffer, should not be used to change
-        ///     states use entire buffer!
-        /// </param>
-        private void InputManager_CharacterAddedToInputBuffer(string inputBuffer, string addedKeycharString)
-        {
-            //throw new NotImplementedException();
-        }
-
-        /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
@@ -126,7 +117,6 @@
             WindowManager = null;
 
             // Destroy input manager.
-            InputManager.CharacterAddedToInputBuffer -= InputManager_CharacterAddedToInputBuffer;
             InputManager.InputManagerSendCommandEvent -= InputManager_InputManagerSendCommandEvent;
             InputManager.Destroy();
             InputManager = null;
@@ -157,7 +147,7 @@
         /// </summary>
         public void Tick()
         {
-            // Ticker is our worker for converting system ticks into steady stream of seconds.
+            // Converts pulses from OS into stream of seconds.
             Ticker.Tick();
         }
     }

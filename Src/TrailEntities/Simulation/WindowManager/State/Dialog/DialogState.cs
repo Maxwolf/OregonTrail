@@ -8,7 +8,7 @@ namespace TrailEntities.Simulation
     ///     then closes.
     /// </summary>
     /// <typeparam name="T">Mode information object that will be applied to this state on when constructor is called.</typeparam>
-    public abstract class DialogState<T> : ModeState<T> where T : IModeInfo, new()
+    public abstract class DialogState<T> : StateProduct<T> where T : IModeInfo, new()
     {
         /// <summary>
         ///     Reference for all the text we will display for user to read when the state is activated.

@@ -7,14 +7,18 @@ namespace TrailEntities.Simulation
     /// <summary>
     ///     Requires type parameter that is a reference type with a constructor.
     /// </summary>
-    /// <typeparam name="T">Mode </typeparam>
-    public abstract class ModeState<T> : Comparer<ModeState<T>>, IComparable<ModeState<T>>, IEquatable<ModeState<T>>,
-        IEqualityComparer<ModeState<T>>, IModeState where T : IModeInfo, new()
+    public abstract class StateProduct<T> :
+        Comparer<StateProduct<T>>,
+        IComparable<StateProduct<T>>,
+        IEquatable<StateProduct<T>>,
+        IEqualityComparer<StateProduct<T>>,
+        IStateProduct
+        where T : IModeInfo, new()
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        protected ModeState(IModeProduct gameMode, T userData)
+        protected StateProduct(IModeProduct gameMode, T userData)
         {
             ParentMode = gameMode;
             UserData = userData;
@@ -41,7 +45,7 @@ namespace TrailEntities.Simulation
         ///     <paramref name="other" />.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public int CompareTo(ModeState<T> other)
+        public int CompareTo(StateProduct<T> other)
         {
             return Compare(this, other);
         }
@@ -52,7 +56,7 @@ namespace TrailEntities.Simulation
         /// <returns>
         ///     true if the specified objects are equal; otherwise, false.
         /// </returns>
-        public bool Equals(ModeState<T> x, ModeState<T> y)
+        public bool Equals(StateProduct<T> x, StateProduct<T> y)
         {
             return x.Equals(y);
         }
@@ -68,7 +72,7 @@ namespace TrailEntities.Simulation
         ///     The type of <paramref name="obj" /> is a reference type and
         ///     <paramref name="obj" /> is null.
         /// </exception>
-        public int GetHashCode(ModeState<T> obj)
+        public int GetHashCode(StateProduct<T> obj)
         {
             return obj.GetHashCode();
         }
@@ -80,7 +84,7 @@ namespace TrailEntities.Simulation
         ///     true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ModeState<T> other)
+        public bool Equals(StateProduct<T> other)
         {
             // Reference equality check
             if (this == other)
@@ -111,7 +115,7 @@ namespace TrailEntities.Simulation
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
         ///     data for parent game mode.
         /// </summary>
-        IModeInfo IModeState.UserData
+        IModeInfo IStateProduct.UserData
         {
             get { return UserData; }
         }
@@ -174,7 +178,7 @@ namespace TrailEntities.Simulation
         /// </returns>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
-        public int Compare(IModeState x, IModeState y)
+        public int Compare(IStateProduct x, IStateProduct y)
         {
             var result = string.Compare(x.GetType().Name, y.GetType().Name, StringComparison.Ordinal);
             if (result != 0) return result;
@@ -192,7 +196,7 @@ namespace TrailEntities.Simulation
         ///     <paramref name="other" />.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public int CompareTo(IModeState other)
+        public int CompareTo(IStateProduct other)
         {
             return string.Compare(other.GetType().Name, GetType().Name, StringComparison.Ordinal);
         }
@@ -220,7 +224,7 @@ namespace TrailEntities.Simulation
         /// </returns>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
-        public override int Compare(ModeState<T> x, ModeState<T> y)
+        public override int Compare(StateProduct<T> x, StateProduct<T> y)
         {
             Debug.Assert(x != null, "x != null");
             Debug.Assert(y != null, "y != null");
