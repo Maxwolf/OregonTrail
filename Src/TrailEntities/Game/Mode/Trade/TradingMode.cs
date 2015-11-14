@@ -18,9 +18,9 @@ namespace TrailEntities.Game
             _possibleTrades = new HashSet<SimItem>();
         }
 
-        public override ModeType ModeType
+        public override GameMode GameMode
         {
-            get { return ModeType.Trade; }
+            get { return GameMode.Trade; }
         }
 
         public IEnumerable<SimItem> PossibleTrades
@@ -47,8 +47,8 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        /// <param name="modeType"></param>
-        protected override void OnModeRemoved(ModeType modeType)
+        /// <param name="gameMode"></param>
+        protected override void OnModeRemoved(GameMode gameMode)
         {
             throw new NotImplementedException();
         }

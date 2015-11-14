@@ -110,7 +110,7 @@ namespace TrailEntities.Game
 
             // Stop ticks and close this state.
             _shouldTakeTickTurns = false;
-            //ParentMode.CurrentState = null;
+            //parentGameMode.CurrentState = null;
             ClearState();
         }
     }

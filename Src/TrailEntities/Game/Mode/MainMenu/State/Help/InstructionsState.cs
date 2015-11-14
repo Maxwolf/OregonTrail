@@ -7,7 +7,7 @@ namespace TrailEntities.Game
     /// <summary>
     ///     Shows basic information about how the game works, how traveling works, rules for winning and losing.
     /// </summary>
-    [RequiredMode(ModeType.MainMenu)]
+    [RequiredMode(GameMode.MainMenu)]
     public sealed class InstructionsState : DialogState<MainMenuInfo>
     {
         /// <summary>
@@ -71,7 +71,7 @@ namespace TrailEntities.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //ParentMode.CurrentState = null;
+            //parentGameMode.CurrentState = null;
             ClearState();
         }
     }

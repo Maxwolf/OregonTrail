@@ -113,7 +113,7 @@ namespace TrailEntities.Game
                 }
 
                 // Attach state to confirm randomized name selection, skipping manual entry with the return.
-                //ParentMode.CurrentState = new ConfirmPlayerNamesState(ParentMode, UserData);
+                //parentGameMode.CurrentState = new ConfirmPlayerNamesState(parentGameMode, UserData);
                 SetState(typeof (ConfirmPlayerNamesState));
                 return;
             }
@@ -124,12 +124,12 @@ namespace TrailEntities.Game
             if (_playerNameIndex + 1 < GameSimulationApp.MAX_PLAYERS)
             {
                 // Change the state of the game mode to confirm the name we just entered.
-                //ParentMode.CurrentState = new InputPlayerNameState(_playerNameIndex + 1, ParentMode, UserData);
+                //parentGameMode.CurrentState = new InputPlayerNameState(_playerNameIndex + 1, parentGameMode, UserData);
                 SetState(typeof (InputPlayerNameState));
             }
             else
             {
-                //ParentMode.CurrentState = new ConfirmPlayerNamesState(ParentMode, UserData);
+                //parentGameMode.CurrentState = new ConfirmPlayerNamesState(parentGameMode, UserData);
                 SetState(typeof (ConfirmPlayerNamesState));
             }
         }

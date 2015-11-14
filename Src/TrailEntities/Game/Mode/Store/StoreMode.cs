@@ -39,9 +39,9 @@ namespace TrailEntities.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeType ModeType
+        public override GameMode GameMode
         {
-            get { return ModeType.Store; }
+            get { return GameMode.Store; }
         }
 
         /// <summary>
@@ -152,12 +152,12 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        protected override void OnModeRemoved(ModeType modeType)
+        protected override void OnModeRemoved(GameMode gameMode)
         {
-            base.OnModeRemoved(modeType);
+            base.OnModeRemoved(gameMode);
 
             // Store is only going to process transactions on removal when it is the one up for removal.
-            if (modeType != ModeType.Store)
+            if (gameMode != GameMode.Store)
                 return;
 
             // When detaching the store for first time we need to move the vehicle to the first spot on our virtual trail.

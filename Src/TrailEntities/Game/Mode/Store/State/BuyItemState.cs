@@ -92,7 +92,7 @@ namespace TrailEntities.Game
             if (parsedInputNumber <= 0)
             {
                 UserData.RemoveItem(_itemToBuy);
-                //ParentMode.CurrentState = null;
+                //parentGameMode.CurrentState = null;
                 ClearState();
                 return;
             }
@@ -109,7 +109,7 @@ namespace TrailEntities.Game
             UserData.AddItem(_itemToBuy, parsedInputNumber);
 
             // Return to the store menu.
-            //ParentMode.CurrentState = null;
+            //parentGameMode.CurrentState = null;
             ClearState();
         }
     }

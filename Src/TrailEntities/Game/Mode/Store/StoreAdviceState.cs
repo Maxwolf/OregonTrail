@@ -105,7 +105,7 @@ namespace TrailEntities.Game
             if (_hasReadAdvice)
                 return;
 
-            //ParentMode.CurrentState = null;
+            //parentGameMode.CurrentState = null;
             ClearState();
             _hasReadAdvice = true;
         }

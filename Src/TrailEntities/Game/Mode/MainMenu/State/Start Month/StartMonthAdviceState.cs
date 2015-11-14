@@ -41,7 +41,7 @@ namespace TrailEntities.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //ParentMode.CurrentState = new SelectStartingMonthState(ParentMode, UserData);
+            //parentGameMode.CurrentState = new SelectStartingMonthState(parentGameMode, UserData);
             SetState(typeof (SelectStartingMonthState));
         }
     }

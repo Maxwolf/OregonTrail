@@ -61,7 +61,7 @@ namespace TrailEntities.Game
                 return;
 
             UserData.HasLookedAround = true;
-            //ParentMode.CurrentState = null;
+            //parentGameMode.CurrentState = null;
             ClearState();
         }
     }

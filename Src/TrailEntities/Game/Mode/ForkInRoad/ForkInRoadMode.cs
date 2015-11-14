@@ -24,9 +24,9 @@ namespace TrailEntities.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeType ModeType
+        public override GameMode GameMode
         {
-            get { return ModeType.ForkInRoad; }
+            get { return GameMode.ForkInRoad; }
         }
     }
 }

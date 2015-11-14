@@ -32,9 +32,9 @@ namespace TrailEntities.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public virtual ModeType ModeType
+        public virtual GameMode GameMode
         {
-            get { return ModeType.Travel; }
+            get { return GameMode.Travel; }
         }
 
         /// <summary>

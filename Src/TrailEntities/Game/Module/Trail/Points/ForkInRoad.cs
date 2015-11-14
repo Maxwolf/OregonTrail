@@ -19,9 +19,9 @@ namespace TrailEntities.Game
             _skipChoices = new HashSet<Location>(skipChoices);
         }
 
-        public override ModeType ModeType
+        public override GameMode GameMode
         {
-            get { return ModeType.ForkInRoad; }
+            get { return GameMode.ForkInRoad; }
         }
 
         public IEnumerable<Location> SkipChoices

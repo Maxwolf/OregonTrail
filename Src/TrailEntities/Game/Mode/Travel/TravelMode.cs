@@ -31,9 +31,9 @@ namespace TrailEntities.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeType ModeType
+        public override GameMode GameMode
         {
-            get { return ModeType.Travel; }
+            get { return GameMode.Travel; }
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuySupplies()
         {
-            GameSimulationApp.Instance.WindowManagerMod.AddMode(ModeType.Store);
+            GameSimulationApp.Instance.WindowManagerMod.AddMode(GameMode.Store);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace TrailEntities.Game
         {
             //CurrentState = null;
             ClearState();
-            GameSimulationApp.Instance.WindowManagerMod.AddMode(ModeType.Trade);
+            GameSimulationApp.Instance.WindowManagerMod.AddMode(GameMode.Trade);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace TrailEntities.Game
         {
             //CurrentState = null;
             ClearState();
-            GameSimulationApp.Instance.WindowManagerMod.AddMode(ModeType.Hunt);
+            GameSimulationApp.Instance.WindowManagerMod.AddMode(GameMode.Hunt);
         }
 
         /// <summary>

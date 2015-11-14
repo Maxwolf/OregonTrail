@@ -118,7 +118,7 @@
     <Compile Include="Simulation\Module\WindowManager\State\IStateProduct.cs" />
     <Compile Include="Simulation\Module\WindowManager\Mode\Menu\ModeChoiceItem.cs" />
     <Compile Include="Simulation\Module\WindowManager\State\StateProduct.cs" />
-    <Compile Include="Simulation\Module\WindowManager\Mode\ModeType.cs" />
+    <Compile Include="Game\GameMode.cs" />
     <Compile Include="Game\Mode\MainMenu\State\BuyInitialItemsState.cs" />
     <Compile Include="Game\Mode\MainMenu\State\CurrentTopTenState.cs" />
     <Compile Include="Game\Mode\MainMenu\State\Names\InputPlayerNameState.cs" />

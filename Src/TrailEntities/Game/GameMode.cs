@@ -1,13 +1,13 @@
-﻿using TrailEntities.Game;
+﻿using TrailEntities.Simulation;
 
-namespace TrailEntities.Simulation
+namespace TrailEntities.Game
 {
     /// <summary>
     ///     Since the view for game modes is separated from the actual logic being performed we need a logical way to know what
     ///     view to attach on the view. This enum serves that purpose, it is required to add any new game modes the simulation
     ///     needs to know about to this file.
     /// </summary>
-    public enum ModeType
+    public enum GameMode
     {
         /// <summary>
         ///     Primary game mode used for advancing simulation down the trail.

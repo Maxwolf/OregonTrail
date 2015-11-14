@@ -73,7 +73,7 @@ namespace TrailEntities.Game
             {
                 case "Y":
                     // Move along to confirming profession for party leader if user is happy with names.
-                    //ParentMode.CurrentState = new SelectStartingMonthState(ParentMode, UserData);
+                    //parentGameMode.CurrentState = new SelectStartingMonthState(parentGameMode, UserData);
                     SetState(typeof (SelectStartingMonthState));
                     break;
                 default:
@@ -81,7 +81,7 @@ namespace TrailEntities.Game
                     UserData.PlayerNames.Clear();
 
                     // Go back to the beginning of the player name selection chain.
-                    //ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
+                    //parentGameMode.CurrentState = new InputPlayerNameState(0, parentGameMode, UserData);
                     SetState(typeof (InputPlayerNameState));
                     break;
             }

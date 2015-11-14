@@ -1,4 +1,5 @@
 ﻿using System;
+using TrailEntities.Game;
 
 namespace TrailEntities.Simulation
 {
@@ -14,14 +15,14 @@ namespace TrailEntities.Simulation
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:System.Attribute" /> class.
         /// </summary>
-        public RequiredModeAttribute(ModeType parentMode)
+        public RequiredModeAttribute(GameMode parentGameMode)
         {
-            ParentMode = parentMode;
+            ParentGameMode = parentGameMode;
         }
 
         /// <summary>
         ///     Defines what the parent game mode of this particular state should be.
         /// </summary>
-        public ModeType ParentMode { get; private set; }
+        public GameMode ParentGameMode { get; private set; }
     }
 }

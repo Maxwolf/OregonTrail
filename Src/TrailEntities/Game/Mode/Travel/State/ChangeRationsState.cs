@@ -56,21 +56,21 @@ namespace TrailEntities.Game
             {
                 case "1":
                     GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.Filling);
-                    //ParentMode.CurrentState = null;
+                    //parentGameMode.CurrentState = null;
                     ClearState();
                     break;
                 case "2":
                     GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.Meager);
-                    //ParentMode.CurrentState = null;
+                    //parentGameMode.CurrentState = null;
                     ClearState();
                     break;
                 case "3":
                     GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.BareBones);
-                    //ParentMode.CurrentState = null;
+                    //parentGameMode.CurrentState = null;
                     ClearState();
                     break;
                 default:
-                    //ParentMode.CurrentState = new ChangeRationsState(ParentMode, UserData);
+                    //parentGameMode.CurrentState = new ChangeRationsState(parentGameMode, UserData);
                     SetState(typeof (ChangeRationsState));
                     break;
             }

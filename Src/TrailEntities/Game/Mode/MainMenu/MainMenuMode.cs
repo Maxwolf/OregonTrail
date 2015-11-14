@@ -45,9 +45,9 @@ namespace TrailEntities.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override ModeType ModeType
+        public override GameMode GameMode
         {
-            get { return ModeType.MainMenu; }
+            get { return GameMode.MainMenu; }
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace TrailEntities.Game
         /// </summary>
         private static void ChooseManagementOptions()
         {
-            GameSimulationApp.Instance.WindowManagerMod.AddMode(ModeType.Options);
+            GameSimulationApp.Instance.WindowManagerMod.AddMode(GameMode.Options);
         }
 
         /// <summary>

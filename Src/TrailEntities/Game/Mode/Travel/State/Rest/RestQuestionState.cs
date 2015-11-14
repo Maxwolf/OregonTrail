@@ -39,10 +39,10 @@ namespace TrailEntities.Game
             // If player rests for more than one day then set the resting state to that, otherwise just go back to travel menu.
             UserData.DaysToRest = parsedInputNumber;
             if (parsedInputNumber > 0)
-                //ParentMode.CurrentState = new RestingState(ParentMode, UserData);
+                //parentGameMode.CurrentState = new RestingState(parentGameMode, UserData);
                 SetState(typeof (RestingState));
             else
-            //ParentMode.CurrentState = null;
+            //parentGameMode.CurrentState = null;
                 ClearState();
         }
     }

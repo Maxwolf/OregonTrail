@@ -49,11 +49,11 @@ namespace TrailEntities.Game
             {
                 case "Y":
                     // TODO: Clear the current top ten list, reset to defaults, delete the custom one, re-save with defaults...
-                    //ParentMode.CurrentState = null;
+                    //parentGameMode.CurrentState = null;
                     ClearState();
                     break;
                 default:
-                    //ParentMode.CurrentState = null;
+                    //parentGameMode.CurrentState = null;
                     ClearState();
                     break;
             }

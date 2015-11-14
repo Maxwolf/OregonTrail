@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
+using TrailEntities.Game;
 using TrailEntities.Widget;
 
 namespace TrailEntities.Simulation
@@ -18,21 +19,21 @@ namespace TrailEntities.Simulation
         public ModeFactory()
         {
             // Create dictionaries for holding statistics about times run and for reference loading.
-            RunCount = new Dictionary<ModeType, int>();
-            LoadedModes = new Dictionary<ModeType, Type>();
+            RunCount = new Dictionary<GameMode, int>();
+            LoadedModes = new Dictionary<GameMode, Type>();
 
             // Loop through every possible game mode type defined in enumeration.
-            foreach (var modeValue in Enum.GetValues(typeof (ModeType)))
+            foreach (var modeValue in Enum.GetValues(typeof (GameMode)))
             {
                 // Initialize the mode history dictionary with every game mode type from enumeration.
-                RunCount.Add((ModeType) modeValue, 0);
+                RunCount.Add((GameMode) modeValue, 0);
 
                 // Get the attribute itself from the mode we are working on, which gives us the game mode enum.
-                var modeAttribute = ((ModeType) modeValue).GetEnumAttribute<GameModeAttribute>();
+                var modeAttribute = ((GameMode) modeValue).GetEnumAttribute<GameModeAttribute>();
                 var modeType = modeAttribute.ModeType;
 
                 // Add the game mode to reference list for lookup and instancing later during runtime.
-                LoadedModes.Add((ModeType) modeValue, modeType);
+                LoadedModes.Add((GameMode) modeValue, modeType);
             }
         }
 
@@ -40,31 +41,31 @@ namespace TrailEntities.Simulation
         ///     Reference dictionary for all the found game modes that have the game mode attribute on top of them which the
         ///     simulation will want to be able to create instances of when running.
         /// </summary>
-        private Dictionary<ModeType, Type> LoadedModes { get; }
+        private Dictionary<GameMode, Type> LoadedModes { get; }
 
         /// <summary>
         ///     Statistics for mode runtime. Keeps track of how many times a given mode type was attached to the simulation for
         ///     record keeping purposes.
         /// </summary>
-        public Dictionary<ModeType, int> RunCount { get; }
+        public Dictionary<GameMode, int> RunCount { get; }
 
         /// <summary>
         ///     Change to new view mode when told that internal logic wants to display view options to player for a specific set of
         ///     data in the simulation.
         /// </summary>
-        /// <param name="modeType">Enumeration of the game mode that requested to be attached.</param>
+        /// <param name="gameMode">Enumeration of the game mode that requested to be attached.</param>
         /// <returns>New game mode instance based on the mode input parameter.</returns>
-        public IModeProduct CreateMode(ModeType modeType)
+        public IModeProduct CreateMode(GameMode gameMode)
         {
             // Grab the game mode type reference from inputted mode type enum.
-            var modeToSpawn = LoadedModes[modeType];
+            var modeToSpawn = LoadedModes[gameMode];
 
             // Check if the class is abstract base class, we don't want to add that.
             if (modeToSpawn.IsAbstract)
                 return null;
 
             // Increment the history for loading this type of mode.
-            RunCount[modeType]++;
+            RunCount[gameMode]++;
 
             // Create the game mode, it will have parameterless constructor.
             var gameModeInstance = Activator.CreateInstance(

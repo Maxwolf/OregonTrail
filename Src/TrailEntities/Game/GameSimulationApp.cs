@@ -225,10 +225,10 @@ namespace TrailEntities.Game
             TotalTurns = 0;
 
             // Attach traveling mode since that is the default and bottom most game mode.
-            WindowManagerMod.AddMode(ModeType.Travel);
+            WindowManagerMod.AddMode(GameMode.Travel);
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            WindowManagerMod.AddMode(ModeType.MainMenu);
+            WindowManagerMod.AddMode(GameMode.MainMenu);
         }
 
         /// <summary>

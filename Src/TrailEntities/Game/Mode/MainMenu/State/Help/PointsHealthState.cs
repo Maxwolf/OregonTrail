@@ -60,7 +60,7 @@ namespace TrailEntities.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //ParentMode.CurrentState = new PointsResourcesState(ParentMode, UserData);
+            //parentGameMode.CurrentState = new PointsResourcesState(parentGameMode, UserData);
             SetState(typeof (PointsResourcesState));
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using TrailEntities.Game;
 using TrailEntities.Widget;
 
 namespace TrailEntities.Simulation
@@ -19,7 +20,7 @@ namespace TrailEntities.Simulation
         public StateFactory()
         {
             // Create dictionaries for reference tracking for what states belong to what game modes.
-            LoadedStates = new Dictionary<Tuple<Type, ModeType>, IModeInfo>();
+            LoadedStates = new Dictionary<Tuple<Type, GameMode>, IModeInfo>();
 
             // Collect all of the states with the custom attribute decorated on them.
             var gameModes = AttributeHelper.GetTypesWith<RequiredModeAttribute>(false);
@@ -27,29 +28,29 @@ namespace TrailEntities.Simulation
             {
                 // Get the attribute itself from the state we are working on, which gives us the game mode enum.
                 var modeAttribute = modeType.GetAttributes<RequiredModeAttribute>(false).First();
-                var modeCategory = modeAttribute.ParentMode;
+                var modeCategory = modeAttribute.ParentGameMode;
 
                 // Add the state reference list for lookup and instancing later during runtime.
                 // TODO: Add reference information object from mode factory via window manager? Or maybe attribute?
-                LoadedStates.Add(new Tuple<Type, ModeType>(modeType, modeCategory), null);
+                LoadedStates.Add(new Tuple<Type, GameMode>(modeType, modeCategory), null);
             }
         }
 
         /// <summary>
         ///     Reference dictionary for all the reflected state types.
         /// </summary>
-        private Dictionary<Tuple<Type, ModeType>, IModeInfo> LoadedStates { get; set; }
+        private Dictionary<Tuple<Type, GameMode>, IModeInfo> LoadedStates { get; set; }
 
         /// <summary>
         ///     Creates and adds the specified type of state to currently active game mode.
         /// </summary>
         /// <param name="stateType">Type object that is the actual type of state that needs created.</param>
-        /// <param name="modeType">Enumeration value that defines parent game mode type.</param>
+        /// <param name="gameMode">Enumeration value that defines parent game mode type.</param>
         /// <returns>Created state instance from reference types build on startup.</returns>
-        public IStateProduct CreateStateFromType(Type stateType, ModeType modeType)
+        public IStateProduct CreateStateFromType(Type stateType, GameMode gameMode)
         {
             // Create tuple we will use as dictionary key.
-            var stateKey = new Tuple<Type, ModeType>(stateType, modeType);
+            var stateKey = new Tuple<Type, GameMode>(stateType, gameMode);
 
             // Check if the state tuple key exists in our reference list.
             if (!LoadedStates.ContainsKey(stateKey))

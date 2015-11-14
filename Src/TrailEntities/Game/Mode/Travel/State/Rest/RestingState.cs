@@ -53,7 +53,7 @@ namespace TrailEntities.Game
                 return;
 
             // Can only actually stop resting once.
-            //ParentMode.CurrentState = null;
+            //parentGameMode.CurrentState = null;
             ClearState();
         }
     }

@@ -58,7 +58,7 @@ namespace TrailEntities.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //ParentMode.CurrentState = new PointsOccupationState(ParentMode, UserData);
+            //parentGameMode.CurrentState = new PointsOccupationState(parentGameMode, UserData);
             SetState(typeof (PointsOccupationState));
         }
     }

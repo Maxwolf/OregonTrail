@@ -50,7 +50,7 @@ namespace TrailEntities.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             UserData.HasLookedAround = false;
-            //ParentMode.CurrentState = new DriveState(ParentMode, UserData);
+            //parentGameMode.CurrentState = new DriveState(parentGameMode, UserData);
             SetState(typeof (DriveState));
         }
     }

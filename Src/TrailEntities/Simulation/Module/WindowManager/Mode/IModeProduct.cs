@@ -22,7 +22,7 @@ namespace TrailEntities.Simulation
         /// <summary>
         ///     Defines the type of game mode this is and what it's purpose will be intended for.
         /// </summary>
-        ModeType ModeType { get; }
+        GameMode GameMode { get; }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.

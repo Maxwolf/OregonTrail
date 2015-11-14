@@ -12,9 +12,9 @@ namespace TrailEntities.Game
         {
         }
 
-        public override ModeType ModeType
+        public override GameMode GameMode
         {
-            get { return ModeType.RiverCrossing; }
+            get { return GameMode.RiverCrossing; }
         }
 
         public int Depth

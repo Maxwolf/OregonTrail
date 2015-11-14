@@ -63,32 +63,32 @@ namespace TrailEntities.Game
                 case "1":
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    //ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
+                    //parentGameMode.CurrentState = new InputPlayerNameState(0, parentGameMode, UserData);
                     SetState(typeof (InputPlayerNameState));
                     break;
                 case "2":
                     UserData.PlayerProfession = Profession.Carpenter;
                     UserData.StartingMonies = 800;
-                    //ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
+                    //parentGameMode.CurrentState = new InputPlayerNameState(0, parentGameMode, UserData);
                     SetState(typeof (InputPlayerNameState));
                     break;
                 case "3":
                     UserData.PlayerProfession = Profession.Farmer;
                     UserData.StartingMonies = 400;
-                    //ParentMode.CurrentState = new InputPlayerNameState(0, ParentMode, UserData);
+                    //parentGameMode.CurrentState = new InputPlayerNameState(0, parentGameMode, UserData);
                     SetState(typeof (InputPlayerNameState));
                     break;
                 case "4":
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    //ParentMode.CurrentState = new ProfessionAdviceState(ParentMode, UserData);
+                    //parentGameMode.CurrentState = new ProfessionAdviceState(parentGameMode, UserData);
                     SetState(typeof (ProfessionAdviceState));
                     break;
                 default:
                     // If there is some invalid selection just start the process over again.
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    //ParentMode.CurrentState = new SelectProfessionState(ParentMode, UserData);
+                    //parentGameMode.CurrentState = new SelectProfessionState(parentGameMode, UserData);
                     SetState(typeof (SelectProfessionState));
                     break;
             }

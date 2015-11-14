@@ -17,9 +17,9 @@ namespace TrailEntities.Game
         {
         }
 
-        public override ModeType ModeType
+        public override GameMode GameMode
         {
-            get { return ModeType.Hunt; }
+            get { return GameMode.Hunt; }
         }
 
         /// <summary>

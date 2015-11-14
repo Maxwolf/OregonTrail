@@ -44,7 +44,7 @@ namespace TrailEntities.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             ParentMode.RemoveModeNextTick();
-            GameSimulationApp.Instance.WindowManagerMod.AddMode(ModeType.Store);
+            GameSimulationApp.Instance.WindowManagerMod.AddMode(GameMode.Store);
         }
     }
 }

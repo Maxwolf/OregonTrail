@@ -169,7 +169,7 @@ namespace TrailEntities.Simulation
                 return false;
             }
 
-            if (ModeType.Equals(other.ModeType) &&
+            if (GameMode.Equals(other.GameMode) &&
                 CurrentState.Equals(other.CurrentState))
             {
                 return true;
@@ -201,14 +201,14 @@ namespace TrailEntities.Simulation
             CurrentState = null;
 
             // Allows any data structures that care about themselves to save before the next tick comes.
-            OnModeRemoved(ModeType);
+            OnModeRemoved(GameMode);
         }
 
         /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public abstract ModeType ModeType { get; }
+        public abstract GameMode GameMode { get; }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
@@ -314,7 +314,7 @@ namespace TrailEntities.Simulation
             Debug.Assert(x != null, "x != null");
             Debug.Assert(y != null, "y != null");
 
-            var result = x.ModeType.CompareTo(y.ModeType);
+            var result = x.GameMode.CompareTo(y.GameMode);
             if (result != 0) return result;
 
             result = x.CurrentState.CompareTo(y.CurrentState);
@@ -337,7 +337,7 @@ namespace TrailEntities.Simulation
         {
             Debug.Assert(other != null, "other != null");
 
-            var result = other.ModeType.CompareTo(ModeType);
+            var result = other.GameMode.CompareTo(GameMode);
             if (result != 0) return result;
 
             result = other.CurrentState.CompareTo(CurrentState);
@@ -459,7 +459,7 @@ namespace TrailEntities.Simulation
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        protected virtual void OnModeRemoved(ModeType modeType)
+        protected virtual void OnModeRemoved(GameMode gameMode)
         {
             GameSimulationApp.Instance.Trail.OnReachPointOfInterest -= OnReachNextLocation;
             _menuChoices = null;
@@ -473,7 +473,7 @@ namespace TrailEntities.Simulation
         /// </returns>
         public override string ToString()
         {
-            return ModeType.ToString();
+            return GameMode.ToString();
         }
 
         /// <summary>
@@ -485,7 +485,7 @@ namespace TrailEntities.Simulation
         public override int GetHashCode()
         {
             var hash = 23;
-            hash = (hash*31) + ModeType.GetHashCode();
+            hash = (hash*31) + GameMode.GetHashCode();
             return hash;
         }
     }
