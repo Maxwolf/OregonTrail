@@ -9,21 +9,13 @@ namespace TrailEntities.Game
     ///     Glorified options menu for the game that allows player to remove top ten high scores, remove saved games, erase
     ///     tombstone messages, etc.
     /// </summary>
-    public sealed class OptionsMode : ModeProduct<OptionCommands>
+    public sealed class OptionsMode : ModeProduct<OptionCommands, OptionInfo>
     {
         /// <summary>
-        ///     References all of the possible options we want to keep track of while moving between management options mode.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        private OptionInfo _optionInfo;
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Game.OptionsMode" /> class.
-        /// </summary>
-        public OptionsMode() : base(false)
+        public OptionsMode(OptionInfo userData) : base(userData)
         {
-            // Info object for states.
-            _optionInfo = new OptionInfo();
-
             // Header text.
             var headerText = new StringBuilder();
             headerText.Append($"{Environment.NewLine}The Oregon Trail{Environment.NewLine}");

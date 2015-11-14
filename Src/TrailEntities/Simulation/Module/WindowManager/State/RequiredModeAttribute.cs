@@ -13,16 +13,16 @@ namespace TrailEntities.Simulation
     public sealed class RequiredModeAttribute : Attribute
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:System.Attribute" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.RequiredModeAttribute" /> class.
         /// </summary>
-        public RequiredModeAttribute(GameMode modeType)
+        public RequiredModeAttribute(GameMode parentMode)
         {
-            ModeType = modeType;
+            ParentMode = parentMode;
         }
 
         /// <summary>
         ///     Defines what the parent game mode of this particular state should be.
         /// </summary>
-        public GameMode ModeType { get; private set; }
+        public GameMode ParentMode { get; private set; }
     }
 }

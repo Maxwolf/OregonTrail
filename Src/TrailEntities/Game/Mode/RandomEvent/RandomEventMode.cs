@@ -1,5 +1,4 @@
 ﻿using TrailEntities.Entity;
-using TrailEntities.Event;
 using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
@@ -8,20 +7,13 @@ namespace TrailEntities.Game
     ///     Attached by the event director when it wants to execute an event against the simulation. It will attach this mode,
     ///     which then hooks the event delegate it will trigger right after this class finishes initializing.
     /// </summary>
-    public sealed class RandomEventMode : ModeProduct<RandomEventCommands>
+    public sealed class RandomEventMode : ModeProduct<RandomEventCommands, RandomEventInfo>
     {
-        /// <summary>
-        ///     Holds information and the event the director would like us to fire.
-        /// </summary>
-        private RandomEventInfo eventInfo;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public RandomEventMode() : base(false)
+        public RandomEventMode(RandomEventInfo userData) : base(userData)
         {
-            eventInfo = new RandomEventInfo();
-
             // Event director has event to know when events are triggered.
             GameSimulationApp.Instance.EventDirector.OnEventTriggered += Director_OnEventTriggered;
         }
@@ -42,8 +34,8 @@ namespace TrailEntities.Game
         private void Director_OnEventTriggered(IEntity simEntity, DirectorEvent directorEvent)
         {
             // Attached the random event state when we intercept an event it would like us to trigger.
-            eventInfo.DirectorEvent = directorEvent;
-            eventInfo.SourceEntity = simEntity;
+            UserData.DirectorEvent = directorEvent;
+            UserData.SourceEntity = simEntity;
             //CurrentState = new RandomEventState(this, eventInfo);
             SetState(typeof (RandomEventState));
         }

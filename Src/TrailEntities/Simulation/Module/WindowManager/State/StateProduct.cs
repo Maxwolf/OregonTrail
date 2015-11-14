@@ -7,18 +7,18 @@ namespace TrailEntities.Simulation
     /// <summary>
     ///     Requires type parameter that is a reference type with a constructor.
     /// </summary>
-    public abstract class StateProduct<T> :
-        Comparer<StateProduct<T>>,
-        IComparable<StateProduct<T>>,
-        IEquatable<StateProduct<T>>,
-        IEqualityComparer<StateProduct<T>>,
+    public abstract class StateProduct<TData> :
+        Comparer<StateProduct<TData>>,
+        IComparable<StateProduct<TData>>,
+        IEquatable<StateProduct<TData>>,
+        IEqualityComparer<StateProduct<TData>>,
         IStateProduct
-        where T : IModeInfo, new()
+        where TData : IModeInfo, new()
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        protected StateProduct(IModeProduct gameMode, T userData)
+        protected StateProduct(IModeProduct gameMode, TData userData)
         {
             ParentMode = gameMode;
             UserData = userData;
@@ -28,7 +28,7 @@ namespace TrailEntities.Simulation
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
         ///     data for parent game mode.
         /// </summary>
-        protected T UserData { get; }
+        protected TData UserData { get; }
 
         /// <summary>
         ///     Current parent game mode which this state is binded to and is doing work on behalf of.
@@ -45,7 +45,7 @@ namespace TrailEntities.Simulation
         ///     <paramref name="other" />.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public int CompareTo(StateProduct<T> other)
+        public int CompareTo(StateProduct<TData> other)
         {
             return Compare(this, other);
         }
@@ -56,7 +56,7 @@ namespace TrailEntities.Simulation
         /// <returns>
         ///     true if the specified objects are equal; otherwise, false.
         /// </returns>
-        public bool Equals(StateProduct<T> x, StateProduct<T> y)
+        public bool Equals(StateProduct<TData> x, StateProduct<TData> y)
         {
             return x.Equals(y);
         }
@@ -72,7 +72,7 @@ namespace TrailEntities.Simulation
         ///     The type of <paramref name="obj" /> is a reference type and
         ///     <paramref name="obj" /> is null.
         /// </exception>
-        public int GetHashCode(StateProduct<T> obj)
+        public int GetHashCode(StateProduct<TData> obj)
         {
             return obj.GetHashCode();
         }
@@ -84,7 +84,7 @@ namespace TrailEntities.Simulation
         ///     true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(StateProduct<T> other)
+        public bool Equals(StateProduct<TData> other)
         {
             // Reference equality check
             if (this == other)
@@ -224,7 +224,7 @@ namespace TrailEntities.Simulation
         /// </returns>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
-        public override int Compare(StateProduct<T> x, StateProduct<T> y)
+        public override int Compare(StateProduct<TData> x, StateProduct<TData> y)
         {
             Debug.Assert(x != null, "x != null");
             Debug.Assert(y != null, "y != null");

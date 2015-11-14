@@ -7,16 +7,13 @@ namespace TrailEntities.Game
     ///     trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how
     ///     bad it is.
     /// </summary>
-    public sealed class RiverCrossMode : ModeProduct<RiverCrossCommands>
+    public sealed class RiverCrossMode : ModeProduct<RiverCrossCommands, RiverCrossInfo>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public RiverCrossMode() : base(false)
+        public RiverCrossMode(RiverCrossInfo userData) : base(userData)
         {
-            // Create new river crossing information object.
-            RiverCrossInfo = new RiverCrossInfo();
-
             // Add all of the commands for crossing a river.
             AddCommand(FordRiver, RiverCrossCommands.FordRiver);
             AddCommand(CaulkVehicle, RiverCrossCommands.CaulkVehicle);
@@ -26,14 +23,8 @@ namespace TrailEntities.Game
 
             // Add the state that explains the player is at a river crossing and what is expected of them.
             //CurrentState = new RiverPromptState(this, RiverCrossInfo);
-            SetState(typeof (RiverPromptState));
+            SetState(typeof(RiverPromptState));
         }
-
-        /// <summary>
-        ///     Defines all of the information like river depth and ferry cost which will be randomly generated when this object is
-        ///     created.
-        /// </summary>
-        private RiverCrossInfo RiverCrossInfo { get; }
 
         /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
@@ -68,7 +59,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void UseFerry()
         {
-            RiverCrossInfo.CrossingType = RiverCrossChoice.Ferry;
+            UserData.CrossingType = RiverCrossChoice.Ferry;
             //CurrentState = new UseFerryConfirmState(this, RiverCrossInfo);
             SetState(typeof (UseFerryConfirmState));
         }
@@ -79,7 +70,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void CaulkVehicle()
         {
-            RiverCrossInfo.CrossingType = RiverCrossChoice.Caulk;
+            UserData.CrossingType = RiverCrossChoice.Caulk;
             //CurrentState = new CrossingResultState(this, RiverCrossInfo);
             SetState(typeof (CrossingResultState));
         }
@@ -90,7 +81,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void FordRiver()
         {
-            RiverCrossInfo.CrossingType = RiverCrossChoice.Ford;
+            UserData.CrossingType = RiverCrossChoice.Ford;
             //CurrentState = new CrossingResultState(this, RiverCrossInfo);
             SetState(typeof (CrossingResultState));
         }

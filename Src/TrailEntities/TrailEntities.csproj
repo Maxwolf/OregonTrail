@@ -40,6 +40,9 @@
     <Compile Include="Event\PersonEvent.cs" />
     <Compile Include="Event\VehicleEvent.cs" />
     <Compile Include="Event\WarningEvent.cs" />
+    <Compile Include="Game\Mode\ForkInRoad\ForkInRoadInfo.cs" />
+    <Compile Include="Game\Mode\Hunting\HuntingInfo.cs" />
+    <Compile Include="Game\Mode\Trade\TradingInfo.cs" />
     <Compile Include="Simulation\Module\InputManagerMod.cs" />
     <Compile Include="Simulation\SimulationMod.cs" />
     <Compile Include="Simulation\Module\WindowManager\State\Dialog\DialogState.cs" />

@@ -7,6 +7,12 @@
     public abstract class SimulationApp
     {
         /// <summary>
+        ///     Determines if the dynamic menu system should show the command names or only numbers. If false then only numbers
+        ///     will be shown.
+        /// </summary>
+        public const bool SHOW_COMMANDS = false;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
         /// </summary>
         protected SimulationApp()

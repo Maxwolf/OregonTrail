@@ -9,7 +9,7 @@ namespace TrailEntities.Game
     ///     ability to choose names, professions, buy initial items, and starting month. The final thing it offers is ability
     ///     to change any of these values before actually starting the game as a final confirmation.
     /// </summary>
-    public sealed class MainMenuMode : ModeProduct<MainMenuCommands>
+    public sealed class MainMenuMode : ModeProduct<MainMenuCommands, MainMenuInfo>
     {
         /// <summary>
         ///     Asked for the first party member.
@@ -22,13 +22,10 @@ namespace TrailEntities.Game
         public const string MEMBERS_QUESTION = "What are the first names of the \nthree other members in your party?";
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Game.MainMenuMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public MainMenuMode() : base(false)
+        public MainMenuMode(MainMenuInfo userData) : base(userData)
         {
-            // Basic information to start a new simulation.
-            MainMenuInfo = new MainMenuInfo();
-
             var headerText = new StringBuilder();
             headerText.Append($"{Environment.NewLine}The Oregon Trail{Environment.NewLine}{Environment.NewLine}");
             headerText.Append("You may:");
@@ -49,11 +46,6 @@ namespace TrailEntities.Game
         {
             get { return GameMode.MainMenu; }
         }
-
-        /// <summary>
-        ///     Default values for new game.
-        /// </summary>
-        private MainMenuInfo MainMenuInfo { get; }
 
         /// <summary>
         ///     Does exactly what it says on the tin, closes the simulation and releases all memory.

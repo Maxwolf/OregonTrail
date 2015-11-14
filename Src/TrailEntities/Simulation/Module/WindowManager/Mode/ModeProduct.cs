@@ -13,19 +13,20 @@ namespace TrailEntities.Simulation
     ///     keeps track of all currently loaded game modes and will only tick the top-most one so they can be stacked and clear
     ///     out until there are none.
     /// </summary>
-    public abstract class ModeProduct<T> :
+    public abstract class ModeProduct<TCommands, TData> :
         Comparer<IModeProduct>,
-        IComparable<ModeProduct<T>>,
-        IEquatable<ModeProduct<T>>,
-        IEqualityComparer<ModeProduct<T>>,
+        IComparable<ModeProduct<TCommands, TData>>,
+        IEquatable<ModeProduct<TCommands, TData>>,
+        IEqualityComparer<ModeProduct<TCommands, TData>>,
         IModeProduct
-        where T : struct, IComparable, IFormattable, IConvertible
+        where TCommands : struct, IComparable, IFormattable, IConvertible
+        where TData : IModeInfo, new()
     {
         /// <summary>
         ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
         ///     spawned it.
         /// </summary>
-        private HashSet<IModeChoiceItem<T>> _menuChoices;
+        private HashSet<IModeChoiceItem<TCommands>> _menuChoices;
 
         /// <summary>
         ///     Holds the footer text that we will place below menu but before input buffer text.
@@ -46,19 +47,22 @@ namespace TrailEntities.Simulation
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        protected ModeProduct(bool showCommandNamesInMenu)
+        protected ModeProduct(TData userData)
         {
+            // Define the user data object so it will cast to correct object from generics while still adhering to interface.
+            UserData = userData;
+
             // Determines if the menu system should show raw command names in the menu rendering or just number selections by enum value.
-            _showCommandNamesInMenu = showCommandNamesInMenu;
+            _showCommandNamesInMenu = SimulationApp.SHOW_COMMANDS;
 
             // Complain the generics implemented is not of an enum type.
-            if (!typeof (T).IsEnum)
+            if (!typeof (TCommands).IsEnum)
             {
                 throw new InvalidCastException("T must be an enumerated type!");
             }
 
             // Create empty list of menu choices.
-            _menuChoices = new HashSet<IModeChoiceItem<T>>();
+            _menuChoices = new HashSet<IModeChoiceItem<TCommands>>();
 
             // Menu header and footer is empty strings by default.
             _menuHeader = string.Empty;
@@ -112,7 +116,7 @@ namespace TrailEntities.Simulation
         ///     <paramref name="other" />.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public int CompareTo(ModeProduct<T> other)
+        public int CompareTo(ModeProduct<TCommands, TData> other)
         {
             return Compare(this, other);
         }
@@ -123,7 +127,7 @@ namespace TrailEntities.Simulation
         /// <returns>
         ///     true if the specified objects are equal; otherwise, false.
         /// </returns>
-        public bool Equals(ModeProduct<T> x, ModeProduct<T> y)
+        public bool Equals(ModeProduct<TCommands, TData> x, ModeProduct<TCommands, TData> y)
         {
             return x.Equals(y);
         }
@@ -139,7 +143,7 @@ namespace TrailEntities.Simulation
         ///     The type of <paramref name="obj" /> is a reference type and
         ///     <paramref name="obj" /> is null.
         /// </exception>
-        public int GetHashCode(ModeProduct<T> obj)
+        public int GetHashCode(ModeProduct<TCommands, TData> obj)
         {
             return obj.GetHashCode();
         }
@@ -151,7 +155,7 @@ namespace TrailEntities.Simulation
         ///     true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ModeProduct<T> other)
+        public bool Equals(ModeProduct<TCommands, TData> other)
         {
             // Reference equality check
             if (this == other)
@@ -183,6 +187,21 @@ namespace TrailEntities.Simulation
         ///     class where they become available.
         /// </summary>
         public Location CurrentPoint { get; }
+
+        /// <summary>
+        ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
+        ///     data for parent game mode.
+        /// </summary>
+        IModeInfo IModeProduct.UserData
+        {
+            get { return UserData; }
+        }
+
+        /// <summary>
+        ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
+        ///     data for parent game mode.
+        /// </summary>
+        protected TData UserData { get; }
 
         /// <summary>
         ///     Determines if the game mode should not be ticked if it is active but instead removed. The mode when set to being
@@ -371,15 +390,15 @@ namespace TrailEntities.Simulation
         ///     enforces the commands returned to be of the specified enum in generics.
         /// </summary>
         /// <remarks>http://stackoverflow.com/a/5042675</remarks>
-        private static T[] GetCommands()
+        private static TCommands[] GetCommands()
         {
             // Complain the generics implemented is not of an enum type.
-            if (!typeof (T).IsEnum)
+            if (!typeof (TCommands).IsEnum)
             {
                 throw new InvalidCastException("T must be an enumerated type!");
             }
 
-            return Enum.GetValues(typeof (T)) as T[];
+            return Enum.GetValues(typeof (TCommands)) as TCommands[];
         }
 
         /// <summary>
@@ -388,9 +407,9 @@ namespace TrailEntities.Simulation
         /// <param name="action">Method that will be run when the choice is made.</param>
         /// <param name="command">Associated command that will trigger the respective action in the active game mode.</param>
         /// <param name="description">Text that will be shown to user so they know what the choice means.</param>
-        protected void AddCommand(Action action, T command, string description)
+        protected void AddCommand(Action action, TCommands command, string description)
         {
-            var menuChoice = new ModeChoiceItem<T>(command, action, description);
+            var menuChoice = new ModeChoiceItem<TCommands>(command, action, description);
             if (!_menuChoices.Contains(menuChoice))
             {
                 _menuChoices.Add(menuChoice);
@@ -404,7 +423,7 @@ namespace TrailEntities.Simulation
         /// </summary>
         /// <param name="action">Method that will be run when the choice is made.</param>
         /// <param name="command">Associated command that will trigger the respective action in the active game mode.</param>
-        protected void AddCommand(Action action, T command)
+        protected void AddCommand(Action action, TCommands command)
         {
             AddCommand(action, command, command.ToDescriptionAttribute());
         }
@@ -435,8 +454,8 @@ namespace TrailEntities.Simulation
                 foreach (var menuChoice in _menuChoices)
                 {
                     // Attempt to convert the returned line into generic enum.
-                    var parsedCommandValue = (T) Enum.Parse(typeof (T), returnedLine, true);
-                    if (!(Enum.IsDefined(typeof (T), parsedCommandValue) |
+                    var parsedCommandValue = (TCommands) Enum.Parse(typeof (TCommands), returnedLine, true);
+                    if (!(Enum.IsDefined(typeof (TCommands), parsedCommandValue) |
                           parsedCommandValue.ToString(CultureInfo.InvariantCulture).Contains(",")))
                         continue;
 

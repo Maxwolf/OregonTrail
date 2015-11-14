@@ -20,40 +20,36 @@ namespace TrailEntities.Simulation
         public StateFactory()
         {
             // Create dictionaries for reference tracking for what states belong to what game modes.
-            LoadedStates = new Dictionary<Tuple<Type, GameMode>, IModeInfo>();
+            LoadedStates = new Dictionary<Type, GameMode>();
 
             // Collect all of the states with the custom attribute decorated on them.
-            var gameModes = AttributeHelper.GetTypesWith<RequiredModeAttribute>(false);
-            foreach (var modeType in gameModes)
+            var foundStates = AttributeHelper.GetTypesWith<RequiredModeAttribute>(false);
+            foreach (var stateType in foundStates)
             {
                 // Get the attribute itself from the state we are working on, which gives us the game mode enum.
-                var modeAttribute = modeType.GetAttributes<RequiredModeAttribute>(false).First();
-                var modeCategory = modeAttribute.ModeType;
+                var stateAttribute = stateType.GetAttributes<RequiredModeAttribute>(false).First();
+                var stateParentMode = stateAttribute.ParentMode;
 
                 // Add the state reference list for lookup and instancing later during runtime.
-                // TODO: Add reference information object from mode factory via window manager? Or maybe attribute?
-                LoadedStates.Add(new Tuple<Type, GameMode>(modeType, modeCategory), null);
+                LoadedStates.Add(stateType, stateParentMode);
             }
         }
 
         /// <summary>
         ///     Reference dictionary for all the reflected state types.
         /// </summary>
-        private Dictionary<Tuple<Type, GameMode>, IModeInfo> LoadedStates { get; set; }
+        private Dictionary<Type, GameMode> LoadedStates { get; set; }
 
         /// <summary>
         ///     Creates and adds the specified type of state to currently active game mode.
         /// </summary>
         /// <param name="stateType">Type object that is the actual type of state that needs created.</param>
-        /// <param name="gameMode">Enumeration value that defines parent game mode type.</param>
+        /// <param name="activeMode">Current active game mode passed to factory so no need to call game simulation singleton.</param>
         /// <returns>Created state instance from reference types build on startup.</returns>
-        public IStateProduct CreateStateFromType(Type stateType, GameMode gameMode)
+        public IStateProduct CreateStateFromType(Type stateType, IModeProduct activeMode)
         {
-            // Create tuple we will use as dictionary key.
-            var stateKey = new Tuple<Type, GameMode>(stateType, gameMode);
-
-            // Check if the state tuple key exists in our reference list.
-            if (!LoadedStates.ContainsKey(stateKey))
+            // Check if the state exists in our reference list.
+            if (!LoadedStates.ContainsKey(stateType))
                 throw new ArgumentException(
                     "State factory cannot create state from type that does not exist in reference states! " +
                     "Perhaps developer forgot [RequiredMode] attribute on state?!");
@@ -62,14 +58,17 @@ namespace TrailEntities.Simulation
             if (stateType.IsAbstract)
                 return null;
 
-            // Grab the user data object from active mode
-
             // Create the state, it will have parameterless constructor.
             var stateInstance = Activator.CreateInstance(
                 stateType,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
                 null,
-                new object[] {}, // Parameterless constructor.
+                new object[]
+                {
+                    // Grab the user data object from active mode
+                    activeMode,
+                    activeMode.UserData
+                },
                 CultureInfo.InvariantCulture);
 
             // Pass the created state back to caller.

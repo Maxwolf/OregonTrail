@@ -108,7 +108,7 @@ namespace TrailEntities.Simulation
         /// </summary>
         public IStateProduct CreateStateFromType(Type stateType)
         {
-            return _stateFactory.CreateStateFromType(stateType, ActiveMode.GameMode);
+            return _stateFactory.CreateStateFromType(stateType, ActiveMode);
         }
 
         /// <summary>

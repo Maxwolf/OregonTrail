@@ -8,16 +8,13 @@ namespace TrailEntities.Game
     /// <summary>
     ///     Manages a general store where the player can buy food, clothes, bullets, and parts for their vehicle.
     /// </summary>
-    public sealed class StoreMode : ModeProduct<StoreCommands>
+    public sealed class StoreMode : ModeProduct<StoreCommands, StoreInfo>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Game.StoreMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public StoreMode() : base(false)
+        public StoreMode(StoreInfo userData) : base(userData)
         {
-            // User data for states, keeps track of all new game information.
-            StoreInfo = new StoreInfo();
-
             // Print out store good and their prices for user selection.
             UpdateDebts();
 
@@ -43,11 +40,6 @@ namespace TrailEntities.Game
         {
             get { return GameMode.Store; }
         }
-
-        /// <summary>
-        ///     Holds all of the pending transactions the player would like to make with the store.
-        /// </summary>
-        private StoreInfo StoreInfo { get; }
 
         /// <summary>
         ///     Offers chance to purchase a special vehicle part that is also an animal that eats grass and can die if it starves.
@@ -129,16 +121,16 @@ namespace TrailEntities.Game
         {
             // Complain if the player does not have any oxen to pull their vehicle.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation() &&
-                StoreInfo.Transactions[SimEntity.Animal].Quantity <= 0)
+                UserData.Transactions[SimEntity.Animal].Quantity <= 0)
             {
-                StoreInfo.MissingItemEntity = Parts.Oxen;
+                UserData.MissingItemEntity = Parts.Oxen;
                 //CurrentState = new MissingItemState(this, StoreInfo);
                 SetState(typeof (MissingItemState));
                 return;
             }
 
             // Check if player can afford the items they have selected.
-            if (GameSimulationApp.Instance.Vehicle.Balance < StoreInfo.GetTransactionTotalCost())
+            if (GameSimulationApp.Instance.Vehicle.Balance < UserData.GetTransactionTotalCost())
             {
                 //CurrentState = new StoreDebtState(this, StoreInfo);
                 SetState(typeof (StoreDebtState));
@@ -167,20 +159,20 @@ namespace TrailEntities.Game
             }
 
             // Modify the vehicles cash from purchases they made.
-            var totalBill = StoreInfo.GetTransactionTotalCost();
+            var totalBill = UserData.GetTransactionTotalCost();
             var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
-            StoreInfo.Transactions[SimEntity.Cash] =
-                new SimItem(StoreInfo.Transactions[SimEntity.Cash],
+            UserData.Transactions[SimEntity.Cash] =
+                new SimItem(UserData.Transactions[SimEntity.Cash],
                     (int) amountPlayerHas);
 
             // Process all of the pending transactions in the store receipt info object.
-            foreach (var transaction in StoreInfo.Transactions)
+            foreach (var transaction in UserData.Transactions)
             {
                 GameSimulationApp.Instance.Vehicle.BuyItem(transaction.Value);
             }
 
             // Remove all the transactions now that we have processed them.
-            StoreInfo.ClearTransactions();
+            UserData.ClearTransactions();
         }
 
         /// <summary>
@@ -204,31 +196,31 @@ namespace TrailEntities.Game
 
             // Animals
             AddCommand(BuyOxen, StoreCommands.BuyOxen,
-                $"Oxen              {StoreInfo.Transactions[SimEntity.Animal].ToString(isFirstPoint)}");
+                $"Oxen              {UserData.Transactions[SimEntity.Animal].ToString(isFirstPoint)}");
 
             // Food
             AddCommand(BuyFood, StoreCommands.BuyFood,
-                $"Food              {StoreInfo.Transactions[SimEntity.Food].ToString(isFirstPoint)}");
+                $"Food              {UserData.Transactions[SimEntity.Food].ToString(isFirstPoint)}");
 
             // Clothes
             AddCommand(BuyClothing, StoreCommands.BuyClothing,
-                $"Clothing          {StoreInfo.Transactions[SimEntity.Clothes].ToString(isFirstPoint)}");
+                $"Clothing          {UserData.Transactions[SimEntity.Clothes].ToString(isFirstPoint)}");
 
             // Bullets
             AddCommand(BuyAmmunition, StoreCommands.BuyAmmunition,
-                $"Ammunition        {StoreInfo.Transactions[SimEntity.Ammo].ToString(isFirstPoint)}");
+                $"Ammunition        {UserData.Transactions[SimEntity.Ammo].ToString(isFirstPoint)}");
 
             // Wheel
             AddCommand(BuySpareWheels, StoreCommands.BuySpareWheel,
-                $"Vehicle wheels    {StoreInfo.Transactions[SimEntity.Wheel].ToString(isFirstPoint)}");
+                $"Vehicle wheels    {UserData.Transactions[SimEntity.Wheel].ToString(isFirstPoint)}");
 
             // Axle
             AddCommand(BuySpareAxles, StoreCommands.BuySpareAxles,
-                $"Vehicle axles     {StoreInfo.Transactions[SimEntity.Axle].ToString(isFirstPoint)}");
+                $"Vehicle axles     {UserData.Transactions[SimEntity.Axle].ToString(isFirstPoint)}");
 
             // Tongue
             AddCommand(BuySpareTongues, StoreCommands.BuySpareTongues,
-                $"Vehicle tongues   {StoreInfo.Transactions[SimEntity.Tongue].ToString(isFirstPoint)}");
+                $"Vehicle tongues   {UserData.Transactions[SimEntity.Tongue].ToString(isFirstPoint)}");
 
             // Exit store
             AddCommand(LeaveStore, StoreCommands.LeaveStore, "Leave store");
@@ -238,7 +230,7 @@ namespace TrailEntities.Game
             footerText.Append($"{Environment.NewLine}--------------------------------{Environment.NewLine}");
 
             // Calculate how much monies the player has and the total amount of monies owed to store for pending transaction receipt.
-            var totalBill = StoreInfo.GetTransactionTotalCost();
+            var totalBill = UserData.GetTransactionTotalCost();
             var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
 
             // If at first location we show the total cost of the bill so far the player has racked up.

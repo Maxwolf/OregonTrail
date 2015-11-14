@@ -5,12 +5,12 @@ namespace TrailEntities.Game
     /// <summary>
     ///     Attached when the party leader dies, or the vehicle reaches the end of the trail.
     /// </summary>
-    public sealed class EndGameMode : ModeProduct<EndGameCommands>
+    public sealed class EndGameMode : ModeProduct<EndGameCommands, EndGameInfo>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public EndGameMode() : base(false)
+        public EndGameMode(EndGameInfo userData) : base(userData)
         {
         }
 

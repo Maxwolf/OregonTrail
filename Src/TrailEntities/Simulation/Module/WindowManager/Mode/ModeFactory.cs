@@ -72,7 +72,10 @@ namespace TrailEntities.Simulation
                 modeToSpawn,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
                 null,
-                new object[] {}, // Parameterless constructor.
+                new object[]
+                {
+                    
+                },
                 CultureInfo.InvariantCulture);
 
             return gameModeInstance as IModeProduct;

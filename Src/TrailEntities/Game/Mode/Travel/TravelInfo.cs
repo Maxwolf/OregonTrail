@@ -19,7 +19,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Used when the player is traveling on the trail between locations. Also known as drive state in travel game mode.
         /// </summary>
-        public static string DriveStatus
+        public string DriveStatus
         {
             get
             {
@@ -57,7 +57,7 @@ namespace TrailEntities.Game
         ///     difference this state has from others is showing the name of the location, when between points we don't show this
         ///     since we already know the next point but don't want the player to know that.
         /// </summary>
-        public static string TravelStatus(bool showLocationName)
+        public string TravelStatus(bool showLocationName)
         {
             var locationStatus = new StringBuilder();
             locationStatus.Append($"--------------------------------{Environment.NewLine}");

@@ -9,13 +9,16 @@ namespace TrailEntities.Game
     ///     Handles the interaction of the player party and another AI controlled party that offers up items for trading which
     ///     the player can choose to accept or not.
     /// </summary>
-    public sealed class TradingMode : ModeProduct<TradingCommands>
+    public sealed class TradingMode : ModeProduct<TradingCommands, TradingInfo>
     {
         private readonly HashSet<SimItem> _possibleTrades;
 
-        public TradingMode() : base(false)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
+        /// </summary>
+        public TradingMode(TradingInfo userData) : base(userData)
         {
-            _possibleTrades = new HashSet<SimItem>();
+            // TODO: Generate possible trades from user data.
         }
 
         public override GameMode GameMode

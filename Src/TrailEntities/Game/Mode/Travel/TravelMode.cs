@@ -7,25 +7,16 @@ namespace TrailEntities.Game
     ///     Primary game mode of the simulation, used to show simulation advancing through linear time. Shows all major stats
     ///     of party and vehicle, plus climate and other things like distance traveled and distance to next point.
     /// </summary>
-    public sealed class TravelMode : ModeProduct<TravelCommands>
+    public sealed class TravelMode : ModeProduct<TravelCommands, TravelInfo>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Game.TravelMode" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public TravelMode() : base(false)
+        public TravelMode(TravelInfo userData) : base(userData)
         {
-            // Keep track of basic information about menu choices, vehicle and party stats, trades, advice, etc.
-            TravelInfo = new TravelInfo();
-
             // Update menu with proper choices.
             UpdateLocation();
         }
-
-        /// <summary>
-        ///     Traveling game mode has a mode state information object that is used to keep track of any important info about the
-        ///     state like how many days we should rest.
-        /// </summary>
-        private TravelInfo TravelInfo { get; }
 
         /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
@@ -147,7 +138,7 @@ namespace TrailEntities.Game
         {
             // Header text for above menu comes from travel info object.
             var headerText = new StringBuilder();
-            headerText.Append(TravelInfo.TravelStatus(GameSimulationApp.Instance.Trail.ReachedNextPoint()));
+            headerText.Append(UserData.TravelStatus(GameSimulationApp.Instance.Trail.ReachedNextPoint()));
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
 

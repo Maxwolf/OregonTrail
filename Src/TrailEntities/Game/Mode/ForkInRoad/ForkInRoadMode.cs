@@ -3,16 +3,17 @@ using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {
-    public sealed class ForkInRoadMode : ModeProduct<ForkInRoadCommands>
+    public sealed class ForkInRoadMode : ModeProduct<ForkInRoadCommands, ForkInRoadInfo>
     {
         private readonly HashSet<Location> _skipChoices;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public ForkInRoadMode() : base(false)
+        public ForkInRoadMode(ForkInRoadInfo userData) : base(userData)
         {
-            _skipChoices = new HashSet<Location>();
+            // TODO: Get skip choices from user data.
+            //_skipChoices = skipChoices;
         }
 
         public IEnumerable<Location> SkipChoices
