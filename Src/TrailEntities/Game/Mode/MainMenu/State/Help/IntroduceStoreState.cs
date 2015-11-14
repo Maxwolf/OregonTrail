@@ -7,6 +7,7 @@ namespace TrailEntities.Game
     /// <summary>
     ///     Introduces the player to the concept of a store as being run by a person by the name of Matt.
     /// </summary>
+    [RequiredMode(GameMode.MainMenu)]
     public sealed class IntroduceStoreState : DialogState<MainMenuInfo>
     {
         /// <summary>

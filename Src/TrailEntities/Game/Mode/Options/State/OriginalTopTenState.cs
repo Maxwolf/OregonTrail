@@ -8,6 +8,7 @@ namespace TrailEntities.Game
     /// <summary>
     ///     Shows the player hard-coded top ten list as it is known internally in static list.
     /// </summary>
+    [RequiredMode(GameMode.Options)]
     public sealed class OriginalTopTenState : DialogState<OptionInfo>
     {
         /// <summary>

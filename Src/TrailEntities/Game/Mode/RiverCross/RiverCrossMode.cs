@@ -23,7 +23,7 @@ namespace TrailEntities.Game
 
             // Add the state that explains the player is at a river crossing and what is expected of them.
             //CurrentState = new RiverPromptState(this, RiverCrossInfo);
-            SetState(typeof(RiverPromptState));
+            SetState(typeof (RiverPromptState));
         }
 
         /// <summary>

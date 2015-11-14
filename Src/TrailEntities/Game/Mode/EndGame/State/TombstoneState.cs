@@ -8,6 +8,7 @@ namespace TrailEntities.Game
     ///     everybody dies. This state offers up the chance for the person to leave a personal epitaph of their existence as a
     ///     warning or really whatever. Wheel of the fun is not knowing what they will say!
     /// </summary>
+    [RequiredMode(GameMode.EndGame)]
     public sealed class TombstoneState : StateProduct<EndGameInfo>
     {
         /// <summary>

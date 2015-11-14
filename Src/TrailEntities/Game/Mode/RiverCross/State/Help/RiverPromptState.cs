@@ -8,6 +8,7 @@ namespace TrailEntities.Game
     ///     order to continue and there is no going around. We tell them how deep the water is and how many feed across the
     ///     river is they will need to travel.
     /// </summary>
+    [RequiredMode(GameMode.RiverCrossing)]
     public sealed class RiverPromptState : DialogState<RiverCrossInfo>
     {
         /// <summary>

@@ -10,6 +10,7 @@ namespace TrailEntities.Game
     ///     inform the player of the next points name, the distance away that it is, and that is all it will close and
     ///     simulation resume after return key is pressed.
     /// </summary>
+    [RequiredMode(GameMode.Travel)]
     public sealed class ContinueOnTrailState : DialogState<TravelInfo>
     {
         /// <summary>

@@ -1,7 +1,5 @@
 ﻿using System;
 using TrailEntities.Entity;
-using TrailEntities.Event;
-using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {
@@ -54,7 +52,8 @@ namespace TrailEntities.Game
         }
 
         /// <summary>
-        ///     Triggers an event directly by type of reference. Event must have [EventDirectorMod] attribute to be registered in the
+        ///     Triggers an event directly by type of reference. Event must have [EventDirectorMod] attribute to be registered in
+        ///     the
         ///     factory correctly.
         /// </summary>
         /// <param name="sourceEntity">Entity which will be affected by event if triggered.</param>

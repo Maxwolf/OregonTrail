@@ -8,6 +8,7 @@ namespace TrailEntities.Game
     ///     confirm by saying yes. At this point the simulation will check if they have enough money or not and jump to the
     ///     next state accordingly.
     /// </summary>
+    [RequiredMode(GameMode.RiverCrossing)]
     public sealed class UseFerryConfirmState : DialogState<RiverCrossInfo>
     {
         /// <summary>

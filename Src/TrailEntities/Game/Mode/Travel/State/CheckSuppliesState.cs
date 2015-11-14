@@ -10,6 +10,7 @@ namespace TrailEntities.Game
     ///     they have. This screen is not for looking at group stats, only items which are normally not shown unlike the travel
     ///     menu that shows basic party stats at all times.
     /// </summary>
+    [RequiredMode(GameMode.Travel)]
     public sealed class CheckSuppliesState : DialogState<TravelInfo>
     {
         /// <summary>

@@ -10,6 +10,7 @@ namespace TrailEntities.Game
     ///     the rate at which random events that are considered bad will occur along with other factors in the simulation such
     ///     as making players more susceptible to disease and also making them hungry more often.
     /// </summary>
+    [RequiredMode(GameMode.Travel)]
     public sealed class ChangePaceState : StateProduct<TravelInfo>
     {
         /// <summary>

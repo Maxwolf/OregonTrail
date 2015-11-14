@@ -9,6 +9,7 @@ namespace TrailEntities.Game
     ///     would indeed like to use all the entered names they have provided or had randomly generated for them by just
     ///     pressing enter.
     /// </summary>
+    [RequiredMode(GameMode.MainMenu)]
     public sealed class ConfirmPlayerNamesState : StateProduct<MainMenuInfo>
     {
         /// <summary>

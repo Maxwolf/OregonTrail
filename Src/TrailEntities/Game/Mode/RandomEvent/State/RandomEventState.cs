@@ -9,6 +9,7 @@ namespace TrailEntities.Game
     ///     be triggered when they occur so this state can be attached to the travel mode and also have the event data passed
     ///     into it so it may be executed and data shown in text user interface for this state.
     /// </summary>
+    [RequiredMode(GameMode.RandomEvent)]
     public sealed class RandomEventState : DialogState<RandomEventInfo>
     {
         /// <summary>

@@ -6,12 +6,5 @@
     /// </summary>
     public abstract class ModeInfo
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:TrailEntities.Simulation.ModeInfo"/> class.
-        /// </summary>
-        protected ModeInfo()
-        {
-            // Nothing to see here, move along...
-        }
     }
 }

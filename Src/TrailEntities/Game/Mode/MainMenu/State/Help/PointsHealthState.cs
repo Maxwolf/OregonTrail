@@ -9,6 +9,7 @@ namespace TrailEntities.Game
     /// <summary>
     ///     First panel on point information, shows how health of party members contributes to final score.
     /// </summary>
+    [RequiredMode(GameMode.MainMenu)]
     public sealed class PointsHealthState : DialogState<MainMenuInfo>
     {
         /// <summary>

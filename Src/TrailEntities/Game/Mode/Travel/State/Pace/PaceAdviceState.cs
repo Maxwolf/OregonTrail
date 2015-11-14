@@ -8,6 +8,7 @@ namespace TrailEntities.Game
     ///     Shows information about what the different pace settings mean in terms for the simulation and how they will affect
     ///     vehicle, party, and events.
     /// </summary>
+    [RequiredMode(GameMode.Travel)]
     public sealed class PaceAdviceState : DialogState<TravelInfo>
     {
         /// <summary>

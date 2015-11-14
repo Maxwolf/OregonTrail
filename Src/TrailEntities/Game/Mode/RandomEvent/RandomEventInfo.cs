@@ -1,5 +1,4 @@
 ﻿using TrailEntities.Entity;
-using TrailEntities.Event;
 using TrailEntities.Simulation;
 
 namespace TrailEntities.Game

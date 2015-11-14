@@ -10,6 +10,7 @@ namespace TrailEntities.Game
     ///     spot they are on and all the spots they have visited, shows percentage for completion and some other basic
     ///     statistics about the journey that could only be seen from this state.
     /// </summary>
+    [RequiredMode(GameMode.Travel)]
     public sealed class LookAtMapState : DialogState<TravelInfo>
     {
         /// <summary>

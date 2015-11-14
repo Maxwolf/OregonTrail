@@ -13,14 +13,6 @@ namespace TrailEntities.Game
     {
         private readonly HashSet<SimItem> _possibleTrades;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
-        /// </summary>
-        public TradingMode()
-        {
-            // TODO: Generate possible trades from user data.
-        }
-
         public override GameMode GameMode
         {
             get { return GameMode.Trade; }

@@ -10,12 +10,13 @@ namespace TrailEntities.Game
     ///     the constructor there is a default boolean value to skip the question asking part and force a look around event to
     ///     occur without player consent.
     /// </summary>
+    [RequiredMode(GameMode.Travel)]
     public sealed class LookAroundQuestionState : StateProduct<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public LookAroundQuestionState(IModeProduct gameMode): base(gameMode)
+        public LookAroundQuestionState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

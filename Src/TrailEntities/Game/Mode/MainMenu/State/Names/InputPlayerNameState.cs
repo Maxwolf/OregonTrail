@@ -9,6 +9,7 @@ namespace TrailEntities.Game
     ///     a chance to confirm their selection in another state, reset if they don't like it, and also generate a random user
     ///     name if they just press enter at the prompt for a name.
     /// </summary>
+    [RequiredMode(GameMode.MainMenu)]
     public sealed class InputPlayerNameState : StateProduct<MainMenuInfo>
     {
         /// <summary>
@@ -25,7 +26,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public InputPlayerNameState(int playerNameIndex, IModeProduct gameMode): base(gameMode)
+        public InputPlayerNameState(int playerNameIndex, IModeProduct gameMode) : base(gameMode)
         {
             // Pass the game data to the simulation for each new game mode state.
             GameSimulationApp.Instance.SetData(UserData);

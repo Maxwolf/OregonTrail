@@ -1,5 +1,4 @@
 ﻿using System;
-using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {

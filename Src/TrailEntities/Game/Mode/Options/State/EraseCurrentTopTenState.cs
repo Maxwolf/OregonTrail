@@ -8,6 +8,7 @@ namespace TrailEntities.Game
     ///     Confirm the player wishes to the destroy the current top ten list and reset it back to the hard-coded default
     ///     values.
     /// </summary>
+    [RequiredMode(GameMode.Options)]
     public sealed class EraseCurrentTopTenState : StateProduct<OptionInfo>
     {
         /// <summary>

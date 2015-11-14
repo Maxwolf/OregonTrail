@@ -3,6 +3,7 @@ using TrailEntities.Simulation;
 
 namespace TrailEntities.Game
 {
+    [RequiredMode(GameMode.RiverCrossing)]
     public sealed class FerryHelpState : DialogState<RiverCrossInfo>
     {
         /// <summary>
