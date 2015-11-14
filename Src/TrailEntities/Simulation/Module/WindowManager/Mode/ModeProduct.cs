@@ -20,7 +20,7 @@ namespace TrailEntities.Simulation
         IEqualityComparer<ModeProduct<TCommands, TData>>,
         IModeProduct
         where TCommands : struct, IComparable, IFormattable, IConvertible
-        where TData : IModeInfo, new()
+        where TData : ModeInfo, new()
     {
         /// <summary>
         ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
@@ -39,21 +39,15 @@ namespace TrailEntities.Simulation
         private string _menuHeader;
 
         /// <summary>
-        ///     Determines if the command names for the particular action should be printed out alongside the number the user can
-        ///     press to control that particular enum.
-        /// </summary>
-        private bool _showCommandNamesInMenu;
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        protected ModeProduct(TData userData)
+        protected ModeProduct()
         {
             // Define the user data object so it will cast to correct object from generics while still adhering to interface.
-            UserData = userData;
+            UserData = TypeExtensions.New<TData>.Instance();
 
             // Determines if the menu system should show raw command names in the menu rendering or just number selections by enum value.
-            _showCommandNamesInMenu = SimulationApp.SHOW_COMMANDS;
+            ShowCommandNamesInMenu = SimulationApp.SHOW_COMMANDS;
 
             // Complain the generics implemented is not of an enum type.
             if (!typeof (TCommands).IsEnum)
@@ -101,10 +95,13 @@ namespace TrailEntities.Simulation
         ///     Determines if the command names for the particular action should be printed out alongside the number the user can
         ///     press to control that particular enum.
         /// </summary>
-        public virtual bool ShowCommandNamesInMenu
-        {
-            get { return _showCommandNamesInMenu; }
-        }
+        private bool ShowCommandNamesInMenu { get; }
+
+        /// <summary>
+        ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
+        ///     data for parent game mode.
+        /// </summary>
+        protected TData UserData { get; }
 
         /// <summary>
         ///     Compares the current object with another object of the same type.
@@ -192,16 +189,10 @@ namespace TrailEntities.Simulation
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
         ///     data for parent game mode.
         /// </summary>
-        IModeInfo IModeProduct.UserData
+        ModeInfo IModeProduct.UserData
         {
             get { return UserData; }
         }
-
-        /// <summary>
-        ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
-        ///     data for parent game mode.
-        /// </summary>
-        protected TData UserData { get; }
 
         /// <summary>
         ///     Determines if the game mode should not be ticked if it is active but instead removed. The mode when set to being
@@ -273,7 +264,7 @@ namespace TrailEntities.Simulation
                 foreach (var menuChoice in _menuChoices)
                 {
                     // Name of command and then description of what it does, the command is all we really care about.
-                    modeTUI.Append(_showCommandNamesInMenu
+                    modeTUI.Append(ShowCommandNamesInMenu
                         ? $"  {menuChoices}. {menuChoice.Command} - {menuChoice.Description}{Environment.NewLine}"
                         : $"  {menuChoices}. {menuChoice.Description}{Environment.NewLine}");
 
@@ -314,7 +305,35 @@ namespace TrailEntities.Simulation
         /// <param name="command">Passed in command from controller, text was trimmed but nothing more.</param>
         public void SendCommand(string command)
         {
-            OnReceiveInputBuffer(command);
+            // Only process menu items for game mode when current state is null, or there are no menu choices to select from.
+            if (CurrentState == null &&
+                _menuChoices?.Count > 0 &&
+                !string.IsNullOrEmpty(command) &&
+                !string.IsNullOrWhiteSpace(command))
+            {
+                // Loop through every added menu choice.
+                foreach (var menuChoice in _menuChoices)
+                {
+                    // Attempt to convert the returned line into generic enum.
+                    var parsedCommandValue = (TCommands) Enum.Parse(typeof (TCommands), command, true);
+                    if (!(Enum.IsDefined(typeof (TCommands), parsedCommandValue) |
+                          parsedCommandValue.ToString(CultureInfo.InvariantCulture).Contains(",")))
+                        continue;
+
+                    // Check if the received input buffer matches any of them.
+                    if (!parsedCommandValue.Equals(menuChoice.Command))
+                        continue;
+
+                    // If it matches then invoke the bound action in the simulation.
+                    menuChoice.Action.Invoke();
+                    return;
+                }
+            }
+            else
+            {
+                // Pass the input buffer to the current state, if it manages to get this far.
+                CurrentState?.OnInputBufferReturned(command);
+            }
         }
 
         /// <summary>
@@ -435,44 +454,6 @@ namespace TrailEntities.Simulation
         protected void ClearCommands()
         {
             _menuChoices.Clear();
-        }
-
-        /// <summary>
-        ///     Fired by the currently ticking and active game mode in the simulation. Implementation is left entirely up to
-        ///     concrete handlers for game mode.
-        /// </summary>
-        /// <param name="returnedLine">Passed in command from controller, was already checking if null, empty, or whitespace.</param>
-        private void OnReceiveInputBuffer(string returnedLine)
-        {
-            // Only process menu items for game mode when current state is null, or there are no menu choices to select from.
-            if (CurrentState == null &&
-                _menuChoices?.Count > 0 &&
-                !string.IsNullOrEmpty(returnedLine) &&
-                !string.IsNullOrWhiteSpace(returnedLine))
-            {
-                // Loop through every added menu choice.
-                foreach (var menuChoice in _menuChoices)
-                {
-                    // Attempt to convert the returned line into generic enum.
-                    var parsedCommandValue = (TCommands) Enum.Parse(typeof (TCommands), returnedLine, true);
-                    if (!(Enum.IsDefined(typeof (TCommands), parsedCommandValue) |
-                          parsedCommandValue.ToString(CultureInfo.InvariantCulture).Contains(",")))
-                        continue;
-
-                    // Check if the received input buffer matches any of them.
-                    if (!parsedCommandValue.Equals(menuChoice.Command))
-                        continue;
-
-                    // If it matches then invoke the bound action in the simulation.
-                    menuChoice.Action.Invoke();
-                    return;
-                }
-            }
-            else
-            {
-                // Pass the input buffer to the current state, if it manages to get this far.
-                CurrentState?.OnInputBufferReturned(returnedLine);
-            }
         }
 
         /// <summary>

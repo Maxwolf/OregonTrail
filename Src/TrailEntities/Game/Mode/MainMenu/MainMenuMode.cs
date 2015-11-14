@@ -24,7 +24,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public MainMenuMode(MainMenuInfo userData) : base(userData)
+        public MainMenuMode()
         {
             var headerText = new StringBuilder();
             headerText.Append($"{Environment.NewLine}The Oregon Trail{Environment.NewLine}{Environment.NewLine}");

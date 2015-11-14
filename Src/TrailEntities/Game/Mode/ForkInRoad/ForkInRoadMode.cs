@@ -7,15 +7,6 @@ namespace TrailEntities.Game
     {
         private readonly HashSet<Location> _skipChoices;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
-        /// </summary>
-        public ForkInRoadMode(ForkInRoadInfo userData) : base(userData)
-        {
-            // TODO: Get skip choices from user data.
-            //_skipChoices = skipChoices;
-        }
-
         public IEnumerable<Location> SkipChoices
         {
             get { return _skipChoices; }

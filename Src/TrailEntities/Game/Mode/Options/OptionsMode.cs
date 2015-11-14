@@ -14,7 +14,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public OptionsMode(OptionInfo userData) : base(userData)
+        public OptionsMode()
         {
             // Header text.
             var headerText = new StringBuilder();

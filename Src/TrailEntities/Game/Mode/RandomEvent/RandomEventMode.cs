@@ -12,7 +12,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public RandomEventMode(RandomEventInfo userData) : base(userData)
+        public RandomEventMode()
         {
             // Event director has event to know when events are triggered.
             GameSimulationApp.Instance.EventDirector.OnEventTriggered += Director_OnEventTriggered;

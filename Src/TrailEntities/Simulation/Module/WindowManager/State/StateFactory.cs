@@ -66,8 +66,7 @@ namespace TrailEntities.Simulation
                 new object[]
                 {
                     // Grab the user data object from active mode
-                    activeMode,
-                    activeMode.UserData
+                    activeMode
                 },
                 CultureInfo.InvariantCulture);
 

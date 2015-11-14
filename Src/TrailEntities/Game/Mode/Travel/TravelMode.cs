@@ -12,7 +12,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public TravelMode(TravelInfo userData) : base(userData)
+        public TravelMode()
         {
             // Update menu with proper choices.
             UpdateLocation();

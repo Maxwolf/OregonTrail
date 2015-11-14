@@ -44,12 +44,12 @@
     <Compile Include="Game\Mode\Hunting\HuntingInfo.cs" />
     <Compile Include="Game\Mode\Trade\TradingInfo.cs" />
     <Compile Include="Simulation\Module\InputManagerMod.cs" />
+    <Compile Include="Simulation\Module\WindowManager\UserData\ModeInfo.cs" />
     <Compile Include="Simulation\SimulationMod.cs" />
     <Compile Include="Simulation\Module\WindowManager\State\Dialog\DialogState.cs" />
     <Compile Include="Simulation\Module\WindowManager\State\Dialog\DialogResponse.cs" />
     <Compile Include="Simulation\Module\WindowManager\State\Dialog\DialogType.cs" />
     <Compile Include="Simulation\Module\WindowManager\State\RequiredModeAttribute.cs" />
-    <Compile Include="Simulation\Module\WindowManager\UserData\IModeInfo.cs" />
     <Compile Include="Simulation\Module\WindowManager\State\StateFactory.cs" />
     <Compile Include="Simulation\Module\TextRenderMod.cs" />
     <Compile Include="Simulation\Module\WindowManager\WindowManagerMod.cs" />
@@ -181,6 +181,7 @@
     <Compile Include="Entity\Vehicle\Vehicle.cs" />
     <Compile Include="Game\Mode\MainMenu\MainMenuMode.cs" />
     <Compile Include="Simulation\Module\RandomizerMod.cs" />
+    <Compile Include="Widget\TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Event\Animal\" />

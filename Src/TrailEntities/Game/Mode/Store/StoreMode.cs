@@ -13,7 +13,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public StoreMode(StoreInfo userData) : base(userData)
+        public StoreMode()
         {
             // Print out store good and their prices for user selection.
             UpdateDebts();

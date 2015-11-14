@@ -8,13 +8,6 @@ namespace TrailEntities.Game
     public sealed class EndGameMode : ModeProduct<EndGameCommands, EndGameInfo>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
-        /// </summary>
-        public EndGameMode(EndGameInfo userData) : base(userData)
-        {
-        }
-
-        /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>

@@ -2,7 +2,7 @@
 
 namespace TrailEntities.Game
 {
-    public class HuntingInfo : IModeInfo
+    public class HuntingInfo : ModeInfo
     {
     }
 }

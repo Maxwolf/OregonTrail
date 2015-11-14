@@ -46,7 +46,7 @@ namespace TrailEntities.Simulation
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
         ///     data for parent game mode.
         /// </summary>
-        IModeInfo UserData { get; }
+        ModeInfo UserData { get; }
 
         /// <summary>
         ///     Creates and adds the specified type of state to currently active game mode.

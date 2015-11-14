@@ -8,7 +8,7 @@ namespace TrailEntities.Game
     ///     Holds all of the information required to kick-start a running game simulation onto a trail path with people,
     ///     professions, vehicle, starting items, and all stats related to luck and repair skill.
     /// </summary>
-    public sealed class MainMenuInfo : IModeInfo
+    public sealed class MainMenuInfo : ModeInfo
     {
         private List<string> _playerNames;
         private Profession _playerProfession;

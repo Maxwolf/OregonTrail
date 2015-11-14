@@ -16,7 +16,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public TradingMode(TradingInfo userData) : base(userData)
+        public TradingMode()
         {
             // TODO: Generate possible trades from user data.
         }

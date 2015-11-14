@@ -58,26 +58,17 @@ namespace TrailEntities.Simulation
         public IModeProduct CreateMode(GameMode gameMode)
         {
             // Grab the game mode type reference from inputted mode type enum.
-            var modeToSpawn = LoadedModes[gameMode];
+            var modeType = LoadedModes[gameMode];
 
             // Check if the class is abstract base class, we don't want to add that.
-            if (modeToSpawn.IsAbstract)
+            if (modeType.IsAbstract)
                 return null;
 
             // Increment the history for loading this type of mode.
             RunCount[gameMode]++;
 
-            // Create the game mode, it will have parameterless constructor.
-            var gameModeInstance = Activator.CreateInstance(
-                modeToSpawn,
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
-                null,
-                new object[]
-                {
-                    
-                },
-                CultureInfo.InvariantCulture);
-
+            // Create the game mode, it will have single parameter for user data.
+            var gameModeInstance = Activator.CreateInstance(modeType);
             return gameModeInstance as IModeProduct;
         }
 

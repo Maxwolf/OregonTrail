@@ -13,7 +13,7 @@ namespace TrailEntities.Simulation
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
         ///     data for parent game mode.
         /// </summary>
-        IModeInfo UserData { get; }
+        ModeInfo UserData { get; }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.

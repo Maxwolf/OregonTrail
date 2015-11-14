@@ -2,7 +2,7 @@
 
 namespace TrailEntities.Game
 {
-    public class TradingInfo : IModeInfo
+    public class TradingInfo : ModeInfo
     {
     }
 }

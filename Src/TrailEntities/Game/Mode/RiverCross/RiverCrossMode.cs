@@ -12,7 +12,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
         /// </summary>
-        public RiverCrossMode(RiverCrossInfo userData) : base(userData)
+        public RiverCrossMode()
         {
             // Add all of the commands for crossing a river.
             AddCommand(FordRiver, RiverCrossCommands.FordRiver);

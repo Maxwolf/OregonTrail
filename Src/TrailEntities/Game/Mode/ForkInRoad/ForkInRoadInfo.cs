@@ -2,7 +2,7 @@
 
 namespace TrailEntities.Game
 {
-    public class ForkInRoadInfo : IModeInfo
+    public class ForkInRoadInfo : ModeInfo
     {
     }
 }
