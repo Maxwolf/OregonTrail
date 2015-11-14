@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using TrailEntities.Simulation;
+using TrailEntities.Event;
+using TrailEntities.Game;
 
 namespace TrailEntities.Entity
 {
@@ -24,7 +25,7 @@ namespace TrailEntities.Entity
         /// <summary>
         ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
         /// </summary>
-        private Dictionary<SimulationEntity, SimulationItem> _inventory;
+        private Dictionary<SimEntity, SimItem> _inventory;
 
         /// <summary>
         ///     References all of the people inside of the vehicle.
@@ -32,7 +33,7 @@ namespace TrailEntities.Entity
         private List<Person> _passengers;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.SimulationEntity.Vehicle" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.SimEntity.Vehicle" /> class.
         /// </summary>
         public Vehicle()
         {
@@ -45,7 +46,7 @@ namespace TrailEntities.Entity
         /// <summary>
         ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
         /// </summary>
-        public IDictionary<SimulationEntity, SimulationItem> Inventory
+        public IDictionary<SimEntity, SimItem> Inventory
         {
             get { return _inventory; }
         }
@@ -91,21 +92,21 @@ namespace TrailEntities.Entity
         /// </summary>
         public float Balance
         {
-            get { return _inventory[SimulationEntity.Cash].TotalValue; }
+            get { return _inventory[SimEntity.Cash].TotalValue; }
             private set
             {
                 // Skip if the quantity already matches the value we are going to set it to.
-                if (value.Equals(_inventory[SimulationEntity.Cash].Quantity))
+                if (value.Equals(_inventory[SimEntity.Cash].Quantity))
                     return;
 
                 // Check if the value being set is zero, if so just reset it.
                 if (value <= 0)
                 {
-                    _inventory[SimulationEntity.Cash].Reset();
+                    _inventory[SimEntity.Cash].Reset();
                 }
                 else
                 {
-                    _inventory[SimulationEntity.Cash] = new SimulationItem(_inventory[SimulationEntity.Cash],
+                    _inventory[SimEntity.Cash] = new SimItem(_inventory[SimEntity.Cash],
                         (int) value);
                 }
             }
@@ -120,9 +121,9 @@ namespace TrailEntities.Entity
         ///     Defines what type of entity this will take the role of in the simulation. Depending on this value the simulation
         ///     will affect how it is treated, points tabulated, and interactions governed.
         /// </summary>
-        public SimulationEntity Category
+        public SimEntity Category
         {
-            get { return SimulationEntity.Vehicle; }
+            get { return SimEntity.Vehicle; }
         }
 
         /// <summary>
@@ -287,7 +288,7 @@ namespace TrailEntities.Entity
         /// <summary>
         ///     Adds the item to the inventory of the vehicle and subtracts it's cost multiplied by quantity from balance.
         /// </summary>
-        public void BuyItem(SimulationItem transaction)
+        public void BuyItem(SimItem transaction)
         {
             // Check of the player can afford this item.
             if (Balance <= transaction.TotalValue)
@@ -295,7 +296,7 @@ namespace TrailEntities.Entity
 
             // Create new item based on old one, with new quantity value from store, trader, random event, etc.
             Balance -= transaction.TotalValue;
-            _inventory[transaction.Category] = new SimulationItem(_inventory[transaction.Category], transaction.Quantity);
+            _inventory[transaction.Category] = new SimItem(_inventory[transaction.Category], transaction.Quantity);
         }
 
         /// <summary>
@@ -304,7 +305,7 @@ namespace TrailEntities.Entity
         /// <param name="startingMonies">Amount of money the vehicle should have to work with.</param>
         public void ResetVehicle(int startingMonies)
         {
-            _inventory = new Dictionary<SimulationEntity, SimulationItem>(GameSimulationApp.DefaultInventory);
+            _inventory = new Dictionary<SimEntity, SimItem>(GameSimulationApp.DefaultInventory);
             Balance = startingMonies;
             _passengers = new List<Person>();
             Ration = RationLevel.Filling;
@@ -321,7 +322,7 @@ namespace TrailEntities.Entity
             Mileage = GameSimulationApp.Instance.Trail.DistanceToNextLocation;
 
             // Determine how many miles we can move in a day on the trail based on amount of monies player spent on oxen to pull vehicle.
-            var cost_animals = GameSimulationApp.Instance.Vehicle.Inventory[SimulationEntity.Animal].TotalValue;
+            var cost_animals = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Animal].TotalValue;
             Mileage = (int) (Mileage + 200 + (cost_animals - 220)/5 + 10*GameSimulationApp.Instance.Random.NextDouble());
 
             // Sometimes things just go slow on the trail.
@@ -334,7 +335,7 @@ namespace TrailEntities.Entity
             }
 
             // Check for random events that might trigger regardless of calculations made.
-            GameSimulationApp.Instance.Director.TriggerEventByType(this, EventType.Vehicle);
+            GameSimulationApp.Instance.DirectorMod.TriggerEventByType(this, EventType.Vehicle);
 
             // Use our altered mileage to affect how far the vehicle has traveled in todays tick..
             Odometer += Mileage;

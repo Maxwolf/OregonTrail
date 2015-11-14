@@ -37,6 +37,24 @@ namespace TrailEntities.Widget
         }
 
         /// <summary>
+        ///     Extension method for enum's that helps with getting custom attributes off of enum values
+        /// </summary>
+        public static T GetEnumAttribute<T>(this Enum enumValue)
+            where T : Attribute
+        {
+            var field = enumValue.GetType().GetField(enumValue.ToString());
+            var attribs = field.GetCustomAttributes(typeof (T), false);
+            var result = default(T);
+
+            if (attribs.Length > 0)
+            {
+                result = attribs[0] as T;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         ///     Grabs first attribute from a given object and returns the first one in the enumeration.
         /// </summary>
         /// <typeparam name="T">Type of attribute that we should be looking for.</typeparam>

@@ -1,59 +1,61 @@
-﻿namespace TrailEntities.Entity
+﻿using TrailEntities.Game;
+
+namespace TrailEntities.Entity
 {
     /// <summary>
     ///     Defines a bunch of predefined animal items that can be hunted for food using bullets by the player.
     /// </summary>
     public static class Animals
     {
-        public static SimulationItem Bear
+        public static SimItem Bear
         {
-            get { return new SimulationItem(SimulationEntity.Food, "Bear", "pounds", "pound", 2000, 0); }
+            get { return new SimItem(SimEntity.Food, "Bear", "pounds", "pound", 2000, 0); }
         }
 
         /// <summary>
         ///     You must use *all* the buffalo...
         /// </summary>
-        public static SimulationItem Buffalo
+        public static SimItem Buffalo
         {
             get
             {
-                return new SimulationItem(SimulationEntity.Food, "Buffalo", "pounds", "pound", 2000, 0,
+                return new SimItem(SimEntity.Food, "Buffalo", "pounds", "pound", 2000, 0,
                     GameSimulationApp.Instance.Random.Next(350, 500));
             }
         }
 
-        public static SimulationItem Caribou
+        public static SimItem Caribou
         {
             get
             {
-                return new SimulationItem(SimulationEntity.Food, "Caribou", "pounds", "pound", 2000, 0,
+                return new SimItem(SimEntity.Food, "Caribou", "pounds", "pound", 2000, 0,
                     GameSimulationApp.Instance.Random.Next(300, 350));
             }
         }
 
-        public static SimulationItem Deer
+        public static SimItem Deer
         {
-            get { return new SimulationItem(SimulationEntity.Food, "Deer", "pounds", "pound", 2000, 0, 50); }
+            get { return new SimItem(SimEntity.Food, "Deer", "pounds", "pound", 2000, 0, 50); }
         }
 
-        public static SimulationItem Duck
+        public static SimItem Duck
         {
-            get { return new SimulationItem(SimulationEntity.Food, "Duck", "pounds", "pound", 2000, 0); }
+            get { return new SimItem(SimEntity.Food, "Duck", "pounds", "pound", 2000, 0); }
         }
 
-        public static SimulationItem Goose
+        public static SimItem Goose
         {
-            get { return new SimulationItem(SimulationEntity.Food, "Goose", "pounds", "pound", 2000, 0, 2); }
+            get { return new SimItem(SimEntity.Food, "Goose", "pounds", "pound", 2000, 0, 2); }
         }
 
-        public static SimulationItem Rabbit
+        public static SimItem Rabbit
         {
-            get { return new SimulationItem(SimulationEntity.Food, "Rabbit", "pounds", "pound", 2000, 0, 2); }
+            get { return new SimItem(SimEntity.Food, "Rabbit", "pounds", "pound", 2000, 0, 2); }
         }
 
-        public static SimulationItem Squirrel
+        public static SimItem Squirrel
         {
-            get { return new SimulationItem(SimulationEntity.Food, "Squirrel", "pounds", "pound", 2000, 0); }
+            get { return new SimItem(SimEntity.Food, "Squirrel", "pounds", "pound", 2000, 0); }
         }
     }
 }

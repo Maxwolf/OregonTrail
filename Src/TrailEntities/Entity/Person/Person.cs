@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using TrailEntities.Event;
-using TrailEntities.Simulation;
+using TrailEntities.Game;
 
 namespace TrailEntities.Entity
 {
@@ -13,7 +13,7 @@ namespace TrailEntities.Entity
     public sealed class Person : IEntity
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.SimulationEntity.Person" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.SimEntity.Person" /> class.
         /// </summary>
         public Person(Profession profession, string name, bool isLeader)
         {
@@ -56,9 +56,9 @@ namespace TrailEntities.Entity
         ///     Defines what type of entity this will take the role of in the simulation. Depending on this value the simulation
         ///     will affect how it is treated, points tabulated, and interactions governed.
         /// </summary>
-        public SimulationEntity Category
+        public SimEntity Category
         {
-            get { return SimulationEntity.Person; }
+            get { return SimEntity.Person; }
         }
 
         /// <summary>
@@ -170,13 +170,13 @@ namespace TrailEntities.Entity
         /// </summary>
         private void ConsumeFood()
         {
-            var cost_food = GameSimulationApp.Instance.Vehicle.Inventory[SimulationEntity.Food].TotalValue;
+            var cost_food = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Food].TotalValue;
             cost_food = cost_food - 8 - 5*(int) GameSimulationApp.Instance.Vehicle.Ration;
             if (cost_food >= 13)
             {
                 // Consume the food since we still have some.
-                GameSimulationApp.Instance.Vehicle.Inventory[SimulationEntity.Food] =
-                    new SimulationItem(GameSimulationApp.Instance.Vehicle.Inventory[SimulationEntity.Food],
+                GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Food] =
+                    new SimItem(GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Food],
                         (int) cost_food);
             }
             else
@@ -215,7 +215,7 @@ namespace TrailEntities.Entity
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(15);
 
                 // Pick an actual severe illness from list, roll the dice for it on very low health.
-                GameSimulationApp.Instance.Director.TriggerEventByType(this, EventType.Person);
+                GameSimulationApp.Instance.DirectorMod.TriggerEventByType(this, EventType.Person);
             }
 
             if (Health == RepairStatus.VeryPoor &&
@@ -225,7 +225,7 @@ namespace TrailEntities.Entity
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(50);
 
                 // Check if leader died or party member.
-                GameSimulationApp.Instance.Director.TriggerEvent(this, IsLeader
+                GameSimulationApp.Instance.DirectorMod.TriggerEvent(this, IsLeader
                     ? typeof (DeathPlayerEvent)
                     : typeof (DeathCompanionEvent));
             }

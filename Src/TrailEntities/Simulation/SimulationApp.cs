@@ -11,49 +11,49 @@
         /// </summary>
         protected SimulationApp()
         {
-            // Ticker module allows us to convert system tick pulses in steady stream of seconds.
-            Ticker = new Ticker();
-            Ticker.FirstSimulationTickEvent += Ticker_FirstSimulationTickEvent;
-            Ticker.SimulationTickEvent += Ticker_SimulationTickEvent;
-            Ticker.SystemTickEvent += Ticker_SystemTickEvent;
+            // TickerMod module allows us to convert system tick pulses in steady stream of seconds.
+            TickerMod = new TickerMod();
+            TickerMod.FirstSimulationTickEvent += Ticker_FirstSimulationTickEvent;
+            TickerMod.SimulationTickEvent += Ticker_SimulationTickEvent;
+            TickerMod.SystemTickEvent += Ticker_SystemTickEvent;
 
             // Create modules needed for managing simulation.
-            Random = new Randomizer();
-            WindowManager = new WindowManager();
-            TextRenderer = new TextRenderer();
+            Random = new RandomizerMod();
+            WindowManagerMod = new WindowManagerMod();
+            TextRenderMod = new TextRenderMod();
 
             // Input manager needs event hook for knowing when buffer is sent.
-            InputManager = new InputManager();
-            InputManager.InputManagerSendCommandEvent += InputManager_InputManagerSendCommandEvent;
+            InputManagerMod = new InputManagerMod();
+            InputManagerMod.InputManagerSendCommandEvent += InputManager_InputManagerSendCommandEvent;
         }
 
         /// <summary>
         ///     Keeps track of how many times the underlying system ticks, uses this data to create pulses of one second for the
         ///     simulation to sync itself to from any number of input ticks.
         /// </summary>
-        internal Ticker Ticker { get; private set; }
+        internal TickerMod TickerMod { get; private set; }
 
         /// <summary>
         ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
         /// </summary>
-        internal Randomizer Random { get; private set; }
+        internal RandomizerMod Random { get; private set; }
 
         /// <summary>
         ///     Keeps track of the currently attached game mode, which one is active, and getting text user interface data.
         /// </summary>
-        internal WindowManager WindowManager { get; private set; }
+        internal WindowManagerMod WindowManagerMod { get; private set; }
 
         /// <summary>
         ///     Handles input from the users keyboard, holds an input buffer and will push it to the simulation when return key is
         ///     pressed.
         /// </summary>
-        public InputManager InputManager { get; private set; }
+        public InputManagerMod InputManagerMod { get; private set; }
 
         /// <summary>
         ///     Shows the current state of the simulation as text only interface (TUI). Uses default constants if the attached mode
         ///     or state does not override this functionality and it is ticked.
         /// </summary>
-        public TextRenderer TextRenderer { get; private set; }
+        public TextRenderMod TextRenderMod { get; private set; }
 
         /// <summary>
         ///     Fired when the input manager wants to send a command to the currently running game simulation.
@@ -61,7 +61,7 @@
         /// <param name="command">Command that wants to be passed into active game mode.</param>
         private void InputManager_InputManagerSendCommandEvent(string command)
         {
-            WindowManager.ActiveMode?.SendCommand(command);
+            WindowManagerMod.ActiveMode?.SendCommand(command);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@
         private void Ticker_SystemTickEvent()
         {
             // Back buffer for only sending text when changed.
-            TextRenderer?.Tick();
+            TextRenderMod?.Tick();
 
             // Rolls virtual dice.
             Random?.Tick();
@@ -83,10 +83,10 @@
         private void Ticker_SimulationTickEvent(ulong simTicks)
         {
             // Sends commands if queue has any.
-            InputManager?.Tick();
+            InputManagerMod?.Tick();
 
             // Changes game mode and state when needed.
-            WindowManager?.Tick();
+            WindowManagerMod?.Tick();
         }
 
         /// <summary>
@@ -113,24 +113,24 @@
             OnBeforeDestroy();
 
             // Destroy window manager.
-            WindowManager.Destroy();
-            WindowManager = null;
+            WindowManagerMod.Destroy();
+            WindowManagerMod = null;
 
             // Destroy input manager.
-            InputManager.InputManagerSendCommandEvent -= InputManager_InputManagerSendCommandEvent;
-            InputManager.Destroy();
-            InputManager = null;
+            InputManagerMod.InputManagerSendCommandEvent -= InputManager_InputManagerSendCommandEvent;
+            InputManagerMod.Destroy();
+            InputManagerMod = null;
 
             // Destroy text renderer.
-            TextRenderer.Destroy();
-            TextRenderer = null;
+            TextRenderMod.Destroy();
+            TextRenderMod = null;
 
             // Destroy the ticker.
-            Ticker.FirstSimulationTickEvent -= Ticker_FirstSimulationTickEvent;
-            Ticker.SimulationTickEvent -= Ticker_SimulationTickEvent;
-            Ticker.SystemTickEvent -= Ticker_SystemTickEvent;
-            Ticker.Destroy();
-            Ticker = null;
+            TickerMod.FirstSimulationTickEvent -= Ticker_FirstSimulationTickEvent;
+            TickerMod.SimulationTickEvent -= Ticker_SimulationTickEvent;
+            TickerMod.SystemTickEvent -= Ticker_SystemTickEvent;
+            TickerMod.Destroy();
+            TickerMod = null;
 
             // Destroy the randomizer.
             Random.Destroy();
@@ -148,7 +148,7 @@
         public void Tick()
         {
             // Converts pulses from OS into stream of seconds.
-            Ticker.Tick();
+            TickerMod.Tick();
         }
     }
 }
