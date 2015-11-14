@@ -13,7 +13,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsState(IModeProduct gameMode, EndGameInfo userData) : base(gameMode, userData)
+        public PointsState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

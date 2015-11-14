@@ -14,7 +14,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CurrentTopTenState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public CurrentTopTenState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

@@ -9,7 +9,7 @@ namespace TrailEntities.Game
     /// </summary>
     public sealed class StartMonthAdviceState : DialogState<MainMenuInfo>
     {
-        public StartMonthAdviceState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public StartMonthAdviceState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

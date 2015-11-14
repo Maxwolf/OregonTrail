@@ -15,7 +15,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ContinueOnTrailState(IModeProduct gameMode, TravelInfo userData) : base(gameMode, userData)
+        public ContinueOnTrailState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

@@ -14,7 +14,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public MissingItemState(IModeProduct gameMode, StoreInfo userData) : base(gameMode, userData)
+        public MissingItemState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

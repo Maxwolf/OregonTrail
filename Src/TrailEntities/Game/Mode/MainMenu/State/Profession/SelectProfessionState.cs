@@ -20,14 +20,14 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public SelectProfessionState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public SelectProfessionState(IModeProduct gameMode) : base(gameMode)
         {
             // Set the profession to default value in case we are retrying this.
             UserData.PlayerProfession = Profession.Banker;
             UserData.StartingMonies = 1600;
 
             // Pass the game data to the simulation for each new game mode state.
-            GameSimulationApp.Instance.SetData(userData);
+            GameSimulationApp.Instance.SetData(UserData);
 
             // Loop through every profession in the enumeration.
             _professionChooser = new StringBuilder();

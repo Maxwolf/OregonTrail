@@ -15,7 +15,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public LookAtMapState(IModeProduct gameMode, TravelInfo userData) : base(gameMode, userData)
+        public LookAtMapState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

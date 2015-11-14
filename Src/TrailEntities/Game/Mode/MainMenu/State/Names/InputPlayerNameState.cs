@@ -25,11 +25,10 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public InputPlayerNameState(int playerNameIndex, IModeProduct gameMode, MainMenuInfo userData)
-            : base(gameMode, userData)
+        public InputPlayerNameState(int playerNameIndex, IModeProduct gameMode): base(gameMode)
         {
             // Pass the game data to the simulation for each new game mode state.
-            GameSimulationApp.Instance.SetData(userData);
+            GameSimulationApp.Instance.SetData(UserData);
 
             // Copy over current name index and question text to ask.
             _playerNameIndex = playerNameIndex;

@@ -18,17 +18,24 @@ namespace TrailEntities.Simulation
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        protected StateProduct(IModeProduct gameMode, TData userData)
+        protected StateProduct(IModeProduct gameMode)
         {
             ParentMode = gameMode;
-            UserData = userData;
         }
 
         /// <summary>
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
         ///     data for parent game mode.
         /// </summary>
-        protected TData UserData { get; }
+        protected TData UserData
+        {
+            get
+            {
+                return ParentMode.UserData is TData
+                    ? (TData) ParentMode.UserData
+                    : default(TData);
+            }
+        }
 
         /// <summary>
         ///     Current parent game mode which this state is binded to and is doing work on behalf of.

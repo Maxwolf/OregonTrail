@@ -23,7 +23,7 @@ namespace TrailEntities.Simulation
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        protected DialogState(IModeProduct gameMode, T userData) : base(gameMode, userData)
+        protected DialogState(IModeProduct gameMode) : base(gameMode)
         {
             _prompt = new StringBuilder();
             StateActivate();

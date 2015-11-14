@@ -10,7 +10,7 @@ namespace TrailEntities.Game
     /// </summary>
     public sealed class ProfessionAdviceState : DialogState<MainMenuInfo>
     {
-        public ProfessionAdviceState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public ProfessionAdviceState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

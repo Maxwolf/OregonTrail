@@ -35,8 +35,7 @@ namespace TrailEntities.Game
         /// <param name="itemToBuy">SimItem to purchase.</param>
         /// <param name="gameMode">Current game mode that requested this.</param>
         /// <param name="userData">Any special user data associated with this state and mode.</param>
-        public BuyItemState(SimItem itemToBuy, IModeProduct gameMode, StoreInfo userData)
-            : base(gameMode, userData)
+        public BuyItemState(SimItem itemToBuy, IModeProduct gameMode, StoreInfo userData) : base(gameMode)
         {
             // Figure out what we owe already from other store items, then how many of the SimItem we can afford.
             var _currentBalance =

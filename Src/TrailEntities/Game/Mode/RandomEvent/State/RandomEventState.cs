@@ -14,7 +14,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public RandomEventState(IModeProduct gameMode, RandomEventInfo userData) : base(gameMode, userData)
+        public RandomEventState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

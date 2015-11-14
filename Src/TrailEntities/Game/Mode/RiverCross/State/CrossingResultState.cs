@@ -15,7 +15,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CrossingResultState(IModeProduct gameMode, RiverCrossInfo userData) : base(gameMode, userData)
+        public CrossingResultState(IModeProduct gameMode) : base(gameMode)
         {
             _crossingResult = new StringBuilder();
 

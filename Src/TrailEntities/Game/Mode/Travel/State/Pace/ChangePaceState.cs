@@ -20,7 +20,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ChangePaceState(IModeProduct gameMode, TravelInfo userData) : base(gameMode, userData)
+        public ChangePaceState(IModeProduct gameMode) : base(gameMode)
         {
             _pace = new StringBuilder();
             _pace.Append($"{Environment.NewLine}Change pace{Environment.NewLine}");

@@ -12,7 +12,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public RestQuestionState(IModeProduct gameMode, TravelInfo userData) : base(gameMode, userData)
+        public RestQuestionState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

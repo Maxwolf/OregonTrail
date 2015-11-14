@@ -19,10 +19,10 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ConfirmPlayerNamesState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode, userData)
+        public ConfirmPlayerNamesState(IModeProduct gameMode) : base(gameMode)
         {
             // Pass the game data to the simulation for each new game mode state.
-            GameSimulationApp.Instance.SetData(userData);
+            GameSimulationApp.Instance.SetData(UserData);
 
             // Create string builder, counter, print info about party members.
             _confirmPartyText = new StringBuilder();

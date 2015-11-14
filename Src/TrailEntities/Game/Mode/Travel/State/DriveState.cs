@@ -36,7 +36,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public DriveState(IModeProduct gameMode, TravelInfo userData) : base(gameMode, userData)
+        public DriveState(IModeProduct gameMode) : base(gameMode)
         {
             // We don't create it in the constructor, will update with ticks.
             _drive = new StringBuilder();

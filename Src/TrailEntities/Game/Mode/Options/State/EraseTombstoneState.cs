@@ -13,7 +13,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public EraseTombstoneState(IModeProduct gameMode, OptionInfo userData) : base(gameMode, userData)
+        public EraseTombstoneState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

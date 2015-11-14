@@ -13,7 +13,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public RiverPromptState(IModeProduct gameMode, RiverCrossInfo userData) : base(gameMode, userData)
+        public RiverPromptState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

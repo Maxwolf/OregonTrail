@@ -8,7 +8,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CaulkRiverHelpState(IModeProduct gameMode, RiverCrossInfo userData) : base(gameMode, userData)
+        public CaulkRiverHelpState(IModeProduct gameMode) : base(gameMode)
         {
         }
 
