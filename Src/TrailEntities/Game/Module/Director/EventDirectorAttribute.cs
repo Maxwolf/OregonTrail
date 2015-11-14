@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrailEntities.Event
+namespace TrailEntities.Game
 {
     /// <summary>
     ///     Used to tag the base event item class so we can grab all inheriting types that use it.

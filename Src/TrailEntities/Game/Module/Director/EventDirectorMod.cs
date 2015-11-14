@@ -76,7 +76,7 @@ namespace TrailEntities.Game
         private void ExecuteEvent(IEntity sourceEntity, DirectorEvent directorEvent)
         {
             // Attach random event game mode before triggering event since it will listen for it using event delegate.
-            GameSimulationApp.Instance.WindowManagerMod.AddMode(GameMode.RandomEvent);
+            GameSimulationApp.Instance.WindowManager.AddMode(GameMode.RandomEvent);
 
             // Fire off event so primary game simulation knows we executed an event with an event.
             OnEventTriggered?.Invoke(sourceEntity, directorEvent);

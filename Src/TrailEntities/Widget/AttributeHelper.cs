@@ -27,6 +27,15 @@ namespace TrailEntities.Widget
         }
 
         /// <summary>
+        ///     Determine if a type implements a specific generic interface type.
+        /// </summary>
+        /// <remarks>http://stackoverflow.com/a/503359</remarks>
+        public static bool IsImplementationOf(this Type baseType, Type interfaceType)
+        {
+            return baseType.GetInterfaces().Any(interfaceType.Equals);
+        }
+
+        /// <summary>
         ///     Find the fields in an enum that have a specific attribute with a specific value.
         /// </summary>
         public static IEnumerable<T> GetAttributes<T>(this ICustomAttributeProvider source, bool inherit)

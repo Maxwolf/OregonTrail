@@ -56,7 +56,7 @@ namespace TrailEntities.Simulation
             var lineBufferTrimmed = InputBuffer.Trim();
 
             // Destroy the input buffer if we are not accepting commands but return is pressed anyway.
-            if (!GameSimulationApp.Instance.WindowManagerMod.AcceptingInput)
+            if (!GameSimulationApp.Instance.WindowManager.AcceptingInput)
                 InputBuffer = string.Empty;
 
             // Send trimmed line buffer to game simulation, if not accepting input we just pass along empty string.
@@ -74,7 +74,7 @@ namespace TrailEntities.Simulation
         private void OnCharacterAddedToInputBuffer(string addedKeyString)
         {
             // Disable passing along input buffer if the simulation is not currently accepting input from the user.
-            if (!GameSimulationApp.Instance.WindowManagerMod.AcceptingInput)
+            if (!GameSimulationApp.Instance.WindowManager.AcceptingInput)
                 return;
 
             // Add the character to the end of the input buffer.

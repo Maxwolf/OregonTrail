@@ -82,7 +82,7 @@ namespace TrailEntities.Game
         ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
         ///     game modes, people, and vehicles.
         /// </summary>
-        public EventDirectorMod DirectorMod { get; private set; }
+        public EventDirectorMod EventDirector { get; private set; }
 
         /// <summary>
         ///     Current vessel which the player character and his party are traveling inside of, provides means of transportation
@@ -196,7 +196,7 @@ namespace TrailEntities.Game
             ScoreTopTen = null;
             Time = null;
             Climate = null;
-            DirectorMod = null;
+            EventDirector = null;
             Trail = null;
             TotalTurns = 0;
             Vehicle = null;
@@ -218,17 +218,17 @@ namespace TrailEntities.Game
             // TODO: Load custom list from JSON with user high scores altered from defaults.
 
             // Environment, weather, conditions, climate, tail, stats, event director, etc.
-            DirectorMod = new EventDirectorMod();
+            EventDirector = new EventDirectorMod();
             Climate = new ClimateMod(ClimateClassification.Moderate);
             Trail = new TrailMod(TrailRegistry.OregonTrail());
             Vehicle = new Vehicle();
             TotalTurns = 0;
 
             // Attach traveling mode since that is the default and bottom most game mode.
-            WindowManagerMod.AddMode(GameMode.Travel);
+            WindowManager.AddMode(GameMode.Travel);
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            WindowManagerMod.AddMode(GameMode.MainMenu);
+            WindowManager.AddMode(GameMode.MainMenu);
         }
 
         /// <summary>

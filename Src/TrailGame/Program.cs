@@ -22,7 +22,7 @@ namespace TrailGame
             GameSimulationApp.Create();
 
             // Hook event to know when screen buffer wants to redraw the entire console screen.
-            GameSimulationApp.Instance.TextRenderMod.ScreenBufferDirtyEvent += Simulation_ScreenBufferDirtyEvent;
+            GameSimulationApp.Instance.TextRender.ScreenBufferDirtyEvent += Simulation_ScreenBufferDirtyEvent;
 
             // Prevent console session from closing.
             while (GameSimulationApp.Instance != null)
@@ -41,14 +41,14 @@ namespace TrailGame
                     switch (key.Key)
                     {
                         case ConsoleKey.Enter:
-                            GameSimulationApp.Instance.InputManagerMod.SendInputBufferAsCommand();
+                            GameSimulationApp.Instance.InputManager.SendInputBufferAsCommand();
                             break;
                         case ConsoleKey.Backspace:
-                            GameSimulationApp.Instance.InputManagerMod.RemoteLastCharOfInputBuffer();
+                            GameSimulationApp.Instance.InputManager.RemoteLastCharOfInputBuffer();
                             break;
                         default:
                             // if not enter or backspace we pass the key character to simulation individually.
-                            GameSimulationApp.Instance.InputManagerMod.AddCharToInputBuffer(key.KeyChar);
+                            GameSimulationApp.Instance.InputManager.AddCharToInputBuffer(key.KeyChar);
                             break;
                     }
                 }

@@ -50,7 +50,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuySupplies()
         {
-            GameSimulationApp.Instance.WindowManagerMod.AddMode(GameMode.Store);
+            GameSimulationApp.Instance.WindowManager.AddMode(GameMode.Store);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace TrailEntities.Game
         {
             //CurrentState = null;
             ClearState();
-            GameSimulationApp.Instance.WindowManagerMod.AddMode(GameMode.Trade);
+            GameSimulationApp.Instance.WindowManager.AddMode(GameMode.Trade);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace TrailEntities.Game
         {
             //CurrentState = null;
             ClearState();
-            GameSimulationApp.Instance.WindowManagerMod.AddMode(GameMode.Hunt);
+            GameSimulationApp.Instance.WindowManager.AddMode(GameMode.Hunt);
         }
 
         /// <summary>

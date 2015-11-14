@@ -23,7 +23,7 @@ namespace TrailEntities.Game
 
             // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game mode also (travel mode always there).
             if (GameSimulationApp.Instance.Trail.IsFirstLocation() &&
-                GameSimulationApp.Instance.WindowManagerMod.ModeCount > 1)
+                GameSimulationApp.Instance.WindowManager.ModeCount > 1)
             {
                 StoreAdvice();
             }

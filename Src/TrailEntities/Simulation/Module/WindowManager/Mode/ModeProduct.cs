@@ -353,7 +353,7 @@ namespace TrailEntities.Simulation
         public void SetState(Type stateType)
         {
             // States and modes both direct calls to window manager for adding a state.
-            CurrentState = GameSimulationApp.Instance.WindowManagerMod.CreateStateFromType(stateType);
+            CurrentState = GameSimulationApp.Instance.WindowManager.CreateStateFromType(stateType);
         }
 
         /// <summary>

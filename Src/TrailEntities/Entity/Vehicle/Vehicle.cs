@@ -335,7 +335,7 @@ namespace TrailEntities.Entity
             }
 
             // Check for random events that might trigger regardless of calculations made.
-            GameSimulationApp.Instance.DirectorMod.TriggerEventByType(this, EventType.Vehicle);
+            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventType.Vehicle);
 
             // Use our altered mileage to affect how far the vehicle has traveled in todays tick..
             Odometer += Mileage;

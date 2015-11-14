@@ -53,7 +53,7 @@ namespace TrailEntities.Simulation
         private SpinningPixel _spinningPixel;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.TickerMod" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.Ticker" /> class.
         /// </summary>
         internal TickerMod()
         {

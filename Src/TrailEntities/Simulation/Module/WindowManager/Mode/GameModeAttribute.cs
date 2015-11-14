@@ -1,4 +1,5 @@
 ﻿using System;
+using TrailEntities.Widget;
 
 namespace TrailEntities.Simulation
 {
@@ -13,9 +14,10 @@ namespace TrailEntities.Simulation
         /// </summary>
         public GameModeAttribute(Type modeType)
         {
-            // Complain if type does not subclass to interface we want.
-            if (!modeType.IsAssignableFrom(typeof (IModeProduct)))
-                throw new ArgumentException("Unable to cast game mode enumeration attribute type to IModeProduct!");
+            // Complain if the type sent is not an implementation of game mode interface.
+            if (!modeType.IsImplementationOf(typeof (IModeProduct)))
+                throw new ArgumentException(
+                    "Game mode attribute was used on a class that does not inherit from IModeProduct!");
 
             // Apply the type information to our property so mode factory can see it.
             ModeType = modeType;

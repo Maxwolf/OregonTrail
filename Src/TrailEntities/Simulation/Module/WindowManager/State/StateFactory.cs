@@ -28,7 +28,7 @@ namespace TrailEntities.Simulation
             {
                 // Get the attribute itself from the state we are working on, which gives us the game mode enum.
                 var modeAttribute = modeType.GetAttributes<RequiredModeAttribute>(false).First();
-                var modeCategory = modeAttribute.ParentGameMode;
+                var modeCategory = modeAttribute.ModeType;
 
                 // Add the state reference list for lookup and instancing later during runtime.
                 // TODO: Add reference information object from mode factory via window manager? Or maybe attribute?

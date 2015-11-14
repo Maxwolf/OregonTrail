@@ -28,7 +28,7 @@ namespace TrailEntities.Simulation
         private const string GAMEMODE_EMPTY_TUI = "[NO GAME MODE ATTACHED]";
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.TextRenderMod" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.TextRender" /> class.
         /// </summary>
         public TextRenderMod()
         {
@@ -48,8 +48,8 @@ namespace TrailEntities.Simulation
         {
             // Spinning ticker that shows activity, lets us know if application hangs or freezes.
             var tui = new StringBuilder();
-            var windowMan = GameSimulationApp.Instance.WindowManagerMod;
-            tui.Append($"[ {GameSimulationApp.Instance.TickerMod.TickPhase} ] - ");
+            var windowMan = GameSimulationApp.Instance.WindowManager;
+            tui.Append($"[ {GameSimulationApp.Instance.Ticker.TickPhase} ] - ");
 
             // Keeps track of active mode name and active mode current state name for debugging purposes.
             tui.Append(windowMan.ActiveMode?.CurrentState != null
@@ -63,10 +63,10 @@ namespace TrailEntities.Simulation
             tui.Append($"{RenderMode(windowMan)}{Environment.NewLine}");
 
             // Only print and accept user input if there is a game mode and menu system to support it.
-            if (GameSimulationApp.Instance.WindowManagerMod.AcceptingInput)
+            if (GameSimulationApp.Instance.WindowManager.AcceptingInput)
             {
                 // Allow user to see their input from buffer.
-                tui.Append($"What is your choice? {GameSimulationApp.Instance.InputManagerMod.InputBuffer}");
+                tui.Append($"What is your choice? {GameSimulationApp.Instance.InputManager.InputBuffer}");
             }
 
             // Outputs the result of the string builder to TUI builder above.

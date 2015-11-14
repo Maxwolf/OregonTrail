@@ -15,14 +15,14 @@ namespace TrailEntities.Simulation
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:System.Attribute" /> class.
         /// </summary>
-        public RequiredModeAttribute(GameMode parentGameMode)
+        public RequiredModeAttribute(GameMode modeType)
         {
-            ParentGameMode = parentGameMode;
+            ModeType = modeType;
         }
 
         /// <summary>
         ///     Defines what the parent game mode of this particular state should be.
         /// </summary>
-        public GameMode ParentGameMode { get; private set; }
+        public GameMode ModeType { get; private set; }
     }
 }

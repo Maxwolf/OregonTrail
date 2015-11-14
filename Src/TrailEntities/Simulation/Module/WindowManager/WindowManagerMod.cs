@@ -30,7 +30,7 @@ namespace TrailEntities.Simulation
         private StateFactory _stateFactory;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.WindowManagerMod" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.WindowManager" /> class.
         /// </summary>
         internal WindowManagerMod()
         {

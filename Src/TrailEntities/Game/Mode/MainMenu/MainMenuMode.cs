@@ -68,7 +68,7 @@ namespace TrailEntities.Game
         /// </summary>
         private static void ChooseManagementOptions()
         {
-            GameSimulationApp.Instance.WindowManagerMod.AddMode(GameMode.Options);
+            GameSimulationApp.Instance.WindowManager.AddMode(GameMode.Options);
         }
 
         /// <summary>

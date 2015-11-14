@@ -34,12 +34,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Event\Animal\AnimalEvent.cs" />
-    <Compile Include="Event\Attack\AttackEvent.cs" />
-    <Compile Include="Event\Climate\ClimateEvent.cs" />
-    <Compile Include="Event\Person\PersonEvent.cs" />
-    <Compile Include="Event\Vehicle\VehicleEvent.cs" />
-    <Compile Include="Event\Warning\WarningEvent.cs" />
+    <Compile Include="Event\AnimalEvent.cs" />
+    <Compile Include="Event\AttackEvent.cs" />
+    <Compile Include="Event\ClimateEvent.cs" />
+    <Compile Include="Event\PersonEvent.cs" />
+    <Compile Include="Event\VehicleEvent.cs" />
+    <Compile Include="Event\WarningEvent.cs" />
     <Compile Include="Simulation\Module\InputManagerMod.cs" />
     <Compile Include="Simulation\SimulationMod.cs" />
     <Compile Include="Simulation\Module\WindowManager\State\Dialog\DialogState.cs" />
@@ -63,12 +63,12 @@
     <Compile Include="Entity\Person\Disease.cs" />
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />
-    <Compile Include="Event\EventType.cs" />
+    <Compile Include="Game\Module\Director\EventType.cs" />
     <Compile Include="Game\Module\Director\EventHistory.cs" />
-    <Compile Include="Event\DirectorEvent.cs" />
+    <Compile Include="Game\Module\Director\DirectorEvent.cs" />
     <Compile Include="Event\Person\DeathCompanionEvent.cs" />
     <Compile Include="Event\Person\DeathPlayerEvent.cs" />
-    <Compile Include="Event\EventDirectorAttribute.cs" />
+    <Compile Include="Game\Module\Director\EventDirectorAttribute.cs" />
     <Compile Include="Game\Mode\MainMenu\State\Help\IntroduceStoreState.cs" />
     <Compile Include="Simulation\Module\WindowManager\Mode\GameModeAttribute.cs" />
     <Compile Include="Game\Mode\RandomEvent\RandomEventCommands.cs" />
@@ -180,6 +180,11 @@
     <Compile Include="Simulation\Module\RandomizerMod.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Event\Animal\" />
+    <Folder Include="Event\Attack\" />
+    <Folder Include="Event\Climate\" />
+    <Folder Include="Event\Vehicle\" />
+    <Folder Include="Event\Warning\" />
     <Folder Include="Game\Mode\ForkInRoad\State\" />
     <Folder Include="Game\Mode\Hunting\State\" />
     <Folder Include="Game\Mode\Trade\State\" />

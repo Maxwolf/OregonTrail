@@ -23,7 +23,7 @@ namespace TrailEntities.Game
             eventInfo = new RandomEventInfo();
 
             // Event director has event to know when events are triggered.
-            GameSimulationApp.Instance.DirectorMod.OnEventTriggered += Director_OnEventTriggered;
+            GameSimulationApp.Instance.EventDirector.OnEventTriggered += Director_OnEventTriggered;
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace TrailEntities.Game
             base.OnModeRemoved(gameMode);
 
             // Event director has event for when he triggers events.
-            if (GameSimulationApp.Instance.DirectorMod != null)
-                GameSimulationApp.Instance.DirectorMod.OnEventTriggered -= Director_OnEventTriggered;
+            if (GameSimulationApp.Instance.EventDirector != null)
+                GameSimulationApp.Instance.EventDirector.OnEventTriggered -= Director_OnEventTriggered;
         }
     }
 }
