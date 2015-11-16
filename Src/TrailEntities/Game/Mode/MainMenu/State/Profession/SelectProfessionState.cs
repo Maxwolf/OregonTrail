@@ -64,32 +64,31 @@ namespace TrailEntities.Game
                 case "1":
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    //parentGameMode.CurrentState = new InputPlayerNameState(0, parentGameMode, UserData);
+                    UserData.PlayerNameIndex = 0;
                     SetState(typeof (InputPlayerNameState));
                     break;
                 case "2":
                     UserData.PlayerProfession = Profession.Carpenter;
                     UserData.StartingMonies = 800;
-                    //parentGameMode.CurrentState = new InputPlayerNameState(0, parentGameMode, UserData);
+                    UserData.PlayerNameIndex = 0;
                     SetState(typeof (InputPlayerNameState));
                     break;
                 case "3":
                     UserData.PlayerProfession = Profession.Farmer;
                     UserData.StartingMonies = 400;
-                    //parentGameMode.CurrentState = new InputPlayerNameState(0, parentGameMode, UserData);
+                    UserData.PlayerNameIndex = 0;
                     SetState(typeof (InputPlayerNameState));
                     break;
                 case "4":
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    //parentGameMode.CurrentState = new ProfessionAdviceState(parentGameMode, UserData);
+                    UserData.PlayerNameIndex = 0;
                     SetState(typeof (ProfessionAdviceState));
                     break;
                 default:
                     // If there is some invalid selection just start the process over again.
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
-                    //parentGameMode.CurrentState = new SelectProfessionState(parentGameMode, UserData);
                     SetState(typeof (SelectProfessionState));
                     break;
             }

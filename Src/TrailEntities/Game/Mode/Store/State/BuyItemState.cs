@@ -33,39 +33,38 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Attaches a state that will allow the player to purchase a certain number of a particular SimItem.
         /// </summary>
-        /// <param name="itemToBuy">SimItem to purchase.</param>
         /// <param name="gameMode">Current game mode that requested this.</param>
-        /// <param name="userData">Any special user data associated with this state and mode.</param>
-        public BuyItemState(SimItem itemToBuy, IModeProduct gameMode, StoreInfo userData) : base(gameMode)
+        public BuyItemState(IModeProduct gameMode) : base(gameMode)
         {
             // Figure out what we owe already from other store items, then how many of the SimItem we can afford.
             var _currentBalance =
-                (int) (GameSimulationApp.Instance.Vehicle.Balance - userData.GetTransactionTotalCost());
-            _purchaseLimit = (int) (_currentBalance/itemToBuy.Cost);
+                (int) (GameSimulationApp.Instance.Vehicle.Balance - UserData.GetTransactionTotalCost());
+            _purchaseLimit = (int) (_currentBalance/UserData.SelectedItem.Cost);
 
             // Prevent negative numbers and set credit limit to zero if it drops below that.
             if (_purchaseLimit < 0)
                 _purchaseLimit = 0;
 
             // Set the credit limit to be the carry limit if they player has lots of monies and can buy many, we must limit them!
-            if (_purchaseLimit > itemToBuy.MaxQuantity)
-                _purchaseLimit = itemToBuy.MaxQuantity;
+            if (_purchaseLimit > UserData.SelectedItem.MaxQuantity)
+                _purchaseLimit = UserData.SelectedItem.MaxQuantity;
 
             // Add some information about how many you can buy and total amount you can carry.
             _itemBuyText = new StringBuilder();
 
             // Change up question asked if plural form matches the name of the SimItem.
-            var pluralMatchesName = itemToBuy.PluralForm.Equals(itemToBuy.Name,
+            var pluralMatchesName = UserData.SelectedItem.PluralForm.Equals(UserData.SelectedItem.Name,
                 StringComparison.InvariantCultureIgnoreCase);
 
+            // Print text about purchasing the selected item.
             _itemBuyText.Append(pluralMatchesName
-                ? $"You can afford {_purchaseLimit} {itemToBuy.Name.ToLowerInvariant()}.{Environment.NewLine}"
-                : $"You can afford {_purchaseLimit} {itemToBuy.PluralForm.ToLowerInvariant()} of {itemToBuy.Name.ToLowerInvariant()}.{Environment.NewLine}");
+                ? $"You can afford {_purchaseLimit} {UserData.SelectedItem.Name.ToLowerInvariant()}.{Environment.NewLine}"
+                : $"You can afford {_purchaseLimit} {UserData.SelectedItem.PluralForm.ToLowerInvariant()} of {UserData.SelectedItem.Name.ToLowerInvariant()}.{Environment.NewLine}");
 
-            _itemBuyText.Append($"How many {itemToBuy.PluralForm.ToLowerInvariant()} to buy?");
+            _itemBuyText.Append($"How many {UserData.SelectedItem.PluralForm.ToLowerInvariant()} to buy?");
 
             // Set the SimItem to buy text.
-            _itemToBuy = itemToBuy;
+            _itemToBuy = UserData.SelectedItem;
         }
 
         /// <summary>
@@ -92,7 +91,7 @@ namespace TrailEntities.Game
             if (parsedInputNumber <= 0)
             {
                 UserData.RemoveItem(_itemToBuy);
-                //parentGameMode.CurrentState = null;
+                UserData.SelectedItem = null;
                 ClearState();
                 return;
             }
@@ -109,7 +108,7 @@ namespace TrailEntities.Game
             UserData.AddItem(_itemToBuy, parsedInputNumber);
 
             // Return to the store menu.
-            //parentGameMode.CurrentState = null;
+            UserData.SelectedItem = null;
             ClearState();
         }
     }

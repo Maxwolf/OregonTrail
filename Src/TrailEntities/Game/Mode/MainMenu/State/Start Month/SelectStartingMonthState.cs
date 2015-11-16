@@ -67,37 +67,30 @@ namespace TrailEntities.Game
             {
                 case "1":
                     UserData.StartingMonth = Months.March;
-                    //parentGameMode.CurrentState = new BuyInitialItemsState(parentGameMode, UserData);
                     SetState(typeof (BuyInitialItemsState));
                     break;
                 case "2":
                     UserData.StartingMonth = Months.April;
-                    //parentGameMode.CurrentState = new BuyInitialItemsState(parentGameMode, UserData);
                     SetState(typeof (BuyInitialItemsState));
                     break;
                 case "3":
                     UserData.StartingMonth = Months.May;
-                    //parentGameMode.CurrentState = new BuyInitialItemsState(parentGameMode, UserData);
                     SetState(typeof (BuyInitialItemsState));
                     break;
                 case "4":
                     UserData.StartingMonth = Months.June;
-                    //parentGameMode.CurrentState = new BuyInitialItemsState(parentGameMode, UserData);
                     SetState(typeof (BuyInitialItemsState));
                     break;
                 case "5":
                     UserData.StartingMonth = Months.July;
-                    //parentGameMode.CurrentState = new BuyInitialItemsState(parentGameMode, UserData);
                     SetState(typeof (BuyInitialItemsState));
                     break;
                 case "6":
                     // Shows information about what the different starting months mean.
-                    //parentGameMode.CurrentState = new StartMonthAdviceState(parentGameMode, UserData);
                     SetState(typeof (StartMonthAdviceState));
                     break;
                 default:
                     UserData.StartingMonth = Months.March;
-                    //parentGameMode.CurrentState = new SelectStartingMonthState(parentGameMode, UserData);
                     SetState(typeof (SelectStartingMonthState));
                     break;
             }

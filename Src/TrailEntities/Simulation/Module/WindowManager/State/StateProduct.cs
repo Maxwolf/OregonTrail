@@ -29,12 +29,7 @@ namespace TrailEntities.Simulation
         /// </summary>
         protected TData UserData
         {
-            get
-            {
-                return ParentMode.UserData is TData
-                    ? (TData) ParentMode.UserData
-                    : default(TData);
-            }
+            get { return ParentMode.UserData as TData; }
         }
 
         /// <summary>

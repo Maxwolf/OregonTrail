@@ -21,6 +21,7 @@ namespace TrailEntities.Game
         /// </summary>
         public MainMenuInfo()
         {
+            PlayerNameIndex = 0;
             _playerNames = new List<string>();
             _playerProfession = Profession.Banker;
             _startingInventory = new List<SimItem>();
@@ -28,6 +29,11 @@ namespace TrailEntities.Game
             _startingMonth = Months.March;
             Modified = false;
         }
+
+        /// <summary>
+        ///     Index in the list of player names we are going to be inserting into.
+        /// </summary>
+        public int PlayerNameIndex { get; set; }
 
         /// <summary>
         ///     Holds all of the player names as strings until they are added to the running game simulation when start game is

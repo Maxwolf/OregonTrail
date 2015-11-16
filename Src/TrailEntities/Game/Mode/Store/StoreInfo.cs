@@ -35,7 +35,7 @@ namespace TrailEntities.Game
         /// <summary>
         ///     Item which the player does not have enough of or is missing.
         /// </summary>
-        internal SimItem MissingItemEntity { get; set; }
+        internal SimItem SelectedItem { get; set; }
 
         public void ClearTransactions()
         {

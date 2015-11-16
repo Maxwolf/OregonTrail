@@ -74,15 +74,12 @@ namespace TrailEntities.Game
             {
                 case "Y":
                     // Move along to confirming profession for party leader if user is happy with names.
-                    //parentGameMode.CurrentState = new SelectStartingMonthState(parentGameMode, UserData);
                     SetState(typeof (SelectStartingMonthState));
                     break;
                 default:
-                    // Clear all previous names we are going to try this again.
+                    // Restart the player name selection.
                     UserData.PlayerNames.Clear();
-
-                    // Go back to the beginning of the player name selection chain.
-                    //parentGameMode.CurrentState = new InputPlayerNameState(0, parentGameMode, UserData);
+                    UserData.PlayerNameIndex = 0;
                     SetState(typeof (InputPlayerNameState));
                     break;
             }

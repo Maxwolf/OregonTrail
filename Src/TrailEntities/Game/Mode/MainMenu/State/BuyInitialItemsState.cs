@@ -12,12 +12,12 @@ namespace TrailEntities.Game
     public sealed class BuyInitialItemsState : DialogState<MainMenuInfo>
     {
         /// <summary>
-        ///     This constructor will be used by the other one.
+        ///     This constructor will be used by the other one
         /// </summary>
-        public BuyInitialItemsState(IModeProduct gameMode, MainMenuInfo userData) : base(gameMode)
+        public BuyInitialItemsState(IModeProduct gameMode) : base(gameMode)
         {
             // Pass the game data to the simulation for each new game mode state.
-            GameSimulationApp.Instance.SetData(userData);
+            GameSimulationApp.Instance.SetData(UserData);
         }
 
         /// <summary>

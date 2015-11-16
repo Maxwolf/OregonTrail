@@ -46,7 +46,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuyOxen()
         {
-            //CurrentState = new BuyItemState(Parts.Oxen, this, StoreInfo);
+            UserData.SelectedItem = Parts.Oxen;
             SetState(typeof (BuyItemState));
         }
 
@@ -55,7 +55,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuyFood()
         {
-            //CurrentState = new BuyItemState(Resources.Food, this, StoreInfo);
+            UserData.SelectedItem = Resources.Food;
             SetState(typeof (BuyItemState));
         }
 
@@ -64,7 +64,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuyClothing()
         {
-            //CurrentState = new BuyItemState(Resources.Clothing, this, StoreInfo);
+            UserData.SelectedItem = Resources.Clothing;
             SetState(typeof (BuyItemState));
         }
 
@@ -73,7 +73,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuyAmmunition()
         {
-            //CurrentState = new BuyItemState(Resources.Bullets, this, StoreInfo);
+            UserData.SelectedItem = Resources.Bullets;
             SetState(typeof (BuyItemState));
         }
 
@@ -82,7 +82,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuySpareWheels()
         {
-            //CurrentState = new BuyItemState(Parts.Wheel, this, StoreInfo);
+            UserData.SelectedItem = Parts.Wheel;
             SetState(typeof (BuyItemState));
         }
 
@@ -91,7 +91,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuySpareAxles()
         {
-            //CurrentState = new BuyItemState(Parts.Axle, this, StoreInfo);
+            UserData.SelectedItem = Parts.Axle;
             SetState(typeof (BuyItemState));
         }
 
@@ -100,7 +100,7 @@ namespace TrailEntities.Game
         /// </summary>
         private void BuySpareTongues()
         {
-            //CurrentState = new BuyItemState(Parts.Tongue, this, StoreInfo);
+            UserData.SelectedItem = Parts.Tongue;
             SetState(typeof (BuyItemState));
         }
 
@@ -110,7 +110,6 @@ namespace TrailEntities.Game
         /// </summary>
         private void StoreAdvice()
         {
-            //CurrentState = new StoreAdviceState(this, StoreInfo);
             SetState(typeof (StoreAdviceState));
         }
 
@@ -123,7 +122,7 @@ namespace TrailEntities.Game
             if (GameSimulationApp.Instance.Trail.IsFirstLocation() &&
                 UserData.Transactions[SimEntity.Animal].Quantity <= 0)
             {
-                UserData.MissingItemEntity = Parts.Oxen;
+                UserData.SelectedItem = Parts.Oxen;
                 //CurrentState = new MissingItemState(this, StoreInfo);
                 SetState(typeof (MissingItemState));
                 return;

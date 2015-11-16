@@ -27,7 +27,7 @@ namespace TrailEntities.Game
             var missingItem = new StringBuilder();
             missingItem.Append(
                 $"You need to purchase at least a " +
-                $"single {UserData.MissingItemEntity.DelineatingUnit} in order " +
+                $"single {UserData.SelectedItem.DelineatingUnit} in order " +
                 $"to begin your trip!{Environment.NewLine}");
             return missingItem.ToString();
         }
@@ -39,8 +39,7 @@ namespace TrailEntities.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            UserData.MissingItemEntity = null;
-            //parentGameMode.CurrentState = null;
+            UserData.SelectedItem = null;
             ClearState();
         }
     }

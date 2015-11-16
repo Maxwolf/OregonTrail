@@ -13,11 +13,6 @@ namespace TrailEntities.Game
     public sealed class InputPlayerNameState : StateProduct<MainMenuInfo>
     {
         /// <summary>
-        ///     Index in the list of player names we are going to be inserting into.
-        /// </summary>
-        private readonly int _playerNameIndex;
-
-        /// <summary>
         ///     References the string that makes up the question about player names and also showing previous ones that have been
         ///     entered for continuity sake.
         /// </summary>
@@ -26,20 +21,17 @@ namespace TrailEntities.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public InputPlayerNameState(int playerNameIndex, IModeProduct gameMode) : base(gameMode)
+        public InputPlayerNameState(IModeProduct gameMode) : base(gameMode)
         {
             // Pass the game data to the simulation for each new game mode state.
             GameSimulationApp.Instance.SetData(UserData);
-
-            // Copy over current name index and question text to ask.
-            _playerNameIndex = playerNameIndex;
 
             // Create string builder so we only build up this data once.
             _inputNamesHelp = new StringBuilder();
 
             // Add the question text from constructor parameter.
             // ReSharper disable once SwitchStatementMissingSomeCases
-            switch (playerNameIndex)
+            switch (UserData.PlayerNameIndex)
             {
                 case 0:
                     _inputNamesHelp.Append(Environment.NewLine +
@@ -107,31 +99,23 @@ namespace TrailEntities.Game
             if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
             {
                 // Only fill out names for slots that are empty.
-                for (var i = 0; i < (GameSimulationApp.MAX_PLAYERS - _playerNameIndex); i++)
+                for (var i = 0; i < (GameSimulationApp.MAX_PLAYERS - UserData.PlayerNameIndex); i++)
                 {
-                    UserData.PlayerNames.Insert(_playerNameIndex, GetPlayerName());
+                    UserData.PlayerNames.Insert(UserData.PlayerNameIndex, GetPlayerName());
                 }
 
                 // Attach state to confirm randomized name selection, skipping manual entry with the return.
-                //parentGameMode.CurrentState = new ConfirmPlayerNamesState(parentGameMode, UserData);
                 SetState(typeof (ConfirmPlayerNamesState));
                 return;
             }
 
             // Add the name to list since we will have something at this point even if randomly generated.
-            UserData.PlayerNames.Insert(_playerNameIndex, input);
+            UserData.PlayerNames.Insert(UserData.PlayerNameIndex, input);
 
-            if (_playerNameIndex + 1 < GameSimulationApp.MAX_PLAYERS)
-            {
-                // Change the state of the game mode to confirm the name we just entered.
-                //parentGameMode.CurrentState = new InputPlayerNameState(_playerNameIndex + 1, parentGameMode, UserData);
-                SetState(typeof (InputPlayerNameState));
-            }
-            else
-            {
-                //parentGameMode.CurrentState = new ConfirmPlayerNamesState(parentGameMode, UserData);
-                SetState(typeof (ConfirmPlayerNamesState));
-            }
+            // Change the state to either confirm or input the next name based on index of name we are entering.
+            SetState(UserData.PlayerNameIndex + 1 < GameSimulationApp.MAX_PLAYERS
+                ? typeof (InputPlayerNameState)
+                : typeof (ConfirmPlayerNamesState));
         }
 
         /// <summary>
