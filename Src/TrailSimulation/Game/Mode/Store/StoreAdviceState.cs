@@ -90,6 +90,13 @@ namespace TrailSimulation.Game
 
         public override void OnInputBufferReturned(string input)
         {
+            // On the last advice panel we flip a normal boolean to know we are definitely done here.
+            if (_hasReadAdvice)
+            {
+                ClearState();
+                return;
+            }
+
             // Tick the advice to next panel when we get input.
             if (adviceCount <= 0)
             {
@@ -102,12 +109,8 @@ namespace TrailSimulation.Game
             if (adviceCount < 1)
                 return;
 
-            // On the last advice panel we flip a normal boolean to know we are definitely done here.
-            if (_hasReadAdvice)
-                return;
-
             _hasReadAdvice = true;
-            RemoveState();
+            ClearState();
         }
     }
 }

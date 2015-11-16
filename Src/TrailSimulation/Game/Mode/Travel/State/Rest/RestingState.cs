@@ -55,7 +55,7 @@ namespace TrailSimulation.Game
 
             // Can only actually stop resting once.
             //parentGameMode.CurrentState = null;
-            RemoveState();
+            ClearState();
         }
     }
 }

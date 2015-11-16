@@ -56,7 +56,7 @@ namespace TrailSimulation.Game
                     SetState(typeof (CrossingResultState));
                     break;
                 default:
-                    RemoveState();
+                    ClearState();
                     break;
             }
         }

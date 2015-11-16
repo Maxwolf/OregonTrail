@@ -63,7 +63,7 @@ namespace TrailSimulation.Game
 
             UserData.HasLookedAround = true;
             //parentGameMode.CurrentState = null;
-            RemoveState();
+            ClearState();
         }
     }
 }

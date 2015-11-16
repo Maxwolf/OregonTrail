@@ -59,7 +59,7 @@ namespace TrailSimulation.Game
                 default:
                     // Go back to the options menu.
                     //parentGameMode.CurrentState = null;
-                    RemoveState();
+                    ClearState();
                     break;
             }
         }

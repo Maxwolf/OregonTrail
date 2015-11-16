@@ -123,7 +123,6 @@ namespace TrailSimulation.Game
                 UserData.Transactions[SimEntity.Animal].Quantity <= 0)
             {
                 UserData.SelectedItem = Parts.Oxen;
-                //CurrentState = new MissingItemState(this, StoreInfo);
                 SetState(typeof (MissingItemState));
                 return;
             }
@@ -131,7 +130,6 @@ namespace TrailSimulation.Game
             // Check if player can afford the items they have selected.
             if (GameSimulationApp.Instance.Vehicle.Balance < UserData.GetTransactionTotalCost())
             {
-                //CurrentState = new StoreDebtState(this, StoreInfo);
                 SetState(typeof (StoreDebtState));
                 return;
             }

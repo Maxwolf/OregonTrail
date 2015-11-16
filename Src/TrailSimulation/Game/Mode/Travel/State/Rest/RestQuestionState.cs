@@ -44,7 +44,7 @@ namespace TrailSimulation.Game
                 SetState(typeof (RestingState));
             else
             //parentGameMode.CurrentState = null;
-                RemoveState();
+                ClearState();
         }
     }
 }

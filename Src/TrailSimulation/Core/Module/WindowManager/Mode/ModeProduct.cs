@@ -52,7 +52,7 @@ namespace TrailSimulation.Core
             // Complain the generics implemented is not of an enum type.
             if (!typeof (TCommands).IsEnum)
             {
-                throw new InvalidCastException("T must be an enumerated type!");
+                throw new InvalidCastException("TCommands must be an enumerated type!");
             }
 
             // Create empty list of menu choices.
@@ -240,6 +240,10 @@ namespace TrailSimulation.Core
         /// </summary>
         public void ClearState()
         {
+            // Complain if a state is cleared without being set.
+            if (CurrentState == null)
+                throw new ArgumentException("Attempted to clear state when none is currently set!");
+
             CurrentState = null;
         }
 
@@ -390,6 +394,10 @@ namespace TrailSimulation.Core
         /// <remarks>If mode does not support given state, an argument exception will be thrown!</remarks>
         public void SetState(Type stateType)
         {
+            // Clear the previous state if something happens.
+            if (CurrentState != null)
+                ClearState();
+
             // States and modes both direct calls to window manager for adding a state.
             CurrentState = GameSimulationApp.Instance.WindowManager.CreateStateFromType(stateType);
         }

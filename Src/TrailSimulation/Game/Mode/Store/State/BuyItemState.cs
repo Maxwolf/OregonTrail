@@ -92,7 +92,7 @@ namespace TrailSimulation.Game
             {
                 UserData.RemoveItem(_itemToBuy);
                 UserData.SelectedItem = null;
-                RemoveState();
+                ClearState();
                 return;
             }
 
@@ -109,7 +109,7 @@ namespace TrailSimulation.Game
 
             // Return to the store menu.
             UserData.SelectedItem = null;
-            RemoveState();
+            ClearState();
         }
     }
 }
