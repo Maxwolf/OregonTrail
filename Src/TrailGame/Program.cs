@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
-using TrailEntities.Game;
+using TrailSimulation.Game;
 
 namespace TrailGame
 {
     /// <summary>
-    ///     Game Simulation Application
+    ///     Trail Simulation Application
     /// </summary>
     internal static class Program
     {
