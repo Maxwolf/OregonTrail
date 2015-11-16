@@ -112,7 +112,7 @@ namespace TrailSimulation.Game
             // Stop ticks and close this state.
             _shouldTakeTickTurns = false;
             //parentGameMode.CurrentState = null;
-            ClearState();
+            RemoveState();
         }
     }
 }

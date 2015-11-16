@@ -58,17 +58,17 @@ namespace TrailSimulation.Game
                 case "1":
                     GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.Filling);
                     //parentGameMode.CurrentState = null;
-                    ClearState();
+                    RemoveState();
                     break;
                 case "2":
                     GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.Meager);
                     //parentGameMode.CurrentState = null;
-                    ClearState();
+                    RemoveState();
                     break;
                 case "3":
                     GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.BareBones);
                     //parentGameMode.CurrentState = null;
-                    ClearState();
+                    RemoveState();
                     break;
                 default:
                     //parentGameMode.CurrentState = new ChangeRationsState(parentGameMode, UserData);

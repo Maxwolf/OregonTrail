@@ -46,6 +46,6 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Removes the current state from the active game mode.
         /// </summary>
-        void ClearState();
+        void RemoveState();
     }
 }

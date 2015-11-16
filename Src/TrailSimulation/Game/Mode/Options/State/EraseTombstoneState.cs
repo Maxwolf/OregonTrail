@@ -54,11 +54,11 @@ namespace TrailSimulation.Game
                 case "Y":
                     // TODO: Clear tombstone message list, delete file that was loaded from disk...
                     //parentGameMode.CurrentState = null;
-                    ClearState();
+                    RemoveState();
                     break;
                 default:
                     //parentGameMode.CurrentState = null;
-                    ClearState();
+                    RemoveState();
                     break;
             }
         }

@@ -48,7 +48,7 @@ namespace TrailSimulation.Game
                     break;
                 default:
                     //parentGameMode.CurrentState = null;
-                    ClearState();
+                    RemoveState();
                     break;
             }
         }

@@ -38,7 +38,7 @@ namespace TrailSimulation.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             //parentGameMode.CurrentState = null;
-            ClearState();
+            RemoveState();
         }
     }
 }

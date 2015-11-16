@@ -54,7 +54,7 @@ namespace TrailSimulation.Game
             // Exits the river crossing mode and returns to travel game mode.
             _readCrossingResult = true;
             //parentGameMode.CurrentState = null;
-            ClearState();
+            RemoveState();
             ParentMode.RemoveModeNextTick();
         }
     }

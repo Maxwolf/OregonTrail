@@ -56,17 +56,17 @@ namespace TrailSimulation.Game
                 case "1":
                     GameSimulationApp.Instance.Vehicle.ChangePace(TravelPace.Steady);
                     //parentGameMode.CurrentState = null;
-                    ClearState();
+                    RemoveState();
                     break;
                 case "2":
                     GameSimulationApp.Instance.Vehicle.ChangePace(TravelPace.Strenuous);
                     //parentGameMode.CurrentState = null;
-                    ClearState();
+                    RemoveState();
                     break;
                 case "3":
                     GameSimulationApp.Instance.Vehicle.ChangePace(TravelPace.Grueling);
                     //parentGameMode.CurrentState = null;
-                    ClearState();
+                    RemoveState();
                     break;
                 case "4":
                     //parentGameMode.CurrentState = new PaceAdviceState(parentGameMode, UserData);

@@ -51,11 +51,11 @@ namespace TrailSimulation.Game
                 case "Y":
                     // TODO: Clear the current top ten list, reset to defaults, delete the custom one, re-save with defaults...
                     //parentGameMode.CurrentState = null;
-                    ClearState();
+                    RemoveState();
                     break;
                 default:
                     //parentGameMode.CurrentState = null;
-                    ClearState();
+                    RemoveState();
                     break;
             }
         }

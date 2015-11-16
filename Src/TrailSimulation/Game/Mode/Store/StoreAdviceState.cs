@@ -106,9 +106,8 @@ namespace TrailSimulation.Game
             if (_hasReadAdvice)
                 return;
 
-            //parentGameMode.CurrentState = null;
-            ClearState();
             _hasReadAdvice = true;
+            RemoveState();
         }
     }
 }

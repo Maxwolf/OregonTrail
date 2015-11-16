@@ -163,7 +163,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Removes the current state from the active game mode.
         /// </summary>
-        public void ClearState()
+        public void RemoveState()
         {
             // Refers to parent game mode to actually clear the state.
             ParentMode.ClearState();
