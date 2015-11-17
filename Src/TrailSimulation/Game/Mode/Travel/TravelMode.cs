@@ -168,7 +168,6 @@ namespace TrailSimulation.Game
             // On the first point we are going to force the look around state onto the traveling mode without asking.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation())
             {
-                //CurrentState = new LookAroundState(this, TravelInfo);
                 SetState(typeof (LookAroundState));
             }
             else if (!GameSimulationApp.Instance.Trail.IsFirstLocation() &&
@@ -176,7 +175,6 @@ namespace TrailSimulation.Game
                      GameSimulationApp.Instance.TotalTurns > 0)
             {
                 // Ensure we only ask if the player wants to stop when it is really not the first turn.
-                //CurrentState = new LookAroundQuestionState(this, TravelInfo);
                 SetState(typeof (LookAroundQuestionState));
             }
         }

@@ -106,9 +106,9 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Creates and adds the specified type of state to currently active game mode.
         /// </summary>
-        public IStateProduct CreateStateFromType(Type stateType)
+        public IStateProduct CreateStateFromType(IModeProduct parentMode, Type stateType)
         {
-            return _stateFactory.CreateStateFromType(stateType, ActiveMode);
+            return _stateFactory.CreateStateFromType(stateType, parentMode);
         }
 
         /// <summary>

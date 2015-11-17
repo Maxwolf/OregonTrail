@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     different message about traveling back in time.
     /// </summary>
     [RequiredMode(GameMode.Travel)]
-    public sealed class LookAroundState : StateProduct<TravelInfo>
+    public sealed class LookAroundState : DialogState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -20,19 +20,9 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
         /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return false; }
-        }
-
-        /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
-        /// </summary>
-        public override string OnRenderState()
+        protected override string OnDialogPrompt()
         {
             var welcomePoint = new StringBuilder();
             if (GameSimulationApp.Instance.Trail.IsFirstLocation())
@@ -48,21 +38,16 @@ namespace TrailSimulation.Game
                 welcomePoint.Append(GameSimulationApp.Instance.Time.Date);
             }
 
-            welcomePoint.Append("Press RETURN KEY to continue");
             return welcomePoint.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void OnInputBufferReturned(string input)
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        protected override void OnDialogResponse(DialogResponse reponse)
         {
-            if (UserData.HasLookedAround)
-                return;
-
-            UserData.HasLookedAround = true;
-            //parentGameMode.CurrentState = null;
             ClearState();
         }
     }

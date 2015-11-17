@@ -50,8 +50,6 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            UserData.HasLookedAround = false;
-            //parentGameMode.CurrentState = new DriveState(parentGameMode, UserData);
             SetState(typeof (DriveState));
         }
     }

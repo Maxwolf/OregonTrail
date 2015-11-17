@@ -245,9 +245,9 @@ namespace TrailSimulation.Core
         /// </summary>
         public void ClearState()
         {
-            // Complain if a state is cleared without being set.
+            // Don't do anything if the state is already empty.
             if (_currentState == null)
-                throw new ArgumentException("Attempted to clear state when none is currently set!");
+                return;
 
             _currentState = null;
             OnStateChange();
@@ -410,7 +410,8 @@ namespace TrailSimulation.Core
                 ClearState();
 
             // States and modes both direct calls to window manager for adding a state.
-            _currentState = GameSimulationApp.Instance.WindowManager.CreateStateFromType(stateType);
+            _currentState = GameSimulationApp.Instance.WindowManager.CreateStateFromType(this, stateType);
+            OnStateChange();
         }
 
         /// <summary>

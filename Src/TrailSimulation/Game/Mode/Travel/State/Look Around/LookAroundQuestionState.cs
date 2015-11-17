@@ -43,11 +43,9 @@ namespace TrailSimulation.Game
             switch (input.ToUpperInvariant())
             {
                 case "Y":
-                    //parentGameMode.CurrentState = new LookAroundState(parentGameMode, UserData);
                     SetState(typeof (LookAroundState));
                     break;
                 default:
-                    //parentGameMode.CurrentState = null;
                     ClearState();
                     break;
             }

@@ -12,11 +12,6 @@ namespace TrailSimulation.Game
     public sealed class TravelInfo : ModeInfo
     {
         /// <summary>
-        ///     Determines if the player has looked around at the location before prompting them with any decision making.
-        /// </summary>
-        public bool HasLookedAround { get; set; }
-
-        /// <summary>
         ///     Used when the player is traveling on the trail between locations. Also known as drive state in travel game mode.
         /// </summary>
         public string DriveStatus
