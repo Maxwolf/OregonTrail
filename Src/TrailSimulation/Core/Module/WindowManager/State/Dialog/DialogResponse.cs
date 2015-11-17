@@ -18,6 +18,6 @@
         /// <summary>
         ///     No response was given, only a blank command meaning the user is trying to continue.
         /// </summary>
-        Continue = 3
+        Custom = 3
     }
 }

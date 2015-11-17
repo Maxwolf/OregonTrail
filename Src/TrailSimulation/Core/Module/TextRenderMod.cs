@@ -62,7 +62,6 @@ namespace TrailSimulation.Core
             // Prints game mode specific text and options. This typically is menus from commands, or states showing some information.
             tui.Append($"{RenderMode(windowMan)}{Environment.NewLine}");
 
-            // Only print and accept user input if there is a game mode and menu system to support it.
             if (GameSimulationApp.Instance.WindowManager.AcceptingInput)
             {
                 // Allow user to see their input from buffer.

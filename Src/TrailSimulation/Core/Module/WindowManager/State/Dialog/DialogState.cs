@@ -51,7 +51,7 @@ namespace TrailSimulation.Core
                     case DialogType.Prompt:
                         return false;
                     case DialogType.YesNo:
-                    case DialogType.YesNoContinue:
+                    case DialogType.Custom:
                         return true;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -80,8 +80,7 @@ namespace TrailSimulation.Core
                     _prompt.Append(InputManagerMod.PRESS_ENTER);
                     break;
                 case DialogType.YesNo:
-                case DialogType.YesNoContinue:
-                    _prompt.Append(InputManagerMod.PRESS_YESNO);
+                case DialogType.Custom:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -122,7 +121,7 @@ namespace TrailSimulation.Core
                     OnDialogResponse(DialogResponse.No);
                     return;
                 default:
-                    OnDialogResponse(DialogResponse.Continue);
+                    OnDialogResponse(DialogResponse.Custom);
                     return;
             }
         }

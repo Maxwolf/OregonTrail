@@ -23,11 +23,6 @@ namespace TrailSimulation.Core
         public const string PRESS_ENTER = "Press ENTER KEY to continue";
 
         /// <summary>
-        ///     Holds constant representation of the text that is shown after a YES/NO question to the user.
-        /// </summary>
-        public const string PRESS_YESNO = "What is your response? Y/N";
-
-        /// <summary>
         ///     Holds a series of commands that need to be executed in the order they come out of the collection.
         /// </summary>
         private Queue<string> _commandQueue;

@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     values.
     /// </summary>
     [RequiredMode(GameMode.Options)]
-    public sealed class EraseCurrentTopTenState : StateProduct<OptionInfo>
+    public sealed class EraseCurrentTopTenState : DialogState<OptionInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -19,10 +19,9 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
+        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
         /// </summary>
-        public override string OnRenderState()
+        protected override string OnDialogPrompt()
         {
             var eraseTopTen = new StringBuilder();
 
@@ -41,22 +40,26 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void OnInputBufferReturned(string input)
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        protected override void OnDialogResponse(DialogResponse reponse)
         {
-            switch (input.ToUpperInvariant())
+            switch (reponse)
             {
-                case "Y":
+                case DialogResponse.No:
+                    ClearState();
+                    break;
+                case DialogResponse.Yes:
                     // TODO: Clear the current top ten list, reset to defaults, delete the custom one, re-save with defaults...
-                    //parentGameMode.CurrentState = null;
+                    ClearState();
+                    break;
+                case DialogResponse.Custom:
                     ClearState();
                     break;
                 default:
-                    //parentGameMode.CurrentState = null;
-                    ClearState();
-                    break;
+                    throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);
             }
         }
     }

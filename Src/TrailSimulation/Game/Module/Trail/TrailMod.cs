@@ -171,7 +171,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public bool ReachedNextPoint()
         {
-            return DistanceToNextLocation.Equals(GameSimulationApp.Instance.Vehicle.Mileage);
+            return DistanceToNextLocation <= 0;
         }
     }
 }

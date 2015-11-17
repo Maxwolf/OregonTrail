@@ -54,7 +54,7 @@ namespace TrailSimulation.Game
                 return;
 
             // Can only actually stop resting once.
-            //parentGameMode.CurrentState = null;
+            UserData.DaysToRest = 0;
             ClearState();
         }
     }

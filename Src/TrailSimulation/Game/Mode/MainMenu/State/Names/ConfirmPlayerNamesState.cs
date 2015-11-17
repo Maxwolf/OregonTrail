@@ -10,25 +10,36 @@ namespace TrailSimulation.Game
     ///     pressing enter.
     /// </summary>
     [RequiredMode(GameMode.MainMenu)]
-    public sealed class ConfirmPlayerNamesState : StateProduct<MainMenuInfo>
+    public sealed class ConfirmPlayerNamesState : DialogState<MainMenuInfo>
     {
-        /// <summary>
-        ///     References the party text so we only have to construct it once and then print the result.
-        /// </summary>
-        private StringBuilder _confirmPartyText;
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public ConfirmPlayerNamesState(IModeProduct gameMode) : base(gameMode)
         {
+        }
+
+        /// <summary>
+        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
+        ///     desired behavior.
+        /// </summary>
+        protected override DialogType DialogType
+        {
+            get { return DialogType.Custom; }
+        }
+
+        /// <summary>
+        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
+        /// </summary>
+        protected override string OnDialogPrompt()
+        {
             // Pass the game data to the simulation for each new game mode state.
             GameSimulationApp.Instance.SetData(UserData);
 
             // Create string builder, counter, print info about party members.
-            _confirmPartyText = new StringBuilder();
+            var _confirmPartyText = new StringBuilder();
             _confirmPartyText.Append(
-                $"{Environment.NewLine}{MainMenuMode.MEMBERS_QUESTION}{Environment.NewLine}{Environment.NewLine}");
+                $"{Environment.NewLine}Are these names correct? Y/N{Environment.NewLine}{Environment.NewLine}");
             var crewNumber = 1;
 
             // Loop through every player and print their name.
@@ -42,47 +53,41 @@ namespace TrailSimulation.Game
                 crewNumber++;
             }
 
-            // Ask the user to check if the data we have looks correct to them, wait for input...
-            _confirmPartyText.Append($"{Environment.NewLine}Are these names correct? Y/N");
-        }
-
-        /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
-        {
-            get { return true; }
-        }
-
-        /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
-        /// </summary>
-        public override string OnRenderState()
-        {
             return _confirmPartyText.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void OnInputBufferReturned(string input)
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        protected override void OnDialogResponse(DialogResponse reponse)
         {
-            switch (input.ToUpperInvariant())
+            switch (reponse)
             {
-                case "Y":
+                case DialogResponse.No:
+                    RestartNameInput();
+                    break;
+                case DialogResponse.Yes:
                     // Move along to confirming profession for party leader if user is happy with names.
                     SetState(typeof (SelectStartingMonthState));
                     break;
-                default:
-                    // Restart the player name selection.
-                    UserData.PlayerNames.Clear();
-                    UserData.PlayerNameIndex = 0;
-                    SetState(typeof (InputPlayerNameState));
+                case DialogResponse.Custom:
+                    RestartNameInput();
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);
             }
+        }
+
+        /// <summary>
+        ///     Restarts the player name selection.
+        /// </summary>
+        private void RestartNameInput()
+        {
+            UserData.PlayerNames.Clear();
+            UserData.PlayerNameIndex = 0;
+            SetState(typeof (InputPlayerNameState));
         }
     }
 }

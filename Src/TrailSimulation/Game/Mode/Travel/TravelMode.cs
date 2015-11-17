@@ -23,7 +23,6 @@ namespace TrailSimulation.Game
         /// </summary>
         private void TalkToPeople()
         {
-            //CurrentState = new TalkToPeopleState(this, TravelInfo);
             SetState(typeof (TalkToPeopleState));
         }
 
@@ -41,17 +40,9 @@ namespace TrailSimulation.Game
         private void ContinueOnTrail()
         {
             // Player just starting this section of the trail will get prompt about total distance needed to cover it before starting.
-            if (!GameSimulationApp.Instance.Trail.ReachedNextPoint() &&
-                !GameSimulationApp.Instance.Trail.IsFirstLocation())
-            {
-                //CurrentState = new DriveState(this, TravelInfo);
-                SetState(typeof (DriveState));
-            }
-            else
-            {
-                //CurrentState = new ContinueOnTrailState(this, TravelInfo);
-                SetState(typeof (ContinueOnTrailState));
-            }
+            SetState(!GameSimulationApp.Instance.Trail.ReachedNextPoint()
+                ? typeof (DriveState)
+                : typeof (ContinueOnTrailState));
         }
 
         /// <summary>
@@ -59,7 +50,6 @@ namespace TrailSimulation.Game
         /// </summary>
         private void CheckSupplies()
         {
-            //CurrentState = new CheckSuppliesState(this, TravelInfo);
             SetState(typeof (CheckSuppliesState));
         }
 
@@ -69,7 +59,6 @@ namespace TrailSimulation.Game
         /// </summary>
         private void LookAtMap()
         {
-            //CurrentState = new LookAtMapState(this, TravelInfo);
             SetState(typeof (LookAtMapState));
         }
 
@@ -78,7 +67,6 @@ namespace TrailSimulation.Game
         /// </summary>
         private void ChangePace()
         {
-            //CurrentState = new ChangePaceState(this, TravelInfo);
             SetState(typeof (ChangePaceState));
         }
 
@@ -87,7 +75,6 @@ namespace TrailSimulation.Game
         /// </summary>
         private void ChangeFoodRations()
         {
-            //CurrentState = new ChangeRationsState(this, TravelInfo);
             SetState(typeof (ChangeRationsState));
         }
 
@@ -97,7 +84,6 @@ namespace TrailSimulation.Game
         /// </summary>
         private void StopToRest()
         {
-            //CurrentState = new RestQuestionState(this, TravelInfo);
             SetState(typeof (RestQuestionState));
         }
 
@@ -106,7 +92,6 @@ namespace TrailSimulation.Game
         /// </summary>
         private void AttemptToTrade()
         {
-            //CurrentState = null;
             ClearState();
             GameSimulationApp.Instance.WindowManager.AddMode(GameMode.Trade);
         }
@@ -117,7 +102,6 @@ namespace TrailSimulation.Game
         /// </summary>
         private void HuntForFood()
         {
-            //CurrentState = null;
             ClearState();
             GameSimulationApp.Instance.WindowManager.AddMode(GameMode.Hunt);
         }

@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     default hard-coded by players have the chance to save their own scores to the list if they beat the default values.
     /// </summary>
     [RequiredMode(GameMode.MainMenu)]
-    public sealed class CurrentTopTenState : StateProduct<MainMenuInfo>
+    public sealed class CurrentTopTenState : DialogState<MainMenuInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -20,10 +20,9 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
+        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
         /// </summary>
-        public override string OnRenderState()
+        protected override string OnDialogPrompt()
         {
             var currentTopTen = new StringBuilder();
 
@@ -44,23 +43,35 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
+        ///     desired behavior.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void OnInputBufferReturned(string input)
+        protected override DialogType DialogType
         {
-            switch (input.ToUpperInvariant())
+            get { return DialogType.YesNo; }
+        }
+
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        protected override void OnDialogResponse(DialogResponse reponse)
+        {
+            switch (reponse)
             {
-                case "Y":
-                    // Show the user information about point distribution.
-                    //parentGameMode.CurrentState = new PointsHealthState(parentGameMode, UserData);
-                    SetState(typeof (PointsHealthState));
-                    break;
-                default:
-                    // Go back to the options menu.
-                    //parentGameMode.CurrentState = null;
+                case DialogResponse.No:
                     ClearState();
                     break;
+                case DialogResponse.Yes:
+                    // Show the user information about point distribution.
+                    SetState(typeof (PointsHealthState));
+                    break;
+                case DialogResponse.Custom:
+                    ClearState();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);
             }
         }
     }

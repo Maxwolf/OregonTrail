@@ -103,7 +103,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Returns a random Boolean value.
         /// </summary>
-        public bool GetRandomBoolean()
+        public bool NextBool()
         {
             return _random.Next(100)%2 == 0;
         }

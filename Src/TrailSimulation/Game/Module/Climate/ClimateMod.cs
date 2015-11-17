@@ -172,7 +172,7 @@ namespace TrailSimulation.Game
             if (possibleTemperature > possibleClimate.AverageDailyTemperature)
             {
                 // Determine if this should be a very hot day or not for the region.
-                if (GameSimulationApp.Instance.Random.GetRandomBoolean())
+                if (GameSimulationApp.Instance.Random.NextBool())
                 {
                     // It was a very hot day!
                     switch (GameSimulationApp.Instance.Random.Next(5))

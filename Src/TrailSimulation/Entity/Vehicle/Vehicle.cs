@@ -322,10 +322,13 @@ namespace TrailSimulation.Entity
 
             // Determine how many miles we can move in a day on the trail based on amount of monies player spent on oxen to pull vehicle.
             var cost_animals = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Animal].TotalValue;
-            Mileage = (int) (Mileage + 200 + (cost_animals - 220)/5 + 10*GameSimulationApp.Instance.Random.NextDouble());
+            Mileage = (int) cost_animals/5 + GameSimulationApp.Instance.Random.Next(1, 10);
 
-            // Sometimes things just go slow on the trail.
-            Mileage = (int) (Mileage - 45 - GameSimulationApp.Instance.Random.NextDouble()/.02f);
+            // Sometimes things just go slow on the trail, cut mileage in half if above zero randomly.
+            if (GameSimulationApp.Instance.Random.NextBool() && Mileage > 0)
+            {
+                Mileage = Mileage/2;
+            }
 
             // Loop through all the people in the vehicle and tick them.
             foreach (var person in _passengers)
@@ -335,6 +338,10 @@ namespace TrailSimulation.Entity
 
             // Check for random events that might trigger regardless of calculations made.
             GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventType.Vehicle);
+
+            // Check to make sure mileage is at least zero.
+            if (Mileage <= 0)
+                Mileage = 0;
 
             // Use our altered mileage to affect how far the vehicle has traveled in todays tick..
             Odometer += Mileage;

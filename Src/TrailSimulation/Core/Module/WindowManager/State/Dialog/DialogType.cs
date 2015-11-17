@@ -22,6 +22,6 @@
         ///     Dialog will accept either YES or NO response, if neither are received then it will process it as a cancel or
         ///     continue method. Up to implementation to deal with it at this point.
         /// </summary>
-        YesNoContinue = 3
+        Custom = 3
     }
 }
