@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
@@ -49,6 +50,30 @@ namespace TrailSimulation.Game
             get { return _storeItems; }
         }
 
+        /// <summary>
+        ///     Determines if this location has a store, it is built up in the constructor for the location itself and will help
+        ///     determine menu items shown.
+        /// </summary>
         public bool HasStore { get; }
+
+        /// <summary>
+        ///     Determines if this location has already been visited by the vehicle and party members.
+        /// </summary>
+        /// <returns>TRUE if location has been passed by, FALSE if location has yet to be reached.</returns>
+        public bool HasVisited { get; private set; }
+
+        /// <summary>
+        ///     Determines if the vehicle has reached this location or not, this can only be set once and will throw an exception
+        ///     is hit after it is set.
+        /// </summary>
+        public void SetVisited()
+        {
+            // Complain if visited is already true.
+            if (HasVisited)
+                throw new InvalidOperationException("Visited flag for location " + Name +
+                                                    " has already been set to TRUE. Cannot do this twice!");
+
+            HasVisited = true;
+        }
     }
 }

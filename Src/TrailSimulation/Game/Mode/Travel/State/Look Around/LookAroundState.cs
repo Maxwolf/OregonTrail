@@ -28,14 +28,14 @@ namespace TrailSimulation.Game
             if (GameSimulationApp.Instance.Trail.IsFirstLocation())
             {
                 // First point of interest has slightly different message about time travel.
-                welcomePoint.Append(
+                welcomePoint.AppendLine(
                     $"Going back to {GameSimulationApp.Instance.Time.CurrentYear}...{Environment.NewLine}");
             }
             else
             {
                 // Every other point of interest will say the name and current date.
-                welcomePoint.Append(ParentMode.CurrentPoint);
-                welcomePoint.Append(GameSimulationApp.Instance.Time.Date);
+                welcomePoint.AppendLine(ParentMode.CurrentPoint.Name);
+                welcomePoint.AppendLine(GameSimulationApp.Instance.Time.Date.ToString());
             }
 
             return welcomePoint.ToString();

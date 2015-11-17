@@ -156,6 +156,9 @@ namespace TrailSimulation.Game
         /// </param>
         private void OnReachedPointOfInterest(Location nextPoint)
         {
+            // Set the flag indicating the player has been here now.
+            nextPoint.SetVisited();
+
             // Attach some game mode based on the relevance of the next point type.
             GameSimulationApp.Instance.WindowManager.AddMode(nextPoint.GameMode);
 

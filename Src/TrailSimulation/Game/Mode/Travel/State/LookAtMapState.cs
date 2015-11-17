@@ -30,7 +30,16 @@ namespace TrailSimulation.Game
             _map.Append($"{Environment.NewLine}Trail progress{Environment.NewLine}");
             _map.AppendLine(TextProgress.DrawProgressBar(
                 GameSimulationApp.Instance.Trail.LocationIndex,
-                GameSimulationApp.Instance.Trail.Locations.Count, 32));
+                GameSimulationApp.Instance.Trail.Locations.Count, 32) + Environment.NewLine);
+
+            // Build up a table of location names and if the player has visited them.
+            var locationTable = GameSimulationApp.Instance.Trail.Locations.ToStringTable(
+                new[] {"Has Visited", "Location Name"},
+                u => u.HasVisited,
+                u => u.Name
+                );
+            _map.AppendLine(locationTable + Environment.NewLine);
+
             return _map.ToString();
         }
 
@@ -41,7 +50,6 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //parentGameMode.CurrentState = null;
             ClearState();
         }
     }
