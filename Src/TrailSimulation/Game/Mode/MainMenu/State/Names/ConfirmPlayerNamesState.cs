@@ -38,18 +38,29 @@ namespace TrailSimulation.Game
 
             // Create string builder, counter, print info about party members.
             var _confirmPartyText = new StringBuilder();
-            _confirmPartyText.Append(
-                $"{Environment.NewLine}Are these names correct? Y/N{Environment.NewLine}{Environment.NewLine}");
+            _confirmPartyText.AppendLine(
+                $"{Environment.NewLine}Are these names correct? Y/N{Environment.NewLine}");
             var crewNumber = 1;
 
             // Loop through every player and print their name.
-            foreach (var name in UserData.PlayerNames)
+            for (var index = 0; index < UserData.PlayerNames.Count; index++)
             {
                 // First name in list is always the leader.
+                var name = UserData.PlayerNames[index];
                 var isLeader = UserData.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
-                _confirmPartyText.Append(isLeader
-                    ? $"  {crewNumber} - {name} (leader){Environment.NewLine}"
-                    : $"  {crewNumber} - {name}{Environment.NewLine}");
+
+                // Only append new line when not printing last line.
+                if (index < (UserData.PlayerNames.Count - 1))
+                {
+                    _confirmPartyText.AppendLine(isLeader
+                        ? $"  {crewNumber} - {name} (leader)"
+                        : $"  {crewNumber} - {name}");
+                }
+                else
+                {
+                    _confirmPartyText.Append($"  {crewNumber} - {name}");
+                }
+
                 crewNumber++;
             }
 
@@ -70,6 +81,7 @@ namespace TrailSimulation.Game
                     break;
                 case DialogResponse.Yes:
                     // Move along to confirming profession for party leader if user is happy with names.
+                    UserData.PlayerNameIndex = 0;
                     SetState(typeof (SelectStartingMonthState));
                     break;
                 case DialogResponse.Custom:

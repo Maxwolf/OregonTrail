@@ -111,9 +111,10 @@ namespace TrailSimulation.Game
 
             // Add the name to list since we will have something at this point even if randomly generated.
             UserData.PlayerNames.Insert(UserData.PlayerNameIndex, input);
+            UserData.PlayerNameIndex++;
 
             // Change the state to either confirm or input the next name based on index of name we are entering.
-            SetState(UserData.PlayerNameIndex + 1 < GameSimulationApp.MAX_PLAYERS
+            SetState(UserData.PlayerNameIndex < GameSimulationApp.MAX_PLAYERS
                 ? typeof (InputPlayerNameState)
                 : typeof (ConfirmPlayerNamesState));
         }
