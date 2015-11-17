@@ -148,8 +148,16 @@ namespace TrailSimulation.Core
             if (Modes.ContainsKey(gameMode))
                 return;
 
+            // Create the game mode using factory.
+            var modeProduct = _modeFactory.CreateMode(gameMode);
+
             // Add the game mode to the simulation now that we know it does not exist in the stack yet.
-            Modes.Add(gameMode, _modeFactory.CreateMode(gameMode));
+            Modes.Add(gameMode, modeProduct);
+
+            // Call final activator for attaching states on startup if that is what the mode wants to do.
+            Modes[gameMode].OnModePostCreate();
+
+            // Last thing we do is call event that subscribers can know about game mode changes after they happen.
             ModeChangedEvent?.Invoke(Modes[gameMode].GameMode);
         }
 

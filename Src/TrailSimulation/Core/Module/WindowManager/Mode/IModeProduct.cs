@@ -79,5 +79,10 @@ namespace TrailSimulation.Core
         ///     members.
         /// </summary>
         void SendCommand(string command);
+
+        /// <summary>
+        ///     Called after the mode has been added to list of modes and made active.
+        /// </summary>
+        void OnModePostCreate();
     }
 }

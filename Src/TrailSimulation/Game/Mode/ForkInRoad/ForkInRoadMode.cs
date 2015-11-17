@@ -20,5 +20,12 @@ namespace TrailSimulation.Game
         {
             get { return GameMode.ForkInRoad; }
         }
+
+        /// <summary>
+        ///     Called after the mode has been added to list of modes and made active.
+        /// </summary>
+        public override void OnModePostCreate()
+        {
+        }
     }
 }

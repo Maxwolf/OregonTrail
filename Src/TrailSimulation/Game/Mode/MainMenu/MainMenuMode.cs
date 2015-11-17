@@ -22,9 +22,18 @@ namespace TrailSimulation.Game
         public const string MEMBERS_QUESTION = "What are the first names of the \nthree other members in your party?";
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
+        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     simulation.
         /// </summary>
-        public MainMenuMode()
+        public override GameMode GameMode
+        {
+            get { return GameMode.MainMenu; }
+        }
+
+        /// <summary>
+        ///     Called after the mode has been added to list of modes and made active.
+        /// </summary>
+        public override void OnModePostCreate()
         {
             var headerText = new StringBuilder();
             headerText.Append($"{Environment.NewLine}The Oregon Trail{Environment.NewLine}{Environment.NewLine}");
@@ -36,15 +45,6 @@ namespace TrailSimulation.Game
             AddCommand(SeeTopTen, MainMenuCommands.SeeTheOregonTopTen);
             AddCommand(ChooseManagementOptions, MainMenuCommands.ChooseManagementOptions);
             AddCommand(CloseSimulation, MainMenuCommands.CloseSimulation);
-        }
-
-        /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
-        ///     simulation.
-        /// </summary>
-        public override GameMode GameMode
-        {
-            get { return GameMode.MainMenu; }
         }
 
         /// <summary>

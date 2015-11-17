@@ -22,6 +22,8 @@ namespace TrailSimulation.Core
         where TCommands : struct, IComparable, IFormattable, IConvertible
         where TData : ModeInfo, new()
     {
+        private IStateProduct _currentState;
+
         /// <summary>
         ///     Reference to all of the possible commands that this game mode supports routing back to the game simulation that
         ///     spawned it.
@@ -43,7 +45,7 @@ namespace TrailSimulation.Core
         /// </summary>
         protected ModeProduct()
         {
-            // Define the user data object so it will cast to correct object from generics while still adhering to interface.
+            // Create the user data object casted to correct type from generics while still adhering to common base class.
             UserData = TypeExtensions.New<TData>.Instance();
 
             // Determines if the menu system should show raw command names in the menu rendering or just number selections by enum value.
@@ -171,7 +173,7 @@ namespace TrailSimulation.Core
             }
 
             if (GameMode.Equals(other.GameMode) &&
-                CurrentState.Equals(other.CurrentState))
+                _currentState.Equals(other._currentState))
             {
                 return true;
             }
@@ -208,7 +210,7 @@ namespace TrailSimulation.Core
         {
             // Forcefully detaches any state that was active before calling mode removed.
             ShouldRemoveMode = true;
-            CurrentState = null;
+            _currentState = null;
 
             // Allows any data structures that care about themselves to save before the next tick comes.
             OnModeRemoved(GameMode);
@@ -233,7 +235,10 @@ namespace TrailSimulation.Core
         ///     Holds the current state which this mode is in, a mode will cycle through available states until it is finished and
         ///     then detach.
         /// </summary>
-        public IStateProduct CurrentState { get; private set; }
+        IStateProduct IModeProduct.CurrentState
+        {
+            get { return _currentState; }
+        }
 
         /// <summary>
         ///     Removes the current state from the active game mode.
@@ -241,10 +246,11 @@ namespace TrailSimulation.Core
         public void ClearState()
         {
             // Complain if a state is cleared without being set.
-            if (CurrentState == null)
+            if (_currentState == null)
                 throw new ArgumentException("Attempted to clear state when none is currently set!");
 
-            CurrentState = null;
+            _currentState = null;
+            OnStateChange();
         }
 
         /// <summary>
@@ -257,7 +263,7 @@ namespace TrailSimulation.Core
             var modeTUI = new StringBuilder();
 
             // Only add menu choices if there are some to actually add, otherwise just return the string buffer now.
-            if (_menuChoices?.Count > 0 && CurrentState == null)
+            if (_menuChoices?.Count > 0 && _currentState == null)
             {
                 // Header text for above menu.
                 if (!string.IsNullOrEmpty(MenuHeader))
@@ -283,7 +289,7 @@ namespace TrailSimulation.Core
             else
             {
                 // Added any descriptive text about the mode, like stats, health, weather, location, etc.
-                var prependMessage = CurrentState?.OnRenderState();
+                var prependMessage = _currentState?.OnRenderState();
                 if (!string.IsNullOrEmpty(prependMessage))
                     modeTUI.Append($"{prependMessage}{Environment.NewLine}");
             }
@@ -299,7 +305,7 @@ namespace TrailSimulation.Core
         public virtual void TickMode()
         {
             // Tick the logic in the current state if it not null.
-            CurrentState?.TickState();
+            _currentState?.TickState();
         }
 
         /// <summary>
@@ -310,7 +316,7 @@ namespace TrailSimulation.Core
         public void SendCommand(string command)
         {
             // Only process menu items for game mode when current state is null, or there are no menu choices to select from.
-            if (CurrentState == null &&
+            if (_currentState == null &&
                 _menuChoices?.Count > 0 &&
                 !string.IsNullOrEmpty(command) &&
                 !string.IsNullOrWhiteSpace(command))
@@ -336,9 +342,14 @@ namespace TrailSimulation.Core
             else
             {
                 // Pass the input buffer to the current state, if it manages to get this far.
-                CurrentState?.OnInputBufferReturned(command);
+                _currentState?.OnInputBufferReturned(command);
             }
         }
+
+        /// <summary>
+        ///     Called after the mode has been added to list of modes and made active.
+        /// </summary>
+        public abstract void OnModePostCreate();
 
         /// <summary>
         ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
@@ -382,7 +393,7 @@ namespace TrailSimulation.Core
             var result = other.GameMode.CompareTo(GameMode);
             if (result != 0) return result;
 
-            result = other.CurrentState.CompareTo(CurrentState);
+            result = other.CurrentState.CompareTo(_currentState);
             if (result != 0) return result;
 
             return result;
@@ -395,11 +406,20 @@ namespace TrailSimulation.Core
         public void SetState(Type stateType)
         {
             // Clear the previous state if something happens.
-            if (CurrentState != null)
+            if (_currentState != null)
                 ClearState();
 
             // States and modes both direct calls to window manager for adding a state.
-            CurrentState = GameSimulationApp.Instance.WindowManager.CreateStateFromType(stateType);
+            _currentState = GameSimulationApp.Instance.WindowManager.CreateStateFromType(stateType);
+        }
+
+        /// <summary>
+        ///     Fired when the game mode changes it's internal state. Allows the attached mode to do special behaviors when it
+        ///     realizes a state is set or removed and act on it.
+        /// </summary>
+        protected virtual void OnStateChange()
+        {
+            // Nothing to see here, move along...
         }
 
         /// <summary>

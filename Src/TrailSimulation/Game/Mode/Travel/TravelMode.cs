@@ -10,15 +10,6 @@ namespace TrailSimulation.Game
     public sealed class TravelMode : ModeProduct<TravelCommands, TravelInfo>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
-        /// </summary>
-        public TravelMode()
-        {
-            // Update menu with proper choices.
-            UpdateLocation();
-        }
-
-        /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
@@ -154,6 +145,15 @@ namespace TrailSimulation.Game
             AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
             AddCommand(BuySupplies, TravelCommands.BuySupplies);
             AddCommand(HuntForFood, TravelCommands.HuntForFood);
+        }
+
+        /// <summary>
+        ///     Called after the mode has been added to list of modes and made active.
+        /// </summary>
+        public override void OnModePostCreate()
+        {
+            // Update menu with proper choices.
+            UpdateLocation();
         }
 
         /// <summary>

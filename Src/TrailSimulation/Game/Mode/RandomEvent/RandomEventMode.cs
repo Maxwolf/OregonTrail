@@ -10,21 +10,21 @@ namespace TrailSimulation.Game
     public sealed class RandomEventMode : ModeProduct<RandomEventCommands, RandomEventInfo>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
-        /// </summary>
-        public RandomEventMode()
-        {
-            // Event director has event to know when events are triggered.
-            GameSimulationApp.Instance.EventDirector.OnEventTriggered += Director_OnEventTriggered;
-        }
-
-        /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
         public override GameMode GameMode
         {
             get { return GameMode.RandomEvent; }
+        }
+
+        /// <summary>
+        ///     Called after the mode has been added to list of modes and made active.
+        /// </summary>
+        public override void OnModePostCreate()
+        {
+            // Event director has event to know when events are triggered.
+            GameSimulationApp.Instance.EventDirector.OnEventTriggered += Director_OnEventTriggered;
         }
 
         /// <summary>

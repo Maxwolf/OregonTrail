@@ -24,6 +24,13 @@ namespace TrailSimulation.Game
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        ///     Called after the mode has been added to list of modes and made active.
+        /// </summary>
+        public override void OnModePostCreate()
+        {
+        }
+
         public void UseBullets(int amount)
         {
             throw new NotImplementedException();

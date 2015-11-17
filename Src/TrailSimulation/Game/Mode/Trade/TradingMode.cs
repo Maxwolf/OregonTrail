@@ -32,6 +32,14 @@ namespace TrailSimulation.Game
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        ///     Called after the mode has been added to list of modes and made active.
+        /// </summary>
+        public override void OnModePostCreate()
+        {
+            throw new NotImplementedException();
+        }
+
         public void TradeAttempt(SimItem item)
         {
             // Cannot trade if there are no offers.

@@ -11,22 +11,6 @@ namespace TrailSimulation.Game
     public sealed class StoreMode : ModeProduct<StoreCommands, StoreInfo>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
-        /// </summary>
-        public StoreMode()
-        {
-            // Print out store good and their prices for user selection.
-            UpdateDebts();
-
-            // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game mode also (travel mode always there).
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation() &&
-                GameSimulationApp.Instance.WindowManager.ModeCount > 1)
-            {
-                StoreAdvice();
-            }
-        }
-
-        /// <summary>
         ///     Defines the text prefix which will go above the menu, used to show any useful information the game mode might need
         ///     to at the top of menu selections.
         /// </summary>
@@ -136,6 +120,34 @@ namespace TrailSimulation.Game
 
             // Remove the store if we make this far!
             RemoveModeNextTick();
+        }
+
+        /// <summary>
+        ///     Fired when the game mode changes it's internal state. Allows the attached mode to do special behaviors when it
+        ///     realizes a state is set or removed and act on it.
+        /// </summary>
+        protected override void OnStateChange()
+        {
+            base.OnStateChange();
+
+            // Print out store items and their prices for user selection.
+            UpdateDebts();
+        }
+
+        /// <summary>
+        ///     Called after the mode has been added to list of modes and made active.
+        /// </summary>
+        public override void OnModePostCreate()
+        {
+            // Print out store items and their prices for user selection.
+            UpdateDebts();
+
+            // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game mode also (travel mode always there).
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation() &&
+                GameSimulationApp.Instance.WindowManager.ModeCount > 1)
+            {
+                StoreAdvice();
+            }
         }
 
         /// <summary>

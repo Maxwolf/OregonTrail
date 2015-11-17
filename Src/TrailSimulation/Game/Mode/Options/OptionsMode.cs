@@ -12,9 +12,18 @@ namespace TrailSimulation.Game
     public sealed class OptionsMode : ModeProduct<OptionCommands, OptionInfo>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
+        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
+        ///     simulation.
         /// </summary>
-        public OptionsMode()
+        public override GameMode GameMode
+        {
+            get { return GameMode.Options; }
+        }
+
+        /// <summary>
+        ///     Called after the mode has been added to list of modes and made active.
+        /// </summary>
+        public override void OnModePostCreate()
         {
             // Header text.
             var headerText = new StringBuilder();
@@ -30,15 +39,6 @@ namespace TrailSimulation.Game
             AddCommand(EraseCurrentTopTen, OptionCommands.EraseCurrentTopTen);
             AddCommand(EraseTombstoneMessages, OptionCommands.EraseTomstoneMessages);
             AddCommand(ReturnToMainMenu, OptionCommands.ReturnToMainMenu);
-        }
-
-        /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
-        ///     simulation.
-        /// </summary>
-        public override GameMode GameMode
-        {
-            get { return GameMode.Options; }
         }
 
         /// <summary>

@@ -10,23 +10,6 @@ namespace TrailSimulation.Game
     public sealed class RiverCrossMode : ModeProduct<RiverCrossCommands, RiverCrossInfo>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ModeProduct" /> class.
-        /// </summary>
-        public RiverCrossMode()
-        {
-            // Add all of the commands for crossing a river.
-            AddCommand(FordRiver, RiverCrossCommands.FordRiver);
-            AddCommand(CaulkVehicle, RiverCrossCommands.CaulkVehicle);
-            AddCommand(UseFerry, RiverCrossCommands.UseFerry);
-            AddCommand(WaitForWeather, RiverCrossCommands.WaitForWeather);
-            AddCommand(GetMoreInformation, RiverCrossCommands.GetMoreInformation);
-
-            // Add the state that explains the player is at a river crossing and what is expected of them.
-            //CurrentState = new RiverPromptState(this, RiverCrossInfo);
-            SetState(typeof (RiverPromptState));
-        }
-
-        /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
@@ -92,6 +75,23 @@ namespace TrailSimulation.Game
         /// </summary>
         public override void TickMode()
         {
+        }
+
+        /// <summary>
+        ///     Called after the mode has been added to list of modes and made active.
+        /// </summary>
+        public override void OnModePostCreate()
+        {
+            // Add all of the commands for crossing a river.
+            AddCommand(FordRiver, RiverCrossCommands.FordRiver);
+            AddCommand(CaulkVehicle, RiverCrossCommands.CaulkVehicle);
+            AddCommand(UseFerry, RiverCrossCommands.UseFerry);
+            AddCommand(WaitForWeather, RiverCrossCommands.WaitForWeather);
+            AddCommand(GetMoreInformation, RiverCrossCommands.GetMoreInformation);
+
+            // Add the state that explains the player is at a river crossing and what is expected of them.
+            //CurrentState = new RiverPromptState(this, RiverCrossInfo);
+            SetState(typeof (RiverPromptState));
         }
 
         /// <summary>
