@@ -57,9 +57,9 @@ namespace TrailSimulation.Game
                 StringComparison.InvariantCultureIgnoreCase);
 
             // Print text about purchasing the selected item.
-            _itemBuyText.Append(pluralMatchesName
-                ? $"You can afford {_purchaseLimit} {UserData.SelectedItem.Name.ToLowerInvariant()}.{Environment.NewLine}"
-                : $"You can afford {_purchaseLimit} {UserData.SelectedItem.PluralForm.ToLowerInvariant()} of {UserData.SelectedItem.Name.ToLowerInvariant()}.{Environment.NewLine}");
+            _itemBuyText.AppendLine(pluralMatchesName
+                ? $"{Environment.NewLine}You can afford {_purchaseLimit} {UserData.SelectedItem.Name.ToLowerInvariant()}."
+                : $"{Environment.NewLine}You can afford {_purchaseLimit} {UserData.SelectedItem.PluralForm.ToLowerInvariant()} of {UserData.SelectedItem.Name.ToLowerInvariant()}.");
 
             _itemBuyText.Append($"How many {UserData.SelectedItem.PluralForm.ToLowerInvariant()} to buy?");
 

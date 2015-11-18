@@ -47,7 +47,11 @@ namespace TrailSimulation.Game
         /// </summary>
         public bool ReachedNextPoint
         {
-            get { return DistanceToNextLocation <= 0 && !GetCurrentLocation().HasVisited; }
+            get
+            {
+                return DistanceToNextLocation <= 0 &&
+                       !GetCurrentLocation().HasVisited;
+            }
         }
 
         /// <summary>

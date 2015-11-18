@@ -40,15 +40,9 @@ namespace TrailSimulation.Game
         private void ContinueOnTrail()
         {
             // Player just starting this section of the trail will get prompt about total distance needed to cover it before starting.
-            if (GameSimulationApp.Instance.Trail.ReachedNextPoint)
-            {
-                GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
-                SetState(typeof (ContinueOnTrailState));
-            }
-            else
-            {
-                SetState(typeof (DriveState));
-            }
+            SetState(GameSimulationApp.Instance.Trail.ReachedNextPoint
+                ? typeof (ContinueOnTrailState)
+                : typeof (DriveState));
         }
 
         /// <summary>
