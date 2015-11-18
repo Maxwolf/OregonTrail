@@ -33,7 +33,7 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             var rest = new StringBuilder();
-            rest.Append($"You rest for {UserData.DaysToRest} ");
+            rest.Append($"{Environment.NewLine}You rest for {UserData.DaysToRest} ");
             rest.Append(UserData.DaysToRest > 1
                 ? $"days{Environment.NewLine}{Environment.NewLine}"
                 : $"day{Environment.NewLine}{Environment.NewLine}");

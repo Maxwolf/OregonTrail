@@ -27,7 +27,7 @@ namespace TrailSimulation.Game
         {
             // Create visual progress representation of the trail.
             var _map = new StringBuilder();
-            _map.Append($"{Environment.NewLine}Trail progress{Environment.NewLine}");
+            _map.AppendLine($"{Environment.NewLine}Trail progress{Environment.NewLine}");
             _map.AppendLine(TextProgress.DrawProgressBar(
                 GameSimulationApp.Instance.Trail.LocationIndex,
                 GameSimulationApp.Instance.Trail.Locations.Count, 32) + Environment.NewLine);
@@ -38,7 +38,7 @@ namespace TrailSimulation.Game
                 u => u.HasVisited,
                 u => u.Name
                 );
-            _map.AppendLine(locationTable + Environment.NewLine);
+            _map.AppendLine(locationTable);
 
             return _map.ToString();
         }

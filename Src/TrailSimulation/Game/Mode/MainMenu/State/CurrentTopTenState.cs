@@ -20,6 +20,15 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
+        ///     desired behavior.
+        /// </summary>
+        protected override DialogType DialogType
+        {
+            get { return DialogType.YesNo; }
+        }
+
+        /// <summary>
         ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
         /// </summary>
         protected override string OnDialogPrompt()
@@ -40,15 +49,6 @@ namespace TrailSimulation.Game
             currentTopTen.Append($"Would you like to see how{Environment.NewLine}");
             currentTopTen.Append("points are earned? Y/N");
             return currentTopTen.ToString();
-        }
-
-        /// <summary>
-        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
-        ///     desired behavior.
-        /// </summary>
-        protected override DialogType DialogType
-        {
-            get { return DialogType.YesNo; }
         }
 
         /// <summary>

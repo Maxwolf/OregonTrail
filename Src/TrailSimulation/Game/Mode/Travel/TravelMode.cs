@@ -40,9 +40,15 @@ namespace TrailSimulation.Game
         private void ContinueOnTrail()
         {
             // Player just starting this section of the trail will get prompt about total distance needed to cover it before starting.
-            SetState(!GameSimulationApp.Instance.Trail.ReachedNextPoint()
-                ? typeof (DriveState)
-                : typeof (ContinueOnTrailState));
+            if (GameSimulationApp.Instance.Trail.ReachedNextPoint)
+            {
+                GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
+                SetState(typeof (ContinueOnTrailState));
+            }
+            else
+            {
+                SetState(typeof (DriveState));
+            }
         }
 
         /// <summary>
@@ -113,7 +119,7 @@ namespace TrailSimulation.Game
         {
             // Header text for above menu comes from travel info object.
             var headerText = new StringBuilder();
-            headerText.Append(UserData.TravelStatus(GameSimulationApp.Instance.Trail.ReachedNextPoint()));
+            headerText.Append(UserData.TravelStatus(GameSimulationApp.Instance.Trail.ReachedNextPoint));
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
 

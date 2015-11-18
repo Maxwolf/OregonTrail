@@ -1,4 +1,5 @@
-﻿using TrailSimulation.Core;
+﻿using System;
+using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
@@ -23,7 +24,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public override string OnRenderState()
         {
-            return "How many days would you like to rest?";
+            return Environment.NewLine + "How many days would you like to rest?";
         }
 
         /// <summary>

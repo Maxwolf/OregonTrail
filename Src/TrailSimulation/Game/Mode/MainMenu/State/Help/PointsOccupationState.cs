@@ -35,14 +35,14 @@ namespace TrailSimulation.Game
             var _pointsProfession = new StringBuilder();
             _pointsProfession.Append(
                 $"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");
-            _pointsProfession.Append($"You receive points for your{Environment.NewLine}");
-            _pointsProfession.Append($"occupation in the new land.{Environment.NewLine}");
-            _pointsProfession.Append($"Because more farmers and{Environment.NewLine}");
-            _pointsProfession.Append($"carpenters were needed than{Environment.NewLine}");
-            _pointsProfession.Append($"bankers, you receive double{Environment.NewLine}");
-            _pointsProfession.Append($"points upon arriving in Oregon{Environment.NewLine}");
-            _pointsProfession.Append($"as a carpenter, and triple{Environment.NewLine}");
-            _pointsProfession.Append($"points for arriving as a farmer.{Environment.NewLine}");
+            _pointsProfession.AppendLine("You receive points for your");
+            _pointsProfession.AppendLine("occupation in the new land.");
+            _pointsProfession.AppendLine("Because more farmers and");
+            _pointsProfession.AppendLine("carpenters were needed than");
+            _pointsProfession.AppendLine("bankers, you receive double");
+            _pointsProfession.AppendLine("points upon arriving in Oregon");
+            _pointsProfession.AppendLine("as a carpenter, and triple");
+            _pointsProfession.AppendLine($"points for arriving as a farmer.{Environment.NewLine}");
             return _pointsProfession.ToString();
         }
 
@@ -53,7 +53,6 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //parentGameMode.CurrentState = null;
             ClearState();
         }
     }

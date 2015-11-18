@@ -55,6 +55,11 @@ namespace TrailSimulation.Game
                     itemFormattedQuantity.PadLeft(3),
                     Environment.NewLine);
             }
+
+            // Add one more new line at the end of the table.
+            _supplies.Append(Environment.NewLine);
+
+
             return _supplies.ToString();
         }
 

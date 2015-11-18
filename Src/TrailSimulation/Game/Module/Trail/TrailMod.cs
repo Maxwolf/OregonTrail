@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
@@ -27,7 +26,7 @@ namespace TrailSimulation.Game
             Locations = new List<Location>(trail);
 
             // Startup location on the trail and distance to next point so it triggers immediately when we tick the first day.
-            LocationIndex = -1;
+            LocationIndex = 0;
             DistanceToNextLocation = 0;
         }
 
@@ -42,6 +41,14 @@ namespace TrailSimulation.Game
         ///     List of all of the points of interest that make up the entire trail.
         /// </summary>
         public List<Location> Locations { get; }
+
+        /// <summary>
+        ///     Determines if the player is currently midway between two location points on the trail.
+        /// </summary>
+        public bool ReachedNextPoint
+        {
+            get { return DistanceToNextLocation <= 0 && !GetCurrentLocation().HasVisited; }
+        }
 
         /// <summary>
         ///     Fired by the simulation when it would like to trigger advancement to the next location, doesn't matter when this is
@@ -117,7 +124,7 @@ namespace TrailSimulation.Game
             var nextPointIndex = LocationIndex + 1;
 
             // Check if the next point is greater than point count, then get next point of interest if within bounds.
-            return nextPointIndex > Locations.Count ? null : Locations.ElementAt(nextPointIndex);
+            return nextPointIndex > Locations.Count ? null : Locations[nextPointIndex];
         }
 
         /// <summary>
@@ -125,9 +132,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public Location GetCurrentLocation()
         {
-            return LocationIndex <= -1
-                ? Locations.First()
-                : Locations.ElementAt(LocationIndex);
+            return Locations[LocationIndex];
         }
 
         /// <summary>
@@ -164,14 +169,6 @@ namespace TrailSimulation.Game
 
             // Fire event here for API subscribers to know point was reached. 
             OnReachPointOfInterest?.Invoke(nextPoint);
-        }
-
-        /// <summary>
-        ///     Determines if the player is currently midway between two location points on the trail.
-        /// </summary>
-        public bool ReachedNextPoint()
-        {
-            return DistanceToNextLocation <= 0;
         }
     }
 }

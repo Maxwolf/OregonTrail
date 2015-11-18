@@ -161,12 +161,6 @@ namespace TrailSimulation.Game
             if (gameMode != GameMode.Store)
                 return;
 
-            // When detaching the store for first time we need to move the vehicle to the first spot on our virtual trail.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation())
-            {
-                GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
-            }
-
             // Modify the vehicles cash from purchases they made.
             var totalBill = UserData.GetTransactionTotalCost();
             var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
