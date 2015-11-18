@@ -25,9 +25,9 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             var missingItem = new StringBuilder();
-            missingItem.Append(
-                $"You need to purchase at least a " +
-                $"single {UserData.SelectedItem.DelineatingUnit} in order " +
+            missingItem.AppendLine(
+                $"{Environment.NewLine}You need to purchase at {Environment.NewLine}" +
+                $"least a single {UserData.SelectedItem.DelineatingUnit} in order {Environment.NewLine}" +
                 $"to begin your trip!{Environment.NewLine}");
             return missingItem.ToString();
         }
