@@ -8,7 +8,7 @@ namespace TrailSimulation.Core
     ///     implementation is a text user interface (TUI) which allows for the currently accepted commands to be seen and only
     ///     them accepted.
     /// </summary>
-    public sealed class InputManagerMod : SimulationMod
+    public sealed class InputModule : SimulationModule
     {
         /// <summary>
         ///     Fired when the input buffer has processed a queued command to be sent and has fired this event to let the
@@ -30,7 +30,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
-        public InputManagerMod()
+        public InputModule()
         {
             _commandQueue = new Queue<string>();
             InputBuffer = string.Empty;

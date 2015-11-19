@@ -5,7 +5,7 @@ namespace TrailSimulation.Core
     /// <summary>
     ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
     /// </summary>
-    public sealed class RandomizerMod : SimulationMod
+    public sealed class RandomModule : SimulationModule
     {
         /// <summary>
         ///     Game logic objects.
@@ -15,7 +15,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailCommon.RandomUtil" /> class.
         /// </summary>
-        public RandomizerMod()
+        public RandomModule()
         {
             // Create a unique random seed based on current system tick.
             RandomSeed = (int) DateTime.Now.Ticks & 0x0000FFF;
@@ -122,7 +122,7 @@ namespace TrailSimulation.Core
         /// </summary>
         public override void Tick()
         {
-            // RandomizerMod doesn't need to do any work on tick...
+            // RandomModule doesn't need to do any work on tick...
         }
     }
 }

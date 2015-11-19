@@ -77,7 +77,7 @@ namespace TrailSimulation.Core
             switch (DialogType)
             {
                 case DialogType.Prompt:
-                    _prompt.Append(InputManagerMod.PRESS_ENTER);
+                    _prompt.Append(InputModule.PRESS_ENTER);
                     break;
                 case DialogType.YesNo:
                 case DialogType.Custom:

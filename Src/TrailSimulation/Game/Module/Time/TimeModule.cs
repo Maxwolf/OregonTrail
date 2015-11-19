@@ -1,10 +1,12 @@
-﻿namespace TrailSimulation.Game
+﻿using TrailSimulation.Core;
+
+namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
     ///     simulation by one day. There are also other options and events for checking state, and changing state.
     /// </summary>
-    public sealed class TimeMod
+    public sealed class TimeModule : SimulationModule
     {
         public delegate void DayHandler(int dayCount);
 
@@ -15,7 +17,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.SimulationTime" /> class.
         /// </summary>
-        public TimeMod(int startingYear, Months startingMonth, int startingDay)
+        public TimeModule(int startingYear, Months startingMonth, int startingDay)
         {
             // Create a new time object for our simulation.
             CurrentYear = startingYear;
@@ -112,5 +114,30 @@
         public event YearHandler YearEndEvent;
         public event MonthHandler MonthEndEvent;
         public event DayHandler DayEndEvent;
+
+        /// <summary>
+        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
+        ///     exit cleanly.
+        /// </summary>
+        public override void Destroy()
+        {
+            // Create a new time object for our simulation.
+            CurrentYear = 0;
+            CurrentMonth = 0;
+            CurrentDay = 0;
+
+            TotalDays = 0;
+            TotalMonths = 0;
+            TotalYears = 0;
+            TotalDaysThisYear = 1;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation ticks the module that it created inside of itself.
+        /// </summary>
+        public override void Tick()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

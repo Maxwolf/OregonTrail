@@ -76,7 +76,7 @@ namespace TrailSimulation.Game
             }
 
             // Wait for user input...
-            _storeHelp.Append(InputManagerMod.PRESS_ENTER);
+            _storeHelp.Append(InputModule.PRESS_ENTER);
         }
 
         /// <summary>

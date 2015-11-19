@@ -55,7 +55,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Keeps track of all the points of interest we want to visit from beginning to end that makeup the entire journey.
         /// </summary>
-        public TrailMod Trail { get; private set; }
+        public TrailModule Trail { get; private set; }
 
         /// <summary>
         ///     Singleton instance for the entire game simulation, does not block the calling thread though only listens for
@@ -66,12 +66,12 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Manages time in a linear since from the provided ticks in base simulation class. Handles days, months, and years.
         /// </summary>
-        public TimeMod Time { get; private set; }
+        public TimeModule Time { get; private set; }
 
         /// <summary>
         ///     Manages weather, temperature, humidity, and current grazing level for living animals.
         /// </summary>
-        public ClimateMod Climate { get; private set; }
+        public ClimateModule Climate { get; private set; }
 
         /// <summary>
         ///     Keeps track of the total number of points the player has earned through the course of the game.
@@ -82,7 +82,7 @@ namespace TrailSimulation.Game
         ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
         ///     game modes, people, and vehicles.
         /// </summary>
-        public EventDirectorMod EventDirector { get; private set; }
+        public EventDirectorModule EventDirector { get; private set; }
 
         /// <summary>
         ///     Current vessel which the player character and his party are traveling inside of, provides means of transportation
@@ -210,7 +210,7 @@ namespace TrailSimulation.Game
         protected override void OnFirstTick()
         {
             // Linear time simulation with ticks.
-            Time = new TimeMod(1848, Months.March, 1);
+            Time = new TimeModule(1848, Months.March, 1);
             Time.DayEndEvent += TimeSimulation_DayEndEvent;
 
             // Scoring tracker and tabulator for end game results from current simulation state.
@@ -218,9 +218,9 @@ namespace TrailSimulation.Game
             // TODO: Load custom list from JSON with user high scores altered from defaults.
 
             // Environment, weather, conditions, climate, tail, stats, event director, etc.
-            EventDirector = new EventDirectorMod();
-            Climate = new ClimateMod(ClimateClassification.Moderate);
-            Trail = new TrailMod(TrailRegistry.OregonTrail());
+            EventDirector = new EventDirectorModule();
+            Climate = new ClimateModule(ClimateClassification.Moderate);
+            Trail = new TrailModule(TrailRegistry.OregonTrail());
             Vehicle = new Vehicle();
             TotalTurns = 0;
 

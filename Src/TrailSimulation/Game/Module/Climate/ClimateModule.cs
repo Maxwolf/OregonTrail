@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
-    public sealed class ClimateMod
+    public sealed class ClimateModule : SimulationModule
     {
         private List<ClimateData> _averageTemperatures;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.ClimateMod" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.ClimateModule" /> class.
         /// </summary>
-        public ClimateMod(ClimateClassification climateClassificationType)
+        public ClimateModule(ClimateClassification climateClassificationType)
         {
             ClimateClassificationType = climateClassificationType;
 
@@ -418,6 +419,23 @@ namespace TrailSimulation.Game
                 if (data.ClimateMonth == whichMonth) return data;
             }
             return null;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
+        ///     exit cleanly.
+        /// </summary>
+        public override void Destroy()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///     Fired when the simulation ticks the module that it created inside of itself.
+        /// </summary>
+        public override void Tick()
+        {
+            throw new NotImplementedException();
         }
     }
 }

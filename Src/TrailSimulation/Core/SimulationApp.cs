@@ -18,18 +18,18 @@
         protected SimulationApp()
         {
             // Ticker module allows us to convert system tick pulses in steady stream of seconds.
-            Ticker = new TickerMod();
+            Ticker = new TickerModule();
             Ticker.FirstSimulationTickEvent += Ticker_FirstSimulationTickEvent;
             Ticker.SimulationTickEvent += Ticker_SimulationTickEvent;
             Ticker.SystemTickEvent += Ticker_SystemTickEvent;
 
             // Create modules needed for managing simulation.
-            Random = new RandomizerMod();
-            WindowManager = new WindowManagerMod();
-            TextRender = new TextRenderMod();
+            Random = new RandomModule();
+            WindowManager = new WindowModule();
+            TextRender = new RenderingModule();
 
             // Input manager needs event hook for knowing when buffer is sent.
-            InputManager = new InputManagerMod();
+            InputManager = new InputModule();
             InputManager.InputManagerSendCommandEvent += InputManager_InputManagerSendCommandEvent;
         }
 
@@ -37,29 +37,29 @@
         ///     Keeps track of how many times the underlying system ticks, uses this data to create pulses of one second for the
         ///     simulation to sync itself to from any number of input ticks.
         /// </summary>
-        internal TickerMod Ticker { get; private set; }
+        internal TickerModule Ticker { get; private set; }
 
         /// <summary>
         ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
         /// </summary>
-        internal RandomizerMod Random { get; private set; }
+        internal RandomModule Random { get; private set; }
 
         /// <summary>
         ///     Keeps track of the currently attached game mode, which one is active, and getting text user interface data.
         /// </summary>
-        internal WindowManagerMod WindowManager { get; private set; }
+        internal WindowModule WindowManager { get; private set; }
 
         /// <summary>
         ///     Handles input from the users keyboard, holds an input buffer and will push it to the simulation when return key is
         ///     pressed.
         /// </summary>
-        public InputManagerMod InputManager { get; private set; }
+        public InputModule InputManager { get; private set; }
 
         /// <summary>
         ///     Shows the current state of the simulation as text only interface (TUI). Uses default constants if the attached mode
         ///     or state does not override this functionality and it is ticked.
         /// </summary>
-        public TextRenderMod TextRender { get; private set; }
+        public RenderingModule TextRender { get; private set; }
 
         /// <summary>
         ///     Fired when the input manager wants to send a command to the currently running game simulation.

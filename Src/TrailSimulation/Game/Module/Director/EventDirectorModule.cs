@@ -1,4 +1,5 @@
 ﻿using System;
+using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
@@ -7,26 +8,26 @@ namespace TrailSimulation.Game
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
     ///     game simulation normally.
     /// </summary>
-    public sealed class EventDirectorMod
+    public sealed class EventDirectorModule : SimulationModule
     {
+        /// <summary>
+        ///     Creates event items on behalf of the director when he rolls the dice looking for one to trigger.
+        /// </summary>
+        private EventFactory _eventFactory;
+
         /// <summary>
         ///     Fired when an event has been triggered by the director.
         /// </summary>
         public delegate void EventTriggered(IEntity simEntity, DirectorEvent directorEvent);
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.EventDirectorMod" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.EventDirectorModule" /> class.
         /// </summary>
-        public EventDirectorMod()
+        public EventDirectorModule()
         {
             // Creates a new event factory, and event history list. 
-            EventFactory = new EventFactory();
+            _eventFactory = new EventFactory();
         }
-
-        /// <summary>
-        ///     Creates event items on behalf of the director when he rolls the dice looking for one to trigger.
-        /// </summary>
-        private EventFactory EventFactory { get; }
 
         /// <summary>
         ///     Fired when an event has been triggered by the director.
@@ -47,12 +48,12 @@ namespace TrailSimulation.Game
                 return;
 
             // Create a random event by type enumeration, event factory will randomly pick one for us based on the enum value.
-            var randomEventProduct = EventFactory.CreateRandomByType(eventType);
+            var randomEventProduct = _eventFactory.CreateRandomByType(eventType);
             ExecuteEvent(sourceEntity, randomEventProduct);
         }
 
         /// <summary>
-        ///     Triggers an event directly by type of reference. Event must have [EventDirectorMod] attribute to be registered in
+        ///     Triggers an event directly by type of reference. Event must have [EventDirectorModule] attribute to be registered in
         ///     the
         ///     factory correctly.
         /// </summary>
@@ -61,7 +62,7 @@ namespace TrailSimulation.Game
         public void TriggerEvent(IEntity sourceEntity, Type eventType)
         {
             // Grab the event item from the factory that makes them.
-            var eventProduct = EventFactory.CreateInstance(eventType);
+            var eventProduct = _eventFactory.CreateInstance(eventType);
             ExecuteEvent(sourceEntity, eventProduct);
         }
 
@@ -79,6 +80,23 @@ namespace TrailSimulation.Game
 
             // Fire off event so primary game simulation knows we executed an event with an event.
             OnEventTriggered?.Invoke(sourceEntity, directorEvent);
+        }
+
+        /// <summary>
+        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
+        ///     exit cleanly.
+        /// </summary>
+        public override void Destroy()
+        {
+            _eventFactory = null;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation ticks the module that it created inside of itself.
+        /// </summary>
+        public override void Tick()
+        {
+            throw new NotImplementedException();
         }
     }
 }

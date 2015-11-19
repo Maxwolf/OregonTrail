@@ -9,7 +9,7 @@ namespace TrailSimulation.Core
     ///     Builds up a list of game modes and their states using reflection and attributes. Contains methods to add game modes
     ///     to running simulation. Can also remove modes and modify them further with states.
     /// </summary>
-    public sealed class WindowManagerMod : SimulationMod
+    public sealed class WindowModule : SimulationModule
     {
         /// <summary>
         ///     Fired when the window manager has added or removed a game mode.
@@ -32,7 +32,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.WindowManager" /> class.
         /// </summary>
-        internal WindowManagerMod()
+        internal WindowModule()
         {
             // References all of the active game modes that need to be ticked.
             Modes = new Dictionary<GameMode, IModeProduct>();

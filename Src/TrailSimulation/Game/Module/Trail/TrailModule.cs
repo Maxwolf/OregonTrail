@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
@@ -8,13 +9,13 @@ namespace TrailSimulation.Game
     ///     Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps
     ///     track of the vehicles current position on the trail and provides helper methods to quickly access it.
     /// </summary>
-    public sealed class TrailMod
+    public sealed class TrailModule : SimulationModule
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Trail" /> class.
         /// </summary>
         /// <param name="trail">Collection of points of interest which make up the trail the player is going to travel.</param>
-        public TrailMod(IEnumerable<Location> trail)
+        public TrailModule(IEnumerable<Location> trail)
         {
             // Builds the trail passed on parameter, sets location to negative one for startup.
             Locations = new List<Location>(trail);
@@ -143,16 +144,37 @@ namespace TrailSimulation.Game
         /// </summary>
         public void DecreaseDistanceToNextLocation()
         {
-            // Move us towards the next point.
-            DistanceToNextLocation -= GameSimulationApp.Instance.Vehicle.Mileage;
-
-            // If distance to next area reaches zero or below we will arrive at next location.
-            if (DistanceToNextLocation > 0)
-                return;
+            // Simulate the mileage being done.
+            var simulatedDistanceChange = DistanceToNextLocation - GameSimulationApp.Instance.Vehicle.Mileage;
 
             // If distance is zero we have arrived at the next location!
-            ArriveAtNextLocation();
+            if (simulatedDistanceChange <= 0)
+            {
+                ArriveAtNextLocation();
+                simulatedDistanceChange = 0;
+            }
+            
+            // Move us towards the next point if not zero.
+            DistanceToNextLocation = simulatedDistanceChange;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
+        ///     exit cleanly.
+        /// </summary>
+        public override void Destroy()
+        {
             DistanceToNextLocation = 0;
+            LocationIndex = 0;
+            Locations.Clear();
+        }
+
+        /// <summary>
+        ///     Fired when the simulation ticks the module that it created inside of itself.
+        /// </summary>
+        public override void Tick()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -5,7 +5,7 @@
     ///     by the core simulation. The tick itself is not something a module defines but rather the entire simulation
     ///     application since we cannot be sure what type it will be until it is running.
     /// </summary>
-    public abstract class SimulationMod
+    public abstract class SimulationModule
     {
         /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can

@@ -8,7 +8,7 @@ namespace TrailSimulation.Core
     ///     system. The idea being that no matter what pulses our simulation like game engine, operating system, framework,
     ///     windows form, phone app, browser we can figure out what a second is from this.
     /// </summary>
-    internal sealed class TickerMod : SimulationMod
+    internal sealed class TickerModule : SimulationModule
     {
         /// <summary>
         ///     First tick of the simulation after startup.
@@ -55,7 +55,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.Ticker" /> class.
         /// </summary>
-        internal TickerMod()
+        internal TickerModule()
         {
             // Date and time the simulation was started, which we use as benchmark for all future time passed.
             _lastTickTime = DateTime.UtcNow;
