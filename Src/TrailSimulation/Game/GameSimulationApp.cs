@@ -237,13 +237,6 @@ namespace TrailSimulation.Game
         /// <param name="dayCount">Total number of days in the simulation that have passed.</param>
         private void TimeSimulation_DayEndEvent(int dayCount)
         {
-            // Check if we have arrive at the next location.
-            if (Trail.ReachedNextPoint)
-            {
-                Trail.ArriveAtNextLocation();
-                return;
-            }
-
             // Each day we tick the weather, vehicle, and the people in it.
             Climate.TickClimate();
 

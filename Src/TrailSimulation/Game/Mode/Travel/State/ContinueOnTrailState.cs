@@ -26,9 +26,9 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             var nextStop = new StringBuilder();
-            var nextPoint = GameSimulationApp.Instance.Trail.GetNextLocation();
+            var nextPoint = GameSimulationApp.Instance.Trail.NextLocation;
             nextStop.Append(
-                $"{Environment.NewLine}From {ParentMode.CurrentPoint.Name} it is {GameSimulationApp.Instance.Trail.DistanceToNextLocation}{Environment.NewLine}");
+                $"{Environment.NewLine}From {GameSimulationApp.Instance.Trail.CurrentLocation.Name} it is {GameSimulationApp.Instance.Trail.DistanceToNextLocation}{Environment.NewLine}");
             nextStop.Append($"miles to the {nextPoint.Name}{Environment.NewLine}{Environment.NewLine}");
 
             return nextStop.ToString();

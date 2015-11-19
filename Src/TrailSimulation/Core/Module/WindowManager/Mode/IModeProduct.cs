@@ -37,12 +37,6 @@ namespace TrailSimulation.Core
         IStateProduct CurrentState { get; }
 
         /// <summary>
-        ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
-        ///     class where they become available.
-        /// </summary>
-        Location CurrentPoint { get; }
-
-        /// <summary>
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
         ///     data for parent game mode.
         /// </summary>

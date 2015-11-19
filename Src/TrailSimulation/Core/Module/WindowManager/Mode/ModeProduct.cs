@@ -63,14 +63,6 @@ namespace TrailSimulation.Core
             // Menu header and footer is empty strings by default.
             _menuHeader = string.Empty;
             _menuFooter = string.Empty;
-
-            // Hook event to know when we have reached a location point of interest.
-            GameSimulationApp.Instance.Trail.OnReachPointOfInterest += OnReachNextLocation;
-
-            // Cast the current point of interest into a settlement object since that is where stores are.
-            CurrentPoint = GameSimulationApp.Instance.Trail.GetCurrentLocation();
-            if (CurrentPoint == null)
-                throw new InvalidCastException("Unable to get current point of interest from trail simulation!");
         }
 
         /// <summary>
@@ -180,12 +172,6 @@ namespace TrailSimulation.Core
 
             return false;
         }
-
-        /// <summary>
-        ///     Current point of interest the store is inside of which should be a settlement point since that is the lowest tier
-        ///     class where they become available.
-        /// </summary>
-        public Location CurrentPoint { get; }
 
         /// <summary>
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
@@ -424,15 +410,6 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Fired when trail simulation has determined the vehicle and player party has reached the next point of interest in
-        ///     the trail.
-        /// </summary>
-        protected virtual void OnReachNextLocation(Location nextPoint)
-        {
-            Debug.Assert(nextPoint != null, "nextPoint != null");
-        }
-
-        /// <summary>
         ///     Because of how generics work in C# we need to have the ability to override a method in implementing classes to get
         ///     back the correct commands for the implementation from abstract class inheritance chain. On the bright side it
         ///     enforces the commands returned to be of the specified enum in generics.
@@ -490,7 +467,6 @@ namespace TrailSimulation.Core
         /// </summary>
         protected virtual void OnModeRemoved(GameMode gameMode)
         {
-            GameSimulationApp.Instance.Trail.OnReachPointOfInterest -= OnReachNextLocation;
             _menuChoices = null;
         }
 

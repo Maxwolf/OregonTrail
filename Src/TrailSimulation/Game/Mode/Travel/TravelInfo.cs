@@ -59,11 +59,7 @@ namespace TrailSimulation.Game
 
             // Only add the location name if we are on the next point, otherwise we should not show this.
             if (showLocationName)
-            {
-                var currentTrailLocation = GameSimulationApp.Instance.Trail.GetCurrentLocation();
-                if (currentTrailLocation != null)
-                    locationStatus.AppendLine(currentTrailLocation.Name);
-            }
+                locationStatus.AppendLine(GameSimulationApp.Instance.Trail.CurrentLocation.Name);
 
             locationStatus.Append($"{GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
             locationStatus.Append($"--------------------------------{Environment.NewLine}");

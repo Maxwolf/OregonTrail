@@ -126,8 +126,8 @@ namespace TrailSimulation.Game
             AddCommand(ChangeFoodRations, TravelCommands.ChangeFoodRations);
             AddCommand(StopToRest, TravelCommands.StopToRest);
             AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
-            AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
-            AddCommand(BuySupplies, TravelCommands.BuySupplies);
+            //AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
+            //AddCommand(BuySupplies, TravelCommands.BuySupplies);
             AddCommand(HuntForFood, TravelCommands.HuntForFood);
         }
 
@@ -141,25 +141,23 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when trail simulation has determined the vehicle and player party has reached the next point of interest in
-        ///     the trail.
+        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        /// <param name="nextPoint"></param>
-        protected override void OnReachNextLocation(Location nextPoint)
+        protected override void OnModeRemoved(GameMode gameMode)
         {
-            base.OnReachNextLocation(nextPoint);
+            base.OnModeRemoved(gameMode);
 
             // On the first point we are going to force the look around state onto the traveling mode without asking.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation())
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation)
             {
-                SetState(typeof (LookAroundState));
+                SetState(typeof(LookAroundState));
             }
-            else if (!GameSimulationApp.Instance.Trail.IsFirstLocation() &&
+            else if (!GameSimulationApp.Instance.Trail.IsFirstLocation &&
                      GameSimulationApp.Instance.Vehicle.Odometer > 0 &&
                      GameSimulationApp.Instance.TotalTurns > 0)
             {
                 // Ensure we only ask if the player wants to stop when it is really not the first turn.
-                SetState(typeof (LookAroundQuestionState));
+                SetState(typeof(LookAroundQuestionState));
             }
         }
     }

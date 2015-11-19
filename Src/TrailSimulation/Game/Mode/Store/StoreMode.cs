@@ -103,7 +103,7 @@ namespace TrailSimulation.Game
         private void LeaveStore()
         {
             // Complain if the player does not have any oxen to pull their vehicle.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation() &&
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
                 UserData.Transactions[SimEntity.Animal].Quantity <= 0)
             {
                 UserData.SelectedItem = Parts.Oxen;
@@ -143,7 +143,7 @@ namespace TrailSimulation.Game
             UpdateDebts();
 
             // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game mode also (travel mode always there).
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation() &&
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
                 GameSimulationApp.Instance.WindowManager.ModeCount > 1)
             {
                 StoreAdvice();
@@ -158,7 +158,7 @@ namespace TrailSimulation.Game
             base.OnModeRemoved(gameMode);
 
             // Store is only going to process transactions on removal when it is the one up for removal.
-            if (gameMode != GameMode.Store)
+            if (gameMode != GameMode)
                 return;
 
             // Modify the vehicles cash from purchases they made.
@@ -185,14 +185,14 @@ namespace TrailSimulation.Game
         {
             // Header text for above menu.
             var headerText = new StringBuilder();
-            headerText.Append($"--------------------------------{Environment.NewLine}");
-            headerText.Append($"{CurrentPoint?.Name} General Store{Environment.NewLine}");
-            headerText.Append($"{GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
+            headerText.AppendLine($"--------------------------------");
+            headerText.AppendLine($"{GameSimulationApp.Instance.Trail.CurrentLocation?.Name} General Store");
+            headerText.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
             headerText.Append("--------------------------------");
             MenuHeader = headerText.ToString();
 
             // Keep track if this is the first point of interest, it will alter how the store shows values.
-            var isFirstPoint = GameSimulationApp.Instance.Trail.IsFirstLocation();
+            var isFirstPoint = GameSimulationApp.Instance.Trail.IsFirstLocation;
 
             // Clear all the commands store had, then re-populate the list with them again so we can change the titles dynamically.
             ClearCommands();

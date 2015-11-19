@@ -25,7 +25,7 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             var welcomePoint = new StringBuilder();
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation())
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation)
             {
                 // First point of interest has slightly different message about time travel.
                 welcomePoint.AppendLine(
@@ -34,7 +34,7 @@ namespace TrailSimulation.Game
             else
             {
                 // Every other point of interest will say the name and current date.
-                welcomePoint.AppendLine(ParentMode.CurrentPoint.Name);
+                welcomePoint.AppendLine(GameSimulationApp.Instance.Trail.CurrentLocation.Name);
                 welcomePoint.AppendLine(GameSimulationApp.Instance.Time.Date.ToString());
             }
 
