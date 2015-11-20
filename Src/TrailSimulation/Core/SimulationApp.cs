@@ -13,10 +13,18 @@
         public const bool SHOW_COMMANDS = false;
 
         /// <summary>
+        ///     Determines the default run-level specification and where the simulation will start when created.
+        /// </summary>
+        private const SimulationRunlevel DEFAULT_RUNLEVEL = SimulationRunlevel.Initialize;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
         /// </summary>
         protected SimulationApp()
         {
+            // Default run-level specification.
+            RunLevel = DEFAULT_RUNLEVEL;
+
             // Ticker module allows us to convert system tick pulses in steady stream of seconds.
             Ticker = new TickerModule();
             Ticker.FirstSimulationTickEvent += Ticker_FirstSimulationTickEvent;
@@ -32,6 +40,11 @@
             InputManager = new InputModule();
             InputManager.InputManagerSendCommandEvent += InputManager_InputManagerSendCommandEvent;
         }
+
+        /// <summary>
+        ///     Determines the current state of the overall simulation.
+        /// </summary>
+        public SimulationRunlevel RunLevel { get; private set; }
 
         /// <summary>
         ///     Keeps track of how many times the underlying system ticks, uses this data to create pulses of one second for the

@@ -18,9 +18,9 @@ namespace TrailSimulation.Game
         public EventFactory()
         {
             // Create dictionaries for storing event reference types, history of execution, and execution count.
-            EventReference = new Dictionary<Tuple<EventType, string>, Type>();
+            EventReference = new Dictionary<Tuple<EventCategory, string>, Type>();
             EventHistory = new List<EventHistory>();
-            ExecutionCount = new Dictionary<Tuple<EventType, string>, int>();
+            ExecutionCount = new Dictionary<Tuple<EventCategory, string>, int>();
 
             // Collect all of the event types with the attribute decorated on them.
             var randomEvents = AttributeHelper.GetTypesWith<EventDirectorAttribute>(true);
@@ -32,17 +32,17 @@ namespace TrailSimulation.Game
 
                 // Get the attribute itself from the event we are working on, which gives us the event type enum.
                 var eventAttribute = eventObject.GetAttributes<EventDirectorAttribute>(true).First();
-                var eventType = eventAttribute.EventType;
+                var eventType = eventAttribute.EventCategory;
 
                 // Initialize the execution history dictionary with every event type.
-                foreach (var modeType in Enum.GetValues(typeof (EventType)))
+                foreach (var modeType in Enum.GetValues(typeof (EventCategory)))
                 {
                     // Only proceed if enum value matches attribute enum value for event type.
                     if (!modeType.Equals(eventType))
                         continue;
 
                     // Create key for the event execution counter.
-                    var tupleKey = new Tuple<EventType, string>((EventType) modeType, eventObject.Name);
+                    var tupleKey = new Tuple<EventCategory, string>((EventCategory) modeType, eventObject.Name);
 
                     // Execution counter by name and type.
                     if (!ExecutionCount.ContainsKey(tupleKey))
@@ -58,7 +58,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     References all of the events that have been triggered by the system in chronological order they occurred.
         /// </summary>
-        private Dictionary<Tuple<EventType, string>, Type> EventReference { get; }
+        private Dictionary<Tuple<EventCategory, string>, Type> EventReference { get; }
 
         /// <summary>
         ///     Contains history of events that have happened.
@@ -68,7 +68,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Keeps track of all the different times that a particular type of event has been run.
         /// </summary>
-        public Dictionary<Tuple<EventType, string>, int> ExecutionCount { get; }
+        public Dictionary<Tuple<EventCategory, string>, int> ExecutionCount { get; }
 
         /// <summary>
         ///     Creates a new event based on system type which we keep track of in dictionary of event references.
@@ -103,7 +103,7 @@ namespace TrailSimulation.Game
                 throw new ArgumentException($"Attempted to create instance of {eventType} event but failed!");
 
             // Create key for the event execution counter.
-            var tupleKey = new Tuple<EventType, string>(directorEventKeyValuePair.Key.Item1, eventInstance.Name);
+            var tupleKey = new Tuple<EventCategory, string>(directorEventKeyValuePair.Key.Item1, eventInstance.Name);
 
             // Increment the history for loading this type of event.
             ExecutionCount[tupleKey]++;
@@ -113,12 +113,12 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Gathers all of the events by specified type and picks one of them at random to return.
         /// </summary>
-        /// <param name="eventType">Enum value of the type of event such as medical, person, vehicle, etc.</param>
+        /// <param name="eventCategory">Enum value of the type of event such as medical, person, vehicle, etc.</param>
         /// <returns>Created event product based on enum value.</returns>
-        public DirectorEvent CreateRandomByType(EventType eventType)
+        public DirectorEvent CreateRandomByType(EventCategory eventCategory)
         {
             // Find all of the reference event types that match the given enumeration value.
-            var groupedEvents = EventReference.Select(pair => pair.Key.Item1.Equals(eventType));
+            var groupedEvents = EventReference.Select(pair => pair.Key.Item1.Equals(eventCategory));
 
             // Roll the dice against the event reference ceiling count to see which one we use.
             var diceRoll = GameSimulationApp.Instance.Random.Next(EventReference.Count);

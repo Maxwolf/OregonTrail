@@ -141,6 +141,25 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
+        ///     top-most game mode.
+        /// </summary>
+        public override void TickMode()
+        {
+            base.TickMode();
+
+            // Travel mode waits until it is by itself on first location and first turn.
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
+                GameSimulationApp.Instance.WindowManager.ModeCount <= 1 &&
+                GameSimulationApp.Instance.RunLevel == SimulationRunlevel.Running)
+            {
+                // Establishes configured vehicle onto running simulation, sets first point on trail as visited.
+                // NOTE: Also calculates initial distance to next point and all points thereafter.
+                GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
+            }
+        }
+
+        /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
         protected override void OnModeRemoved(GameMode gameMode)

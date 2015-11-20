@@ -8,19 +8,19 @@
         /// <summary>
         ///     Creates a new instance of an event product with the specified event type for reference purposes.
         /// </summary>
-        /// <param name="type">
+        /// <param name="category">
         ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
         /// </param>
-        protected DirectorEvent(EventType type)
+        protected DirectorEvent(EventCategory category)
         {
-            Type = type;
+            Category = category;
         }
 
         /// <summary>
         ///     Defines what type of event this will be, used for grouping and filtering and triggering events by type rather than
         ///     type of.
         /// </summary>
-        public EventType Type { get; }
+        public EventCategory Category { get; }
 
         /// <summary>
         ///     Grabs the current name of the event as it should be known by the simulation. Generally this is the friendly class

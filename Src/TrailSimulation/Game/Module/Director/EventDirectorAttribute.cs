@@ -12,15 +12,15 @@ namespace TrailSimulation.Game
         ///     Defines what type of event this will be recognized as in the director when it tells the factory to create a list of
         ///     all known events it can call and sort by.
         /// </summary>
-        public EventDirectorAttribute(EventType eventType)
+        public EventDirectorAttribute(EventCategory eventCategory)
         {
-            EventType = eventType;
+            EventCategory = eventCategory;
         }
 
         /// <summary>
         ///     References what type of event this event is going to register as, allows for easy sorting and filtering by event
         ///     director.
         /// </summary>
-        public EventType EventType { get; private set; }
+        public EventCategory EventCategory { get; private set; }
     }
 }

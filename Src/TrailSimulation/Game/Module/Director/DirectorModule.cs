@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
     ///     game simulation normally.
     /// </summary>
-    public sealed class EventDirectorModule : SimulationModule
+    public sealed class DirectorModule : SimulationModule
     {
         /// <summary>
         ///     Creates event items on behalf of the director when he rolls the dice looking for one to trigger.
@@ -23,7 +23,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.EventDirectorModule" /> class.
         /// </summary>
-        public EventDirectorModule()
+        public DirectorModule()
         {
             // Creates a new event factory, and event history list. 
             _eventFactory = new EventFactory();
@@ -39,8 +39,8 @@ namespace TrailSimulation.Game
         ///     the enumeration should trigger.
         /// </summary>
         /// <param name="sourceEntity">Entity which will be affected by event if triggered.</param>
-        /// <param name="eventType">Event type the dice will be rolled against and attempted to trigger.</param>
-        public void TriggerEventByType(IEntity sourceEntity, EventType eventType)
+        /// <param name="eventCategory">Event type the dice will be rolled against and attempted to trigger.</param>
+        public void TriggerEventByType(IEntity sourceEntity, EventCategory eventCategory)
         {
             // Roll the dice here to determine if the event is triggered at all.
             var diceRoll = GameSimulationApp.Instance.Random.Next(100);
@@ -48,7 +48,7 @@ namespace TrailSimulation.Game
                 return;
 
             // Create a random event by type enumeration, event factory will randomly pick one for us based on the enum value.
-            var randomEventProduct = _eventFactory.CreateRandomByType(eventType);
+            var randomEventProduct = _eventFactory.CreateRandomByType(eventCategory);
             ExecuteEvent(sourceEntity, randomEventProduct);
         }
 

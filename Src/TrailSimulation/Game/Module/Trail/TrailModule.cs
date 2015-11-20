@@ -97,7 +97,7 @@ namespace TrailSimulation.Game
         ///     called could be right in the middle a trail midway between two points and it would still forcefully place the
         ///     vehicle and players at the next location on the trail.
         /// </summary>
-        private void ArriveAtNextLocation()
+        public void ArriveAtNextLocation()
         {
             // Check if we need to keep going or if we have reached the end of the trail.
             if (LocationIndex <= Locations.Count)
@@ -139,26 +139,6 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Advances the vehicle to the next point of interest on the path. Returns TRUE if we have arrived at the next point,
-        ///     FALSE if this method should be called more to advance vehicle down the trail.
-        /// </summary>
-        public void DecreaseDistanceToNextLocation()
-        {
-            // Simulate the mileage being done.
-            var simulatedDistanceChange = DistanceToNextLocation - GameSimulationApp.Instance.Vehicle.Mileage;
-
-            // If distance is zero we have arrived at the next location!
-            if (simulatedDistanceChange <= 0)
-            {
-                ArriveAtNextLocation();
-                simulatedDistanceChange = 0;
-            }
-            
-            // Move us towards the next point if not zero.
-            DistanceToNextLocation = simulatedDistanceChange;
-        }
-
-        /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
@@ -170,11 +150,23 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
+        ///     Advances the vehicle to the next point of interest on the path. Returns TRUE if we have arrived at the next point,
+        ///     FALSE if this method should be called more to advance vehicle down the trail.
         /// </summary>
         public override void Tick()
         {
-            throw new NotImplementedException();
+            // Simulate the mileage being done.
+            var simulatedDistanceChange = DistanceToNextLocation - GameSimulationApp.Instance.Vehicle.Mileage;
+
+            // If distance is zero we have arrived at the next location!
+            if (simulatedDistanceChange <= 0)
+            {
+                ArriveAtNextLocation();
+                simulatedDistanceChange = 0;
+            }
+
+            // Move us towards the next point if not zero.
+            DistanceToNextLocation = simulatedDistanceChange;
         }
     }
 }

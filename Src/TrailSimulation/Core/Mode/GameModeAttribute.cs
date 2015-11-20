@@ -7,7 +7,7 @@ namespace TrailSimulation.Core
     ///     Allows the simulation to reflect over the mode type enumeration and map classes to a given enum value.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
-    public class GameModeAttribute : Attribute
+    public sealed class GameModeAttribute : Attribute
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.GameModeAttribute" /> class.

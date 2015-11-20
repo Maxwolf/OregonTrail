@@ -315,7 +315,7 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Processes logic and events for vehicle, also progresses down the trail and keeps track of mileage for this turn.
         /// </summary>
-        public void TickVehicle()
+        public void Tick()
         {
             // Figure out how far we need to go to reach the next point.
             Mileage = GameSimulationApp.Instance.Trail.DistanceToNextLocation;
@@ -337,7 +337,7 @@ namespace TrailSimulation.Entity
             }
 
             // Check for random events that might trigger regardless of calculations made.
-            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventType.Vehicle);
+            GameSimulationApp.Instance.Director.TriggerEventByType(this, EventCategory.Vehicle);
 
             // Check to make sure mileage is at least zero.
             if (Mileage <= 0)

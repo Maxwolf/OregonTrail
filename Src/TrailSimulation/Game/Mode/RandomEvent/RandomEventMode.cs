@@ -24,7 +24,7 @@ namespace TrailSimulation.Game
         public override void OnModePostCreate()
         {
             // Event director has event to know when events are triggered.
-            GameSimulationApp.Instance.EventDirector.OnEventTriggered += Director_OnEventTriggered;
+            GameSimulationApp.Instance.Director.OnEventTriggered += Director_OnEventTriggered;
         }
 
         /// <summary>
@@ -48,8 +48,8 @@ namespace TrailSimulation.Game
             base.OnModeRemoved(gameMode);
 
             // Event director has event for when he triggers events.
-            if (GameSimulationApp.Instance.EventDirector != null)
-                GameSimulationApp.Instance.EventDirector.OnEventTriggered -= Director_OnEventTriggered;
+            if (GameSimulationApp.Instance.Director != null)
+                GameSimulationApp.Instance.Director.OnEventTriggered -= Director_OnEventTriggered;
         }
     }
 }

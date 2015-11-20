@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
 
-namespace TrailSimulation.Widget
+namespace TrailSimulation
 {
     /// <summary>
     ///     Helper class that deals with activating classes without using the actual activator class because that requires and

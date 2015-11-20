@@ -82,7 +82,7 @@ namespace TrailSimulation.Game
         ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
         ///     game modes, people, and vehicles.
         /// </summary>
-        public EventDirectorModule EventDirector { get; private set; }
+        public DirectorModule Director { get; private set; }
 
         /// <summary>
         ///     Current vessel which the player character and his party are traveling inside of, provides means of transportation
@@ -196,7 +196,7 @@ namespace TrailSimulation.Game
             ScoreTopTen = null;
             Time = null;
             Climate = null;
-            EventDirector = null;
+            Director = null;
             Trail = null;
             TotalTurns = 0;
             Vehicle = null;
@@ -218,7 +218,7 @@ namespace TrailSimulation.Game
             // TODO: Load custom list from JSON with user high scores altered from defaults.
 
             // Environment, weather, conditions, climate, tail, stats, event director, etc.
-            EventDirector = new EventDirectorModule();
+            Director = new DirectorModule();
             Climate = new ClimateModule(ClimateClassification.Moderate);
             Trail = new TrailModule(TrailRegistry.OregonTrail());
             Vehicle = new Vehicle();
@@ -238,10 +238,10 @@ namespace TrailSimulation.Game
         private void TimeSimulation_DayEndEvent(int dayCount)
         {
             // Each day we tick the weather, vehicle, and the people in it.
-            Climate.TickClimate();
+            Climate.Tick();
 
             // Update total distance traveled on vehicle if we have not reached the point.
-            Vehicle.TickVehicle();
+            Vehicle.Tick();
 
             // Grab the total amount of monies the player has spent on the items in their inventory.
             var cost_ammo = Vehicle.Inventory[SimEntity.Ammo].TotalValue;
@@ -249,7 +249,7 @@ namespace TrailSimulation.Game
             var start_cash = Vehicle.Inventory[SimEntity.Cash].TotalValue;
 
             // Move towards the next location on the trail.
-            Trail.DecreaseDistanceToNextLocation();
+            Trail.Tick();
         }
     }
 }

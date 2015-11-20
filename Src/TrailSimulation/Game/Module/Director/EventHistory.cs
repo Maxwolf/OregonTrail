@@ -20,7 +20,7 @@ namespace TrailSimulation.Game
 
             // What the event name and category were.
             EventName = directorEvent.Name;
-            EventType = directorEvent.Type;
+            EventCategory = directorEvent.Category;
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Defines what category of event this was.
         /// </summary>
-        public EventType EventType { get; }
+        public EventCategory EventCategory { get; }
 
         /// <summary>
         ///     Holds the name of the event that was fired.
