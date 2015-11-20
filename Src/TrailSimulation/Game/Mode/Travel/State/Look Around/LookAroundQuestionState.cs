@@ -36,7 +36,8 @@ namespace TrailSimulation.Game
         {
             // Wait for input on deciding if we should take a look around.
             var pointReached = new StringBuilder();
-            pointReached.Append($"You are now at the {GameSimulationApp.Instance.Trail.CurrentLocation.Name}.{Environment.NewLine}");
+            pointReached.Append(
+                $"You are now at the {GameSimulationApp.Instance.Trail.CurrentLocation.Name}.{Environment.NewLine}");
             pointReached.Append("Would you like to look around? Y/N");
             return pointReached.ToString();
         }

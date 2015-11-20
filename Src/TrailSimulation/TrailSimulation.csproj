@@ -34,6 +34,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ModuleFactory.cs" />
+    <Compile Include="Core\ModulePriority.cs" />
+    <Compile Include="Core\ModuleCategory.cs" />
     <Compile Include="Core\SimulationModuleAttribute.cs" />
     <Compile Include="Core\SimulationRunlevel.cs" />
     <Compile Include="Event\AnimalEvent.cs" />
@@ -48,11 +51,11 @@
     <Compile Include="Core\Module\InputModule.cs" />
     <Compile Include="Core\Mode\UserData\ModeInfo.cs" />
     <Compile Include="Core\SimulationModule.cs" />
-    <Compile Include="Core\State\Dialog\DialogState.cs" />
-    <Compile Include="Core\State\Dialog\DialogResponse.cs" />
-    <Compile Include="Core\State\Dialog\DialogType.cs" />
-    <Compile Include="Core\State\RequiredModeAttribute.cs" />
-    <Compile Include="Core\State\StateFactory.cs" />
+    <Compile Include="Core\Mode\State\Dialog\DialogState.cs" />
+    <Compile Include="Core\Mode\State\Dialog\DialogResponse.cs" />
+    <Compile Include="Core\Mode\State\Dialog\DialogType.cs" />
+    <Compile Include="Core\Mode\State\RequiredModeAttribute.cs" />
+    <Compile Include="Core\Mode\State\StateFactory.cs" />
     <Compile Include="Core\Module\RenderingModule.cs" />
     <Compile Include="Core\Module\WindowModule.cs" />
     <Compile Include="Game\Module\Director\EventFactory.cs" />
@@ -90,16 +93,16 @@
     <Compile Include="Game\Mode\RiverCross\RiverCrossInfo.cs" />
     <Compile Include="Game\Mode\RiverCross\State\UseFerryConfirmState.cs" />
     <Compile Include="Core\Mode\ModeFactory.cs" />
-    <Compile Include="Game\Module\Scoring\Highscore.cs" />
-    <Compile Include="Game\Module\Scoring\Performance.cs" />
+    <Compile Include="Game\Scoring\Highscore.cs" />
+    <Compile Include="Game\Scoring\Performance.cs" />
     <Compile Include="Game\Mode\Options\State\EraseCurrentTopTenState.cs" />
     <Compile Include="Game\Mode\Options\State\EraseTombstoneState.cs" />
-    <Compile Include="Game\Module\Scoring\HealthScoring.cs" />
+    <Compile Include="Game\Scoring\HealthScoring.cs" />
     <Compile Include="Game\Mode\MainMenu\State\Help\PointsHealthState.cs" />
     <Compile Include="Game\Mode\MainMenu\State\Help\PointsOccupationState.cs" />
     <Compile Include="Game\Mode\MainMenu\State\Help\PointsResourcesState.cs" />
-    <Compile Include="Game\Module\Scoring\Points.cs" />
-    <Compile Include="Game\Module\Scoring\ScoreRegistry.cs" />
+    <Compile Include="Game\Scoring\Points.cs" />
+    <Compile Include="Game\Scoring\ScoreRegistry.cs" />
     <Compile Include="Game\Mode\Options\State\OriginalTopTenState.cs" />
     <Compile Include="Game\Mode\RandomEvent\State\RandomEventState.cs" />
     <Compile Include="Game\Mode\Travel\State\DriveState.cs" />
@@ -120,9 +123,9 @@
     <Compile Include="Game\Mode\Hunting\HuntingCommands.cs" />
     <Compile Include="Core\Mode\IModeProduct.cs" />
     <Compile Include="Core\Mode\Menu\IModeChoiceItem.cs" />
-    <Compile Include="Core\State\IStateProduct.cs" />
+    <Compile Include="Core\Mode\State\IStateProduct.cs" />
     <Compile Include="Core\Mode\Menu\ModeChoiceItem.cs" />
-    <Compile Include="Core\State\StateProduct.cs" />
+    <Compile Include="Core\Mode\State\StateProduct.cs" />
     <Compile Include="Game\GameMode.cs" />
     <Compile Include="Game\Mode\MainMenu\State\BuyInitialItemsState.cs" />
     <Compile Include="Game\Mode\MainMenu\State\CurrentTopTenState.cs" />
@@ -182,7 +185,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entity\Vehicle\Vehicle.cs" />
     <Compile Include="Game\Mode\MainMenu\MainMenuMode.cs" />
-    <Compile Include="Core\Module\RandomModule.cs" />
+    <Compile Include="Core\Module\RandomizerModule.cs" />
     <Compile Include="Utility\TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

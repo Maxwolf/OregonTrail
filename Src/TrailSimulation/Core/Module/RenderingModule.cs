@@ -10,6 +10,7 @@ namespace TrailSimulation.Core
     ///     console only view of the simulation which is intended to be the lowest level of visualization but theoretically
     ///     anything could be a renderer for the simulation.
     /// </summary>
+    [SimulationModule]
     public sealed class RenderingModule : SimulationModule
     {
         /// <summary>
@@ -28,18 +29,27 @@ namespace TrailSimulation.Core
         private const string GAMEMODE_EMPTY_TUI = "[NO GAME MODE ATTACHED]";
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.TextRender" /> class.
-        /// </summary>
-        public RenderingModule()
-        {
-            ScreenBuffer = string.Empty;
-        }
-
-        /// <summary>
         ///     Holds the last known representation of the game simulation and current mode text user interface, only pushes update
         ///     when a change occurs.
         /// </summary>
         private string ScreenBuffer { get; set; }
+
+        /// <summary>
+        ///     Determines how important this module is to the simulation in regards to when it should be ticked after sorting all
+        ///     loaded modules by this priority level.
+        /// </summary>
+        public override ModulePriority Priority
+        {
+            get { return ModulePriority.Low; }
+        }
+
+        /// <summary>
+        ///     Holds reference to the type of class that will be treated as a simulation module.
+        /// </summary>
+        public override ModuleCategory Category
+        {
+            get { return ModuleCategory.Core; }
+        }
 
         /// <summary>
         ///     Prints game mode specific text and options.
@@ -99,7 +109,16 @@ namespace TrailSimulation.Core
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public override void OnModuleDestroy()
+        {
+            ScreenBuffer = string.Empty;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation loads and creates the module and allows it to create any data structures it cares about
+        ///     without calling constructor.
+        /// </summary>
+        public override void OnModuleCreate()
         {
             ScreenBuffer = string.Empty;
         }

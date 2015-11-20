@@ -9,22 +9,9 @@ namespace TrailSimulation.Game
     ///     Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps
     ///     track of the vehicles current position on the trail and provides helper methods to quickly access it.
     /// </summary>
+    [SimulationModule]
     public sealed class TrailModule : SimulationModule
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Trail" /> class.
-        /// </summary>
-        /// <param name="trail">Collection of points of interest which make up the trail the player is going to travel.</param>
-        public TrailModule(IEnumerable<Location> trail)
-        {
-            // Builds the trail passed on parameter, sets location to negative one for startup.
-            Locations = new List<Location>(trail);
-
-            // Startup location on the trail and distance to next point so it triggers immediately when we tick the first day.
-            LocationIndex = 0;
-            DistanceToNextLocation = 0;
-        }
-
         /// <summary>
         ///     Distance in miles the player needs to travel before they are considered arrived at next point.
         /// </summary>
@@ -38,7 +25,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     List of all of the points of interest that make up the entire trail.
         /// </summary>
-        public List<Location> Locations { get; }
+        public List<Location> Locations { get; private set; }
 
         /// <summary>
         ///     Determines if the player is currently midway between two location points on the trail.
@@ -93,6 +80,23 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Determines how important this module is to the simulation in regards to when it should be ticked after sorting all
+        ///     loaded modules by this priority level.
+        /// </summary>
+        public override ModulePriority Priority
+        {
+            get { return ModulePriority.High; }
+        }
+
+        /// <summary>
+        ///     Holds reference to the type of class that will be treated as a simulation module.
+        /// </summary>
+        public override ModuleCategory Category
+        {
+            get { return ModuleCategory.Application; }
+        }
+
+        /// <summary>
         ///     Fired by the simulation when it would like to trigger advancement to the next location, doesn't matter when this is
         ///     called could be right in the middle a trail midway between two points and it would still forcefully place the
         ///     vehicle and players at the next location on the trail.
@@ -133,7 +137,7 @@ namespace TrailSimulation.Game
             // Variables that will hold the distance we should travel in the next day.
             var total_miles = GameSimulationApp.Instance.Vehicle.Mileage +
                               GameSimulationApp.Instance.Trail.DistanceToNextLocation + (cost_animals - 110)/2.5 +
-                              10*GameSimulationApp.Instance.Random.NextDouble();
+                              10*GameSimulationApp.Instance.Randomizer.NextDouble();
 
             return (int) Math.Abs(total_miles);
         }
@@ -142,11 +146,25 @@ namespace TrailSimulation.Game
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public override void OnModuleDestroy()
         {
             DistanceToNextLocation = 0;
             LocationIndex = 0;
             Locations.Clear();
+        }
+
+        /// <summary>
+        ///     Fired when the simulation loads and creates the module and allows it to create any data structures it cares about
+        ///     without calling constructor.
+        /// </summary>
+        public override void OnModuleCreate()
+        {
+            // Builds the trail passed on parameter, sets location to negative one for startup.
+            Locations = new List<Location>(TrailRegistry.OregonTrail());
+
+            // Startup location on the trail and distance to next point so it triggers immediately when we tick the first day.
+            LocationIndex = 0;
+            DistanceToNextLocation = 0;
         }
 
         /// <summary>

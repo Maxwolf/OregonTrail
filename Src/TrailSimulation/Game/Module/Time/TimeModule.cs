@@ -6,6 +6,7 @@ namespace TrailSimulation.Game
     ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
     ///     simulation by one day. There are also other options and events for checking state, and changing state.
     /// </summary>
+    [SimulationModule]
     public sealed class TimeModule : SimulationModule
     {
         public delegate void DayHandler(int dayCount);
@@ -13,22 +14,6 @@ namespace TrailSimulation.Game
         public delegate void MonthHandler(int monthCount);
 
         public delegate void YearHandler(int yearCount);
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.SimulationTime" /> class.
-        /// </summary>
-        public TimeModule(int startingYear, Months startingMonth, int startingDay)
-        {
-            // Create a new time object for our simulation.
-            CurrentYear = startingYear;
-            CurrentMonth = startingMonth;
-            CurrentDay = startingDay;
-
-            TotalDays = 0;
-            TotalMonths = 0;
-            TotalYears = 0;
-            TotalDaysThisYear = 1;
-        }
 
         public Months CurrentMonth { get; private set; }
 
@@ -47,6 +32,23 @@ namespace TrailSimulation.Game
         public Date Date
         {
             get { return new Date(CurrentYear, CurrentMonth, CurrentDay); }
+        }
+
+        /// <summary>
+        ///     Determines how important this module is to the simulation in regards to when it should be ticked after sorting all
+        ///     loaded modules by this priority level.
+        /// </summary>
+        public override ModulePriority Priority
+        {
+            get { return ModulePriority.None; }
+        }
+
+        /// <summary>
+        ///     Holds reference to the type of class that will be treated as a simulation module.
+        /// </summary>
+        public override ModuleCategory Category
+        {
+            get { return ModuleCategory.Application; }
         }
 
         /// <summary>
@@ -119,7 +121,7 @@ namespace TrailSimulation.Game
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public override void OnModuleDestroy()
         {
             // Create a new time object for our simulation.
             CurrentYear = 0;
@@ -133,11 +135,20 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
+        ///     Fired when the simulation loads and creates the module and allows it to create any data structures it cares about
+        ///     without calling constructor.
         /// </summary>
-        public override void Tick()
+        public override void OnModuleCreate()
         {
-            throw new System.NotImplementedException();
+            // Create a new time object for our simulation.
+            CurrentYear = 1848;
+            CurrentMonth = Months.March;
+            CurrentDay = 1;
+
+            TotalDays = 0;
+            TotalMonths = 0;
+            TotalYears = 0;
+            TotalDaysThisYear = 1;
         }
     }
 }

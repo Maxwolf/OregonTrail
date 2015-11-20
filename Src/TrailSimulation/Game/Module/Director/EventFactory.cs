@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using TrailSimulation.Widget;
 
 namespace TrailSimulation.Game
 {
@@ -121,7 +120,7 @@ namespace TrailSimulation.Game
             var groupedEvents = EventReference.Select(pair => pair.Key.Item1.Equals(eventCategory));
 
             // Roll the dice against the event reference ceiling count to see which one we use.
-            var diceRoll = GameSimulationApp.Instance.Random.Next(EventReference.Count);
+            var diceRoll = GameSimulationApp.Instance.Randomizer.Next(EventReference.Count);
             var randomEventTypeByType = groupedEvents.ElementAt(diceRoll).GetType();
 
             // Create the event we decided to execute from these types of event types.

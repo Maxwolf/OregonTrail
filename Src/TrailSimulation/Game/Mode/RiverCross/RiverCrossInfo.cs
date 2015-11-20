@@ -14,10 +14,10 @@ namespace TrailSimulation.Game
         public RiverCrossInfo()
         {
             // Randomly generates statistics about the river each time you cross it.
-            Depth = GameSimulationApp.Instance.Random.Next(1, 20);
-            FerryCost = GameSimulationApp.Instance.Random.Next(3, 8);
-            FerryDelayInDays = GameSimulationApp.Instance.Random.Next(1, 10);
-            RiverWidth = GameSimulationApp.Instance.Random.Next(20, 350);
+            Depth = GameSimulationApp.Instance.Randomizer.Next(1, 20);
+            FerryCost = GameSimulationApp.Instance.Randomizer.Next(3, 8);
+            FerryDelayInDays = GameSimulationApp.Instance.Randomizer.Next(1, 10);
+            RiverWidth = GameSimulationApp.Instance.Randomizer.Next(20, 350);
             CrossingType = RiverCrossChoice.Ford;
         }
 

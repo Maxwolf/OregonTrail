@@ -5,7 +5,8 @@ namespace TrailSimulation.Core
     /// <summary>
     ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
     /// </summary>
-    public sealed class RandomModule : SimulationModule
+    [SimulationModule]
+    public sealed class RandomizerModule : SimulationModule
     {
         /// <summary>
         ///     Game logic objects.
@@ -13,19 +14,26 @@ namespace TrailSimulation.Core
         private Random _random;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailCommon.RandomUtil" /> class.
+        ///     Number used to seed the random number generator.
         /// </summary>
-        public RandomModule()
+        private int RandomSeed { get; set; }
+
+        /// <summary>
+        ///     Determines how important this module is to the simulation in regards to when it should be ticked after sorting all
+        ///     loaded modules by this priority level.
+        /// </summary>
+        public override ModulePriority Priority
         {
-            // Create a unique random seed based on current system tick.
-            RandomSeed = (int) DateTime.Now.Ticks & 0x0000FFF;
-            _random = new Random(RandomSeed);
+            get { return ModulePriority.None; }
         }
 
         /// <summary>
-        ///     Number used to seed the random number generator.
+        ///     Holds reference to the type of class that will be treated as a simulation module.
         /// </summary>
-        private int RandomSeed { get; }
+        public override ModuleCategory Category
+        {
+            get { return ModuleCategory.Core; }
+        }
 
         /// <summary>
         ///     Returns a nonnegative random number.
@@ -112,17 +120,20 @@ namespace TrailSimulation.Core
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public override void OnModuleDestroy()
         {
             _random = null;
         }
 
         /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
+        ///     Fired when the simulation loads and creates the module and allows it to create any data structures it cares about
+        ///     without calling constructor.
         /// </summary>
-        public override void Tick()
+        public override void OnModuleCreate()
         {
-            // RandomModule doesn't need to do any work on tick...
+            // Create a unique random seed based on current system tick.
+            RandomSeed = (int) DateTime.Now.Ticks & 0x0000FFF;
+            _random = new Random(RandomSeed);
         }
     }
 }

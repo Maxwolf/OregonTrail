@@ -8,6 +8,7 @@ namespace TrailSimulation.Core
     ///     implementation is a text user interface (TUI) which allows for the currently accepted commands to be seen and only
     ///     them accepted.
     /// </summary>
+    [SimulationModule]
     public sealed class InputModule : SimulationModule
     {
         /// <summary>
@@ -28,18 +29,26 @@ namespace TrailSimulation.Core
         private Queue<string> _commandQueue;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
-        /// </summary>
-        public InputModule()
-        {
-            _commandQueue = new Queue<string>();
-            InputBuffer = string.Empty;
-        }
-
-        /// <summary>
         ///     Input buffer that we will use to hold characters until need to send them to simulation.
         /// </summary>
         internal string InputBuffer { get; private set; }
+
+        /// <summary>
+        ///     Determines how important this module is to the simulation in regards to when it should be ticked after sorting all
+        ///     loaded modules by this priority level.
+        /// </summary>
+        public override ModulePriority Priority
+        {
+            get { return ModulePriority.High; }
+        }
+
+        /// <summary>
+        ///     Holds reference to the type of class that will be treated as a simulation module.
+        /// </summary>
+        public override ModuleCategory Category
+        {
+            get { return ModuleCategory.Core; }
+        }
 
         /// <summary>
         ///     Clears the input buffer and submits whatever was in there to the simulation for processing. Implementation is left
@@ -50,7 +59,7 @@ namespace TrailSimulation.Core
             // Trim the result of the input so no extra whitespace at front or end exists.
             var lineBufferTrimmed = InputBuffer.Trim();
 
-            // Destroy the input buffer if we are not accepting commands but return is pressed anyway.
+            // OnModuleDestroy the input buffer if we are not accepting commands but return is pressed anyway.
             if (!GameSimulationApp.Instance.WindowManager.AcceptingInput)
                 InputBuffer = string.Empty;
 
@@ -122,7 +131,7 @@ namespace TrailSimulation.Core
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public override void OnModuleDestroy()
         {
             // Clear the input buffer.
             InputBuffer = string.Empty;
@@ -130,6 +139,16 @@ namespace TrailSimulation.Core
             // Clear the command queue.
             _commandQueue.Clear();
             _commandQueue = null;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation loads and creates the module and allows it to create any data structures it cares about
+        ///     without calling constructor.
+        /// </summary>
+        public override void OnModuleCreate()
+        {
+            _commandQueue = new Queue<string>();
+            InputBuffer = string.Empty;
         }
 
         /// <summary>

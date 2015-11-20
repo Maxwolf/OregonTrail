@@ -13,17 +13,12 @@
         public const bool SHOW_COMMANDS = false;
 
         /// <summary>
-        ///     Determines the default run-level specification and where the simulation will start when created.
-        /// </summary>
-        private const SimulationRunlevel DEFAULT_RUNLEVEL = SimulationRunlevel.Initialize;
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
         /// </summary>
         protected SimulationApp()
         {
             // Default run-level specification.
-            RunLevel = DEFAULT_RUNLEVEL;
+            RunLevel = SimulationRunlevel.Initialize;
 
             // Ticker module allows us to convert system tick pulses in steady stream of seconds.
             Ticker = new TickerModule();
@@ -32,7 +27,7 @@
             Ticker.SystemTickEvent += Ticker_SystemTickEvent;
 
             // Create modules needed for managing simulation.
-            Random = new RandomModule();
+            Randomizer = new RandomizerModule();
             WindowManager = new WindowModule();
             TextRender = new RenderingModule();
 
@@ -55,7 +50,7 @@
         /// <summary>
         ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
         /// </summary>
-        internal RandomModule Random { get; private set; }
+        internal RandomizerModule Randomizer { get; private set; }
 
         /// <summary>
         ///     Keeps track of the currently attached game mode, which one is active, and getting text user interface data.
@@ -95,7 +90,7 @@
             TextRender?.Tick();
 
             // Rolls virtual dice.
-            Random?.Tick();
+            Randomizer?.Tick();
         }
 
         /// <summary>
@@ -131,29 +126,29 @@
             // TODO: Replace with attribute and reflection based initialization for simulation modules.
             OnBeforeDestroy();
 
-            // Destroy window manager.
-            WindowManager.Destroy();
+            // OnModuleDestroy window manager.
+            WindowManager.OnModuleDestroy();
             WindowManager = null;
 
-            // Destroy input manager.
+            // OnModuleDestroy input manager.
             InputManager.InputManagerSendCommandEvent -= InputManager_InputManagerSendCommandEvent;
-            InputManager.Destroy();
+            InputManager.OnModuleDestroy();
             InputManager = null;
 
-            // Destroy text renderer.
-            TextRender.Destroy();
+            // OnModuleDestroy text renderer.
+            TextRender.OnModuleDestroy();
             TextRender = null;
 
-            // Destroy the ticker.
+            // OnModuleDestroy the ticker.
             Ticker.FirstSimulationTickEvent -= Ticker_FirstSimulationTickEvent;
             Ticker.SimulationTickEvent -= Ticker_SimulationTickEvent;
             Ticker.SystemTickEvent -= Ticker_SystemTickEvent;
-            Ticker.Destroy();
+            Ticker.OnModuleDestroy();
             Ticker = null;
 
-            // Destroy the randomizer.
-            Random.Destroy();
-            Random = null;
+            // OnModuleDestroy the randomizer.
+            Randomizer.OnModuleDestroy();
+            Randomizer = null;
         }
 
         /// <summary>

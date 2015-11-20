@@ -8,25 +8,34 @@ namespace TrailSimulation.Game
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
     ///     game simulation normally.
     /// </summary>
+    [SimulationModule]
     public sealed class DirectorModule : SimulationModule
     {
-        /// <summary>
-        ///     Creates event items on behalf of the director when he rolls the dice looking for one to trigger.
-        /// </summary>
-        private EventFactory _eventFactory;
-
         /// <summary>
         ///     Fired when an event has been triggered by the director.
         /// </summary>
         public delegate void EventTriggered(IEntity simEntity, DirectorEvent directorEvent);
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.EventDirectorModule" /> class.
+        ///     Creates event items on behalf of the director when he rolls the dice looking for one to trigger.
         /// </summary>
-        public DirectorModule()
+        private EventFactory _eventFactory;
+
+        /// <summary>
+        ///     Determines how important this module is to the simulation in regards to when it should be ticked after sorting all
+        ///     loaded modules by this priority level.
+        /// </summary>
+        public override ModulePriority Priority
         {
-            // Creates a new event factory, and event history list. 
-            _eventFactory = new EventFactory();
+            get { return ModulePriority.None; }
+        }
+
+        /// <summary>
+        ///     Holds reference to the type of class that will be treated as a simulation module.
+        /// </summary>
+        public override ModuleCategory Category
+        {
+            get { return ModuleCategory.Application; }
         }
 
         /// <summary>
@@ -43,7 +52,7 @@ namespace TrailSimulation.Game
         public void TriggerEventByType(IEntity sourceEntity, EventCategory eventCategory)
         {
             // Roll the dice here to determine if the event is triggered at all.
-            var diceRoll = GameSimulationApp.Instance.Random.Next(100);
+            var diceRoll = GameSimulationApp.Instance.Randomizer.Next(100);
             if (diceRoll > 0)
                 return;
 
@@ -53,7 +62,8 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Triggers an event directly by type of reference. Event must have [EventDirectorModule] attribute to be registered in
+        ///     Triggers an event directly by type of reference. Event must have [EventDirectorModule] attribute to be registered
+        ///     in
         ///     the
         ///     factory correctly.
         /// </summary>
@@ -86,17 +96,19 @@ namespace TrailSimulation.Game
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public override void OnModuleDestroy()
         {
             _eventFactory = null;
         }
 
         /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
+        ///     Fired when the simulation loads and creates the module and allows it to create any data structures it cares about
+        ///     without calling constructor.
         /// </summary>
-        public override void Tick()
+        public override void OnModuleCreate()
         {
-            throw new NotImplementedException();
+            // Creates a new event factory, and event history list. 
+            _eventFactory = new EventFactory();
         }
     }
 }

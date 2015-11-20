@@ -80,7 +80,7 @@ namespace TrailGame
         /// </summary>
         private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            // Destroy the simulation.
+            // OnModuleDestroy the simulation.
             GameSimulationApp.Instance.Destroy();
 
             // Stop the operating system from killing the entire process.

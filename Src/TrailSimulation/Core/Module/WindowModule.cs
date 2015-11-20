@@ -9,6 +9,7 @@ namespace TrailSimulation.Core
     ///     Builds up a list of game modes and their states using reflection and attributes. Contains methods to add game modes
     ///     to running simulation. Can also remove modes and modify them further with states.
     /// </summary>
+    [SimulationModule]
     public sealed class WindowModule : SimulationModule
     {
         /// <summary>
@@ -28,19 +29,6 @@ namespace TrailSimulation.Core
         ///     of which user data object gets mapped to which particular state.
         /// </summary>
         private StateFactory _stateFactory;
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.WindowManager" /> class.
-        /// </summary>
-        internal WindowModule()
-        {
-            // References all of the active game modes that need to be ticked.
-            Modes = new Dictionary<GameMode, IModeProduct>();
-            _modeFactory = new ModeFactory();
-
-            // References to states that can be attached to a particular game mode via attribute association.
-            _stateFactory = new StateFactory();
-        }
 
         /// <summary>
         ///     Statistics for mode runtime. Keeps track of how many times a given mode type was attached to the simulation for
@@ -71,7 +59,7 @@ namespace TrailSimulation.Core
         ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
         ///     of themselves like stores and trades.
         /// </summary>
-        internal Dictionary<GameMode, IModeProduct> Modes { get; }
+        internal Dictionary<GameMode, IModeProduct> Modes { get; private set; }
 
         /// <summary>
         ///     Determines if this simulation is currently accepting input at all, the conditions for this require some game mode
@@ -101,6 +89,23 @@ namespace TrailSimulation.Core
                 // Default response is to return true if nothing else stops it above.
                 return true;
             }
+        }
+
+        /// <summary>
+        ///     Determines how important this module is to the simulation in regards to when it should be ticked after sorting all
+        ///     loaded modules by this priority level.
+        /// </summary>
+        public override ModulePriority Priority
+        {
+            get { return ModulePriority.Normal; }
+        }
+
+        /// <summary>
+        ///     Holds reference to the type of class that will be treated as a simulation module.
+        /// </summary>
+        public override ModuleCategory Category
+        {
+            get { return ModuleCategory.Core; }
         }
 
         /// <summary>
@@ -181,7 +186,7 @@ namespace TrailSimulation.Core
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public override void OnModuleDestroy()
         {
             // Mode factory and list of modes in simulation.
             _modeFactory.Destroy();
@@ -191,6 +196,20 @@ namespace TrailSimulation.Core
             // State factory only references parent mode type, they are added directly to active mode so no list of them here.
             _stateFactory.Destroy();
             _stateFactory = null;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation loads and creates the module and allows it to create any data structures it cares about
+        ///     without calling constructor.
+        /// </summary>
+        public override void OnModuleCreate()
+        {
+            // References all of the active game modes that need to be ticked.
+            Modes = new Dictionary<GameMode, IModeProduct>();
+            _modeFactory = new ModeFactory();
+
+            // References to states that can be attached to a particular game mode via attribute association.
+            _stateFactory = new StateFactory();
         }
 
         /// <summary>

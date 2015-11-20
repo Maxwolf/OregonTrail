@@ -192,7 +192,7 @@ namespace TrailSimulation.Game
             if (Time != null)
                 Time.DayEndEvent -= TimeSimulation_DayEndEvent;
 
-            // Destroy all instances.
+            // OnModuleDestroy all instances.
             ScoreTopTen = null;
             Time = null;
             Climate = null;
@@ -210,7 +210,7 @@ namespace TrailSimulation.Game
         protected override void OnFirstTick()
         {
             // Linear time simulation with ticks.
-            Time = new TimeModule(1848, Months.March, 1);
+            Time = new TimeModule();
             Time.DayEndEvent += TimeSimulation_DayEndEvent;
 
             // Scoring tracker and tabulator for end game results from current simulation state.
@@ -219,8 +219,8 @@ namespace TrailSimulation.Game
 
             // Environment, weather, conditions, climate, tail, stats, event director, etc.
             Director = new DirectorModule();
-            Climate = new ClimateModule(ClimateClassification.Moderate);
-            Trail = new TrailModule(TrailRegistry.OregonTrail());
+            Climate = new ClimateModule();
+            Trail = new TrailModule();
             Vehicle = new Vehicle();
             TotalTurns = 0;
 

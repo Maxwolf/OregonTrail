@@ -8,6 +8,7 @@ namespace TrailSimulation.Core
     ///     system. The idea being that no matter what pulses our simulation like game engine, operating system, framework,
     ///     windows form, phone app, browser we can figure out what a second is from this.
     /// </summary>
+    [SimulationModule]
     internal sealed class TickerModule : SimulationModule
     {
         /// <summary>
@@ -53,23 +54,6 @@ namespace TrailSimulation.Core
         private SpinningPixel _spinningPixel;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Simulation.Ticker" /> class.
-        /// </summary>
-        internal TickerModule()
-        {
-            // Date and time the simulation was started, which we use as benchmark for all future time passed.
-            _lastTickTime = DateTime.UtcNow;
-            _currentTickTime = DateTime.UtcNow;
-
-            // Visual tick representations for other sub-systems.
-            TotalSecondsTicked = 0;
-
-            // Setup spinning pixel to show game is not thread locked.
-            _spinningPixel = new SpinningPixel();
-            TickPhase = _spinningPixel.Step();
-        }
-
-        /// <summary>
         ///     Shows the current status of the simulation visually as a spinning glyph, the purpose of which is to show that there
         ///     is no hang in the simulation or logic controllers and everything is moving along and waiting for input or
         ///     displaying something to user.
@@ -84,6 +68,23 @@ namespace TrailSimulation.Core
         private ulong TotalSecondsTicked { get; set; }
 
         /// <summary>
+        ///     Determines how important this module is to the simulation in regards to when it should be ticked after sorting all
+        ///     loaded modules by this priority level.
+        /// </summary>
+        public override ModulePriority Priority
+        {
+            get { return ModulePriority.None; }
+        }
+
+        /// <summary>
+        ///     Holds reference to the type of class that will be treated as a simulation module.
+        /// </summary>
+        public override ModuleCategory Category
+        {
+            get { return ModuleCategory.Core; }
+        }
+
+        /// <summary>
         ///     Pulse from what ever is keeping the application alive since simulation has no inherit way of doing this itself, but
         ///     relies on this knowledge to obtain information about running time.
         /// </summary>
@@ -92,9 +93,27 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Allow any data structures to save themselves.
         /// </summary>
-        public override void Destroy()
+        public override void OnModuleDestroy()
         {
             OnDestroy();
+        }
+
+        /// <summary>
+        ///     Fired when the simulation loads and creates the module and allows it to create any data structures it cares about
+        ///     without calling constructor.
+        /// </summary>
+        public override void OnModuleCreate()
+        {
+            // Date and time the simulation was started, which we use as benchmark for all future time passed.
+            _lastTickTime = DateTime.UtcNow;
+            _currentTickTime = DateTime.UtcNow;
+
+            // Visual tick representations for other sub-systems.
+            TotalSecondsTicked = 0;
+
+            // Setup spinning pixel to show game is not thread locked.
+            _spinningPixel = new SpinningPixel();
+            TickPhase = _spinningPixel.Step();
         }
 
         /// <summary>

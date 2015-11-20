@@ -68,7 +68,8 @@ namespace TrailSimulation.Game
         Options,
 
         /// <summary>
-        ///     Random event mode is attached by the event director which then listens for the event it will throw at it over event
+        ///     Randomizer event mode is attached by the event director which then listens for the event it will throw at it over
+        ///     event
         ///     delegate the random event mode will subscribe to.
         /// </summary>
         [GameMode(typeof (RandomEventMode))]

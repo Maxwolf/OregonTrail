@@ -2,7 +2,6 @@
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
-using TrailSimulation.Widget;
 
 namespace TrailSimulation.Game
 {

@@ -193,14 +193,14 @@ namespace TrailSimulation.Entity
         /// </summary>
         private void CheckIllness()
         {
-            if (100*GameSimulationApp.Instance.Random.NextDouble() <
+            if (100*GameSimulationApp.Instance.Randomizer.NextDouble() <
                 10 + 35*((int) GameSimulationApp.Instance.Vehicle.Ration - 1))
             {
                 // Mild illness.
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(5);
                 Health = RepairStatus.Fair;
             }
-            else if (100*GameSimulationApp.Instance.Random.NextDouble() < 100 -
+            else if (100*GameSimulationApp.Instance.Randomizer.NextDouble() < 100 -
                      (40/GameSimulationApp.Instance.Vehicle.Passengers.Count()*
                       ((int) GameSimulationApp.Instance.Vehicle.Ration - 1)))
             {
@@ -219,7 +219,7 @@ namespace TrailSimulation.Entity
             }
 
             if (Health == RepairStatus.VeryPoor &&
-                GameSimulationApp.Instance.Random.Next((int) Health) <= 0)
+                GameSimulationApp.Instance.Randomizer.Next((int) Health) <= 0)
             {
                 // Some dying makes everybody take a huge morale hit.
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(50);
