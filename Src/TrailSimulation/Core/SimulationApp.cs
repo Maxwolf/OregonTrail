@@ -1,4 +1,8 @@
-﻿namespace TrailSimulation.Core
+﻿using System;
+using TrailSimulation.Game;
+using TrailSimulation.Widget;
+
+namespace TrailSimulation.Core
 {
     /// <summary>
     ///     Base simulation application class object. This class should not be declared directly but inherited by actual
@@ -13,84 +17,133 @@
         public const bool SHOW_COMMANDS = false;
 
         /// <summary>
+        ///     Constant for the amount of time difference that should occur from last tick and current tick in milliseconds before
+        ///     the simulation logic will be ticked.
+        /// </summary>
+        private const double TICK_INTERVAL = 1000.0d;
+
+        /// <summary>
+        ///     Time and date of latest system tick, used to measure total elapsed time and tick simulation after each second.
+        /// </summary>
+        private DateTime _currentTickTime;
+
+        /// <summary>
+        ///     Last known time the simulation was ticked with logic and all sub-systems. This is not the same as a system tick
+        ///     which can happen hundreds of thousands of times a second or just a few, we only measure the difference in time on
+        ///     them.
+        /// </summary>
+        private DateTime _lastTickTime;
+
+        /// <summary>
+        ///     Spinning character pixel.
+        /// </summary>
+        private SpinningPixel _spinningPixel;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailGame.SimulationApp" /> class.
         /// </summary>
         protected SimulationApp()
         {
             // Default run-level specification.
-            RunLevel = SimulationRunlevel.Initialize;
+            RunLevel = SimulationStatus.Initialize;
 
-            // Ticker module allows us to convert system tick pulses in steady stream of seconds.
-            Ticker = new TickerModule();
-            Ticker.FirstSimulationTickEvent += Ticker_FirstSimulationTickEvent;
-            Ticker.SimulationTickEvent += Ticker_SimulationTickEvent;
-            Ticker.SystemTickEvent += Ticker_SystemTickEvent;
+            // Date and time the simulation was started, which we use as benchmark for all future time passed.
+            _lastTickTime = DateTime.UtcNow;
+            _currentTickTime = DateTime.UtcNow;
+
+            // Visual tick representations for other sub-systems.
+            TotalSecondsTicked = 0;
+
+            // Setup spinning pixel to show game is not thread locked.
+            _spinningPixel = new SpinningPixel();
+            TickPhase = _spinningPixel.Step();
 
             // Create modules needed for managing simulation.
-            Randomizer = new RandomizerModule();
-            WindowManager = new WindowModule();
-            TextRender = new RenderingModule();
+            Random = new RandomModuleProduct();
+            ModeManager = new ModeManagerModuleProduct();
+            TextRender = new TextRenderingModuleProduct();
 
             // Input manager needs event hook for knowing when buffer is sent.
-            InputManager = new InputModule();
-            InputManager.InputManagerSendCommandEvent += InputManager_InputManagerSendCommandEvent;
+            InputManagerManager = new InputManagerModule();
         }
+
+        /// <summary>
+        ///     Shows the current status of the simulation visually as a spinning glyph, the purpose of which is to show that there
+        ///     is no hang in the simulation or logic controllers and everything is moving along and waiting for input or
+        ///     displaying something to user.
+        /// </summary>
+        internal string TickPhase { get; private set; }
+
+        /// <summary>
+        ///     Total number of ticks that have gone by from measuring system ticks, this means this measures the total number of
+        ///     seconds that have gone by using the pulses and time dilation without the use of dirty times that spawn more
+        ///     threads.
+        /// </summary>
+        private ulong TotalSecondsTicked { get; set; }
 
         /// <summary>
         ///     Determines the current state of the overall simulation.
         /// </summary>
-        public SimulationRunlevel RunLevel { get; private set; }
-
-        /// <summary>
-        ///     Keeps track of how many times the underlying system ticks, uses this data to create pulses of one second for the
-        ///     simulation to sync itself to from any number of input ticks.
-        /// </summary>
-        internal TickerModule Ticker { get; private set; }
+        public SimulationStatus RunLevel { get; private set; }
 
         /// <summary>
         ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
         /// </summary>
-        internal RandomizerModule Randomizer { get; private set; }
+        internal RandomModuleProduct Random { get; private set; }
 
         /// <summary>
         ///     Keeps track of the currently attached game mode, which one is active, and getting text user interface data.
         /// </summary>
-        internal WindowModule WindowManager { get; private set; }
+        internal ModeManagerModuleProduct ModeManager { get; private set; }
 
         /// <summary>
         ///     Handles input from the users keyboard, holds an input buffer and will push it to the simulation when return key is
         ///     pressed.
         /// </summary>
-        public InputModule InputManager { get; private set; }
+        public InputManagerModule InputManagerManager { get; private set; }
 
         /// <summary>
         ///     Shows the current state of the simulation as text only interface (TUI). Uses default constants if the attached mode
         ///     or state does not override this functionality and it is ticked.
         /// </summary>
-        public RenderingModule TextRender { get; private set; }
+        public TextRenderingModuleProduct TextRender { get; private set; }
 
         /// <summary>
-        ///     Fired when the input manager wants to send a command to the currently running game simulation.
+        ///     Calculates the number of ticks that have elapsed since the beginning of simulation and to instantiate a TimeSpan
+        ///     object. The TimeSpan object is then used to display the elapsed time using several other time intervals.
         /// </summary>
-        /// <param name="command">Command that wants to be passed into active game mode.</param>
-        private void InputManager_InputManagerSendCommandEvent(string command)
+        private void OnSystemTick()
         {
-            WindowManager.ActiveMode?.SendCommand(command);
+            _currentTickTime = DateTime.UtcNow;
+            var elapsedTicks = _currentTickTime.Ticks - _lastTickTime.Ticks;
+            var elapsedSpan = new TimeSpan(elapsedTicks);
+
+            // Check if more than an entire second has gone by.
+            if (!(elapsedSpan.TotalMilliseconds > TICK_INTERVAL))
+                return;
+
+            // Reset last tick time to current time for measuring towards next second tick.
+            _lastTickTime = _currentTickTime;
+            OnTick();
         }
 
         /// <summary>
-        ///     Fired when the underlying system, engine, potato ticks the simulation.
+        ///     Fired when an actual entire second of system ticks have gone by and we would like to try and tick the internal game
+        ///     simulation logic and everything that comes from that which will move the progress of the simulation forward.
         /// </summary>
-        private void Ticker_SystemTickEvent()
+        private void OnTick()
         {
-            // Sends commands if queue has any.
-            InputManager?.Tick();
+            // Increase the tick count.
+            TotalSecondsTicked++;
 
-            // Back buffer for only sending text when changed.
-            TextRender?.Tick();
+            // Fire event for first tick when it occurs, and only then.
+            if (TotalSecondsTicked == 1)
+            {
+                GameSimulationApp.Instance.OnFirstTick();
+            }
 
-            // Rolls virtual dice.
-            Randomizer?.Tick();
+            // Visual representation of ticking for debugging purposes.
+            TickPhase = _spinningPixel.Step();
         }
 
         /// <summary>
@@ -100,22 +153,13 @@
         private void Ticker_SimulationTickEvent(ulong simTicks)
         {
             // Changes game mode and state when needed.
-            WindowManager?.Tick();
-        }
-
-        /// <summary>
-        ///     Fired on the first actual simulation tick, this would be a system tick but helps us initialize the plumping of the
-        ///     simulation.
-        /// </summary>
-        private void Ticker_FirstSimulationTickEvent()
-        {
-            OnFirstTick();
+            ModeManager?.Tick();
         }
 
         /// <summary>
         ///     Fired when the ticker receives the first system tick event.
         /// </summary>
-        protected abstract void OnFirstTick();
+        public abstract void OnFirstTick();
 
         /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
@@ -123,32 +167,24 @@
         /// </summary>
         public void Destroy()
         {
-            // TODO: Replace with attribute and reflection based initialization for simulation modules.
+            // Simulation is halting!
+            RunLevel = SimulationStatus.Halt;
+
             OnBeforeDestroy();
 
-            // OnModuleDestroy window manager.
-            WindowManager.OnModuleDestroy();
-            WindowManager = null;
+            _lastTickTime = DateTime.MinValue;
+            _currentTickTime = DateTime.MinValue;
+            TotalSecondsTicked = 0;
+            _spinningPixel = null;
+            TickPhase = string.Empty;
 
-            // OnModuleDestroy input manager.
-            InputManager.InputManagerSendCommandEvent -= InputManager_InputManagerSendCommandEvent;
-            InputManager.OnModuleDestroy();
-            InputManager = null;
-
-            // OnModuleDestroy text renderer.
-            TextRender.OnModuleDestroy();
+            // Create modules needed for managing simulation.
+            Random = null;
+            ModeManager = null;
             TextRender = null;
 
-            // OnModuleDestroy the ticker.
-            Ticker.FirstSimulationTickEvent -= Ticker_FirstSimulationTickEvent;
-            Ticker.SimulationTickEvent -= Ticker_SimulationTickEvent;
-            Ticker.SystemTickEvent -= Ticker_SystemTickEvent;
-            Ticker.OnModuleDestroy();
-            Ticker = null;
-
-            // OnModuleDestroy the randomizer.
-            Randomizer.OnModuleDestroy();
-            Randomizer = null;
+            // Input manager needs event hook for knowing when buffer is sent.
+            InputManagerManager = null;
         }
 
         /// <summary>
@@ -157,12 +193,22 @@
         protected abstract void OnBeforeDestroy();
 
         /// <summary>
-        ///     Called by external forces from the simulation such as underlying operating system, game engine, potato, etc.
+        ///     Fired so the simulation can use constant stream of system ticks to determine interval pulse of a second so modules
+        ///     that want to be ticked consistently may do so regardless of incoming system ticks (so long as it is more than a
+        ///     couple in a second, typically in host there will be hundreds of ticks per second).
         /// </summary>
-        public void Tick()
+        public virtual void Tick()
         {
-            // Converts pulses from OS into stream of seconds.
-            Ticker.Tick();
+            OnSystemTick();
+
+            // Sends commands if queue has any.
+            InputManagerManager?.Tick();
+
+            // Back buffer for only sending text when changed.
+            TextRender?.Tick();
+
+            // Rolls virtual dice.
+            Random?.Tick();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Core
@@ -6,17 +7,10 @@ namespace TrailSimulation.Core
     /// <summary>
     ///     Deals with keep track of input to the simulation via whatever form that may end up taking. The default
     ///     implementation is a text user interface (TUI) which allows for the currently accepted commands to be seen and only
-    ///     them accepted.
+    ///     then accepted.
     /// </summary>
-    [SimulationModule]
-    public sealed class InputModule : SimulationModule
+    public sealed class InputManagerModule : ModuleProduct
     {
-        /// <summary>
-        ///     Fired when the input buffer has processed a queued command to be sent and has fired this event to let the
-        ///     simulation know it wants him to deal with it.
-        /// </summary>
-        public delegate void InputManagerSendCommand(string command);
-
         /// <summary>
         ///     Holds a constant representation of the string telling the user to press enter key to continue so we don't repeat
         ///     ourselves.
@@ -29,6 +23,15 @@ namespace TrailSimulation.Core
         private Queue<string> _commandQueue;
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
+        /// </summary>
+        public InputManagerModule()
+        {
+            _commandQueue = new Queue<string>();
+            InputBuffer = string.Empty;
+        }
+
+        /// <summary>
         ///     Input buffer that we will use to hold characters until need to send them to simulation.
         /// </summary>
         internal string InputBuffer { get; private set; }
@@ -37,17 +40,17 @@ namespace TrailSimulation.Core
         ///     Determines how important this module is to the simulation in regards to when it should be ticked after sorting all
         ///     loaded modules by this priority level.
         /// </summary>
-        public override ModulePriority Priority
+        public uint Priority
         {
-            get { return ModulePriority.High; }
+            get { return 1; }
         }
 
         /// <summary>
-        ///     Holds reference to the type of class that will be treated as a simulation module.
+        ///     Reference to the generic type that was created at runtime.
         /// </summary>
-        public override ModuleCategory Category
+        public object GenericTypeInstance
         {
-            get { return ModuleCategory.Core; }
+            get { throw new NotImplementedException(); }
         }
 
         /// <summary>
@@ -59,8 +62,8 @@ namespace TrailSimulation.Core
             // Trim the result of the input so no extra whitespace at front or end exists.
             var lineBufferTrimmed = InputBuffer.Trim();
 
-            // OnModuleDestroy the input buffer if we are not accepting commands but return is pressed anyway.
-            if (!GameSimulationApp.Instance.WindowManager.AcceptingInput)
+            // Destroy the input buffer if we are not accepting commands but return is pressed anyway.
+            if (!GameSimulationApp.Instance.ModeManager.AcceptingInput)
                 InputBuffer = string.Empty;
 
             // Send trimmed line buffer to game simulation, if not accepting input we just pass along empty string.
@@ -78,7 +81,7 @@ namespace TrailSimulation.Core
         private void OnCharacterAddedToInputBuffer(string addedKeyString)
         {
             // Disable passing along input buffer if the simulation is not currently accepting input from the user.
-            if (!GameSimulationApp.Instance.WindowManager.AcceptingInput)
+            if (!GameSimulationApp.Instance.ModeManager.AcceptingInput)
                 return;
 
             // Add the character to the end of the input buffer.
@@ -131,7 +134,7 @@ namespace TrailSimulation.Core
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void OnModuleDestroy()
+        public override void Destroy()
         {
             // Clear the input buffer.
             InputBuffer = string.Empty;
@@ -142,32 +145,16 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Fired when the simulation loads and creates the module and allows it to create any data structures it cares about
-        ///     without calling constructor.
-        /// </summary>
-        public override void OnModuleCreate()
-        {
-            _commandQueue = new Queue<string>();
-            InputBuffer = string.Empty;
-        }
-
-        /// <summary>
         ///     Fired when the simulation ticks the module that it created inside of itself.
         /// </summary>
-        public override void Tick()
+        public void Tick()
         {
             // Skip if there are no commands to tick.
             if (_commandQueue.Count <= 0)
                 return;
 
             // Dequeue the next command to send and pass along to currently active game mode if it exists.
-            InputManagerSendCommandEvent?.Invoke(_commandQueue.Dequeue());
+            GameSimulationApp.Instance.ModeManager.ActiveMode?.SendCommand(_commandQueue.Dequeue());
         }
-
-        /// <summary>
-        ///     Fired when the input buffer has processed a queued command to be sent and has fired this event to let the
-        ///     simulation know it wants him to deal with it.
-        /// </summary>
-        public event InputManagerSendCommand InputManagerSendCommandEvent;
     }
 }

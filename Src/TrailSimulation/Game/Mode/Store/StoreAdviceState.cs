@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Offers up some free information about what items are important to the player and what they mean for the during the
     ///     course of the simulation.
     /// </summary>
-    [RequiredMode(GameMode.Store)]
+    [RequiredMode(Mode.Store)]
     public sealed class StoreAdviceState : StateProduct<StoreInfo>
     {
         /// <summary>
@@ -76,7 +76,7 @@ namespace TrailSimulation.Game
             }
 
             // Wait for user input...
-            _storeHelp.Append(InputModule.PRESS_ENTER);
+            _storeHelp.Append(InputManagerModule.PRESS_ENTER);
         }
 
         /// <summary>

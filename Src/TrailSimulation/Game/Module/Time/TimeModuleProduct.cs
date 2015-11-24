@@ -1,4 +1,5 @@
 ﻿using TrailSimulation.Core;
+using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
 {
@@ -6,14 +7,23 @@ namespace TrailSimulation.Game
     ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
     ///     simulation by one day. There are also other options and events for checking state, and changing state.
     /// </summary>
-    [SimulationModule]
-    public sealed class TimeModule : SimulationModule
+    public sealed class TimeModuleProduct : ModuleProduct
     {
-        public delegate void DayHandler(int dayCount);
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
+        /// </summary>
+        public TimeModuleProduct()
+        {
+            // Create a new time object for our simulation.
+            CurrentYear = 1848;
+            CurrentMonth = Months.March;
+            CurrentDay = 1;
 
-        public delegate void MonthHandler(int monthCount);
-
-        public delegate void YearHandler(int yearCount);
+            TotalDays = 0;
+            TotalMonths = 0;
+            TotalYears = 0;
+            TotalDaysThisYear = 1;
+        }
 
         public Months CurrentMonth { get; private set; }
 
@@ -32,23 +42,6 @@ namespace TrailSimulation.Game
         public Date Date
         {
             get { return new Date(CurrentYear, CurrentMonth, CurrentDay); }
-        }
-
-        /// <summary>
-        ///     Determines how important this module is to the simulation in regards to when it should be ticked after sorting all
-        ///     loaded modules by this priority level.
-        /// </summary>
-        public override ModulePriority Priority
-        {
-            get { return ModulePriority.None; }
-        }
-
-        /// <summary>
-        ///     Holds reference to the type of class that will be treated as a simulation module.
-        /// </summary>
-        public override ModuleCategory Category
-        {
-            get { return ModuleCategory.Application; }
         }
 
         /// <summary>
@@ -71,8 +64,8 @@ namespace TrailSimulation.Game
                 shouldCheckMonthEnd = true;
             }
 
-            // Fire day end event.
-            DayEndEvent?.Invoke(TotalDays);
+            // One day has passed.
+            OnTickDay(TotalDays);
 
             if (shouldCheckMonthEnd)
             {
@@ -84,7 +77,7 @@ namespace TrailSimulation.Game
                     TotalMonths++;
 
                     // Fire month end event
-                    MonthEndEvent?.Invoke(TotalMonths);
+                    OnMonthEnd(TotalMonths);
                 }
                 else
                 {
@@ -96,12 +89,51 @@ namespace TrailSimulation.Game
                     TotalYears++;
 
                     // Fire month end event
-                    MonthEndEvent?.Invoke(TotalMonths);
+                    OnMonthEnd(TotalMonths);
 
                     // Fire year end event
-                    YearEndEvent?.Invoke(TotalYears);
+                    OnYearEnd(TotalYears);
                 }
             }
+        }
+
+        /// <summary>
+        ///     Fired after each year in the simulation.
+        /// </summary>
+        /// <param name="totalYears">Total number of years the simulation has ticked.</param>
+        private void OnYearEnd(int totalYears)
+        {
+            // TODO: Use time module year end or remove it...
+        }
+
+        /// <summary>
+        ///     Fired after each month in the simulation.
+        /// </summary>
+        /// <param name="totalMonths">Total number of months the simulation has ticked.</param>
+        private void OnMonthEnd(int totalMonths)
+        {
+            // TODO: Use time module month end or remove it...
+        }
+
+        /// <summary>
+        ///     Fired after each day in the simulation.
+        /// </summary>
+        /// <param name="totalDays">Total number of days the simulation has ticked.</param>
+        private void OnTickDay(int totalDays)
+        {
+            // Each day we tick the weather, vehicle, and the people in it.
+            GameSimulationApp.Instance.Climate.Tick();
+
+            // Update total distance traveled on vehicle if we have not reached the point.
+            GameSimulationApp.Instance.Vehicle.Tick();
+
+            // Grab the total amount of monies the player has spent on the items in their inventory.
+            var cost_ammo = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Ammo].TotalValue;
+            var cost_clothes = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Clothes].TotalValue;
+            var start_cash = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash].TotalValue;
+
+            // Move towards the next location on the trail.
+            GameSimulationApp.Instance.Trail.Tick();
         }
 
         /// <summary>
@@ -113,37 +145,16 @@ namespace TrailSimulation.Game
             CurrentDay = 1;
         }
 
-        public event YearHandler YearEndEvent;
-        public event MonthHandler MonthEndEvent;
-        public event DayHandler DayEndEvent;
-
         /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void OnModuleDestroy()
+        public override void Destroy()
         {
             // Create a new time object for our simulation.
             CurrentYear = 0;
             CurrentMonth = 0;
             CurrentDay = 0;
-
-            TotalDays = 0;
-            TotalMonths = 0;
-            TotalYears = 0;
-            TotalDaysThisYear = 1;
-        }
-
-        /// <summary>
-        ///     Fired when the simulation loads and creates the module and allows it to create any data structures it cares about
-        ///     without calling constructor.
-        /// </summary>
-        public override void OnModuleCreate()
-        {
-            // Create a new time object for our simulation.
-            CurrentYear = 1848;
-            CurrentMonth = Months.March;
-            CurrentDay = 1;
 
             TotalDays = 0;
             TotalMonths = 0;

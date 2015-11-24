@@ -11,9 +11,9 @@ namespace TrailSimulation.Game
         {
         }
 
-        public override GameMode GameMode
+        public override Mode Mode
         {
-            get { return GameMode.RiverCrossing; }
+            get { return Mode.RiverCrossing; }
         }
 
         public int Depth

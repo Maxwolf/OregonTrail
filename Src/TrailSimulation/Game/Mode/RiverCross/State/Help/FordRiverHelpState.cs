@@ -6,7 +6,7 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Information about what fording a river means and how it works for the player vehicle and their party members.
     /// </summary>
-    [RequiredMode(GameMode.RiverCrossing)]
+    [RequiredMode(Mode.RiverCrossing)]
     public sealed class FordRiverHelpState : DialogState<RiverCrossInfo>
     {
         /// <summary>

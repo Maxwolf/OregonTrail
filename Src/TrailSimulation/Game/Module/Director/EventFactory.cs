@@ -29,7 +29,7 @@ namespace TrailSimulation.Game
                 if (eventObject.IsAbstract)
                     continue;
 
-                // Get the attribute itself from the event we are working on, which gives us the event type enum.
+                // GetModule the attribute itself from the event we are working on, which gives us the event type enum.
                 var eventAttribute = eventObject.GetAttributes<EventDirectorAttribute>(true).First();
                 var eventType = eventAttribute.EventCategory;
 
@@ -120,7 +120,7 @@ namespace TrailSimulation.Game
             var groupedEvents = EventReference.Select(pair => pair.Key.Item1.Equals(eventCategory));
 
             // Roll the dice against the event reference ceiling count to see which one we use.
-            var diceRoll = GameSimulationApp.Instance.Randomizer.Next(EventReference.Count);
+            var diceRoll = GameSimulationApp.Instance.Random.Next(EventReference.Count);
             var randomEventTypeByType = groupedEvents.ElementAt(diceRoll).GetType();
 
             // Create the event we decided to execute from these types of event types.

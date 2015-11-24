@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     moving back and fourth which lets the player know they are moving. Stats are also shown from the travel info
     ///     object, if any random events occur they will be selected from this state.
     /// </summary>
-    [RequiredMode(GameMode.Travel)]
+    [RequiredMode(Mode.Travel)]
     public sealed class DriveState : StateProduct<TravelInfo>
     {
         /// <summary>

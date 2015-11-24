@@ -9,18 +9,17 @@ namespace TrailSimulation.Core
     ///     Builds up a list of game modes and their states using reflection and attributes. Contains methods to add game modes
     ///     to running simulation. Can also remove modes and modify them further with states.
     /// </summary>
-    [SimulationModule]
-    public sealed class WindowModule : SimulationModule
+    public sealed class ModeManagerModuleProduct : ModuleProduct
     {
         /// <summary>
         ///     Fired when the window manager has added or removed a game mode.
         /// </summary>
-        /// <param name="gameMode">Game mode that is going to be the new active one.</param>
-        public delegate void ModeChanged(GameMode gameMode);
+        /// <param name="mode">Game mode that is going to be the new active one.</param>
+        public delegate void ModeChanged(Mode mode);
 
         /// <summary>
         ///     Factory pattern that will create game modes for it based on attribute at the top of each one that defines what mode
-        ///     category it is responsible for.
+        ///     type it is responsible for.
         /// </summary>
         private ModeFactory _modeFactory;
 
@@ -31,12 +30,25 @@ namespace TrailSimulation.Core
         private StateFactory _stateFactory;
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
+        /// </summary>
+        public ModeManagerModuleProduct()
+        {
+            // References all of the active game modes that need to be ticked.
+            Modes = new Dictionary<Mode, IModeProduct>();
+
+            // Factories for modes and states that can be attached to them during runtime.
+            _modeFactory = new ModeFactory();
+            _stateFactory = new StateFactory();
+        }
+
+        /// <summary>
         ///     Statistics for mode runtime. Keeps track of how many times a given mode type was attached to the simulation for
         ///     record keeping purposes.
         /// </summary>
-        public Dictionary<GameMode, int> RunCount
+        public Dictionary<Mode, int> RunCount
         {
-            get { return _modeFactory.RunCount; }
+            get { return _modeFactory.AttachCount; }
         }
 
         /// <summary>
@@ -59,7 +71,7 @@ namespace TrailSimulation.Core
         ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
         ///     of themselves like stores and trades.
         /// </summary>
-        internal Dictionary<GameMode, IModeProduct> Modes { get; private set; }
+        internal Dictionary<Mode, IModeProduct> Modes { get; }
 
         /// <summary>
         ///     Determines if this simulation is currently accepting input at all, the conditions for this require some game mode
@@ -92,20 +104,11 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Determines how important this module is to the simulation in regards to when it should be ticked after sorting all
-        ///     loaded modules by this priority level.
+        ///     Reference to the generic type that was created at runtime.
         /// </summary>
-        public override ModulePriority Priority
+        public object GenericTypeInstance
         {
-            get { return ModulePriority.Normal; }
-        }
-
-        /// <summary>
-        ///     Holds reference to the type of class that will be treated as a simulation module.
-        /// </summary>
-        public override ModuleCategory Category
-        {
-            get { return ModuleCategory.Core; }
+            get { throw new NotImplementedException(); }
         }
 
         /// <summary>
@@ -126,7 +129,7 @@ namespace TrailSimulation.Core
                 throw new InvalidOperationException("Attempted to remove active mode when it is null!");
 
             // Create copy of all modes so we can destroy while iterating.
-            var copyModes = new Dictionary<GameMode, IModeProduct>(Modes);
+            var copyModes = new Dictionary<Mode, IModeProduct>(Modes);
             foreach (var mode in copyModes)
             {
                 // Skip if the mode doesn't want to be removed.
@@ -138,7 +141,7 @@ namespace TrailSimulation.Core
 
                 // Fire virtual method which will allow game simulation above and attempt to pass this data along to internal game mode and game mode states.
                 if (ActiveMode != null)
-                    OnModeChanged(ActiveMode.GameMode);
+                    OnModeChanged(ActiveMode.Mode);
             }
             copyModes.Clear();
         }
@@ -146,35 +149,35 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Creates and adds the specified game mode to the simulation if it does not already exist in the list of modes.
         /// </summary>
-        /// <param name="gameMode">Enumeration value of the mode which should be created.</param>
-        public void AddMode(GameMode gameMode)
+        /// <param name="mode">Enumeration value of the mode which should be created.</param>
+        public void AddMode(Mode mode)
         {
             // Check if any other modes match the one we are adding.
-            if (Modes.ContainsKey(gameMode))
+            if (Modes.ContainsKey(mode))
                 return;
 
             // Create the game mode using factory.
-            var modeProduct = _modeFactory.CreateMode(gameMode);
+            var modeProduct = _modeFactory.CreateMode(mode);
 
             // Add the game mode to the simulation now that we know it does not exist in the stack yet.
-            Modes.Add(gameMode, modeProduct);
+            Modes.Add(mode, modeProduct);
 
             // Call final activator for attaching states on startup if that is what the mode wants to do.
-            Modes[gameMode].OnModePostCreate();
+            Modes[mode].OnModePostCreate();
 
             // Last thing we do is call event that subscribers can know about game mode changes after they happen.
-            ModeChangedEvent?.Invoke(Modes[gameMode].GameMode);
+            ModeChangedEvent?.Invoke(Modes[mode].Mode);
         }
 
         /// <summary>
         ///     Fired when the active game mode has been changed, this allows any underlying mode to know about a change in
         ///     simulation.
         /// </summary>
-        /// <param name="gameMode">Current mode which the simulation is changing to.</param>
-        private void OnModeChanged(GameMode gameMode)
+        /// <param name="mode">Current mode which the simulation is changing to.</param>
+        private void OnModeChanged(Mode mode)
         {
             // Fire event that lets subscribers know we changed something.
-            ModeChangedEvent?.Invoke(gameMode);
+            ModeChangedEvent?.Invoke(mode);
         }
 
         /// <summary>
@@ -186,7 +189,7 @@ namespace TrailSimulation.Core
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void OnModuleDestroy()
+        public override void Destroy()
         {
             // Mode factory and list of modes in simulation.
             _modeFactory.Destroy();
@@ -199,23 +202,9 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Fired when the simulation loads and creates the module and allows it to create any data structures it cares about
-        ///     without calling constructor.
-        /// </summary>
-        public override void OnModuleCreate()
-        {
-            // References all of the active game modes that need to be ticked.
-            Modes = new Dictionary<GameMode, IModeProduct>();
-            _modeFactory = new ModeFactory();
-
-            // References to states that can be attached to a particular game mode via attribute association.
-            _stateFactory = new StateFactory();
-        }
-
-        /// <summary>
         ///     Fired when the simulation ticks the module that it created inside of itself.
         /// </summary>
-        public override void Tick()
+        public void Tick()
         {
             // If the active mode is not null and flag is set to remove then do that!
             if (ActiveMode != null && ActiveMode.ShouldRemoveMode)

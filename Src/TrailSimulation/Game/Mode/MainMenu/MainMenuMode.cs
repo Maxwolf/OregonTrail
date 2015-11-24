@@ -25,9 +25,9 @@ namespace TrailSimulation.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override GameMode GameMode
+        public override Mode Mode
         {
-            get { return GameMode.MainMenu; }
+            get { return Mode.MainMenu; }
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private static void ChooseManagementOptions()
         {
-            GameSimulationApp.Instance.WindowManager.AddMode(GameMode.Options);
+            GameSimulationApp.Instance.ModeManager.AddMode(Mode.Options);
         }
 
         /// <summary>

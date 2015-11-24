@@ -7,7 +7,7 @@ namespace TrailSimulation.Game
     ///     Runs the player over the river based on the crossing information. Depending on what happens a message will be
     ///     printed to the screen explaining what happened before defaulting back to travel game mode.
     /// </summary>
-    [RequiredMode(GameMode.RiverCrossing)]
+    [RequiredMode(Mode.RiverCrossing)]
     public sealed class CrossingResultState : StateProduct<RiverCrossInfo>
     {
         private StringBuilder _crossingResult;

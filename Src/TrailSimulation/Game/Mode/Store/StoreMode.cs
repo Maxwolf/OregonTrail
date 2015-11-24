@@ -20,9 +20,9 @@ namespace TrailSimulation.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override GameMode GameMode
+        public override Mode Mode
         {
-            get { return GameMode.Store; }
+            get { return Mode.Store; }
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace TrailSimulation.Game
 
             // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game mode also (travel mode always there).
             if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                GameSimulationApp.Instance.WindowManager.ModeCount > 1)
+                GameSimulationApp.Instance.ModeManager.ModeCount > 1)
             {
                 StoreAdvice();
             }
@@ -153,12 +153,12 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        protected override void OnModeRemoved(GameMode gameMode)
+        protected override void OnModeRemoved(Mode mode)
         {
-            base.OnModeRemoved(gameMode);
+            base.OnModeRemoved(mode);
 
             // Store is only going to process transactions on removal when it is the one up for removal.
-            if (gameMode != GameMode)
+            if (mode != Mode)
                 return;
 
             // Modify the vehicles cash from purchases they made.

@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     continue. This is used in the new game mode to force the player to have at least one oxen to pull their vehicle in
     ///     order to start the simulation.
     /// </summary>
-    [RequiredMode(GameMode.Store)]
+    [RequiredMode(Mode.Store)]
     public sealed class MissingItemState : DialogState<StoreInfo>
     {
         /// <summary>

@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Spawns a new game mode in the game simulation while maintaining the state of previous one so when we bounce back we
     ///     can move from here to next state.
     /// </summary>
-    [RequiredMode(GameMode.MainMenu)]
+    [RequiredMode(Mode.MainMenu)]
     public sealed class BuyInitialItemsState : DialogState<MainMenuInfo>
     {
         /// <summary>

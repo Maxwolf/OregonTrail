@@ -10,9 +10,9 @@ namespace TrailSimulation.Game
     /// </summary>
     public sealed class HuntingMode : ModeProduct<HuntingCommands, HuntingInfo>
     {
-        public override GameMode GameMode
+        public override Mode Mode
         {
-            get { return GameMode.Hunt; }
+            get { return Mode.Hunt; }
         }
 
         /// <summary>

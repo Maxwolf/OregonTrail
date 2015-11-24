@@ -66,7 +66,7 @@ namespace TrailSimulation
         /// <summary>
         ///     Grabs first attribute from a given object and returns the first one in the enumeration.
         /// </summary>
-        /// <typeparam name="T">Type of attribute that we should be looking for.</typeparam>
+        /// <typeparam name="T">Role of attribute that we should be looking for.</typeparam>
         /// <param name="value">Object that will have attribute tag specified in generic parameter..</param>
         /// <returns>Attribute of the specified type from inputted object.</returns>
         private static T GetAttribute<T>(this object value) where T : Attribute

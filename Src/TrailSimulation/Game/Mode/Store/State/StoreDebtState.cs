@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     If the player cannot afford to leave the store because they have attempted to purchase more items than they are
     ///     capable of carrying and or purchasing this will be displayed to inform the user they need to pay up.
     /// </summary>
-    [RequiredMode(GameMode.Store)]
+    [RequiredMode(Mode.Store)]
     public sealed class StoreDebtState : DialogState<StoreInfo>
     {
         /// <summary>

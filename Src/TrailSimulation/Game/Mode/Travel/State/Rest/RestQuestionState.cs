@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     response and will not do anything. If greater than zero we will attach another state to tick that many days by in
     ///     the simulation.
     /// </summary>
-    [RequiredMode(GameMode.Travel)]
+    [RequiredMode(Mode.Travel)]
     public sealed class RestQuestionState : StateProduct<TravelInfo>
     {
         /// <summary>

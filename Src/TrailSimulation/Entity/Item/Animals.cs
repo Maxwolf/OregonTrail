@@ -20,7 +20,7 @@ namespace TrailSimulation.Entity
             get
             {
                 return new SimItem(SimEntity.Food, "Buffalo", "pounds", "pound", 2000, 0,
-                    GameSimulationApp.Instance.Randomizer.Next(350, 500));
+                    GameSimulationApp.Instance.Random.Next(350, 500));
             }
         }
 
@@ -29,7 +29,7 @@ namespace TrailSimulation.Entity
             get
             {
                 return new SimItem(SimEntity.Food, "Caribou", "pounds", "pound", 2000, 0,
-                    GameSimulationApp.Instance.Randomizer.Next(300, 350));
+                    GameSimulationApp.Instance.Random.Next(300, 350));
             }
         }
 

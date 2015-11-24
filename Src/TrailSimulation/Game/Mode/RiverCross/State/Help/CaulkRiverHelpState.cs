@@ -3,7 +3,7 @@ using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
-    [RequiredMode(GameMode.RiverCrossing)]
+    [RequiredMode(Mode.RiverCrossing)]
     public sealed class CaulkRiverHelpState : DialogState<RiverCrossInfo>
     {
         /// <summary>

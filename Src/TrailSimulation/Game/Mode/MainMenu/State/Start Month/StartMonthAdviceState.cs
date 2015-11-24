@@ -7,7 +7,7 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Shows the player information about what the various starting months mean.
     /// </summary>
-    [RequiredMode(GameMode.MainMenu)]
+    [RequiredMode(Mode.MainMenu)]
     public sealed class StartMonthAdviceState : DialogState<MainMenuInfo>
     {
         public StartMonthAdviceState(IModeProduct gameMode) : base(gameMode)

@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Keeps track of a set number of days and every time the game mode is ticked a day is simulated and days to rest
     ///     subtracted until we are at zero, then the player can close the window but until then input will not be accepted.
     /// </summary>
-    [RequiredMode(GameMode.Travel)]
+    [RequiredMode(Mode.Travel)]
     public sealed class RestingState : DialogState<TravelInfo>
     {
         /// <summary>

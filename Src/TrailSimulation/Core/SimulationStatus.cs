@@ -4,7 +4,7 @@
     ///     Used by core simulation to figure out which modules need to be ticked in system, game, and their order. Effectively
     ///     emulating a UNIX style SystemV init using attributes and reflection to figure out how the simulation will run.
     /// </summary>
-    public enum SimulationRunlevel
+    public enum SimulationStatus
     {
         /// <summary>
         ///     Shuts the simulation down and destroys all data.

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -8,7 +9,7 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     First panel on point information, shows how health of party members contributes to final score.
     /// </summary>
-    [RequiredMode(GameMode.MainMenu)]
+    [RequiredMode(Mode.MainMenu)]
     public sealed class PointsHealthState : DialogState<MainMenuInfo>
     {
         /// <summary>
@@ -33,8 +34,15 @@ namespace TrailSimulation.Game
             _pointsHealth.Append($"receive more points if they arrive{Environment.NewLine}");
             _pointsHealth.Append($"in good health!{Environment.NewLine}{Environment.NewLine}");
 
+            // Repair status reference dictionary.
+            var _repairLevels = new Dictionary<string, int>();
+            foreach (var repairStat in Enum.GetNames(typeof (RepairStatus)))
+            {
+                _repairLevels.Add(repairStat, (int) Enum.Parse(typeof (RepairStatus), repairStat));
+            }
+
             // Build a text table from people point distribution with custom headers.
-            var partyTextTable = GameSimulationApp.Instance.RepairLevels.Values.ToStringTable(
+            var partyTextTable = _repairLevels.Values.ToStringTable(
                 new[] {"Health of Party", "Points per Person"},
                 u => Enum.Parse(typeof (RepairStatus), u.ToString()).ToString(),
                 u => u);

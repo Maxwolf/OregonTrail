@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     a chance to confirm their selection in another state, reset if they don't like it, and also generate a random user
     ///     name if they just press enter at the prompt for a name.
     /// </summary>
-    [RequiredMode(GameMode.MainMenu)]
+    [RequiredMode(Mode.MainMenu)]
     public sealed class InputPlayerNameState : StateProduct<MainMenuInfo>
     {
         /// <summary>
@@ -130,7 +130,7 @@ namespace TrailSimulation.Game
                 "Kristy", "Sharice", "Joanna", "Chrystal", "Genevie", "Angela", "Ruthann", "Viva", "Iris", "Anderson",
                 "Siobhan", "Karey", "Jolie", "Carlene", "Lekisha", "Buck"
             };
-            return names[GameSimulationApp.Instance.Randomizer.Next(names.Length)];
+            return names[GameSimulationApp.Instance.Random.Next(names.Length)];
         }
     }
 }

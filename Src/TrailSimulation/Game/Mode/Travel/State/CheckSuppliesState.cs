@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     they have. This screen is not for looking at group stats, only items which are normally not shown unlike the travel
     ///     menu that shows basic party stats at all times.
     /// </summary>
-    [RequiredMode(GameMode.Travel)]
+    [RequiredMode(Mode.Travel)]
     public sealed class CheckSuppliesState : DialogState<TravelInfo>
     {
         /// <summary>
@@ -32,7 +32,7 @@ namespace TrailSimulation.Game
             // Loop through every inventory item in the vehicle.
             foreach (var item in GameSimulationApp.Instance.Vehicle.Inventory)
             {
-                // Get the next item in the vehicle inventory.
+                // GetModule the next item in the vehicle inventory.
                 var itemName = item.Value.Name.ToLowerInvariant();
 
                 // Determine if this item is money and needs special formatting.

@@ -15,7 +15,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.RequiredModeAttribute" /> class.
         /// </summary>
-        public RequiredModeAttribute(GameMode parentMode)
+        public RequiredModeAttribute(Mode parentMode)
         {
             ParentMode = parentMode;
         }
@@ -23,6 +23,6 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Defines what the parent game mode of this particular state should be.
         /// </summary>
-        public GameMode ParentMode { get; private set; }
+        public Mode ParentMode { get; private set; }
     }
 }

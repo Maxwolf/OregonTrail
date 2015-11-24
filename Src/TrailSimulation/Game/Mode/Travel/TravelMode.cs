@@ -13,9 +13,9 @@ namespace TrailSimulation.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override GameMode GameMode
+        public override Mode Mode
         {
-            get { return GameMode.Travel; }
+            get { return Mode.Travel; }
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void BuySupplies()
         {
-            GameSimulationApp.Instance.WindowManager.AddMode(GameMode.Store);
+            GameSimulationApp.Instance.ModeManager.AddMode(Mode.Store);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace TrailSimulation.Game
         private void AttemptToTrade()
         {
             ClearState();
-            GameSimulationApp.Instance.WindowManager.AddMode(GameMode.Trade);
+            GameSimulationApp.Instance.ModeManager.AddMode(Mode.Trade);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace TrailSimulation.Game
         private void HuntForFood()
         {
             ClearState();
-            GameSimulationApp.Instance.WindowManager.AddMode(GameMode.Hunt);
+            GameSimulationApp.Instance.ModeManager.AddMode(Mode.Hunt);
         }
 
         /// <summary>
@@ -150,8 +150,8 @@ namespace TrailSimulation.Game
 
             // Travel mode waits until it is by itself on first location and first turn.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                GameSimulationApp.Instance.WindowManager.ModeCount <= 1 &&
-                GameSimulationApp.Instance.RunLevel == SimulationRunlevel.Running)
+                GameSimulationApp.Instance.ModeManager.ModeCount <= 1 &&
+                GameSimulationApp.Instance.RunLevel == SimulationStatus.Running)
             {
                 // Establishes configured vehicle onto running simulation, sets first point on trail as visited.
                 // NOTE: Also calculates initial distance to next point and all points thereafter.
@@ -162,9 +162,9 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        protected override void OnModeRemoved(GameMode gameMode)
+        protected override void OnModeRemoved(Mode mode)
         {
-            base.OnModeRemoved(gameMode);
+            base.OnModeRemoved(mode);
 
             // On the first point we are going to force the look around state onto the traveling mode without asking.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation)

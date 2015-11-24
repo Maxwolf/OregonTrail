@@ -5,7 +5,7 @@ using TrailSimulation.Game;
 namespace TrailGame
 {
     /// <summary>
-    ///     Trail Simulation Application
+    ///     Trail Simulation Game
     /// </summary>
     internal static class Program
     {
@@ -32,7 +32,7 @@ namespace TrailGame
                 // Check if a key is being pressed, without blocking thread.
                 if (Console.KeyAvailable)
                 {
-                    // Get the key that was pressed, without printing it to console.
+                    // GetModule the key that was pressed, without printing it to console.
                     var key = Console.ReadKey(true);
 
                     // If enter is pressed, pass whatever we have to simulation.
@@ -40,14 +40,14 @@ namespace TrailGame
                     switch (key.Key)
                     {
                         case ConsoleKey.Enter:
-                            GameSimulationApp.Instance.InputManager.SendInputBufferAsCommand();
+                            GameSimulationApp.Instance.InputManagerManager.SendInputBufferAsCommand();
                             break;
                         case ConsoleKey.Backspace:
-                            GameSimulationApp.Instance.InputManager.RemoteLastCharOfInputBuffer();
+                            GameSimulationApp.Instance.InputManagerManager.RemoteLastCharOfInputBuffer();
                             break;
                         default:
                             // if not enter or backspace we pass the key character to simulation individually.
-                            GameSimulationApp.Instance.InputManager.AddCharToInputBuffer(key.KeyChar);
+                            GameSimulationApp.Instance.InputManagerManager.AddCharToInputBuffer(key.KeyChar);
                             break;
                     }
                 }
@@ -80,7 +80,7 @@ namespace TrailGame
         /// </summary>
         private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            // OnModuleDestroy the simulation.
+            // Destroy the simulation.
             GameSimulationApp.Instance.Destroy();
 
             // Stop the operating system from killing the entire process.

@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     References the top ten players in regards to final score they earned at the end of the game, this list is by
     ///     default hard-coded by players have the chance to save their own scores to the list if they beat the default values.
     /// </summary>
-    [RequiredMode(GameMode.MainMenu)]
+    [RequiredMode(Mode.MainMenu)]
     public sealed class CurrentTopTenState : DialogState<MainMenuInfo>
     {
         /// <summary>

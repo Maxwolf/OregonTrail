@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Allows the player to purchase a number of oxen to pull their vehicle.
     /// </summary>
-    [RequiredMode(GameMode.Store)]
+    [RequiredMode(Mode.Store)]
     public sealed class BuyItemState : StateProduct<StoreInfo>
     {
         /// <summary>

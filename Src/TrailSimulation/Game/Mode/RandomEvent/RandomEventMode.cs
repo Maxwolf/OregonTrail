@@ -13,9 +13,9 @@ namespace TrailSimulation.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override GameMode GameMode
+        public override Mode Mode
         {
-            get { return GameMode.RandomEvent; }
+            get { return Mode.RandomEvent; }
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace TrailSimulation.Game
         public override void OnModePostCreate()
         {
             // Event director has event to know when events are triggered.
-            GameSimulationApp.Instance.Director.OnEventTriggered += Director_OnEventTriggered;
+            GameSimulationApp.Instance.EventDirector.OnEventTriggered += Director_OnEventTriggered;
         }
 
         /// <summary>
@@ -43,13 +43,13 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        protected override void OnModeRemoved(GameMode gameMode)
+        protected override void OnModeRemoved(Mode mode)
         {
-            base.OnModeRemoved(gameMode);
+            base.OnModeRemoved(mode);
 
             // Event director has event for when he triggers events.
-            if (GameSimulationApp.Instance.Director != null)
-                GameSimulationApp.Instance.Director.OnEventTriggered -= Director_OnEventTriggered;
+            if (GameSimulationApp.Instance.EventDirector != null)
+                GameSimulationApp.Instance.EventDirector.OnEventTriggered -= Director_OnEventTriggered;
         }
     }
 }

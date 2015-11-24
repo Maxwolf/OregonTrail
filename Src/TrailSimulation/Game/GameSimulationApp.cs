@@ -12,17 +12,6 @@ namespace TrailSimulation.Game
     public sealed class GameSimulationApp : SimulationApp
     {
         /// <summary>
-        ///     Fired when the simulation is closing, event will trigger before data structures are destroyed offering chance to
-        ///     save any data they care about.
-        /// </summary>
-        public delegate void EndGame();
-
-        /// <summary>
-        ///     Fired when the first turn is ticked from zero to one.
-        /// </summary>
-        public delegate void NewGame();
-
-        /// <summary>
         ///     Defines the limit on the number of players for the vehicle that will be allowed. This also determines how many
         ///     names are asked for in new game mode.
         /// </summary>
@@ -34,28 +23,9 @@ namespace TrailSimulation.Game
         public const int TRAIL_LENGTH = 2040;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailGame.GameSimulationApp" /> class.
-        /// </summary>
-        private GameSimulationApp()
-        {
-            // Repair status reference dictionary.
-            RepairLevels = new Dictionary<string, int>();
-            foreach (var repairStat in Enum.GetNames(typeof (RepairStatus)))
-            {
-                RepairLevels.Add(repairStat, (int) Enum.Parse(typeof (RepairStatus), repairStat));
-            }
-        }
-
-        /// <summary>
-        ///     References all of the possible repair status mapped to their string and integer values for easy compares without
-        ///     using reflection all the time.
-        /// </summary>
-        public Dictionary<string, int> RepairLevels { get; }
-
-        /// <summary>
         ///     Keeps track of all the points of interest we want to visit from beginning to end that makeup the entire journey.
         /// </summary>
-        public TrailModule Trail { get; private set; }
+        public TrailModuleProduct Trail { get; private set; }
 
         /// <summary>
         ///     Singleton instance for the entire game simulation, does not block the calling thread though only listens for
@@ -66,12 +36,12 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Manages time in a linear since from the provided ticks in base simulation class. Handles days, months, and years.
         /// </summary>
-        public TimeModule Time { get; private set; }
+        public TimeModuleProduct Time { get; private set; }
 
         /// <summary>
         ///     Manages weather, temperature, humidity, and current grazing level for living animals.
         /// </summary>
-        public ClimateModule Climate { get; private set; }
+        public ClimateModuleProduct Climate { get; private set; }
 
         /// <summary>
         ///     Keeps track of the total number of points the player has earned through the course of the game.
@@ -82,7 +52,7 @@ namespace TrailSimulation.Game
         ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
         ///     game modes, people, and vehicles.
         /// </summary>
-        public DirectorModule Director { get; private set; }
+        public EventDirectorModuleProduct EventDirector { get; private set; }
 
         /// <summary>
         ///     Current vessel which the player character and his party are traveling inside of, provides means of transportation
@@ -119,17 +89,6 @@ namespace TrailSimulation.Game
                 return defaultInventory;
             }
         }
-
-        /// <summary>
-        ///     Fired when the first turn is ticked from zero to one.
-        /// </summary>
-        public event NewGame NewgameEvent;
-
-        /// <summary>
-        ///     Fired when the simulation is closing, event will trigger before data structures are destroyed offering chance to
-        ///     save any data they care about.
-        /// </summary>
-        public event EndGame EndgameEvent;
 
 
         /// <summary>
@@ -185,18 +144,11 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override void OnBeforeDestroy()
         {
-            // Fire event that lets any other data structures know the simulation has come to an end.
-            EndgameEvent?.Invoke();
-
-            // Unhook delegates from linear time simulation.
-            if (Time != null)
-                Time.DayEndEvent -= TimeSimulation_DayEndEvent;
-
-            // OnModuleDestroy all instances.
+            // Destroy all instances.
             ScoreTopTen = null;
             Time = null;
             Climate = null;
-            Director = null;
+            EventDirector = null;
             Trail = null;
             TotalTurns = 0;
             Vehicle = null;
@@ -207,49 +159,29 @@ namespace TrailSimulation.Game
         ///     Fired when the simulation is loaded and makes it very first tick using the internal timer mechanism keeping track
         ///     of ticks to keep track of seconds.
         /// </summary>
-        protected override void OnFirstTick()
+        public override void OnFirstTick()
         {
             // Linear time simulation with ticks.
-            Time = new TimeModule();
-            Time.DayEndEvent += TimeSimulation_DayEndEvent;
+            Time = new TimeModuleProduct();
 
             // Scoring tracker and tabulator for end game results from current simulation state.
             ScoreTopTen = new List<Highscore>(ScoreRegistry.TopTenDefaults);
             // TODO: Load custom list from JSON with user high scores altered from defaults.
 
             // Environment, weather, conditions, climate, tail, stats, event director, etc.
-            Director = new DirectorModule();
-            Climate = new ClimateModule();
-            Trail = new TrailModule();
+            EventDirector = new EventDirectorModuleProduct();
+            Climate = new ClimateModuleProduct();
+            Trail = new TrailModuleProduct();
+
+            // Vehicle entity for the players to travel in along the trail.
             Vehicle = new Vehicle();
             TotalTurns = 0;
 
             // Attach traveling mode since that is the default and bottom most game mode.
-            WindowManager.AddMode(GameMode.Travel);
+            ModeManager.AddMode(Mode.Travel);
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            WindowManager.AddMode(GameMode.MainMenu);
-        }
-
-        /// <summary>
-        ///     Fired after each simulated day.
-        /// </summary>
-        /// <param name="dayCount">Total number of days in the simulation that have passed.</param>
-        private void TimeSimulation_DayEndEvent(int dayCount)
-        {
-            // Each day we tick the weather, vehicle, and the people in it.
-            Climate.Tick();
-
-            // Update total distance traveled on vehicle if we have not reached the point.
-            Vehicle.Tick();
-
-            // Grab the total amount of monies the player has spent on the items in their inventory.
-            var cost_ammo = Vehicle.Inventory[SimEntity.Ammo].TotalValue;
-            var cost_clothes = Vehicle.Inventory[SimEntity.Clothes].TotalValue;
-            var start_cash = Vehicle.Inventory[SimEntity.Cash].TotalValue;
-
-            // Move towards the next location on the trail.
-            Trail.Tick();
+            ModeManager.AddMode(Mode.MainMenu);
         }
     }
 }

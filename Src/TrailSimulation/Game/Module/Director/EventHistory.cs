@@ -18,7 +18,7 @@ namespace TrailSimulation.Game
             // Who triggered the event.
             SourceEntity = entity;
 
-            // What the event name and category were.
+            // What the event name and type were.
             EventName = directorEvent.Name;
             EventCategory = directorEvent.Category;
         }
@@ -29,7 +29,7 @@ namespace TrailSimulation.Game
         public IEntity SourceEntity { get; }
 
         /// <summary>
-        ///     Defines what category of event this was.
+        ///     Defines what type of event this was.
         /// </summary>
         public EventCategory EventCategory { get; }
 

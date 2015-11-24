@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     enough money at this point this state will be attached and explain to the user they cannot use the ferry and must
     ///     pick one of the other two options.
     /// </summary>
-    [RequiredMode(GameMode.RiverCrossing)]
+    [RequiredMode(Mode.RiverCrossing)]
     public sealed class FerryNoMoniesState : DialogState<RiverCrossInfo>
     {
         /// <summary>

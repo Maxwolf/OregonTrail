@@ -163,7 +163,7 @@ namespace TrailSimulation.Core
                 return false;
             }
 
-            if (GameMode.Equals(other.GameMode) &&
+            if (Mode.Equals(other.Mode) &&
                 _currentState.Equals(other._currentState))
             {
                 return true;
@@ -198,14 +198,14 @@ namespace TrailSimulation.Core
             _currentState = null;
 
             // Allows any data structures that care about themselves to save before the next tick comes.
-            OnModeRemoved(GameMode);
+            OnModeRemoved(Mode);
         }
 
         /// <summary>
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public abstract GameMode GameMode { get; }
+        public abstract Mode Mode { get; }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
@@ -352,7 +352,7 @@ namespace TrailSimulation.Core
             Debug.Assert(x != null, "x != null");
             Debug.Assert(y != null, "y != null");
 
-            var result = x.GameMode.CompareTo(y.GameMode);
+            var result = x.Mode.CompareTo(y.Mode);
             if (result != 0) return result;
 
             result = x.CurrentState.CompareTo(y.CurrentState);
@@ -375,7 +375,7 @@ namespace TrailSimulation.Core
         {
             Debug.Assert(other != null, "other != null");
 
-            var result = other.GameMode.CompareTo(GameMode);
+            var result = other.Mode.CompareTo(Mode);
             if (result != 0) return result;
 
             result = other.CurrentState.CompareTo(_currentState);
@@ -395,7 +395,7 @@ namespace TrailSimulation.Core
                 ClearState();
 
             // States and modes both direct calls to window manager for adding a state.
-            _currentState = GameSimulationApp.Instance.WindowManager.CreateStateFromType(this, stateType);
+            _currentState = GameSimulationApp.Instance.ModeManager.CreateStateFromType(this, stateType);
             OnStateChange();
         }
 
@@ -464,7 +464,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        protected virtual void OnModeRemoved(GameMode gameMode)
+        protected virtual void OnModeRemoved(Mode mode)
         {
             _menuChoices = null;
         }
@@ -477,7 +477,7 @@ namespace TrailSimulation.Core
         /// </returns>
         public override string ToString()
         {
-            return GameMode.ToString();
+            return Mode.ToString();
         }
 
         /// <summary>
@@ -489,7 +489,7 @@ namespace TrailSimulation.Core
         public override int GetHashCode()
         {
             var hash = 23;
-            hash = (hash*31) + GameMode.GetHashCode();
+            hash = (hash*31) + Mode.GetHashCode();
             return hash;
         }
     }

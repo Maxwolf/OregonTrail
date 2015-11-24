@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Second panel on point information, shows how the number of resources you end the game with contribute to your final
     ///     score.
     /// </summary>
-    [RequiredMode(GameMode.MainMenu)]
+    [RequiredMode(Mode.MainMenu)]
     public sealed class PointsResourcesState : DialogState<MainMenuInfo>
     {
         /// <summary>

@@ -193,14 +193,14 @@ namespace TrailSimulation.Entity
         /// </summary>
         private void CheckIllness()
         {
-            if (100*GameSimulationApp.Instance.Randomizer.NextDouble() <
+            if (100*GameSimulationApp.Instance.Random.NextDouble() <
                 10 + 35*((int) GameSimulationApp.Instance.Vehicle.Ration - 1))
             {
                 // Mild illness.
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(5);
                 Health = RepairStatus.Fair;
             }
-            else if (100*GameSimulationApp.Instance.Randomizer.NextDouble() < 100 -
+            else if (100*GameSimulationApp.Instance.Random.NextDouble() < 100 -
                      (40/GameSimulationApp.Instance.Vehicle.Passengers.Count()*
                       ((int) GameSimulationApp.Instance.Vehicle.Ration - 1)))
             {
@@ -215,17 +215,17 @@ namespace TrailSimulation.Entity
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(15);
 
                 // Pick an actual severe illness from list, roll the dice for it on very low health.
-                GameSimulationApp.Instance.Director.TriggerEventByType(this, EventCategory.Person);
+                GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Person);
             }
 
             if (Health == RepairStatus.VeryPoor &&
-                GameSimulationApp.Instance.Randomizer.Next((int) Health) <= 0)
+                GameSimulationApp.Instance.Random.Next((int) Health) <= 0)
             {
                 // Some dying makes everybody take a huge morale hit.
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(50);
 
                 // Check if leader died or party member.
-                GameSimulationApp.Instance.Director.TriggerEvent(this, IsLeader
+                GameSimulationApp.Instance.EventDirector.TriggerEvent(this, IsLeader
                     ? typeof (DeathPlayerEvent)
                     : typeof (DeathCompanionEvent));
             }

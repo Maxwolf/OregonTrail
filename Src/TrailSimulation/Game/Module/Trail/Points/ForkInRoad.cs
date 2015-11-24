@@ -18,9 +18,9 @@ namespace TrailSimulation.Game
             _skipChoices = new HashSet<Location>(skipChoices);
         }
 
-        public override GameMode GameMode
+        public override Mode Mode
         {
-            get { return GameMode.ForkInRoad; }
+            get { return Mode.ForkInRoad; }
         }
 
         public IEnumerable<Location> SkipChoices

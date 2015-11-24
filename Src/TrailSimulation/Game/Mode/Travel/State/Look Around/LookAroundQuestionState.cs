@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     the constructor there is a default boolean value to skip the question asking part and force a look around event to
     ///     occur without player consent.
     /// </summary>
-    [RequiredMode(GameMode.Travel)]
+    [RequiredMode(Mode.Travel)]
     public sealed class LookAroundQuestionState : DialogState<TravelInfo>
     {
         /// <summary>

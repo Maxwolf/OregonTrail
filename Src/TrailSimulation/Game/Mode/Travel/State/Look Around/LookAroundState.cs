@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     like the first location will force the player to look around regardless if they want to or not and print a
     ///     different message about traveling back in time.
     /// </summary>
-    [RequiredMode(GameMode.Travel)]
+    [RequiredMode(Mode.Travel)]
     public sealed class LookAroundState : DialogState<TravelInfo>
     {
         /// <summary>

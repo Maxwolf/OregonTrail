@@ -7,7 +7,7 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Introduces the player to the concept of a store as being run by a person by the name of Matt.
     /// </summary>
-    [RequiredMode(GameMode.MainMenu)]
+    [RequiredMode(Mode.MainMenu)]
     public sealed class IntroduceStoreState : DialogState<MainMenuInfo>
     {
         /// <summary>
@@ -36,7 +36,7 @@ namespace TrailSimulation.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             ParentMode.RemoveModeNextTick();
-            GameSimulationApp.Instance.WindowManager.AddMode(GameMode.Store);
+            GameSimulationApp.Instance.ModeManager.AddMode(Mode.Store);
         }
     }
 }

@@ -11,9 +11,9 @@ namespace TrailSimulation.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override GameMode GameMode
+        public override Mode Mode
         {
-            get { return GameMode.EndGame; }
+            get { return Mode.EndGame; }
         }
 
         /// <summary>

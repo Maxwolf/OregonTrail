@@ -13,9 +13,9 @@ namespace TrailSimulation.Game
         ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override GameMode GameMode
+        public override Mode Mode
         {
-            get { return GameMode.RiverCrossing; }
+            get { return Mode.RiverCrossing; }
         }
 
         /// <summary>
@@ -97,8 +97,8 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        /// <param name="gameMode"></param>
-        protected override void OnModeRemoved(GameMode gameMode)
+        /// <param name="mode"></param>
+        protected override void OnModeRemoved(Mode mode)
         {
         }
     }

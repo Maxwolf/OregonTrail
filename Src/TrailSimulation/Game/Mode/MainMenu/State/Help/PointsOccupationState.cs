@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Third and final panel on point information, explains how players profession selection affects final scoring as a
     ///     multiplier since starting as a banker is a handicap.
     /// </summary>
-    [RequiredMode(GameMode.MainMenu)]
+    [RequiredMode(Mode.MainMenu)]
     public sealed class PointsOccupationState : DialogState<MainMenuInfo>
     {
         /// <summary>

@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Erases all the saved JSON tombstone epitaphs on the disk so other players will not encounter them, new ones can be
     ///     created then.
     /// </summary>
-    [RequiredMode(GameMode.Options)]
+    [RequiredMode(Mode.Options)]
     public sealed class EraseTombstoneState : DialogState<OptionInfo>
     {
         /// <summary>

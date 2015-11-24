@@ -19,13 +19,13 @@ namespace TrailSimulation.Core
         public StateFactory()
         {
             // Create dictionaries for reference tracking for what states belong to what game modes.
-            LoadedStates = new Dictionary<Type, GameMode>();
+            LoadedStates = new Dictionary<Type, Mode>();
 
             // Collect all of the states with the custom attribute decorated on them.
             var foundStates = AttributeHelper.GetTypesWith<RequiredModeAttribute>(false);
             foreach (var stateType in foundStates)
             {
-                // Get the attribute itself from the state we are working on, which gives us the game mode enum.
+                // GetModule the attribute itself from the state we are working on, which gives us the game mode enum.
                 var stateAttribute = stateType.GetAttributes<RequiredModeAttribute>(false).First();
                 var stateParentMode = stateAttribute.ParentMode;
 
@@ -37,12 +37,12 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Reference dictionary for all the reflected state types.
         /// </summary>
-        private Dictionary<Type, GameMode> LoadedStates { get; set; }
+        private Dictionary<Type, Mode> LoadedStates { get; set; }
 
         /// <summary>
         ///     Creates and adds the specified type of state to currently active game mode.
         /// </summary>
-        /// <param name="stateType">Type object that is the actual type of state that needs created.</param>
+        /// <param name="stateType">Role object that is the actual type of state that needs created.</param>
         /// <param name="activeMode">Current active game mode passed to factory so no need to call game simulation singleton.</param>
         /// <returns>Created state instance from reference types build on startup.</returns>
         public IStateProduct CreateStateFromType(Type stateType, IModeProduct activeMode)
@@ -57,7 +57,7 @@ namespace TrailSimulation.Core
             if (stateType.IsAbstract)
                 return null;
 
-            // Create the state, it will have parameterless constructor.
+            // Create the state, it will have constructor with one parameter.
             var stateInstance = Activator.CreateInstance(
                 stateType,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
