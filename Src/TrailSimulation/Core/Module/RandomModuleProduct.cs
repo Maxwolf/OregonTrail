@@ -5,7 +5,7 @@ namespace TrailSimulation.Core
     /// <summary>
     ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
     /// </summary>
-    public sealed class RandomModuleProduct : ModuleProduct
+    public sealed class RandomModuleProduct : IModule
     {
         /// <summary>
         ///     Game logic objects.
@@ -112,9 +112,17 @@ namespace TrailSimulation.Core
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public void Destroy()
         {
             _random = null;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation ticks the module that it created inside of itself.
+        /// </summary>
+        public void Tick()
+        {
+            
         }
     }
 }

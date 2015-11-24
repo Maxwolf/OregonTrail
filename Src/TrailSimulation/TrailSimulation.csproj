@@ -34,7 +34,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\SimulationStatus.cs" />
+    <Compile Include="Core\IModule.cs" />
     <Compile Include="Event\AnimalEvent.cs" />
     <Compile Include="Event\AttackEvent.cs" />
     <Compile Include="Event\ClimateEvent.cs" />
@@ -46,7 +46,6 @@
     <Compile Include="Game\Mode\Trade\TradingInfo.cs" />
     <Compile Include="Core\Module\InputManagerModule.cs" />
     <Compile Include="Core\Mode\UserData\ModeInfo.cs" />
-    <Compile Include="Core\Module\Base\ModuleProduct.cs" />
     <Compile Include="Core\Mode\State\Dialog\DialogState.cs" />
     <Compile Include="Core\Mode\State\Dialog\DialogResponse.cs" />
     <Compile Include="Core\Mode\State\Dialog\DialogType.cs" />

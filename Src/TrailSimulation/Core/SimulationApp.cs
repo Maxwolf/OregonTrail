@@ -44,9 +44,6 @@ namespace TrailSimulation.Core
         /// </summary>
         protected SimulationApp()
         {
-            // Default run-level specification.
-            RunLevel = SimulationStatus.Initialize;
-
             // Date and time the simulation was started, which we use as benchmark for all future time passed.
             _lastTickTime = DateTime.UtcNow;
             _currentTickTime = DateTime.UtcNow;
@@ -80,11 +77,6 @@ namespace TrailSimulation.Core
         ///     threads.
         /// </summary>
         private ulong TotalSecondsTicked { get; set; }
-
-        /// <summary>
-        ///     Determines the current state of the overall simulation.
-        /// </summary>
-        public SimulationStatus RunLevel { get; private set; }
 
         /// <summary>
         ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
@@ -147,16 +139,6 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Fired when the simulation deems a second has gone by from the averaged stream of system ticks.
-        /// </summary>
-        /// <param name="simTicks">Total number of seconds that have passed by.</param>
-        private void Ticker_SimulationTickEvent(ulong simTicks)
-        {
-            // Changes game mode and state when needed.
-            ModeManager?.Tick();
-        }
-
-        /// <summary>
         ///     Fired when the ticker receives the first system tick event.
         /// </summary>
         public abstract void OnFirstTick();
@@ -167,23 +149,20 @@ namespace TrailSimulation.Core
         /// </summary>
         public void Destroy()
         {
-            // Simulation is halting!
-            RunLevel = SimulationStatus.Halt;
-
+            // Allows game simulation above us to cleanup any data structures it cares about.
             OnBeforeDestroy();
 
+            // Remove simulation presentation variables.
             _lastTickTime = DateTime.MinValue;
             _currentTickTime = DateTime.MinValue;
             TotalSecondsTicked = 0;
             _spinningPixel = null;
             TickPhase = string.Empty;
 
-            // Create modules needed for managing simulation.
+            // Remove simulation core modules.
             Random = null;
             ModeManager = null;
             TextRender = null;
-
-            // Input manager needs event hook for knowing when buffer is sent.
             InputManagerManager = null;
         }
 
@@ -200,6 +179,9 @@ namespace TrailSimulation.Core
         public virtual void Tick()
         {
             OnSystemTick();
+
+            // Changes game mode and state when needed.
+            ModeManager?.Tick();
 
             // Sends commands if queue has any.
             InputManagerManager?.Tick();

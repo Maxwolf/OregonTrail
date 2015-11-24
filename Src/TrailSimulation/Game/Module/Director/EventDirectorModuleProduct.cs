@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
     ///     game simulation normally.
     /// </summary>
-    public sealed class EventDirectorModuleProduct : ModuleProduct
+    public sealed class EventDirectorModuleProduct : IModule
     {
         /// <summary>
         ///     Fired when an event has been triggered by the director.
@@ -88,9 +88,17 @@ namespace TrailSimulation.Game
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public void Destroy()
         {
             _eventFactory = null;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation ticks the module that it created inside of itself.
+        /// </summary>
+        public void Tick()
+        {
+            throw new NotImplementedException();
         }
     }
 }

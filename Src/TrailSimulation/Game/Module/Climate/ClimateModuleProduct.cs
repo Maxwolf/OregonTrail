@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Controls the weather, temperature, environment for getting food, illness probability, and various other factors
     ///     related to the players current location in the game world.
     /// </summary>
-    public sealed class ClimateModuleProduct : ModuleProduct
+    public sealed class ClimateModuleProduct : IModule
     {
         private List<ClimateData> _averageTemperatures;
 
@@ -172,7 +172,7 @@ namespace TrailSimulation.Game
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public void Destroy()
         {
             throw new NotImplementedException();
         }
@@ -180,7 +180,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Fired when the simulation ticks the module that it created inside of itself.
         /// </summary>
-        public override void Tick()
+        public void Tick()
         {
             // TODO: Fire off events for weather related events so this simulation will directly affect the simulation.
 

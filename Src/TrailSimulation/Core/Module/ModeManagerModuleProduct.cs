@@ -9,7 +9,7 @@ namespace TrailSimulation.Core
     ///     Builds up a list of game modes and their states using reflection and attributes. Contains methods to add game modes
     ///     to running simulation. Can also remove modes and modify them further with states.
     /// </summary>
-    public sealed class ModeManagerModuleProduct : ModuleProduct
+    public sealed class ModeManagerModuleProduct : IModule
     {
         /// <summary>
         ///     Fired when the window manager has added or removed a game mode.
@@ -189,7 +189,7 @@ namespace TrailSimulation.Core
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public void Destroy()
         {
             // Mode factory and list of modes in simulation.
             _modeFactory.Destroy();

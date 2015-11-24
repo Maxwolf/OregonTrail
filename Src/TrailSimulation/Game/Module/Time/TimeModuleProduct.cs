@@ -7,7 +7,7 @@ namespace TrailSimulation.Game
     ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
     ///     simulation by one day. There are also other options and events for checking state, and changing state.
     /// </summary>
-    public sealed class TimeModuleProduct : ModuleProduct
+    public sealed class TimeModuleProduct : IModule
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
@@ -149,7 +149,7 @@ namespace TrailSimulation.Game
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public void Destroy()
         {
             // Create a new time object for our simulation.
             CurrentYear = 0;
@@ -160,6 +160,14 @@ namespace TrailSimulation.Game
             TotalMonths = 0;
             TotalYears = 0;
             TotalDaysThisYear = 1;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation ticks the module that it created inside of itself.
+        /// </summary>
+        public void Tick()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

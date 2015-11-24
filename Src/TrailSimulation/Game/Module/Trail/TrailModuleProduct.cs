@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps
     ///     track of the vehicles current position on the trail and provides helper methods to quickly access it.
     /// </summary>
-    public sealed class TrailModuleProduct : ModuleProduct
+    public sealed class TrailModuleProduct : IModule
     {
         public TrailModuleProduct()
         {
@@ -138,7 +138,7 @@ namespace TrailSimulation.Game
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public void Destroy()
         {
             DistanceToNextLocation = 0;
             LocationIndex = 0;
@@ -149,7 +149,7 @@ namespace TrailSimulation.Game
         ///     Advances the vehicle to the next point of interest on the path. Returns TRUE if we have arrived at the next point,
         ///     FALSE if this method should be called more to advance vehicle down the trail.
         /// </summary>
-        public override void Tick()
+        public void Tick()
         {
             // Simulate the mileage being done.
             var simulatedDistanceChange = DistanceToNextLocation - GameSimulationApp.Instance.Vehicle.Mileage;

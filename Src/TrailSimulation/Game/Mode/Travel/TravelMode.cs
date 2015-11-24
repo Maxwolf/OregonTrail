@@ -150,8 +150,7 @@ namespace TrailSimulation.Game
 
             // Travel mode waits until it is by itself on first location and first turn.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                GameSimulationApp.Instance.ModeManager.ModeCount <= 1 &&
-                GameSimulationApp.Instance.RunLevel == SimulationStatus.Running)
+                GameSimulationApp.Instance.ModeManager.ModeCount <= 1)
             {
                 // Establishes configured vehicle onto running simulation, sets first point on trail as visited.
                 // NOTE: Also calculates initial distance to next point and all points thereafter.

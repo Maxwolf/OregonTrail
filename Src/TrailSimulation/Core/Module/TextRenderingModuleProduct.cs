@@ -10,7 +10,7 @@ namespace TrailSimulation.Core
     ///     console only view of the simulation which is intended to be the lowest level of visualization but theoretically
     ///     anything could be a renderer for the simulation.
     /// </summary>
-    public sealed class TextRenderingModuleProduct : ModuleProduct
+    public sealed class TextRenderingModuleProduct : IModule
     {
         /// <summary>
         ///     Fired when the screen back buffer has changed from what is currently being shown, this forces a redraw.
@@ -99,7 +99,7 @@ namespace TrailSimulation.Core
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public override void Destroy()
+        public void Destroy()
         {
             ScreenBuffer = string.Empty;
         }
@@ -107,7 +107,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Fired when the simulation ticks the module that it created inside of itself.
         /// </summary>
-        public override void Tick()
+        public void Tick()
         {
             // GetModule the current text user interface data from inheriting class.
             var tuiContent = OnRender();
