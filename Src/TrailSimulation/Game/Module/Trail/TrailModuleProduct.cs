@@ -89,6 +89,37 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
+        ///     exit cleanly.
+        /// </summary>
+        public void Destroy()
+        {
+            DistanceToNextLocation = 0;
+            LocationIndex = 0;
+            Locations.Clear();
+        }
+
+        /// <summary>
+        ///     Advances the vehicle to the next point of interest on the path. Returns TRUE if we have arrived at the next point,
+        ///     FALSE if this method should be called more to advance vehicle down the trail.
+        /// </summary>
+        public void Tick()
+        {
+            // Simulate the mileage being done.
+            var simulatedDistanceChange = DistanceToNextLocation - GameSimulationApp.Instance.Vehicle.Mileage;
+
+            // If distance is zero we have arrived at the next location!
+            if (simulatedDistanceChange <= 0)
+            {
+                ArriveAtNextLocation();
+                simulatedDistanceChange = 0;
+            }
+
+            // Move us towards the next point if not zero.
+            DistanceToNextLocation = simulatedDistanceChange;
+        }
+
+        /// <summary>
         ///     Fired by the simulation when it would like to trigger advancement to the next location, doesn't matter when this is
         ///     called could be right in the middle a trail midway between two points and it would still forcefully place the
         ///     vehicle and players at the next location on the trail.
@@ -132,37 +163,6 @@ namespace TrailSimulation.Game
                               10*GameSimulationApp.Instance.Random.NextDouble();
 
             return (int) Math.Abs(total_miles);
-        }
-
-        /// <summary>
-        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
-        ///     exit cleanly.
-        /// </summary>
-        public void Destroy()
-        {
-            DistanceToNextLocation = 0;
-            LocationIndex = 0;
-            Locations.Clear();
-        }
-
-        /// <summary>
-        ///     Advances the vehicle to the next point of interest on the path. Returns TRUE if we have arrived at the next point,
-        ///     FALSE if this method should be called more to advance vehicle down the trail.
-        /// </summary>
-        public void Tick()
-        {
-            // Simulate the mileage being done.
-            var simulatedDistanceChange = DistanceToNextLocation - GameSimulationApp.Instance.Vehicle.Mileage;
-
-            // If distance is zero we have arrived at the next location!
-            if (simulatedDistanceChange <= 0)
-            {
-                ArriveAtNextLocation();
-                simulatedDistanceChange = 0;
-            }
-
-            // Move us towards the next point if not zero.
-            DistanceToNextLocation = simulatedDistanceChange;
         }
     }
 }

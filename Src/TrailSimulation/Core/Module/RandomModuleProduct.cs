@@ -28,6 +28,22 @@ namespace TrailSimulation.Core
         private int RandomSeed { get; }
 
         /// <summary>
+        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
+        ///     exit cleanly.
+        /// </summary>
+        public void Destroy()
+        {
+            _random = null;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation ticks the module that it created inside of itself.
+        /// </summary>
+        public void Tick()
+        {
+        }
+
+        /// <summary>
         ///     Returns a nonnegative random number.
         /// </summary>
         /// <returns>
@@ -106,23 +122,6 @@ namespace TrailSimulation.Core
         public bool NextBool()
         {
             return _random.Next(100)%2 == 0;
-        }
-
-        /// <summary>
-        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
-        ///     exit cleanly.
-        /// </summary>
-        public void Destroy()
-        {
-            _random = null;
-        }
-
-        /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
-        /// </summary>
-        public void Tick()
-        {
-            
         }
     }
 }

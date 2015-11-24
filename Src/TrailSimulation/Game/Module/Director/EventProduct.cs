@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represents an event that can be triggered by the event director when vehicle is traveling along the trail.
     /// </summary>
-    public abstract class DirectorEvent
+    public abstract class EventProduct
     {
         /// <summary>
         ///     Creates a new instance of an event product with the specified event type for reference purposes.
@@ -11,7 +11,7 @@
         /// <param name="category">
         ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
         /// </param>
-        protected DirectorEvent(EventCategory category)
+        protected EventProduct(EventCategory category)
         {
             Category = category;
         }

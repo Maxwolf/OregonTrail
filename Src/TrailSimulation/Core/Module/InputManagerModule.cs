@@ -54,6 +54,33 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
+        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
+        ///     exit cleanly.
+        /// </summary>
+        public void Destroy()
+        {
+            // Clear the input buffer.
+            InputBuffer = string.Empty;
+
+            // Clear the command queue.
+            _commandQueue.Clear();
+            _commandQueue = null;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation ticks the module that it created inside of itself.
+        /// </summary>
+        public void Tick()
+        {
+            // Skip if there are no commands to tick.
+            if (_commandQueue.Count <= 0)
+                return;
+
+            // Dequeue the next command to send and pass along to currently active game mode if it exists.
+            GameSimulationApp.Instance.ModeManager.ActiveMode?.SendCommand(_commandQueue.Dequeue());
+        }
+
+        /// <summary>
         ///     Clears the input buffer and submits whatever was in there to the simulation for processing. Implementation is left
         ///     up the game simulation itself entirely.
         /// </summary>
@@ -128,33 +155,6 @@ namespace TrailSimulation.Core
 
             // Adds the command to queue to be passed to simulation when input manager is ticked.
             _commandQueue.Enqueue(trimmedInput);
-        }
-
-        /// <summary>
-        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
-        ///     exit cleanly.
-        /// </summary>
-        public void Destroy()
-        {
-            // Clear the input buffer.
-            InputBuffer = string.Empty;
-
-            // Clear the command queue.
-            _commandQueue.Clear();
-            _commandQueue = null;
-        }
-
-        /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
-        /// </summary>
-        public void Tick()
-        {
-            // Skip if there are no commands to tick.
-            if (_commandQueue.Count <= 0)
-                return;
-
-            // Dequeue the next command to send and pass along to currently active game mode if it exists.
-            GameSimulationApp.Instance.ModeManager.ActiveMode?.SendCommand(_commandQueue.Dequeue());
         }
     }
 }

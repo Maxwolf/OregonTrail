@@ -42,6 +42,30 @@ namespace TrailSimulation.Core
         private string ScreenBuffer { get; set; }
 
         /// <summary>
+        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
+        ///     exit cleanly.
+        /// </summary>
+        public void Destroy()
+        {
+            ScreenBuffer = string.Empty;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation ticks the module that it created inside of itself.
+        /// </summary>
+        public void Tick()
+        {
+            // GetModule the current text user interface data from inheriting class.
+            var tuiContent = OnRender();
+            if (ScreenBuffer.Equals(tuiContent, StringComparison.InvariantCultureIgnoreCase))
+                return;
+
+            // Update the screen buffer with altered data.
+            ScreenBuffer = tuiContent;
+            ScreenBufferDirtyEvent?.Invoke(ScreenBuffer);
+        }
+
+        /// <summary>
         ///     Prints game mode specific text and options.
         /// </summary>
         private string OnRender()
@@ -94,29 +118,5 @@ namespace TrailSimulation.Core
         ///     Fired when the screen back buffer has changed from what is currently being shown, this forces a redraw.
         /// </summary>
         public event ScreenBufferDirty ScreenBufferDirtyEvent;
-
-        /// <summary>
-        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
-        ///     exit cleanly.
-        /// </summary>
-        public void Destroy()
-        {
-            ScreenBuffer = string.Empty;
-        }
-
-        /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
-        /// </summary>
-        public void Tick()
-        {
-            // GetModule the current text user interface data from inheriting class.
-            var tuiContent = OnRender();
-            if (ScreenBuffer.Equals(tuiContent, StringComparison.InvariantCultureIgnoreCase))
-                return;
-
-            // Update the screen buffer with altered data.
-            ScreenBuffer = tuiContent;
-            ScreenBufferDirtyEvent?.Invoke(ScreenBuffer);
-        }
     }
 }

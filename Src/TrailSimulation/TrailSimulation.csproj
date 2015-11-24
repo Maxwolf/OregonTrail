@@ -35,12 +35,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\IModule.cs" />
-    <Compile Include="Event\AnimalEvent.cs" />
-    <Compile Include="Event\AttackEvent.cs" />
-    <Compile Include="Event\ClimateEvent.cs" />
-    <Compile Include="Event\PersonEvent.cs" />
-    <Compile Include="Event\VehicleEvent.cs" />
-    <Compile Include="Event\WarningEvent.cs" />
     <Compile Include="Game\Mode\ForkInRoad\ForkInRoadInfo.cs" />
     <Compile Include="Game\Mode\Hunting\HuntingInfo.cs" />
     <Compile Include="Game\Mode\Trade\TradingInfo.cs" />
@@ -68,7 +62,7 @@
     <Compile Include="Entity\Person\RationLevel.cs" />
     <Compile Include="Game\Module\Director\EventCategory.cs" />
     <Compile Include="Game\Module\Director\EventHistory.cs" />
-    <Compile Include="Game\Module\Director\DirectorEvent.cs" />
+    <Compile Include="Game\Module\Director\EventProduct.cs" />
     <Compile Include="Event\Person\DeathCompanionEvent.cs" />
     <Compile Include="Event\Person\DeathPlayerEvent.cs" />
     <Compile Include="Game\Module\Director\EventDirectorAttribute.cs" />
@@ -162,7 +156,7 @@
     <Compile Include="Game\Module\Climate\ClimateClassification.cs" />
     <Compile Include="Game\Module\Climate\ClimateData.cs" />
     <Compile Include="Game\Module\Climate\WeatherCondition.cs" />
-    <Compile Include="Game\Module\Director\EventDirectorModuleProduct.cs" />
+    <Compile Include="Game\Module\Director\EventDirector.cs" />
     <Compile Include="Game\Module\Time\Date.cs" />
     <Compile Include="Game\Module\Time\Months.cs" />
     <Compile Include="Game\Module\Trail\TrailRegistry.cs" />

@@ -52,7 +52,7 @@ namespace TrailSimulation.Game
         ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
         ///     game modes, people, and vehicles.
         /// </summary>
-        public EventDirectorModuleProduct EventDirector { get; private set; }
+        public EventDirector EventDirector { get; private set; }
 
         /// <summary>
         ///     Current vessel which the player character and his party are traveling inside of, provides means of transportation
@@ -169,7 +169,7 @@ namespace TrailSimulation.Game
             // TODO: Load custom list from JSON with user high scores altered from defaults.
 
             // Environment, weather, conditions, climate, tail, stats, event director, etc.
-            EventDirector = new EventDirectorModuleProduct();
+            EventDirector = new EventDirector();
             Climate = new ClimateModuleProduct();
             Trail = new TrailModuleProduct();
 

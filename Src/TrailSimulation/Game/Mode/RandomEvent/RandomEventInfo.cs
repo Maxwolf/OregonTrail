@@ -13,7 +13,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Determines what event we will be firing when the random event state is attached.
         /// </summary>
-        public DirectorEvent DirectorEvent { get; set; }
+        public EventProduct DirectorEvent { get; set; }
 
         /// <summary>
         ///     Determines what entity is going to be affected by the event. Example if event was illness, then source would be

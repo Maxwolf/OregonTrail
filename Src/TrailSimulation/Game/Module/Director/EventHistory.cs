@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.EventHistory" /> class.
         /// </summary>
-        public EventHistory(IEntity entity, DirectorEvent directorEvent)
+        public EventHistory(IEntity entity, EventProduct directorEvent)
         {
             // When the event happened.
             Timestamp = GameSimulationApp.Instance.Time.Date;

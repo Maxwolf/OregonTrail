@@ -74,7 +74,7 @@ namespace TrailSimulation.Game
         /// </summary>
         /// <param name="eventType">The type of event which we should create an instance of.</param>
         /// <returns>Instance of event type given in parameter.</returns>
-        internal DirectorEvent CreateInstance(Type eventType)
+        internal EventProduct CreateInstance(Type eventType)
         {
             // Check if event type exists in reference dictionary.
             if (!EventReference.ContainsValue(eventType))
@@ -95,7 +95,7 @@ namespace TrailSimulation.Game
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
                 null,
                 new object[] {directorEventKeyValuePair.Key.Item1}, // Constructor with one parameter.
-                CultureInfo.InvariantCulture) as DirectorEvent;
+                CultureInfo.InvariantCulture) as EventProduct;
 
             // If the event instance is null then complain.
             if (eventInstance == null)
@@ -114,7 +114,7 @@ namespace TrailSimulation.Game
         /// </summary>
         /// <param name="eventCategory">Enum value of the type of event such as medical, person, vehicle, etc.</param>
         /// <returns>Created event product based on enum value.</returns>
-        public DirectorEvent CreateRandomByType(EventCategory eventCategory)
+        public EventProduct CreateRandomByType(EventCategory eventCategory)
         {
             // Find all of the reference event types that match the given enumeration value.
             var groupedEvents = EventReference.Select(pair => pair.Key.Item1.Equals(eventCategory));

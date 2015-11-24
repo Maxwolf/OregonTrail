@@ -31,7 +31,7 @@ namespace TrailSimulation.Game
         ///     Fired when the event director triggers an event because it rolled the dice and hit it or it was forcefully
         ///     triggered by some method under a defined condition.
         /// </summary>
-        private void Director_OnEventTriggered(IEntity simEntity, DirectorEvent directorEvent)
+        private void Director_OnEventTriggered(IEntity simEntity, EventProduct directorEvent)
         {
             // Attached the random event state when we intercept an event it would like us to trigger.
             UserData.DirectorEvent = directorEvent;

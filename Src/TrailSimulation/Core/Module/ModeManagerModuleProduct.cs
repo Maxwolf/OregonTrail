@@ -112,6 +112,35 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
+        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
+        ///     exit cleanly.
+        /// </summary>
+        public void Destroy()
+        {
+            // Mode factory and list of modes in simulation.
+            _modeFactory.Destroy();
+            _modeFactory = null;
+            Modes.Clear();
+
+            // State factory only references parent mode type, they are added directly to active mode so no list of them here.
+            _stateFactory.Destroy();
+            _stateFactory = null;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation ticks the module that it created inside of itself.
+        /// </summary>
+        public void Tick()
+        {
+            // If the active mode is not null and flag is set to remove then do that!
+            if (ActiveMode != null && ActiveMode.ShouldRemoveMode)
+                RemoveDirtyModes();
+
+            // Otherwise just tick the game mode logic.
+            ActiveMode?.TickMode();
+        }
+
+        /// <summary>
         ///     Creates and adds the specified type of state to currently active game mode.
         /// </summary>
         public IStateProduct CreateStateFromType(IModeProduct parentMode, Type stateType)
@@ -184,34 +213,5 @@ namespace TrailSimulation.Core
         ///     Fired when the window manager has added or removed a game mode.
         /// </summary>
         public event ModeChanged ModeChangedEvent;
-
-        /// <summary>
-        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
-        ///     exit cleanly.
-        /// </summary>
-        public void Destroy()
-        {
-            // Mode factory and list of modes in simulation.
-            _modeFactory.Destroy();
-            _modeFactory = null;
-            Modes.Clear();
-
-            // State factory only references parent mode type, they are added directly to active mode so no list of them here.
-            _stateFactory.Destroy();
-            _stateFactory = null;
-        }
-
-        /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
-        /// </summary>
-        public void Tick()
-        {
-            // If the active mode is not null and flag is set to remove then do that!
-            if (ActiveMode != null && ActiveMode.ShouldRemoveMode)
-                RemoveDirtyModes();
-
-            // Otherwise just tick the game mode logic.
-            ActiveMode?.TickMode();
-        }
     }
 }

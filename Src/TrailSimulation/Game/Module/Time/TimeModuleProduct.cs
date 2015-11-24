@@ -1,4 +1,5 @@
-﻿using TrailSimulation.Core;
+﻿using System;
+using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
@@ -42,6 +43,31 @@ namespace TrailSimulation.Game
         public Date Date
         {
             get { return new Date(CurrentYear, CurrentMonth, CurrentDay); }
+        }
+
+        /// <summary>
+        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
+        ///     exit cleanly.
+        /// </summary>
+        public void Destroy()
+        {
+            // Create a new time object for our simulation.
+            CurrentYear = 0;
+            CurrentMonth = 0;
+            CurrentDay = 0;
+
+            TotalDays = 0;
+            TotalMonths = 0;
+            TotalYears = 0;
+            TotalDaysThisYear = 1;
+        }
+
+        /// <summary>
+        ///     Fired when the simulation ticks the module that it created inside of itself.
+        /// </summary>
+        public void Tick()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -143,31 +169,6 @@ namespace TrailSimulation.Game
         {
             CurrentMonth = month;
             CurrentDay = 1;
-        }
-
-        /// <summary>
-        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
-        ///     exit cleanly.
-        /// </summary>
-        public void Destroy()
-        {
-            // Create a new time object for our simulation.
-            CurrentYear = 0;
-            CurrentMonth = 0;
-            CurrentDay = 0;
-
-            TotalDays = 0;
-            TotalMonths = 0;
-            TotalYears = 0;
-            TotalDaysThisYear = 1;
-        }
-
-        /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
-        /// </summary>
-        public void Tick()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

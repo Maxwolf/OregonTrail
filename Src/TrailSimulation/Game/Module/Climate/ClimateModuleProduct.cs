@@ -157,18 +157,6 @@ namespace TrailSimulation.Game
         public double NextWeatherChance { get; private set; }
 
         /// <summary>
-        ///     Returns average temperature for given climate classification and month.
-        /// </summary>
-        private ClimateData GetTemperatureByMonth(Months whichMonth)
-        {
-            foreach (var data in AverageTemperatures)
-            {
-                if (data.ClimateMonth == whichMonth) return data;
-            }
-            return null;
-        }
-
-        /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
@@ -435,6 +423,18 @@ namespace TrailSimulation.Game
                 // Inside temp is less than outside temp!
                 InsideHumidity += 0.1f;
             }
+        }
+
+        /// <summary>
+        ///     Returns average temperature for given climate classification and month.
+        /// </summary>
+        private ClimateData GetTemperatureByMonth(Months whichMonth)
+        {
+            foreach (var data in AverageTemperatures)
+            {
+                if (data.ClimateMonth == whichMonth) return data;
+            }
+            return null;
         }
     }
 }
