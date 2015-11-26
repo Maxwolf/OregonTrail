@@ -359,7 +359,7 @@ namespace TrailSimulation.Entity
             }
 
             // Check for random events that might trigger regardless of calculations made.
-            GameSimulationApp.Instance.EventDirectorModule.TriggerEventByType(this, EventCategory.Vehicle);
+            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Vehicle);
 
             // Check to make sure mileage is at least zero.
             if (Mileage <= 0)

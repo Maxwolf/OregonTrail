@@ -76,7 +76,7 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Triggers an event directly by type of reference. Event must have [EventDirectorModule] attribute to be
+        ///     Triggers an event directly by type of reference. Event must have [EventDirector] attribute to be
         ///     registered
         ///     in
         ///     the
