@@ -10,7 +10,7 @@ namespace TrailSimulation.Core
     ///     console only view of the simulation which is intended to be the lowest level of visualization but theoretically
     ///     anything could be a renderer for the simulation.
     /// </summary>
-    public sealed class TextRendererModule : IModule
+    public sealed class TextRendererModule : SimulationModule
     {
         /// <summary>
         ///     Fired when the screen back buffer has changed from what is currently being shown, this forces a redraw.
@@ -45,15 +45,22 @@ namespace TrailSimulation.Core
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public void Destroy()
+        public override void Destroy()
         {
             ScreenBuffer = string.Empty;
         }
 
         /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
         /// </summary>
-        public void Tick()
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        public override void OnTick(bool systemTick)
         {
             // GetModule the current text user interface data from inheriting class.
             var tuiContent = OnRender();

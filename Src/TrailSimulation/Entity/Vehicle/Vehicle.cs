@@ -12,16 +12,6 @@ namespace TrailSimulation.Entity
     public sealed class Vehicle : IEntity
     {
         /// <summary>
-        ///     Fired when the user changes the pace of traveling.
-        /// </summary>
-        public delegate void OnChangePace();
-
-        /// <summary>
-        ///     Fired when the user changes the ration for group.
-        /// </summary>
-        public delegate void OnChangeRation();
-
-        /// <summary>
         ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
         /// </summary>
         private Dictionary<SimEntity, SimItem> _inventory;
@@ -252,6 +242,52 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
+        /// </summary>
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        public void OnTick(bool systemTick)
+        {
+            // Only can tick vehicle on interval.
+            if (systemTick)
+                return;
+
+            // Figure out how far we need to go to reach the next point.
+            Mileage = GameSimulationApp.Instance.Trail.DistanceToNextLocation;
+
+            // Determine how many miles we can move in a day on the trail based on amount of monies player spent on oxen to pull vehicle.
+            var cost_animals = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Animal].TotalValue;
+            Mileage = (int) cost_animals/5 + GameSimulationApp.Instance.Random.Next(1, 10);
+
+            // Sometimes things just go slow on the trail, cut mileage in half if above zero randomly.
+            if (GameSimulationApp.Instance.Random.NextBool() && Mileage > 0)
+            {
+                Mileage = Mileage/2;
+            }
+
+            // Loop through all the people in the vehicle and tick them.
+            foreach (var person in _passengers)
+            {
+                person.OnTick(false);
+            }
+
+            // Check for random events that might trigger regardless of calculations made.
+            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Vehicle);
+
+            // Check to make sure mileage is at least zero.
+            if (Mileage <= 0)
+                Mileage = 0;
+
+            // Use our altered mileage to affect how far the vehicle has traveled in todays tick..
+            Odometer += Mileage;
+        }
+
+        /// <summary>
         ///     Reduces the total mileage the vehicle has rolled to move within the next two week block section. Will not allow
         ///     mileage to be reduced below zero.
         /// </summary>
@@ -277,24 +313,13 @@ namespace TrailSimulation.Entity
             }
         }
 
-        public event OnChangePace OnVehicleChangePace;
-
-        public event OnChangeRation OnVehicleChangeRations;
-
         /// <summary>
         ///     Sets the current speed of the game simulation.
         /// </summary>
         public void ChangePace(TravelPace castedSpeed)
         {
-            // Check to make sure we are not already at this speed.
-            if (castedSpeed == Pace)
-                return;
-
             // Change game simulation speed.
             Pace = castedSpeed;
-
-            // Inform subscribers we updated progression of time.
-            OnVehicleChangePace?.Invoke();
         }
 
         /// <summary>
@@ -335,56 +360,14 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        ///     Processes logic and events for vehicle, also progresses down the trail and keeps track of mileage for this turn.
-        /// </summary>
-        public void Tick()
-        {
-            // Figure out how far we need to go to reach the next point.
-            Mileage = GameSimulationApp.Instance.Trail.DistanceToNextLocation;
-
-            // Determine how many miles we can move in a day on the trail based on amount of monies player spent on oxen to pull vehicle.
-            var cost_animals = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Animal].TotalValue;
-            Mileage = (int) cost_animals/5 + GameSimulationApp.Instance.Random.Next(1, 10);
-
-            // Sometimes things just go slow on the trail, cut mileage in half if above zero randomly.
-            if (GameSimulationApp.Instance.Random.NextBool() && Mileage > 0)
-            {
-                Mileage = Mileage/2;
-            }
-
-            // Loop through all the people in the vehicle and tick them.
-            foreach (var person in _passengers)
-            {
-                person.TickPerson();
-            }
-
-            // Check for random events that might trigger regardless of calculations made.
-            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Vehicle);
-
-            // Check to make sure mileage is at least zero.
-            if (Mileage <= 0)
-                Mileage = 0;
-
-            // Use our altered mileage to affect how far the vehicle has traveled in todays tick..
-            Odometer += Mileage;
-        }
-
-        /// <summary>
         ///     Changes the current ration level to new value if it is not already set to that. Also fires even about this for
         ///     subscribers to get event notification about the change.
         /// </summary>
         /// <param name="ration">The rate at which people are permitted to eat in the vehicle party.</param>
         public void ChangeRations(RationLevel ration)
         {
-            // Ensure we are actually changing it to something else.
-            if (ration == Ration)
-                return;
-
             // Set new ration level.
             Ration = ration;
-
-            // Fire event so subscribers know we changed rations.
-            OnVehicleChangeRations?.Invoke();
         }
     }
 }

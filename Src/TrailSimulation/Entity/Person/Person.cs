@@ -166,6 +166,26 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
+        /// </summary>
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        public void OnTick(bool systemTick)
+        {
+            // Only tick person with simulation.
+            if (systemTick)
+                return;
+
+            ConsumeFood();
+            CheckIllness();
+        }
+
+        /// <summary>
         ///     Determines how much food party members in the vehicle will eat today.
         /// </summary>
         private void ConsumeFood()
@@ -229,16 +249,6 @@ namespace TrailSimulation.Entity
                     ? typeof (DeathPlayerEvent)
                     : typeof (DeathCompanionEvent));
             }
-        }
-
-        /// <summary>
-        ///     Determines the amount of miles the party is able to travel with a given individual. Will check for Person, cold
-        ///     weather, starvation from having zero food, healing when resting, and if needed killing them off from simulation.
-        /// </summary>
-        public void TickPerson()
-        {
-            ConsumeFood();
-            CheckIllness();
         }
     }
 }

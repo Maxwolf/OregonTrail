@@ -35,6 +35,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\IModule.cs" />
+    <Compile Include="Core\ITick.cs" />
+    <Compile Include="Core\SimulationModule.cs" />
     <Compile Include="Game\Mode\ForkInRoad\ForkInRoadInfo.cs" />
     <Compile Include="Game\Mode\Hunting\HuntingInfo.cs" />
     <Compile Include="Game\Mode\Trade\TradingInfo.cs" />

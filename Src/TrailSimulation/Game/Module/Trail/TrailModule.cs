@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps
     ///     track of the vehicles current position on the trail and provides helper methods to quickly access it.
     /// </summary>
-    public sealed class TrailModule : IModule
+    public sealed class TrailModule : SimulationModule
     {
         public TrailModule()
         {
@@ -92,7 +92,7 @@ namespace TrailSimulation.Game
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public void Destroy()
+        public override void Destroy()
         {
             DistanceToNextLocation = 0;
             LocationIndex = 0;
@@ -100,10 +100,16 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Advances the vehicle to the next point of interest on the path. Returns TRUE if we have arrived at the next point,
-        ///     FALSE if this method should be called more to advance vehicle down the trail.
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
         /// </summary>
-        public void Tick()
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        public override void OnTick(bool systemTick)
         {
             // Simulate the mileage being done.
             var simulatedDistanceChange = DistanceToNextLocation - GameSimulationApp.Instance.Vehicle.Mileage;

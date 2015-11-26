@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Controls the weather, temperature, environment for getting food, illness probability, and various other factors
     ///     related to the players current location in the game world.
     /// </summary>
-    public sealed class ClimateModule : IModule
+    public sealed class ClimateModule : SimulationModule
     {
         private List<ClimateData> _averageTemperatures;
 
@@ -157,18 +157,16 @@ namespace TrailSimulation.Game
         public double NextWeatherChance { get; private set; }
 
         /// <summary>
-        ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
-        ///     exit cleanly.
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
         /// </summary>
-        public void Destroy()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
-        /// </summary>
-        public void Tick()
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        public override void OnTick(bool systemTick)
         {
             // TODO: Fire off events for weather related events so this simulation will directly affect the simulation.
 

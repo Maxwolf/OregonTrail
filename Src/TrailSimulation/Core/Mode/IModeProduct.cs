@@ -10,7 +10,8 @@ namespace TrailSimulation.Core
     /// </summary>
     public interface IModeProduct :
         IComparer<IModeProduct>,
-        IComparable<IModeProduct>
+        IComparable<IModeProduct>,
+        ITick
     {
         /// <summary>
         ///     Determines if the game mode should not be ticked if it is active but instead removed. The mode when set to being
@@ -61,11 +62,6 @@ namespace TrailSimulation.Core
         ///     Grabs the text user interface string that will be used for debugging on console application.
         /// </summary>
         string OnRenderMode();
-
-        /// <summary>
-        ///     Ticks the internal logic of the game mode so that it may perform linear operations.
-        /// </summary>
-        void TickMode();
 
         /// <summary>
         ///     Intended to be used by base simulation to pass along the input buffer after the user has typed several characters

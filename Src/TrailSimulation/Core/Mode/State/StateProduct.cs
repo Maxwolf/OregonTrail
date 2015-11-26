@@ -132,9 +132,16 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Forces the current game mode state to update itself, this typically results in moving to the next state.
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
         /// </summary>
-        public virtual void TickState()
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        public virtual void OnTick(bool systemTick)
         {
             // Nothing to see here, move along...
         }

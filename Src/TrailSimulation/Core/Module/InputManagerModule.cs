@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Core
@@ -9,7 +8,7 @@ namespace TrailSimulation.Core
     ///     implementation is a text user interface (TUI) which allows for the currently accepted commands to be seen and only
     ///     then accepted.
     /// </summary>
-    public sealed class InputManagerModule : IModule
+    public sealed class InputManagerModule : SimulationModule
     {
         /// <summary>
         ///     Holds a constant representation of the string telling the user to press enter key to continue so we don't repeat
@@ -37,27 +36,10 @@ namespace TrailSimulation.Core
         internal string InputBuffer { get; private set; }
 
         /// <summary>
-        ///     Determines how important this module is to the simulation in regards to when it should be ticked after sorting all
-        ///     loaded modules by this priority level.
-        /// </summary>
-        public uint Priority
-        {
-            get { return 1; }
-        }
-
-        /// <summary>
-        ///     Reference to the generic type that was created at runtime.
-        /// </summary>
-        public object GenericTypeInstance
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public void Destroy()
+        public override void Destroy()
         {
             // Clear the input buffer.
             InputBuffer = string.Empty;
@@ -68,9 +50,16 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
         /// </summary>
-        public void Tick()
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        public override void OnTick(bool systemTick)
         {
             // Skip if there are no commands to tick.
             if (_commandQueue.Count <= 0)

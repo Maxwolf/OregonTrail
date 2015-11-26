@@ -7,7 +7,7 @@ namespace TrailSimulation.Core
     ///     Defines interface for game mode state which can show data, accept input, add new game modes, set new state, and
     ///     have user data custom per implementation.
     /// </summary>
-    public interface IStateProduct : IComparer<IStateProduct>, IComparable<IStateProduct>
+    public interface IStateProduct : IComparer<IStateProduct>, IComparable<IStateProduct>, ITick
     {
         /// <summary>
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
@@ -20,11 +20,6 @@ namespace TrailSimulation.Core
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
         bool AcceptsInput { get; }
-
-        /// <summary>
-        ///     Forces the current game mode state to update itself, this typically results in moving to the next state.
-        /// </summary>
-        void TickState();
 
         /// <summary>
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question

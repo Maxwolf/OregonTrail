@@ -9,7 +9,7 @@ namespace TrailSimulation.Core
     ///     Builds up a list of game modes and their states using reflection and attributes. Contains methods to add game modes
     ///     to running simulation. Can also remove modes and modify them further with states.
     /// </summary>
-    public sealed class ModeManagerModule : IModule
+    public sealed class ModeManagerModule : SimulationModule
     {
         /// <summary>
         ///     Factory pattern that will create game modes for it based on attribute at the top of each one that defines what mode
@@ -98,7 +98,7 @@ namespace TrailSimulation.Core
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public void Destroy()
+        public override void Destroy()
         {
             // Mode factory and list of modes in simulation.
             _modeFactory.Destroy();
@@ -111,9 +111,16 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
         /// </summary>
-        public void Tick()
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        public override void OnTick(bool systemTick)
         {
             // If the active mode is not null and flag is set to remove then do that!
             var updatedModes = false;
@@ -125,7 +132,7 @@ namespace TrailSimulation.Core
                 ActiveMode.OnModeActivate();
 
             // Otherwise just tick the game mode logic.
-            ActiveMode?.TickMode();
+            ActiveMode?.OnTick(systemTick);
         }
 
         /// <summary>
@@ -188,9 +195,6 @@ namespace TrailSimulation.Core
 
             // Call final activator for attaching states on startup if that is what the mode wants to do.
             Modes[mode].OnModePostCreate();
-
-            // Last thing we do is call event that subscribers can know about game mode changes after they happen.
-            //ModeChangedEvent?.Invoke(Modes[mode].Mode);
         }
     }
 }

@@ -21,6 +21,9 @@ namespace TrailSimulation.Core
         where TCommands : struct, IComparable, IFormattable, IConvertible
         where TData : ModeInfo, new()
     {
+        /// <summary>
+        ///     Current game mode state that is being ticked when this mode is ticked by the underlying simulation.
+        /// </summary>
         private IStateProduct _currentState;
 
         /// <summary>
@@ -250,13 +253,18 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
-        ///     top-most game mode.
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
         /// </summary>
-        public virtual void TickMode()
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        public virtual void OnTick(bool systemTick)
         {
-            // Tick the logic in the current state if it not null.
-            _currentState?.TickState();
+            _currentState?.OnTick(systemTick);
         }
 
         /// <summary>

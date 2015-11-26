@@ -27,7 +27,7 @@ namespace TrailGame
             while (GameSimulationApp.Instance != null)
             {
                 // Simulation takes any numbers of pulses to determine seconds elapsed.
-                GameSimulationApp.Instance.Tick();
+                GameSimulationApp.Instance.OnTick(true);
 
                 // Check if a key is being pressed, without blocking thread.
                 if (Console.KeyAvailable)

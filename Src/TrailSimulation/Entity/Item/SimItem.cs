@@ -7,7 +7,7 @@ namespace TrailSimulation.Entity
     ///     Defines a base SimItem which can represent almost any commodity the player can purchase for the party or
     ///     vehicle.
     /// </summary>
-    public sealed class SimItem : IEntity
+    public class SimItem : IEntity
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.SimEntity.SimItem" /> class.
@@ -249,6 +249,21 @@ namespace TrailSimulation.Entity
             var hash = 23;
             hash = (hash*31) + Name.GetHashCode();
             return hash;
+        }
+
+        /// <summary>
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
+        /// </summary>
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        public virtual void OnTick(bool systemTick)
+        {
+            // Nothing to see here, move along...
         }
 
         /// <summary>

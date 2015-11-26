@@ -1,5 +1,4 @@
 ﻿using System;
-using TrailSimulation.Game;
 using TrailSimulation.Widget;
 
 namespace TrailSimulation.Core
@@ -8,7 +7,7 @@ namespace TrailSimulation.Core
     ///     Base simulation application class object. This class should not be declared directly but inherited by actual
     ///     instance of game controller.
     /// </summary>
-    public abstract class SimulationApp
+    public abstract class SimulationApp : ITick
     {
         /// <summary>
         ///     Determines if the dynamic menu system should show the command names or only numbers. If false then only numbers
@@ -101,47 +100,67 @@ namespace TrailSimulation.Core
         public TextRendererModule TextRender { get; private set; }
 
         /// <summary>
-        ///     Calculates the number of ticks that have elapsed since the beginning of simulation and to instantiate a TimeSpan
-        ///     object. The TimeSpan object is then used to display the elapsed time using several other time intervals.
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
         /// </summary>
-        private void OnSystemTick()
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        public void OnTick(bool systemTick)
         {
-            _currentTickTime = DateTime.UtcNow;
-            var elapsedTicks = _currentTickTime.Ticks - _lastTickTime.Ticks;
-            var elapsedSpan = new TimeSpan(elapsedTicks);
+            // Sends commands if queue has any.
+            InputManagerManager?.OnTick(systemTick);
 
-            // Check if more than an entire second has gone by.
-            if (!(elapsedSpan.TotalMilliseconds > TICK_INTERVAL))
-                return;
+            // Back buffer for only sending text when changed.
+            TextRender?.OnTick(systemTick);
 
-            // Reset last tick time to current time for measuring towards next second tick.
-            _lastTickTime = _currentTickTime;
-            OnTick();
-        }
+            // Changes game mode and state when needed.
+            ModeManager?.OnTick(systemTick);
 
-        /// <summary>
-        ///     Fired when an actual entire second of system ticks have gone by and we would like to try and tick the internal game
-        ///     simulation logic and everything that comes from that which will move the progress of the simulation forward.
-        /// </summary>
-        private void OnTick()
-        {
-            // Increase the tick count.
-            TotalSecondsTicked++;
+            // Rolls virtual dice.
+            Random?.OnTick(systemTick);
 
-            // Fire event for first tick when it occurs, and only then.
-            if (TotalSecondsTicked == 1)
+            // System tick is from execution platform, otherwise they are linear simulation ticks.
+            if (systemTick)
             {
-                GameSimulationApp.Instance.OnFirstTick();
-            }
+                _currentTickTime = DateTime.UtcNow;
+                var elapsedTicks = _currentTickTime.Ticks - _lastTickTime.Ticks;
+                var elapsedSpan = new TimeSpan(elapsedTicks);
 
-            // Visual representation of ticking for debugging purposes.
-            TickPhase = _spinningPixel.Step();
+                // Check if more than an entire second has gone by.
+                if (!(elapsedSpan.TotalMilliseconds > TICK_INTERVAL))
+                    return;
+
+                // Reset last tick time to current time for measuring towards next second tick.
+                _lastTickTime = _currentTickTime;
+
+                // ReSharper disable TailRecursiveCall
+                OnTick(false);
+                // ReSharper restore TailRecursiveCall
+            }
+            else
+            {
+                // Increase the total seconds ticked.
+                TotalSecondsTicked++;
+
+                // Fire event for first tick when it occurs, and only then.
+                if (TotalSecondsTicked == 1)
+                {
+                    OnFirstTick();
+                }
+
+                // Visual representation of ticking for debugging purposes.
+                TickPhase = _spinningPixel.Step();
+            }
         }
 
         /// <summary>
         ///     Fired when the ticker receives the first system tick event.
         /// </summary>
-        public abstract void OnFirstTick();
+        protected abstract void OnFirstTick();
 
         /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
@@ -170,27 +189,5 @@ namespace TrailSimulation.Core
         ///     Called when simulation is about to destroy itself, but right before it actually does it.
         /// </summary>
         protected abstract void OnBeforeDestroy();
-
-        /// <summary>
-        ///     Fired so the simulation can use constant stream of system ticks to determine interval pulse of a second so modules
-        ///     that want to be ticked consistently may do so regardless of incoming system ticks (so long as it is more than a
-        ///     couple in a second, typically in host there will be hundreds of ticks per second).
-        /// </summary>
-        public virtual void Tick()
-        {
-            OnSystemTick();
-
-            // Changes game mode and state when needed.
-            ModeManager?.Tick();
-
-            // Sends commands if queue has any.
-            InputManagerManager?.Tick();
-
-            // Back buffer for only sending text when changed.
-            TextRender?.Tick();
-
-            // Rolls virtual dice.
-            Random?.Tick();
-        }
     }
 }

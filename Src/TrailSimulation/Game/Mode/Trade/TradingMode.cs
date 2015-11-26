@@ -24,15 +24,6 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
-        ///     top-most game mode.
-        /// </summary>
-        public override void TickMode()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         ///     Called after the mode has been added to list of modes and made active.
         /// </summary>
         public override void OnModePostCreate()

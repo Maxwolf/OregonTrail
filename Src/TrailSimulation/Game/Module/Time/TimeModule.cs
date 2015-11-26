@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
     ///     simulation by one day. There are also other options and events for checking state, and changing state.
     /// </summary>
-    public sealed class TimeModule : IModule
+    public sealed class TimeModule : SimulationModule
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
@@ -74,7 +74,7 @@ namespace TrailSimulation.Game
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can
         ///     exit cleanly.
         /// </summary>
-        public void Destroy()
+        public override void Destroy()
         {
             // Create a new time object for our simulation.
             CurrentYear = 0;
@@ -90,7 +90,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Fired when the simulation ticks the module that it created inside of itself.
         /// </summary>
-        public void Tick()
+        public void OnSystemTick()
         {
             throw new NotImplementedException();
         }
@@ -173,10 +173,10 @@ namespace TrailSimulation.Game
         private void OnTickDay(int totalDays)
         {
             // Each day we tick the weather, vehicle, and the people in it.
-            GameSimulationApp.Instance.Climate.Tick();
+            GameSimulationApp.Instance.Climate.OnTick(false);
 
             // Update total distance traveled on vehicle if we have not reached the point.
-            GameSimulationApp.Instance.Vehicle.Tick();
+            GameSimulationApp.Instance.Vehicle.OnTick(false);
 
             // Grab the total amount of monies the player has spent on the items in their inventory.
             var cost_ammo = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Ammo].TotalValue;
@@ -184,7 +184,7 @@ namespace TrailSimulation.Game
             var start_cash = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash].TotalValue;
 
             // Move towards the next location on the trail.
-            GameSimulationApp.Instance.Trail.Tick();
+            GameSimulationApp.Instance.Trail.OnTick(false);
         }
 
         /// <summary>

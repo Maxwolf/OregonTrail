@@ -80,7 +80,7 @@ namespace TrailSimulation.Game
         internal void SetData(MainMenuInfo startingInfo)
         {
             // Clear out any data amount items, monies, people that might have been in the vehicle.
-            // NOTE: Sets starting monies, which was determined by player profession selection.
+            // NOTE: Sets starting monies, which is determined by player profession.
             Vehicle.ResetVehicle(startingInfo.StartingMonies);
 
             // Add all the player data we collected from attached game mode states.
@@ -129,7 +129,7 @@ namespace TrailSimulation.Game
         ///     Fired when the simulation is loaded and makes it very first tick using the internal timer mechanism keeping track
         ///     of ticks to keep track of seconds.
         /// </summary>
-        public override void OnFirstTick()
+        protected override void OnFirstTick()
         {
             // Linear time simulation with ticks.
             Time = new TimeModule();

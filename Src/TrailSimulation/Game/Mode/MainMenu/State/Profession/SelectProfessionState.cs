@@ -51,11 +51,19 @@ namespace TrailSimulation.Game
             get { return true; }
         }
 
+        /// <summary>
+        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
+        ///     waiting input, etc.
+        /// </summary>
         public override string OnRenderState()
         {
             return _professionChooser.ToString();
         }
 
+        /// <summary>
+        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        /// </summary>
+        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
             // Once a profession is selected, we need to confirm that is what the user wanted.
