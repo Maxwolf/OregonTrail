@@ -26,20 +26,45 @@ namespace TrailSimulation.Game
             TotalDaysThisYear = 1;
         }
 
+        /// <summary>
+        ///     Current month the simulation is ticking over, it has typically thirty (30) days in it.
+        /// </summary>
         public Months CurrentMonth { get; private set; }
 
+        /// <summary>
+        ///     Day of the month the simulation is currently ticking over.
+        /// </summary>
         private int CurrentDay { get; set; }
 
+        /// <summary>
+        ///     Year of the simulation, this takes twelve (12) months going by before it will be incremented.
+        /// </summary>
         public int CurrentYear { get; private set; }
 
+        /// <summary>
+        ///     Total number of simulated years that have gone by since the simulation began.
+        /// </summary>
         private int TotalYears { get; set; }
 
+        /// <summary>
+        ///     Total number of simulated months that have gone by since the start of the simulation.
+        /// </summary>
         private int TotalMonths { get; set; }
 
+        /// <summary>
+        ///     Total number of days that have gone by since the start of the simulation.
+        /// </summary>
         private int TotalDays { get; set; }
 
+        /// <summary>
+        ///     Total number of days that have passed in the current year, typically this is three-hundred and sixty-five days
+        ///     (365). Leap year is not calculated or simulated.
+        /// </summary>
         private int TotalDaysThisYear { get; set; }
 
+        /// <summary>
+        ///     Assembles the current date of the simulation by creating date object from current year, month, and day.
+        /// </summary>
         public Date Date
         {
             get { return new Date(CurrentYear, CurrentMonth, CurrentDay); }
