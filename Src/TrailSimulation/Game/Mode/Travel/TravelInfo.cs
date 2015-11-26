@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
@@ -28,16 +27,16 @@ namespace TrailSimulation.Game
 
                 // Build up the status for the vehicle as it moves through the simulation.
                 var driveStatus = new StringBuilder();
-                driveStatus.Append($"--------------------------------{Environment.NewLine}");
-                driveStatus.Append($"Date: {GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
-                driveStatus.Append($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}{Environment.NewLine}");
-                driveStatus.Append($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}{Environment.NewLine}");
-                driveStatus.Append($"Food: {foodStatus}{Environment.NewLine}");
-                driveStatus.Append(
-                    $"Next landmark: {GameSimulationApp.Instance.Trail.DistanceToNextLocation} miles{Environment.NewLine}");
-                driveStatus.Append(
-                    $"Miles traveled: {GameSimulationApp.Instance.Vehicle.Odometer} miles{Environment.NewLine}");
-                driveStatus.Append($"--------------------------------{Environment.NewLine}");
+                driveStatus.AppendLine("--------------------------------");
+                driveStatus.AppendLine($"Date: {GameSimulationApp.Instance.Time.Date}");
+                driveStatus.AppendLine($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}");
+                driveStatus.AppendLine($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}");
+                driveStatus.AppendLine($"Food: {foodStatus}");
+                driveStatus.AppendLine(
+                    $"Next landmark: {GameSimulationApp.Instance.Trail.DistanceToNextLocation} miles");
+                driveStatus.AppendLine(
+                    $"Miles traveled: {GameSimulationApp.Instance.Vehicle.Odometer} miles");
+                driveStatus.AppendLine("--------------------------------");
                 return driveStatus.ToString();
             }
         }

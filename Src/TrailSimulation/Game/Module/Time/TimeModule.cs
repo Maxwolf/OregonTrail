@@ -1,5 +1,4 @@
-﻿using System;
-using TrailSimulation.Core;
+﻿using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
@@ -85,14 +84,6 @@ namespace TrailSimulation.Game
             TotalMonths = 0;
             TotalYears = 0;
             TotalDaysThisYear = 1;
-        }
-
-        /// <summary>
-        ///     Fired when the simulation ticks the module that it created inside of itself.
-        /// </summary>
-        public void OnSystemTick()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
