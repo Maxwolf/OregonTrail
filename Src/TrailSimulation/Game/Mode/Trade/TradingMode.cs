@@ -40,6 +40,15 @@ namespace TrailSimulation.Game
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        ///     Called when the mode manager in simulation makes this mode the currently active game mode. Depending on order of
+        ///     modes this might not get called until the mode is actually ticked by the simulation.
+        /// </summary>
+        public override void OnModeActivate()
+        {
+            throw new NotImplementedException();
+        }
+
         public void TradeAttempt(SimItem item)
         {
             // Cannot trade if there are no offers.

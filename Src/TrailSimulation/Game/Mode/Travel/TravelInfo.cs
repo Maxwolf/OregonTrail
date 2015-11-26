@@ -52,23 +52,27 @@ namespace TrailSimulation.Game
         ///     difference this state has from others is showing the name of the location, when between points we don't show this
         ///     since we already know the next point but don't want the player to know that.
         /// </summary>
-        public string TravelStatus(bool showLocationName)
+        public string TravelStatus
         {
-            var locationStatus = new StringBuilder();
-            locationStatus.Append($"--------------------------------{Environment.NewLine}");
+            get
+            {
+                var showLocationName = GameSimulationApp.Instance.Trail.ReachedNextPoint;
+                var locationStatus = new StringBuilder();
+                locationStatus.AppendLine($"--------------------------------");
 
-            // Only add the location name if we are on the next point, otherwise we should not show this.
-            if (showLocationName)
-                locationStatus.AppendLine(GameSimulationApp.Instance.Trail.CurrentLocation.Name);
+                // Only add the location name if we are on the next point, otherwise we should not show this.
+                if (showLocationName)
+                    locationStatus.AppendLine(GameSimulationApp.Instance.Trail.CurrentLocation.Name);
 
-            locationStatus.Append($"{GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
-            locationStatus.Append($"--------------------------------{Environment.NewLine}");
-            locationStatus.Append($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}{Environment.NewLine}");
-            locationStatus.Append($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}{Environment.NewLine}");
-            locationStatus.Append($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}{Environment.NewLine}");
-            locationStatus.Append($"Rations: {GameSimulationApp.Instance.Vehicle.Ration}{Environment.NewLine}");
-            locationStatus.Append($"--------------------------------{Environment.NewLine}");
-            return locationStatus.ToString();
+                locationStatus.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
+                locationStatus.AppendLine($"--------------------------------");
+                locationStatus.AppendLine($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}");
+                locationStatus.AppendLine($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}");
+                locationStatus.AppendLine($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}");
+                locationStatus.AppendLine($"Rations: {GameSimulationApp.Instance.Vehicle.Ration}");
+                locationStatus.AppendLine($"--------------------------------");
+                return locationStatus.ToString();
+            }
         }
     }
 }

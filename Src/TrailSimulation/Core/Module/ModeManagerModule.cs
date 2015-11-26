@@ -9,14 +9,8 @@ namespace TrailSimulation.Core
     ///     Builds up a list of game modes and their states using reflection and attributes. Contains methods to add game modes
     ///     to running simulation. Can also remove modes and modify them further with states.
     /// </summary>
-    public sealed class ModeManagerModuleProduct : IModule
+    public sealed class ModeManagerModule : IModule
     {
-        /// <summary>
-        ///     Fired when the window manager has added or removed a game mode.
-        /// </summary>
-        /// <param name="mode">Game mode that is going to be the new active one.</param>
-        public delegate void ModeChanged(Mode mode);
-
         /// <summary>
         ///     Factory pattern that will create game modes for it based on attribute at the top of each one that defines what mode
         ///     type it is responsible for.
@@ -32,7 +26,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
         /// </summary>
-        public ModeManagerModuleProduct()
+        public ModeManagerModule()
         {
             // References all of the active game modes that need to be ticked.
             Modes = new Dictionary<Mode, IModeProduct>();
@@ -94,21 +88,10 @@ namespace TrailSimulation.Core
                     return false;
 
                 // Skip if state is not null and, game mode accepts input, but current state doesn't want input.
-                // ReSharper disable once ConvertIfStatementToReturnStatement
-                if (ActiveMode.CurrentState != null && ActiveMode.AcceptsInput && !ActiveMode.CurrentState.AcceptsInput)
-                    return false;
-
-                // Default response is to return true if nothing else stops it above.
-                return true;
+                return ActiveMode.CurrentState == null ||
+                       !ActiveMode.AcceptsInput ||
+                       ActiveMode.CurrentState.AcceptsInput;
             }
-        }
-
-        /// <summary>
-        ///     Reference to the generic type that was created at runtime.
-        /// </summary>
-        public object GenericTypeInstance
-        {
-            get { throw new NotImplementedException(); }
         }
 
         /// <summary>
@@ -133,8 +116,13 @@ namespace TrailSimulation.Core
         public void Tick()
         {
             // If the active mode is not null and flag is set to remove then do that!
+            var updatedModes = false;
             if (ActiveMode != null && ActiveMode.ShouldRemoveMode)
-                RemoveDirtyModes();
+                updatedModes = RemoveDirtyModes();
+
+            // When list of modes is updated then we need to activate now active mode since they shifted.
+            if (updatedModes)
+                ActiveMode.OnModeActivate();
 
             // Otherwise just tick the game mode logic.
             ActiveMode?.TickMode();
@@ -151,14 +139,19 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Removes any and all inactive game modes that need to be removed from the simulation.
         /// </summary>
-        private void RemoveDirtyModes()
+        /// <returns>
+        ///     TRUE if modes were removes, changing the active mode or nulling it. FALSE if nothing changed because nothing
+        ///     was removed or no modes.
+        /// </returns>
+        private bool RemoveDirtyModes()
         {
             // Ensure the mode exists as active mode.
             if (ActiveMode == null)
-                throw new InvalidOperationException("Attempted to remove active mode when it is null!");
+                return false;
 
             // Create copy of all modes so we can destroy while iterating.
             var copyModes = new Dictionary<Mode, IModeProduct>(Modes);
+            var updatedModes = false;
             foreach (var mode in copyModes)
             {
                 // Skip if the mode doesn't want to be removed.
@@ -167,12 +160,14 @@ namespace TrailSimulation.Core
 
                 // Remove the mode from list if it is flagged for removal.
                 Modes.Remove(mode.Key);
-
-                // Fire virtual method which will allow game simulation above and attempt to pass this data along to internal game mode and game mode states.
-                if (ActiveMode != null)
-                    OnModeChanged(ActiveMode.Mode);
+                updatedModes = true;
             }
+
+            // Clear temporary dictionary of modes
             copyModes.Clear();
+
+            // Return the result of the mode cleansing operation.
+            return updatedModes;
         }
 
         /// <summary>
@@ -195,23 +190,7 @@ namespace TrailSimulation.Core
             Modes[mode].OnModePostCreate();
 
             // Last thing we do is call event that subscribers can know about game mode changes after they happen.
-            ModeChangedEvent?.Invoke(Modes[mode].Mode);
+            //ModeChangedEvent?.Invoke(Modes[mode].Mode);
         }
-
-        /// <summary>
-        ///     Fired when the active game mode has been changed, this allows any underlying mode to know about a change in
-        ///     simulation.
-        /// </summary>
-        /// <param name="mode">Current mode which the simulation is changing to.</param>
-        private void OnModeChanged(Mode mode)
-        {
-            // Fire event that lets subscribers know we changed something.
-            ModeChangedEvent?.Invoke(mode);
-        }
-
-        /// <summary>
-        ///     Fired when the window manager has added or removed a game mode.
-        /// </summary>
-        public event ModeChanged ModeChangedEvent;
     }
 }

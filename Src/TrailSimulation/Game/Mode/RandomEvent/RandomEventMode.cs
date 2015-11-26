@@ -1,4 +1,5 @@
-﻿using TrailSimulation.Core;
+﻿using System;
+using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
@@ -24,7 +25,16 @@ namespace TrailSimulation.Game
         public override void OnModePostCreate()
         {
             // Event director has event to know when events are triggered.
-            GameSimulationApp.Instance.EventDirector.OnEventTriggered += Director_OnEventTriggered;
+            GameSimulationApp.Instance.EventDirectorModule.OnEventTriggered += Director_OnEventTriggered;
+        }
+
+        /// <summary>
+        ///     Called when the mode manager in simulation makes this mode the currently active game mode. Depending on order of
+        ///     modes this might not get called until the mode is actually ticked by the simulation.
+        /// </summary>
+        public override void OnModeActivate()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -48,8 +58,8 @@ namespace TrailSimulation.Game
             base.OnModeRemoved(mode);
 
             // Event director has event for when he triggers events.
-            if (GameSimulationApp.Instance.EventDirector != null)
-                GameSimulationApp.Instance.EventDirector.OnEventTriggered -= Director_OnEventTriggered;
+            if (GameSimulationApp.Instance.EventDirectorModule != null)
+                GameSimulationApp.Instance.EventDirectorModule.OnEventTriggered -= Director_OnEventTriggered;
         }
     }
 }

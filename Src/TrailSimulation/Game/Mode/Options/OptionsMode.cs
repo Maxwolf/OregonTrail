@@ -42,6 +42,15 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Called when the mode manager in simulation makes this mode the currently active game mode. Depending on order of
+        ///     modes this might not get called until the mode is actually ticked by the simulation.
+        /// </summary>
+        public override void OnModeActivate()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         ///     Removes the management options game mode and returns to main menu which should be below it.
         /// </summary>
         private void ReturnToMainMenu()

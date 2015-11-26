@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
     ///     game simulation normally.
     /// </summary>
-    public sealed class EventDirector : IModule
+    public sealed class EventDirectorModule : IModule
     {
         /// <summary>
         ///     Fired when an event has been triggered by the director.
@@ -23,7 +23,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
         /// </summary>
-        public EventDirector()
+        public EventDirectorModule()
         {
             // Creates a new event factory, and event history list. 
             _eventFactory = new EventFactory();
@@ -66,11 +66,17 @@ namespace TrailSimulation.Game
 
             // Create a random event by type enumeration, event factory will randomly pick one for us based on the enum value.
             var randomEventProduct = _eventFactory.CreateRandomByType(eventCategory);
+
+            // Check to make sure the event returned actually exists.
+            if (randomEventProduct == null)
+                return;
+
+            // Invokes the event which will give it full control over simulation.
             ExecuteEvent(sourceEntity, randomEventProduct);
         }
 
         /// <summary>
-        ///     Triggers an event directly by type of reference. Event must have [EventDirector] attribute to be
+        ///     Triggers an event directly by type of reference. Event must have [EventDirectorModule] attribute to be
         ///     registered
         ///     in
         ///     the

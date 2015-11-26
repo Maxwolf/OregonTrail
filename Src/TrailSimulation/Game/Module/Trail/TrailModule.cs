@@ -9,9 +9,9 @@ namespace TrailSimulation.Game
     ///     Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps
     ///     track of the vehicles current position on the trail and provides helper methods to quickly access it.
     /// </summary>
-    public sealed class TrailModuleProduct : IModule
+    public sealed class TrailModule : IModule
     {
-        public TrailModuleProduct()
+        public TrailModule()
         {
             // Builds the trail passed on parameter, sets location to negative one for startup.
             Locations = new List<Location>(TrailRegistry.OregonTrail());
@@ -127,23 +127,26 @@ namespace TrailSimulation.Game
         public void ArriveAtNextLocation()
         {
             // Check if we need to keep going or if we have reached the end of the trail.
-            if (LocationIndex <= Locations.Count)
-            {
-                // Setup next travel distance requirement.
-                DistanceToNextLocation = CalculateNextPointDistance();
+            if (LocationIndex > Locations.Count)
+                return;
 
-                // Called when we decide to continue on the trail from a location on it.
+            // Setup next travel distance requirement.
+            DistanceToNextLocation = CalculateNextPointDistance();
+
+            // Called when we decide to continue on the trail from a location on it.
+            if (GameSimulationApp.Instance.TotalTurns > 0)
                 LocationIndex++;
 
-                // Set visited flag for location, attach mode it requires, and fire event for subscribers.
-                CurrentLocation.SetVisited();
-                GameSimulationApp.Instance.ModeManager.AddMode(CurrentLocation.Mode);
-            }
-            else if (GameSimulationApp.Instance.Vehicle.Odometer >= GameSimulationApp.TRAIL_LENGTH)
+            // Check for end of game if we are at the end of the trail.
+            if (LocationIndex > Locations.Count)
             {
-                // Check for end of game in miles.
                 GameSimulationApp.Instance.ModeManager.AddMode(Mode.EndGame);
+                return;
             }
+
+            // Set visited flag for location, attach mode it requires.
+            CurrentLocation.SetVisited();
+            GameSimulationApp.Instance.ModeManager.AddMode(CurrentLocation.Mode);
         }
 
         /// <summary>

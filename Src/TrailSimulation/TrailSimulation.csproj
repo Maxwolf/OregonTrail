@@ -45,8 +45,8 @@
     <Compile Include="Core\Mode\State\Dialog\DialogType.cs" />
     <Compile Include="Core\Mode\State\RequiredModeAttribute.cs" />
     <Compile Include="Core\Mode\State\StateFactory.cs" />
-    <Compile Include="Core\Module\TextRenderingModuleProduct.cs" />
-    <Compile Include="Core\Module\ModeManagerModuleProduct.cs" />
+    <Compile Include="Core\Module\TextRendererModule.cs" />
+    <Compile Include="Core\Module\ModeManagerModule.cs" />
     <Compile Include="Game\Module\Director\EventFactory.cs" />
     <Compile Include="Game\Mode\EndGame\EndGameCommands.cs" />
     <Compile Include="Game\Mode\EndGame\EndGameInfo.cs" />
@@ -65,7 +65,7 @@
     <Compile Include="Game\Module\Director\EventProduct.cs" />
     <Compile Include="Event\Person\DeathCompanionEvent.cs" />
     <Compile Include="Event\Person\DeathPlayerEvent.cs" />
-    <Compile Include="Game\Module\Director\EventDirectorAttribute.cs" />
+    <Compile Include="Game\Module\Director\DirectorEventAttribute.cs" />
     <Compile Include="Game\Mode\MainMenu\State\Help\IntroduceStoreState.cs" />
     <Compile Include="Core\Mode\SimulationModeAttribute.cs" />
     <Compile Include="Game\Mode\RandomEvent\RandomEventCommands.cs" />
@@ -156,15 +156,15 @@
     <Compile Include="Game\Module\Climate\ClimateClassification.cs" />
     <Compile Include="Game\Module\Climate\ClimateData.cs" />
     <Compile Include="Game\Module\Climate\WeatherCondition.cs" />
-    <Compile Include="Game\Module\Director\EventDirector.cs" />
+    <Compile Include="Game\Module\Director\EventDirectorModule.cs" />
     <Compile Include="Game\Module\Time\Date.cs" />
     <Compile Include="Game\Module\Time\Months.cs" />
     <Compile Include="Game\Module\Trail\TrailRegistry.cs" />
-    <Compile Include="Game\Module\Climate\ClimateModuleProduct.cs" />
+    <Compile Include="Game\Module\Climate\ClimateModule.cs" />
     <Compile Include="Core\SimulationApp.cs" />
-    <Compile Include="Game\Module\Time\TimeModuleProduct.cs" />
+    <Compile Include="Game\Module\Time\TimeModule.cs" />
     <Compile Include="Game\Module\Trail\Points\ForkInRoad.cs" />
-    <Compile Include="Game\Module\Trail\TrailModuleProduct.cs" />
+    <Compile Include="Game\Module\Trail\TrailModule.cs" />
     <Compile Include="Entity\Person\Person.cs" />
     <Compile Include="Game\Mode\Hunting\HuntingMode.cs" />
     <Compile Include="Game\Mode\RiverCross\RiverCrossMode.cs" />
@@ -173,7 +173,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entity\Vehicle\Vehicle.cs" />
     <Compile Include="Game\Mode\MainMenu\MainMenuMode.cs" />
-    <Compile Include="Core\Module\RandomModuleProduct.cs" />
+    <Compile Include="Core\Module\RandomModule.cs" />
     <Compile Include="Utility\TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

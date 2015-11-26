@@ -10,7 +10,7 @@ namespace TrailSimulation.Core
     ///     console only view of the simulation which is intended to be the lowest level of visualization but theoretically
     ///     anything could be a renderer for the simulation.
     /// </summary>
-    public sealed class TextRenderingModuleProduct : IModule
+    public sealed class TextRendererModule : IModule
     {
         /// <summary>
         ///     Fired when the screen back buffer has changed from what is currently being shown, this forces a redraw.
@@ -30,7 +30,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
         /// </summary>
-        public TextRenderingModuleProduct()
+        public TextRendererModule()
         {
             ScreenBuffer = string.Empty;
         }
@@ -103,7 +103,7 @@ namespace TrailSimulation.Core
         ///     Instance of the window manager so we don't have to get it ourselves and just use the same one
         ///     renderer is using.
         /// </param>
-        private string RenderMode(ModeManagerModuleProduct modeManager)
+        private string RenderMode(ModeManagerModule modeManager)
         {
             // If TUI for active game mode is not null or empty then use it.
             var activeModeTUI = modeManager.ActiveMode?.OnRenderMode();

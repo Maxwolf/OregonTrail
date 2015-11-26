@@ -5,7 +5,7 @@ namespace TrailSimulation.Core
     /// <summary>
     ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
     /// </summary>
-    public sealed class RandomModuleProduct : IModule
+    public sealed class RandomModule : IModule
     {
         /// <summary>
         ///     Game logic objects.
@@ -15,7 +15,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
         /// </summary>
-        public RandomModuleProduct()
+        public RandomModule()
         {
             // Create a unique random seed based on current system tick.
             RandomSeed = (int) DateTime.Now.Ticks & 0x0000FFF;

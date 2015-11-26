@@ -113,7 +113,7 @@ namespace TrailSimulation.Game
         {
             // Header text for above menu comes from travel info object.
             var headerText = new StringBuilder();
-            headerText.Append(UserData.TravelStatus(GameSimulationApp.Instance.Trail.ReachedNextPoint));
+            headerText.Append(UserData.TravelStatus);
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
 
@@ -141,29 +141,13 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired by game simulation system timers timer which runs on same thread, only fired for active (last added), or
-        ///     top-most game mode.
+        ///     Called when the mode manager in simulation makes this mode the currently active game mode. Depending on order of
+        ///     modes this might not get called until the mode is actually ticked by the simulation.
         /// </summary>
-        public override void TickMode()
+        public override void OnModeActivate()
         {
-            base.TickMode();
-
-            // Travel mode waits until it is by itself on first location and first turn.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                GameSimulationApp.Instance.ModeManager.ModeCount <= 1)
-            {
-                // Establishes configured vehicle onto running simulation, sets first point on trail as visited.
-                // NOTE: Also calculates initial distance to next point and all points thereafter.
-                GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
-            }
-        }
-
-        /// <summary>
-        ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
-        /// </summary>
-        protected override void OnModeRemoved(Mode mode)
-        {
-            base.OnModeRemoved(mode);
+            // TODO: Check if location has been visited here?!
+            // TODO: Only run this if distance to next location is zero and not visited?!
 
             // On the first point we are going to force the look around state onto the traveling mode without asking.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation)

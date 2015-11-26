@@ -8,14 +8,14 @@ namespace TrailSimulation.Game
     ///     Controls the weather, temperature, environment for getting food, illness probability, and various other factors
     ///     related to the players current location in the game world.
     /// </summary>
-    public sealed class ClimateModuleProduct : IModule
+    public sealed class ClimateModule : IModule
     {
         private List<ClimateData> _averageTemperatures;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
         /// </summary>
-        public ClimateModuleProduct()
+        public ClimateModule()
         {
             ClimateClassificationType = ClimateClassification.Moderate;
 

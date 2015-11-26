@@ -151,6 +151,15 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Called when the mode manager in simulation makes this mode the currently active game mode. Depending on order of
+        ///     modes this might not get called until the mode is actually ticked by the simulation.
+        /// </summary>
+        public override void OnModeActivate()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
         protected override void OnModeRemoved(Mode mode)
@@ -160,6 +169,8 @@ namespace TrailSimulation.Game
             // Store is only going to process transactions on removal when it is the one up for removal.
             if (mode != Mode)
                 return;
+
+            // TODO: Store needs to keep existing items if not first turn and add to them.
 
             // Modify the vehicles cash from purchases they made.
             var totalBill = UserData.GetTransactionTotalCost();
@@ -176,6 +187,15 @@ namespace TrailSimulation.Game
 
             // Remove all the transactions now that we have processed them.
             UserData.ClearTransactions();
+
+            // Travel mode waits until it is by itself on first location and first turn.
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
+                GameSimulationApp.Instance.ModeManager.ModeCount >= 3)
+            {
+                // Establishes configured vehicle onto running simulation, sets first point on trail as visited.
+                // NOTE: Also calculates initial distance to next point!
+                GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
+            }
         }
 
         /// <summary>

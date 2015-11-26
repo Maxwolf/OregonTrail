@@ -56,9 +56,9 @@ namespace TrailSimulation.Core
             TickPhase = _spinningPixel.Step();
 
             // Create modules needed for managing simulation.
-            Random = new RandomModuleProduct();
-            ModeManager = new ModeManagerModuleProduct();
-            TextRender = new TextRenderingModuleProduct();
+            Random = new RandomModule();
+            ModeManager = new ModeManagerModule();
+            TextRender = new TextRendererModule();
 
             // Input manager needs event hook for knowing when buffer is sent.
             InputManagerManager = new InputManagerModule();
@@ -81,12 +81,12 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
         /// </summary>
-        internal RandomModuleProduct Random { get; private set; }
+        internal RandomModule Random { get; private set; }
 
         /// <summary>
         ///     Keeps track of the currently attached game mode, which one is active, and getting text user interface data.
         /// </summary>
-        internal ModeManagerModuleProduct ModeManager { get; private set; }
+        internal ModeManagerModule ModeManager { get; private set; }
 
         /// <summary>
         ///     Handles input from the users keyboard, holds an input buffer and will push it to the simulation when return key is
@@ -98,7 +98,7 @@ namespace TrailSimulation.Core
         ///     Shows the current state of the simulation as text only interface (TUI). Uses default constants if the attached mode
         ///     or state does not override this functionality and it is ticked.
         /// </summary>
-        public TextRenderingModuleProduct TextRender { get; private set; }
+        public TextRendererModule TextRender { get; private set; }
 
         /// <summary>
         ///     Calculates the number of ticks that have elapsed since the beginning of simulation and to instantiate a TimeSpan

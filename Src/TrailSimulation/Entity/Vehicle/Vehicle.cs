@@ -112,6 +112,28 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     Default items every vehicle and store will have, their prices increase with distance from starting point.
+        /// </summary>
+        internal static IDictionary<SimEntity, SimItem> DefaultInventory
+        {
+            get
+            {
+                var defaultInventory = new Dictionary<SimEntity, SimItem>
+                {
+                    {SimEntity.Animal, Parts.Oxen},
+                    {SimEntity.Clothes, Resources.Clothing},
+                    {SimEntity.Ammo, Resources.Bullets},
+                    {SimEntity.Wheel, Parts.Wheel},
+                    {SimEntity.Axle, Parts.Axle},
+                    {SimEntity.Tongue, Parts.Tongue},
+                    {SimEntity.Food, Resources.Food},
+                    {SimEntity.Cash, Resources.Cash}
+                };
+                return defaultInventory;
+            }
+        }
+
+        /// <summary>
         ///     Name of the entity as it should be known in the simulation.
         /// </summary>
         public string Name { get; }
@@ -304,7 +326,7 @@ namespace TrailSimulation.Entity
         /// <param name="startingMonies">Amount of money the vehicle should have to work with.</param>
         public void ResetVehicle(int startingMonies)
         {
-            _inventory = new Dictionary<SimEntity, SimItem>(GameSimulationApp.DefaultInventory);
+            _inventory = new Dictionary<SimEntity, SimItem>(DefaultInventory);
             Balance = startingMonies;
             _passengers = new List<Person>();
             Ration = RationLevel.Filling;
@@ -337,7 +359,7 @@ namespace TrailSimulation.Entity
             }
 
             // Check for random events that might trigger regardless of calculations made.
-            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Vehicle);
+            GameSimulationApp.Instance.EventDirectorModule.TriggerEventByType(this, EventCategory.Vehicle);
 
             // Check to make sure mileage is at least zero.
             if (Mileage <= 0)

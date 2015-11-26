@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     Primary game simulation singleton. Purpose of this class is to control game specific modules that are independent
     ///     of the simulations ability to manage itself, process ticks, and input.
     /// </summary>
-    public sealed class GameSimulationApp : SimulationApp
+    public class GameSimulationApp : SimulationApp
     {
         /// <summary>
         ///     Defines the limit on the number of players for the vehicle that will be allowed. This also determines how many
@@ -18,14 +18,9 @@ namespace TrailSimulation.Game
         public const int MAX_PLAYERS = 4;
 
         /// <summary>
-        ///     Defines the maximum number of miles the vehicle is allowed to travel before the game is considered forcefully over.
-        /// </summary>
-        public const int TRAIL_LENGTH = 2040;
-
-        /// <summary>
         ///     Keeps track of all the points of interest we want to visit from beginning to end that makeup the entire journey.
         /// </summary>
-        public TrailModuleProduct Trail { get; private set; }
+        public TrailModule Trail { get; private set; }
 
         /// <summary>
         ///     Singleton instance for the entire game simulation, does not block the calling thread though only listens for
@@ -36,12 +31,12 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Manages time in a linear since from the provided ticks in base simulation class. Handles days, months, and years.
         /// </summary>
-        public TimeModuleProduct Time { get; private set; }
+        public TimeModule Time { get; private set; }
 
         /// <summary>
         ///     Manages weather, temperature, humidity, and current grazing level for living animals.
         /// </summary>
-        public ClimateModuleProduct Climate { get; private set; }
+        public ClimateModule Climate { get; private set; }
 
         /// <summary>
         ///     Keeps track of the total number of points the player has earned through the course of the game.
@@ -52,7 +47,7 @@ namespace TrailSimulation.Game
         ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
         ///     game modes, people, and vehicles.
         /// </summary>
-        public EventDirector EventDirector { get; private set; }
+        public EventDirectorModule EventDirectorModule { get; private set; }
 
         /// <summary>
         ///     Current vessel which the player character and his party are traveling inside of, provides means of transportation
@@ -65,31 +60,6 @@ namespace TrailSimulation.Game
         ///     (246 days) or approximately two-thousand (2000) miles.
         /// </summary>
         public int TotalTurns { get; private set; }
-
-        /// <summary>
-        ///     References all of the default store items that any clerk will offer to sell you. This is also true for the store
-        ///     purchasing mode that keeps track of purchases that need to be made.
-        /// </summary>
-        internal static IDictionary<SimEntity, SimItem> DefaultInventory
-        {
-            get
-            {
-                // Build up the default items every store will have, their prices increase with distance from starting point.
-                var defaultInventory = new Dictionary<SimEntity, SimItem>
-                {
-                    {SimEntity.Animal, Parts.Oxen},
-                    {SimEntity.Clothes, Resources.Clothing},
-                    {SimEntity.Ammo, Resources.Bullets},
-                    {SimEntity.Wheel, Parts.Wheel},
-                    {SimEntity.Axle, Parts.Axle},
-                    {SimEntity.Tongue, Parts.Tongue},
-                    {SimEntity.Food, Resources.Food},
-                    {SimEntity.Cash, Resources.Cash}
-                };
-                return defaultInventory;
-            }
-        }
-
 
         /// <summary>
         ///     Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
@@ -148,7 +118,7 @@ namespace TrailSimulation.Game
             ScoreTopTen = null;
             Time = null;
             Climate = null;
-            EventDirector = null;
+            EventDirectorModule = null;
             Trail = null;
             TotalTurns = 0;
             Vehicle = null;
@@ -162,16 +132,16 @@ namespace TrailSimulation.Game
         public override void OnFirstTick()
         {
             // Linear time simulation with ticks.
-            Time = new TimeModuleProduct();
+            Time = new TimeModule();
 
             // Scoring tracker and tabulator for end game results from current simulation state.
             ScoreTopTen = new List<Highscore>(ScoreRegistry.TopTenDefaults);
             // TODO: Load custom list from JSON with user high scores altered from defaults.
 
             // Environment, weather, conditions, climate, tail, stats, event director, etc.
-            EventDirector = new EventDirector();
-            Climate = new ClimateModuleProduct();
-            Trail = new TrailModuleProduct();
+            EventDirectorModule = new EventDirectorModule();
+            Climate = new ClimateModule();
+            Trail = new TrailModule();
 
             // Vehicle entity for the players to travel in along the trail.
             Vehicle = new Vehicle();

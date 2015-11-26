@@ -22,7 +22,7 @@ namespace TrailSimulation.Game
             ExecutionCount = new Dictionary<Tuple<EventCategory, string>, int>();
 
             // Collect all of the event types with the attribute decorated on them.
-            var randomEvents = AttributeHelper.GetTypesWith<EventDirectorAttribute>(true);
+            var randomEvents = AttributeHelper.GetTypesWith<DirectorEventAttribute>(true);
             foreach (var eventObject in randomEvents)
             {
                 // Check if the class is abstract base class, we don't want to add that.
@@ -30,7 +30,7 @@ namespace TrailSimulation.Game
                     continue;
 
                 // GetModule the attribute itself from the event we are working on, which gives us the event type enum.
-                var eventAttribute = eventObject.GetAttributes<EventDirectorAttribute>(true).First();
+                var eventAttribute = eventObject.GetAttributes<DirectorEventAttribute>(true).First();
                 var eventType = eventAttribute.EventCategory;
 
                 // Initialize the execution history dictionary with every event type.
@@ -116,15 +116,26 @@ namespace TrailSimulation.Game
         /// <returns>Created event product based on enum value.</returns>
         public EventProduct CreateRandomByType(EventCategory eventCategory)
         {
-            // Find all of the reference event types that match the given enumeration value.
-            var groupedEvents = EventReference.Select(pair => pair.Key.Item1.Equals(eventCategory));
+            // Query all of the reference event types that match the given enumeration value.
+            var groupedEventList = new List<Type>();
+            foreach (var type in EventReference)
+            {
+                if (type.Key.Item1.Equals(eventCategory))
+                    groupedEventList.Add(type.Value);
+            }
+
+            // Check to make sure there is at least one type of event of this type.
+            if (groupedEventList.Count <= 0)
+                return null;
 
             // Roll the dice against the event reference ceiling count to see which one we use.
-            var diceRoll = GameSimulationApp.Instance.Random.Next(EventReference.Count);
-            var randomEventTypeByType = groupedEvents.ElementAt(diceRoll).GetType();
+            var diceRoll = GameSimulationApp.Instance.Random.Next(groupedEventList.Count);
 
             // Create the event we decided to execute from these types of event types.
-            var randomEvent = CreateInstance(randomEventTypeByType);
+            var randomEvent = CreateInstance(groupedEventList[diceRoll]);
+
+            // Clear the temporary list we made to get by category and return create event instance.
+            groupedEventList.Clear();
             return randomEvent;
         }
     }

@@ -215,7 +215,7 @@ namespace TrailSimulation.Entity
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(15);
 
                 // Pick an actual severe illness from list, roll the dice for it on very low health.
-                GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Person);
+                GameSimulationApp.Instance.EventDirectorModule.TriggerEventByType(this, EventCategory.Person);
             }
 
             if (Health == RepairStatus.VeryPoor &&
@@ -225,7 +225,7 @@ namespace TrailSimulation.Entity
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(50);
 
                 // Check if leader died or party member.
-                GameSimulationApp.Instance.EventDirector.TriggerEvent(this, IsLeader
+                GameSimulationApp.Instance.EventDirectorModule.TriggerEvent(this, IsLeader
                     ? typeof (DeathPlayerEvent)
                     : typeof (DeathCompanionEvent));
             }
