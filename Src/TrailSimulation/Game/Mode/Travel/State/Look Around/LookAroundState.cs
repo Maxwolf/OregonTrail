@@ -29,7 +29,7 @@ namespace TrailSimulation.Game
             {
                 // First point of interest has slightly different message about time travel.
                 welcomePoint.AppendLine(
-                    $"Going back to {GameSimulationApp.Instance.Time.CurrentYear}...{Environment.NewLine}");
+                    $"{Environment.NewLine}Going back to {GameSimulationApp.Instance.Time.CurrentYear}...{Environment.NewLine}");
             }
             else
             {

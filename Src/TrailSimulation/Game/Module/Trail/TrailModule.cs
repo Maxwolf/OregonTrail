@@ -43,8 +43,8 @@ namespace TrailSimulation.Game
         {
             get
             {
-                return DistanceToNextLocation <= 0 &&
-                       !CurrentLocation.HasVisited;
+                return DistanceToNextLocation <= 0 ||
+                       CurrentLocation.HasVisited;
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -22,11 +23,11 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             var fordRiver = new StringBuilder();
-            fordRiver.AppendLine("To ford a river means to");
+            fordRiver.AppendLine($"{Environment.NewLine}To ford a river means to");
             fordRiver.AppendLine("pull your wagon across a");
             fordRiver.AppendLine("shallow part of the river,");
             fordRiver.AppendLine("with the oxen still");
-            fordRiver.AppendLine("attached.");
+            fordRiver.AppendLine($"attached.{Environment.NewLine}");
             return fordRiver.ToString();
         }
 

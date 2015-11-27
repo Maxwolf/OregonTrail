@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -19,11 +20,11 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             var _caulkWagon = new StringBuilder();
-            _caulkWagon.AppendLine("To caulk the wagon means to");
+            _caulkWagon.AppendLine($"{Environment.NewLine}To caulk the wagon means to");
             _caulkWagon.AppendLine("seal it so that no water can");
             _caulkWagon.AppendLine("get in. The wagon can then");
             _caulkWagon.AppendLine("be floated across like a");
-            _caulkWagon.AppendLine("boat");
+            _caulkWagon.AppendLine($"boat{Environment.NewLine}");
             return _caulkWagon.ToString();
         }
 

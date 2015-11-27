@@ -24,7 +24,6 @@ namespace TrailSimulation.Game
         /// </summary>
         private void GetMoreInformation()
         {
-            //CurrentState = new FordRiverHelpState(this, RiverCrossInfo);
             SetState(typeof (FordRiverHelpState));
         }
 
@@ -33,7 +32,6 @@ namespace TrailSimulation.Game
         /// </summary>
         private void WaitForWeather()
         {
-            //CurrentState = new CampByRiverState(this, RiverCrossInfo);
             SetState(typeof (CampByRiverState));
         }
 
@@ -44,7 +42,6 @@ namespace TrailSimulation.Game
         private void UseFerry()
         {
             UserData.CrossingType = RiverCrossChoice.Ferry;
-            //CurrentState = new UseFerryConfirmState(this, RiverCrossInfo);
             SetState(typeof (UseFerryConfirmState));
         }
 
@@ -55,7 +52,6 @@ namespace TrailSimulation.Game
         private void CaulkVehicle()
         {
             UserData.CrossingType = RiverCrossChoice.Caulk;
-            //CurrentState = new CrossingResultState(this, RiverCrossInfo);
             SetState(typeof (CrossingResultState));
         }
 
@@ -66,7 +62,6 @@ namespace TrailSimulation.Game
         private void FordRiver()
         {
             UserData.CrossingType = RiverCrossChoice.Ford;
-            //CurrentState = new CrossingResultState(this, RiverCrossInfo);
             SetState(typeof (CrossingResultState));
         }
 
@@ -83,7 +78,6 @@ namespace TrailSimulation.Game
             AddCommand(GetMoreInformation, RiverCrossCommands.GetMoreInformation);
 
             // Add the state that explains the player is at a river crossing and what is expected of them.
-            //CurrentState = new RiverPromptState(this, RiverCrossInfo);
             SetState(typeof (RiverPromptState));
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -24,12 +25,12 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             var riverPrompt = new StringBuilder();
-            riverPrompt.AppendLine("You must cross the river in");
+            riverPrompt.AppendLine($"{Environment.NewLine}You must cross the river in");
             riverPrompt.AppendLine("order to continue. The");
             riverPrompt.AppendLine("river at this point is");
             riverPrompt.AppendLine($"currently {UserData.RiverWidth} feet across,");
             riverPrompt.AppendLine($"and {UserData.Depth} feet deep in the");
-            riverPrompt.AppendLine("middle.");
+            riverPrompt.AppendLine($"middle.{Environment.NewLine}");
             return riverPrompt.ToString();
         }
 
@@ -40,8 +41,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //parentGameMode.CurrentState = new FordRiverHelpState(parentGameMode, UserData);
-            SetState(typeof (FordRiverHelpState));
+            ClearState();
         }
     }
 }

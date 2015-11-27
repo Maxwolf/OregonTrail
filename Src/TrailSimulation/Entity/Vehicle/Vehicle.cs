@@ -266,22 +266,18 @@ namespace TrailSimulation.Entity
 
             // Sometimes things just go slow on the trail, cut mileage in half if above zero randomly.
             if (GameSimulationApp.Instance.Random.NextBool() && Mileage > 0)
-            {
                 Mileage = Mileage/2;
-            }
 
             // Loop through all the people in the vehicle and tick them.
             foreach (var person in _passengers)
-            {
                 person.OnTick(false);
-            }
 
             // Check for random events that might trigger regardless of calculations made.
             GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Vehicle);
 
-            // Check to make sure mileage is at least zero.
-            if (Mileage <= 0)
-                Mileage = 0;
+            // Check to make sure mileage is at minimum ten miles a day if nothing else.
+            if (Mileage < 10)
+                Mileage = 10;
 
             // Use our altered mileage to affect how far the vehicle has traveled in todays tick..
             Odometer += Mileage;
