@@ -21,13 +21,13 @@ namespace TrailSimulation.Entity
             Name = name;
             IsLeader = isLeader;
             DaysStarving = 0;
-            Health = RepairStatus.Good;
+            Health = RepairLevel.Good;
         }
 
         /// <summary>
         ///     Current health of this person which is enum that also represents the total points they are currently worth.
         /// </summary>
-        private RepairStatus Health { get; set; }
+        private RepairLevel Health { get; set; }
 
         /// <summary>
         ///     Determines how many total consecutive days this player has not eaten any food. If this continues for more than five
@@ -218,7 +218,7 @@ namespace TrailSimulation.Entity
             {
                 // Mild illness.
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(5);
-                Health = RepairStatus.Fair;
+                Health = RepairLevel.Fair;
             }
             else if (100*GameSimulationApp.Instance.Random.NextDouble() < 100 -
                      (40/GameSimulationApp.Instance.Vehicle.Passengers.Count()*
@@ -226,19 +226,19 @@ namespace TrailSimulation.Entity
             {
                 // Bad illness.
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(10);
-                Health = RepairStatus.Poor;
+                Health = RepairLevel.Poor;
             }
             else
             {
                 // Severe illness.
-                Health = RepairStatus.VeryPoor;
+                Health = RepairLevel.VeryPoor;
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(15);
 
                 // Pick an actual severe illness from list, roll the dice for it on very low health.
                 GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Person);
             }
 
-            if (Health == RepairStatus.VeryPoor &&
+            if (Health == RepairLevel.VeryPoor &&
                 GameSimulationApp.Instance.Random.Next((int) Health) <= 0)
             {
                 // Some dying makes everybody take a huge morale hit.

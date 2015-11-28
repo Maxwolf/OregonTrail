@@ -30,6 +30,7 @@ namespace TrailSimulation.Entity
             Name = "Vehicle";
             Pace = TravelPace.Steady;
             Mileage = 1;
+            Parked = true;
         }
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Current health of the vehicle, determines how well it will be able to perform
         /// </summary>
-        public RepairStatus RepairStatus { get; private set; }
+        public RepairLevel RepairLevel { get; private set; }
 
         /// <summary>
         ///     Total number of miles the vehicle has traveled since the start of the simulation.
@@ -74,6 +75,12 @@ namespace TrailSimulation.Entity
         ///     from this ideal figure; the revised total is printed at the start of the next trip segment.
         /// </summary>
         public int Mileage { get; private set; }
+
+        /// <summary>
+        ///     Defines what the trail module is currently processing if anything in regards to movement of vehicle and player
+        ///     entities down the trail.
+        /// </summary>
+        public bool Parked { get; private set; }
 
         /// <summary>
         ///     Returns the total value of all the cash the vehicle and all party members currently have.
@@ -137,17 +144,6 @@ namespace TrailSimulation.Entity
             get { return SimEntity.Vehicle; }
         }
 
-        /// <summary>
-        ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
-        /// </summary>
-        /// <returns>
-        ///     A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />, as shown in
-        ///     the following table.Value Meaning Less than zero<paramref name="x" /> is less than <paramref name="y" />.Zero
-        ///     <paramref name="x" /> equals <paramref name="y" />.Greater than zero<paramref name="x" /> is greater than
-        ///     <paramref name="y" />.
-        /// </returns>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
         public int Compare(IEntity x, IEntity y)
         {
             Debug.Assert(x != null, "x != null");
@@ -159,16 +155,6 @@ namespace TrailSimulation.Entity
             return result;
         }
 
-        /// <summary>
-        ///     Compares the current object with another object of the same type.
-        /// </summary>
-        /// <returns>
-        ///     A value that indicates the relative order of the objects being compared. The return value has the following
-        ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This
-        ///     object is equal to <paramref name="other" />. Greater than zero This object is greater than
-        ///     <paramref name="other" />.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
         public int CompareTo(IEntity other)
         {
             Debug.Assert(other != null, "other != null");
@@ -179,13 +165,6 @@ namespace TrailSimulation.Entity
             return result;
         }
 
-        /// <summary>
-        ///     Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        ///     true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
         public bool Equals(IEntity other)
         {
             // Reference equality check
@@ -212,28 +191,11 @@ namespace TrailSimulation.Entity
             return false;
         }
 
-        /// <summary>
-        ///     Determines whether the specified objects are equal.
-        /// </summary>
-        /// <returns>
-        ///     true if the specified objects are equal; otherwise, false.
-        /// </returns>
         public bool Equals(IEntity x, IEntity y)
         {
             return x.Equals(y);
         }
 
-        /// <summary>
-        ///     Returns a hash code for the specified object.
-        /// </summary>
-        /// <returns>
-        ///     A hash code for the specified object.
-        /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object" /> for which a hash code is to be returned.</param>
-        /// <exception cref="T:System.ArgumentNullException">
-        ///     The type of <paramref name="obj" /> is a reference type and
-        ///     <paramref name="obj" /> is null.
-        /// </exception>
         public int GetHashCode(IEntity obj)
         {
             var hash = 23;
@@ -257,30 +219,53 @@ namespace TrailSimulation.Entity
             if (systemTick)
                 return;
 
-            // Figure out how far we need to go to reach the next point.
-            Mileage = GameSimulationApp.Instance.Trail.DistanceToNextLocation;
+            // Only advance the vehicle mileage and odometer if we are actually traveling.
+            if (Parked)
+            {
+                // Figure out how far we need to go to reach the next point.
+                Mileage = CalculateMileageForDay();
 
-            // Determine how many miles we can move in a day on the trail based on amount of monies player spent on oxen to pull vehicle.
-            var cost_animals = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Animal].TotalValue;
-            Mileage = (int) cost_animals/5 + GameSimulationApp.Instance.Random.Next(1, 10);
+                // Sometimes things just go slow on the trail, cut mileage in half if above zero randomly.
+                if (GameSimulationApp.Instance.Random.NextBool() && Mileage > 0)
+                    Mileage = Mileage/2;
 
-            // Sometimes things just go slow on the trail, cut mileage in half if above zero randomly.
-            if (GameSimulationApp.Instance.Random.NextBool() && Mileage > 0)
-                Mileage = Mileage/2;
+                // Check for random events that might trigger regardless of calculations made.
+                GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Vehicle);
+            }
 
-            // Loop through all the people in the vehicle and tick them.
+            // Loop through all the people in the vehicle and tick them every day of simulation moving or not.
             foreach (var person in _passengers)
                 person.OnTick(false);
 
-            // Check for random events that might trigger regardless of calculations made.
-            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Vehicle);
+            // Only continue processing and working with odometer and mileage if we are traveling.
+            if (Parked)
+                return;
 
-            // Check to make sure mileage is at minimum ten miles a day if nothing else.
-            if (Mileage < 10)
+            // Check to make sure mileage is never below or at zero.
+            if (Mileage <= 0)
                 Mileage = 10;
 
             // Use our altered mileage to affect how far the vehicle has traveled in todays tick..
             Odometer += Mileage;
+        }
+
+        /// <summary>
+        ///     In general, you will travel 200 miles plus some additional distance which depends upon the quality of your team of
+        ///     oxen. This mileage figure is an ideal, assuming nothing goes wrong. If you run into problems, mileage is subtracted
+        ///     from this ideal figure; the revised total is printed at the start of the next trip segment.
+        /// </summary>
+        /// <returns>The expected mileage over the next two week segment.</returns>
+        private int CalculateMileageForDay()
+        {
+            // Total amount of monies the player has spent on animals to pull their vehicle.
+            var cost_animals = Inventory[SimEntity.Animal].TotalValue;
+
+            // Variables that will hold the distance we should travel in the next day.
+            var total_miles = Mileage +
+                              GameSimulationApp.Instance.Trail.DistanceToNextLocation + (cost_animals - 110)/2.5 +
+                              10*GameSimulationApp.Instance.Random.NextDouble();
+
+            return (int) Math.Abs(total_miles);
         }
 
         /// <summary>
@@ -290,6 +275,10 @@ namespace TrailSimulation.Entity
         /// <param name="amount">Amount of mileage that will be reduced.</param>
         internal void ReduceMileage(int amount)
         {
+            // Mileage cannot be reduced when parked.
+            if (Parked)
+                return;
+
             // Check if current mileage is below zero.
             if (Mileage <= 0)
                 return;
@@ -351,8 +340,9 @@ namespace TrailSimulation.Entity
             Balance = startingMonies;
             _passengers = new List<Person>();
             Ration = RationLevel.Filling;
-            RepairStatus = RepairStatus.Good;
+            RepairLevel = RepairLevel.Good;
             Odometer = 0;
+            Parked = true;
         }
 
         /// <summary>
@@ -362,8 +352,15 @@ namespace TrailSimulation.Entity
         /// <param name="ration">The rate at which people are permitted to eat in the vehicle party.</param>
         public void ChangeRations(RationLevel ration)
         {
-            // Set new ration level.
             Ration = ration;
+        }
+
+        /// <summary>
+        ///     Parks the vehicle and prevents any distance calculations from being performed.
+        /// </summary>
+        public void Park()
+        {
+            Parked = true;
         }
     }
 }

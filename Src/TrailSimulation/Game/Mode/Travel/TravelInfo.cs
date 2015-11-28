@@ -30,7 +30,7 @@ namespace TrailSimulation.Game
                 driveStatus.AppendLine("--------------------------------");
                 driveStatus.AppendLine($"Date: {GameSimulationApp.Instance.Time.Date}");
                 driveStatus.AppendLine($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}");
-                driveStatus.AppendLine($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}");
+                driveStatus.AppendLine($"Health: {GameSimulationApp.Instance.Vehicle.RepairLevel}");
                 driveStatus.AppendLine($"Food: {foodStatus}");
                 driveStatus.AppendLine(
                     $"Next landmark: {GameSimulationApp.Instance.Trail.DistanceToNextLocation} miles");
@@ -55,7 +55,7 @@ namespace TrailSimulation.Game
         {
             get
             {
-                var showLocationName = GameSimulationApp.Instance.Trail.ReachedNextPoint;
+                var showLocationName = GameSimulationApp.Instance.Trail.CurrentLocation.HasVisited;
                 var locationStatus = new StringBuilder();
                 locationStatus.AppendLine($"--------------------------------");
 
@@ -66,7 +66,7 @@ namespace TrailSimulation.Game
                 locationStatus.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
                 locationStatus.AppendLine($"--------------------------------");
                 locationStatus.AppendLine($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}");
-                locationStatus.AppendLine($"Health: {GameSimulationApp.Instance.Vehicle.RepairStatus}");
+                locationStatus.AppendLine($"Health: {GameSimulationApp.Instance.Vehicle.RepairLevel}");
                 locationStatus.AppendLine($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}");
                 locationStatus.AppendLine($"Rations: {GameSimulationApp.Instance.Vehicle.Ration}");
                 locationStatus.AppendLine($"--------------------------------");

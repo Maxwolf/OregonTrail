@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using TrailSimulation.Core;
-using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
 {
@@ -13,13 +11,18 @@ namespace TrailSimulation.Game
     {
         public TrailModule()
         {
-            // Builds the trail passed on parameter, sets location to negative one for startup.
-            Locations = new List<Location>(TrailRegistry.OregonTrail());
+            // Load a trail from file or prefab.
+            Trail = TrailRegistry.OregonTrail();
 
             // Startup location on the trail and distance to next point so it triggers immediately when we tick the first day.
             LocationIndex = 0;
             DistanceToNextLocation = 0;
         }
+
+        /// <summary>
+        ///     Reference to the loaded trail which the simulation and trail module are using to let the player iterate over them.
+        /// </summary>
+        private Trail Trail { get; set; }
 
         /// <summary>
         ///     Distance in miles the player needs to travel before they are considered arrived at next point.
@@ -32,9 +35,21 @@ namespace TrailSimulation.Game
         public int LocationIndex { get; private set; }
 
         /// <summary>
-        ///     List of all of the points of interest that make up the entire trail.
+        ///     Reference to all locations in this trail, indexed in the order they should be visited by vehicle.
         /// </summary>
-        public List<Location> Locations { get; }
+        public ReadOnlyCollection<Location> Locations
+        {
+            get { return Trail.Locations; }
+        }
+
+        /// <summary>
+        ///     Total length of the entire trail and locations added together. Simulation will decide distance between points
+        ///     randomly but keep it within this range.
+        /// </summary>
+        public int TrailLength
+        {
+            get { return Trail.TrailLength; }
+        }
 
         /// <summary>
         ///     Determines if the player is currently midway between two location points on the trail.
@@ -43,8 +58,8 @@ namespace TrailSimulation.Game
         {
             get
             {
-                return DistanceToNextLocation <= 0 ||
-                       CurrentLocation.HasVisited;
+                return CurrentLocation.HasVisited &&
+                       GameSimulationApp.Instance.Vehicle.Parked;
             }
         }
 
@@ -84,7 +99,8 @@ namespace TrailSimulation.Game
             {
                 return LocationIndex <= 0 &&
                        GameSimulationApp.Instance.TotalTurns <= 0 &&
-                       GameSimulationApp.Instance.ModeManager.RunCount[Mode.Store] <= 1;
+                       GameSimulationApp.Instance.ModeManager.RunCount[Mode.Store] <= 1 &&
+                       GameSimulationApp.Instance.Vehicle.Parked;
             }
         }
 
@@ -96,7 +112,7 @@ namespace TrailSimulation.Game
         {
             DistanceToNextLocation = 0;
             LocationIndex = 0;
-            Locations.Clear();
+            Trail = null;
         }
 
         /// <summary>
@@ -126,6 +142,16 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Since the trail does not directly define the total distance between all the points and only the ceiling for the
+        ///     entire trail it is necessary to create a chunk of distance to needs to be traveled from this total mileage.
+        /// </summary>
+        private int GenerateDistanceToNextLocation()
+        {
+            // TODO: Add code from brain here...
+            return 0;
+        }
+
+        /// <summary>
         ///     Fired by the simulation when it would like to trigger advancement to the next location, doesn't matter when this is
         ///     called could be right in the middle a trail midway between two points and it would still forcefully place the
         ///     vehicle and players at the next location on the trail.
@@ -137,7 +163,7 @@ namespace TrailSimulation.Game
                 return;
 
             // Setup next travel distance requirement.
-            DistanceToNextLocation = CalculateNextPointDistance();
+            DistanceToNextLocation = GenerateDistanceToNextLocation();
 
             // Called when we decide to continue on the trail from a location on it.
             if (GameSimulationApp.Instance.TotalTurns > 0)
@@ -150,28 +176,10 @@ namespace TrailSimulation.Game
                 return;
             }
 
-            // Set visited flag for location, attach mode it requires.
+            // Set visited flag for location, park the vehicle, and attach mode the location requires.
             CurrentLocation.SetVisited();
+            GameSimulationApp.Instance.Vehicle.Park();
             GameSimulationApp.Instance.ModeManager.AddMode(CurrentLocation.Mode);
-        }
-
-        /// <summary>
-        ///     In general, you will travel 200 miles plus some additional distance which depends upon the quality of your team of
-        ///     oxen. This mileage figure is an ideal, assuming nothing goes wrong. If you run into problems, mileage is subtracted
-        ///     from this ideal figure; the revised total is printed at the start of the next trip segment.
-        /// </summary>
-        /// <returns>The expected mileage over the next two week segment.</returns>
-        private static int CalculateNextPointDistance()
-        {
-            // GetModule the total amount of monies the player has spent on animals to pull their vehicle.
-            var cost_animals = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Animal].TotalValue;
-
-            // Variables that will hold the distance we should travel in the next day.
-            var total_miles = GameSimulationApp.Instance.Vehicle.Mileage +
-                              GameSimulationApp.Instance.Trail.DistanceToNextLocation + (cost_animals - 110)/2.5 +
-                              10*GameSimulationApp.Instance.Random.NextDouble();
-
-            return (int) Math.Abs(total_miles);
         }
     }
 }

@@ -10,10 +10,9 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Creates the original Oregon trail which was in the 1986 Apple II version of the game.
         /// </summary>
-        public static IEnumerable<Location> OregonTrail()
+        public static Trail OregonTrail()
         {
-            // TODO: Replace with completely dynamic generation of trail.
-            var trail = new[]
+            var oregonTrail = new[]
             {
                 new Location("Independence", true),
                 new River("Kansas River Crossing"),
@@ -39,7 +38,8 @@ namespace TrailSimulation.Game
                 }),
                 new Location("Oregon City")
             };
-            return trail;
+
+            return new Trail(oregonTrail, 2000);
         }
     }
 }

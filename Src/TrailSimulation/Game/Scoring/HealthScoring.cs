@@ -10,13 +10,13 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.HealthScoring" /> class.
         /// </summary>
-        public HealthScoring(RepairStatus partyHealth, int pointsPerPerson)
+        public HealthScoring(RepairLevel partyHealth, int pointsPerPerson)
         {
             PartyHealth = partyHealth;
             PointsPerPerson = pointsPerPerson;
         }
 
-        public RepairStatus PartyHealth { get; }
+        public RepairLevel PartyHealth { get; }
         public int PointsPerPerson { get; }
     }
 }

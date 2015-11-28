@@ -23,35 +23,29 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             var aboutTrail = new StringBuilder();
-            aboutTrail.Append($"Your journey over the Oregon Trail takes place in 1847. Start{Environment.NewLine}");
-            aboutTrail.Append($"ing in Independence, Missouri, you plan to take your family of{Environment.NewLine}");
-            aboutTrail.Append(
-                $"five over 2,000 tough miles to Oregon City.{Environment.NewLine}{Environment.NewLine}");
+            aboutTrail.AppendLine($"{Environment.NewLine}Your journey over the Oregon Trail takes place in 1847. Start");
+            aboutTrail.AppendLine($"ing in Independence, Missouri, you plan to take your family of");
+            aboutTrail.AppendLine(
+                $"five over {GameSimulationApp.Instance.Trail.TrailLength.ToString("N0")} tough miles to Oregon City.{Environment.NewLine}");
 
-            aboutTrail.Append($"Having saved for the trip, you bought a wagon and{Environment.NewLine}");
-            aboutTrail.Append($"now have to purchase the following items:{Environment.NewLine}{Environment.NewLine}");
+            aboutTrail.AppendLine($"Having saved for the trip, you bought a wagon and");
+            aboutTrail.AppendLine($"now have to purchase the following items:{Environment.NewLine}");
 
-            aboutTrail.Append(
-                $" * Oxen (spending more will buy you a larger and better team which{Environment.NewLine}");
-            aboutTrail.Append(
-                $" will be faster so you'll be on the trail for less time){Environment.NewLine}{Environment.NewLine}");
+            aboutTrail.AppendLine(
+                $" * Oxen (spending more will buy you a larger and better team which");
+            aboutTrail.AppendLine($" will be faster so you'll be on the trail for less time){Environment.NewLine}");
 
-            aboutTrail.Append(
-                $" * Food (you'll need ample food to keep up your strength and health){Environment.NewLine}{Environment.NewLine}");
+            aboutTrail.AppendLine(
+                $" * Food (you'll need ample food to keep up your strength and health){Environment.NewLine}");
 
-            aboutTrail.Append(
-                $" * Ammunition ($1 buys a belt of 50 bullets. You'll need ammo for{Environment.NewLine}");
-            aboutTrail.Append(
-                $" hunting and for fighting off attacks by bandits and animals){Environment.NewLine}{Environment.NewLine}");
+            aboutTrail.AppendLine($" * Ammunition ($1 buys a belt of 50 bullets. You'll need ammo for");
+            aboutTrail.AppendLine($" hunting and for fighting off attacks by bandits and animals){Environment.NewLine}");
 
-            aboutTrail.Append(
-                $" * Clothing (you'll need warm clothes, especially when you hit the{Environment.NewLine}");
-            aboutTrail.Append(
-                $" snow and freezing weather in the mountains){Environment.NewLine}{Environment.NewLine}");
+            aboutTrail.AppendLine($" * Clothing (you'll need warm clothes, especially when you hit the");
+            aboutTrail.AppendLine($" snow and freezing weather in the mountains){Environment.NewLine}");
 
-            aboutTrail.Append(
-                $" * Other supplies (includes medicine, first-aid supplies, tools, and{Environment.NewLine}");
-            aboutTrail.Append($" wagon parts for unexpected emergencies){Environment.NewLine}{Environment.NewLine}");
+            aboutTrail.AppendLine($" * Other supplies (includes medicine, first-aid supplies, tools, and");
+            aboutTrail.AppendLine($" wagon parts for unexpected emergencies){Environment.NewLine}");
             return aboutTrail.ToString();
         }
 

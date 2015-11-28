@@ -84,6 +84,7 @@
     <Compile Include="Game\Mode\RiverCross\RiverCrossInfo.cs" />
     <Compile Include="Game\Mode\RiverCross\State\UseFerryConfirmState.cs" />
     <Compile Include="Core\Mode\ModeFactory.cs" />
+    <Compile Include="Game\Module\Trail\Trail.cs" />
     <Compile Include="Game\Scoring\Highscore.cs" />
     <Compile Include="Game\Scoring\Performance.cs" />
     <Compile Include="Game\Mode\Options\State\EraseCurrentTopTenState.cs" />
@@ -106,7 +107,7 @@
     <Compile Include="Widget\TextProgress.cs" />
     <Compile Include="Utility\TextTableExtensions.cs" />
     <Compile Include="Game\Module\Trail\Points\Location.cs" />
-    <Compile Include="Entity\Vehicle\RepairStatus.cs" />
+    <Compile Include="Entity\Vehicle\RepairLevel.cs" />
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
     <Compile Include="Game\Mode\ForkInRoad\ForkInRoadCommands.cs" />
     <Compile Include="Game\Mode\ForkInRoad\ForkInRoadMode.cs" />
