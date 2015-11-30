@@ -37,7 +37,6 @@
     <Compile Include="Core\IModule.cs" />
     <Compile Include="Core\ITick.cs" />
     <Compile Include="Core\SimulationModule.cs" />
-    <Compile Include="Game\Mode\ForkInRoad\ForkInRoadInfo.cs" />
     <Compile Include="Game\Mode\Hunting\HuntingInfo.cs" />
     <Compile Include="Game\Mode\Trade\TradingInfo.cs" />
     <Compile Include="Core\Module\InputManagerModule.cs" />
@@ -49,6 +48,8 @@
     <Compile Include="Core\Mode\State\StateFactory.cs" />
     <Compile Include="Core\Module\TextRendererModule.cs" />
     <Compile Include="Core\Module\ModeManagerModule.cs" />
+    <Compile Include="Game\Mode\Travel\State\RiverCrossing\Choice\RiverCrossChoice.cs" />
+    <Compile Include="Game\Mode\Travel\State\RiverCrossing\RiverGenerator.cs" />
     <Compile Include="Game\Module\Director\EventFactory.cs" />
     <Compile Include="Game\Mode\EndGame\EndGameCommands.cs" />
     <Compile Include="Game\Mode\EndGame\EndGameInfo.cs" />
@@ -73,16 +74,14 @@
     <Compile Include="Game\Mode\RandomEvent\RandomEventCommands.cs" />
     <Compile Include="Game\Mode\RandomEvent\RandomEventInfo.cs" />
     <Compile Include="Game\Mode\RandomEvent\RandomEventMode.cs" />
-    <Compile Include="Game\Mode\RiverCross\State\CampByRiverState.cs" />
-    <Compile Include="Game\Mode\RiverCross\RiverCrossChoice.cs" />
-    <Compile Include="Game\Mode\RiverCross\State\CrossingResultState.cs" />
-    <Compile Include="Game\Mode\RiverCross\State\FerryNoMoniesState.cs" />
-    <Compile Include="Game\Mode\RiverCross\State\Help\CaulkRiverHelpState.cs" />
-    <Compile Include="Game\Mode\RiverCross\State\Help\FerryHelpState.cs" />
-    <Compile Include="Game\Mode\RiverCross\State\Help\FordRiverHelpState.cs" />
-    <Compile Include="Game\Mode\RiverCross\State\Help\RiverPromptState.cs" />
-    <Compile Include="Game\Mode\RiverCross\RiverCrossInfo.cs" />
-    <Compile Include="Game\Mode\RiverCross\State\UseFerryConfirmState.cs" />
+    <Compile Include="Game\Mode\Travel\State\RiverCrossing\Choice\CampByRiverState.cs" />
+    <Compile Include="Game\Mode\Travel\State\RiverCrossing\Choice\CrossingResultState.cs" />
+    <Compile Include="Game\Mode\Travel\State\RiverCrossing\Choice\FerryNoMoniesState.cs" />
+    <Compile Include="Game\Mode\Travel\State\RiverCrossing\Help\CaulkRiverHelpState.cs" />
+    <Compile Include="Game\Mode\Travel\State\RiverCrossing\Help\FerryHelpState.cs" />
+    <Compile Include="Game\Mode\Travel\State\RiverCrossing\Help\FordRiverHelpState.cs" />
+    <Compile Include="Game\Mode\Travel\State\RiverCrossing\Help\RiverPromptState.cs" />
+    <Compile Include="Game\Mode\Travel\State\RiverCrossing\Choice\UseFerryConfirmState.cs" />
     <Compile Include="Core\Mode\ModeFactory.cs" />
     <Compile Include="Game\Module\Trail\Trail.cs" />
     <Compile Include="Game\Scoring\Highscore.cs" />
@@ -106,11 +105,9 @@
     <Compile Include="Widget\MarqueeBar.cs" />
     <Compile Include="Widget\TextProgress.cs" />
     <Compile Include="Utility\TextTableExtensions.cs" />
-    <Compile Include="Game\Module\Trail\Points\Location.cs" />
+    <Compile Include="Game\Module\Trail\Location.cs" />
     <Compile Include="Entity\Vehicle\RepairLevel.cs" />
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
-    <Compile Include="Game\Mode\ForkInRoad\ForkInRoadCommands.cs" />
-    <Compile Include="Game\Mode\ForkInRoad\ForkInRoadMode.cs" />
     <Compile Include="Core\Mode\ModeProduct.cs" />
     <Compile Include="Game\Mode\Hunting\HuntingCommands.cs" />
     <Compile Include="Core\Mode\IModeProduct.cs" />
@@ -133,7 +130,6 @@
     <Compile Include="Game\Mode\Options\OptionCommands.cs" />
     <Compile Include="Game\Mode\Options\OptionInfo.cs" />
     <Compile Include="Game\Mode\Options\OptionsMode.cs" />
-    <Compile Include="Game\Mode\RiverCross\RiverCrossCommands.cs" />
     <Compile Include="Game\Mode\Store\State\BuyItemState.cs" />
     <Compile Include="Game\Mode\Store\State\MissingItemState.cs" />
     <Compile Include="Game\Mode\Store\StoreAdviceState.cs" />
@@ -145,16 +141,15 @@
     <Compile Include="Game\Mode\Travel\State\Pace\ChangePaceState.cs" />
     <Compile Include="Game\Mode\Travel\State\CheckSuppliesState.cs" />
     <Compile Include="Game\Mode\Travel\State\ContinueOnTrailState.cs" />
-    <Compile Include="Game\Mode\Travel\State\Look Around\LookAroundQuestionState.cs" />
+    <Compile Include="Game\Mode\Travel\State\LookAround\LookAroundQuestionState.cs" />
     <Compile Include="Game\Mode\Travel\State\LookAtMapState.cs" />
-    <Compile Include="Game\Mode\Travel\State\Look Around\LookAroundState.cs" />
+    <Compile Include="Game\Mode\Travel\State\LookAround\LookAroundState.cs" />
     <Compile Include="Game\Mode\Travel\State\Rest\RestingState.cs" />
     <Compile Include="Game\Mode\Travel\State\Rest\RestQuestionState.cs" />
     <Compile Include="Game\Mode\Travel\State\TalkToPeopleState.cs" />
     <Compile Include="Game\Mode\Travel\TravelCommands.cs" />
     <Compile Include="Game\Mode\Travel\TravelInfo.cs" />
     <Compile Include="Game\Mode\Travel\TravelMode.cs" />
-    <Compile Include="Game\Module\Trail\Points\River.cs" />
     <Compile Include="Game\GameSimulationApp.cs" />
     <Compile Include="Game\Module\Climate\ClimateClassification.cs" />
     <Compile Include="Game\Module\Climate\ClimateData.cs" />
@@ -166,11 +161,10 @@
     <Compile Include="Game\Module\Climate\ClimateModule.cs" />
     <Compile Include="Core\SimulationApp.cs" />
     <Compile Include="Game\Module\Time\TimeModule.cs" />
-    <Compile Include="Game\Module\Trail\Points\ForkInRoad.cs" />
     <Compile Include="Game\Module\Trail\TrailModule.cs" />
     <Compile Include="Entity\Person\Person.cs" />
     <Compile Include="Game\Mode\Hunting\HuntingMode.cs" />
-    <Compile Include="Game\Mode\RiverCross\RiverCrossMode.cs" />
+    <Compile Include="Game\Mode\Travel\State\RiverCrossing\RiverCrossState.cs" />
     <Compile Include="Game\Mode\Store\StoreMode.cs" />
     <Compile Include="Game\Mode\Trade\TradingMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -185,9 +179,9 @@
     <Folder Include="Event\Climate\" />
     <Folder Include="Event\Vehicle\" />
     <Folder Include="Event\Warning\" />
-    <Folder Include="Game\Mode\ForkInRoad\State\" />
     <Folder Include="Game\Mode\Hunting\State\" />
     <Folder Include="Game\Mode\Trade\State\" />
+    <Folder Include="Game\Mode\Travel\State\ForkInRoad\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

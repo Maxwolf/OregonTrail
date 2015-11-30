@@ -1,19 +1,20 @@
-﻿using System;
+﻿using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
     /// <summary>
-    ///     Attached if the player decides to rest by the river for a specified amount of time. Events will still tick here as
-    ///     the number of days is moved through.
+    ///     Attached when the user attempts to cross the river using the ferry, confirms they would like to but does not have
+    ///     enough money at this point this state will be attached and explain to the user they cannot use the ferry and must
+    ///     pick one of the other two options.
     /// </summary>
-    [RequiredMode(Mode.RiverCrossing)]
-    public sealed class CampByRiverState : DialogState<RiverCrossInfo>
+    [RequiredMode(Mode.Travel)]
+    public sealed class FerryNoMoniesState : DialogState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CampByRiverState(IModeProduct gameMode) : base(gameMode)
+        public FerryNoMoniesState(IModeProduct gameMode) : base(gameMode)
         {
         }
 
@@ -22,7 +23,11 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
-            return "You camp near the river for a day." + Environment.NewLine;
+            var _prompt = new StringBuilder();
+            _prompt.AppendLine("You do not have enough");
+            _prompt.AppendLine("monies to take the");
+            _prompt.AppendLine("ferry.");
+            return _prompt.ToString();
         }
 
         /// <summary>

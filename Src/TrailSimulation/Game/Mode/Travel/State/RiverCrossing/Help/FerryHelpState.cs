@@ -4,16 +4,13 @@ using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
-    /// <summary>
-    ///     Information about what fording a river means and how it works for the player vehicle and their party members.
-    /// </summary>
-    [RequiredMode(Mode.RiverCrossing)]
-    public sealed class FordRiverHelpState : DialogState<RiverCrossInfo>
+    [RequiredMode(Mode.Travel)]
+    public sealed class FerryHelpState : DialogState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public FordRiverHelpState(IModeProduct gameMode) : base(gameMode)
+        public FerryHelpState(IModeProduct gameMode) : base(gameMode)
         {
         }
 
@@ -22,13 +19,14 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
-            var fordRiver = new StringBuilder();
-            fordRiver.AppendLine($"{Environment.NewLine}To ford a river means to");
-            fordRiver.AppendLine("pull your wagon across a");
-            fordRiver.AppendLine("shallow part of the river,");
-            fordRiver.AppendLine("with the oxen still");
-            fordRiver.AppendLine($"attached.{Environment.NewLine}");
-            return fordRiver.ToString();
+            var _prompt = new StringBuilder();
+            _prompt.AppendLine($"{Environment.NewLine}To use a ferry means to put");
+            _prompt.AppendLine("your wagon on top of a flat");
+            _prompt.AppendLine("boat that belongs to someone");
+            _prompt.AppendLine("else. The owner of the");
+            _prompt.AppendLine("ferry will take your wagon");
+            _prompt.AppendLine($"across the river.{Environment.NewLine}");
+            return _prompt.ToString();
         }
 
         /// <summary>
@@ -38,8 +36,8 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //parentGameMode.CurrentState = new CaulkRiverHelpState(parentGameMode, UserData);
-            SetState(typeof (CaulkRiverHelpState));
+            //parentGameMode.CurrentState = null;
+            ClearState();
         }
     }
 }

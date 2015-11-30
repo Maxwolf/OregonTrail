@@ -1,4 +1,5 @@
-﻿using TrailSimulation.Core;
+﻿using System;
+using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
@@ -37,7 +38,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public override void OnModeAdded()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

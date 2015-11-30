@@ -3,9 +3,10 @@
 namespace TrailSimulation.Game
 {
     /// <summary>
-    ///     Defines all of the commands that are needed to cross a river.
+    ///     Determines what kind of river crossing the player would like to perform the time comes to dice roll the probability
+    ///     of failure and what will happen.
     /// </summary>
-    public enum RiverCrossCommands
+    public enum RiverCrossChoice
     {
         /// <summary>
         ///     Rides directly into the river without any special precautions, if it is greater than three feet of water the

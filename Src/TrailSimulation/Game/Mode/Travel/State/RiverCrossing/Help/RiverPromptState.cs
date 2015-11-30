@@ -9,14 +9,16 @@ namespace TrailSimulation.Game
     ///     order to continue and there is no going around. We tell them how deep the water is and how many feed across the
     ///     river is they will need to travel.
     /// </summary>
-    [RequiredMode(Mode.RiverCrossing)]
-    public sealed class RiverPromptState : DialogState<RiverCrossInfo>
+    [RequiredMode(Mode.Travel)]
+    public sealed class RiverPromptState : DialogState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public RiverPromptState(IModeProduct gameMode) : base(gameMode)
         {
+            // Generates a new river with randomized width and depth.
+            UserData.RiverInfo = new RiverGenerator();
         }
 
         /// <summary>
@@ -28,8 +30,8 @@ namespace TrailSimulation.Game
             riverPrompt.AppendLine($"{Environment.NewLine}You must cross the river in");
             riverPrompt.AppendLine("order to continue. The");
             riverPrompt.AppendLine("river at this point is");
-            riverPrompt.AppendLine($"currently {UserData.RiverWidth} feet across,");
-            riverPrompt.AppendLine($"and {UserData.RiverDepth} feet deep in the");
+            riverPrompt.AppendLine($"currently {UserData.RiverInfo.RiverWidth} feet across,");
+            riverPrompt.AppendLine($"and {UserData.RiverInfo.RiverDepth} feet deep in the");
             riverPrompt.AppendLine($"middle.{Environment.NewLine}");
             return riverPrompt.ToString();
         }
@@ -41,7 +43,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            ClearState();
+            SetState(typeof (RiverCrossState));
         }
     }
 }

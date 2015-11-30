@@ -8,8 +8,8 @@ namespace TrailSimulation.Game
     ///     confirm by saying yes. At this point the simulation will check if they have enough money or not and jump to the
     ///     next state accordingly.
     /// </summary>
-    [RequiredMode(Mode.RiverCrossing)]
-    public sealed class UseFerryConfirmState : DialogState<RiverCrossInfo>
+    [RequiredMode(Mode.Travel)]
+    public sealed class UseFerryConfirmState : DialogState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -34,8 +34,8 @@ namespace TrailSimulation.Game
         {
             var _prompt = new StringBuilder();
             _prompt.AppendLine("The ferry operator says that");
-            _prompt.AppendLine($"he will charge you {UserData.FerryCost.ToString("C2")} and");
-            _prompt.AppendLine($"that you will have to wait {UserData.FerryDelayInDays}");
+            _prompt.AppendLine($"he will charge you {UserData.RiverInfo.FerryCost.ToString("C2")} and");
+            _prompt.AppendLine($"that you will have to wait {UserData.RiverInfo.FerryDelayInDays}");
             _prompt.AppendLine("days. Are you willing to do");
             _prompt.AppendLine("this?");
             return _prompt.ToString();

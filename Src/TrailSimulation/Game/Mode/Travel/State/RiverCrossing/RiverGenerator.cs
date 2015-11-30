@@ -1,26 +1,22 @@
-﻿using System;
-using System.Text;
-using TrailSimulation.Core;
-
-namespace TrailSimulation.Game
+﻿namespace TrailSimulation.Game
 {
     /// <summary>
-    ///     Defines information about the current river crossing game mode the player has come across and needs to decide how
-    ///     they would like to proceed.
+    ///     Special data class that is used to generate river data in the travel info as requested. Creation of this object
+    ///     will automatically create a new river with random width and depth.
     /// </summary>
-    public sealed class RiverCrossInfo : ModeInfo
+    public sealed class RiverGenerator
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TileEntities.RiverCrossInfo" /> class.
+        ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
-        public RiverCrossInfo()
+        public RiverGenerator()
         {
             // Randomly generates statistics about the river each time you cross it.
             RiverDepth = GameSimulationApp.Instance.Random.Next(1, 20);
             FerryCost = GameSimulationApp.Instance.Random.Next(3, 8);
             FerryDelayInDays = GameSimulationApp.Instance.Random.Next(1, 10);
             RiverWidth = GameSimulationApp.Instance.Random.Next(20, 350);
-            CrossingType = RiverCrossChoice.Ford;
+            CrossingType = RiverCrossChoice.FordRiver;
         }
 
         /// <summary>

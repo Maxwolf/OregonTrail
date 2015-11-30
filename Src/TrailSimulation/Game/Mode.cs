@@ -16,12 +16,6 @@ namespace TrailSimulation.Game
         Travel,
 
         /// <summary>
-        ///     Forces the player to make a decision about where to go next on the trail.
-        /// </summary>
-        [SimulationMode(typeof (ForkInRoadMode))]
-        ForkInRoad,
-
-        /// <summary>
         ///     Lets the player hunt for food to bring back to the vehicle.
         /// </summary>
         [SimulationMode(typeof (HuntingMode))]
@@ -39,13 +33,6 @@ namespace TrailSimulation.Game
         /// </summary>
         [SimulationMode(typeof (EndGameMode))]
         EndGame,
-
-        /// <summary>
-        ///     Forces the player to make a choice about how to cross the river, they can ford the river, caulk their wagon and
-        ///     float, or pay to take a ferry across.
-        /// </summary>
-        [SimulationMode(typeof (RiverCrossMode))]
-        RiverCrossing,
 
         /// <summary>
         ///     Facilitates purchasing items from a list, prices can change per store as there is no central lookup for this

@@ -1,20 +1,16 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
-    /// <summary>
-    ///     Attached when the user attempts to cross the river using the ferry, confirms they would like to but does not have
-    ///     enough money at this point this state will be attached and explain to the user they cannot use the ferry and must
-    ///     pick one of the other two options.
-    /// </summary>
-    [RequiredMode(Mode.RiverCrossing)]
-    public sealed class FerryNoMoniesState : DialogState<RiverCrossInfo>
+    [RequiredMode(Mode.Travel)]
+    public sealed class CaulkRiverHelpState : DialogState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public FerryNoMoniesState(IModeProduct gameMode) : base(gameMode)
+        public CaulkRiverHelpState(IModeProduct gameMode) : base(gameMode)
         {
         }
 
@@ -23,11 +19,13 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
-            var _prompt = new StringBuilder();
-            _prompt.AppendLine("You do not have enough");
-            _prompt.AppendLine("monies to take the");
-            _prompt.AppendLine("ferry.");
-            return _prompt.ToString();
+            var _caulkWagon = new StringBuilder();
+            _caulkWagon.AppendLine($"{Environment.NewLine}To caulk the wagon means to");
+            _caulkWagon.AppendLine("seal it so that no water can");
+            _caulkWagon.AppendLine("get in. The wagon can then");
+            _caulkWagon.AppendLine("be floated across like a");
+            _caulkWagon.AppendLine($"boat{Environment.NewLine}");
+            return _caulkWagon.ToString();
         }
 
         /// <summary>
@@ -37,8 +35,8 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //parentGameMode.CurrentState = null;
-            ClearState();
+            //parentGameMode.CurrentState = new FerryHelpState(parentGameMode, UserData);
+            SetState(typeof (FerryHelpState));
         }
     }
 }
