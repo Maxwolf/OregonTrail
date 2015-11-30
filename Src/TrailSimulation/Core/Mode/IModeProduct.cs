@@ -80,5 +80,11 @@ namespace TrailSimulation.Core
         ///     modes this might not get called until the mode is actually ticked by the simulation.
         /// </summary>
         void OnModeActivate();
+
+        /// <summary>
+        ///     Fired when the simulation adds a game mode that is not this mode. Used to execute code in other modes that are not
+        ///     the active mode anymore one last time.
+        /// </summary>
+        void OnModeAdded();
     }
 }

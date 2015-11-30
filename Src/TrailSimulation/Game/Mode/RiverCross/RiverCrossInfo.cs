@@ -1,4 +1,6 @@
-﻿using TrailSimulation.Core;
+﻿using System;
+using System.Text;
+using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
@@ -14,7 +16,7 @@ namespace TrailSimulation.Game
         public RiverCrossInfo()
         {
             // Randomly generates statistics about the river each time you cross it.
-            Depth = GameSimulationApp.Instance.Random.Next(1, 20);
+            RiverDepth = GameSimulationApp.Instance.Random.Next(1, 20);
             FerryCost = GameSimulationApp.Instance.Random.Next(3, 8);
             FerryDelayInDays = GameSimulationApp.Instance.Random.Next(1, 10);
             RiverWidth = GameSimulationApp.Instance.Random.Next(20, 350);
@@ -29,7 +31,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Determines how deep the river is in feet.
         /// </summary>
-        public int Depth { get; }
+        public int RiverDepth { get; }
 
         /// <summary>
         ///     Determines how much the ferry operator will charge to cross the river.

@@ -56,6 +56,14 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Fired when the simulation adds a game mode that is not this mode. Used to execute code in other modes that are not
+        ///     the active mode anymore one last time.
+        /// </summary>
+        public override void OnModeAdded()
+        {
+        }
+
+        /// <summary>
         ///     Does exactly what it says on the tin, closes the simulation and releases all memory.
         /// </summary>
         private static void CloseSimulation()

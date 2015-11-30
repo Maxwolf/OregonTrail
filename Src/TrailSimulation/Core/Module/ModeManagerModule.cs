@@ -193,8 +193,20 @@ namespace TrailSimulation.Core
             // Add the game mode to the simulation now that we know it does not exist in the stack yet.
             Modes.Add(mode, modeProduct);
 
-            // Call final activator for attaching states on startup if that is what the mode wants to do.
-            Modes[mode].OnModePostCreate();
+            // Tell all the other game modes that we added another mode.
+            foreach (var loadedMode in Modes)
+            {
+                if (loadedMode.Key == ActiveMode.Mode)
+                {
+                    // Only call post create on the newly added active game mode.
+                    loadedMode.Value.OnModePostCreate();
+                }
+                else
+                {
+                    // All other game modes just get notification via method a mode was added on top of them.
+                    loadedMode.Value.OnModeAdded();
+                }
+            }
         }
     }
 }

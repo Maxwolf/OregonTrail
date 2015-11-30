@@ -38,6 +38,15 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Fired when the simulation adds a game mode that is not this mode. Used to execute code in other modes that are not
+        ///     the active mode anymore one last time.
+        /// </summary>
+        public override void OnModeAdded()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         ///     Fired when the event director triggers an event because it rolled the dice and hit it or it was forcefully
         ///     triggered by some method under a defined condition.
         /// </summary>

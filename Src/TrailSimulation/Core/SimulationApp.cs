@@ -148,9 +148,7 @@ namespace TrailSimulation.Core
 
                 // Fire event for first tick when it occurs, and only then.
                 if (TotalSecondsTicked == 1)
-                {
                     OnFirstTick();
-                }
 
                 // Visual representation of ticking for debugging purposes.
                 TickPhase = _spinningPixel.Step();

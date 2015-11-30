@@ -147,8 +147,8 @@ namespace TrailSimulation.Game
         /// </summary>
         private int GenerateDistanceToNextLocation()
         {
-            // TODO: Add code from brain here...
-            return 0;
+            // TODO: Generate dictionary of distances blocked out by total trail length defined in loaded trail file.
+            return 1;
         }
 
         /// <summary>
@@ -178,6 +178,8 @@ namespace TrailSimulation.Game
 
             // Set visited flag for location, park the vehicle, and attach mode the location requires.
             CurrentLocation.SetVisited();
+
+            // Parks the vehicle and adds any mode it might want to add since the player
             GameSimulationApp.Instance.Vehicle.Park();
             GameSimulationApp.Instance.ModeManager.AddMode(CurrentLocation.Mode);
         }

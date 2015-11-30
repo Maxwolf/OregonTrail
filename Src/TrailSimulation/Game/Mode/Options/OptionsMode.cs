@@ -51,6 +51,15 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Fired when the simulation adds a game mode that is not this mode. Used to execute code in other modes that are not
+        ///     the active mode anymore one last time.
+        /// </summary>
+        public override void OnModeAdded()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         ///     Removes the management options game mode and returns to main menu which should be below it.
         /// </summary>
         private void ReturnToMainMenu()

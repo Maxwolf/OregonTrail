@@ -29,7 +29,7 @@ namespace TrailSimulation.Game
             riverPrompt.AppendLine("order to continue. The");
             riverPrompt.AppendLine("river at this point is");
             riverPrompt.AppendLine($"currently {UserData.RiverWidth} feet across,");
-            riverPrompt.AppendLine($"and {UserData.Depth} feet deep in the");
+            riverPrompt.AppendLine($"and {UserData.RiverDepth} feet deep in the");
             riverPrompt.AppendLine($"middle.{Environment.NewLine}");
             return riverPrompt.ToString();
         }

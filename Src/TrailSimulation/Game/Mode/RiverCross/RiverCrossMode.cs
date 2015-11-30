@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -70,6 +71,19 @@ namespace TrailSimulation.Game
         /// </summary>
         public override void OnModePostCreate()
         {
+            // Header text for above menu comes from river crossing info object.
+            var headerText = new StringBuilder();
+            headerText.AppendLine("--------------------------------");
+            headerText.AppendLine($"{GameSimulationApp.Instance.Trail.CurrentLocation.Name}");
+            headerText.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
+            headerText.AppendLine("--------------------------------");
+            headerText.AppendLine($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}");
+            headerText.AppendLine($"River width: {UserData.RiverWidth} feet");
+            headerText.AppendLine($"River depth: {UserData.RiverDepth} feet");
+            headerText.AppendLine("--------------------------------");
+            headerText.Append("You may:");
+            MenuHeader = headerText.ToString();
+
             // Add all of the commands for crossing a river.
             AddCommand(FordRiver, RiverCrossCommands.FordRiver);
             AddCommand(CaulkVehicle, RiverCrossCommands.CaulkVehicle);
@@ -91,11 +105,21 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Fired when the simulation adds a game mode that is not this mode. Used to execute code in other modes that are not
+        ///     the active mode anymore one last time.
+        /// </summary>
+        public override void OnModeAdded()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         ///     Fired when this game mode is removed from the list of available and ticked modes in the simulation.
         /// </summary>
         /// <param name="mode"></param>
         protected override void OnModeRemoved(Mode mode)
         {
+            throw new NotImplementedException();
         }
     }
 }

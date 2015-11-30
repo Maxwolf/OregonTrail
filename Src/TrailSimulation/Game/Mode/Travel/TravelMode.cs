@@ -146,21 +146,26 @@ namespace TrailSimulation.Game
         /// </summary>
         public override void OnModeActivate()
         {
-            // TODO: Check if location has been visited here?!
-            // TODO: Only run this if distance to next location is zero and not visited?!
+            CheckLookAround();
+        }
 
-            // On the first point we are going to force the look around state onto the traveling mode without asking.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation)
-            {
-                SetState(typeof (LookAroundState));
-            }
-            else if (!GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                     GameSimulationApp.Instance.Vehicle.Odometer > 0 &&
-                     GameSimulationApp.Instance.TotalTurns > 0)
-            {
-                // Ensure we only ask if the player wants to stop when it is really not the first turn.
-                SetState(typeof (LookAroundQuestionState));
-            }
+        /// <summary>
+        ///     On the first point we are going to force the look around state onto the traveling mode without asking.
+        /// </summary>
+        private void CheckLookAround()
+        {
+            SetState(GameSimulationApp.Instance.Trail.IsFirstLocation
+                ? typeof (LookAroundState)
+                : typeof (LookAroundQuestionState));
+        }
+
+        /// <summary>
+        ///     Fired when the simulation adds a game mode that is not this mode. Used to execute code in other modes that are not
+        ///     the active mode anymore one last time.
+        /// </summary>
+        public override void OnModeAdded()
+        {
+            CheckLookAround();
         }
     }
 }
