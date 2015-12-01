@@ -362,5 +362,13 @@ namespace TrailSimulation.Entity
         {
             Parked = true;
         }
+
+        /// <summary>
+        ///     Resumes the vehicle movement on the trail allowing it to reduce distance to next point.
+        /// </summary>
+        public void Drive()
+        {
+            Parked = false;
+        }
     }
 }

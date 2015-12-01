@@ -25,11 +25,6 @@ namespace TrailSimulation.Game
         private MarqueeBar _marqueeBar;
 
         /// <summary>
-        ///     Determines if the driving mode should currently be ticking by everyday
-        /// </summary>
-        private bool _shouldTakeTickTurns;
-
-        /// <summary>
         ///     Holds the text related to animated sway bar, each tick of simulation steps it.
         /// </summary>
         private string _swayBarText;
@@ -47,7 +42,7 @@ namespace TrailSimulation.Game
             _swayBarText = _marqueeBar.Step();
 
             // When starting the mode we automatically begin linear progression of time.
-            _shouldTakeTickTurns = true;
+            GameSimulationApp.Instance.Vehicle.Drive();
         }
 
         /// <summary>
@@ -100,7 +95,7 @@ namespace TrailSimulation.Game
                 return;
 
             // Check to see if we should be ticking by days with each simulation tick (defaults to every second).
-            if (!_shouldTakeTickTurns)
+            if (GameSimulationApp.Instance.Vehicle.Parked)
                 return;
 
             // Advance the progress bar, step it to next phase.
@@ -117,11 +112,11 @@ namespace TrailSimulation.Game
         public override void OnInputBufferReturned(string input)
         {
             // Can only stop the simulation if it is actually running.
-            if (!string.IsNullOrEmpty(input) || !_shouldTakeTickTurns)
+            if (!string.IsNullOrEmpty(input) || GameSimulationApp.Instance.Vehicle.Parked)
                 return;
 
             // Stop ticks and close this state.
-            _shouldTakeTickTurns = false;
+            GameSimulationApp.Instance.Vehicle.Park();
             ClearState();
         }
     }
