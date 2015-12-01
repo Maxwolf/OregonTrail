@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TrailSimulation.Core;
 
@@ -36,9 +38,21 @@ namespace TrailSimulation.Game
             _riverInfo.AppendLine($"You may:{Environment.NewLine}");
 
             // Loop through all the river choice commands and print them out for the state.
-            foreach (var riverChoice in Enum.GetValues(typeof (RiverCrossChoice)))
+            var choices = new List<RiverCrossChoice>(Enum.GetValues(typeof (RiverCrossChoice)).Cast<RiverCrossChoice>());
+            for (var index = 0; index < choices.Count; index++)
             {
-                _riverInfo.AppendLine((int) riverChoice + ". " + riverChoice.ToDescriptionAttribute());
+                // Get the current river choice enumeration value we casted into list.
+                var riverChoice = choices[index];
+
+                // Last line should not print new line.
+                if (index == (choices.Count-1))
+                {
+                    _riverInfo.Append((int) riverChoice + ". " + riverChoice.ToDescriptionAttribute());
+                }
+                else
+                {
+                    _riverInfo.AppendLine((int) riverChoice + ". " + riverChoice.ToDescriptionAttribute());
+                }
             }
 
             // Add the state that explains the player is at a river crossing and what is expected of them.
@@ -106,11 +120,35 @@ namespace TrailSimulation.Game
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            //AddCommand(FordRiver, RiverCrossCommands.FordRiver);
-            //AddCommand(CaulkVehicle, RiverCrossCommands.CaulkVehicle);
-            //AddCommand(UseFerry, RiverCrossCommands.UseFerry);
-            //AddCommand(WaitForWeather, RiverCrossCommands.WaitForWeather);
-            //AddCommand(GetMoreInformation, RiverCrossCommands.GetMoreInformation);
+            // Skip if the input is null or empty.
+            if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
+                return;
+
+            // Attempt to cast string to enum value, can be characters or integer.
+            RiverCrossChoice riverChoice;
+            Enum.TryParse(input, out riverChoice);
+
+            // Depending on selection made we will decide on what to do.
+            // ReSharper disable SwitchStatementMissingSomeCases
+            switch (riverChoice)
+            {
+                case RiverCrossChoice.FordRiver:
+                    FordRiver();
+                    break;
+                case RiverCrossChoice.CaulkVehicle:
+                    CaulkVehicle();
+                    break;
+                case RiverCrossChoice.UseFerry:
+                    UseFerry();
+                    break;
+                case RiverCrossChoice.WaitForWeather:
+                    WaitForWeather();
+                    break;
+                case RiverCrossChoice.GetMoreInformation:
+                    GetMoreInformation();
+                    break;
+            }
+            // ReSharper restore SwitchStatementMissingSomeCases
         }
     }
 }
