@@ -36,7 +36,7 @@ namespace TrailSimulation.Game
                     ShoppingAllowed = false;
                     RiverCrossing = false;
                     HuntingAllowed = true;
-                    TradingAllowed = false;
+                    TradingAllowed = true;
                     ChattingAllowed = false;
                     break;
                 case LocationCategory.Settlement:
