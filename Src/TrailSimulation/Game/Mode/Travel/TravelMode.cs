@@ -174,6 +174,18 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Fired when the game mode changes it's internal state. Allows the attached mode to do special behaviors when it
+        ///     realizes a state is set or removed and act on it.
+        /// </summary>
+        protected override void OnStateChange()
+        {
+            base.OnStateChange();
+
+            // Update menu with proper choices.
+            UpdateLocation();
+        }
+
+        /// <summary>
         ///     Called after the mode has been added to list of modes and made active.
         /// </summary>
         public override void OnModePostCreate()
