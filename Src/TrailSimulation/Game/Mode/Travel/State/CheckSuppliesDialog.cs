@@ -35,10 +35,12 @@ namespace TrailSimulation.Game
                 // GetModule the next item in the vehicle inventory.
                 var itemName = item.Value.Name.ToLowerInvariant();
 
-                // Determine if this item is money and needs special formatting.
+                // Apply number formatting to quantities so they have thousand separators.
                 var itemFormattedQuantity = item.Value.Quantity.ToString("N0");
+
+                // Skip money, it is only shown in store.
                 if (item.Key == SimEntity.Cash)
-                    itemFormattedQuantity = item.Value.Quantity.ToString("C2");
+                    continue;
 
                 // Place tab characters between the item name and the quantity.
                 _supplies.AppendFormat("{0} {1}{2}",
