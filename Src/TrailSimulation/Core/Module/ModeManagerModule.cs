@@ -185,7 +185,11 @@ namespace TrailSimulation.Core
         {
             // Check if any other modes match the one we are adding.
             if (Modes.ContainsKey(mode))
+            {
+                // If mode is attempted to be added we will fire activate for it so mode knows it was added again without having to call post create.
+                Modes[mode].OnModeActivate();
                 return;
+            }
 
             // Create the game mode using factory.
             var modeProduct = _modeFactory.CreateMode(mode);
