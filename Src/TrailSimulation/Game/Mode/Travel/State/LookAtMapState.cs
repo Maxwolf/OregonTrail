@@ -11,12 +11,12 @@ namespace TrailSimulation.Game
     ///     statistics about the journey that could only be seen from this state.
     /// </summary>
     [RequiredMode(Mode.Travel)]
-    public sealed class LookAtMapDialog : DialogState<TravelInfo>
+    public sealed class LookAtMapState : DialogState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public LookAtMapDialog(IModeProduct gameMode) : base(gameMode)
+        public LookAtMapState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

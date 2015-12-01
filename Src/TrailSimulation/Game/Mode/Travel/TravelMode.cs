@@ -40,39 +40,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void ContinueOnTrail()
         {
-            switch (GameSimulationApp.Instance.Trail.CurrentLocation.Status)
-            {
-                case LocationStatus.Unreached:
-                    // Player has not reached the next location so we return to the drive state to reduce distance to it.
-                    SetState(typeof (DriveState));
-                    break;
-                case LocationStatus.Arrived:
-                    switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
-                    {
-                        case LocationCategory.Landmark:
-                        case LocationCategory.Settlement:
-                            // Tell player how far it is to next location before attaching drive state.
-                            SetState(typeof (ContinueOnTrailDialog));
-                            break;
-                        case LocationCategory.RiverCrossing:
-                            // Player needs to decide how to cross a river.
-                            SetState(typeof (RiverPromptState));
-                            break;
-                        case LocationCategory.ForkInRoad:
-                            // Player needs to decide on which location when road splits.
-                            SetState(typeof (ForkInRoadState));
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                    break;
-                case LocationStatus.Departed:
-                    // Look around state, player, or location triggered departure.
-                    SetState(typeof (DriveState));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            SetState(typeof(ContinueOnTrailState));
         }
 
         /// <summary>
@@ -80,7 +48,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void CheckSupplies()
         {
-            SetState(typeof (CheckSuppliesDialog));
+            SetState(typeof (CheckSuppliesState));
         }
 
         /// <summary>
@@ -89,7 +57,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void LookAtMap()
         {
-            SetState(typeof (LookAtMapDialog));
+            SetState(typeof (LookAtMapState));
         }
 
         /// <summary>
@@ -211,9 +179,8 @@ namespace TrailSimulation.Game
             // Update menu with proper choices.
             UpdateLocation();
 
-            SetState(GameSimulationApp.Instance.Trail.IsFirstLocation
-                ? typeof (LookAroundState)
-                : typeof (LookAroundQuestionState));
+            // Attach state that will ask if we want to check status or keep driving on trail.
+            SetState(typeof (LookAroundState));
         }
 
         /// <summary>

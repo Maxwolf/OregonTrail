@@ -11,12 +11,12 @@ namespace TrailSimulation.Game
     ///     menu that shows basic party stats at all times.
     /// </summary>
     [RequiredMode(Mode.Travel)]
-    public sealed class CheckSuppliesDialog : DialogState<TravelInfo>
+    public sealed class CheckSuppliesState : DialogState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CheckSuppliesDialog(IModeProduct gameMode) : base(gameMode)
+        public CheckSuppliesState(IModeProduct gameMode) : base(gameMode)
         {
         }
 

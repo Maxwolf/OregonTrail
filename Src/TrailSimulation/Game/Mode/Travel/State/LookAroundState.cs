@@ -11,12 +11,12 @@ namespace TrailSimulation.Game
     ///     occur without player consent.
     /// </summary>
     [RequiredMode(Mode.Travel)]
-    public sealed class LookAroundQuestionState : DialogState<TravelInfo>
+    public sealed class LookAroundState : DialogState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public LookAroundQuestionState(IModeProduct gameMode) : base(gameMode)
+        public LookAroundState(IModeProduct gameMode) : base(gameMode)
         {
         }
 
@@ -26,7 +26,15 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override DialogType DialogType
         {
-            get { return DialogType.YesNo; }
+            get
+            {
+                // First location we only tell the user they are going back in time and arrived at first location on trail.
+                if (GameSimulationApp.Instance.Trail.IsFirstLocation)
+                    return DialogType.Prompt;
+
+                // Default response is to ask it like a question if the user would like to proceed or not.
+                return DialogType.YesNo;
+            }
         }
 
         /// <summary>
@@ -34,11 +42,22 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
-            // Wait for input on deciding if we should take a look around.
             var pointReached = new StringBuilder();
-            pointReached.AppendLine(
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation)
+            {
+                // First point of interest has slightly different message about time travel.
+                pointReached.AppendLine(
+                    $"{Environment.NewLine}Going back to {GameSimulationApp.Instance.Time.CurrentYear}...{Environment.NewLine}");
+            }
+            else
+            {
+                // Build up message about location the player is arriving at.
+                pointReached.AppendLine(
                 $"{Environment.NewLine}You are now at the {GameSimulationApp.Instance.Trail.CurrentLocation.Name}.");
-            pointReached.Append("Would you like to look around? Y/N");
+                pointReached.Append("Would you like to look around? Y/N");
+            }
+
+            // Wait for input on deciding if we should take a look around.
             return pointReached.ToString();
         }
 
@@ -49,16 +68,22 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
+            // First location always stop and check out the location no matter what.
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation)
+            {
+                ClearState();
+                return;
+            }
+
+            // Subsequent locations ask user if they want to stop or keep going.
             switch (reponse)
             {
-                case DialogResponse.No:
-                    ClearState();
-                    break;
                 case DialogResponse.Yes:
-                    SetState(typeof (LookAroundState));
-                    break;
-                case DialogResponse.Custom:
                     ClearState();
+                    break;
+                case DialogResponse.No:
+                case DialogResponse.Custom:
+                    SetState(typeof(ContinueOnTrailState));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);

@@ -142,11 +142,10 @@
     <Compile Include="Game\Mode\Trade\TradingCommands.cs" />
     <Compile Include="Game\Mode\Travel\State\ChangeRationsState.cs" />
     <Compile Include="Game\Mode\Travel\State\Pace\ChangePaceState.cs" />
-    <Compile Include="Game\Mode\Travel\State\CheckSuppliesDialog.cs" />
-    <Compile Include="Game\Mode\Travel\State\ContinueOnTrailDialog.cs" />
-    <Compile Include="Game\Mode\Travel\State\LookAround\LookAroundQuestionState.cs" />
-    <Compile Include="Game\Mode\Travel\State\LookAtMapDialog.cs" />
-    <Compile Include="Game\Mode\Travel\State\LookAround\LookAroundState.cs" />
+    <Compile Include="Game\Mode\Travel\State\CheckSuppliesState.cs" />
+    <Compile Include="Game\Mode\Travel\State\ContinueOnTrailState.cs" />
+    <Compile Include="Game\Mode\Travel\State\LookAroundState.cs" />
+    <Compile Include="Game\Mode\Travel\State\LookAtMapState.cs" />
     <Compile Include="Game\Mode\Travel\State\Rest\RestingState.cs" />
     <Compile Include="Game\Mode\Travel\State\Rest\RestQuestionState.cs" />
     <Compile Include="Game\Mode\Travel\State\TalkToPeopleState.cs" />
