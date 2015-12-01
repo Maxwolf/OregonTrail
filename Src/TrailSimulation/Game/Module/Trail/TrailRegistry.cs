@@ -14,29 +14,29 @@ namespace TrailSimulation.Game
         {
             var oregonTrail = new[]
             {
-                new Location("Independence", true),
-                new Location("Kansas River Crossing", false, true),
-                new Location("Big Blue River Crossing", false, true),
-                new Location("Fort Kearney", true),
-                new Location("Chimney Rock"),
-                new Location("Fort Laramie", true),
-                new Location("Independence Rock"),
-                new Location("South Pass", false, false, new List<Location>
+                new Location("Independence", LocationCategory.Settlement),
+                new Location("Kansas River Crossing", LocationCategory.RiverCrossing),
+                new Location("Big Blue River Crossing", LocationCategory.RiverCrossing),
+                new Location("Fort Kearney", LocationCategory.Landmark),
+                new Location("Chimney Rock", LocationCategory.Landmark),
+                new Location("Fort Laramie", LocationCategory.Settlement),
+                new Location("Independence Rock", LocationCategory.Landmark),
+                new Location("South Pass", LocationCategory.ForkInRoad, new List<Location>
                 {
-                    new Location("Fort Bridger", true),
-                    new Location("Green River Shortcut", false, true)
+                    new Location("Fort Bridger", LocationCategory.Settlement),
+                    new Location("Green River Shortcut", LocationCategory.Landmark)
                 }),
-                new Location("Green River Crossing", false, true),
-                new Location("Soda Springs"),
-                new Location("Fort Hall", true),
-                new Location("Snake River Crossing", false, true),
-                new Location("Fort Boise", true),
-                new Location("Blue Mountains", false, false, new List<Location>
+                new Location("Green River Crossing", LocationCategory.RiverCrossing),
+                new Location("Soda Springs", LocationCategory.Landmark),
+                new Location("Fort Hall", LocationCategory.Settlement),
+                new Location("Snake River Crossing", LocationCategory.RiverCrossing),
+                new Location("Fort Boise", LocationCategory.Settlement),
+                new Location("Blue Mountains", LocationCategory.ForkInRoad, new List<Location>
                 {
-                    new Location("Fort Walla Walla", true),
-                    new Location("The Dalles")
+                    new Location("Fort Walla Walla", LocationCategory.Settlement),
+                    new Location("The Dalles", LocationCategory.Landmark)
                 }),
-                new Location("Oregon City")
+                new Location("Oregon City", LocationCategory.Settlement)
             };
 
             return new Trail(oregonTrail, 2000);

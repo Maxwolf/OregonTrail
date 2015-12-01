@@ -11,12 +11,12 @@ namespace TrailSimulation.Game
     ///     statistics about the journey that could only be seen from this state.
     /// </summary>
     [RequiredMode(Mode.Travel)]
-    public sealed class LookAtMapState : DialogState<TravelInfo>
+    public sealed class LookAtMapDialog : DialogState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public LookAtMapState(IModeProduct gameMode) : base(gameMode)
+        public LookAtMapDialog(IModeProduct gameMode) : base(gameMode)
         {
         }
 
@@ -34,8 +34,8 @@ namespace TrailSimulation.Game
 
             // Build up a table of location names and if the player has visited them.
             var locationTable = GameSimulationApp.Instance.Trail.Locations.ToStringTable(
-                new[] {"Has Visited", "Location Name"},
-                u => u.HasVisited,
+                new[] {"Visited", "Location Name"},
+                u => u.Status >= LocationStatus.Arrived,
                 u => u.Name
                 );
             _map.AppendLine(locationTable);

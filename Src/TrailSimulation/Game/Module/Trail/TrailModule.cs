@@ -58,7 +58,7 @@ namespace TrailSimulation.Game
         {
             get
             {
-                return CurrentLocation.HasVisited &&
+                return CurrentLocation.Status == LocationStatus.Arrived &&
                        GameSimulationApp.Instance.Vehicle.Parked;
             }
         }
@@ -177,11 +177,11 @@ namespace TrailSimulation.Game
             }
 
             // Set visited flag for location, park the vehicle, and attach mode the location requires.
-            CurrentLocation.SetVisited();
+            CurrentLocation.SetArrivalFlag();
 
             // Parks the vehicle and adds any mode it might want to add since the player
             GameSimulationApp.Instance.Vehicle.Park();
-            GameSimulationApp.Instance.ModeManager.AddMode(CurrentLocation.Mode);
+            GameSimulationApp.Instance.ModeManager.AddMode(Location.Mode);
         }
     }
 }

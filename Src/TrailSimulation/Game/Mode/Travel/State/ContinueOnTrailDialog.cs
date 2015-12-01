@@ -11,12 +11,12 @@ namespace TrailSimulation.Game
     ///     simulation resume after return key is pressed.
     /// </summary>
     [RequiredMode(Mode.Travel)]
-    public sealed class ContinueOnTrailState : DialogState<TravelInfo>
+    public sealed class ContinueOnTrailDialog : DialogState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ContinueOnTrailState(IModeProduct gameMode) : base(gameMode)
+        public ContinueOnTrailDialog(IModeProduct gameMode) : base(gameMode)
         {
         }
 
@@ -41,6 +41,10 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
+            // Tell the current location we have departed from it.
+            GameSimulationApp.Instance.Trail.CurrentLocation.SetDepartedFlag();
+
+            // Attach the drive state to the travel mode so we can continue down the trail.
             SetState(typeof (DriveState));
         }
     }

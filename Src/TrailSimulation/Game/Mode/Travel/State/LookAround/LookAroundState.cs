@@ -34,8 +34,8 @@ namespace TrailSimulation.Game
             else
             {
                 // Every other point of interest will say the name and current date.
-                welcomePoint.AppendLine(GameSimulationApp.Instance.Trail.CurrentLocation.Name);
-                welcomePoint.AppendLine(GameSimulationApp.Instance.Time.Date.ToString());
+                welcomePoint.AppendLine($"{Environment.NewLine}{GameSimulationApp.Instance.Trail.CurrentLocation.Name}");
+                welcomePoint.AppendLine($"{GameSimulationApp.Instance.Time.Date}{Environment.NewLine}");
             }
 
             return welcomePoint.ToString();

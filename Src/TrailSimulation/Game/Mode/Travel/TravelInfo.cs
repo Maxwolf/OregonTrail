@@ -19,7 +19,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Used when the player is traveling on the trail between locations. Also known as drive state in travel game mode.
         /// </summary>
-        public string DriveStatus
+        public static string DriveStatus
         {
             get
             {
@@ -57,25 +57,25 @@ namespace TrailSimulation.Game
         ///     difference this state has from others is showing the name of the location, when between points we don't show this
         ///     since we already know the next point but don't want the player to know that.
         /// </summary>
-        public string TravelStatus
+        public static string TravelStatus
         {
             get
             {
-                var showLocationName = GameSimulationApp.Instance.Trail.CurrentLocation.HasVisited;
+                var showLocationName = GameSimulationApp.Instance.Trail.CurrentLocation.Status > LocationStatus.Unreached;
                 var locationStatus = new StringBuilder();
-                locationStatus.AppendLine($"--------------------------------");
+                locationStatus.AppendLine("--------------------------------");
 
                 // Only add the location name if we are on the next point, otherwise we should not show this.
                 if (showLocationName)
                     locationStatus.AppendLine(GameSimulationApp.Instance.Trail.CurrentLocation.Name);
 
                 locationStatus.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
-                locationStatus.AppendLine($"--------------------------------");
+                locationStatus.AppendLine("--------------------------------");
                 locationStatus.AppendLine($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}");
                 locationStatus.AppendLine($"Health: {GameSimulationApp.Instance.Vehicle.RepairLevel}");
                 locationStatus.AppendLine($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}");
                 locationStatus.AppendLine($"Rations: {GameSimulationApp.Instance.Vehicle.Ration}");
-                locationStatus.AppendLine($"--------------------------------");
+                locationStatus.AppendLine("--------------------------------");
                 return locationStatus.ToString();
             }
         }

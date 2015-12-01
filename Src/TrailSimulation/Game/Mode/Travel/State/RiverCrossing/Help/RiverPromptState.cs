@@ -17,8 +17,6 @@ namespace TrailSimulation.Game
         /// </summary>
         public RiverPromptState(IModeProduct gameMode) : base(gameMode)
         {
-            // Generates a new river with randomized width and depth.
-            UserData.RiverInfo = new RiverGenerator();
         }
 
         /// <summary>
@@ -26,6 +24,9 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
+            // Generates a new river with randomized width and depth.
+            UserData.RiverInfo = new RiverGenerator();
+
             var riverPrompt = new StringBuilder();
             riverPrompt.AppendLine($"{Environment.NewLine}You must cross the river in");
             riverPrompt.AppendLine("order to continue. The");

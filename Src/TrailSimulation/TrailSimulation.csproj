@@ -48,6 +48,7 @@
     <Compile Include="Core\Mode\State\StateFactory.cs" />
     <Compile Include="Core\Module\TextRendererModule.cs" />
     <Compile Include="Core\Module\ModeManagerModule.cs" />
+    <Compile Include="Game\Mode\Travel\State\ForkInRoad\ForkInRoadState.cs" />
     <Compile Include="Game\Mode\Travel\State\RiverCrossing\Choice\RiverCrossChoice.cs" />
     <Compile Include="Game\Mode\Travel\State\RiverCrossing\RiverGenerator.cs" />
     <Compile Include="Game\Module\Director\EventFactory.cs" />
@@ -83,6 +84,8 @@
     <Compile Include="Game\Mode\Travel\State\RiverCrossing\Help\RiverPromptState.cs" />
     <Compile Include="Game\Mode\Travel\State\RiverCrossing\Choice\UseFerryConfirmState.cs" />
     <Compile Include="Core\Mode\ModeFactory.cs" />
+    <Compile Include="Game\Module\Trail\LocationCategory.cs" />
+    <Compile Include="Game\Module\Trail\LocationStatus.cs" />
     <Compile Include="Game\Module\Trail\Trail.cs" />
     <Compile Include="Game\Scoring\Highscore.cs" />
     <Compile Include="Game\Scoring\Performance.cs" />
@@ -139,10 +142,10 @@
     <Compile Include="Game\Mode\Trade\TradingCommands.cs" />
     <Compile Include="Game\Mode\Travel\State\ChangeRationsState.cs" />
     <Compile Include="Game\Mode\Travel\State\Pace\ChangePaceState.cs" />
-    <Compile Include="Game\Mode\Travel\State\CheckSuppliesState.cs" />
-    <Compile Include="Game\Mode\Travel\State\ContinueOnTrailState.cs" />
+    <Compile Include="Game\Mode\Travel\State\CheckSuppliesDialog.cs" />
+    <Compile Include="Game\Mode\Travel\State\ContinueOnTrailDialog.cs" />
     <Compile Include="Game\Mode\Travel\State\LookAround\LookAroundQuestionState.cs" />
-    <Compile Include="Game\Mode\Travel\State\LookAtMapState.cs" />
+    <Compile Include="Game\Mode\Travel\State\LookAtMapDialog.cs" />
     <Compile Include="Game\Mode\Travel\State\LookAround\LookAroundState.cs" />
     <Compile Include="Game\Mode\Travel\State\Rest\RestingState.cs" />
     <Compile Include="Game\Mode\Travel\State\Rest\RestQuestionState.cs" />
@@ -181,7 +184,6 @@
     <Folder Include="Event\Warning\" />
     <Folder Include="Game\Mode\Hunting\State\" />
     <Folder Include="Game\Mode\Trade\State\" />
-    <Folder Include="Game\Mode\Travel\State\ForkInRoad\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

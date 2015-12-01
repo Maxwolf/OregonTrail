@@ -33,14 +33,12 @@ namespace TrailSimulation.Game
             _riverInfo.AppendLine($"River width: {UserData.RiverInfo.RiverWidth} feet");
             _riverInfo.AppendLine($"River depth: {UserData.RiverInfo.RiverDepth} feet");
             _riverInfo.AppendLine("--------------------------------");
-            _riverInfo.Append("You may:");
+            _riverInfo.AppendLine($"You may:{Environment.NewLine}");
 
             // Loop through all the river choice commands and print them out for the state.
-            var riverChoiceCounter = 1;
             foreach (var riverChoice in Enum.GetValues(typeof (RiverCrossChoice)))
             {
-                _riverInfo.AppendLine(riverChoiceCounter + ". " + riverChoice + " - " +
-                                      riverChoice.ToDescriptionAttribute());
+                _riverInfo.AppendLine((int) riverChoice + ". " + riverChoice.ToDescriptionAttribute());
             }
 
             // Add the state that explains the player is at a river crossing and what is expected of them.

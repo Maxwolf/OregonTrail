@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -39,10 +40,39 @@ namespace TrailSimulation.Game
         /// </summary>
         private void ContinueOnTrail()
         {
-            // Player just starting this section of the trail will get prompt about total distance needed to cover it before starting.
-            SetState(GameSimulationApp.Instance.Trail.ReachedNextPoint
-                ? typeof (ContinueOnTrailState)
-                : typeof (DriveState));
+            switch (GameSimulationApp.Instance.Trail.CurrentLocation.Status)
+            {
+                case LocationStatus.Unreached:
+                    // Player has not reached the next location so we return to the drive state to reduce distance to it.
+                    SetState(typeof (DriveState));
+                    break;
+                case LocationStatus.Arrived:
+                    switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
+                    {
+                        case LocationCategory.Landmark:
+                        case LocationCategory.Settlement:
+                            // Tell player how far it is to next location before attaching drive state.
+                            SetState(typeof (ContinueOnTrailDialog));
+                            break;
+                        case LocationCategory.RiverCrossing:
+                            // Player needs to decide how to cross a river.
+                            SetState(typeof (RiverPromptState));
+                            break;
+                        case LocationCategory.ForkInRoad:
+                            // Player needs to decide on which location when road splits.
+                            SetState(typeof (ForkInRoadState));
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+                case LocationStatus.Departed:
+                    // Look around state, player, or location triggered departure.
+                    SetState(typeof (DriveState));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         /// <summary>
@@ -50,7 +80,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void CheckSupplies()
         {
-            SetState(typeof (CheckSuppliesState));
+            SetState(typeof (CheckSuppliesDialog));
         }
 
         /// <summary>
@@ -59,7 +89,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void LookAtMap()
         {
-            SetState(typeof (LookAtMapState));
+            SetState(typeof (LookAtMapDialog));
         }
 
         /// <summary>
@@ -113,9 +143,12 @@ namespace TrailSimulation.Game
         {
             // Header text for above menu comes from travel info object.
             var headerText = new StringBuilder();
-            headerText.Append(UserData.TravelStatus);
+            headerText.Append(TravelInfo.TravelStatus);
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
+
+            // Get a reference to current location on the trail so we can query it to build our menu.
+            var location = GameSimulationApp.Instance.Trail.CurrentLocation;
 
             // Reset and calculate what commands are allowed at this current point of interest on the trail.
             ClearCommands();
@@ -125,10 +158,19 @@ namespace TrailSimulation.Game
             AddCommand(ChangePace, TravelCommands.ChangePace);
             AddCommand(ChangeFoodRations, TravelCommands.ChangeFoodRations);
             AddCommand(StopToRest, TravelCommands.StopToRest);
-            AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
-            //AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
-            //AddCommand(BuySupplies, TravelCommands.BuySupplies);
-            AddCommand(HuntForFood, TravelCommands.HuntForFood);
+
+            // Some commands are optional and change depending on location category.
+            if (location.TradingAllowed)
+                AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
+
+            if (location.ChattingAllowed)
+                AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
+
+            if (location.ShoppingAllowed)
+                AddCommand(BuySupplies, TravelCommands.BuySupplies);
+
+            if (location.HuntingAllowed)
+                AddCommand(HuntForFood, TravelCommands.HuntForFood);
         }
 
         /// <summary>
@@ -154,6 +196,9 @@ namespace TrailSimulation.Game
         /// </summary>
         private void CheckLookAround()
         {
+            // Update menu with proper choices.
+            UpdateLocation();
+
             SetState(GameSimulationApp.Instance.Trail.IsFirstLocation
                 ? typeof (LookAroundState)
                 : typeof (LookAroundQuestionState));
