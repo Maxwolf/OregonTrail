@@ -41,41 +41,9 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            // Figure out what state to load based on category of location visited and if we are leaving it or arriving to it.
-            switch (GameSimulationApp.Instance.Trail.CurrentLocation.Status)
-            {
-                case LocationStatus.Unreached:
-                    // Player has not reached the next location so we return to the drive state to reduce distance to it.
-                    SetState(typeof(DriveState));
-                    break;
-                case LocationStatus.Arrived:
-                    switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
-                    {
-                        case LocationCategory.Landmark:
-                        case LocationCategory.Settlement:
-                            // Tell the current location we have departed from it.
-                            GameSimulationApp.Instance.Trail.CurrentLocation.SetDepartedFlag();
-                            SetState(typeof(DriveState));
-                            break;
-                        case LocationCategory.RiverCrossing:
-                            // Player needs to decide how to cross a river.
-                            SetState(typeof(RiverPromptState));
-                            break;
-                        case LocationCategory.ForkInRoad:
-                            // Player needs to decide on which location when road splits.
-                            SetState(typeof(ForkInRoadState));
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                    break;
-                case LocationStatus.Departed:
-                    // Look around state, player, or location triggered departure.
-                    SetState(typeof(DriveState));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            // Tell the current location we have departed from it.
+            GameSimulationApp.Instance.Trail.CurrentLocation.SetDepartedFlag();
+            ClearState();
         }
     }
 }

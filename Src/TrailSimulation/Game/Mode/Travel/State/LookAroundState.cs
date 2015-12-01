@@ -68,26 +68,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            // First location always stop and check out the location no matter what.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation)
-            {
-                ClearState();
-                return;
-            }
-
-            // Subsequent locations ask user if they want to stop or keep going.
-            switch (reponse)
-            {
-                case DialogResponse.Yes:
-                    ClearState();
-                    break;
-                case DialogResponse.No:
-                case DialogResponse.Custom:
-                    SetState(typeof(ContinueOnTrailState));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);
-            }
+            ClearState();
         }
     }
 }

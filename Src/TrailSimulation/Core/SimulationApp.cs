@@ -43,6 +43,9 @@ namespace TrailSimulation.Core
         /// </summary>
         protected SimulationApp()
         {
+            // We are not closing...
+            IsClosing = false;
+
             // Date and time the simulation was started, which we use as benchmark for all future time passed.
             _lastTickTime = DateTime.UtcNow;
             _currentTickTime = DateTime.UtcNow;
@@ -62,6 +65,11 @@ namespace TrailSimulation.Core
             // Input manager needs event hook for knowing when buffer is sent.
             InputManagerManager = new InputManagerModule();
         }
+
+        /// <summary>
+        ///     Determines if the simulation is currently closing down.
+        /// </summary>
+        public bool IsClosing { get; private set; }
 
         /// <summary>
         ///     Shows the current status of the simulation visually as a spinning glyph, the purpose of which is to show that there
@@ -111,6 +119,10 @@ namespace TrailSimulation.Core
         /// </param>
         public void OnTick(bool systemTick)
         {
+            // No ticks allowed if simulation is shutting down.
+            if (IsClosing)
+                return;
+
             // Sends commands if queue has any.
             InputManagerManager?.OnTick(systemTick);
 
@@ -166,6 +178,9 @@ namespace TrailSimulation.Core
         /// </summary>
         public void Destroy()
         {
+            // Set flag that we are closing now so we can ignore ticks during shutdown.
+            IsClosing = true;
+
             // Allows game simulation above us to cleanup any data structures it cares about.
             OnBeforeDestroy();
 

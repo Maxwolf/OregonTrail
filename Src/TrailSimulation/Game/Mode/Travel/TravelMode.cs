@@ -40,7 +40,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void ContinueOnTrail()
         {
-            SetState(typeof(ContinueOnTrailState));
+            SetState(typeof (ContinueOnTrailState));
         }
 
         /// <summary>
@@ -149,8 +149,51 @@ namespace TrailSimulation.Game
         {
             base.OnStateChange();
 
+            // Figure out which state to attach based on location status.
+            //CheckLocationStatus();
+
             // Update menu with proper choices.
             UpdateLocation();
+        }
+
+        /// <summary>
+        ///     Figures out what state to load based on category of location visited and if we are leaving it or arriving to it.
+        /// </summary>
+        private void CheckLocationStatus()
+        {
+            switch (GameSimulationApp.Instance.Trail.CurrentLocation.Status)
+            {
+                case LocationStatus.Unreached:
+                    // Player has not reached the next location so we return to the drive state to reduce distance to it.
+                    SetState(typeof (DriveState));
+                    break;
+                case LocationStatus.Arrived:
+                    // Le
+                    ClearState();
+                    break;
+                case LocationStatus.Departed:
+                    switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
+                    {
+                        case LocationCategory.Landmark:
+                        case LocationCategory.Settlement:
+                            // Player is going to continue driving down the trail now.
+                            SetState(typeof (DriveState));
+                            break;
+                        case LocationCategory.RiverCrossing:
+                            // Player needs to decide how to cross a river.
+                            SetState(typeof (RiverPromptState));
+                            break;
+                        case LocationCategory.ForkInRoad:
+                            // Player needs to decide on which location when road splits.
+                            SetState(typeof (ForkInRoadState));
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         /// <summary>
