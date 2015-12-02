@@ -74,7 +74,7 @@ namespace TrailSimulation
             var type = value.GetType();
             var memberInfo = type.GetMember(value.ToString());
             var attributes = memberInfo.First().GetCustomAttributes(typeof (T), false);
-            return (T) attributes.First();
+            return (T) attributes.FirstOrDefault();
         }
 
         /// <summary>
