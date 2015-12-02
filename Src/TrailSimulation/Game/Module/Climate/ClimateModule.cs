@@ -209,7 +209,7 @@ namespace TrailSimulation.Game
                             NextWeatherChance = 0.60d;
                             break;
                         case 4:
-                            CurrentWeather = WeatherCondition.ChanceOfTStorm;
+                            CurrentWeather = WeatherCondition.ChanceOfThunderstorm;
                             NextWeatherChance = 0.30d;
                             DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                             break;
@@ -242,7 +242,7 @@ namespace TrailSimulation.Game
                             NextWeatherChance = 0.24d;
                             break;
                         case 4:
-                            CurrentWeather = WeatherCondition.ChanceOfTStorm;
+                            CurrentWeather = WeatherCondition.ChanceOfThunderstorm;
                             NextWeatherChance = 0.60d;
                             DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                             break;
@@ -263,7 +263,7 @@ namespace TrailSimulation.Game
                     switch (GameSimulationApp.Instance.Random.Next(8))
                     {
                         case 0:
-                            CurrentWeather = WeatherCondition.ScatteredThunderstroms;
+                            CurrentWeather = WeatherCondition.ScatteredThunderstorms;
                             NextWeatherChance = 0.90d;
                             DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                             break;
@@ -368,7 +368,7 @@ namespace TrailSimulation.Game
                                 NextWeatherChance = 0.33d;
                                 break;
                             case 4:
-                                CurrentWeather = WeatherCondition.ChanceOfTStorm;
+                                CurrentWeather = WeatherCondition.ChanceOfThunderstorm;
                                 NextWeatherChance = 0.45d;
                                 DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                                 break;

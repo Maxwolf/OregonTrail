@@ -1,4 +1,6 @@
-﻿namespace TrailSimulation.Game
+﻿using System.ComponentModel;
+
+namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Determines what the environment is like and goes into helping calculate roll chance. For example, experiencing
@@ -6,38 +8,73 @@
     /// </summary>
     public enum WeatherCondition
     {
+        [Description("Partly Sunny")]
         PartlySunny,
-        ScatteredThunderstroms,
-        Showers,
+
+        [Description("Scattered Thunderstorms")]
+        ScatteredThunderstorms,
+
+        [Description("Scattered Showers")]
         ScatteredShowers,
-        RainAndSnow,
+
+        [Description("Overcast")]
         Overcast,
+
+        [Description("Light Snow")]
         LightSnow,
+
+        [Description("Freezing Drizzle")]
         FreezingDrizzle,
+
+        [Description("Chance Of Rain")]
         ChanceOfRain,
+
+        [Description("Sunny")]
         Sunny,
+
+        [Description("Clear")]
         Clear,
+
+        [Description("Mostly Sunny")]
         MostlySunny,
-        PartlyCloudy,
-        MostlyCloudy,
-        ChangeOfStorm,
+
+        [Description("Rain")]
         Rain,
-        ChanceOfSnow,
+
+        [Description("Cloudy")]
         Cloudy,
-        Mist,
+
+        [Description("Storm")]
         Storm,
+
+        [Description("Thunderstorm")]
         Thunderstorm,
-        ChanceOfTStorm,
+
+        [Description("Chance Of Thunderstorm")]
+        ChanceOfThunderstorm,
+
+        [Description("Sleet")]
         Sleet,
+
+        [Description("Snow")]
         Snow,
+
+        [Description("Icy")]
         Icy,
-        Dust,
+
+        [Description("Fog")]
         Fog,
-        Smoke,
+
+        [Description("Haze")]
         Haze,
+
+        [Description("Flurries")]
         Flurries,
-        LightRain,
+
+        [Description("Snow Showers")]
         SnowShowers,
+
+        [Description("Hail")]
         Hail
     }
 }
