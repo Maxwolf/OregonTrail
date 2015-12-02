@@ -31,15 +31,15 @@ namespace TrailSimulation.Game
             _riverInfo.AppendLine($"{GameSimulationApp.Instance.Trail.CurrentLocation.Name}");
             _riverInfo.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
             _riverInfo.AppendLine("--------------------------------");
-            _riverInfo.AppendLine($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather}");
-            _riverInfo.AppendLine($"River width: {UserData.RiverInfo.RiverWidth} feet");
-            _riverInfo.AppendLine($"River depth: {UserData.RiverInfo.RiverDepth} feet");
+            _riverInfo.AppendLine($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather.ToDescriptionAttribute()}");
+            _riverInfo.AppendLine($"River width: {UserData.RiverInfo.RiverWidth.ToString("N0")} feet");
+            _riverInfo.AppendLine($"River depth: {UserData.RiverInfo.RiverDepth.ToString("N0")} feet");
             _riverInfo.AppendLine("--------------------------------");
             _riverInfo.AppendLine($"You may:{Environment.NewLine}");
 
             // Loop through all the river choice commands and print them out for the state.
             var choices = new List<RiverCrossChoice>(Enum.GetValues(typeof (RiverCrossChoice)).Cast<RiverCrossChoice>());
-            for (var index = 0; index < choices.Count; index++)
+            for (var index = 1; index < choices.Count; index++)
             {
                 // Get the current river choice enumeration value we casted into list.
                 var riverChoice = choices[index];
@@ -57,54 +57,6 @@ namespace TrailSimulation.Game
 
             // Add the state that explains the player is at a river crossing and what is expected of them.
             SetState(typeof (RiverPromptState));
-        }
-
-        /// <summary>
-        ///     Attached a state on top of the river crossing mode to explain what the different options mean and how they work.
-        /// </summary>
-        private void GetMoreInformation()
-        {
-            SetState(typeof (FordRiverHelpState));
-        }
-
-        /// <summary>
-        ///     Waits for a day still ticking events but waiting to see if weather will improve and make crossing easier.
-        /// </summary>
-        private void WaitForWeather()
-        {
-            // Resting by a river only increments a single day at a time.
-            UserData.DaysToRest = 1;
-            SetState(typeof (RestingState));
-        }
-
-        /// <summary>
-        ///     Prompts to pay monies for a ferry operator that will take the vehicle across the river without the danger of user
-        ///     trying it themselves.
-        /// </summary>
-        private void UseFerry()
-        {
-            UserData.RiverInfo.CrossingType = RiverCrossChoice.UseFerry;
-            SetState(typeof (UseFerryConfirmState));
-        }
-
-        /// <summary>
-        ///     Attempts to float the vehicle over the river to the other side, there is a much higher chance for bad things to
-        ///     happen.
-        /// </summary>
-        private void CaulkVehicle()
-        {
-            UserData.RiverInfo.CrossingType = RiverCrossChoice.CaulkVehicle;
-            SetState(typeof (CrossingResultState));
-        }
-
-        /// <summary>
-        ///     Rides directly into the river without any special precautions, if it is greater than three feet of water the
-        ///     vehicle will be submerged and highly damaged.
-        /// </summary>
-        private void FordRiver()
-        {
-            UserData.RiverInfo.CrossingType = RiverCrossChoice.FordRiver;
-            SetState(typeof (CrossingResultState));
         }
 
         /// <summary>
@@ -135,19 +87,25 @@ namespace TrailSimulation.Game
             switch (riverChoice)
             {
                 case RiverCrossChoice.FordRiver:
-                    FordRiver();
+                    UserData.RiverInfo.CrossingType = RiverCrossChoice.FordRiver;
+                    SetState(typeof(CrossingResultState));
                     break;
                 case RiverCrossChoice.CaulkVehicle:
-                    CaulkVehicle();
+                    UserData.RiverInfo.CrossingType = RiverCrossChoice.CaulkVehicle;
+                    SetState(typeof(CrossingResultState));
                     break;
                 case RiverCrossChoice.UseFerry:
-                    UseFerry();
+                    UserData.RiverInfo.CrossingType = RiverCrossChoice.UseFerry;
+                    SetState(typeof(UseFerryConfirmState));
                     break;
                 case RiverCrossChoice.WaitForWeather:
-                    WaitForWeather();
+                    // Resting by a river only increments a single day at a time.
+                    UserData.DaysToRest = 1;
+                    UserData.RiverInfo.CrossingType = RiverCrossChoice.WaitForWeather;
+                    SetState(typeof(RestingState));
                     break;
                 case RiverCrossChoice.GetMoreInformation:
-                    GetMoreInformation();
+                    SetState(typeof(FordRiverHelpState));
                     break;
             }
             // ReSharper restore SwitchStatementMissingSomeCases

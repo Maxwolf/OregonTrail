@@ -15,7 +15,7 @@ namespace TrailSimulation.Game
         ///     References the number of days the player has reseted, this ticks up each time we rest a day and will be used for
         ///     display purposes to user.
         /// </summary>
-        private int _daysRested = 1;
+        private int _daysRested;
 
         /// <summary>
         ///     Holds the message that is printed to the text renderer for debugging about the number of days rested.
@@ -58,24 +58,21 @@ namespace TrailSimulation.Game
                 return;
 
             // Not ticking when days to rest is zero.
-            var shouldTick = false;
-            if (UserData.DaysToRest > 1)
-            {
-                _daysRested++;
-                shouldTick = true;
-            }
-            else if (UserData.DaysToRest <= 1)
-            {
-                shouldTick = true;
-            }
-
-            // Only subtract days to rest and take turns when greater than zero.
-            if (!shouldTick)
+            if (UserData.DaysToRest <= 0)
                 return;
+
+            // Check if we are at a river crossing and need to subtract from ferry days also.
+            if (UserData.RiverInfo != null &&
+                UserData.RiverInfo.FerryDelayInDays > 0 &&
+                GameSimulationApp.Instance.Trail.CurrentLocation.Category == LocationCategory.RiverCrossing)
+                UserData.RiverInfo.FerryDelayInDays--;
 
             // Decrease number of days needed to rest, increment number of days rested.
             UserData.DaysToRest--;
-            
+
+            // Increment the number of days reseted.
+            _daysRested++;
+
             // Simulate the days to rest in time and event system, this will trigger random event game mode if required.
             GameSimulationApp.Instance.TakeTurn();
         }
@@ -102,6 +99,10 @@ namespace TrailSimulation.Game
                     {
                         _restMessage.AppendLine($"{Environment.NewLine}You camp near the river for a day.");
                     }
+                    else if (_daysRested <= 0)
+                    {
+                        _restMessage.AppendLine($"{Environment.NewLine}Preparing to camp near the river...");
+                    }
                     break;
                 case LocationCategory.Landmark:
                 case LocationCategory.Settlement:
@@ -114,6 +115,10 @@ namespace TrailSimulation.Game
                     else if (_daysRested == 1)
                     {
                         _restMessage.AppendLine($"{Environment.NewLine}You rest for a day.");
+                    }
+                    else if (_daysRested <= 0)
+                    {
+                        _restMessage.AppendLine($"{Environment.NewLine}Preparing to rest...");
                     }
                     break;
                 default:
@@ -152,8 +157,23 @@ namespace TrailSimulation.Game
                     ClearState();
                     break;
                 case LocationCategory.RiverCrossing:
-                    // Player needs to decide how to cross a river.
-                    SetState(typeof (RiverPromptState));
+                    // Reset the days to rest to zero, ferry operator adds to this value.
+                    UserData.DaysToRest = 0;
+
+                    // Player might be crossing a river, so we check if they made a decision and are waiting for ferry operator.
+                    if (UserData.RiverInfo != null &&
+                        UserData.RiverInfo.CrossingType == RiverCrossChoice.UseFerry &&
+                        UserData.RiverInfo.FerryDelayInDays <= 0 &&
+                        UserData.RiverInfo.FerryCost <= 0)
+                    {
+                        // If player was waiting for ferry operator to let them cross we will jump right to that.
+                        SetState(typeof (CrossingResultState));
+                    }
+                    else
+                    {
+                        // Alternative is player just was waiting for weather.
+                        SetState(typeof (RiverCrossState));
+                    }
                     break;
                 case LocationCategory.ForkInRoad:
                     // Player needs to decide on which location when road splits.

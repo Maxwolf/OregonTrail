@@ -9,6 +9,12 @@ namespace TrailSimulation.Game
     public enum RiverCrossChoice
     {
         /// <summary>
+        ///     Default choice when crossing the river, not shown in the menu but is set to this value by default until user
+        ///     changes it to something.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
         ///     Rides directly into the river without any special precautions, if it is greater than three feet of water the
         ///     vehicle will be submerged and highly damaged.
         /// </summary>

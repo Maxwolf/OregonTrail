@@ -16,7 +16,7 @@
             FerryCost = GameSimulationApp.Instance.Random.Next(3, 8);
             FerryDelayInDays = GameSimulationApp.Instance.Random.Next(1, 10);
             RiverWidth = GameSimulationApp.Instance.Random.Next(20, 350);
-            CrossingType = RiverCrossChoice.FordRiver;
+            CrossingType = RiverCrossChoice.None;
         }
 
         /// <summary>
@@ -32,13 +32,13 @@
         /// <summary>
         ///     Determines how much the ferry operator will charge to cross the river.
         /// </summary>
-        public int FerryCost { get; }
+        public float FerryCost { get; set; }
 
         /// <summary>
         ///     Determines how many days of the simulation the ferry operator is backed up with other vehicles and cannot process
         ///     yours until this time.
         /// </summary>
-        public int FerryDelayInDays { get; }
+        public int FerryDelayInDays { get; set; }
 
         /// <summary>
         ///     Determines how wide the river is and how big the dice roll is for something terrible happening to the vehicle and

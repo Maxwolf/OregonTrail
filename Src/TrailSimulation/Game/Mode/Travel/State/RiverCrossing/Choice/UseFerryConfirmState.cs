@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
@@ -34,11 +35,10 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             var _prompt = new StringBuilder();
-            _prompt.AppendLine("The ferry operator says that");
+            _prompt.AppendLine($"{Environment.NewLine}The ferry operator says that");
             _prompt.AppendLine($"he will charge you {UserData.RiverInfo.FerryCost.ToString("C2")} and");
             _prompt.AppendLine($"that you will have to wait {UserData.RiverInfo.FerryDelayInDays}");
-            _prompt.AppendLine("days. Are you willing to do");
-            _prompt.AppendLine("this?");
+            _prompt.Append("days. Are you willing to do this?");
             return _prompt.ToString();
         }
 
@@ -49,31 +49,44 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            // Check if you have enough monies to use the ferry.
-            var cashAmount = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash].TotalValue;
-            if (UserData.RiverInfo.FerryCost > cashAmount)
-            {
-                // Tell the player they do not have enough money to cross the river using the ferry.
-                SetState(typeof(FerryNoMoniesState));
-                return;
-            }
-
-            // Check if the ferry operator wants player to wait a certain amount of days before they can cross.
-            if (UserData.DaysToRest > 0)
-            {
-                SetState(typeof(RestingState));
-                return;
-            }
-
             // Player has enough money for ferry operator, and there is no more delay we can cross now.
             switch (reponse)
             {
                 case DialogResponse.Yes:
+                    // Check if you have enough monies to use the ferry.
+                    var oldMoney = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash];
+                    if (UserData.RiverInfo.FerryCost > oldMoney.TotalValue)
+                    {
+                        // Tell the player they do not have enough money to cross the river using the ferry.
+                        SetState(typeof(FerryNoMoniesState));
+                        return;
+                    }
+
+                    // Remove the monies from the player for ferry trip.
+                    GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash] = new SimItem(oldMoney,
+                        (int) (oldMoney.TotalValue - UserData.RiverInfo.FerryCost));
+
+                    // Clear out the cost for the ferry since it has been paid for now.
+                    UserData.RiverInfo.FerryCost = 0;
+
+                    // Check if the ferry operator wants player to wait a certain amount of days before they can cross.
+                    if (UserData.RiverInfo.FerryDelayInDays > 0)
+                    {
+                        UserData.DaysToRest = UserData.RiverInfo.FerryDelayInDays;
+                        SetState(typeof(RestingState));
+                        return;
+                    }
+
                     SetState(typeof (CrossingResultState));
                     break;
-                default:
+                case DialogResponse.No:
+                    UserData.RiverInfo.CrossingType = RiverCrossChoice.None;
                     SetState(typeof(RiverCrossState));
                     break;
+                case DialogResponse.Custom:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);
             }
         }
     }
