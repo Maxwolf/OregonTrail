@@ -61,7 +61,8 @@ namespace TrailSimulation.Game
         {
             get
             {
-                var showLocationName = GameSimulationApp.Instance.Trail.CurrentLocation.Status > LocationStatus.Unreached;
+                var showLocationName = GameSimulationApp.Instance.Trail.CurrentLocation.Status >
+                                       LocationStatus.Unreached;
                 var locationStatus = new StringBuilder();
                 locationStatus.AppendLine("--------------------------------");
 

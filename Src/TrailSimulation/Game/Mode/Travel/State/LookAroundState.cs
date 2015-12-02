@@ -53,7 +53,7 @@ namespace TrailSimulation.Game
             {
                 // Build up message about location the player is arriving at.
                 pointReached.AppendLine(
-                $"{Environment.NewLine}You are now at the {GameSimulationApp.Instance.Trail.CurrentLocation.Name}.");
+                    $"{Environment.NewLine}You are now at the {GameSimulationApp.Instance.Trail.CurrentLocation.Name}.");
                 pointReached.Append("Would you like to look around? Y/N");
             }
 
@@ -68,7 +68,34 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            ClearState();
+            // First location we will always clear state back to location since it is starting point.
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation)
+            {
+                ClearState();
+                return;
+            }
+
+            // Subsequent locations will confirm what the player wants to do, they can stop or keep going on the trail at their own demise.
+            switch (reponse)
+            {
+                case DialogResponse.Custom:
+                case DialogResponse.No:
+                    // Cast the parent game mode as travel mode.
+                    var travelMode = ParentMode as TravelMode;
+                    if (travelMode == null)
+                        throw new InvalidCastException(
+                            "Unable to cast parent game mode into travel game mode when it should be that!");
+
+                    // Call the continue on trail method command inside that game mode, it will trigger the next action accordingly.
+                    travelMode.ContinueOnTrail();
+                    break;
+                case DialogResponse.Yes:
+                    // Clearing this state will drop back to travel mode with options for the player to choose from.
+                    ClearState();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);
+            }
         }
     }
 }

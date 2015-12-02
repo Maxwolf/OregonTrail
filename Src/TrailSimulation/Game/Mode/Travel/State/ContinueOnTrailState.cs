@@ -41,9 +41,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            // Tell the current location we have departed from it.
-            GameSimulationApp.Instance.Trail.CurrentLocation.SetDepartedFlag();
-            ClearState();
+            SetState(typeof (DriveState));
         }
     }
 }

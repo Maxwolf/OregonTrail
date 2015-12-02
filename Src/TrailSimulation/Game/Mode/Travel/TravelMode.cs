@@ -38,9 +38,26 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Resumes the simulation and progression down the trail towards the next point of interest.
         /// </summary>
-        private void ContinueOnTrail()
+        internal void ContinueOnTrail()
         {
-            SetState(typeof (ContinueOnTrailState));
+            switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
+            {
+                case LocationCategory.Landmark:
+                case LocationCategory.Settlement:
+                    // Player is going to continue driving down the trail now.
+                    SetState(typeof (ContinueOnTrailState));
+                    break;
+                case LocationCategory.RiverCrossing:
+                    // Player needs to decide how to cross a river.
+                    SetState(typeof (RiverPromptState));
+                    break;
+                case LocationCategory.ForkInRoad:
+                    // Player needs to decide on which location when road splits.
+                    SetState(typeof (ForkInRoadState));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         /// <summary>
@@ -150,7 +167,7 @@ namespace TrailSimulation.Game
             base.OnStateChange();
 
             // Figure out which state to attach based on location status.
-            //CheckLocationStatus();
+            CheckLocationStatus();
 
             // Update menu with proper choices.
             UpdateLocation();
@@ -165,31 +182,14 @@ namespace TrailSimulation.Game
             {
                 case LocationStatus.Unreached:
                     // Player has not reached the next location so we return to the drive state to reduce distance to it.
-                    SetState(typeof (DriveState));
+                    //SetState(typeof (DriveState));
                     break;
                 case LocationStatus.Arrived:
-                    // Le
-                    ClearState();
+                    // Tell the current location we have departed from it.
+                    GameSimulationApp.Instance.Trail.CurrentLocation.SetDepartedFlag();
                     break;
                 case LocationStatus.Departed:
-                    switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
-                    {
-                        case LocationCategory.Landmark:
-                        case LocationCategory.Settlement:
-                            // Player is going to continue driving down the trail now.
-                            SetState(typeof (DriveState));
-                            break;
-                        case LocationCategory.RiverCrossing:
-                            // Player needs to decide how to cross a river.
-                            SetState(typeof (RiverPromptState));
-                            break;
-                        case LocationCategory.ForkInRoad:
-                            // Player needs to decide on which location when road splits.
-                            SetState(typeof (ForkInRoadState));
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

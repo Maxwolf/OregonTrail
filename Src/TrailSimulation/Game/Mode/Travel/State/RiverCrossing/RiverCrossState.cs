@@ -45,7 +45,7 @@ namespace TrailSimulation.Game
                 var riverChoice = choices[index];
 
                 // Last line should not print new line.
-                if (index == (choices.Count-1))
+                if (index == (choices.Count - 1))
                 {
                     _riverInfo.Append((int) riverChoice + ". " + riverChoice.ToDescriptionAttribute());
                 }
