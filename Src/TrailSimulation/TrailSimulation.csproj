@@ -38,6 +38,7 @@
     <Compile Include="Core\ITick.cs" />
     <Compile Include="Core\SimulationModule.cs" />
     <Compile Include="Game\Mode\Hunting\HuntingInfo.cs" />
+    <Compile Include="Game\Mode\MainMenu\State\Start Month\StartingMonth.cs" />
     <Compile Include="Game\Mode\Trade\TradingInfo.cs" />
     <Compile Include="Core\Module\InputManagerModule.cs" />
     <Compile Include="Core\Mode\UserData\ModeInfo.cs" />
@@ -157,7 +158,7 @@
     <Compile Include="Game\Module\Climate\WeatherCondition.cs" />
     <Compile Include="Game\Module\Director\EventDirectorModule.cs" />
     <Compile Include="Game\Module\Time\Date.cs" />
-    <Compile Include="Game\Module\Time\Months.cs" />
+    <Compile Include="Game\Module\Time\Month.cs" />
     <Compile Include="Game\Module\Trail\TrailRegistry.cs" />
     <Compile Include="Game\Module\Climate\ClimateModule.cs" />
     <Compile Include="Core\SimulationApp.cs" />

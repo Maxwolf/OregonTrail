@@ -16,7 +16,7 @@ namespace TrailSimulation.Game
         {
             // Create a new time object for our simulation.
             CurrentYear = 1848;
-            CurrentMonth = Months.March;
+            CurrentMonth = Month.March;
             CurrentDay = 1;
 
             TotalDays = 0;
@@ -28,7 +28,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Current month the simulation is ticking over, it has typically thirty (30) days in it.
         /// </summary>
-        public Months CurrentMonth { get; private set; }
+        public Month CurrentMonth { get; private set; }
 
         /// <summary>
         ///     Day of the month the simulation is currently ticking over.
@@ -112,7 +112,7 @@ namespace TrailSimulation.Game
             if (shouldCheckMonthEnd)
             {
                 // If number of days reaches NumberOfDaysInMonth advance the month, which in tandem will increment years if needed all based on days.
-                if (CurrentMonth != Months.December)
+                if (CurrentMonth != Month.December)
                 {
                     // End of month
                     CurrentMonth++;
@@ -126,7 +126,7 @@ namespace TrailSimulation.Game
                     // End of year
                     CurrentYear++;
                     TotalDaysThisYear = 1;
-                    CurrentMonth = Months.January;
+                    CurrentMonth = Month.January;
                     TotalMonths++;
                     TotalYears++;
 
@@ -181,7 +181,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Changes the time simulations current month, this also will reset the day back to the first of that month.
         /// </summary>
-        public void SetMonth(Months month)
+        public void SetMonth(Month month)
         {
             CurrentMonth = month;
             CurrentDay = 1;

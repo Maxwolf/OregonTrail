@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TrailSimulation.Core;
 
@@ -27,16 +29,29 @@ namespace TrailSimulation.Game
 
             // Tell the user they need to make a decision.
             _startMonthQuestion = new StringBuilder();
-            _startMonthQuestion.Append($"{Environment.NewLine}It is 1848. Your jumping off place{Environment.NewLine}");
-            _startMonthQuestion.Append($"for Oregon is Independence, Missouri.{Environment.NewLine}");
-            _startMonthQuestion.Append($"You must decide which month{Environment.NewLine}");
-            _startMonthQuestion.Append($"to leave Independence{Environment.NewLine}{Environment.NewLine}");
-            _startMonthQuestion.Append($"  1. March{Environment.NewLine}");
-            _startMonthQuestion.Append($"  2. April{Environment.NewLine}");
-            _startMonthQuestion.Append($"  3. May{Environment.NewLine}");
-            _startMonthQuestion.Append($"  4. June{Environment.NewLine}");
-            _startMonthQuestion.Append($"  5. July{Environment.NewLine}");
-            _startMonthQuestion.Append($"  6. Ask for advice");
+            _startMonthQuestion.AppendLine($"{Environment.NewLine}It is 1848. Your jumping off place");
+            _startMonthQuestion.AppendLine("for Oregon is Independence, Missouri.");
+            _startMonthQuestion.AppendLine("You must decide which month");
+            _startMonthQuestion.AppendLine($"to leave Independence{Environment.NewLine}");
+
+            // Loop through every possible starting month and list them out by their enumeration integer values along with description attribute.
+            var choices = new List<StartingMonth>(Enum.GetValues(typeof (StartingMonth)).Cast<StartingMonth>());
+            for (var index = 0; index < choices.Count; index++)
+            {
+                // Get the current river choice enumeration value we casted into list.
+                var monthValue = choices[index];
+
+                // Last line should not print new line.
+                if (index == (choices.Count - 1))
+                {
+                    _startMonthQuestion.AppendLine((int) monthValue + ". " + monthValue);
+                    _startMonthQuestion.Append($"{choices.Count+1}. Ask for advice");
+                }
+                else
+                {
+                    _startMonthQuestion.AppendLine((int) monthValue + ". " + monthValue);
+                }
+            }
         }
 
         /// <summary>
@@ -63,35 +78,40 @@ namespace TrailSimulation.Game
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            switch (input.ToUpperInvariant())
+            // Skip if the input is null or empty.
+            if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
+                return;
+
+            // Attempt to cast string to enum value, can be characters or integer.
+            StartingMonth startMonth;
+            Enum.TryParse(input, out startMonth);
+
+            // Depending on what was selected we will set starting month to correct one in full listing, or show advice to player.
+            switch (startMonth)
             {
-                case "1":
-                    UserData.StartingMonth = Months.March;
+                case StartingMonth.March:
+                    UserData.StartingMonth = Month.March;
                     SetState(typeof (BuyInitialItemsState));
                     break;
-                case "2":
-                    UserData.StartingMonth = Months.April;
+                case StartingMonth.April:
+                    UserData.StartingMonth = Month.April;
                     SetState(typeof (BuyInitialItemsState));
                     break;
-                case "3":
-                    UserData.StartingMonth = Months.May;
+                case StartingMonth.May:
+                    UserData.StartingMonth = Month.May;
                     SetState(typeof (BuyInitialItemsState));
                     break;
-                case "4":
-                    UserData.StartingMonth = Months.June;
+                case StartingMonth.June:
+                    UserData.StartingMonth = Month.June;
                     SetState(typeof (BuyInitialItemsState));
                     break;
-                case "5":
-                    UserData.StartingMonth = Months.July;
+                case StartingMonth.July:
+                    UserData.StartingMonth = Month.July;
                     SetState(typeof (BuyInitialItemsState));
-                    break;
-                case "6":
-                    // Shows information about what the different starting months mean.
-                    SetState(typeof (StartMonthAdviceState));
                     break;
                 default:
-                    UserData.StartingMonth = Months.March;
-                    SetState(typeof (SelectStartingMonthState));
+                    // Shows information about what the different starting months mean.
+                    SetState(typeof (StartMonthAdviceState));
                     break;
             }
         }

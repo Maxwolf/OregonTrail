@@ -14,7 +14,7 @@ namespace TrailSimulation.Game
         private Profession _playerProfession;
         private List<SimItem> _startingInventory;
         private int _startingMonies;
-        private Months _startingMonth;
+        private Month _startingMonth;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.MainMenuInfo" /> class.
@@ -26,7 +26,7 @@ namespace TrailSimulation.Game
             _playerProfession = Profession.Banker;
             _startingInventory = new List<SimItem>();
             _startingMonies = 0;
-            _startingMonth = Months.March;
+            _startingMonth = Month.March;
             Modified = false;
         }
 
@@ -94,7 +94,7 @@ namespace TrailSimulation.Game
         ///     Starting month of the simulation, this helps determine the amount of grass for grazing, temperature, chance for
         ///     failure or random event, etc.
         /// </summary>
-        public Months StartingMonth
+        public Month StartingMonth
         {
             get { return _startingMonth; }
             set
