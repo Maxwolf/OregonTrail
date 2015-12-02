@@ -75,7 +75,6 @@
     <Compile Include="Game\Mode\RandomEvent\RandomEventCommands.cs" />
     <Compile Include="Game\Mode\RandomEvent\RandomEventInfo.cs" />
     <Compile Include="Game\Mode\RandomEvent\RandomEventMode.cs" />
-    <Compile Include="Game\Mode\Travel\State\RiverCrossing\Choice\CampByRiverState.cs" />
     <Compile Include="Game\Mode\Travel\State\RiverCrossing\Choice\CrossingResultState.cs" />
     <Compile Include="Game\Mode\Travel\State\RiverCrossing\Choice\FerryNoMoniesState.cs" />
     <Compile Include="Game\Mode\Travel\State\RiverCrossing\Help\CaulkRiverHelpState.cs" />

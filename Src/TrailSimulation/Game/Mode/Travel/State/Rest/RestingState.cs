@@ -9,44 +9,159 @@ namespace TrailSimulation.Game
     ///     subtracted until we are at zero, then the player can close the window but until then input will not be accepted.
     /// </summary>
     [RequiredMode(Mode.Travel)]
-    public sealed class RestingState : DialogState<TravelInfo>
+    public sealed class RestingState : StateProduct<TravelInfo>
     {
+        /// <summary>
+        ///     References the number of days the player has reseted, this ticks up each time we rest a day and will be used for
+        ///     display purposes to user.
+        /// </summary>
+        private int _daysRested = 1;
+
+        /// <summary>
+        ///     Holds the message that is printed to the text renderer for debugging about the number of days rested.
+        /// </summary>
+        private StringBuilder _restMessage;
+
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public RestingState(IModeProduct gameMode) : base(gameMode)
         {
+            _restMessage = new StringBuilder();
         }
 
         /// <summary>
-        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
-        protected override string OnDialogPrompt()
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public override bool AcceptsInput
         {
-            var rest = new StringBuilder();
-            rest.Append($"{Environment.NewLine}You rest for {UserData.DaysToRest} ");
-            rest.Append(UserData.DaysToRest > 1
-                ? $"days{Environment.NewLine}{Environment.NewLine}"
-                : $"day{Environment.NewLine}{Environment.NewLine}");
-            return rest.ToString();
+            get { return false; }
         }
 
         /// <summary>
-        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
         /// </summary>
-        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        public override void OnTick(bool systemTick)
         {
-            // TODO: Simulate the days to rest in time and event system, this will trigger random event game mode if required.
+            base.OnTick(systemTick);
 
-            // Not accepting user input when resting.
-            if (UserData.DaysToRest > 1)
+            // Skip system ticks.
+            if (systemTick)
                 return;
 
-            // Can only actually stop resting once.
-            UserData.DaysToRest = 0;
-            ClearState();
+            // Not ticking when days to rest is zero.
+            var shouldTick = false;
+            if (UserData.DaysToRest > 1)
+            {
+                _daysRested++;
+                shouldTick = true;
+            }
+            else if (UserData.DaysToRest <= 1)
+            {
+                shouldTick = true;
+            }
+
+            // Only subtract days to rest and take turns when greater than zero.
+            if (!shouldTick)
+                return;
+
+            // Decrease number of days needed to rest, increment number of days rested.
+            UserData.DaysToRest--;
+            
+            // Simulate the days to rest in time and event system, this will trigger random event game mode if required.
+            GameSimulationApp.Instance.TakeTurn();
+        }
+
+        /// <summary>
+        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
+        ///     waiting input, etc.
+        /// </summary>
+        public override string OnRenderState()
+        {
+            // String that holds message about resting, it can change depending on location.
+            _restMessage.Clear();
+
+            // Change up resting prompt depending on location category to give it some context.
+            switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
+            {
+                case LocationCategory.RiverCrossing:
+                    // Ferry operator can request you rest or player decides to wait out weather conditions.
+                    if (_daysRested > 1)
+                    {
+                        _restMessage.AppendLine($"{Environment.NewLine}You camp near the river for {_daysRested} days.");
+                    }
+                    else if (_daysRested == 1)
+                    {
+                        _restMessage.AppendLine($"{Environment.NewLine}You camp near the river for a day.");
+                    }
+                    break;
+                case LocationCategory.Landmark:
+                case LocationCategory.Settlement:
+                case LocationCategory.ForkInRoad:
+                    // Normal resting message just says time rested.
+                    if (_daysRested > 1)
+                    {
+                        _restMessage.AppendLine($"{Environment.NewLine}You rest for {_daysRested} days");
+                    }
+                    else if (_daysRested == 1)
+                    {
+                        _restMessage.AppendLine($"{Environment.NewLine}You rest for a day.");
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            // Allow the user to stop resting, this will break the cycle and reset days to rest to zero.
+            if (_daysRested > 0)
+                _restMessage.AppendLine($"{Environment.NewLine}Press ENTER to stop resting.{Environment.NewLine}");
+
+            // Prints out the message about resting for however long this cycle was.
+            return _restMessage.ToString();
+        }
+
+        /// <summary>
+        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        /// </summary>
+        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
+        public override void OnInputBufferReturned(string input)
+        {
+            // Figure out what to do with response.
+            if (_daysRested > 0)
+                StopResting();
+        }
+
+        /// <summary>
+        ///     Forces the resting period to end and days to rest reset to zero even if there was time remaining.
+        /// </summary>
+        private void StopResting()
+        {
+            switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
+            {
+                case LocationCategory.Landmark:
+                case LocationCategory.Settlement:
+                    // Player is going to go back to travel mode now.
+                    ClearState();
+                    break;
+                case LocationCategory.RiverCrossing:
+                    // Player needs to decide how to cross a river.
+                    SetState(typeof (RiverPromptState));
+                    break;
+                case LocationCategory.ForkInRoad:
+                    // Player needs to decide on which location when road splits.
+                    SetState(typeof (ForkInRoadState));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

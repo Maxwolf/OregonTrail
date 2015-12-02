@@ -72,7 +72,9 @@ namespace TrailSimulation.Game
         /// </summary>
         private void WaitForWeather()
         {
-            SetState(typeof (CampByRiverState));
+            // Resting by a river only increments a single day at a time.
+            UserData.DaysToRest = 1;
+            SetState(typeof (RestingState));
         }
 
         /// <summary>

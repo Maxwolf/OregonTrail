@@ -127,6 +127,10 @@ namespace TrailSimulation.Game
         /// </param>
         public override void OnTick(bool systemTick)
         {
+            // No advancing down the trail when vehicle is parked.
+            if (GameSimulationApp.Instance.Vehicle.Parked)
+                return;
+
             // Simulate the mileage being done.
             var simulatedDistanceChange = DistanceToNextLocation - GameSimulationApp.Instance.Vehicle.Mileage;
 

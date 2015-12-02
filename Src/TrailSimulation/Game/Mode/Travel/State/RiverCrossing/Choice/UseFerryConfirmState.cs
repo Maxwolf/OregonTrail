@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using TrailSimulation.Core;
+using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
 {
@@ -48,15 +49,30 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            // TODO: Check if you have enough monies to use the ferry.
+            // Check if you have enough monies to use the ferry.
+            var cashAmount = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash].TotalValue;
+            if (UserData.RiverInfo.FerryCost > cashAmount)
+            {
+                // Tell the player they do not have enough money to cross the river using the ferry.
+                SetState(typeof(FerryNoMoniesState));
+                return;
+            }
 
+            // Check if the ferry operator wants player to wait a certain amount of days before they can cross.
+            if (UserData.DaysToRest > 0)
+            {
+                SetState(typeof(RestingState));
+                return;
+            }
+
+            // Player has enough money for ferry operator, and there is no more delay we can cross now.
             switch (reponse)
             {
                 case DialogResponse.Yes:
                     SetState(typeof (CrossingResultState));
                     break;
                 default:
-                    ClearState();
+                    SetState(typeof(RiverCrossState));
                     break;
             }
         }
