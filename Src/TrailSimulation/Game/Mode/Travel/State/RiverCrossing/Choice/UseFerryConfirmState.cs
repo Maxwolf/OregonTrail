@@ -58,7 +58,7 @@ namespace TrailSimulation.Game
                     if (UserData.RiverInfo.FerryCost > oldMoney.TotalValue)
                     {
                         // Tell the player they do not have enough money to cross the river using the ferry.
-                        SetState(typeof(FerryNoMoniesState));
+                        SetState(typeof (FerryNoMoniesState));
                         return;
                     }
 
@@ -73,7 +73,7 @@ namespace TrailSimulation.Game
                     if (UserData.RiverInfo.FerryDelayInDays > 0)
                     {
                         UserData.DaysToRest = UserData.RiverInfo.FerryDelayInDays;
-                        SetState(typeof(RestingState));
+                        SetState(typeof (RestingState));
                         return;
                     }
 
@@ -81,7 +81,7 @@ namespace TrailSimulation.Game
                     break;
                 case DialogResponse.No:
                     UserData.RiverInfo.CrossingType = RiverCrossChoice.None;
-                    SetState(typeof(RiverCrossState));
+                    SetState(typeof (RiverCrossState));
                     break;
                 case DialogResponse.Custom:
                     break;

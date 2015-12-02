@@ -39,7 +39,7 @@ namespace TrailSimulation.Game
             _professionChooser.AppendLine($"You may:{Environment.NewLine}");
 
             // Loop through all the profession enumeration values and grab their description attribute for selection purposes.
-            var professions = new List<Profession>(Enum.GetValues(typeof(Profession)).Cast<Profession>());
+            var professions = new List<Profession>(Enum.GetValues(typeof (Profession)).Cast<Profession>());
             for (var index = 0; index < professions.Count; index++)
             {
                 // Get the current profession choice enumeration value we casted into list.
@@ -48,13 +48,15 @@ namespace TrailSimulation.Game
                 // Last line should not print new line.
                 if (index == (professions.Count - 1))
                 {
-                    _professionChooser.AppendLine((int)professionChoice + ". " + professionChoice.ToDescriptionAttribute());
-                    _professionChooser.AppendLine($"{professions.Count+1}. Find out the differences");
+                    _professionChooser.AppendLine((int) professionChoice + ". " +
+                                                  professionChoice.ToDescriptionAttribute());
+                    _professionChooser.AppendLine($"{professions.Count + 1}. Find out the differences");
                     _professionChooser.Append("   between these choices");
                 }
                 else
                 {
-                    _professionChooser.AppendLine((int)professionChoice + ". " + professionChoice.ToDescriptionAttribute());
+                    _professionChooser.AppendLine((int) professionChoice + ". " +
+                                                  professionChoice.ToDescriptionAttribute());
                 }
             }
         }
@@ -98,25 +100,25 @@ namespace TrailSimulation.Game
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
                     UserData.PlayerNameIndex = 0;
-                    SetState(typeof(InputPlayerNameState));
+                    SetState(typeof (InputPlayerNameState));
                     break;
                 case Profession.Carpenter:
                     UserData.PlayerProfession = Profession.Carpenter;
                     UserData.StartingMonies = 800;
                     UserData.PlayerNameIndex = 0;
-                    SetState(typeof(InputPlayerNameState));
+                    SetState(typeof (InputPlayerNameState));
                     break;
                 case Profession.Farmer:
                     UserData.PlayerProfession = Profession.Farmer;
                     UserData.StartingMonies = 400;
                     UserData.PlayerNameIndex = 0;
-                    SetState(typeof(InputPlayerNameState));
+                    SetState(typeof (InputPlayerNameState));
                     break;
                 default:
                     UserData.PlayerProfession = Profession.Banker;
                     UserData.StartingMonies = 1600;
                     UserData.PlayerNameIndex = 0;
-                    SetState(typeof(ProfessionAdviceState));
+                    SetState(typeof (ProfessionAdviceState));
                     break;
             }
         }

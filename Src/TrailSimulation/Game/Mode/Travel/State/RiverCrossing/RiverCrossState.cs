@@ -31,7 +31,8 @@ namespace TrailSimulation.Game
             _riverInfo.AppendLine($"{GameSimulationApp.Instance.Trail.CurrentLocation.Name}");
             _riverInfo.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
             _riverInfo.AppendLine("--------------------------------");
-            _riverInfo.AppendLine($"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather.ToDescriptionAttribute()}");
+            _riverInfo.AppendLine(
+                $"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather.ToDescriptionAttribute()}");
             _riverInfo.AppendLine($"River width: {UserData.RiverInfo.RiverWidth.ToString("N0")} feet");
             _riverInfo.AppendLine($"River depth: {UserData.RiverInfo.RiverDepth.ToString("N0")} feet");
             _riverInfo.AppendLine("--------------------------------");
@@ -88,24 +89,24 @@ namespace TrailSimulation.Game
             {
                 case RiverCrossChoice.FordRiver:
                     UserData.RiverInfo.CrossingType = RiverCrossChoice.FordRiver;
-                    SetState(typeof(CrossingResultState));
+                    SetState(typeof (CrossingResultState));
                     break;
                 case RiverCrossChoice.CaulkVehicle:
                     UserData.RiverInfo.CrossingType = RiverCrossChoice.CaulkVehicle;
-                    SetState(typeof(CrossingResultState));
+                    SetState(typeof (CrossingResultState));
                     break;
                 case RiverCrossChoice.UseFerry:
                     UserData.RiverInfo.CrossingType = RiverCrossChoice.UseFerry;
-                    SetState(typeof(UseFerryConfirmState));
+                    SetState(typeof (UseFerryConfirmState));
                     break;
                 case RiverCrossChoice.WaitForWeather:
                     // Resting by a river only increments a single day at a time.
                     UserData.DaysToRest = 1;
                     UserData.RiverInfo.CrossingType = RiverCrossChoice.WaitForWeather;
-                    SetState(typeof(RestingState));
+                    SetState(typeof (RestingState));
                     break;
                 case RiverCrossChoice.GetMoreInformation:
-                    SetState(typeof(FordRiverHelpState));
+                    SetState(typeof (FordRiverHelpState));
                     break;
             }
             // ReSharper restore SwitchStatementMissingSomeCases

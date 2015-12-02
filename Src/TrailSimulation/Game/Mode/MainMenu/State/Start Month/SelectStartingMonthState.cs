@@ -45,7 +45,7 @@ namespace TrailSimulation.Game
                 if (index == (choices.Count - 1))
                 {
                     _startMonthQuestion.AppendLine((int) monthValue + ". " + monthValue);
-                    _startMonthQuestion.Append($"{choices.Count+1}. Ask for advice");
+                    _startMonthQuestion.Append($"{choices.Count + 1}. Ask for advice");
                 }
                 else
                 {
