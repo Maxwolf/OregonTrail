@@ -2,10 +2,10 @@
 {
     public class ClimateData
     {
-        public ClimateData(Months cMonths, float cAverageTemp, float tempMax, float tempMin,
+        public ClimateData(Month cMonth, float cAverageTemp, float tempMax, float tempMin,
             float cRainfall, int avgHumidity)
         {
-            ClimateMonth = cMonths;
+            ClimateMonth = cMonth;
             AverageDailyTemperature = cAverageTemp;
             MeanDailyMax = tempMax;
             MeanDailyMin = tempMin;
@@ -13,7 +13,7 @@
             AverageDailyHumidity = avgHumidity;
         }
 
-        public Months ClimateMonth { get; set; }
+        public Month ClimateMonth { get; set; }
 
         public float AverageDailyTemperature { get; set; }
 
