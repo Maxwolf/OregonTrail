@@ -17,7 +17,7 @@ namespace TrailSimulation.Game
                 new Location("Independence", LocationCategory.Settlement),
                 new Location("Kansas River Crossing", LocationCategory.RiverCrossing),
                 new Location("Big Blue River Crossing", LocationCategory.RiverCrossing),
-                new Location("Fort Kearney", LocationCategory.Landmark),
+                new Location("Fort Kearney", LocationCategory.Settlement),
                 new Location("Chimney Rock", LocationCategory.Landmark),
                 new Location("Fort Laramie", LocationCategory.Settlement),
                 new Location("Independence Rock", LocationCategory.Landmark),

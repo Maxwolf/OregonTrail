@@ -166,31 +166,8 @@ namespace TrailSimulation.Game
         {
             base.OnStateChange();
 
-            // Figure out which state to attach based on location status.
-            CheckLocationStatus();
-
             // Update menu with proper choices.
             UpdateLocation();
-        }
-
-        /// <summary>
-        ///     Figures out what state to load based on category of location visited and if we are leaving it or arriving to it.
-        /// </summary>
-        private void CheckLocationStatus()
-        {
-            switch (GameSimulationApp.Instance.Trail.CurrentLocation.Status)
-            {
-                case LocationStatus.Unreached:
-                    break;
-                case LocationStatus.Arrived:
-                    // Tell the current location we have departed from it.
-                    GameSimulationApp.Instance.Trail.CurrentLocation.SetDepartedFlag();
-                    break;
-                case LocationStatus.Departed:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
 
         /// <summary>

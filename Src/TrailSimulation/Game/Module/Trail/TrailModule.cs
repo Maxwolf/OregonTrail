@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
@@ -140,16 +139,16 @@ namespace TrailSimulation.Game
             // Simulate the mileage being done.
             var simulatedDistanceChange = DistanceToNextLocation - GameSimulationApp.Instance.Vehicle.Mileage;
 
-            // If distance is zero we have arrived at the next location!
-            // Note: negative numbers mean the vehicle will reach next location and then some.
-            if (simulatedDistanceChange <= 0)
-            {
-                ArriveAtNextLocation();
-                simulatedDistanceChange = 0;
-            }
-
             // Move us towards the next point if not zero.
             DistanceToNextLocation = simulatedDistanceChange;
+
+            // If distance is zero we have arrived at the next location!
+            if (DistanceToNextLocation > 0)
+                return;
+
+            // Distance to next point was less than or equal to zero, arrive at next location after setting distance to zero.
+            DistanceToNextLocation = 0;
+            ArriveAtNextLocation();
         }
 
         /// <summary>
