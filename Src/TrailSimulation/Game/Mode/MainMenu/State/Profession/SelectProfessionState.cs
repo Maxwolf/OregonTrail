@@ -49,15 +49,13 @@ namespace TrailSimulation.Game
                 // Last line should not print new line.
                 if (index == (professions.Count - 1))
                 {
-                    _professionChooser.AppendLine((int) professionChoice + ". " +
-                                                  professionChoice.ToDescriptionAttribute());
-                    _professionChooser.AppendLine($"{professions.Count + 1}. Find out the differences");
-                    _professionChooser.Append("   between these choices");
+                    _professionChooser.AppendLine($"  {(int) professionChoice}. {professionChoice.ToDescriptionAttribute()}");
+                    _professionChooser.AppendLine($"  {professions.Count + 1}. Find out the differences");
+                    _professionChooser.Append("     between these choices");
                 }
                 else
                 {
-                    _professionChooser.AppendLine((int) professionChoice + ". " +
-                                                  professionChoice.ToDescriptionAttribute());
+                    _professionChooser.AppendLine($"  {(int) professionChoice}. {professionChoice.ToDescriptionAttribute()}");
                 }
             }
         }
