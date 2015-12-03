@@ -126,7 +126,16 @@ namespace TrailSimulation.Core
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public virtual bool AcceptsInput
+        public virtual bool InputFillsBuffer
+        {
+            get { return !ParentMode.ShouldRemoveMode; }
+        }
+
+        /// <summary>
+        ///     Determines if this dialog state is allowed to receive any input at all, even empty line returns. This is useful for
+        ///     preventing the player from leaving a particular dialog until you are ready or finished processing some data.
+        /// </summary>
+        public virtual bool AllowInput
         {
             get { return !ParentMode.ShouldRemoveMode; }
         }

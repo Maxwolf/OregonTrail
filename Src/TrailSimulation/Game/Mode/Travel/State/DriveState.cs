@@ -50,7 +50,7 @@ namespace TrailSimulation.Game
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
+        public override bool InputFillsBuffer
         {
             get { return false; }
         }
@@ -113,7 +113,7 @@ namespace TrailSimulation.Game
         public override void OnInputBufferReturned(string input)
         {
             // Can only stop the simulation if it is actually running.
-            if (!string.IsNullOrEmpty(input) || 
+            if (!string.IsNullOrEmpty(input) ||
                 GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Stopped)
                 return;
 

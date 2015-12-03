@@ -90,7 +90,7 @@ namespace TrailSimulation.Core
                 // Skip if state is not null and, game mode accepts input, but current state doesn't want input.
                 return ActiveMode.CurrentState == null ||
                        !ActiveMode.AcceptsInput ||
-                       ActiveMode.CurrentState.AcceptsInput;
+                       ActiveMode.CurrentState.InputFillsBuffer;
             }
         }
 

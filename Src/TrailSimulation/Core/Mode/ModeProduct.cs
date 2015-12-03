@@ -302,8 +302,16 @@ namespace TrailSimulation.Core
             }
             else
             {
+                // Skip if current state is null.
+                if (_currentState == null)
+                    return;
+
+                // Skip if current state doesn't want our input.
+                if (!_currentState.AllowInput)
+                    return;
+
                 // Pass the input buffer to the current state, if it manages to get this far.
-                _currentState?.OnInputBufferReturned(command);
+                _currentState.OnInputBufferReturned(command);
             }
         }
 

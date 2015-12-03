@@ -37,7 +37,7 @@ namespace TrailSimulation.Game
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool AcceptsInput
+        public override bool InputFillsBuffer
         {
             get { return false; }
         }
