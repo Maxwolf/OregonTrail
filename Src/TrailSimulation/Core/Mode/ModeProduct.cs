@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using TrailSimulation.Game;
+using TrailSimulation.Utility;
 
 namespace TrailSimulation.Core
 {
@@ -284,7 +285,8 @@ namespace TrailSimulation.Core
                 foreach (var menuChoice in _menuChoices)
                 {
                     // Attempt to convert the returned line into generic enum.
-                    var parsedCommandValue = (TCommands) Enum.Parse(typeof (TCommands), command, true);
+                    TCommands parsedCommandValue;
+                    Enum.TryParse(command, out parsedCommandValue);
                     if (!(Enum.IsDefined(typeof (TCommands), parsedCommandValue) |
                           parsedCommandValue.ToString(CultureInfo.InvariantCulture).Contains(",")))
                         continue;
