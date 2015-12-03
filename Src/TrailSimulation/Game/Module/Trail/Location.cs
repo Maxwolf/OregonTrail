@@ -137,11 +137,11 @@ namespace TrailSimulation.Game
         {
             // Complain if we are departing a place we never left.
             if (Status < LocationStatus.Arrived)
-                throw new InvalidOperationException("Attempted to depart a location player has never visited!");
+                return;
 
-            // Complain if we are departing a place we already have.
-            if (Status >= LocationStatus.Departed)
-                throw new InvalidOperationException("Attempted to depart a location the player has already departed!");
+            // Skip if already departed.
+            if (Status == LocationStatus.Departed)
+                return;
 
             // Set the departed flag if nothing to complain about.
             Status = LocationStatus.Departed;
@@ -153,8 +153,8 @@ namespace TrailSimulation.Game
         public void SetArrivalFlag()
         {
             // Complain if visited is already true.
-            if (Status >= LocationStatus.Arrived)
-                throw new InvalidOperationException("Attempted to arrive at a location the player has already been to!");
+            if (Status == LocationStatus.Arrived)
+                return;
 
             // Set the arrival flag if there is nothing to complain about.
             Status = LocationStatus.Arrived;

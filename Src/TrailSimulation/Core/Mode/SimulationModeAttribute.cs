@@ -1,4 +1,5 @@
 ﻿using System;
+using TrailSimulation.Utility;
 
 namespace TrailSimulation.Core
 {

@@ -162,7 +162,7 @@ namespace TrailSimulation.Game
 
                     // Player might be crossing a river, so we check if they made a decision and are waiting for ferry operator.
                     if (UserData.RiverInfo != null &&
-                        UserData.RiverInfo.CrossingType == RiverCrossChoice.UseFerry &&
+                        UserData.RiverInfo.CrossingType == RiverCrossChoice.Ferry &&
                         UserData.RiverInfo.FerryDelayInDays <= 0 &&
                         UserData.RiverInfo.FerryCost <= 0)
                     {

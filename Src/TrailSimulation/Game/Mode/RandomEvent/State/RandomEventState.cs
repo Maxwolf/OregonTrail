@@ -13,6 +13,11 @@ namespace TrailSimulation.Game
     public sealed class RandomEventState : DialogState<RandomEventInfo>
     {
         /// <summary>
+        ///     Determines if the player has seen the random event and is done reading with what it had to say.
+        /// </summary>
+        private bool _eventPlayerAcknowledge;
+
+        /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public RandomEventState(IModeProduct gameMode) : base(gameMode)
@@ -28,7 +33,7 @@ namespace TrailSimulation.Game
             var _randomEventText = new StringBuilder();
 
             // Execute the event which should return us some text to display to user about what it did to running simulation.
-            UserData.DirectorEvent.Execute();
+            UserData.DirectorEvent.Execute(UserData.SourceEntity);
             var eventText = UserData.DirectorEvent.Render();
 
             // Complain if the event text is empty.
@@ -38,7 +43,7 @@ namespace TrailSimulation.Game
 
             // Add the text to our output about the random event.
             _randomEventText.AppendLine(
-                $"{UserData.SourceEntity.Name} {UserData.DirectorEvent.Name} {eventText}{Environment.NewLine}");
+                $"{Environment.NewLine}{eventText}{Environment.NewLine}");
             return _randomEventText.ToString();
         }
 
@@ -49,8 +54,11 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //parentGameMode.CurrentState = null;
-            ClearState();
+            if (_eventPlayerAcknowledge)
+                return;
+
+            _eventPlayerAcknowledge = true;
+            ParentMode.RemoveModeNextTick();
         }
     }
 }

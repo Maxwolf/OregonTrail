@@ -1,4 +1,5 @@
 ﻿using System;
+using TrailSimulation.Event;
 
 namespace TrailSimulation.Game
 {

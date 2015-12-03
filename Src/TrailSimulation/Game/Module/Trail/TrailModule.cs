@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using TrailSimulation.Core;
+using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
 {
@@ -59,7 +61,7 @@ namespace TrailSimulation.Game
             get
             {
                 return CurrentLocation.Status == LocationStatus.Arrived &&
-                       GameSimulationApp.Instance.Vehicle.Parked;
+                       GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Stopped;
             }
         }
 
@@ -100,7 +102,7 @@ namespace TrailSimulation.Game
                 return LocationIndex <= 0 &&
                        GameSimulationApp.Instance.TotalTurns <= 0 &&
                        GameSimulationApp.Instance.ModeManager.RunCount[Mode.Store] <= 1 &&
-                       GameSimulationApp.Instance.Vehicle.Parked;
+                       GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Stopped;
             }
         }
 
@@ -127,14 +129,19 @@ namespace TrailSimulation.Game
         /// </param>
         public override void OnTick(bool systemTick)
         {
+            // Skip system ticks.
+            if (systemTick)
+                return;
+
             // No advancing down the trail when vehicle is parked.
-            if (GameSimulationApp.Instance.Vehicle.Parked)
+            if (GameSimulationApp.Instance.Vehicle.Status != VehicleStatus.Moving)
                 return;
 
             // Simulate the mileage being done.
             var simulatedDistanceChange = DistanceToNextLocation - GameSimulationApp.Instance.Vehicle.Mileage;
 
             // If distance is zero we have arrived at the next location!
+            // Note: negative numbers mean the vehicle will reach next location and then some.
             if (simulatedDistanceChange <= 0)
             {
                 ArriveAtNextLocation();

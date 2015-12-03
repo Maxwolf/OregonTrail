@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TrailSimulation.Core;
+using TrailSimulation.Utility;
 
 namespace TrailSimulation.Game
 {
@@ -87,16 +88,16 @@ namespace TrailSimulation.Game
             // ReSharper disable SwitchStatementMissingSomeCases
             switch (riverChoice)
             {
-                case RiverCrossChoice.FordRiver:
-                    UserData.RiverInfo.CrossingType = RiverCrossChoice.FordRiver;
+                case RiverCrossChoice.Ford:
+                    UserData.RiverInfo.CrossingType = RiverCrossChoice.Ford;
                     SetState(typeof (CrossingResultState));
                     break;
-                case RiverCrossChoice.CaulkVehicle:
-                    UserData.RiverInfo.CrossingType = RiverCrossChoice.CaulkVehicle;
+                case RiverCrossChoice.Float:
+                    UserData.RiverInfo.CrossingType = RiverCrossChoice.Float;
                     SetState(typeof (CrossingResultState));
                     break;
-                case RiverCrossChoice.UseFerry:
-                    UserData.RiverInfo.CrossingType = RiverCrossChoice.UseFerry;
+                case RiverCrossChoice.Ferry:
+                    UserData.RiverInfo.CrossingType = RiverCrossChoice.Ferry;
                     SetState(typeof (UseFerryConfirmState));
                     break;
                 case RiverCrossChoice.WaitForWeather:

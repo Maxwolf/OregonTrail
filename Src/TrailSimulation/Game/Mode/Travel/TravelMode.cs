@@ -181,15 +181,12 @@ namespace TrailSimulation.Game
             switch (GameSimulationApp.Instance.Trail.CurrentLocation.Status)
             {
                 case LocationStatus.Unreached:
-                    // Player has not reached the next location so we return to the drive state to reduce distance to it.
-                    //SetState(typeof (DriveState));
                     break;
                 case LocationStatus.Arrived:
                     // Tell the current location we have departed from it.
                     GameSimulationApp.Instance.Trail.CurrentLocation.SetDepartedFlag();
                     break;
                 case LocationStatus.Departed:
-
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

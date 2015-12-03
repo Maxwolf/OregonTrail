@@ -15,7 +15,7 @@
             RiverDepth = GameSimulationApp.Instance.Random.Next(1, 20);
             FerryCost = GameSimulationApp.Instance.Random.Next(3, 8);
             FerryDelayInDays = GameSimulationApp.Instance.Random.Next(1, 10);
-            RiverWidth = GameSimulationApp.Instance.Random.Next(20, 350);
+            RiverWidth = GameSimulationApp.Instance.Random.Next(100, 1500);
             CrossingType = RiverCrossChoice.None;
         }
 

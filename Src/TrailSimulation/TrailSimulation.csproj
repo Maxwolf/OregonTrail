@@ -37,6 +37,10 @@
     <Compile Include="Core\IModule.cs" />
     <Compile Include="Core\ITick.cs" />
     <Compile Include="Core\SimulationModule.cs" />
+    <Compile Include="Entity\Vehicle\VehicleStatus.cs" />
+    <Compile Include="Event\Prefab\EventItemDestroyer.cs" />
+    <Compile Include="Event\RiverFloat\VehicleFloodsEvent.cs" />
+    <Compile Include="Event\RiverFord\VehicleWashedOutEvent.cs" />
     <Compile Include="Game\Mode\Hunting\HuntingInfo.cs" />
     <Compile Include="Game\Mode\MainMenu\State\Start Month\StartingMonth.cs" />
     <Compile Include="Game\Mode\Trade\TradingInfo.cs" />
@@ -65,7 +69,7 @@
     <Compile Include="Entity\Person\Disease.cs" />
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />
-    <Compile Include="Game\Module\Director\EventCategory.cs" />
+    <Compile Include="Event\EventCategory.cs" />
     <Compile Include="Game\Module\Director\EventHistory.cs" />
     <Compile Include="Game\Module\Director\EventProduct.cs" />
     <Compile Include="Event\Person\DeathCompanionEvent.cs" />

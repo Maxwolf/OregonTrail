@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using TrailSimulation.Core;
+using TrailSimulation.Entity;
 using TrailSimulation.Widget;
 
 namespace TrailSimulation.Game
@@ -95,7 +96,7 @@ namespace TrailSimulation.Game
                 return;
 
             // Check to see if we should be ticking by days with each simulation tick (defaults to every second).
-            if (GameSimulationApp.Instance.Vehicle.Parked)
+            if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Stopped)
                 return;
 
             // Advance the progress bar, step it to next phase.
@@ -112,7 +113,8 @@ namespace TrailSimulation.Game
         public override void OnInputBufferReturned(string input)
         {
             // Can only stop the simulation if it is actually running.
-            if (!string.IsNullOrEmpty(input) || GameSimulationApp.Instance.Vehicle.Parked)
+            if (!string.IsNullOrEmpty(input) || 
+                GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Stopped)
                 return;
 
             // Stop ticks and close this state.

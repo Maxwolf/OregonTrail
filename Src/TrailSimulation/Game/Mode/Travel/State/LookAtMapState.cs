@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using TrailSimulation.Core;
+using TrailSimulation.Utility;
 using TrailSimulation.Widget;
 
 namespace TrailSimulation.Game

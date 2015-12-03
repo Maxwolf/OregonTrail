@@ -1,4 +1,7 @@
-﻿namespace TrailSimulation.Game
+﻿using TrailSimulation.Entity;
+using TrailSimulation.Event;
+
+namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Represents an event that can be triggered by the event director when vehicle is traveling along the trail.
@@ -35,7 +38,11 @@
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.
         /// </summary>
-        public abstract void Execute();
+        /// <param name="sourceEntity">
+        ///     Entity which the event is going to directly affect. This way there is no confusion about
+        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
+        /// </param>
+        public abstract void Execute(IEntity sourceEntity);
 
         /// <summary>
         ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could

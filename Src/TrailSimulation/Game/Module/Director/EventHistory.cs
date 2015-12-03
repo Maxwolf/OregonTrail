@@ -1,4 +1,5 @@
 ﻿using TrailSimulation.Entity;
+using TrailSimulation.Event;
 
 namespace TrailSimulation.Game
 {

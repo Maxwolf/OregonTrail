@@ -19,21 +19,21 @@ namespace TrailSimulation.Game
         ///     vehicle will be submerged and highly damaged.
         /// </summary>
         [Description("attempt to ford the river")]
-        FordRiver = 1,
+        Ford = 1,
 
         /// <summary>
         ///     Attempts to float the vehicle over the river to the other side, there is a much higher chance for bad things to
         ///     happen.
         /// </summary>
         [Description("caulk the wagon and float it across")]
-        CaulkVehicle = 2,
+        Float = 2,
 
         /// <summary>
         ///     Prompts to pay monies for a ferry operator that will take the vehicle across the river without the danger of user
         ///     trying it themselves.
         /// </summary>
         [Description("take a ferry across")]
-        UseFerry = 3,
+        Ferry = 3,
 
         /// <summary>
         ///     Waits for a day still ticking events but waiting to see if weather will improve and make crossing easier.

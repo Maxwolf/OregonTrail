@@ -1,4 +1,4 @@
-﻿namespace TrailSimulation.Game
+﻿namespace TrailSimulation.Event
 {
     /// <summary>
     ///     Defines the different kinds of events the simulation supports, used for sorting and easy grabbing of events by type
@@ -34,6 +34,16 @@
         /// <summary>
         ///     Wild animals, Indians, wolves, riders, and various other critters and strangers that you can encounter.
         /// </summary>
-        Attack = 6
+        Attack = 6,
+
+        /// <summary>
+        ///     Crossing a river by diving directly into and hoping for the best. Easy to be washed away by current.
+        /// </summary>
+        RiverFord = 7,
+
+        /// <summary>
+        ///     Caulking the vehicle and attempting to float it across the river can result in flooding and or tipping over.
+        /// </summary>
+        RiverFloat = 8
     }
 }

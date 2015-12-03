@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using TrailSimulation.Event;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Entity
@@ -30,7 +31,7 @@ namespace TrailSimulation.Entity
             Name = "Vehicle";
             Pace = TravelPace.Steady;
             Mileage = 1;
-            Parked = true;
+            Status = VehicleStatus.Stopped;
         }
 
         /// <summary>
@@ -80,7 +81,7 @@ namespace TrailSimulation.Entity
         ///     Defines what the trail module is currently processing if anything in regards to movement of vehicle and player
         ///     entities down the trail.
         /// </summary>
-        public bool Parked { get; private set; }
+        public VehicleStatus Status { get; private set; }
 
         /// <summary>
         ///     Returns the total value of all the cash the vehicle and all party members currently have.
@@ -219,27 +220,23 @@ namespace TrailSimulation.Entity
             if (systemTick)
                 return;
 
-            // Only advance the vehicle mileage and odometer if we are actually traveling.
-            if (Parked)
-            {
-                // Figure out how far we need to go to reach the next point.
-                Mileage = CalculateMileageForDay();
-
-                // Sometimes things just go slow on the trail, cut mileage in half if above zero randomly.
-                if (GameSimulationApp.Instance.Random.NextBool() && Mileage > 0)
-                    Mileage = Mileage/2;
-
-                // Check for random events that might trigger regardless of calculations made.
-                GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Vehicle);
-            }
-
             // Loop through all the people in the vehicle and tick them every day of simulation moving or not.
             foreach (var person in _passengers)
                 person.OnTick(false);
 
-            // Only continue processing and working with odometer and mileage if we are traveling.
-            if (Parked)
+            // Only advance the vehicle mileage and odometer if we are actually traveling.
+            if (Status != VehicleStatus.Moving)
                 return;
+
+            // Figure out how far we need to go to reach the next point.
+            Mileage = CalculateMileageForDay();
+
+            // Sometimes things just go slow on the trail, cut mileage in half if above zero randomly.
+            if (GameSimulationApp.Instance.Random.NextBool() && Mileage > 0)
+                Mileage = Mileage/2;
+
+            // Check for random events that might trigger regardless of calculations made.
+            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Vehicle);
 
             // Check to make sure mileage is never below or at zero.
             if (Mileage <= 0)
@@ -276,7 +273,7 @@ namespace TrailSimulation.Entity
         internal void ReduceMileage(int amount)
         {
             // Mileage cannot be reduced when parked.
-            if (Parked)
+            if (Status != VehicleStatus.Moving)
                 return;
 
             // Check if current mileage is below zero.
@@ -342,7 +339,7 @@ namespace TrailSimulation.Entity
             Ration = RationLevel.Filling;
             RepairLevel = RepairLevel.Good;
             Odometer = 0;
-            Parked = true;
+            Status = VehicleStatus.Stopped;
         }
 
         /// <summary>
@@ -360,7 +357,7 @@ namespace TrailSimulation.Entity
         /// </summary>
         public void Park()
         {
-            Parked = true;
+            Status = VehicleStatus.Stopped;
         }
 
         /// <summary>
@@ -368,7 +365,46 @@ namespace TrailSimulation.Entity
         /// </summary>
         public void Drive()
         {
-            Parked = false;
+            Status = VehicleStatus.Moving;
+        }
+
+        /// <summary>
+        ///     Destroys some of the inventory items in no particular order and or reason. That is left up the caller to decide.
+        /// </summary>
+        public IDictionary<SimEntity, int> DestroyRandomItems()
+        {
+            // Dictionary that will keep track of enumeration item type and destroyed amount for record keeping purposes.
+            IDictionary<SimEntity, int> destroyedItems = new Dictionary<SimEntity, int>();
+
+            // Make a copy of the inventory to iterate over.
+            var copiedInventory = new Dictionary<SimEntity, SimItem>(Inventory);
+
+            // Loop through the inventory and decide to randomly destroy some inventory items.
+            foreach (var itemPair in copiedInventory)
+            {
+                // Skip item if quantity is less than one.
+                if (itemPair.Value.Quantity < 1)
+                    continue;
+
+                // Determine if we will be destroying this item.
+                if (GameSimulationApp.Instance.Random.NextBool())
+                    continue;
+
+                // Destroy some random amount of the item from one to total amount.
+                var destroyAmount = GameSimulationApp.Instance.Random.Next(1, itemPair.Value.Quantity);
+
+                // Subtract the amount we destroyed from the actual inventory.
+                Inventory[itemPair.Key] = new SimItem(itemPair.Value, itemPair.Value.Quantity - destroyAmount);
+
+                // Tabulate the amount we destroyed in dictionary to be returned to caller.
+                destroyedItems.Add(itemPair.Key, destroyAmount);
+            }
+
+            // Clear out the copied list we made for iterating.
+            copiedInventory.Clear();
+
+            // Return the destroyed item summary.
+            return destroyedItems;
         }
     }
 }

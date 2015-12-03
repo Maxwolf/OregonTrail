@@ -1,4 +1,5 @@
 ﻿using System;
+using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
@@ -24,7 +25,11 @@ namespace TrailSimulation.Event
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.
         /// </summary>
-        public override void Execute()
+        /// <param name="sourceEntity">
+        ///     Entity which the event is going to directly affect. This way there is no confusion about
+        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
+        /// </param>
+        public override void Execute(IEntity sourceEntity)
         {
             throw new NotImplementedException();
         }

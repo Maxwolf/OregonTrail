@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using TrailSimulation.Event;
+using TrailSimulation.Utility;
 
 namespace TrailSimulation.Game
 {

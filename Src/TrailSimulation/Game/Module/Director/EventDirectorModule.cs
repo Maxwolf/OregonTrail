@@ -1,6 +1,7 @@
 ﻿using System;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
+using TrailSimulation.Event;
 
 namespace TrailSimulation.Game
 {
@@ -69,10 +70,7 @@ namespace TrailSimulation.Game
 
         /// <summary>
         ///     Triggers an event directly by type of reference. Event must have [EventDirector] attribute to be
-        ///     registered
-        ///     in
-        ///     the
-        ///     factory correctly.
+        ///     registered in the factory correctly.
         /// </summary>
         /// <param name="sourceEntity">Entity which will be affected by event if triggered.</param>
         /// <param name="eventType">System type that represents the type of event to trigger.</param>
