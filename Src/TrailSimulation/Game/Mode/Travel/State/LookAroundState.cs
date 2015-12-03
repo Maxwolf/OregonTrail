@@ -29,11 +29,9 @@ namespace TrailSimulation.Game
             get
             {
                 // First location we only tell the user they are going back in time and arrived at first location on trail.
-                if (GameSimulationApp.Instance.Trail.IsFirstLocation)
-                    return DialogType.Prompt;
-
-                // Default response is to ask it like a question if the user would like to proceed or not.
-                return DialogType.YesNo;
+                return GameSimulationApp.Instance.Trail.IsFirstLocation
+                    ? DialogType.Prompt
+                    : DialogType.YesNo;
             }
         }
 

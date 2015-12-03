@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
@@ -50,18 +51,6 @@ namespace TrailSimulation.Game
         public int TrailLength
         {
             get { return Trail.TrailLength; }
-        }
-
-        /// <summary>
-        ///     Determines if the player is currently midway between two location points on the trail.
-        /// </summary>
-        public bool ReachedNextPoint
-        {
-            get
-            {
-                return CurrentLocation.Status == LocationStatus.Arrived &&
-                       GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Stopped;
-            }
         }
 
         /// <summary>
