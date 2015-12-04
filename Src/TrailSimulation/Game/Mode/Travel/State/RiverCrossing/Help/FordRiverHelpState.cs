@@ -38,7 +38,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //parentGameMode.CurrentState = new CaulkRiverHelpState(parentGameMode, UserData);
+            //parentGameMode.State = new CaulkRiverHelpState(parentGameMode, UserData);
             SetState(typeof (CaulkRiverHelpState));
         }
     }

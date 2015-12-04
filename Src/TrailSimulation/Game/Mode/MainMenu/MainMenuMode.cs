@@ -84,7 +84,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void SeeTopTen()
         {
-            //CurrentState = new CurrentTopTenState(this, MainMenuInfo);
+            //State = new CurrentTopTenState(this, MainMenuInfo);
             SetState(typeof (CurrentTopTenState));
         }
 
@@ -93,7 +93,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void LearnAboutTrail()
         {
-            //CurrentState = new InstructionsState(this, MainMenuInfo);
+            //State = new InstructionsState(this, MainMenuInfo);
             SetState(typeof (InstructionsState));
         }
 
@@ -102,7 +102,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void TravelTheTrail()
         {
-            //CurrentState = new SelectProfessionState(this, MainMenuInfo);
+            //State = new SelectProfessionState(this, MainMenuInfo);
             SetState(typeof (SelectProfessionState));
         }
     }

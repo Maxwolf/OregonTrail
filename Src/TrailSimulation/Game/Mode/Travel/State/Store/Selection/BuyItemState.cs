@@ -36,6 +36,16 @@ namespace TrailSimulation.Game
         /// <param name="gameMode">Current game mode that requested this.</param>
         public BuyItemState(IModeProduct gameMode) : base(gameMode)
         {
+        }
+
+        /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnStatePostCreate()
+        {
+            base.OnStatePostCreate();
+
             // Figure out what we owe already from other store items, then how many of the SimItem we can afford.
             var _currentBalance =
                 (int) (GameSimulationApp.Instance.Vehicle.Balance - UserData.Store.GetTransactionTotalCost);
@@ -61,6 +71,7 @@ namespace TrailSimulation.Game
                 ? $"{Environment.NewLine}You can afford {_purchaseLimit} {UserData.Store.SelectedItem.Name.ToLowerInvariant()}."
                 : $"{Environment.NewLine}You can afford {_purchaseLimit} {UserData.Store.SelectedItem.PluralForm.ToLowerInvariant()} of {UserData.Store.SelectedItem.Name.ToLowerInvariant()}.");
 
+            // Wait for user input...
             _itemBuyText.Append($"How many {UserData.Store.SelectedItem.PluralForm.ToLowerInvariant()} to buy?");
 
             // Set the SimItem to buy text.
@@ -109,7 +120,7 @@ namespace TrailSimulation.Game
 
             // Return to the store menu.
             UserData.Store.SelectedItem = null;
-            ClearState();
+            SetState(typeof (StoreState));
         }
     }
 }

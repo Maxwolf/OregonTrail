@@ -186,6 +186,15 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public virtual void OnStatePostCreate()
+        {
+            // Nothing to see here, move along...
+        }
+
+        /// <summary>
         ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
         /// </summary>
         /// <returns>

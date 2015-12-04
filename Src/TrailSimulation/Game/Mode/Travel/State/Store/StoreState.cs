@@ -24,11 +24,21 @@ namespace TrailSimulation.Game
         /// </summary>
         public StoreState(IModeProduct gameMode) : base(gameMode)
         {
+        }
+
+        /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnStatePostCreate()
+        {
+            base.OnStatePostCreate();
+
             // Will hold representation of this store for rendering.
             _storePrompt = new StringBuilder();
 
-            // Each instance of the store builds up a new instance of the class used to track purchases player would like to make.
-            UserData.Store = new StoreReceipt();
+            // Clear any previously selected store item.
+            UserData.Store.SelectedItem = null;
 
             // Builds up the store in the string builder we created above for rendering.
             UpdateStore();
@@ -137,13 +147,13 @@ namespace TrailSimulation.Game
             _storePrompt.AppendLine("--------------------------------");
             _storePrompt.AppendLine($"{GameSimulationApp.Instance.Trail.CurrentLocation?.Name} General Store");
             _storePrompt.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
-            _storePrompt.Append("--------------------------------");
+            _storePrompt.AppendLine("--------------------------------");
 
-            // Loop through all the river choice commands and print them out for the state.
+            // Loop through all the store assets commands and print them out for the state.
             var storeAssets = new List<SimEntity>(Enum.GetValues(typeof (SimEntity)).Cast<SimEntity>());
             for (var index = 0; index < storeAssets.Count; index++)
             {
-                // Get the current river choice enumeration value we casted into list.
+                // Get the current entity enumeration value we casted into list.
                 var storeItem = storeAssets[index];
 
                 // Skip if store item is cash, person, or vehicle.
@@ -265,7 +275,7 @@ namespace TrailSimulation.Game
             var totalBill = UserData.Store.GetTransactionTotalCost;
             var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
             UserData.Store.Transactions[SimEntity.Cash] = new SimItem(UserData.Store.Transactions[SimEntity.Cash],
-                (int)amountPlayerHas);
+                (int) amountPlayerHas);
 
             // Process all of the pending transactions in the store receipt info object.
             foreach (var transaction in UserData.Store.Transactions)
@@ -281,13 +291,17 @@ namespace TrailSimulation.Game
             if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
                 GameSimulationApp.Instance.ModeManager.ModeCount >= 3)
             {
-                // Establishes configured vehicle onto running simulation, sets first point on trail as visited.
-                // NOTE: Also calculates initial distance to next point!
+                // Calculate initial distance to next point.
                 GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
-            }
 
-            // Remove the store if we make this far!
-            ClearState();
+                // Attach state that will ask if we want to check status or keep driving on trail.
+                SetState(typeof (LookAroundState));
+            }
+            else
+            {
+                // Normal store operation just returns to travel mode menu.
+                ClearState();
+            }
         }
     }
 }

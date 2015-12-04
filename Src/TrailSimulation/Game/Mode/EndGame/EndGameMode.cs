@@ -1,5 +1,4 @@
-﻿using System;
-using TrailSimulation.Core;
+﻿using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
@@ -30,15 +29,6 @@ namespace TrailSimulation.Game
         /// </summary>
         public override void OnModeActivate()
         {
-        }
-
-        /// <summary>
-        ///     Fired when the simulation adds a game mode that is not this mode. Used to execute code in other modes that are not
-        ///     the active mode anymore one last time.
-        /// </summary>
-        public override void OnModeAdded()
-        {
-            throw new NotImplementedException();
         }
     }
 }

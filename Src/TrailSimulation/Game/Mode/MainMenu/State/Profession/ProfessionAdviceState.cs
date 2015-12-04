@@ -43,7 +43,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //parentGameMode.CurrentState = new SelectProfessionState(parentGameMode, UserData);
+            //parentGameMode.State = new SelectProfessionState(parentGameMode, UserData);
             SetState(typeof (SelectProfessionState));
         }
     }

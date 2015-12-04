@@ -26,6 +26,25 @@ namespace TrailSimulation.Game
         /// </summary>
         public SelectProfessionState(IModeProduct gameMode) : base(gameMode)
         {
+        }
+
+        /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public override bool InputFillsBuffer
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnStatePostCreate()
+        {
+            base.OnStatePostCreate();
+
             // Set the profession to default value in case we are retrying this.
             UserData.PlayerProfession = Profession.Banker;
             UserData.StartingMonies = 1600;
@@ -49,24 +68,17 @@ namespace TrailSimulation.Game
                 // Last line should not print new line.
                 if (index == (professions.Count - 1))
                 {
-                    _professionChooser.AppendLine($"  {(int) professionChoice}. {professionChoice.ToDescriptionAttribute()}");
+                    _professionChooser.AppendLine(
+                        $"  {(int) professionChoice}. {professionChoice.ToDescriptionAttribute()}");
                     _professionChooser.AppendLine($"  {professions.Count + 1}. Find out the differences");
                     _professionChooser.Append("     between these choices");
                 }
                 else
                 {
-                    _professionChooser.AppendLine($"  {(int) professionChoice}. {professionChoice.ToDescriptionAttribute()}");
+                    _professionChooser.AppendLine(
+                        $"  {(int) professionChoice}. {professionChoice.ToDescriptionAttribute()}");
                 }
             }
-        }
-
-        /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
-        /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool InputFillsBuffer
-        {
-            get { return true; }
         }
 
         /// <summary>

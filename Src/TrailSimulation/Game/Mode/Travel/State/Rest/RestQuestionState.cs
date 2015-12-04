@@ -41,10 +41,10 @@ namespace TrailSimulation.Game
             // If player rests for more than one day then set the resting state to that, otherwise just go back to travel menu.
             UserData.DaysToRest = parsedInputNumber;
             if (parsedInputNumber > 0)
-                //parentGameMode.CurrentState = new RestingState(parentGameMode, UserData);
+                //parentGameMode.State = new RestingState(parentGameMode, UserData);
                 SetState(typeof (RestingState));
             else
-            //parentGameMode.CurrentState = null;
+            //parentGameMode.State = null;
                 ClearState();
         }
     }

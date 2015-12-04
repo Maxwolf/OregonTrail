@@ -23,6 +23,16 @@ namespace TrailSimulation.Game
         /// </summary>
         public InputPlayerNameState(IModeProduct gameMode) : base(gameMode)
         {
+        }
+
+        /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnStatePostCreate()
+        {
+            base.OnStatePostCreate();
+
             // Pass the game data to the simulation for each new game mode state.
             GameSimulationApp.Instance.SetData(UserData);
 

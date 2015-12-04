@@ -48,5 +48,11 @@ namespace TrailSimulation.Core
         ///     Removes the current state from the active game mode.
         /// </summary>
         void ClearState();
+
+        /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        void OnStatePostCreate();
     }
 }

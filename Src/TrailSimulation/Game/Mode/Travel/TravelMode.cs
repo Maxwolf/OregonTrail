@@ -32,7 +32,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void BuySupplies()
         {
-            SetState(typeof(StoreState));
+            SetState(typeof (StoreState));
         }
 
         /// <summary>
@@ -152,7 +152,11 @@ namespace TrailSimulation.Game
                 AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
 
             if (location.ShoppingAllowed)
+            {
+                // Each instance of the store builds up a new instance of the class used to track purchases player would like to make.
+                UserData.Store = new StoreReceipt();
                 AddCommand(BuySupplies, TravelCommands.BuySupplies);
+            }
 
             if (location.HuntingAllowed)
                 AddCommand(HuntForFood, TravelCommands.HuntForFood);
@@ -195,9 +199,6 @@ namespace TrailSimulation.Game
         {
             // Update menu with proper choices.
             UpdateLocation();
-
-            // Attach state that will ask if we want to check status or keep driving on trail.
-            SetState(typeof (LookAroundState));
         }
 
         /// <summary>

@@ -23,6 +23,16 @@ namespace TrailSimulation.Game
         /// </summary>
         public ChangeRationsState(IModeProduct gameMode) : base(gameMode)
         {
+        }
+
+        /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnStatePostCreate()
+        {
+            base.OnStatePostCreate();
+
             _ration = new StringBuilder();
             _ration.Append($"{Environment.NewLine}Change food rations{Environment.NewLine}");
             _ration.Append(

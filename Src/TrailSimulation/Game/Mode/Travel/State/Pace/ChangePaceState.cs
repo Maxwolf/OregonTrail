@@ -23,6 +23,16 @@ namespace TrailSimulation.Game
         /// </summary>
         public ChangePaceState(IModeProduct gameMode) : base(gameMode)
         {
+        }
+
+        /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnStatePostCreate()
+        {
+            base.OnStatePostCreate();
+
             _pace = new StringBuilder();
             _pace.Append($"{Environment.NewLine}Change pace{Environment.NewLine}");
             _pace.Append(

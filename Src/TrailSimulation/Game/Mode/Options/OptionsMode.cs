@@ -64,7 +64,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void ReturnToMainMenu()
         {
-            //CurrentState = null;
+            //State = null;
             ClearState();
             RemoveModeNextTick();
         }
@@ -75,7 +75,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void EraseTombstoneMessages()
         {
-            //CurrentState = new EraseTombstoneState(this, _optionInfo);
+            //State = new EraseTombstoneState(this, _optionInfo);
             SetState(typeof (EraseTombstoneState));
         }
 
@@ -84,7 +84,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void EraseCurrentTopTen()
         {
-            //CurrentState = new EraseCurrentTopTenState(this, _optionInfo);
+            //State = new EraseCurrentTopTenState(this, _optionInfo);
             SetState(typeof (EraseCurrentTopTenState));
         }
 
@@ -93,7 +93,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void SeeOriginalTopTen()
         {
-            //CurrentState = new OriginalTopTenState(this, _optionInfo);
+            //State = new OriginalTopTenState(this, _optionInfo);
             SetState(typeof (OriginalTopTenState));
         }
     }

@@ -35,7 +35,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //parentGameMode.CurrentState = new FerryHelpState(parentGameMode, UserData);
+            //parentGameMode.State = new FerryHelpState(parentGameMode, UserData);
             SetState(typeof (FerryHelpState));
         }
     }

@@ -35,15 +35,6 @@ namespace TrailSimulation.Game
         /// </summary>
         public DriveState(IModeProduct gameMode) : base(gameMode)
         {
-            // We don't create it in the constructor, will update with ticks.
-            _drive = new StringBuilder();
-
-            // Animated sway bar.
-            _marqueeBar = new MarqueeBar();
-            _swayBarText = _marqueeBar.Step();
-
-            // When starting the mode we automatically begin linear progression of time.
-            GameSimulationApp.Instance.Vehicle.Drive();
         }
 
         /// <summary>
@@ -53,6 +44,25 @@ namespace TrailSimulation.Game
         public override bool InputFillsBuffer
         {
             get { return false; }
+        }
+
+        /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnStatePostCreate()
+        {
+            base.OnStatePostCreate();
+
+            // We don't create it in the constructor, will update with ticks.
+            _drive = new StringBuilder();
+
+            // Animated sway bar.
+            _marqueeBar = new MarqueeBar();
+            _swayBarText = _marqueeBar.Step();
+
+            // When starting the mode we automatically begin linear progression of time.
+            GameSimulationApp.Instance.Vehicle.Drive();
         }
 
         /// <summary>

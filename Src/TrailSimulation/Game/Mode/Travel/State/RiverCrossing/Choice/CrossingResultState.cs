@@ -47,24 +47,6 @@ namespace TrailSimulation.Game
         /// </summary>
         public CrossingResultState(IModeProduct gameMode) : base(gameMode)
         {
-            // Create the string builder for holding all our text about river crossing as it happens.
-            _crossingResult = new StringBuilder();
-
-            // Animated sway bar.
-            _marqueeBar = new MarqueeBar();
-            _swayBarText = _marqueeBar.Step();
-
-            // Sets the crossing percentage to zero.
-            _riverCrossingOfTotalWidth = 0;
-            _finishedCrossingRiver = false;
-
-            // Park the vehicle if it is not somehow by now.
-            if (GameSimulationApp.Instance.Vehicle.Status != VehicleStatus.Stopped)
-                GameSimulationApp.Instance.Vehicle.Park();
-
-            // Complain if river info is null.
-            if (UserData.River == null)
-                throw new ArgumentException("Set state to crossing result when river info in user data is null!");
         }
 
         /// <summary>
@@ -84,6 +66,34 @@ namespace TrailSimulation.Game
         public override bool AllowInput
         {
             get { return _finishedCrossingRiver; }
+        }
+
+        /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnStatePostCreate()
+        {
+            base.OnStatePostCreate();
+
+            // Create the string builder for holding all our text about river crossing as it happens.
+            _crossingResult = new StringBuilder();
+
+            // Animated sway bar.
+            _marqueeBar = new MarqueeBar();
+            _swayBarText = _marqueeBar.Step();
+
+            // Sets the crossing percentage to zero.
+            _riverCrossingOfTotalWidth = 0;
+            _finishedCrossingRiver = false;
+
+            // Park the vehicle if it is not somehow by now.
+            if (GameSimulationApp.Instance.Vehicle.Status != VehicleStatus.Stopped)
+                GameSimulationApp.Instance.Vehicle.Park();
+
+            // Complain if river info is null.
+            if (UserData.River == null)
+                throw new ArgumentException("Set state to crossing result when river info in user data is null!");
         }
 
         /// <summary>

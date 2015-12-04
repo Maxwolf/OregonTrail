@@ -26,6 +26,16 @@ namespace TrailSimulation.Game
         /// </summary>
         public RiverCrossState(IModeProduct gameMode) : base(gameMode)
         {
+        }
+
+        /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnStatePostCreate()
+        {
+            base.OnStatePostCreate();
+
             // Header text for above menu comes from river crossing info object.
             _riverInfo = new StringBuilder();
             _riverInfo.AppendLine("--------------------------------");

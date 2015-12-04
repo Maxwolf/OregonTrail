@@ -40,7 +40,7 @@ namespace TrailSimulation.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             UserData.Store.SelectedItem = null;
-            ClearState();
+            SetState(typeof (StoreState));
         }
     }
 }

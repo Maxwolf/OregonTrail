@@ -32,9 +32,6 @@ namespace TrailSimulation.Game
         /// </summary>
         public StoreAdviceState(IModeProduct gameMode) : base(gameMode)
         {
-            _hasReadAdvice = false;
-            _storeHelp = new StringBuilder();
-            UpdateAdvice();
         }
 
         /// <summary>
@@ -44,6 +41,19 @@ namespace TrailSimulation.Game
         public override bool InputFillsBuffer
         {
             get { return false; }
+        }
+
+        /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnStatePostCreate()
+        {
+            base.OnStatePostCreate();
+
+            _hasReadAdvice = false;
+            _storeHelp = new StringBuilder();
+            UpdateAdvice();
         }
 
         /// <summary>
@@ -118,7 +128,7 @@ namespace TrailSimulation.Game
                 return;
 
             _hasReadAdvice = true;
-            ClearState();
+            SetState(typeof (StoreState));
         }
     }
 }
