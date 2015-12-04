@@ -36,8 +36,8 @@ namespace TrailSimulation.Game
         {
             var _prompt = new StringBuilder();
             _prompt.AppendLine($"{Environment.NewLine}The ferry operator says that");
-            _prompt.AppendLine($"he will charge you {UserData.RiverInfo.FerryCost.ToString("C2")} and");
-            _prompt.AppendLine($"that you will have to wait {UserData.RiverInfo.FerryDelayInDays}");
+            _prompt.AppendLine($"he will charge you {UserData.River.FerryCost.ToString("C2")} and");
+            _prompt.AppendLine($"that you will have to wait {UserData.River.FerryDelayInDays}");
             _prompt.Append("days. Are you willing to do this?");
             return _prompt.ToString();
         }
@@ -55,7 +55,7 @@ namespace TrailSimulation.Game
                 case DialogResponse.Yes:
                     // Check if you have enough monies to use the ferry.
                     var oldMoney = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash];
-                    if (UserData.RiverInfo.FerryCost > oldMoney.TotalValue)
+                    if (UserData.River.FerryCost > oldMoney.TotalValue)
                     {
                         // Tell the player they do not have enough money to cross the river using the ferry.
                         SetState(typeof (FerryNoMoniesState));
@@ -64,15 +64,15 @@ namespace TrailSimulation.Game
 
                     // Remove the monies from the player for ferry trip.
                     GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash] = new SimItem(oldMoney,
-                        (int) (oldMoney.TotalValue - UserData.RiverInfo.FerryCost));
+                        (int) (oldMoney.TotalValue - UserData.River.FerryCost));
 
                     // Clear out the cost for the ferry since it has been paid for now.
-                    UserData.RiverInfo.FerryCost = 0;
+                    UserData.River.FerryCost = 0;
 
                     // Check if the ferry operator wants player to wait a certain amount of days before they can cross.
-                    if (UserData.RiverInfo.FerryDelayInDays > 0)
+                    if (UserData.River.FerryDelayInDays > 0)
                     {
-                        UserData.DaysToRest = UserData.RiverInfo.FerryDelayInDays;
+                        UserData.DaysToRest = UserData.River.FerryDelayInDays;
                         SetState(typeof (RestingState));
                         return;
                     }
@@ -80,7 +80,7 @@ namespace TrailSimulation.Game
                     SetState(typeof (CrossingResultState));
                     break;
                 case DialogResponse.No:
-                    UserData.RiverInfo.CrossingType = RiverCrossChoice.None;
+                    UserData.River.CrossingType = RiverCrossChoice.None;
                     SetState(typeof (RiverCrossState));
                     break;
                 case DialogResponse.Custom:

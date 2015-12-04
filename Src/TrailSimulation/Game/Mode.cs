@@ -35,13 +35,6 @@ namespace TrailSimulation.Game
         EndGame,
 
         /// <summary>
-        ///     Facilitates purchasing items from a list, prices can change per store as there is no central lookup for this
-        ///     information.
-        /// </summary>
-        [SimulationMode(typeof (StoreMode))]
-        Store,
-
-        /// <summary>
         ///     Facilitates trading items with a fake AI vehicle, a list is created and values randomly selected from it for
         ///     possible trades.
         /// </summary>

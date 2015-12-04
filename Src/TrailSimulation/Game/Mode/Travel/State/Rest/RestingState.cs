@@ -62,10 +62,10 @@ namespace TrailSimulation.Game
                 return;
 
             // Check if we are at a river crossing and need to subtract from ferry days also.
-            if (UserData.RiverInfo != null &&
-                UserData.RiverInfo.FerryDelayInDays > 0 &&
+            if (UserData.River != null &&
+                UserData.River.FerryDelayInDays > 0 &&
                 GameSimulationApp.Instance.Trail.CurrentLocation.Category == LocationCategory.RiverCrossing)
-                UserData.RiverInfo.FerryDelayInDays--;
+                UserData.River.FerryDelayInDays--;
 
             // Decrease number of days needed to rest, increment number of days rested.
             UserData.DaysToRest--;
@@ -161,10 +161,10 @@ namespace TrailSimulation.Game
                     UserData.DaysToRest = 0;
 
                     // Player might be crossing a river, so we check if they made a decision and are waiting for ferry operator.
-                    if (UserData.RiverInfo != null &&
-                        UserData.RiverInfo.CrossingType == RiverCrossChoice.Ferry &&
-                        UserData.RiverInfo.FerryDelayInDays <= 0 &&
-                        UserData.RiverInfo.FerryCost <= 0)
+                    if (UserData.River != null &&
+                        UserData.River.CrossingType == RiverCrossChoice.Ferry &&
+                        UserData.River.FerryDelayInDays <= 0 &&
+                        UserData.River.FerryCost <= 0)
                     {
                         // If player was waiting for ferry operator to let them cross we will jump right to that.
                         SetState(typeof (CrossingResultState));

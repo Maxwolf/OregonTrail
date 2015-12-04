@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
@@ -9,7 +8,7 @@ namespace TrailSimulation.Game
     ///     the game mode for the store is removed all the transactions will be completed and the players vehicle updated and
     ///     the store items removed, and balances of both updated respectfully.
     /// </summary>
-    public sealed class StoreInfo : ModeInfo
+    public sealed class StoreReceipt
     {
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
@@ -17,9 +16,9 @@ namespace TrailSimulation.Game
         private Dictionary<SimEntity, SimItem> _totalTransactions;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.StoreInfo" /> class.
+        ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
-        public StoreInfo()
+        public StoreReceipt()
         {
             _totalTransactions = new Dictionary<SimEntity, SimItem>(Vehicle.DefaultInventory);
         }
@@ -37,25 +36,31 @@ namespace TrailSimulation.Game
         /// </summary>
         internal SimItem SelectedItem { get; set; }
 
-        public void ClearTransactions()
-        {
-            _totalTransactions.Clear();
-        }
-
         /// <summary>
         ///     Returns the total cost of all the transactions this receipt information object represents.
         /// </summary>
-        public float GetTransactionTotalCost()
+        public float GetTransactionTotalCost
         {
-            // Loop through all transactions and multiply amount by cost.
-            float totalCost = 0;
-            foreach (var item in _totalTransactions)
+            get
             {
-                totalCost += item.Value.Quantity*item.Value.Cost;
-            }
+                // Loop through all transactions and multiply amount by cost.
+                float totalCost = 0;
+                foreach (var item in _totalTransactions)
+                {
+                    totalCost += item.Value.Quantity*item.Value.Cost;
+                }
 
-            // Cast to unsigned integer and return.
-            return totalCost;
+                // Cast to unsigned integer and return.
+                return totalCost;
+            }
+        }
+
+        /// <summary>
+        ///     Cleans out all the transactions, if they have not been processed yet then they will be lost forever.
+        /// </summary>
+        public void ClearTransactions()
+        {
+            _totalTransactions.Clear();
         }
 
         /// <summary>

@@ -88,7 +88,6 @@ namespace TrailSimulation.Game
             {
                 return LocationIndex <= 0 &&
                        GameSimulationApp.Instance.TotalTurns <= 0 &&
-                       GameSimulationApp.Instance.ModeManager.RunCount[Mode.Store] <= 1 &&
                        GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Stopped;
             }
         }

@@ -34,8 +34,8 @@ namespace TrailSimulation.Game
             _riverInfo.AppendLine("--------------------------------");
             _riverInfo.AppendLine(
                 $"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather.ToDescriptionAttribute()}");
-            _riverInfo.AppendLine($"River width: {UserData.RiverInfo.RiverWidth.ToString("N0")} feet");
-            _riverInfo.AppendLine($"River depth: {UserData.RiverInfo.RiverDepth.ToString("N0")} feet");
+            _riverInfo.AppendLine($"River width: {UserData.River.RiverWidth.ToString("N0")} feet");
+            _riverInfo.AppendLine($"River depth: {UserData.River.RiverDepth.ToString("N0")} feet");
             _riverInfo.AppendLine("--------------------------------");
             _riverInfo.AppendLine($"You may:{Environment.NewLine}");
 
@@ -89,21 +89,21 @@ namespace TrailSimulation.Game
             switch (riverChoice)
             {
                 case RiverCrossChoice.Ford:
-                    UserData.RiverInfo.CrossingType = RiverCrossChoice.Ford;
+                    UserData.River.CrossingType = RiverCrossChoice.Ford;
                     SetState(typeof (CrossingResultState));
                     break;
                 case RiverCrossChoice.Float:
-                    UserData.RiverInfo.CrossingType = RiverCrossChoice.Float;
+                    UserData.River.CrossingType = RiverCrossChoice.Float;
                     SetState(typeof (CrossingResultState));
                     break;
                 case RiverCrossChoice.Ferry:
-                    UserData.RiverInfo.CrossingType = RiverCrossChoice.Ferry;
+                    UserData.River.CrossingType = RiverCrossChoice.Ferry;
                     SetState(typeof (UseFerryConfirmState));
                     break;
                 case RiverCrossChoice.WaitForWeather:
                     // Resting by a river only increments a single day at a time.
                     UserData.DaysToRest = 1;
-                    UserData.RiverInfo.CrossingType = RiverCrossChoice.WaitForWeather;
+                    UserData.River.CrossingType = RiverCrossChoice.WaitForWeather;
                     SetState(typeof (RestingState));
                     break;
                 case RiverCrossChoice.GetMoreInformation:

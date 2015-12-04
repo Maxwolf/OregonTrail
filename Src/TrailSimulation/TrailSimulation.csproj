@@ -56,6 +56,7 @@
     <Compile Include="Game\Mode\Travel\State\ForkInRoad\ForkInRoadState.cs" />
     <Compile Include="Game\Mode\Travel\State\RiverCrossing\Choice\RiverCrossChoice.cs" />
     <Compile Include="Game\Mode\Travel\State\RiverCrossing\RiverGenerator.cs" />
+    <Compile Include="Game\Mode\Travel\State\Store\Selection\StoreReceipt.cs" />
     <Compile Include="Game\Module\Director\EventFactory.cs" />
     <Compile Include="Game\Mode\EndGame\EndGameCommands.cs" />
     <Compile Include="Game\Mode\EndGame\EndGameInfo.cs" />
@@ -137,12 +138,11 @@
     <Compile Include="Game\Mode\Options\OptionCommands.cs" />
     <Compile Include="Game\Mode\Options\OptionInfo.cs" />
     <Compile Include="Game\Mode\Options\OptionsMode.cs" />
-    <Compile Include="Game\Mode\Store\State\BuyItemState.cs" />
-    <Compile Include="Game\Mode\Store\State\MissingItemState.cs" />
-    <Compile Include="Game\Mode\Store\StoreAdviceState.cs" />
-    <Compile Include="Game\Mode\Store\StoreCommands.cs" />
-    <Compile Include="Game\Mode\Store\State\StoreDebtState.cs" />
-    <Compile Include="Game\Mode\Store\StoreInfo.cs" />
+    <Compile Include="Game\Mode\Travel\State\Store\Selection\BuyItemState.cs" />
+    <Compile Include="Game\Mode\Travel\State\Store\Selection\MissingItemState.cs" />
+    <Compile Include="Game\Mode\Travel\State\Store\Help\StoreAdviceState.cs" />
+    <Compile Include="Game\Mode\Travel\State\Store\StoreCommand.cs" />
+    <Compile Include="Game\Mode\Travel\State\Store\Help\StoreDebtState.cs" />
     <Compile Include="Game\Mode\Trade\TradingCommands.cs" />
     <Compile Include="Game\Mode\Travel\State\ChangeRationsState.cs" />
     <Compile Include="Game\Mode\Travel\State\Pace\ChangePaceState.cs" />
@@ -171,7 +171,7 @@
     <Compile Include="Entity\Person\Person.cs" />
     <Compile Include="Game\Mode\Hunting\HuntingMode.cs" />
     <Compile Include="Game\Mode\Travel\State\RiverCrossing\RiverCrossState.cs" />
-    <Compile Include="Game\Mode\Store\StoreMode.cs" />
+    <Compile Include="Game\Mode\Travel\State\Store\StoreState.cs" />
     <Compile Include="Game\Mode\Trade\TradingMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entity\Vehicle\Vehicle.cs" />

@@ -8,8 +8,8 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Allows the player to purchase a number of oxen to pull their vehicle.
     /// </summary>
-    [RequiredMode(Mode.Store)]
-    public sealed class BuyItemState : StateProduct<StoreInfo>
+    [RequiredMode(Mode.Travel)]
+    public sealed class BuyItemState : StateProduct<TravelInfo>
     {
         /// <summary>
         ///     Help text to ask the player a question about how many of the particular SimItem they would like to purchase.
@@ -38,33 +38,33 @@ namespace TrailSimulation.Game
         {
             // Figure out what we owe already from other store items, then how many of the SimItem we can afford.
             var _currentBalance =
-                (int) (GameSimulationApp.Instance.Vehicle.Balance - UserData.GetTransactionTotalCost());
-            _purchaseLimit = (int) (_currentBalance/UserData.SelectedItem.Cost);
+                (int) (GameSimulationApp.Instance.Vehicle.Balance - UserData.Store.GetTransactionTotalCost);
+            _purchaseLimit = (int) (_currentBalance/UserData.Store.SelectedItem.Cost);
 
             // Prevent negative numbers and set credit limit to zero if it drops below that.
             if (_purchaseLimit < 0)
                 _purchaseLimit = 0;
 
             // Set the credit limit to be the carry limit if they player has lots of monies and can buy many, we must limit them!
-            if (_purchaseLimit > UserData.SelectedItem.MaxQuantity)
-                _purchaseLimit = UserData.SelectedItem.MaxQuantity;
+            if (_purchaseLimit > UserData.Store.SelectedItem.MaxQuantity)
+                _purchaseLimit = UserData.Store.SelectedItem.MaxQuantity;
 
             // Add some information about how many you can buy and total amount you can carry.
             _itemBuyText = new StringBuilder();
 
             // Change up question asked if plural form matches the name of the SimItem.
-            var pluralMatchesName = UserData.SelectedItem.PluralForm.Equals(UserData.SelectedItem.Name,
+            var pluralMatchesName = UserData.Store.SelectedItem.PluralForm.Equals(UserData.Store.SelectedItem.Name,
                 StringComparison.InvariantCultureIgnoreCase);
 
             // Print text about purchasing the selected item.
             _itemBuyText.AppendLine(pluralMatchesName
-                ? $"{Environment.NewLine}You can afford {_purchaseLimit} {UserData.SelectedItem.Name.ToLowerInvariant()}."
-                : $"{Environment.NewLine}You can afford {_purchaseLimit} {UserData.SelectedItem.PluralForm.ToLowerInvariant()} of {UserData.SelectedItem.Name.ToLowerInvariant()}.");
+                ? $"{Environment.NewLine}You can afford {_purchaseLimit} {UserData.Store.SelectedItem.Name.ToLowerInvariant()}."
+                : $"{Environment.NewLine}You can afford {_purchaseLimit} {UserData.Store.SelectedItem.PluralForm.ToLowerInvariant()} of {UserData.Store.SelectedItem.Name.ToLowerInvariant()}.");
 
-            _itemBuyText.Append($"How many {UserData.SelectedItem.PluralForm.ToLowerInvariant()} to buy?");
+            _itemBuyText.Append($"How many {UserData.Store.SelectedItem.PluralForm.ToLowerInvariant()} to buy?");
 
             // Set the SimItem to buy text.
-            _itemToBuy = UserData.SelectedItem;
+            _itemToBuy = UserData.Store.SelectedItem;
         }
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace TrailSimulation.Game
             // If the number is zero remove the purchase state for this SimItem and back to store menu.
             if (parsedInputNumber <= 0)
             {
-                UserData.RemoveItem(_itemToBuy);
-                UserData.SelectedItem = null;
+                UserData.Store.RemoveItem(_itemToBuy);
+                UserData.Store.SelectedItem = null;
                 ClearState();
                 return;
             }
@@ -105,10 +105,10 @@ namespace TrailSimulation.Game
                 return;
 
             // Add the SimItem the player wants in given amount 
-            UserData.AddItem(_itemToBuy, parsedInputNumber);
+            UserData.Store.AddItem(_itemToBuy, parsedInputNumber);
 
             // Return to the store menu.
-            UserData.SelectedItem = null;
+            UserData.Store.SelectedItem = null;
             ClearState();
         }
     }

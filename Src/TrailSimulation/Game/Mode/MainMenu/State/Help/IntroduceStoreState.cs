@@ -35,8 +35,8 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
+            // Closes main menu and drops back to travel mode at the bottom level which should have store already open and ready.
             ParentMode.RemoveModeNextTick();
-            GameSimulationApp.Instance.ModeManager.AddMode(Mode.Store);
         }
     }
 }

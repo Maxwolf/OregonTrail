@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 using TrailSimulation.Core;
 
@@ -9,8 +8,8 @@ namespace TrailSimulation.Game
     ///     If the player cannot afford to leave the store because they have attempted to purchase more items than they are
     ///     capable of carrying and or purchasing this will be displayed to inform the user they need to pay up.
     /// </summary>
-    [RequiredMode(Mode.Store)]
-    public sealed class StoreDebtState : DialogState<StoreInfo>
+    [RequiredMode(Mode.Travel)]
+    public sealed class StoreDebtState : DialogState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -26,7 +25,7 @@ namespace TrailSimulation.Game
         {
             var storeDebt = new StringBuilder();
             storeDebt.Append(
-                $"Whoa there partner! I see you got {UserData.Transactions.Count()} items to buy that are worth {UserData.GetTransactionTotalCost().ToString("C2")}.{Environment.NewLine}");
+                $"Whoa there partner! I see you got {UserData.Store.Transactions.Count} items to buy that are worth {UserData.Store.GetTransactionTotalCost.ToString("C2")}.{Environment.NewLine}");
             storeDebt.Append(
                 $"You only got {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")}! Put some items back in order to leave the store...{Environment.NewLine}");
             return storeDebt.ToString();

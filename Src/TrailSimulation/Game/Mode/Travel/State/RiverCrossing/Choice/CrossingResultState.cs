@@ -63,7 +63,7 @@ namespace TrailSimulation.Game
                 GameSimulationApp.Instance.Vehicle.Park();
 
             // Complain if river info is null.
-            if (UserData.RiverInfo == null)
+            if (UserData.River == null)
                 throw new ArgumentException("Set state to crossing result when river info in user data is null!");
         }
 
@@ -105,9 +105,9 @@ namespace TrailSimulation.Game
             _crossingResult.AppendLine(
                 $"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather.ToDescriptionAttribute()}");
             _crossingResult.AppendLine($"Health: {GameSimulationApp.Instance.Vehicle.RepairLevel}");
-            _crossingResult.AppendLine($"Crossing By: {UserData.RiverInfo.CrossingType}");
+            _crossingResult.AppendLine($"Crossing By: {UserData.River.CrossingType}");
             _crossingResult.AppendLine(
-                $"River width: {UserData.RiverInfo.RiverWidth.ToString("N0")} feet");
+                $"River width: {UserData.River.RiverWidth.ToString("N0")} feet");
             _crossingResult.AppendLine(
                 $"River crossed: {_riverCrossingOfTotalWidth.ToString("N0")} feet");
             _crossingResult.AppendLine("--------------------------------");
@@ -144,18 +144,18 @@ namespace TrailSimulation.Game
             _swayBarText = _marqueeBar.Step();
 
             // Increment the amount we have floated over the river.
-            _riverCrossingOfTotalWidth += GameSimulationApp.Instance.Random.Next(1, UserData.RiverInfo.RiverWidth);
+            _riverCrossingOfTotalWidth += GameSimulationApp.Instance.Random.Next(1, UserData.River.RiverWidth);
 
             // Check to see if we will finish crossing river before crossing more.
-            if (_riverCrossingOfTotalWidth >= UserData.RiverInfo.RiverWidth)
+            if (_riverCrossingOfTotalWidth >= UserData.River.RiverWidth)
             {
-                _riverCrossingOfTotalWidth = UserData.RiverInfo.RiverWidth;
+                _riverCrossingOfTotalWidth = UserData.River.RiverWidth;
                 _finishedCrossingRiver = true;
                 return;
             }
 
             // Attempt to throw a random event related to some failure happening with river crossing.
-            switch (UserData.RiverInfo.CrossingType)
+            switch (UserData.River.CrossingType)
             {
                 case RiverCrossChoice.None:
                     break;
@@ -185,7 +185,7 @@ namespace TrailSimulation.Game
         public override void OnInputBufferReturned(string input)
         {
             // Skip if we are still crossing the river.
-            if (_riverCrossingOfTotalWidth < UserData.RiverInfo.RiverWidth)
+            if (_riverCrossingOfTotalWidth < UserData.River.RiverWidth)
                 return;
 
             // River crossing takes you a day.

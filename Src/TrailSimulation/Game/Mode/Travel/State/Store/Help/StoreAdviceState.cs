@@ -8,8 +8,8 @@ namespace TrailSimulation.Game
     ///     Offers up some free information about what items are important to the player and what they mean for the during the
     ///     course of the simulation.
     /// </summary>
-    [RequiredMode(Mode.Store)]
-    public sealed class StoreAdviceState : StateProduct<StoreInfo>
+    [RequiredMode(Mode.Travel)]
+    public sealed class StoreAdviceState : StateProduct<TravelInfo>
     {
         /// <summary>
         ///     Keeps track if the player has read all the advice and this dialog needs to be closed.
@@ -26,6 +26,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private int adviceCount;
 
+        /// <summary>
+        ///     Offers up some free information about what items are important to the player and what they mean for the during the
+        ///     course of the simulation.
+        /// </summary>
         public StoreAdviceState(IModeProduct gameMode) : base(gameMode)
         {
             _hasReadAdvice = false;
@@ -88,6 +92,10 @@ namespace TrailSimulation.Game
             return _storeHelp.ToString();
         }
 
+        /// <summary>
+        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        /// </summary>
+        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
             // On the last advice panel we flip a normal boolean to know we are definitely done here.

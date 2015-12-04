@@ -318,19 +318,28 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Called after the mode has been added to list of modes and made active.
         /// </summary>
-        public abstract void OnModePostCreate();
+        public virtual void OnModePostCreate()
+        {
+            // Nothing to see here, move along...
+        }
 
         /// <summary>
         ///     Called when the mode manager in simulation makes this mode the currently active game mode. Depending on order of
         ///     modes this might not get called until the mode is actually ticked by the simulation.
         /// </summary>
-        public abstract void OnModeActivate();
+        public virtual void OnModeActivate()
+        {
+            // Nothing to see here, move along...
+        }
 
         /// <summary>
         ///     Fired when the simulation adds a game mode that is not this mode. Used to execute code in other modes that are not
         ///     the active mode anymore one last time.
         /// </summary>
-        public abstract void OnModeAdded();
+        public virtual void OnModeAdded()
+        {
+            // Nothing to see here, move along...
+        }
 
         public override int Compare(IModeProduct x, IModeProduct y)
         {

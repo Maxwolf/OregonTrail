@@ -9,8 +9,8 @@ namespace TrailSimulation.Game
     ///     continue. This is used in the new game mode to force the player to have at least one oxen to pull their vehicle in
     ///     order to start the simulation.
     /// </summary>
-    [RequiredMode(Mode.Store)]
-    public sealed class MissingItemState : DialogState<StoreInfo>
+    [RequiredMode(Mode.Travel)]
+    public sealed class MissingItemState : DialogState<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -27,7 +27,7 @@ namespace TrailSimulation.Game
             var missingItem = new StringBuilder();
             missingItem.AppendLine(
                 $"{Environment.NewLine}You need to purchase at {Environment.NewLine}" +
-                $"least a single {UserData.SelectedItem.DelineatingUnit} in order {Environment.NewLine}" +
+                $"least a single {UserData.Store.SelectedItem.DelineatingUnit} in order {Environment.NewLine}" +
                 $"to begin your trip!{Environment.NewLine}");
             return missingItem.ToString();
         }
@@ -39,7 +39,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            UserData.SelectedItem = null;
+            UserData.Store.SelectedItem = null;
             ClearState();
         }
     }

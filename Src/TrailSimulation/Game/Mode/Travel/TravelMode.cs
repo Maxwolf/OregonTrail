@@ -32,7 +32,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void BuySupplies()
         {
-            GameSimulationApp.Instance.ModeManager.AddMode(Mode.Store);
+            SetState(typeof(StoreState));
         }
 
         /// <summary>
