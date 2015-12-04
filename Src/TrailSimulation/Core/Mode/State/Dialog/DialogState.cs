@@ -26,7 +26,6 @@ namespace TrailSimulation.Core
         protected DialogState(IModeProduct gameMode) : base(gameMode)
         {
             _prompt = new StringBuilder();
-            StateActivate();
         }
 
         /// <summary>
@@ -60,16 +59,13 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
         /// </summary>
-        protected abstract string OnDialogPrompt();
-
-        /// <summary>
-        ///     Fired when the constructor is called on the dialog state class. Collects string data that will be sent back to
-        ///     simulation as text user interface (TUI).
-        /// </summary>
-        private void StateActivate()
+        public override void OnStatePostCreate()
         {
+            base.OnStatePostCreate();
+
             // Build up the dialog prompt using abstract methods to get text to show user.
             _prompt.Append(OnDialogPrompt());
 
@@ -86,6 +82,11 @@ namespace TrailSimulation.Core
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        /// <summary>
+        ///     Fired when dialog prompt is attached to active game mode and would like to have a string returned.
+        /// </summary>
+        protected abstract string OnDialogPrompt();
 
         /// <summary>
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question

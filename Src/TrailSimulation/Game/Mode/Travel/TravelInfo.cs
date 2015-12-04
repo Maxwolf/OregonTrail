@@ -15,12 +15,12 @@ namespace TrailSimulation.Game
         ///     Reference for any river information that we might need to be holding when we encounter one it will be generated and
         ///     this object filled with needed data that can be accessed by the other states as we attach them.
         /// </summary>
-        public RiverGenerator River { get; internal set; }
+        public RiverGenerator River { get; set; }
 
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made when the player visits a store.
         /// </summary>
-        public StoreReceipt Store { get; internal set; }
+        public StoreReceipt Store { get; set; }
 
         /// <summary>
         ///     Used when the player is traveling on the trail between locations. Also known as drive state in travel game mode.

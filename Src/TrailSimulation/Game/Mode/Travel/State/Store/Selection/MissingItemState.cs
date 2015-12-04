@@ -29,6 +29,7 @@ namespace TrailSimulation.Game
                 $"{Environment.NewLine}You need to purchase at {Environment.NewLine}" +
                 $"least a single {UserData.Store.SelectedItem.DelineatingUnit} in order {Environment.NewLine}" +
                 $"to begin your trip!{Environment.NewLine}");
+
             return missingItem.ToString();
         }
 

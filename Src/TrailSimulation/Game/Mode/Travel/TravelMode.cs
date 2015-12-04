@@ -154,7 +154,10 @@ namespace TrailSimulation.Game
             if (location.ShoppingAllowed)
             {
                 // Each instance of the store builds up a new instance of the class used to track purchases player would like to make.
-                UserData.Store = new StoreReceipt();
+                if (location.Status == LocationStatus.Unreached &&
+                    location.Category == LocationCategory.Settlement)
+                    UserData.Store = new StoreReceipt();
+
                 AddCommand(BuySupplies, TravelCommands.BuySupplies);
             }
 
@@ -181,6 +184,14 @@ namespace TrailSimulation.Game
         {
             // Update menu with proper choices.
             UpdateLocation();
+
+            // Starting store that is shown after setting up player names, profession, and starting month.
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation)
+            {
+                // Calculate initial distance to next point.
+                GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
+                SetState(typeof (StoreState));
+            }
         }
 
         /// <summary>

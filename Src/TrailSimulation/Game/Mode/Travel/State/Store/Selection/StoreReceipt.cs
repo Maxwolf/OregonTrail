@@ -20,8 +20,14 @@ namespace TrailSimulation.Game
         /// </summary>
         public StoreReceipt()
         {
+            // Copy over reference list of default inventory items the store will have.
             _totalTransactions = new Dictionary<SimEntity, SimItem>(Vehicle.DefaultInventory);
         }
+
+        /// <summary>
+        ///     Item which the player does not have enough of or is missing.
+        /// </summary>
+        public SimItem SelectedItem { get; set; }
 
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
@@ -30,11 +36,6 @@ namespace TrailSimulation.Game
         {
             get { return _totalTransactions; }
         }
-
-        /// <summary>
-        ///     Item which the player does not have enough of or is missing.
-        /// </summary>
-        internal SimItem SelectedItem { get; set; }
 
         /// <summary>
         ///     Returns the total cost of all the transactions this receipt information object represents.

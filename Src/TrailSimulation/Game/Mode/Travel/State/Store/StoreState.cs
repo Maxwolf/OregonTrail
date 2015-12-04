@@ -37,9 +37,6 @@ namespace TrailSimulation.Game
             // Will hold representation of this store for rendering.
             _storePrompt = new StringBuilder();
 
-            // Clear any previously selected store item.
-            UserData.Store.SelectedItem = null;
-
             // Builds up the store in the string builder we created above for rendering.
             UpdateStore();
 
@@ -168,10 +165,10 @@ namespace TrailSimulation.Game
                         UserData.Store.Transactions[storeItem].ToString(GameSimulationApp.Instance.Trail.IsFirstLocation));
 
                 // Last line should not print new line.
-                if (index == (storeAssets.Count - 1))
+                if (index == (storeAssets.Count - 4))
                 {
                     _storePrompt.AppendLine($"  {(int) storeItem}. {storeTag}");
-                    _storePrompt.AppendLine($"  {storeAssets.Count + 1}. Leave store");
+                    _storePrompt.AppendLine($"  {storeAssets.Count - 2}. Leave store");
                 }
                 else
                 {
@@ -180,7 +177,7 @@ namespace TrailSimulation.Game
             }
 
             // Footer text for below menu.
-            _storePrompt.AppendLine($"{Environment.NewLine}--------------------------------");
+            _storePrompt.AppendLine("--------------------------------");
 
             // Calculate how much monies the player has and the total amount of monies owed to store for pending transaction receipt.
             var totalBill = UserData.Store.GetTransactionTotalCost;
@@ -207,12 +204,6 @@ namespace TrailSimulation.Game
             SimEntity selectedItem;
             Enum.TryParse(input, out selectedItem);
 
-            // Skip if the entity is not one of the entities player is allowed to purchase.
-            if (selectedItem == SimEntity.Cash ||
-                selectedItem == SimEntity.Person ||
-                selectedItem == SimEntity.Vehicle)
-                return;
-
             // Figure out what to do based on selection.
             switch (selectedItem)
             {
@@ -238,11 +229,11 @@ namespace TrailSimulation.Game
                     BuySpareTongues();
                     break;
                 case SimEntity.Vehicle:
-                    throw new InvalidOperationException("Cannot purchase vehicle from store!");
                 case SimEntity.Person:
-                    throw new InvalidOperationException("Cannot purchase people from store!");
                 case SimEntity.Cash:
-                    throw new InvalidOperationException("Cannot purchase cash from store!");
+                    // The other options we just make them do the same as leaving store.
+                    LeaveStore();
+                    break;
                 default:
                     LeaveStore();
                     break;
@@ -288,12 +279,8 @@ namespace TrailSimulation.Game
             UserData.Store = null;
 
             // Travel mode waits until it is by itself on first location and first turn.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                GameSimulationApp.Instance.ModeManager.ModeCount >= 3)
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation)
             {
-                // Calculate initial distance to next point.
-                GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
-
                 // Attach state that will ask if we want to check status or keep driving on trail.
                 SetState(typeof (LookAroundState));
             }
