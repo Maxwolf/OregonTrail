@@ -141,7 +141,6 @@
     <Compile Include="Game\Mode\Travel\State\Store\Selection\BuyItemState.cs" />
     <Compile Include="Game\Mode\Travel\State\Store\Selection\MissingItemState.cs" />
     <Compile Include="Game\Mode\Travel\State\Store\Help\StoreAdviceState.cs" />
-    <Compile Include="Game\Mode\Travel\State\Store\StoreCommand.cs" />
     <Compile Include="Game\Mode\Travel\State\Store\Help\StoreDebtState.cs" />
     <Compile Include="Game\Mode\Trade\TradingCommands.cs" />
     <Compile Include="Game\Mode\Travel\State\ChangeRationsState.cs" />

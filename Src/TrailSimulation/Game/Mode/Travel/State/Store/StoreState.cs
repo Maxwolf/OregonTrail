@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
+using TrailSimulation.Utility;
 
 namespace TrailSimulation.Game
 {
@@ -12,12 +15,23 @@ namespace TrailSimulation.Game
     public sealed class StoreState : StateProduct<TravelInfo>
     {
         /// <summary>
+        ///     String builder that will hold all the generated data about store inventory and selections for player to make.
+        /// </summary>
+        private StringBuilder _storePrompt;
+
+        /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public StoreState(IModeProduct gameMode) : base(gameMode)
         {
+            // Will hold representation of this store for rendering.
+            _storePrompt = new StringBuilder();
+
             // Each instance of the store builds up a new instance of the class used to track purchases player would like to make.
             UserData.Store = new StoreReceipt();
+
+            // Builds up the store in the string builder we created above for rendering.
+            UpdateStore();
 
             // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game mode also (travel mode always there).
             if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
@@ -100,7 +114,134 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Detaches the store mode from the simulation and returns to the one previous.
+        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
+        ///     waiting input, etc.
+        /// </summary>
+        public override string OnRenderState()
+        {
+            return _storePrompt.ToString();
+        }
+
+        /// <summary>
+        ///     Creates store from enumeration of simulation entities and ignoring the ones the player cannot purchase like
+        ///     vehicle, people, and cash itself.
+        /// </summary>
+        private void UpdateStore()
+        {
+            // Skip if store has not been created yet.
+            if (UserData.Store == null)
+                return;
+
+            // Clear previous prompt and rebuild it.
+            _storePrompt.Clear();
+            _storePrompt.AppendLine("--------------------------------");
+            _storePrompt.AppendLine($"{GameSimulationApp.Instance.Trail.CurrentLocation?.Name} General Store");
+            _storePrompt.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
+            _storePrompt.Append("--------------------------------");
+
+            // Loop through all the river choice commands and print them out for the state.
+            var storeAssets = new List<SimEntity>(Enum.GetValues(typeof (SimEntity)).Cast<SimEntity>());
+            for (var index = 0; index < storeAssets.Count; index++)
+            {
+                // Get the current river choice enumeration value we casted into list.
+                var storeItem = storeAssets[index];
+
+                // Skip if store item is cash, person, or vehicle.
+                if (storeItem == SimEntity.Cash ||
+                    storeItem == SimEntity.Person ||
+                    storeItem == SimEntity.Vehicle)
+                    continue;
+
+                // Creates a store price tag that shows the user how much the item is and or how much the store has.
+                var storeTag = storeItem.ToDescriptionAttribute()
+                    .Replace("@AMT@",
+                        UserData.Store.Transactions[storeItem].ToString(GameSimulationApp.Instance.Trail.IsFirstLocation));
+
+                // Last line should not print new line.
+                if (index == (storeAssets.Count - 1))
+                {
+                    _storePrompt.AppendLine($"  {(int) storeItem}. {storeTag}");
+                    _storePrompt.AppendLine($"  {storeAssets.Count + 1}. Leave store");
+                }
+                else
+                {
+                    _storePrompt.AppendLine($"  {(int) storeItem}. {storeTag}");
+                }
+            }
+
+            // Footer text for below menu.
+            _storePrompt.AppendLine($"{Environment.NewLine}--------------------------------");
+
+            // Calculate how much monies the player has and the total amount of monies owed to store for pending transaction receipt.
+            var totalBill = UserData.Store.GetTransactionTotalCost;
+            var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
+
+            // If at first location we show the total cost of the bill so far the player has racked up.
+            _storePrompt.Append(GameSimulationApp.Instance.Trail.IsFirstLocation
+                ? $"Total bill:            {totalBill.ToString("C2")}" +
+                  $"{Environment.NewLine}Amount you have:       {amountPlayerHas.ToString("C2")}"
+                : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
+        }
+
+        /// <summary>
+        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
+        /// </summary>
+        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
+        public override void OnInputBufferReturned(string input)
+        {
+            // Skip if the input is null or empty.
+            if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
+                return;
+
+            // Attempt to cast string to enum value, can be characters or integer.
+            SimEntity selectedItem;
+            Enum.TryParse(input, out selectedItem);
+
+            // Skip if the entity is not one of the entities player is allowed to purchase.
+            if (selectedItem == SimEntity.Cash ||
+                selectedItem == SimEntity.Person ||
+                selectedItem == SimEntity.Vehicle)
+                return;
+
+            // Figure out what to do based on selection.
+            switch (selectedItem)
+            {
+                case SimEntity.Animal:
+                    BuyOxen();
+                    break;
+                case SimEntity.Food:
+                    BuyFood();
+                    break;
+                case SimEntity.Clothes:
+                    BuyClothing();
+                    break;
+                case SimEntity.Ammo:
+                    BuyAmmunition();
+                    break;
+                case SimEntity.Wheel:
+                    BuySpareWheels();
+                    break;
+                case SimEntity.Axle:
+                    BuySpareAxles();
+                    break;
+                case SimEntity.Tongue:
+                    BuySpareTongues();
+                    break;
+                case SimEntity.Vehicle:
+                    throw new InvalidOperationException("Cannot purchase vehicle from store!");
+                case SimEntity.Person:
+                    throw new InvalidOperationException("Cannot purchase people from store!");
+                case SimEntity.Cash:
+                    throw new InvalidOperationException("Cannot purchase cash from store!");
+                default:
+                    LeaveStore();
+                    break;
+            }
+        }
+
+        /// <summary>
+        ///     Attempts to leave the store state, if the player does not have enough oxen to pull the vehicle then it will
+        ///     complain.
         /// </summary>
         private void LeaveStore()
         {
@@ -120,90 +261,11 @@ namespace TrailSimulation.Game
                 return;
             }
 
-            // Remove the store if we make this far!
-            ClearState();
-        }
-
-        /// <summary>
-        ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
-        ///     waiting input, etc.
-        /// </summary>
-        public override string OnRenderState()
-        {
-            // Skip if store has not been created yet.
-            if (UserData.Store == null)
-                return "Loading store...";
-
-            // Header text for above menu.
-            var headerText = new StringBuilder();
-            headerText.AppendLine("--------------------------------");
-            headerText.AppendLine($"{GameSimulationApp.Instance.Trail.CurrentLocation?.Name} General Store");
-            headerText.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
-            headerText.Append("--------------------------------");
-
-            // Keep track if this is the first point of interest, it will alter how the store shows values.
-            var isFirstPoint = GameSimulationApp.Instance.Trail.IsFirstLocation;
-
-            // Animals
-            AddCommand(BuyOxen, StoreCommand.BuyOxen,
-                $"Oxen              {UserData.Store.Transactions[SimEntity.Animal].ToString(isFirstPoint)}");
-
-            // Food
-            AddCommand(BuyFood, StoreCommand.BuyFood,
-                $"Food              {UserData.Store.Transactions[SimEntity.Food].ToString(isFirstPoint)}");
-
-            // Clothes
-            AddCommand(BuyClothing, StoreCommand.BuyClothing,
-                $"Clothing          {UserData.Store.Transactions[SimEntity.Clothes].ToString(isFirstPoint)}");
-
-            // Bullets
-            AddCommand(BuyAmmunition, StoreCommand.BuyAmmunition,
-                $"Ammunition        {UserData.Store.Transactions[SimEntity.Ammo].ToString(isFirstPoint)}");
-
-            // Wheel
-            AddCommand(BuySpareWheels, StoreCommand.BuySpareWheel,
-                $"Vehicle wheels    {UserData.Store.Transactions[SimEntity.Wheel].ToString(isFirstPoint)}");
-
-            // Axle
-            AddCommand(BuySpareAxles, StoreCommand.BuySpareAxles,
-                $"Vehicle axles     {UserData.Store.Transactions[SimEntity.Axle].ToString(isFirstPoint)}");
-
-            // Tongue
-            AddCommand(BuySpareTongues, StoreCommand.BuySpareTongues,
-                $"Vehicle tongues   {UserData.Store.Transactions[SimEntity.Tongue].ToString(isFirstPoint)}");
-
-            // Exit store
-            //AddCommand(LeaveStore, StoreCommands.LeaveStore, );
-
-            // Footer text for below menu.
-            headerText.Append($"{Environment.NewLine}--------------------------------{Environment.NewLine}");
-
-            // Calculate how much monies the player has and the total amount of monies owed to store for pending transaction receipt.
-            var totalBill = UserData.Store.GetTransactionTotalCost;
-            var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
-
-            // If at first location we show the total cost of the bill so far the player has racked up.
-            headerText.Append(isFirstPoint
-                ? $"Total bill:            {totalBill.ToString("C2")}" +
-                  $"{Environment.NewLine}Amount you have:       {amountPlayerHas.ToString("C2")}"
-                : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
-            return headerText.ToString();
-        }
-
-        /// <summary>
-        ///     Fired when the game mode current state is not null and input buffer does not match any known command.
-        /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
-        public override void OnInputBufferReturned(string input)
-        {
-            // TODO: Store needs to keep existing items if not first turn and add to them.
-
             // Modify the vehicles cash from purchases they made.
             var totalBill = UserData.Store.GetTransactionTotalCost;
             var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
-            UserData.Store.Transactions[SimEntity.Cash] =
-                new SimItem(UserData.Store.Transactions[SimEntity.Cash],
-                    (int)amountPlayerHas);
+            UserData.Store.Transactions[SimEntity.Cash] = new SimItem(UserData.Store.Transactions[SimEntity.Cash],
+                (int)amountPlayerHas);
 
             // Process all of the pending transactions in the store receipt info object.
             foreach (var transaction in UserData.Store.Transactions)
@@ -223,6 +285,9 @@ namespace TrailSimulation.Game
                 // NOTE: Also calculates initial distance to next point!
                 GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
             }
+
+            // Remove the store if we make this far!
+            ClearState();
         }
     }
 }
