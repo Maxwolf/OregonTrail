@@ -81,7 +81,7 @@ namespace TrailSimulation.Entity
         ///     Defines what the trail module is currently processing if anything in regards to movement of vehicle and player
         ///     entities down the trail.
         /// </summary>
-        public VehicleStatus Status { get; private set; }
+        public VehicleStatus Status { get; set; }
 
         /// <summary>
         ///     Returns the total value of all the cash the vehicle and all party members currently have.
@@ -350,22 +350,6 @@ namespace TrailSimulation.Entity
         public void ChangeRations(RationLevel ration)
         {
             Ration = ration;
-        }
-
-        /// <summary>
-        ///     Parks the vehicle and prevents any distance calculations from being performed.
-        /// </summary>
-        public void Park()
-        {
-            Status = VehicleStatus.Stopped;
-        }
-
-        /// <summary>
-        ///     Resumes the vehicle movement on the trail allowing it to reduce distance to next point.
-        /// </summary>
-        public void Drive()
-        {
-            Status = VehicleStatus.Moving;
         }
 
         /// <summary>

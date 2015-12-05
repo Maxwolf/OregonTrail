@@ -155,7 +155,8 @@ namespace TrailSimulation.Game
             {
                 // Each instance of the store builds up a new instance of the class used to track purchases player would like to make.
                 if (location.Status == LocationStatus.Unreached &&
-                    location.Category == LocationCategory.Settlement)
+                    location.Category == LocationCategory.Settlement &&
+                    UserData.Store == null)
                     UserData.Store = new StoreReceipt();
 
                 AddCommand(BuySupplies, TravelCommands.BuySupplies);

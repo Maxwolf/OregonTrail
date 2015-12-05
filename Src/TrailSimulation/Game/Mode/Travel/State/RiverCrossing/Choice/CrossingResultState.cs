@@ -88,8 +88,7 @@ namespace TrailSimulation.Game
             _finishedCrossingRiver = false;
 
             // Park the vehicle if it is not somehow by now.
-            if (GameSimulationApp.Instance.Vehicle.Status != VehicleStatus.Stopped)
-                GameSimulationApp.Instance.Vehicle.Park();
+            GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
 
             // Complain if river info is null.
             if (UserData.River == null)

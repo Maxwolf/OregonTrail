@@ -118,7 +118,7 @@ namespace TrailSimulation.Game
         ///     Determines if this location has already been visited by the vehicle and party members.
         /// </summary>
         /// <returns>TRUE if location has been passed by, FALSE if location has yet to be reached.</returns>
-        public LocationStatus Status { get; private set; }
+        public LocationStatus Status { get; set; }
 
         /// <summary>
         ///     Defines all of the skip choices that were defined for this location. Will return null if there are no skip choices
@@ -127,37 +127,6 @@ namespace TrailSimulation.Game
         public ReadOnlyCollection<Location> SkipChoices
         {
             get { return _skipChoices.AsReadOnly(); }
-        }
-
-        /// <summary>
-        ///     Marks the location as having been visited by the player, and now they have moved onward to head to the next
-        ///     location.
-        /// </summary>
-        public void SetDepartedFlag()
-        {
-            // Complain if we are departing a place we never left.
-            if (Status < LocationStatus.Arrived)
-                return;
-
-            // Skip if already departed.
-            if (Status == LocationStatus.Departed)
-                return;
-
-            // Set the departed flag if nothing to complain about.
-            Status = LocationStatus.Departed;
-        }
-
-        /// <summary>
-        ///     Marks the location as having been visited by the player and they are currently there right now.
-        /// </summary>
-        public void SetArrivalFlag()
-        {
-            // Complain if visited is already true.
-            if (Status == LocationStatus.Arrived)
-                return;
-
-            // Set the arrival flag if there is nothing to complain about.
-            Status = LocationStatus.Arrived;
         }
     }
 }

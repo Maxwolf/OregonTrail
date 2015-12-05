@@ -62,7 +62,7 @@ namespace TrailSimulation.Game
             _swayBarText = _marqueeBar.Step();
 
             // When starting the mode we automatically begin linear progression of time.
-            GameSimulationApp.Instance.Vehicle.Drive();
+            GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Moving;
         }
 
         /// <summary>
@@ -123,12 +123,11 @@ namespace TrailSimulation.Game
         public override void OnInputBufferReturned(string input)
         {
             // Can only stop the simulation if it is actually running.
-            if (!string.IsNullOrEmpty(input) ||
-                GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Stopped)
+            if (!string.IsNullOrEmpty(input))
                 return;
 
             // Stop ticks and close this state.
-            GameSimulationApp.Instance.Vehicle.Park();
+            GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
             ClearState();
         }
     }

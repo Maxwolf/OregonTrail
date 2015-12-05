@@ -130,8 +130,12 @@ namespace TrailSimulation.Game
             DistanceToNextLocation = simulatedDistanceChange;
 
             // If distance is zero we have arrived at the next location!
-            if (DistanceToNextLocation > 0)
+            if (DistanceToNextLocation >= 0 ||
+                CurrentLocation.Status != LocationStatus.Unreached)
                 return;
+
+            // Set visited flag for location, park the vehicle, and attach mode the location requires.
+            CurrentLocation.Status = LocationStatus.Arrived;
 
             // Distance to next point was less than or equal to zero, arrive at next location after setting distance to zero.
             DistanceToNextLocation = 0;
@@ -167,18 +171,9 @@ namespace TrailSimulation.Game
                 LocationIndex++;
 
             // Check for end of game if we are at the end of the trail.
-            if (LocationIndex > Locations.Count)
-            {
-                GameSimulationApp.Instance.ModeManager.AddMode(Mode.EndGame);
-                return;
-            }
-
-            // Set visited flag for location, park the vehicle, and attach mode the location requires.
-            CurrentLocation.SetArrivalFlag();
-
-            // Parks the vehicle and adds any mode it might want to add since the player
-            GameSimulationApp.Instance.Vehicle.Park();
-            GameSimulationApp.Instance.ModeManager.AddMode(Location.Mode);
+            GameSimulationApp.Instance.ModeManager.AddMode(LocationIndex > Locations.Count
+                ? Mode.EndGame
+                : Location.Mode);
         }
     }
 }
