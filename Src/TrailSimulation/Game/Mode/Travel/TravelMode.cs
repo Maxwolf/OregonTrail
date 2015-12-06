@@ -40,6 +40,14 @@ namespace TrailSimulation.Game
         /// </summary>
         internal void ContinueOnTrail()
         {
+            // Check if player has already departed and we are just moving along again.
+            if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Departed)
+            {
+                SetState(typeof (DriveState));
+                return;
+            }
+
+            // If we have not departed the current location yet there are several things we could need to do in order to depart.
             switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
             {
                 case LocationCategory.Landmark:
@@ -145,27 +153,15 @@ namespace TrailSimulation.Game
             AddCommand(StopToRest, TravelCommands.StopToRest);
 
             // Some commands are optional and change depending on location category.
-            if (location.TradingAllowed)
+            if (location.TradingAllowed && location.Status == LocationStatus.Arrived)
                 AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
 
-            if (location.ChattingAllowed)
+            if (location.ChattingAllowed && location.Status == LocationStatus.Arrived)
                 AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
 
-            if (location.ShoppingAllowed)
+            if (location.ShoppingAllowed && location.Status == LocationStatus.Arrived)
             {
-                // Each instance of the store builds up a new instance of the class used to track purchases player would like to make.
-                if (location.Status == LocationStatus.Unreached &&
-                    location.Category == LocationCategory.Settlement &&
-                    UserData.Store == null)
-                {
-                    UserData.Store = new StoreReceipt();
-                }
-
                 AddCommand(BuySupplies, TravelCommands.BuySupplies);
-            }
-            else
-            {
-                UserData.Store = null;
             }
 
             if (location.HuntingAllowed)
@@ -216,8 +212,10 @@ namespace TrailSimulation.Game
         private void CheckLookAround()
         {
             // Check if player is just arriving at a new location.
-            if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Arrived)
+            if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Arrived &&
+                !GameSimulationApp.Instance.Trail.CurrentLocation.LookedAroundPrompted)
             {
+                GameSimulationApp.Instance.Trail.CurrentLocation.LookedAroundPrompted = true;
                 SetState(typeof (LookAroundState));
                 return;
             }

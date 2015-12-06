@@ -12,6 +12,14 @@ namespace TrailSimulation.Game
     public sealed class TravelInfo : ModeInfo
     {
         /// <summary>
+        ///     Creates default store implementation.
+        /// </summary>
+        public TravelInfo()
+        {
+            Store = new StoreReceipt();
+        }
+
+        /// <summary>
         ///     Reference for any river information that we might need to be holding when we encounter one it will be generated and
         ///     this object filled with needed data that can be accessed by the other states as we attach them.
         /// </summary>
@@ -20,7 +28,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made when the player visits a store.
         /// </summary>
-        public StoreReceipt Store { get; set; }
+        public StoreReceipt Store { get; }
 
         /// <summary>
         ///     Used when the player is traveling on the trail between locations. Also known as drive state in travel game mode.
@@ -68,14 +76,14 @@ namespace TrailSimulation.Game
         {
             get
             {
-                var showLocationName = GameSimulationApp.Instance.Trail.CurrentLocation.Status >
-                                       LocationStatus.Unreached;
+                var showLocationName = GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Arrived;
                 var locationStatus = new StringBuilder();
                 locationStatus.AppendLine("--------------------------------");
 
                 // Only add the location name if we are on the next point, otherwise we should not show this.
-                if (showLocationName)
-                    locationStatus.AppendLine(GameSimulationApp.Instance.Trail.CurrentLocation.Name);
+                locationStatus.AppendLine(showLocationName
+                    ? GameSimulationApp.Instance.Trail.CurrentLocation.Name
+                    : $"{GameSimulationApp.Instance.Trail.DistanceToNextLocation.ToString("N0")} miles to {GameSimulationApp.Instance.Trail.NextLocation.Name}");
 
                 locationStatus.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
                 locationStatus.AppendLine("--------------------------------");

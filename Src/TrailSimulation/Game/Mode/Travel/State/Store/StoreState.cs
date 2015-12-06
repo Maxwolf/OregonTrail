@@ -26,7 +26,6 @@ namespace TrailSimulation.Game
         {
         }
 
-
         /// <summary>
         ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
         ///     data and other properties below it.
@@ -120,10 +119,6 @@ namespace TrailSimulation.Game
         /// </summary>
         private void UpdateStore()
         {
-            // Skip if store has not been created yet.
-            if (UserData.Store == null)
-                return;
-
             // Clear previous prompt and rebuild it.
             _storePrompt.Clear();
             _storePrompt.AppendLine("--------------------------------");

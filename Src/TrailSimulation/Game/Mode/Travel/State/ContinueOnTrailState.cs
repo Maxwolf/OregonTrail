@@ -26,12 +26,12 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             // Tell player how far it is to next location before attaching drive state.
-            var nextStop = new StringBuilder();
+            var prompt = new StringBuilder();
             var nextPoint = GameSimulationApp.Instance.Trail.NextLocation;
-            nextStop.AppendLine(
+            prompt.AppendLine(
                 $"{Environment.NewLine}From {GameSimulationApp.Instance.Trail.CurrentLocation.Name} it is {GameSimulationApp.Instance.Trail.DistanceToNextLocation}");
-            nextStop.AppendLine($"miles to the {nextPoint.Name}{Environment.NewLine}");
-            return nextStop.ToString();
+            prompt.AppendLine($"miles to {nextPoint.Name}{Environment.NewLine}");
+            return prompt.ToString();
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using TrailSimulation.Core;
+using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
 {
@@ -33,6 +34,18 @@ namespace TrailSimulation.Game
                     ? DialogType.Prompt
                     : DialogType.YesNo;
             }
+        }
+
+        /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnStatePostCreate()
+        {
+            base.OnStatePostCreate();
+
+            // Vehicle is stopped when you are looking around.
+            GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
         }
 
         /// <summary>

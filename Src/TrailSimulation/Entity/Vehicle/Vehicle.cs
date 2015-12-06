@@ -132,6 +132,26 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     In general, you will travel 200 miles plus some additional distance which depends upon the quality of your team of
+        ///     oxen. This mileage figure is an ideal, assuming nothing goes wrong. If you run into problems, mileage is subtracted
+        ///     from this ideal figure; the revised total is printed at the start of the next trip segment.
+        /// </summary>
+        /// <returns>The expected mileage over the next two week segment.</returns>
+        internal int RandomMileage
+        {
+            get
+            {
+                // Total amount of monies the player has spent on animals to pull their vehicle.
+                var cost_animals = Inventory[SimEntity.Animal].TotalValue;
+
+                // Variables that will hold the distance we should travel in the next day.
+                var total_miles = Mileage + (cost_animals - 110)/2.5 + 10*GameSimulationApp.Instance.Random.NextDouble();
+
+                return (int) Math.Abs(total_miles);
+            }
+        }
+
+        /// <summary>
         ///     Name of the entity as it should be known in the simulation.
         /// </summary>
         public string Name { get; }
@@ -229,7 +249,7 @@ namespace TrailSimulation.Entity
                 return;
 
             // Figure out how far we need to go to reach the next point.
-            Mileage = CalculateMileageForDay();
+            Mileage = RandomMileage;
 
             // Sometimes things just go slow on the trail, cut mileage in half if above zero randomly.
             if (GameSimulationApp.Instance.Random.NextBool() && Mileage > 0)
@@ -244,23 +264,6 @@ namespace TrailSimulation.Entity
 
             // Use our altered mileage to affect how far the vehicle has traveled in todays tick..
             Odometer += Mileage;
-        }
-
-        /// <summary>
-        ///     In general, you will travel 200 miles plus some additional distance which depends upon the quality of your team of
-        ///     oxen. This mileage figure is an ideal, assuming nothing goes wrong. If you run into problems, mileage is subtracted
-        ///     from this ideal figure; the revised total is printed at the start of the next trip segment.
-        /// </summary>
-        /// <returns>The expected mileage over the next two week segment.</returns>
-        private int CalculateMileageForDay()
-        {
-            // Total amount of monies the player has spent on animals to pull their vehicle.
-            var cost_animals = Inventory[SimEntity.Animal].TotalValue;
-
-            // Variables that will hold the distance we should travel in the next day.
-            var total_miles = Mileage + (cost_animals - 110)/2.5 + 10*GameSimulationApp.Instance.Random.NextDouble();
-
-            return (int) Math.Abs(total_miles);
         }
 
         /// <summary>

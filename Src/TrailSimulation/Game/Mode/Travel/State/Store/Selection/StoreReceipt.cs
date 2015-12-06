@@ -71,6 +71,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Determines if the store has been used by a player and needs to be reset.
+        /// </summary>
+        private bool Invalidated { get; set; }
+
+        /// <summary>
         ///     Processes all of the pending transactions in the store receipt info object.
         /// </summary>
         internal void PurchaseItems()
@@ -103,6 +108,7 @@ namespace TrailSimulation.Game
         private void Reset()
         {
             _totalTransactions = new Dictionary<SimEntity, SimItem>(Vehicle.DefaultInventory);
+            Invalidated = false;
         }
 
         /// <summary>
@@ -111,6 +117,7 @@ namespace TrailSimulation.Game
         public void AddItem(SimItem item, int amount)
         {
             _totalTransactions[item.Category] = new SimItem(item, amount);
+            Invalidated = true;
         }
 
         /// <summary>
@@ -128,6 +135,7 @@ namespace TrailSimulation.Game
 
                 // Reset the simulation SimItem to default values, meaning the player has none of them.
                 _totalTransactions[item.Category].Reset();
+                Invalidated = true;
                 break;
             }
         }

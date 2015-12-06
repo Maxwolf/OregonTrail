@@ -26,6 +26,11 @@ namespace TrailSimulation.Game
         private bool _finishedCrossingRiver;
 
         /// <summary>
+        ///     Determines if the wagon has already flooded manually because river was to deep.
+        /// </summary>
+        private bool _hasFlooded;
+
+        /// <summary>
         ///     Animated sway bar that prints out as text, ping-pongs back and fourth between left and right side, moved by
         ///     stepping it with tick.
         /// </summary>
@@ -47,6 +52,16 @@ namespace TrailSimulation.Game
         /// </summary>
         public CrossingResultState(IModeProduct gameMode) : base(gameMode)
         {
+            // Create the string builder for holding all our text about river crossing as it happens.
+            _crossingResult = new StringBuilder();
+
+            // Animated sway bar.
+            _marqueeBar = new MarqueeBar();
+            _swayBarText = _marqueeBar.Step();
+
+            // Sets the crossing percentage to zero.
+            _riverCrossingOfTotalWidth = 0;
+            _finishedCrossingRiver = false;
         }
 
         /// <summary>
@@ -75,17 +90,6 @@ namespace TrailSimulation.Game
         public override void OnStatePostCreate()
         {
             base.OnStatePostCreate();
-
-            // Create the string builder for holding all our text about river crossing as it happens.
-            _crossingResult = new StringBuilder();
-
-            // Animated sway bar.
-            _marqueeBar = new MarqueeBar();
-            _swayBarText = _marqueeBar.Step();
-
-            // Sets the crossing percentage to zero.
-            _riverCrossingOfTotalWidth = 0;
-            _finishedCrossingRiver = false;
 
             // Park the vehicle if it is not somehow by now.
             GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
@@ -157,7 +161,7 @@ namespace TrailSimulation.Game
             _swayBarText = _marqueeBar.Step();
 
             // Increment the amount we have floated over the river.
-            _riverCrossingOfTotalWidth += GameSimulationApp.Instance.Random.Next(1, UserData.River.RiverWidth);
+            _riverCrossingOfTotalWidth += GameSimulationApp.Instance.Random.Next(1, (UserData.River.RiverWidth/4));
 
             // Check to see if we will finish crossing river before crossing more.
             if (_riverCrossingOfTotalWidth >= UserData.River.RiverWidth)
@@ -173,6 +177,16 @@ namespace TrailSimulation.Game
                 case RiverCrossChoice.None:
                     break;
                 case RiverCrossChoice.Ford:
+                    // If river is deeper than a few feet and you ford it you will get flooded every time at least once.
+                    if (UserData.River.RiverDepth > 3 && !_hasFlooded &&
+                        _riverCrossingOfTotalWidth >= (UserData.River.RiverWidth/2))
+                    {
+                        _hasFlooded = true;
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
+                            typeof (VehicleWashedOutEvent));
+                        return;
+                    }
+
                     GameSimulationApp.Instance.EventDirector.TriggerEventByType(GameSimulationApp.Instance.Vehicle,
                         EventCategory.RiverFord);
                     break;
