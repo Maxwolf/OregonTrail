@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
@@ -39,7 +40,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Returns the total cost of all the transactions this receipt information object represents.
         /// </summary>
-        public float GetTransactionTotalCost
+        public float TotalTransactionCost
         {
             get
             {
@@ -56,9 +57,50 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Checks if the player has enough animals to pull their vehicle.
+        /// </summary>
+        /// <returns>TRUE if player is missing enough items to correctly start the game, FALSE if everything is OK.</returns>
+        internal bool MissingImportantItems
+        {
+            get
+            {
+                return GameSimulationApp.Instance.Trail.IsFirstLocation &&
+                       GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached &&
+                       Transactions[SimEntity.Animal].Quantity <= 0;
+            }
+        }
+
+        /// <summary>
+        ///     Processes all of the pending transactions in the store receipt info object.
+        /// </summary>
+        internal void PurchaseItems()
+        {
+            // Grab the total transaction cost once since it requires work to get the property value.
+            var totalBill = TotalTransactionCost;
+
+            // Throws exception if player cannot afford items. Developer calling this at wrong time!
+            if (GameSimulationApp.Instance.Vehicle.Balance < totalBill)
+                throw new InvalidOperationException(
+                    "Attempted to purchase items the player does not have enough monies for!");
+
+            // Modify the vehicles cash from purchases they made.
+            var playerCash = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
+            Transactions[SimEntity.Cash] = new SimItem(Transactions[SimEntity.Cash], (int) playerCash);
+
+            // Loop through all the pending transaction and buy them out.
+            foreach (var transaction in Transactions)
+            {
+                GameSimulationApp.Instance.Vehicle.BuyItem(transaction.Value);
+            }
+
+            // Remove all the transactions now that we have processed them.
+            Reset();
+        }
+
+        /// <summary>
         ///     Cleans out all the transactions, if they have not been processed yet then they will be lost forever.
         /// </summary>
-        public void Reset()
+        private void Reset()
         {
             _totalTransactions = new Dictionary<SimEntity, SimItem>(Vehicle.DefaultInventory);
         }

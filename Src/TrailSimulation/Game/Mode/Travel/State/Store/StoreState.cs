@@ -26,6 +26,7 @@ namespace TrailSimulation.Game
         {
         }
 
+
         /// <summary>
         ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
         ///     data and other properties below it.
@@ -166,7 +167,7 @@ namespace TrailSimulation.Game
             _storePrompt.AppendLine("--------------------------------");
 
             // Calculate how much monies the player has and the total amount of monies owed to store for pending transaction receipt.
-            var totalBill = UserData.Store.GetTransactionTotalCost;
+            var totalBill = UserData.Store.TotalTransactionCost;
             var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
 
             // If at first location we show the total cost of the bill so far the player has racked up.
@@ -233,10 +234,8 @@ namespace TrailSimulation.Game
         /// </summary>
         private void LeaveStore()
         {
-            // Complain if the player does not have any oxen to pull their vehicle.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached &&
-                UserData.Store.Transactions[SimEntity.Animal].Quantity <= 0)
+            // Complain if user doesn't have enough animals to pull their vehicle.
+            if (UserData.Store.MissingImportantItems)
             {
                 UserData.Store.SelectedItem = Parts.Oxen;
                 SetState(typeof (MissingItemState));
@@ -244,31 +243,20 @@ namespace TrailSimulation.Game
             }
 
             // Check if player can afford the items they have selected.
-            if (GameSimulationApp.Instance.Vehicle.Balance < UserData.Store.GetTransactionTotalCost)
+            var totalBill = UserData.Store.TotalTransactionCost;
+            if (GameSimulationApp.Instance.Vehicle.Balance < totalBill)
             {
                 SetState(typeof (StoreDebtState));
                 return;
             }
 
-            // Modify the vehicles cash from purchases they made.
-            var totalBill = UserData.Store.GetTransactionTotalCost;
-            var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
-            UserData.Store.Transactions[SimEntity.Cash] = new SimItem(UserData.Store.Transactions[SimEntity.Cash],
-                (int) amountPlayerHas);
-
-            // Process all of the pending transactions in the store receipt info object.
-            foreach (var transaction in UserData.Store.Transactions)
-            {
-                GameSimulationApp.Instance.Vehicle.BuyItem(transaction.Value);
-            }
-
-            // Remove all the transactions now that we have processed them.
-            UserData.Store.Reset();
-
             // Travel mode waits until it is by itself on first location and first turn.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
                 GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached)
             {
+                // First location and store prompt buys items when you leave the store.
+                UserData.Store.PurchaseItems();
+
                 // Sets up vehicle, location, and all other needed variables for simulation.
                 GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
 

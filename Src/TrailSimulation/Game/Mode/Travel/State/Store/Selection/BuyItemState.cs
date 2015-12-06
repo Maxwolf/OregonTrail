@@ -48,7 +48,7 @@ namespace TrailSimulation.Game
 
             // Figure out what we owe already from other store items, then how many of the SimItem we can afford.
             var _currentBalance =
-                (int) (GameSimulationApp.Instance.Vehicle.Balance - UserData.Store.GetTransactionTotalCost);
+                (int) (GameSimulationApp.Instance.Vehicle.Balance - UserData.Store.TotalTransactionCost);
             _purchaseLimit = (int) (_currentBalance/UserData.Store.SelectedItem.Cost);
 
             // Prevent negative numbers and set credit limit to zero if it drops below that.
@@ -103,7 +103,7 @@ namespace TrailSimulation.Game
             {
                 UserData.Store.RemoveItem(_itemToBuy);
                 UserData.Store.SelectedItem = null;
-                ClearState();
+                SetState(typeof (StoreState));
                 return;
             }
 
@@ -115,11 +115,25 @@ namespace TrailSimulation.Game
             if (parsedInputNumber > _itemToBuy.MaxQuantity)
                 return;
 
-            // Add the SimItem the player wants in given amount 
+            // Add the SimItem the player wants in given amount.
             UserData.Store.AddItem(_itemToBuy, parsedInputNumber);
 
-            // Return to the store menu.
+            // Check if player can afford the items they have selected.
+            var totalBill = UserData.Store.TotalTransactionCost;
+            if (GameSimulationApp.Instance.Vehicle.Balance < totalBill)
+            {
+                SetState(typeof (StoreDebtState));
+                return;
+            }
+
+            // If we are not on the first location we will add the item right away.
+            if (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Arrived)
+                UserData.Store.PurchaseItems();
+
+            // Clear the selection for the type of item the player was purchasing.
             UserData.Store.SelectedItem = null;
+
+            // Return to the store menu.
             SetState(typeof (StoreState));
         }
     }

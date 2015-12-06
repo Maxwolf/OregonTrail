@@ -319,12 +319,16 @@ namespace TrailSimulation.Entity
         public void BuyItem(SimItem transaction)
         {
             // Check of the player can afford this item.
-            if (Balance <= transaction.TotalValue)
+            if (Balance < transaction.TotalValue)
                 return;
 
             // Create new item based on old one, with new quantity value from store, trader, random event, etc.
             Balance -= transaction.TotalValue;
-            _inventory[transaction.Category] = new SimItem(_inventory[transaction.Category], transaction.Quantity);
+
+            // Make sure we add the quantity and not just replace it.
+            var oldQuantity = _inventory[transaction.Category].Quantity;
+            _inventory[transaction.Category] = new SimItem(_inventory[transaction.Category],
+                oldQuantity + transaction.Quantity);
         }
 
         /// <summary>
