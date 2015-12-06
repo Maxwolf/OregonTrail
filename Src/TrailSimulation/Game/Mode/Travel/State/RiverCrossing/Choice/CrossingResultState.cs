@@ -90,9 +90,13 @@ namespace TrailSimulation.Game
             // Park the vehicle if it is not somehow by now.
             GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
 
-            // Complain if river info is null.
-            if (UserData.River == null)
-                throw new ArgumentException("Set state to crossing result when river info in user data is null!");
+            // Remove the monies from the player for ferry trip.
+            var oldMoney = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash];
+            GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash] =
+                new SimItem(oldMoney, (int) (oldMoney.TotalValue - UserData.River.FerryCost));
+
+            // Clear out the cost for the ferry since it has been paid for now.
+            UserData.River.FerryCost = 0;
         }
 
         /// <summary>

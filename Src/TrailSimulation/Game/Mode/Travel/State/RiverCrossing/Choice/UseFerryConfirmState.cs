@@ -54,24 +54,18 @@ namespace TrailSimulation.Game
             {
                 case DialogResponse.Yes:
                     // Check if you have enough monies to use the ferry.
-                    var oldMoney = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash];
-                    if (UserData.River.FerryCost > oldMoney.TotalValue)
+                    if (UserData.River.FerryCost >
+                        GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash].TotalValue)
                     {
                         // Tell the player they do not have enough money to cross the river using the ferry.
                         SetState(typeof (FerryNoMoniesState));
                         return;
                     }
 
-                    // Remove the monies from the player for ferry trip.
-                    GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash] = new SimItem(oldMoney,
-                        (int) (oldMoney.TotalValue - UserData.River.FerryCost));
-
-                    // Clear out the cost for the ferry since it has been paid for now.
-                    UserData.River.FerryCost = 0;
-
                     // Check if the ferry operator wants player to wait a certain amount of days before they can cross.
                     if (UserData.River.FerryDelayInDays > 0)
                     {
+                        GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
                         UserData.DaysToRest = UserData.River.FerryDelayInDays;
                         SetState(typeof (RestingState));
                         return;
@@ -80,10 +74,9 @@ namespace TrailSimulation.Game
                     SetState(typeof (CrossingResultState));
                     break;
                 case DialogResponse.No:
+                case DialogResponse.Custom:
                     UserData.River.CrossingType = RiverCrossChoice.None;
                     SetState(typeof (RiverCrossState));
-                    break;
-                case DialogResponse.Custom:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);

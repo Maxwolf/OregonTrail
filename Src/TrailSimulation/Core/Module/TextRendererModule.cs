@@ -88,7 +88,11 @@ namespace TrailSimulation.Core
                 : $"Mode({windowMan.Modes.Count}): {windowMan.ActiveMode}(NO STATE) - ");
 
             // Total number of turns that have passed in the simulation.
-            tui.Append($"Turns: {GameSimulationApp.Instance.TotalTurns.ToString("D4")}{Environment.NewLine}");
+            tui.AppendLine($"Turns: {GameSimulationApp.Instance.TotalTurns.ToString("D4")}");
+
+            // Vehicle and location status.
+            tui.AppendLine(
+                $"Vehicle: {GameSimulationApp.Instance.Vehicle?.Status} - Location:{GameSimulationApp.Instance.Trail?.CurrentLocation?.Status}");
 
             // Prints game mode specific text and options. This typically is menus from commands, or states showing some information.
             tui.Append($"{RenderMode(windowMan)}{Environment.NewLine}");

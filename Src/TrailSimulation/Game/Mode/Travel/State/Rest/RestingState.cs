@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using TrailSimulation.Core;
+using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
 {
@@ -78,6 +79,18 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnStatePostCreate()
+        {
+            base.OnStatePostCreate();
+
+            // Vehicle should be stopped while resting to prevent it from moving during ticks.
+            GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
+        }
+
+        /// <summary>
         ///     Returns a text only representation of the current game mode state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
@@ -149,6 +162,14 @@ namespace TrailSimulation.Game
         /// </summary>
         private void StopResting()
         {
+            // Determine if we should bounce back to travel menu or some special mode.
+            if (UserData.River == null)
+            {
+                ClearState();
+                return;
+            }
+
+            // Locations can return to a special state if required based on the category of the location.
             switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
             {
                 case LocationCategory.Landmark:
@@ -164,7 +185,7 @@ namespace TrailSimulation.Game
                     if (UserData.River != null &&
                         UserData.River.CrossingType == RiverCrossChoice.Ferry &&
                         UserData.River.FerryDelayInDays <= 0 &&
-                        UserData.River.FerryCost <= 0)
+                        UserData.River.FerryCost >= 0)
                     {
                         // If player was waiting for ferry operator to let them cross we will jump right to that.
                         SetState(typeof (CrossingResultState));

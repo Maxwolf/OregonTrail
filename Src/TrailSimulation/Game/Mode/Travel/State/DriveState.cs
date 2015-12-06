@@ -63,6 +63,11 @@ namespace TrailSimulation.Game
 
             // When starting the mode we automatically begin linear progression of time.
             GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Moving;
+
+            // Vehicle has departed the current location for the next one but you can only depart once.
+            if (GameSimulationApp.Instance.Trail.DistanceToNextLocation > 0 &&
+                GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Arrived)
+                GameSimulationApp.Instance.Trail.CurrentLocation.Status = LocationStatus.Departed;
         }
 
         /// <summary>

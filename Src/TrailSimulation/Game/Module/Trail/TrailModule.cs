@@ -13,7 +13,7 @@ namespace TrailSimulation.Game
         public TrailModule()
         {
             // Load a trail from file or prefab.
-            Trail = TrailRegistry.OregonTrail();
+            Trail = TrailRegistry.OregonTrail;
 
             // Startup location on the trail and distance to next point so it triggers immediately when we tick the first day.
             LocationIndex = 0;
@@ -127,8 +127,7 @@ namespace TrailSimulation.Game
             DistanceToNextLocation -= GameSimulationApp.Instance.Vehicle.Mileage;
 
             // If distance is zero we have arrived at the next location!
-            if (DistanceToNextLocation >= 0 ||
-                CurrentLocation.Status != LocationStatus.Unreached)
+            if (DistanceToNextLocation >= 0)
                 return;
 
             // Distance to next point was less than or equal to zero, arrive at next location after setting distance to zero.
@@ -143,7 +142,7 @@ namespace TrailSimulation.Game
         private int GenerateDistanceToNextLocation()
         {
             // TODO: Generate dictionary of distances blocked out by total trail length defined in loaded trail file.
-            return 1;
+            return 100;
         }
 
         /// <summary>

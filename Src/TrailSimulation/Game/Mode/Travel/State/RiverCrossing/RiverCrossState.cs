@@ -66,9 +66,6 @@ namespace TrailSimulation.Game
                     _riverInfo.AppendLine((int) riverChoice + ". " + riverChoice.ToDescriptionAttribute());
                 }
             }
-
-            // Add the state that explains the player is at a river crossing and what is expected of them.
-            SetState(typeof (RiverPromptState));
         }
 
         /// <summary>

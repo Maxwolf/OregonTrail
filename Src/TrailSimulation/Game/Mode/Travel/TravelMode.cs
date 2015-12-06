@@ -216,8 +216,7 @@ namespace TrailSimulation.Game
         private void CheckLookAround()
         {
             // Check if player is just arriving at a new location.
-            if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Arrived &&
-                GameSimulationApp.Instance.Trail.DistanceToNextLocation <= 0)
+            if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Arrived)
             {
                 SetState(typeof (LookAroundState));
                 return;

@@ -258,9 +258,7 @@ namespace TrailSimulation.Entity
             var cost_animals = Inventory[SimEntity.Animal].TotalValue;
 
             // Variables that will hold the distance we should travel in the next day.
-            var total_miles = Mileage +
-                              GameSimulationApp.Instance.Trail.DistanceToNextLocation + (cost_animals - 110)/2.5 +
-                              10*GameSimulationApp.Instance.Random.NextDouble();
+            var total_miles = Mileage + (cost_animals - 110)/2.5 + 10*GameSimulationApp.Instance.Random.NextDouble();
 
             return (int) Math.Abs(total_miles);
         }
