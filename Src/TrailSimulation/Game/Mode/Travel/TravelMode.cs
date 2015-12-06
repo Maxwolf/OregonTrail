@@ -157,9 +157,15 @@ namespace TrailSimulation.Game
                 if (location.Status == LocationStatus.Unreached &&
                     location.Category == LocationCategory.Settlement &&
                     UserData.Store == null)
+                {
                     UserData.Store = new StoreReceipt();
+                }
 
                 AddCommand(BuySupplies, TravelCommands.BuySupplies);
+            }
+            else
+            {
+                UserData.Store = null;
             }
 
             if (location.HuntingAllowed)
@@ -187,11 +193,11 @@ namespace TrailSimulation.Game
             UpdateLocation();
 
             // Starting store that is shown after setting up player names, profession, and starting month.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation && 
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
                 GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached)
             {
                 // Calculate initial distance to next point.
-                SetState(typeof (StoreState));
+                SetState(typeof (StoreAdviceState));
             }
         }
 
@@ -213,7 +219,7 @@ namespace TrailSimulation.Game
             if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Arrived &&
                 GameSimulationApp.Instance.Trail.DistanceToNextLocation <= 0)
             {
-                SetState(typeof(LookAroundState));
+                SetState(typeof (LookAroundState));
                 return;
             }
 

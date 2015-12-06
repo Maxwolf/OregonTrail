@@ -39,14 +39,6 @@ namespace TrailSimulation.Game
 
             // Builds up the store in the string builder we created above for rendering.
             UpdateStore();
-
-            // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game mode also (travel mode always there).
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                GameSimulationApp.Instance.ModeManager.ModeCount > 1 &&
-                GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Unreached)
-            {
-                StoreAdvice();
-            }
         }
 
         /// <summary>
@@ -110,15 +102,6 @@ namespace TrailSimulation.Game
         {
             UserData.Store.SelectedItem = Parts.Tongue;
             SetState(typeof (BuyItemState));
-        }
-
-        /// <summary>
-        ///     Attaches a game mode state what will show the player some basic information about what the various items mean and
-        ///     what their purpose is in the simulation.
-        /// </summary>
-        private void StoreAdvice()
-        {
-            SetState(typeof (StoreAdviceState));
         }
 
         /// <summary>
@@ -188,7 +171,7 @@ namespace TrailSimulation.Game
 
             // If at first location we show the total cost of the bill so far the player has racked up.
             _storePrompt.Append(GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached
+                                GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached
                 ? $"Total bill:            {totalBill.ToString("C2")}" +
                   $"{Environment.NewLine}Amount you have:       {amountPlayerHas.ToString("C2")}"
                 : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
@@ -280,11 +263,10 @@ namespace TrailSimulation.Game
             }
 
             // Remove all the transactions now that we have processed them.
-            UserData.Store.ClearTransactions();
-            UserData.Store = null;
+            UserData.Store.Reset();
 
             // Travel mode waits until it is by itself on first location and first turn.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation && 
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
                 GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached)
             {
                 // Sets up vehicle, location, and all other needed variables for simulation.

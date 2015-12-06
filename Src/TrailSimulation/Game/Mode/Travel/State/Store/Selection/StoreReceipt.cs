@@ -20,8 +20,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public StoreReceipt()
         {
-            // Copy over reference list of default inventory items the store will have.
-            _totalTransactions = new Dictionary<SimEntity, SimItem>(Vehicle.DefaultInventory);
+            Reset();
         }
 
         /// <summary>
@@ -59,9 +58,9 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Cleans out all the transactions, if they have not been processed yet then they will be lost forever.
         /// </summary>
-        public void ClearTransactions()
+        public void Reset()
         {
-            _totalTransactions.Clear();
+            _totalTransactions = new Dictionary<SimEntity, SimItem>(Vehicle.DefaultInventory);
         }
 
         /// <summary>
