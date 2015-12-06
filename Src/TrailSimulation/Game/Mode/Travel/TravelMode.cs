@@ -187,10 +187,10 @@ namespace TrailSimulation.Game
             UpdateLocation();
 
             // Starting store that is shown after setting up player names, profession, and starting month.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation)
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation && 
+                GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached)
             {
                 // Calculate initial distance to next point.
-                GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
                 SetState(typeof (StoreState));
             }
         }
@@ -209,6 +209,14 @@ namespace TrailSimulation.Game
         /// </summary>
         private void CheckLookAround()
         {
+            // Check if player is just arriving at a new location.
+            if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Arrived &&
+                GameSimulationApp.Instance.Trail.DistanceToNextLocation <= 0)
+            {
+                SetState(typeof(LookAroundState));
+                return;
+            }
+
             // Update menu with proper choices.
             UpdateLocation();
         }

@@ -42,7 +42,8 @@ namespace TrailSimulation.Game
 
             // Trigger the store advice automatically on the first location, deeper check is making sure we are in new game mode also (travel mode always there).
             if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                GameSimulationApp.Instance.ModeManager.ModeCount > 1)
+                GameSimulationApp.Instance.ModeManager.ModeCount > 1 &&
+                GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Unreached)
             {
                 StoreAdvice();
             }
@@ -162,7 +163,9 @@ namespace TrailSimulation.Game
                 // Creates a store price tag that shows the user how much the item is and or how much the store has.
                 var storeTag = storeItem.ToDescriptionAttribute()
                     .Replace("@AMT@",
-                        UserData.Store.Transactions[storeItem].ToString(GameSimulationApp.Instance.Trail.IsFirstLocation));
+                        UserData.Store.Transactions[storeItem].ToString(
+                            GameSimulationApp.Instance.Trail.IsFirstLocation &&
+                            GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached));
 
                 // Last line should not print new line.
                 if (index == (storeAssets.Count - 4))
@@ -184,7 +187,8 @@ namespace TrailSimulation.Game
             var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
 
             // If at first location we show the total cost of the bill so far the player has racked up.
-            _storePrompt.Append(GameSimulationApp.Instance.Trail.IsFirstLocation
+            _storePrompt.Append(GameSimulationApp.Instance.Trail.IsFirstLocation &&
+                GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached
                 ? $"Total bill:            {totalBill.ToString("C2")}" +
                   $"{Environment.NewLine}Amount you have:       {amountPlayerHas.ToString("C2")}"
                 : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
@@ -248,6 +252,7 @@ namespace TrailSimulation.Game
         {
             // Complain if the player does not have any oxen to pull their vehicle.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
+                GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached &&
                 UserData.Store.Transactions[SimEntity.Animal].Quantity <= 0)
             {
                 UserData.Store.SelectedItem = Parts.Oxen;
@@ -279,8 +284,12 @@ namespace TrailSimulation.Game
             UserData.Store = null;
 
             // Travel mode waits until it is by itself on first location and first turn.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation)
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation && 
+                GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached)
             {
+                // Sets up vehicle, location, and all other needed variables for simulation.
+                GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
+
                 // Attach state that will ask if we want to check status or keep driving on trail.
                 SetState(typeof (LookAroundState));
             }

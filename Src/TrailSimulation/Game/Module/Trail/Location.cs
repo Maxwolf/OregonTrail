@@ -85,15 +85,6 @@ namespace TrailSimulation.Game
         public bool HuntingAllowed { get; private set; }
 
         /// <summary>
-        ///     Defines the current game mode the inheriting class is going to take responsibility for when attached to the
-        ///     simulation.
-        /// </summary>
-        public static Mode Mode
-        {
-            get { return Mode.Travel; }
-        }
-
-        /// <summary>
         ///     Defines the type of location this is, the game simulation will trigger and load different states depending on this
         ///     value. Defaults to default value which is a normal location with nothing special happening.
         /// </summary>

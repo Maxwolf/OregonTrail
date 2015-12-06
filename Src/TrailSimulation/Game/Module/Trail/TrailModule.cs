@@ -84,12 +84,7 @@ namespace TrailSimulation.Game
         /// <returns>TRUE if first point on trail, FALSE if not.</returns>
         public bool IsFirstLocation
         {
-            get
-            {
-                return LocationIndex <= 0 &&
-                       GameSimulationApp.Instance.TotalTurns <= 0 &&
-                       GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Stopped;
-            }
+            get { return LocationIndex <= 0; }
         }
 
         /// <summary>
@@ -123,19 +118,18 @@ namespace TrailSimulation.Game
             if (GameSimulationApp.Instance.Vehicle.Status != VehicleStatus.Moving)
                 return;
 
-            // Simulate the mileage being done.
-            var simulatedDistanceChange = DistanceToNextLocation - GameSimulationApp.Instance.Vehicle.Mileage;
+            // Check if the player is still working with the location they are currently arrived at.
+            if (CurrentLocation.Status == LocationStatus.Arrived &&
+                DistanceToNextLocation <= 0)
+                return;
 
             // Move us towards the next point if not zero.
-            DistanceToNextLocation = simulatedDistanceChange;
+            DistanceToNextLocation -= GameSimulationApp.Instance.Vehicle.Mileage;
 
             // If distance is zero we have arrived at the next location!
             if (DistanceToNextLocation >= 0 ||
                 CurrentLocation.Status != LocationStatus.Unreached)
                 return;
-
-            // Set visited flag for location, park the vehicle, and attach mode the location requires.
-            CurrentLocation.Status = LocationStatus.Arrived;
 
             // Distance to next point was less than or equal to zero, arrive at next location after setting distance to zero.
             DistanceToNextLocation = 0;
@@ -166,14 +160,17 @@ namespace TrailSimulation.Game
             // Setup next travel distance requirement.
             DistanceToNextLocation = GenerateDistanceToNextLocation();
 
-            // Called when we decide to continue on the trail from a location on it.
+            // Skip incrementing to next location on first turn, we use first turn to setup game world and player position in it.
             if (GameSimulationApp.Instance.TotalTurns > 0)
                 LocationIndex++;
+
+            // Set visited flag for location, park the vehicle, and attach mode the location requires.
+            CurrentLocation.Status = LocationStatus.Arrived;
 
             // Check for end of game if we are at the end of the trail.
             GameSimulationApp.Instance.ModeManager.AddMode(LocationIndex > Locations.Count
                 ? Mode.EndGame
-                : Location.Mode);
+                : Mode.Travel);
         }
     }
 }
