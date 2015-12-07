@@ -376,7 +376,7 @@ namespace TrailSimulation.Core
         ///     Creates and adds the specified type of state to currently active game Windows.
         /// </summary>
         /// <remarks>If Windows does not support given state, an argument exception will be thrown!</remarks>
-        public void SetState(Type stateType)
+        public void SetForm(Type stateType)
         {
             // Clear the previous state if something happens.
             if (State != null)

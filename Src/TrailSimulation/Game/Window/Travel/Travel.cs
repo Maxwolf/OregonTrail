@@ -25,7 +25,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void TalkToPeople()
         {
-            SetState(typeof (TalkToPeople));
+            SetForm(typeof (TalkToPeople));
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void BuySupplies()
         {
-            SetState(typeof (Store));
+            SetForm(typeof (Store));
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace TrailSimulation.Game
             // Check if player has already departed and we are just moving along again.
             if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Departed)
             {
-                SetState(typeof (DriveTrail));
+                SetForm(typeof (DriveTrail));
                 return;
             }
 
@@ -54,15 +54,15 @@ namespace TrailSimulation.Game
                 case LocationCategory.Landmark:
                 case LocationCategory.Settlement:
                     // Player is going to continue driving down the trail now.
-                    SetState(typeof (ContinueOnTrail));
+                    SetForm(typeof (ContinueOnTrail));
                     break;
                 case LocationCategory.RiverCrossing:
                     // Player needs to decide how to cross a river.
-                    SetState(typeof (RiverCrossHelp));
+                    SetForm(typeof (RiverCrossHelp));
                     break;
                 case LocationCategory.ForkInRoad:
                     // Player needs to decide on which location when road splits.
-                    SetState(typeof (ForkInRoad));
+                    SetForm(typeof (ForkInRoad));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -74,7 +74,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void CheckSupplies()
         {
-            SetState(typeof (CheckSupplies));
+            SetForm(typeof (CheckSupplies));
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void LookAtMap()
         {
-            SetState(typeof (LookAtMap));
+            SetForm(typeof (LookAtMap));
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void ChangePace()
         {
-            SetState(typeof (ChangePace));
+            SetForm(typeof (ChangePace));
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void ChangeFoodRations()
         {
-            SetState(typeof (ChangeRations));
+            SetForm(typeof (ChangeRations));
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void StopToRest()
         {
-            SetState(typeof (RestAmount));
+            SetForm(typeof (RestAmount));
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void AttemptToTrade()
         {
-            SetState(typeof (Trading));
+            SetForm(typeof (Trading));
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void HuntForFood()
         {
-            SetState(typeof (Hunting));
+            SetForm(typeof (Hunting));
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace TrailSimulation.Game
                 GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached)
             {
                 // Calculate initial distance to next point.
-                SetState(typeof (StoreWelcome));
+                SetForm(typeof (StoreWelcome));
             }
         }
 
@@ -218,7 +218,7 @@ namespace TrailSimulation.Game
                 !GameSimulationApp.Instance.Trail.CurrentLocation.LookedAroundPrompted)
             {
                 GameSimulationApp.Instance.Trail.CurrentLocation.LookedAroundPrompted = true;
-                SetState(typeof (ArriveAtLocation));
+                SetForm(typeof (ArriveAtLocation));
                 return;
             }
 

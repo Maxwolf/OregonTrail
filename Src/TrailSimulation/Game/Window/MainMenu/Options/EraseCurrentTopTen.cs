@@ -8,8 +8,8 @@ namespace TrailSimulation.Game
     ///     Confirm the player wishes to the destroy the current top ten list and reset it back to the hard-coded default
     ///     values.
     /// </summary>
-    [ParentWindow(Windows.Options)]
-    public sealed class EraseCurrentTopTen : InputForm<OptionInfo>
+    [ParentWindow(Windows.MainMenu)]
+    public sealed class EraseCurrentTopTen : InputForm<NewGameInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -55,21 +55,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            switch (reponse)
-            {
-                case DialogResponse.No:
-                    ClearForm();
-                    break;
-                case DialogResponse.Yes:
-                    // TODO: Clear the current top ten list, reset to defaults, delete the custom one, re-save with defaults...
-                    ClearForm();
-                    break;
-                case DialogResponse.Custom:
-                    ClearForm();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);
-            }
+            SetForm(typeof(ManagementOptions));
         }
     }
 }

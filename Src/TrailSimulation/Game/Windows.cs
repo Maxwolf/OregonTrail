@@ -22,12 +22,6 @@ namespace TrailSimulation.Game
         MainMenu,
 
         /// <summary>
-        ///     Allows the player to reset top ten high scores, remove saved games, remove tombstone messages, etc.
-        /// </summary>
-        [Window(typeof (Options))]
-        Options,
-
-        /// <summary>
         ///     Random event Windows is attached by the event director which then listens for the event it will throw at it over
         ///     event delegate the random event Windows will subscribe to.
         /// </summary>

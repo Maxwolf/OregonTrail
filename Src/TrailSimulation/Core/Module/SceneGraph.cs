@@ -20,12 +20,12 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Default string used when game Windows has nothing better to say.
         /// </summary>
-        private const string GAMEMODE_DEFAULT_TUI = "[DEFAULT GAME MODE TEXT USER INTERFACE]";
+        private const string GAMEMODE_DEFAULT_TUI = "[DEFAULT WINDOW TEXT]";
 
         /// <summary>
         ///     Default string used when there are no game modes at all.
         /// </summary>
-        private const string GAMEMODE_EMPTY_TUI = "[NO GAME MODE ATTACHED]";
+        private const string GAMEMODE_EMPTY_TUI = "[NO WINDOW ATTACHED]";
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
@@ -85,8 +85,8 @@ namespace TrailSimulation.Core
 
             // Keeps track of active Windows name and active Windows current state name for debugging purposes.
             tui.Append(windowMan.FocusedWindow?.CurrentState != null
-                ? $"Mode({windowMan.Windows.Count}): {windowMan.FocusedWindow}({windowMan.FocusedWindow.CurrentState}) - "
-                : $"Mode({windowMan.Windows.Count}): {windowMan.FocusedWindow}(NO STATE) - ");
+                ? $"Window({windowMan.Windows.Count}): {windowMan.FocusedWindow}({windowMan.FocusedWindow.CurrentState}) - "
+                : $"Window({windowMan.Windows.Count}): {windowMan.FocusedWindow}() - ");
 
             // Total number of turns that have passed in the simulation.
             tui.AppendLine($"Turns: {GameSimulationApp.Instance.TotalTurns.ToString("D4")}");

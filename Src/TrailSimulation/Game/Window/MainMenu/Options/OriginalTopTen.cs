@@ -7,8 +7,8 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Shows the player hard-coded top ten list as it is known internally in static list.
     /// </summary>
-    [ParentWindow(Windows.Options)]
-    public sealed class OriginalTopTen : InputForm<OptionInfo>
+    [ParentWindow(Windows.MainMenu)]
+    public sealed class OriginalTopTen : InputForm<NewGameInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -43,8 +43,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //parentGameMode.State = null;
-            ClearForm();
+            SetForm(typeof(ManagementOptions));
         }
     }
 }

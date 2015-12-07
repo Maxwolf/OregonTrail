@@ -8,8 +8,8 @@ namespace TrailSimulation.Game
     ///     Erases all the saved JSON tombstone epitaphs on the disk so other players will not encounter them, new ones can be
     ///     created then.
     /// </summary>
-    [ParentWindow(Windows.Options)]
-    public sealed class EraseTombstone : InputForm<OptionInfo>
+    [ParentWindow(Windows.MainMenu)]
+    public sealed class EraseTombstone : InputForm<NewGameInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -58,21 +58,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            switch (reponse)
-            {
-                case DialogResponse.No:
-                    ClearForm();
-                    break;
-                case DialogResponse.Yes:
-                    // TODO: Clear tombstone message list, delete file that was loaded from disk...
-                    ClearForm();
-                    break;
-                case DialogResponse.Custom:
-                    ClearForm();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);
-            }
+            SetForm(typeof(ManagementOptions));
         }
     }
 }

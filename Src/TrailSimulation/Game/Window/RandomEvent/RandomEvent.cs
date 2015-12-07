@@ -58,7 +58,7 @@ namespace TrailSimulation.Game
             // Attached the random event state when we intercept an event it would like us to trigger.
             UserData.DirectorEvent = directorEvent;
             UserData.SourceEntity = simEntity;
-            SetState(typeof (EventExecutor));
+            SetForm(typeof (EventExecutor));
         }
 
         /// <summary>

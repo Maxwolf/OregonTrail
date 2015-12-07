@@ -173,7 +173,7 @@ namespace TrailSimulation.Core
         public void SetForm(Type stateType)
         {
             // Pass the state wanted to the parent game Windows.
-            ParentMode.SetState(stateType);
+            ParentMode.SetForm(stateType);
         }
 
         /// <summary>

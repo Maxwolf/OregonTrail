@@ -76,9 +76,9 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Glorified options menu, used to clear top ten, tombstone messages, and saved games.
         /// </summary>
-        private static void ChooseManagementOptions()
+        private void ChooseManagementOptions()
         {
-            GameSimulationApp.Instance.WindowManager.AddMode(Windows.Options);
+            SetForm(typeof (ManagementOptions));
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace TrailSimulation.Game
         private void SeeTopTen()
         {
             //State = new CurrentTopTen(this, NewGameInfo);
-            SetState(typeof (CurrentTopTen));
+            SetForm(typeof (CurrentTopTen));
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace TrailSimulation.Game
         private void LearnAboutTrail()
         {
             //State = new RulesHelp(this, NewGameInfo);
-            SetState(typeof (RulesHelp));
+            SetForm(typeof (RulesHelp));
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace TrailSimulation.Game
         private void TravelTheTrail()
         {
             //State = new ProfessionSelector(this, NewGameInfo);
-            SetState(typeof (ProfessionSelector));
+            SetForm(typeof (ProfessionSelector));
         }
     }
 }

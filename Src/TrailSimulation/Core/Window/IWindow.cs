@@ -48,7 +48,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Creates and adds the specified type of state to currently active game Windows.
         /// </summary>
-        void SetState(Type stateType);
+        void SetForm(Type stateType);
 
         /// <summary>
         ///     Removes the current state from the active game Windows.
