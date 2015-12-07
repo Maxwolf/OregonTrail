@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using TrailSimulation.Game;
-using TrailSimulation.Utility;
 
 namespace TrailSimulation.Core
 {

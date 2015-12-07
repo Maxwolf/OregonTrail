@@ -104,11 +104,11 @@
     <Compile Include="Game\Window\Travel\Pace\PaceAdviceState.cs" />
     <Compile Include="Game\Window\Travel\EndGame\PointsState.cs" />
     <Compile Include="Game\Window\Travel\EndGame\TombstoneState.cs" />
-    <Compile Include="Utility\AttributeHelper.cs" />
-    <Compile Include="Widget\SpinningPixel.cs" />
-    <Compile Include="Widget\MarqueeBar.cs" />
-    <Compile Include="Widget\TextProgress.cs" />
-    <Compile Include="Utility\TextTableExtensions.cs" />
+    <Compile Include="Core\Extension Methods\AttributeHelper.cs" />
+    <Compile Include="Core\Window\Control\SpinningPixel.cs" />
+    <Compile Include="Core\Window\Control\MarqueeBar.cs" />
+    <Compile Include="Core\Window\Control\TextProgress.cs" />
+    <Compile Include="Core\Window\Control\TextTableExtensions.cs" />
     <Compile Include="Game\Module\Trail\Location.cs" />
     <Compile Include="Entity\Vehicle\RepairLevel.cs" />
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
@@ -170,7 +170,7 @@
     <Compile Include="Entity\Vehicle\Vehicle.cs" />
     <Compile Include="Game\Window\MainMenu\MainMenuMode.cs" />
     <Compile Include="Core\Module\RandomModule.cs" />
-    <Compile Include="Utility\TypeExtensions.cs" />
+    <Compile Include="Core\Extension Methods\TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Event\Animal\" />

@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
-using TrailSimulation.Utility;
 
 namespace TrailSimulation.Game
 {
@@ -38,7 +37,7 @@ namespace TrailSimulation.Game
             get
             {
                 // GetModule the current food item from vehicle inventory.
-                var foodItem = GameSimulationApp.Instance.Vehicle.Inventory[Entity.Entities.Food];
+                var foodItem = GameSimulationApp.Instance.Vehicle.Inventory[Entities.Food];
 
                 // Set default food status text, update to actual food item total weight if it exists.
                 var foodStatus = "0 pounds";

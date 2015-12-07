@@ -55,7 +55,7 @@ namespace TrailSimulation.Game
                 case DialogResponse.Yes:
                     // Check if you have enough monies to use the ferry.
                     if (UserData.River.FerryCost >
-                        GameSimulationApp.Instance.Vehicle.Inventory[Entity.Entities.Cash].TotalValue)
+                        GameSimulationApp.Instance.Vehicle.Inventory[Entities.Cash].TotalValue)
                     {
                         // Tell the player they do not have enough money to cross the river using the ferry.
                         SetForm(typeof (FerryNoMoniesState));

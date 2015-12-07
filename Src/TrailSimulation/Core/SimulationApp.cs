@@ -1,5 +1,4 @@
 ﻿using System;
-using TrailSimulation.Widget;
 
 namespace TrailSimulation.Core
 {

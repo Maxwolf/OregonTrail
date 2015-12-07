@@ -3,8 +3,6 @@ using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
 using TrailSimulation.Event;
-using TrailSimulation.Utility;
-using TrailSimulation.Widget;
 
 namespace TrailSimulation.Game
 {
@@ -95,8 +93,8 @@ namespace TrailSimulation.Game
             GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
 
             // Remove the monies from the player for ferry trip.
-            var oldMoney = GameSimulationApp.Instance.Vehicle.Inventory[Entity.Entities.Cash];
-            GameSimulationApp.Instance.Vehicle.Inventory[Entity.Entities.Cash] =
+            var oldMoney = GameSimulationApp.Instance.Vehicle.Inventory[Entities.Cash];
+            GameSimulationApp.Instance.Vehicle.Inventory[Entities.Cash] =
                 new SimItem(oldMoney, (int) (oldMoney.TotalValue - UserData.River.FerryCost));
 
             // Clear out the cost for the ferry since it has been paid for now.

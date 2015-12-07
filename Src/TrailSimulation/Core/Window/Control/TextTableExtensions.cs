@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace TrailSimulation.Utility
+namespace TrailSimulation.Core
 {
     /// <summary>
     ///     Converts lists of objects into string table representations of themselves.

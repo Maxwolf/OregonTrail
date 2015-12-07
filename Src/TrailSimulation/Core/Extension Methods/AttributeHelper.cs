@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace TrailSimulation.Utility
+namespace TrailSimulation.Core
 {
     /// <summary>
     ///     Meant for dealing with attributes and grabbing all the available classes of a given type with specified attribute

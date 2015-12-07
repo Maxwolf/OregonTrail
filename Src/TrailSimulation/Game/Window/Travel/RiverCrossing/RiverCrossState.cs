@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TrailSimulation.Core;
-using TrailSimulation.Utility;
 
 namespace TrailSimulation.Game
 {

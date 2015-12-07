@@ -14,7 +14,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        private Dictionary<Entity.Entities, SimItem> _totalTransactions;
+        private Dictionary<Entities, SimItem> _totalTransactions;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
@@ -32,7 +32,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        public IDictionary<Entity.Entities, SimItem> Transactions
+        public IDictionary<Entities, SimItem> Transactions
         {
             get { return _totalTransactions; }
         }
@@ -66,7 +66,7 @@ namespace TrailSimulation.Game
             {
                 return GameSimulationApp.Instance.Trail.IsFirstLocation &&
                        GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached &&
-                       Transactions[Entity.Entities.Animal].Quantity <= 0;
+                       Transactions[Entities.Animal].Quantity <= 0;
             }
         }
 
@@ -90,7 +90,7 @@ namespace TrailSimulation.Game
 
             // Modify the vehicles cash from purchases they made.
             var playerCash = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
-            Transactions[Entity.Entities.Cash] = new SimItem(Transactions[Entity.Entities.Cash], (int) playerCash);
+            Transactions[Entities.Cash] = new SimItem(Transactions[Entities.Cash], (int) playerCash);
 
             // Loop through all the pending transaction and buy them out.
             foreach (var transaction in Transactions)
@@ -107,7 +107,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void Reset()
         {
-            _totalTransactions = new Dictionary<Entity.Entities, SimItem>(Vehicle.DefaultInventory);
+            _totalTransactions = new Dictionary<Entities, SimItem>(Vehicle.DefaultInventory);
             Invalidated = false;
         }
 
@@ -126,7 +126,7 @@ namespace TrailSimulation.Game
         public void RemoveItem(SimItem item)
         {
             // Loop through every single transaction.
-            var copyList = new Dictionary<Entity.Entities, SimItem>(_totalTransactions);
+            var copyList = new Dictionary<Entities, SimItem>(_totalTransactions);
             foreach (var transaction in copyList)
             {
                 // Check if SimItem name matches incoming one.

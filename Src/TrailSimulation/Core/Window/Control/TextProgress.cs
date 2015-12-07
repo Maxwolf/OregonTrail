@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace TrailSimulation.Widget
+namespace TrailSimulation.Core
 {
     /// <summary>
     ///     Text manipulation utilities for dealing with displaying progress visually as text in a console application.

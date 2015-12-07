@@ -39,7 +39,7 @@ namespace TrailSimulation.Game
                 var itemFormattedQuantity = item.Value.Quantity.ToString("N0");
 
                 // Skip money, it is only shown in store.
-                if (item.Key == Entity.Entities.Cash)
+                if (item.Key == Entities.Cash)
                     continue;
 
                 // Place tab characters between the item name and the quantity.

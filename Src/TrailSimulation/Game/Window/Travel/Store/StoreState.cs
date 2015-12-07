@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
-using TrailSimulation.Utility;
 
 namespace TrailSimulation.Game
 {
@@ -127,16 +126,16 @@ namespace TrailSimulation.Game
             _storePrompt.AppendLine("--------------------------------");
 
             // Loop through all the store assets commands and print them out for the state.
-            var storeAssets = new List<Entity.Entities>(Enum.GetValues(typeof (Entity.Entities)).Cast<Entity.Entities>());
+            var storeAssets = new List<Entities>(Enum.GetValues(typeof (Entities)).Cast<Entities>());
             for (var index = 0; index < storeAssets.Count; index++)
             {
                 // Get the current entity enumeration value we casted into list.
                 var storeItem = storeAssets[index];
 
                 // Skip if store item is cash, person, or vehicle.
-                if (storeItem == Entity.Entities.Cash ||
-                    storeItem == Entity.Entities.Person ||
-                    storeItem == Entity.Entities.Vehicle)
+                if (storeItem == Entities.Cash ||
+                    storeItem == Entities.Person ||
+                    storeItem == Entities.Vehicle)
                     continue;
 
                 // Creates a store price tag that shows the user how much the item is and or how much the store has.
@@ -184,36 +183,36 @@ namespace TrailSimulation.Game
                 return;
 
             // Attempt to cast string to enum value, can be characters or integer.
-            Entity.Entities selectedItem;
+            Entities selectedItem;
             Enum.TryParse(input, out selectedItem);
 
             // Figure out what to do based on selection.
             switch (selectedItem)
             {
-                case Entity.Entities.Animal:
+                case Entities.Animal:
                     BuyOxen();
                     break;
-                case Entity.Entities.Food:
+                case Entities.Food:
                     BuyFood();
                     break;
-                case Entity.Entities.Clothes:
+                case Entities.Clothes:
                     BuyClothing();
                     break;
-                case Entity.Entities.Ammo:
+                case Entities.Ammo:
                     BuyAmmunition();
                     break;
-                case Entity.Entities.Wheel:
+                case Entities.Wheel:
                     BuySpareWheels();
                     break;
-                case Entity.Entities.Axle:
+                case Entities.Axle:
                     BuySpareAxles();
                     break;
-                case Entity.Entities.Tongue:
+                case Entities.Tongue:
                     BuySpareTongues();
                     break;
-                case Entity.Entities.Vehicle:
-                case Entity.Entities.Person:
-                case Entity.Entities.Cash:
+                case Entities.Vehicle:
+                case Entities.Person:
+                case Entities.Cash:
                     // The other options we just make them do the same as leaving store.
                     LeaveStore();
                     break;

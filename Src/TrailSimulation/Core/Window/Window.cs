@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using TrailSimulation.Game;
-using TrailSimulation.Utility;
 
 namespace TrailSimulation.Core
 {

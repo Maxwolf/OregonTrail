@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TrailSimulation.Widget
+namespace TrailSimulation.Core
 {
     /// <summary>
     ///     Old school spinning pixel progress, normally used to show the thread is not locked by some running process.
