@@ -59,8 +59,8 @@ namespace TrailSimulation.Core
 
             // Create modules needed for managing simulation.
             Random = new RandomModule();
-            ModeManager = new ModeManagerModule();
-            TextRender = new TextRendererModule();
+            WindowManager = new WindowManagerModule();
+            TextRender = new SceneGraphModule();
 
             // Input manager needs event hook for knowing when buffer is sent.
             InputManagerManager = new InputManagerModule();
@@ -91,9 +91,9 @@ namespace TrailSimulation.Core
         internal RandomModule Random { get; private set; }
 
         /// <summary>
-        ///     Keeps track of the currently attached game mode, which one is active, and getting text user interface data.
+        ///     Keeps track of the currently attached game Windows, which one is active, and getting text user interface data.
         /// </summary>
-        internal ModeManagerModule ModeManager { get; private set; }
+        internal WindowManagerModule WindowManager { get; private set; }
 
         /// <summary>
         ///     Handles input from the users keyboard, holds an input buffer and will push it to the simulation when return key is
@@ -102,10 +102,11 @@ namespace TrailSimulation.Core
         public InputManagerModule InputManagerManager { get; private set; }
 
         /// <summary>
-        ///     Shows the current state of the simulation as text only interface (TUI). Uses default constants if the attached mode
+        ///     Shows the current state of the simulation as text only interface (TUI). Uses default constants if the attached
+        ///     Windows
         ///     or state does not override this functionality and it is ticked.
         /// </summary>
-        public TextRendererModule TextRender { get; private set; }
+        public SceneGraphModule TextRender { get; private set; }
 
         /// <summary>
         ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
@@ -129,8 +130,8 @@ namespace TrailSimulation.Core
             // Back buffer for only sending text when changed.
             TextRender?.OnTick(systemTick);
 
-            // Changes game mode and state when needed.
-            ModeManager?.OnTick(systemTick);
+            // Changes game Windows and state when needed.
+            WindowManager?.OnTick(systemTick);
 
             // Rolls virtual dice.
             Random?.OnTick(systemTick);
@@ -193,7 +194,7 @@ namespace TrailSimulation.Core
 
             // Remove simulation core modules.
             Random = null;
-            ModeManager = null;
+            WindowManager = null;
             TextRender = null;
             InputManagerManager = null;
         }

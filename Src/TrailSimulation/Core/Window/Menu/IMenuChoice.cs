@@ -1,0 +1,17 @@
+﻿using System;
+
+namespace TrailSimulation.Core
+{
+    /// <summary>
+    ///     Defines a choice in the dynamic action selection system for a given game Windows. This is intended to be used by a
+    ///     wrapper for menu choices that aggregates all of the possible actions a given game Windows can make while it is
+    ///     active
+    ///     in the simulation.
+    /// </summary>
+    public interface IMenuChoice<T> where T : struct, IComparable, IFormattable, IConvertible
+    {
+        T Command { get; set; }
+        string Description { get; set; }
+        Action Action { get; set; }
+    }
+}

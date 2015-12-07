@@ -19,6 +19,6 @@ namespace TrailSimulation.Entity
         ///     Defines what type of entity this will take the role of in the simulation. Depending on this value the simulation
         ///     will affect how it is treated, points tabulated, and interactions governed.
         /// </summary>
-        SimEntity Category { get; }
+        Entities Category { get; }
     }
 }

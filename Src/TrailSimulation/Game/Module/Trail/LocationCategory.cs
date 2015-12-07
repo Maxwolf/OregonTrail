@@ -2,8 +2,9 @@
 {
     /// <summary>
     ///     Defines the type of location this will serve as. All locations have the same base operations and hooks to events,
-    ///     however depending on their category it might trigger the launch of another state or mode depending on the needs of
-    ///     the given attached mode rather than us assuming what it is going to do.
+    ///     however depending on their category it might trigger the launch of another state or Windows depending on the needs
+    ///     of
+    ///     the given attached Windows rather than us assuming what it is going to do.
     /// </summary>
     public enum LocationCategory
     {

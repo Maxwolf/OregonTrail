@@ -25,7 +25,7 @@ namespace TrailSimulation.Event
         ///     left completely up to handler.
         /// </summary>
         /// <param name="sourceEntity">
-        ///     Entity which the event is going to directly affect. This way there is no confusion about
+        ///     Entities which the event is going to directly affect. This way there is no confusion about
         ///     what entity the event is for. Will require casting to correct instance type from interface instance.
         /// </param>
         public override void Execute(IEntity sourceEntity)

@@ -13,7 +13,7 @@ namespace TrailSimulation.Game
     {
         /// <summary>
         ///     Defines the limit on the number of players for the vehicle that will be allowed. This also determines how many
-        ///     names are asked for in new game mode.
+        ///     names are asked for in new game Windows.
         /// </summary>
         public const int MAX_PLAYERS = 4;
 
@@ -73,17 +73,21 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Attaches the traveling mode and removes the new game mode if it exists, this begins the simulation down the trail
+        ///     Attaches the traveling Windows and removes the new game Windows if it exists, this begins the simulation down the
+        ///     trail
         ///     path and all the points of interest on it.
         /// </summary>
-        /// <param name="startingInfo">User data object that was passed around the new game mode and populated by user selections.</param>
+        /// <param name="startingInfo">
+        ///     User data object that was passed around the new game Windows and populated by user
+        ///     selections.
+        /// </param>
         internal void SetData(MainMenuInfo startingInfo)
         {
             // Clear out any data amount items, monies, people that might have been in the vehicle.
             // NOTE: Sets starting monies, which is determined by player profession.
             Vehicle.ResetVehicle(startingInfo.StartingMonies);
 
-            // Add all the player data we collected from attached game mode states.
+            // Add all the player data we collected from attached game Windows states.
             var crewNumber = 1;
             foreach (var name in startingInfo.PlayerNames)
             {
@@ -147,11 +151,11 @@ namespace TrailSimulation.Game
             Vehicle = new Vehicle();
             TotalTurns = 0;
 
-            // Attach traveling mode since that is the default and bottom most game mode.
-            ModeManager.AddMode(Mode.Travel);
+            // Attach traveling Windows since that is the default and bottom most game Windows.
+            WindowManager.AddMode(Windows.Travel);
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            ModeManager.AddMode(Mode.MainMenu);
+            WindowManager.AddMode(Windows.MainMenu);
         }
     }
 }

@@ -91,7 +91,7 @@ namespace TrailSimulation.Game
             if (directorEventKeyValuePair.Value.IsAbstract)
                 return null;
 
-            // Create the game mode, it will have constructor with one parameter.
+            // Create the game Windows, it will have constructor with one parameter.
             var eventInstance = Activator.CreateInstance(
                 directorEventKeyValuePair.Value,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,

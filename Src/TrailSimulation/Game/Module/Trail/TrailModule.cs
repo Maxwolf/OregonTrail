@@ -54,7 +54,7 @@ namespace TrailSimulation.Game
 
         /// <summary>
         ///     Returns the current point of interest the players vehicle is on. Lazy initialization of path when accessed by first
-        ///     attached mode getting current point.
+        ///     attached Windows getting current point.
         /// </summary>
         public Location CurrentLocation
         {
@@ -163,11 +163,11 @@ namespace TrailSimulation.Game
             if (GameSimulationApp.Instance.TotalTurns > 0)
                 LocationIndex++;
 
-            // Set visited flag for location, park the vehicle, and attach mode the location requires.
+            // Set visited flag for location, park the vehicle, and attach Windows the location requires.
             CurrentLocation.Status = LocationStatus.Arrived;
 
             // Check for end of game if we are at the end of the trail.
-            GameSimulationApp.Instance.ModeManager.AddMode(Mode.Travel);
+            GameSimulationApp.Instance.WindowManager.AddMode(Windows.Travel);
         }
     }
 }

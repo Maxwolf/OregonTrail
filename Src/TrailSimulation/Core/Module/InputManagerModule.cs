@@ -65,8 +65,8 @@ namespace TrailSimulation.Core
             if (_commandQueue.Count <= 0)
                 return;
 
-            // Dequeue the next command to send and pass along to currently active game mode if it exists.
-            GameSimulationApp.Instance.ModeManager.ActiveMode?.SendCommand(_commandQueue.Dequeue());
+            // Dequeue the next command to send and pass along to currently active game Windows if it exists.
+            GameSimulationApp.Instance.WindowManager.ActiveMode?.SendCommand(_commandQueue.Dequeue());
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace TrailSimulation.Core
             var lineBufferTrimmed = InputBuffer.Trim();
 
             // Destroy the input buffer if we are not accepting commands but return is pressed anyway.
-            if (!GameSimulationApp.Instance.ModeManager.AcceptingInput)
+            if (!GameSimulationApp.Instance.WindowManager.AcceptingInput)
                 InputBuffer = string.Empty;
 
             // Send trimmed line buffer to game simulation, if not accepting input we just pass along empty string.
@@ -97,7 +97,7 @@ namespace TrailSimulation.Core
         private void OnCharacterAddedToInputBuffer(string addedKeyString)
         {
             // Disable passing along input buffer if the simulation is not currently accepting input from the user.
-            if (!GameSimulationApp.Instance.ModeManager.AcceptingInput)
+            if (!GameSimulationApp.Instance.WindowManager.AcceptingInput)
                 return;
 
             // Add the character to the end of the input buffer.
@@ -106,7 +106,7 @@ namespace TrailSimulation.Core
 
         /// <summary>
         ///     Populates an internal input buffer for the simulation that is used to eventually return a possible command string
-        ///     to active game mode.
+        ///     to active game Windows.
         /// </summary>
         public void AddCharToInputBuffer(char keyChar)
         {
@@ -130,7 +130,7 @@ namespace TrailSimulation.Core
 
         /// <summary>
         ///     Fired by messaging system or user interface that wants to interact with the simulation by sending string command
-        ///     that should be able to be parsed into a valid command that can be run on the current game mode.
+        ///     that should be able to be parsed into a valid command that can be run on the current game Windows.
         /// </summary>
         /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
         private void AddCommandToQueue(string returnedLine)

@@ -10,10 +10,10 @@ namespace TrailSimulation.Entity
     public class SimItem : IEntity
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.SimEntity.SimItem" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Entities.SimItem" /> class.
         /// </summary>
         public SimItem(
-            SimEntity category,
+            Entities category,
             string name,
             string pluralForm,
             string delineatingUnit,
@@ -140,7 +140,7 @@ namespace TrailSimulation.Entity
         ///     them
         ///     when looking for a particular piece of data in the vehicles inventory list.
         /// </summary>
-        public SimEntity Category { get; }
+        public Entities Category { get; }
 
         /// <summary>
         ///     Display name of the SimItem as it should be known to players.

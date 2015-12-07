@@ -15,7 +15,7 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
         /// </summary>
-        private Dictionary<SimEntity, SimItem> _inventory;
+        private Dictionary<Entities, SimItem> _inventory;
 
         /// <summary>
         ///     References all of the people inside of the vehicle.
@@ -23,7 +23,7 @@ namespace TrailSimulation.Entity
         private List<Person> _passengers;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.SimEntity.Vehicle" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Entities.Vehicle" /> class.
         /// </summary>
         public Vehicle()
         {
@@ -37,7 +37,7 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
         /// </summary>
-        public IDictionary<SimEntity, SimItem> Inventory
+        public IDictionary<Entities, SimItem> Inventory
         {
             get { return _inventory; }
         }
@@ -89,21 +89,21 @@ namespace TrailSimulation.Entity
         /// </summary>
         public float Balance
         {
-            get { return _inventory[SimEntity.Cash].TotalValue; }
+            get { return _inventory[Entities.Cash].TotalValue; }
             private set
             {
                 // Skip if the quantity already matches the value we are going to set it to.
-                if (value.Equals(_inventory[SimEntity.Cash].Quantity))
+                if (value.Equals(_inventory[Entities.Cash].Quantity))
                     return;
 
                 // Check if the value being set is zero, if so just reset it.
                 if (value <= 0)
                 {
-                    _inventory[SimEntity.Cash].Reset();
+                    _inventory[Entities.Cash].Reset();
                 }
                 else
                 {
-                    _inventory[SimEntity.Cash] = new SimItem(_inventory[SimEntity.Cash],
+                    _inventory[Entities.Cash] = new SimItem(_inventory[Entities.Cash],
                         (int) value);
                 }
             }
@@ -112,20 +112,20 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Default items every vehicle and store will have, their prices increase with distance from starting point.
         /// </summary>
-        internal static IDictionary<SimEntity, SimItem> DefaultInventory
+        internal static IDictionary<Entities, SimItem> DefaultInventory
         {
             get
             {
-                var defaultInventory = new Dictionary<SimEntity, SimItem>
+                var defaultInventory = new Dictionary<Entities, SimItem>
                 {
-                    {SimEntity.Animal, Parts.Oxen},
-                    {SimEntity.Clothes, Resources.Clothing},
-                    {SimEntity.Ammo, Resources.Bullets},
-                    {SimEntity.Wheel, Parts.Wheel},
-                    {SimEntity.Axle, Parts.Axle},
-                    {SimEntity.Tongue, Parts.Tongue},
-                    {SimEntity.Food, Resources.Food},
-                    {SimEntity.Cash, Resources.Cash}
+                    {Entities.Animal, Parts.Oxen},
+                    {Entities.Clothes, Resources.Clothing},
+                    {Entities.Ammo, Resources.Bullets},
+                    {Entities.Wheel, Parts.Wheel},
+                    {Entities.Axle, Parts.Axle},
+                    {Entities.Tongue, Parts.Tongue},
+                    {Entities.Food, Resources.Food},
+                    {Entities.Cash, Resources.Cash}
                 };
                 return defaultInventory;
             }
@@ -142,7 +142,7 @@ namespace TrailSimulation.Entity
             get
             {
                 // Total amount of monies the player has spent on animals to pull their vehicle.
-                var cost_animals = Inventory[SimEntity.Animal].TotalValue;
+                var cost_animals = Inventory[Entities.Animal].TotalValue;
 
                 // Variables that will hold the distance we should travel in the next day.
                 var total_miles = Mileage + (cost_animals - 110)/2.5 + 10*GameSimulationApp.Instance.Random.NextDouble();
@@ -160,9 +160,9 @@ namespace TrailSimulation.Entity
         ///     Defines what type of entity this will take the role of in the simulation. Depending on this value the simulation
         ///     will affect how it is treated, points tabulated, and interactions governed.
         /// </summary>
-        public SimEntity Category
+        public Entities Category
         {
-            get { return SimEntity.Vehicle; }
+            get { return Entities.Vehicle; }
         }
 
         public int Compare(IEntity x, IEntity y)
@@ -338,7 +338,7 @@ namespace TrailSimulation.Entity
         /// <param name="startingMonies">Amount of money the vehicle should have to work with.</param>
         public void ResetVehicle(int startingMonies)
         {
-            _inventory = new Dictionary<SimEntity, SimItem>(DefaultInventory);
+            _inventory = new Dictionary<Entities, SimItem>(DefaultInventory);
             Balance = startingMonies;
             _passengers = new List<Person>();
             Ration = RationLevel.Filling;
@@ -360,13 +360,13 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Destroys some of the inventory items in no particular order and or reason. That is left up the caller to decide.
         /// </summary>
-        public IDictionary<SimEntity, int> DestroyRandomItems()
+        public IDictionary<Entities, int> DestroyRandomItems()
         {
             // Dictionary that will keep track of enumeration item type and destroyed amount for record keeping purposes.
-            IDictionary<SimEntity, int> destroyedItems = new Dictionary<SimEntity, int>();
+            IDictionary<Entities, int> destroyedItems = new Dictionary<Entities, int>();
 
             // Make a copy of the inventory to iterate over.
-            var copiedInventory = new Dictionary<SimEntity, SimItem>(Inventory);
+            var copiedInventory = new Dictionary<Entities, SimItem>(Inventory);
 
             // Loop through the inventory and decide to randomly destroy some inventory items.
             foreach (var itemPair in copiedInventory)

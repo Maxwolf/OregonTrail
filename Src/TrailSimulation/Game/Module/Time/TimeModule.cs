@@ -170,9 +170,9 @@ namespace TrailSimulation.Game
             GameSimulationApp.Instance.Vehicle.OnTick(false);
 
             // Grab the total amount of monies the player has spent on the items in their inventory.
-            var cost_ammo = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Ammo].TotalValue;
-            var cost_clothes = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Clothes].TotalValue;
-            var start_cash = GameSimulationApp.Instance.Vehicle.Inventory[SimEntity.Cash].TotalValue;
+            var cost_ammo = GameSimulationApp.Instance.Vehicle.Inventory[Entity.Entities.Ammo].TotalValue;
+            var cost_clothes = GameSimulationApp.Instance.Vehicle.Inventory[Entity.Entities.Clothes].TotalValue;
+            var start_cash = GameSimulationApp.Instance.Vehicle.Inventory[Entity.Entities.Cash].TotalValue;
 
             // Move towards the next location on the trail.
             GameSimulationApp.Instance.Trail.OnTick(false);

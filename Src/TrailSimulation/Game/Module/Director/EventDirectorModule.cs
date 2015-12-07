@@ -48,7 +48,7 @@ namespace TrailSimulation.Game
         ///     Gathers all of the events by specified type and then rolls the virtual dice to determine if any of the events in
         ///     the enumeration should trigger.
         /// </summary>
-        /// <param name="sourceEntity">Entity which will be affected by event if triggered.</param>
+        /// <param name="sourceEntity">Entities which will be affected by event if triggered.</param>
         /// <param name="eventCategory">Event type the dice will be rolled against and attempted to trigger.</param>
         public void TriggerEventByType(IEntity sourceEntity, EventCategory eventCategory)
         {
@@ -72,7 +72,7 @@ namespace TrailSimulation.Game
         ///     Triggers an event directly by type of reference. Event must have [EventDirector] attribute to be
         ///     registered in the factory correctly.
         /// </summary>
-        /// <param name="sourceEntity">Entity which will be affected by event if triggered.</param>
+        /// <param name="sourceEntity">Entities which will be affected by event if triggered.</param>
         /// <param name="eventType">System type that represents the type of event to trigger.</param>
         public void TriggerEvent(IEntity sourceEntity, Type eventType)
         {
@@ -83,15 +83,16 @@ namespace TrailSimulation.Game
 
         /// <summary>
         ///     Primary worker for the event factory, pulled into it's own method here so all the trigger event types can call it.
-        ///     This will attach the random event game mode and then fire an event to trigger the event execution in that mode
+        ///     This will attach the random event game Windows and then fire an event to trigger the event execution in that
+        ///     Windows
         ///     then it will be able to display any relevant data about what happened.
         /// </summary>
-        /// <param name="sourceEntity">Entity which will be affected by event if triggered.</param>
-        /// <param name="directorEvent">Created instance of event that will be executed on simulation in random game mode.</param>
+        /// <param name="sourceEntity">Entities which will be affected by event if triggered.</param>
+        /// <param name="directorEvent">Created instance of event that will be executed on simulation in random game Windows.</param>
         private void ExecuteEvent(IEntity sourceEntity, EventProduct directorEvent)
         {
-            // Attach random event game mode before triggering event since it will listen for it using event delegate.
-            GameSimulationApp.Instance.ModeManager.AddMode(Mode.RandomEvent);
+            // Attach random event game Windows before triggering event since it will listen for it using event delegate.
+            GameSimulationApp.Instance.WindowManager.AddMode(Windows.RandomEvent);
 
             // Fire off event so primary game simulation knows we executed an event with an event.
             OnEventTriggered?.Invoke(sourceEntity, directorEvent);
