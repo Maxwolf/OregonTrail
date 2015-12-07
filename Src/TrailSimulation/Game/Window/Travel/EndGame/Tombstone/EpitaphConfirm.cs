@@ -5,22 +5,17 @@ using TrailSimulation.Core;
 namespace TrailSimulation.Game
 {
     /// <summary>
-    ///     Attached when the party leader dies, or the vehicle reaches the end of the trail.
+    ///     Confirms with the user if there is any changes they would like to make to their tombstone before it gets saved for
+    ///     other travelers on this section of the trail to see.
     /// </summary>
     [ParentWindow(Windows.Travel)]
-    public sealed class EndGame : InputForm<TravelInfo>
+    public sealed class EpitaphConfirm : InputForm<TravelInfo>
     {
-        /// <summary>
-        ///     Holds reference to end game text that will be shown to the user.
-        /// </summary>
-        private StringBuilder _gameOver;
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public EndGame(IWindow gameMode) : base(gameMode)
+        public EpitaphConfirm(IWindow gameMode) : base(gameMode)
         {
-            _gameOver = new StringBuilder();
         }
 
         /// <summary>
@@ -28,11 +23,13 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
-            _gameOver.AppendLine("Congratulations! You have ");
-            _gameOver.AppendLine("made it to Oregon! Let's see ");
-            _gameOver.AppendLine("how many points you have ");
-            _gameOver.Append("received.");
-            return _gameOver.ToString();
+            var _confirmPrompt = new StringBuilder();
+
+            // TODO: Add tombstone message with here lies player name and their epitaph.
+
+            _confirmPrompt.AppendLine("Would you like to make");
+            _confirmPrompt.Append("changes?");
+            return _confirmPrompt.ToString();
         }
 
         /// <summary>
@@ -42,7 +39,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            SetForm(typeof(FinalPoints));
+            throw new NotImplementedException();
         }
     }
 }

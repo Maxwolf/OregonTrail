@@ -51,6 +51,9 @@
     <Compile Include="Core\Window\Form\FormFactory.cs" />
     <Compile Include="Core\Module\SceneGraph.cs" />
     <Compile Include="Core\Module\WindowManager.cs" />
+    <Compile Include="Game\Window\Travel\EndGame\Tombstone\EpitaphConfirm.cs" />
+    <Compile Include="Game\Window\Travel\EndGame\Tombstone\EpitaphQuestion.cs" />
+    <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneData.cs" />
     <Compile Include="Game\Window\Travel\ForkInRoad\ForkInRoad.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Choice\RiverCrossChoice.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverGenerator.cs" />
@@ -103,7 +106,7 @@
     <Compile Include="Game\Window\Travel\Drive\DriveTrail.cs" />
     <Compile Include="Game\Window\Travel\Pace\PaceHelp.cs" />
     <Compile Include="Game\Window\Travel\EndGame\FinalPoints.cs" />
-    <Compile Include="Game\Window\Travel\EndGame\Tombstone.cs" />
+    <Compile Include="Game\Window\Travel\EndGame\Tombstone\Tombstone.cs" />
     <Compile Include="Core\Utility\AttributeHelper.cs" />
     <Compile Include="Core\Window\Control\SpinningPixel.cs" />
     <Compile Include="Core\Window\Control\MarqueeBar.cs" />
@@ -119,7 +122,7 @@
     <Compile Include="Core\Window\Menu\MenuChoice.cs" />
     <Compile Include="Core\Window\Form\Form.cs" />
     <Compile Include="Game\Windows.cs" />
-    <Compile Include="Game\Window\MainMenu\InitialItemsHelp.cs" />
+    <Compile Include="Game\Window\MainMenu\Help\InitialItemsHelp.cs" />
     <Compile Include="Game\Window\MainMenu\CurrentTopTen.cs" />
     <Compile Include="Game\Window\MainMenu\Names\InputPlayerNames.cs" />
     <Compile Include="Game\Window\MainMenu\Help\RulesHelp.cs" />

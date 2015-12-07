@@ -5,22 +5,17 @@ using TrailSimulation.Core;
 namespace TrailSimulation.Game
 {
     /// <summary>
-    ///     Attached when the party leader dies, or the vehicle reaches the end of the trail.
+    ///     Asks the user if they would like to write a custom message on their tombstone for other users to see when the come
+    ///     across this part of the trail in the future.
     /// </summary>
     [ParentWindow(Windows.Travel)]
-    public sealed class EndGame : InputForm<TravelInfo>
+    public sealed class EpitaphQuestion : InputForm<TravelInfo>
     {
-        /// <summary>
-        ///     Holds reference to end game text that will be shown to the user.
-        /// </summary>
-        private StringBuilder _gameOver;
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public EndGame(IWindow gameMode) : base(gameMode)
+        public EpitaphQuestion(IWindow gameMode) : base(gameMode)
         {
-            _gameOver = new StringBuilder();
         }
 
         /// <summary>
@@ -28,11 +23,13 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
-            _gameOver.AppendLine("Congratulations! You have ");
-            _gameOver.AppendLine("made it to Oregon! Let's see ");
-            _gameOver.AppendLine("how many points you have ");
-            _gameOver.Append("received.");
-            return _gameOver.ToString();
+            var epitaphPrompt = new StringBuilder();
+
+            // TODO: Add tombstone message with here lies player name, no epitaph yet.
+
+            epitaphPrompt.AppendLine("Would you like to write");
+            epitaphPrompt.Append("an epitaph?");
+            return epitaphPrompt.ToString();
         }
 
         /// <summary>
@@ -42,7 +39,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            SetForm(typeof(FinalPoints));
+            throw new NotImplementedException();
         }
     }
 }
