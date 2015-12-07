@@ -16,30 +16,10 @@ namespace TrailSimulation.Game
         Travel,
 
         /// <summary>
-        ///     Lets the player hunt for food to bring back to the vehicle.
-        /// </summary>
-        [SimulationMode(typeof (HuntingMode))]
-        Hunt,
-
-        /// <summary>
         ///     Allows the configuration of party names, player profession, and purchasing initial items for trip.
         /// </summary>
         [SimulationMode(typeof (MainMenuMode))]
         MainMenu,
-
-        /// <summary>
-        ///     Shows final point count, resets simulation data, asks if user wants to return to main menu or close the
-        ///     application.
-        /// </summary>
-        [SimulationMode(typeof (EndGameMode))]
-        EndGame,
-
-        /// <summary>
-        ///     Facilitates trading items with a fake AI vehicle, a list is created and values randomly selected from it for
-        ///     possible trades.
-        /// </summary>
-        [SimulationMode(typeof (TradingMode))]
-        Trade,
 
         /// <summary>
         ///     Allows the player to reset top ten high scores, remove saved games, remove tombstone messages, etc.

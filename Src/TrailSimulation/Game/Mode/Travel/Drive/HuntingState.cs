@@ -4,18 +4,33 @@ using TrailSimulation.Core;
 namespace TrailSimulation.Game
 {
     /// <summary>
-    ///     Shows point tabulation based on current simulation statistics. This way if the player dies or finishes the game we
-    ///     just attach this state to the travel mode and it will show the final score and reset the game and return to main
-    ///     menu when the player is done.
+    ///     Used to allow the players party to hunt for wild animals, shooting bullet items into the animals will successfully
+    ///     kill them and when the round is over the amount of meat is determined by what animals are killed. The player party
+    ///     can only take back up to one hundred pounds of whatever the value was back to the wagon regardless of what it was.
     /// </summary>
-    [RequiredMode(Mode.EndGame)]
-    public sealed class PointsState : StateProduct<EndGameInfo>
+    [RequiredMode(Mode.Travel)]
+    public sealed class HuntingState : StateProduct<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsState(IModeProduct gameMode) : base(gameMode)
+        public HuntingState(IModeProduct gameMode) : base(gameMode)
         {
+        }
+
+        public void UseBullets(int amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddFood(int amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateVehicle()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

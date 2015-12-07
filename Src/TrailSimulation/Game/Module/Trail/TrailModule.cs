@@ -167,9 +167,7 @@ namespace TrailSimulation.Game
             CurrentLocation.Status = LocationStatus.Arrived;
 
             // Check for end of game if we are at the end of the trail.
-            GameSimulationApp.Instance.ModeManager.AddMode(LocationIndex > Locations.Count
-                ? Mode.EndGame
-                : Mode.Travel);
+            GameSimulationApp.Instance.ModeManager.AddMode(Mode.Travel);
         }
     }
 }

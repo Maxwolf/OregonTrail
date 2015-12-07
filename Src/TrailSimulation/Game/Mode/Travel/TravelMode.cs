@@ -115,8 +115,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void AttemptToTrade()
         {
-            ClearState();
-            GameSimulationApp.Instance.ModeManager.AddMode(Mode.Trade);
+            SetState(typeof (TradingState));
         }
 
         /// <summary>
@@ -125,8 +124,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void HuntForFood()
         {
-            ClearState();
-            GameSimulationApp.Instance.ModeManager.AddMode(Mode.Hunt);
+            SetState(typeof (HuntingState));
         }
 
         /// <summary>
