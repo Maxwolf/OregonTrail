@@ -166,7 +166,7 @@ namespace TrailSimulation.Core
         ///     Creates and adds the specified game Windows to the simulation if it does not already exist in the list of modes.
         /// </summary>
         /// <param name="windows">Enumeration value of the Windows which should be created.</param>
-        public void AddMode(Windows windows)
+        public void Add(Windows windows)
         {
             // Check if any other modes match the one we are adding.
             if (Windows.ContainsKey(windows))

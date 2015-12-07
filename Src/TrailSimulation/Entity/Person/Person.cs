@@ -45,7 +45,7 @@ namespace TrailSimulation.Entity
         ///     Determines if this person is the party leader, without this person the game will end. The others cannot go on
         ///     without them.
         /// </summary>
-        private bool IsLeader { get; }
+        public bool IsLeader { get; }
 
         /// <summary>
         ///     Name of the person as they should be known by other players and the simulation.

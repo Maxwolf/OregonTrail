@@ -255,7 +255,7 @@ namespace TrailSimulation.Game
                 GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
 
                 // Attach state that will ask if we want to check status or keep driving on trail.
-                SetForm(typeof (ArriveAtLocation));
+                SetForm(typeof (LocationArrive));
             }
             else
             {

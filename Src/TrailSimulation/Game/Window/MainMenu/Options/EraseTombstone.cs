@@ -5,7 +5,7 @@ using TrailSimulation.Core;
 namespace TrailSimulation.Game
 {
     /// <summary>
-    ///     Erases all the saved JSON tombstone epitaphs on the disk so other players will not encounter them, new ones can be
+    ///     Erases all the saved JSON TombstoneItem epitaphs on the disk so other players will not encounter them, new ones can be
     ///     created then.
     /// </summary>
     [ParentWindow(Windows.MainMenu)]
@@ -58,7 +58,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            // TODO: Actually erase tombstone messages.
+            // TODO: Actually erase TombstoneItem messages.
             SetForm(typeof(ManagementOptions));
         }
     }

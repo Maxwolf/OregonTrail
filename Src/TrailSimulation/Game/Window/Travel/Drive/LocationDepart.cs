@@ -11,12 +11,12 @@ namespace TrailSimulation.Game
     ///     simulation resume after return key is pressed.
     /// </summary>
     [ParentWindow(Windows.Travel)]
-    public sealed class ContinueOnTrail : InputForm<TravelInfo>
+    public sealed class LocationDepart : InputForm<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ContinueOnTrail(IWindow gameMode) : base(gameMode)
+        public LocationDepart(IWindow gameMode) : base(gameMode)
         {
         }
 

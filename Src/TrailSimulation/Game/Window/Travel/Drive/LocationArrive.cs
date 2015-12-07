@@ -12,12 +12,12 @@ namespace TrailSimulation.Game
     ///     occur without player consent.
     /// </summary>
     [ParentWindow(Windows.Travel)]
-    public sealed class ArriveAtLocation : InputForm<TravelInfo>
+    public sealed class LocationArrive : InputForm<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ArriveAtLocation(IWindow gameMode) : base(gameMode)
+        public LocationArrive(IWindow gameMode) : base(gameMode)
         {
         }
 

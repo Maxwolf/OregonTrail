@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -10,13 +9,25 @@ namespace TrailSimulation.Game
     ///     warning or really whatever. The fun is not knowing what they will say!
     /// </summary>
     [ParentWindow(Windows.Travel)]
-    public sealed class Tombstone : InputForm<TravelInfo>
+    public sealed class GameFail : InputForm<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public Tombstone(IWindow gameMode) : base(gameMode)
+        public GameFail(IWindow gameMode) : base(gameMode)
         {
+        }
+
+        /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnFormPostCreate()
+        {
+            base.OnFormPostCreate();
+
+            // Create a new TombstoneItem that will become the players grave.
+            UserData.TombstoneItem = new TombstoneItem();
         }
 
         /// <summary>
@@ -26,10 +37,11 @@ namespace TrailSimulation.Game
         {
             var tombstone = new StringBuilder();
 
-            // TODO: Add tombstone message with epitaph if the user chose to input one for us to save.
-
+            // Add TombstoneItem message with epitaph if the user chose to input one for us to save.
+            tombstone.AppendLine(UserData.TombstoneItem.ToString());
             tombstone.AppendLine("All of the people");
             tombstone.Append("in your party have died.");
+
             return tombstone.ToString();
         }
 
@@ -40,7 +52,8 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            throw new NotImplementedException();
+            // Ask the player if they would like to write a custom message on their grave...
+            SetForm(typeof(EpitaphQuestion));
         }
     }
 }

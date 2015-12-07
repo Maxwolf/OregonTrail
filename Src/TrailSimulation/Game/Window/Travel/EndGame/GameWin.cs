@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Attached when the party leader dies, or the vehicle reaches the end of the trail.
     /// </summary>
     [ParentWindow(Windows.Travel)]
-    public sealed class EndGame : InputForm<TravelInfo>
+    public sealed class GameWin : InputForm<TravelInfo>
     {
         /// <summary>
         ///     Holds reference to end game text that will be shown to the user.
@@ -18,7 +18,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public EndGame(IWindow gameMode) : base(gameMode)
+        public GameWin(IWindow gameMode) : base(gameMode)
         {
             _gameOver = new StringBuilder();
         }

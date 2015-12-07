@@ -26,7 +26,7 @@ namespace TrailSimulation.Game
         SeeTheOregonTopTen = 3,
 
         /// <summary>
-        ///     Shows version information, ability to clear high scores, tombstone messages, saved games
+        ///     Shows version information, ability to clear high scores, TombstoneItem messages, saved games
         /// </summary>
         [Description("Choose Management Options")]
         ChooseManagementOptions = 4,

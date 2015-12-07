@@ -54,7 +54,7 @@ namespace TrailSimulation.Game
                 case LocationCategory.Landmark:
                 case LocationCategory.Settlement:
                     // Player is going to continue driving down the trail now.
-                    SetForm(typeof (ContinueOnTrail));
+                    SetForm(typeof (LocationDepart));
                     break;
                 case LocationCategory.RiverCrossing:
                     // Player needs to decide how to cross a river.
@@ -218,7 +218,7 @@ namespace TrailSimulation.Game
                 !GameSimulationApp.Instance.Trail.CurrentLocation.LookedAroundPrompted)
             {
                 GameSimulationApp.Instance.Trail.CurrentLocation.LookedAroundPrompted = true;
-                SetForm(typeof (ArriveAtLocation));
+                SetForm(typeof (LocationArrive));
                 return;
             }
 

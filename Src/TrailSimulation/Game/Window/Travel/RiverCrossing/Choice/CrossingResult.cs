@@ -217,7 +217,7 @@ namespace TrailSimulation.Game
             GameSimulationApp.Instance.TakeTurn();
 
             // Start going there...
-            SetForm(typeof (ContinueOnTrail));
+            SetForm(typeof (LocationDepart));
         }
     }
 }

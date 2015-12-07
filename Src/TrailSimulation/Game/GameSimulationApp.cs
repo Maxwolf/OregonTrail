@@ -152,10 +152,10 @@ namespace TrailSimulation.Game
             TotalTurns = 0;
 
             // Attach traveling Windows since that is the default and bottom most game Windows.
-            WindowManager.AddMode(Windows.Travel);
+            WindowManager.Add(Windows.Travel);
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            WindowManager.AddMode(Windows.MainMenu);
+            WindowManager.Add(Windows.MainMenu);
         }
     }
 }
