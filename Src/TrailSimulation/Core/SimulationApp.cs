@@ -57,12 +57,12 @@ namespace TrailSimulation.Core
             TickPhase = _spinningPixel.Step();
 
             // Create modules needed for managing simulation.
-            Random = new RandomModule();
-            WindowManager = new WindowManagerModule();
-            TextRender = new SceneGraphModule();
+            Random = new Randomizer();
+            WindowManager = new WindowManager();
+            TextRender = new SceneGraph();
 
             // Input manager needs event hook for knowing when buffer is sent.
-            InputManagerManager = new InputManagerModule();
+            InputManagerManager = new InputManager();
         }
 
         /// <summary>
@@ -87,25 +87,25 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
         /// </summary>
-        internal RandomModule Random { get; private set; }
+        internal Randomizer Random { get; private set; }
 
         /// <summary>
         ///     Keeps track of the currently attached game Windows, which one is active, and getting text user interface data.
         /// </summary>
-        internal WindowManagerModule WindowManager { get; private set; }
+        internal WindowManager WindowManager { get; private set; }
 
         /// <summary>
         ///     Handles input from the users keyboard, holds an input buffer and will push it to the simulation when return key is
         ///     pressed.
         /// </summary>
-        public InputManagerModule InputManagerManager { get; private set; }
+        public InputManager InputManagerManager { get; private set; }
 
         /// <summary>
         ///     Shows the current state of the simulation as text only interface (TUI). Uses default constants if the attached
         ///     Windows
         ///     or state does not override this functionality and it is ticked.
         /// </summary>
-        public SceneGraphModule TextRender { get; private set; }
+        public SceneGraph TextRender { get; private set; }
 
         /// <summary>
         ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system

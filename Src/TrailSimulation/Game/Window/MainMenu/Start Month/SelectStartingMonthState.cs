@@ -10,8 +10,8 @@ namespace TrailSimulation.Game
     ///     Offers the player the ability to change the starting month of the simulation, this affects how many resources will
     ///     be available to them and the severity of the random events they encounter along the trail.
     /// </summary>
-    [RequiredWindow(Windows.MainMenu)]
-    public sealed class SelectStartingMonthState : Form<MainMenuInfo>
+    [ParentWindow(Windows.MainMenu)]
+    public sealed class SelectStartingMonthState : Form<NewGameInfo>
     {
         /// <summary>
         ///     References the string representing the question about starting month, only builds it once and holds in memory while
@@ -101,27 +101,27 @@ namespace TrailSimulation.Game
             {
                 case StartingMonth.March:
                     UserData.StartingMonth = Month.March;
-                    SetForm(typeof (BuyInitialItemsState));
+                    SetForm(typeof (InitialItemsHelp));
                     break;
                 case StartingMonth.April:
                     UserData.StartingMonth = Month.April;
-                    SetForm(typeof (BuyInitialItemsState));
+                    SetForm(typeof (InitialItemsHelp));
                     break;
                 case StartingMonth.May:
                     UserData.StartingMonth = Month.May;
-                    SetForm(typeof (BuyInitialItemsState));
+                    SetForm(typeof (InitialItemsHelp));
                     break;
                 case StartingMonth.June:
                     UserData.StartingMonth = Month.June;
-                    SetForm(typeof (BuyInitialItemsState));
+                    SetForm(typeof (InitialItemsHelp));
                     break;
                 case StartingMonth.July:
                     UserData.StartingMonth = Month.July;
-                    SetForm(typeof (BuyInitialItemsState));
+                    SetForm(typeof (InitialItemsHelp));
                     break;
                 default:
                     // Shows information about what the different starting months mean.
-                    SetForm(typeof (StartMonthAdviceState));
+                    SetForm(typeof (StartMonthHelp));
                     break;
             }
         }

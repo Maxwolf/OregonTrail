@@ -12,26 +12,26 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Primary game Windows used for advancing simulation down the trail.
         /// </summary>
-        [Window(typeof (TravelMode))]
+        [Window(typeof (Travel))]
         Travel,
 
         /// <summary>
         ///     Allows the configuration of party names, player profession, and purchasing initial items for trip.
         /// </summary>
-        [Window(typeof (MainMenuMode))]
+        [Window(typeof (MainMenu))]
         MainMenu,
 
         /// <summary>
         ///     Allows the player to reset top ten high scores, remove saved games, remove tombstone messages, etc.
         /// </summary>
-        [Window(typeof (OptionsMode))]
+        [Window(typeof (Options))]
         Options,
 
         /// <summary>
         ///     Random event Windows is attached by the event director which then listens for the event it will throw at it over
         ///     event delegate the random event Windows will subscribe to.
         /// </summary>
-        [Window(typeof (RandomEventMode))]
+        [Window(typeof (RandomEvent))]
         RandomEvent
     }
 }

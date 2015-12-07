@@ -15,7 +15,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public TravelInfo()
         {
-            Store = new StoreReceipt();
+            Store = new StoreGenerator();
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made when the player visits a store.
         /// </summary>
-        public StoreReceipt Store { get; }
+        public StoreGenerator Store { get; }
 
         /// <summary>
         ///     Used when the player is traveling on the trail between locations. Also known as drive state in travel game Windows.

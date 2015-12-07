@@ -81,7 +81,7 @@ namespace TrailSimulation.Game
         ///     User data object that was passed around the new game Windows and populated by user
         ///     selections.
         /// </param>
-        internal void SetData(MainMenuInfo startingInfo)
+        internal void SetData(NewGameInfo startingInfo)
         {
             // Clear out any data amount items, monies, people that might have been in the vehicle.
             // NOTE: Sets starting monies, which is determined by player profession.

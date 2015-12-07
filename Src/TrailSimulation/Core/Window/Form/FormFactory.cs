@@ -23,11 +23,11 @@ namespace TrailSimulation.Core
             LoadedForms = new Dictionary<Type, Windows>();
 
             // Collect all of the states with the custom attribute decorated on them.
-            var foundStates = AttributeHelper.GetTypesWith<RequiredWindowAttribute>(false);
+            var foundStates = AttributeHelper.GetTypesWith<ParentWindowAttribute>(false);
             foreach (var stateType in foundStates)
             {
                 // GetModule the attribute itself from the state we are working on, which gives us the game Windows enum.
-                var stateAttribute = stateType.GetAttributes<RequiredWindowAttribute>(false).First();
+                var stateAttribute = stateType.GetAttributes<ParentWindowAttribute>(false).First();
                 var stateParentMode = stateAttribute.ParentWindow;
 
                 // Add the state reference list for lookup and instancing later during runtime.
