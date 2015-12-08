@@ -107,7 +107,8 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     TombstoneItem for the player (or another dead player) that will be either viewed or shown to user so they can confirm
+        ///     TombstoneItem for the player (or another dead player) that will be either viewed or shown to user so they can
+        ///     confirm
         ///     their graves details.
         /// </summary>
         public TombstoneItem TombstoneItem { get; set; }

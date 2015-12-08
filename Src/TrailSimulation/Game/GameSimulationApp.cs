@@ -135,6 +135,18 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override void OnFirstTick()
         {
+            Restart();
+        }
+
+        /// <summary>
+        ///     Creates and or clears data sets required for game simulation and attaches the travel menu and the main menu to make
+        ///     the program completely restarted as if fresh.
+        /// </summary>
+        public void Restart()
+        {
+            // Reset turn counter back to zero.
+            TotalTurns = 0;
+
             // Linear time simulation with ticks.
             Time = new TimeModule();
 
@@ -149,7 +161,9 @@ namespace TrailSimulation.Game
 
             // Vehicle entity for the players to travel in along the trail.
             Vehicle = new Vehicle();
-            TotalTurns = 0;
+
+            // Resets the window manager and clears out all windows and forms from previous session.
+            WindowManager.Clear();
 
             // Attach traveling Windows since that is the default and bottom most game Windows.
             WindowManager.Add(Windows.Travel);

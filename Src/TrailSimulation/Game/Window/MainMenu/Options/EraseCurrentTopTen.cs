@@ -56,7 +56,7 @@ namespace TrailSimulation.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // TODO: Actually erase current top ten list.
-            SetForm(typeof(ManagementOptions));
+            SetForm(typeof (ManagementOptions));
         }
     }
 }

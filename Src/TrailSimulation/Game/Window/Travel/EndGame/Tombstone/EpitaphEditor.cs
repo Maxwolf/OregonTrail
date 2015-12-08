@@ -11,6 +11,14 @@ namespace TrailSimulation.Game
     [ParentWindow(Windows.Travel)]
     public sealed class EpitaphEditor : Form<TravelInfo>
     {
+        /// <summary>
+        ///     Defines how long a epitaph on a tombstone can be in characters.
+        /// </summary>
+        private const int EPITAPH_MAXLENGTH = 38;
+
+        /// <summary>
+        ///     String builder that will hold representation of the tombstone for the player to see.
+        /// </summary>
         private StringBuilder _epitaphPrompt;
 
         /// <summary>
@@ -27,7 +35,10 @@ namespace TrailSimulation.Game
         /// </summary>
         public override string OnRenderForm()
         {
-            throw new NotImplementedException();
+            // Add TombstoneItem message we want to show the player from TombstoneItem manager.
+            _epitaphPrompt.Clear();
+            _epitaphPrompt.AppendLine($"{Environment.NewLine}{UserData.TombstoneItem}");
+            return _epitaphPrompt.ToString();
         }
 
         /// <summary>
@@ -36,8 +47,11 @@ namespace TrailSimulation.Game
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
         public override void OnInputBufferReturned(string input)
         {
-            //UserData.TombstoneItem.Epitaph =
-            SetForm(typeof(EpitaphConfirm));
+            // Trims the string and then cuts off any excess characters that go beyond our allowed limit.
+            UserData.TombstoneItem.Epitaph = input.Trim().Truncate(EPITAPH_MAXLENGTH);
+
+            // Confirm with the player this is what they wanted the tombstone to say. Since we truncate need to confirm.
+            SetForm(typeof (EpitaphConfirm));
         }
     }
 }

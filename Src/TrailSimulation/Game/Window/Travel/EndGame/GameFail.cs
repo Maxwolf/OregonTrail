@@ -1,12 +1,14 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
     /// <summary>
-    ///     Used when the party leader dies, no matter what happens this prevents the rest of the game from moving forward and
-    ///     everybody dies. This state offers up the chance for the person to leave a personal epitaph of their existence as a
-    ///     warning or really whatever. The fun is not knowing what they will say!
+    ///     Fired when the simulation has determined the player has died. It specifically only attaches at this time. The flow
+    ///     for death like this is to first show the player the failure state like this, then ask if they want to leave an
+    ///     epitaph, process that decision, confirm it, and finally show the viewer that will also show the reason why the
+    ///     player died using description attribute from an enumeration value that determines how they died.
     /// </summary>
     [ParentWindow(Windows.Travel)]
     public sealed class GameFail : InputForm<TravelInfo>
@@ -19,15 +21,21 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
-        ///     data and other properties below it.
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
-        public override void OnFormPostCreate()
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public override bool InputFillsBuffer
         {
-            base.OnFormPostCreate();
+            get { return false; }
+        }
 
-            // Create a new TombstoneItem that will become the players grave.
-            UserData.TombstoneItem = new TombstoneItem();
+        /// <summary>
+        ///     Determines if this dialog state is allowed to receive any input at all, even empty line returns. This is useful for
+        ///     preventing the player from leaving a particular dialog until you are ready or finished processing some data.
+        /// </summary>
+        public override bool AllowInput
+        {
+            get { return false; }
         }
 
         /// <summary>
@@ -35,14 +43,12 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
-            var tombstone = new StringBuilder();
+            var _tombstone = new StringBuilder();
 
-            // Add TombstoneItem message with epitaph if the user chose to input one for us to save.
-            tombstone.AppendLine(UserData.TombstoneItem.ToString());
-            tombstone.AppendLine("All of the people");
-            tombstone.Append("in your party have died.");
+            // Adds TombstoneItem from the user data because the player died.
+            _tombstone.AppendLine($"{Environment.NewLine}{UserData.TombstoneItem}");
 
-            return tombstone.ToString();
+            return _tombstone.ToString();
         }
 
         /// <summary>
@@ -52,8 +58,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            // Ask the player if they would like to write a custom message on their grave...
-            SetForm(typeof(EpitaphQuestion));
+            SetForm(typeof (EpitaphQuestion));
         }
     }
 }

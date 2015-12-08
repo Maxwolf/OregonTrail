@@ -37,6 +37,7 @@
     <Compile Include="Core\IModule.cs" />
     <Compile Include="Core\ITick.cs" />
     <Compile Include="Core\SimulationModule.cs" />
+    <Compile Include="Core\Utility\StringExtensions.cs" />
     <Compile Include="Entity\Vehicle\VehicleStatus.cs" />
     <Compile Include="Event\Prefab\EventItemDestroyer.cs" />
     <Compile Include="Event\RiverFloat\VehicleFloodsEvent.cs" />
@@ -51,10 +52,12 @@
     <Compile Include="Core\Window\Form\FormFactory.cs" />
     <Compile Include="Core\Module\SceneGraph.cs" />
     <Compile Include="Core\Module\WindowManager.cs" />
+    <Compile Include="Game\Window\Travel\EndGame\FailureReason.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\EpitaphConfirm.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\EpitaphEditor.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\EpitaphQuestion.cs" />
-    <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneCloneable.cs" />
+    <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneBase.cs" />
+    <Compile Include="Game\Window\Travel\EndGame\GameFail.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneItem.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneManager.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneViewer.cs" />
@@ -110,7 +113,6 @@
     <Compile Include="Game\Window\Travel\Drive\DriveTrail.cs" />
     <Compile Include="Game\Window\Travel\Pace\PaceHelp.cs" />
     <Compile Include="Game\Window\Travel\EndGame\FinalPoints.cs" />
-    <Compile Include="Game\Window\Travel\EndGame\GameFail.cs" />
     <Compile Include="Core\Utility\AttributeHelper.cs" />
     <Compile Include="Core\Window\Control\SpinningPixel.cs" />
     <Compile Include="Core\Window\Control\MarqueeBar.cs" />

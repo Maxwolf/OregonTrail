@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -42,7 +41,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            SetForm(typeof(FinalPoints));
+            SetForm(typeof (FinalPoints));
         }
     }
 }

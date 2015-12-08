@@ -197,5 +197,14 @@ namespace TrailSimulation.Core
                 }
             }
         }
+
+        /// <summary>
+        ///     Removes every window and form from the simulation and makes it a blank slate. Use with caution, if there is an
+        ///     operation in progress, or waiting for user input this will not respect that and just forcefully destroy everything.
+        /// </summary>
+        public void Clear()
+        {
+            Windows.Clear();
+        }
     }
 }

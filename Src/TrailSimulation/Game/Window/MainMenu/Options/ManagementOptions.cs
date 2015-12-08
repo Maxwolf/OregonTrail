@@ -34,7 +34,8 @@ namespace TrailSimulation.Game
             base.OnFormPostCreate();
 
             _optionsPrompt.AppendLine($"{Environment.NewLine}The Oregon Trail");
-            _optionsPrompt.AppendLine($"Version: {Assembly.GetExecutingAssembly().GetName().Version}{Environment.NewLine}");
+            _optionsPrompt.AppendLine(
+                $"Version: {Assembly.GetExecutingAssembly().GetName().Version}{Environment.NewLine}");
             _optionsPrompt.AppendLine($"Management Options{Environment.NewLine}");
             _optionsPrompt.AppendLine("You may:");
             _optionsPrompt.AppendLine("1. See the original Top Ten list");
@@ -68,15 +69,15 @@ namespace TrailSimulation.Game
             {
                 case 1:
                     // See the original Top Ten list.
-                    SetForm(typeof(OriginalTopTen));
+                    SetForm(typeof (OriginalTopTen));
                     break;
                 case 2:
                     // Erase the current Top Ten list.
-                    SetForm(typeof(EraseCurrentTopTen));
+                    SetForm(typeof (EraseCurrentTopTen));
                     break;
                 case 3:
                     // Erase the TombstoneItem messages.
-                    SetForm(typeof(EraseTombstone));
+                    SetForm(typeof (EraseTombstone));
                     break;
                 case 4:
                     // Return to the main menu.

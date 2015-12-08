@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     the
     ///     epitaph the player wrote on it if it exists.
     /// </summary>
-    public sealed class TombstoneItem : TombstoneCloneable
+    public sealed class TombstoneItem : TombstoneBase
     {
         /// <summary>
         ///     Creates a TombstoneItem from scratch, useful for when re-creating them from disk to be loaded back into the

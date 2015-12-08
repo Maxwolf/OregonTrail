@@ -10,16 +10,11 @@ namespace TrailSimulation.Game
     public sealed class TombstoneManager
     {
         /// <summary>
-        ///     References all of the currently loaded tombstones.
-        /// </summary>
-        private Dictionary<int, TombstoneItem> _tombstones;
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.TombstoneManager" /> class.
         /// </summary>
         public TombstoneManager()
         {
-            _tombstones = new Dictionary<int, TombstoneItem>();
+            Tombstones = new Dictionary<int, TombstoneItem>();
         }
 
         /// <summary>
@@ -38,9 +33,14 @@ namespace TrailSimulation.Game
         /// </exception>
         public TombstoneItem this[int key]
         {
-            get { return _tombstones[key]; }
-            set { _tombstones[key] = value; }
+            get { return Tombstones[key]; }
+            set { Tombstones[key] = value; }
         }
+
+        /// <summary>
+        ///     References all of the currently loaded tombstones.
+        /// </summary>
+        public Dictionary<int, TombstoneItem> Tombstones { get; }
 
         /// <summary>
         ///     Creates a shallow copy of the tombstone item and adds it to the list of tombstones. Does not check if it already
@@ -56,11 +56,11 @@ namespace TrailSimulation.Game
                 return;
 
             // Check if we already have a tombstone at this mile marker.
-            if (_tombstones.ContainsKey(tombstoneClone.MileMarker))
+            if (Tombstones.ContainsKey(tombstoneClone.MileMarker))
                 return;
 
             // Actually adds the tombstone to the internal list of them using mile marker as a key.
-            _tombstones.Add(tombstoneItem.MileMarker, tombstoneClone);
+            Tombstones.Add(tombstoneItem.MileMarker, tombstoneClone);
         }
     }
 }
