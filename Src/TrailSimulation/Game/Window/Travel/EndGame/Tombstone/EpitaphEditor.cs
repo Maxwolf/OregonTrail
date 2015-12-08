@@ -12,7 +12,8 @@ namespace TrailSimulation.Game
     public sealed class EpitaphEditor : Form<TravelInfo>
     {
         /// <summary>
-        ///     Defines how long a epitaph on a tombstone can be in characters.
+        ///     Defines how long a epitaph on a tombstone can be in characters which will make up the entire string (spaces
+        ///     included).
         /// </summary>
         private const int EPITAPH_MAXLENGTH = 38;
 
@@ -27,6 +28,15 @@ namespace TrailSimulation.Game
         public EpitaphEditor(IWindow gameMode) : base(gameMode)
         {
             _epitaphPrompt = new StringBuilder();
+        }
+
+        /// <summary>
+        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        /// </summary>
+        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
+        public override bool InputFillsBuffer
+        {
+            get { return GameSimulationApp.Instance.InputManager.InputBuffer.Length <= EPITAPH_MAXLENGTH; }
         }
 
         /// <summary>

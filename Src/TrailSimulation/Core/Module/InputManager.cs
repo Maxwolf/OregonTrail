@@ -122,7 +122,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Removes the last character from input buffer if greater than zero.
         /// </summary>
-        public void RemoteLastCharOfInputBuffer()
+        public void RemoveLastCharOfInputBuffer()
         {
             if (InputBuffer.Length > 0)
                 InputBuffer = InputBuffer.Remove(InputBuffer.Length - 1);

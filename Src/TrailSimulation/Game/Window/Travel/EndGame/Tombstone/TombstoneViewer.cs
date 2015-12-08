@@ -49,6 +49,7 @@ namespace TrailSimulation.Game
             {
                 // Adds TombstoneItem from the user data because the player died.
                 _tombstone.AppendLine($"{Environment.NewLine}{UserData.TombstoneItem}");
+                _tombstone.AppendLine(UserData.TombstoneItem.FailReason.ToDescriptionAttribute());
             }
             else if (foundTombstone != null && UserData.TombstoneItem == null)
             {

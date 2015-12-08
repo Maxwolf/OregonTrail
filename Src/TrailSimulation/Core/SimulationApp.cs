@@ -62,7 +62,7 @@ namespace TrailSimulation.Core
             TextRender = new SceneGraph();
 
             // Input manager needs event hook for knowing when buffer is sent.
-            InputManagerManager = new InputManager();
+            InputManager = new InputManager();
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace TrailSimulation.Core
         ///     Handles input from the users keyboard, holds an input buffer and will push it to the simulation when return key is
         ///     pressed.
         /// </summary>
-        public InputManager InputManagerManager { get; private set; }
+        public InputManager InputManager { get; private set; }
 
         /// <summary>
         ///     Shows the current state of the simulation as text only interface (TUI). Uses default constants if the attached
@@ -124,7 +124,7 @@ namespace TrailSimulation.Core
                 return;
 
             // Sends commands if queue has any.
-            InputManagerManager?.OnTick(systemTick);
+            InputManager?.OnTick(systemTick);
 
             // Back buffer for only sending text when changed.
             TextRender?.OnTick(systemTick);
@@ -195,7 +195,7 @@ namespace TrailSimulation.Core
             Random = null;
             WindowManager = null;
             TextRender = null;
-            InputManagerManager = null;
+            InputManager = null;
         }
 
         /// <summary>

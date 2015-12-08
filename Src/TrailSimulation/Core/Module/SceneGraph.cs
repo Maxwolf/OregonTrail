@@ -101,7 +101,7 @@ namespace TrailSimulation.Core
             if (GameSimulationApp.Instance.WindowManager.AcceptingInput)
             {
                 // Allow user to see their input from buffer.
-                tui.Append($"What is your choice? {GameSimulationApp.Instance.InputManagerManager.InputBuffer}");
+                tui.Append($"What is your choice? {GameSimulationApp.Instance.InputManager.InputBuffer}");
             }
 
             // Outputs the result of the string builder to TUI builder above.
