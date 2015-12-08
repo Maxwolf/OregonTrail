@@ -20,7 +20,7 @@ namespace TrailSimulation.Core
         public FormFactory()
         {
             // Create dictionaries for reference tracking for what states belong to what game modes.
-            LoadedForms = new Dictionary<Type, Windows>();
+            LoadedForms = new Dictionary<Type, SimulationModule>();
 
             // Collect all of the states with the custom attribute decorated on them.
             var foundStates = AttributeHelper.GetTypesWith<ParentWindowAttribute>(false);
@@ -38,7 +38,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Reference dictionary for all the reflected state types.
         /// </summary>
-        private Dictionary<Type, Windows> LoadedForms { get; set; }
+        private Dictionary<Type, SimulationModule> LoadedForms { get; set; }
 
         /// <summary>
         ///     Creates and adds the specified type of state to currently active game Windows.

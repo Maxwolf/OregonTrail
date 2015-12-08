@@ -22,18 +22,19 @@ namespace TrailSimulation.Entity
             IsLeader = isLeader;
             DaysStarving = 0;
             Health = RepairLevel.Good;
+            Infection = Disease.None;
         }
 
         /// <summary>
         ///     Current health of this person which is enum that also represents the total points they are currently worth.
         /// </summary>
-        private RepairLevel Health { get; set; }
+        public RepairLevel Health { get; set; }
 
         /// <summary>
         ///     Determines how many total consecutive days this player has not eaten any food. If this continues for more than five
         ///     (5) days then the probability they will die increases exponentially.
         /// </summary>
-        private int DaysStarving { get; set; }
+        public int DaysStarving { get; set; }
 
         /// <summary>
         ///     Profession of this person, typically if the leader is a banker then the entire family is all bankers for sanity
@@ -46,6 +47,13 @@ namespace TrailSimulation.Entity
         ///     without them.
         /// </summary>
         public bool IsLeader { get; }
+
+        /// <summary>
+        ///     Determines if this person is inflicted with a disease. It is possible to contract them from bad water, food, not
+        ///     eating right, over working, stress, etc. Only one disease supported at a time to prevent people from getting
+        ///     multiple infections since that would over complicate things for the player.
+        /// </summary>
+        public Disease Infection { get; }
 
         /// <summary>
         ///     Name of the person as they should be known by other players and the simulation.
@@ -213,14 +221,14 @@ namespace TrailSimulation.Entity
         /// </summary>
         private void CheckIllness()
         {
-            if (100*GameSimulationApp.Instance.Random.NextDouble() <
+            if (100*GameSimulationApp.Instance.Randomizer.NextDouble() <
                 10 + 35*((int) GameSimulationApp.Instance.Vehicle.Ration - 1))
             {
                 // Mild illness.
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(5);
                 Health = RepairLevel.Fair;
             }
-            else if (100*GameSimulationApp.Instance.Random.NextDouble() < 100 -
+            else if (100*GameSimulationApp.Instance.Randomizer.NextDouble() < 100 -
                      (40/GameSimulationApp.Instance.Vehicle.Passengers.Count()*
                       ((int) GameSimulationApp.Instance.Vehicle.Ration - 1)))
             {
@@ -235,19 +243,20 @@ namespace TrailSimulation.Entity
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(15);
 
                 // Pick an actual severe illness from list, roll the dice for it on very low health.
-                GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Person);
+                if (GameSimulationApp.Instance.Randomizer.Next(100) >= 99)
+                    GameSimulationApp.Instance.EventDirector.TriggerEvent(this, typeof(InfectPlayer));
             }
 
             if (Health == RepairLevel.VeryPoor &&
-                GameSimulationApp.Instance.Random.Next((int) Health) <= 0)
+                GameSimulationApp.Instance.Randomizer.Next((int) Health) <= 0)
             {
                 // Some dying makes everybody take a huge morale hit.
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(50);
 
                 // Check if leader died or party member.
                 GameSimulationApp.Instance.EventDirector.TriggerEvent(this, IsLeader
-                    ? typeof (DeathPlayerEvent)
-                    : typeof (DeathCompanionEvent));
+                    ? typeof (DeathPlayer)
+                    : typeof (DeathCompanion));
             }
         }
     }

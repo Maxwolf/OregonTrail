@@ -74,14 +74,13 @@ namespace TrailSimulation.Game
 
         /// <summary>
         ///     Attaches the traveling Windows and removes the new game Windows if it exists, this begins the simulation down the
-        ///     trail
-        ///     path and all the points of interest on it.
+        ///     trail path and all the points of interest on it.
         /// </summary>
         /// <param name="startingInfo">
         ///     User data object that was passed around the new game Windows and populated by user
         ///     selections.
         /// </param>
-        internal void SetData(NewGameInfo startingInfo)
+        internal void SetStartInfo(NewGameInfo startingInfo)
         {
             // Clear out any data amount items, monies, people that might have been in the vehicle.
             // NOTE: Sets starting monies, which is determined by player profession.
@@ -166,10 +165,10 @@ namespace TrailSimulation.Game
             WindowManager.Clear();
 
             // Attach traveling Windows since that is the default and bottom most game Windows.
-            WindowManager.Add(Windows.Travel);
+            WindowManager.Add(SimulationModule.Travel);
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            WindowManager.Add(Windows.MainMenu);
+            WindowManager.Add(SimulationModule.MainMenu);
         }
     }
 }

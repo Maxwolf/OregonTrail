@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Special form we can use to view existing tombstones as a dialog offering no changes or input from other players
     ///     letting them only look at the name and epitaph message left if any.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class TombstoneViewer : InputForm<TravelInfo>
     {
         /// <summary>
@@ -49,7 +49,11 @@ namespace TrailSimulation.Game
             {
                 // Adds TombstoneItem from the user data because the player died.
                 _tombstone.AppendLine($"{Environment.NewLine}{UserData.TombstoneItem}");
-                _tombstone.AppendLine(UserData.TombstoneItem.FailReason.ToDescriptionAttribute());
+
+                // Adds the underlying reason for the games failure if it was not obvious to the player by now.
+                _tombstone.AppendLine("All the members of");
+                _tombstone.AppendLine("your party have");
+                _tombstone.AppendLine("died");
             }
             else if (foundTombstone != null && UserData.TombstoneItem == null)
             {

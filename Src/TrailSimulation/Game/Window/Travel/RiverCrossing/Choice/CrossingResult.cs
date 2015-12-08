@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     Runs the player over the river based on the crossing information. Depending on what happens a message will be
     ///     printed to the screen explaining what happened before defaulting back to travel game Windows.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class CrossingResult : Form<TravelInfo>
     {
         /// <summary>
@@ -159,7 +159,7 @@ namespace TrailSimulation.Game
             _swayBarText = _marqueeBar.Step();
 
             // Increment the amount we have floated over the river.
-            _riverCrossingOfTotalWidth += GameSimulationApp.Instance.Random.Next(1, (UserData.River.RiverWidth/4));
+            _riverCrossingOfTotalWidth += GameSimulationApp.Instance.Randomizer.Next(1, (UserData.River.RiverWidth/4));
 
             // Check to see if we will finish crossing river before crossing more.
             if (_riverCrossingOfTotalWidth >= UserData.River.RiverWidth)

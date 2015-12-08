@@ -12,7 +12,7 @@ namespace TrailSimulation.Game
     ///     starting amount of money their party has access to when purchasing starting items for the journey on the trail path
     ///     simulation.
     /// </summary>
-    [ParentWindow(Windows.MainMenu)]
+    [ParentWindow(SimulationModule.MainMenu)]
     public sealed class ProfessionSelector : Form<NewGameInfo>
     {
         /// <summary>
@@ -49,7 +49,7 @@ namespace TrailSimulation.Game
             UserData.StartingMonies = 1600;
 
             // Pass the game data to the simulation for each new game Windows state.
-            GameSimulationApp.Instance.SetData(UserData);
+            GameSimulationApp.Instance.SetStartInfo(UserData);
 
             // String builder that will hold our representation of all possible professions player can choose from.
             _professionChooser = new StringBuilder();

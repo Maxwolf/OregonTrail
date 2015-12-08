@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Shows information about what the different pace settings mean in terms for the simulation and how they will affect
     ///     vehicle, party, and events.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class PaceHelp : InputForm<TravelInfo>
     {
         /// <summary>

@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     inform the player of the next points name, the distance away that it is, and that is all it will close and
     ///     simulation resume after return key is pressed.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class LocationDepart : InputForm<TravelInfo>
     {
         /// <summary>

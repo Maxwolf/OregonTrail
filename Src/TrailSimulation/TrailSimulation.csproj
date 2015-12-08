@@ -36,9 +36,10 @@
   <ItemGroup>
     <Compile Include="Core\IModule.cs" />
     <Compile Include="Core\ITick.cs" />
-    <Compile Include="Core\SimulationModule.cs" />
+    <Compile Include="Core\Module.cs" />
     <Compile Include="Core\Utility\StringExtensions.cs" />
     <Compile Include="Entity\Vehicle\VehicleStatus.cs" />
+    <Compile Include="Event\Person\InfectPlayer.cs" />
     <Compile Include="Event\Prefab\EventItemDestroyer.cs" />
     <Compile Include="Event\RiverFloat\VehicleFloodsEvent.cs" />
     <Compile Include="Event\RiverFord\VehicleWashedOutEvent.cs" />
@@ -52,7 +53,6 @@
     <Compile Include="Core\Window\Form\FormFactory.cs" />
     <Compile Include="Core\Module\SceneGraph.cs" />
     <Compile Include="Core\Module\WindowManager.cs" />
-    <Compile Include="Game\Window\Travel\EndGame\FailureReason.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\EpitaphConfirm.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\EpitaphEditor.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\EpitaphQuestion.cs" />
@@ -79,8 +79,8 @@
     <Compile Include="Event\EventCategory.cs" />
     <Compile Include="Game\Module\Director\EventHistory.cs" />
     <Compile Include="Game\Module\Director\EventProduct.cs" />
-    <Compile Include="Event\Person\DeathCompanionEvent.cs" />
-    <Compile Include="Event\Person\DeathPlayerEvent.cs" />
+    <Compile Include="Event\Person\DeathCompanion.cs" />
+    <Compile Include="Event\Person\DeathPlayer.cs" />
     <Compile Include="Game\Module\Director\DirectorEventAttribute.cs" />
     <Compile Include="Game\Window\MainMenu\Help\StoreHelp.cs" />
     <Compile Include="Core\Window\WindowAttribute.cs" />
@@ -111,7 +111,7 @@
     <Compile Include="Game\Window\MainMenu\Options\OriginalTopTen.cs" />
     <Compile Include="Game\Window\RandomEvent\EventExecutor.cs" />
     <Compile Include="Game\Window\Travel\Drive\DriveTrail.cs" />
-    <Compile Include="Game\Window\Travel\Pace\PaceHelp.cs" />
+    <Compile Include="Game\Window\Travel\Drive\Help\PaceHelp.cs" />
     <Compile Include="Game\Window\Travel\EndGame\FinalPoints.cs" />
     <Compile Include="Core\Utility\AttributeHelper.cs" />
     <Compile Include="Core\Window\Control\SpinningPixel.cs" />
@@ -127,7 +127,7 @@
     <Compile Include="Core\Window\Form\IForm.cs" />
     <Compile Include="Core\Window\Menu\MenuChoice.cs" />
     <Compile Include="Core\Window\Form\Form.cs" />
-    <Compile Include="Game\Windows.cs" />
+    <Compile Include="Game\SimulationModule.cs" />
     <Compile Include="Game\Window\MainMenu\Help\InitialItemsHelp.cs" />
     <Compile Include="Game\Window\MainMenu\CurrentTopTen.cs" />
     <Compile Include="Game\Window\MainMenu\Names\InputPlayerNames.cs" />
@@ -145,7 +145,7 @@
     <Compile Include="Game\Window\Travel\Store\Help\StoreWelcome.cs" />
     <Compile Include="Game\Window\Travel\Store\Help\StoreDebt.cs" />
     <Compile Include="Game\Window\Travel\Drive\ChangeRations.cs" />
-    <Compile Include="Game\Window\Travel\Pace\ChangePace.cs" />
+    <Compile Include="Game\Window\Travel\Drive\ChangePace.cs" />
     <Compile Include="Game\Window\Travel\Drive\CheckSupplies.cs" />
     <Compile Include="Game\Window\Travel\Drive\LocationDepart.cs" />
     <Compile Include="Game\Window\Travel\Drive\LocationArrive.cs" />
@@ -169,7 +169,7 @@
     <Compile Include="Game\Module\Time\TimeModule.cs" />
     <Compile Include="Game\Module\Trail\TrailModule.cs" />
     <Compile Include="Entity\Person\Person.cs" />
-    <Compile Include="Game\Window\Travel\Drive\Hunting.cs" />
+    <Compile Include="Game\Window\Travel\Hunting\Hunting.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverCross.cs" />
     <Compile Include="Game\Window\Travel\Store\Store.cs" />
     <Compile Include="Game\Window\Travel\Drive\Trading.cs" />

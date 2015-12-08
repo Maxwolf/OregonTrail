@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     come
     ///     across this part of the trail in the future.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class EpitaphQuestion : InputForm<TravelInfo>
     {
         /// <summary>

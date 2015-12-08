@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
     ///     game simulation normally.
     /// </summary>
-    public sealed class EventDirectorModule : SimulationModule
+    public sealed class EventDirectorModule : Module
     {
         /// <summary>
         ///     Fired when an event has been triggered by the director.
@@ -53,7 +53,7 @@ namespace TrailSimulation.Game
         public void TriggerEventByType(IEntity sourceEntity, EventCategory eventCategory)
         {
             // Roll the dice here to determine if the event is triggered at all.
-            var diceRoll = GameSimulationApp.Instance.Random.Next(100);
+            var diceRoll = GameSimulationApp.Instance.Randomizer.Next(100);
             if (diceRoll > 0)
                 return;
 
@@ -92,7 +92,7 @@ namespace TrailSimulation.Game
         private void ExecuteEvent(IEntity sourceEntity, EventProduct directorEvent)
         {
             // Attach random event game Windows before triggering event since it will listen for it using event delegate.
-            GameSimulationApp.Instance.WindowManager.Add(Windows.RandomEvent);
+            GameSimulationApp.Instance.WindowManager.Add(SimulationModule.RandomEvent);
 
             // Fire off event so primary game simulation knows we executed an event with an event.
             OnEventTriggered?.Invoke(sourceEntity, directorEvent);

@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     passed
     ///     into it so it may be executed and data shown in text user interface for this state.
     /// </summary>
-    [ParentWindow(Windows.RandomEvent)]
+    [ParentWindow(SimulationModule.RandomEvent)]
     public sealed class EventExecutor : InputForm<RandomEventInfo>
     {
         /// <summary>

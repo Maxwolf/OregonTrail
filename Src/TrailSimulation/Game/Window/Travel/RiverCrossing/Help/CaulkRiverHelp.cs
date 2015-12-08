@@ -4,7 +4,7 @@ using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class CaulkRiverHelp : InputForm<TravelInfo>
     {
         /// <summary>

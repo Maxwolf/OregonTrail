@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps
     ///     track of the vehicles current position on the trail and provides helper methods to quickly access it.
     /// </summary>
-    public sealed class TrailModule : SimulationModule
+    public sealed class TrailModule : Module
     {
         public TrailModule()
         {
@@ -167,7 +167,7 @@ namespace TrailSimulation.Game
             CurrentLocation.Status = LocationStatus.Arrived;
 
             // Check for end of game if we are at the end of the trail.
-            GameSimulationApp.Instance.WindowManager.Add(Windows.Travel);
+            GameSimulationApp.Instance.WindowManager.Add(SimulationModule.Travel);
         }
     }
 }

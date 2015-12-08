@@ -21,7 +21,7 @@ namespace TrailGame
             GameSimulationApp.Create();
 
             // Hook event to know when screen buffer wants to redraw the entire console screen.
-            GameSimulationApp.Instance.TextRender.ScreenBufferDirtyEvent += Simulation_ScreenBufferDirtyEvent;
+            GameSimulationApp.Instance.SceneGraph.ScreenBufferDirtyEvent += Simulation_ScreenBufferDirtyEvent;
 
             // Prevent console session from closing.
             while (GameSimulationApp.Instance != null)

@@ -7,7 +7,7 @@ namespace TrailSimulation.Game
     ///     view to attach on the view. This enum serves that purpose, it is required to add any new game modes the simulation
     ///     needs to know about to this file.
     /// </summary>
-    public enum Windows
+    public enum SimulationModule
     {
         /// <summary>
         ///     Primary game Windows used for advancing simulation down the trail.
@@ -22,7 +22,7 @@ namespace TrailSimulation.Game
         MainMenu,
 
         /// <summary>
-        ///     Random event Windows is attached by the event director which then listens for the event it will throw at it over
+        ///     Randomizer event Windows is attached by the event director which then listens for the event it will throw at it over
         ///     event delegate the random event Windows will subscribe to.
         /// </summary>
         [Window(typeof (RandomEvent))]

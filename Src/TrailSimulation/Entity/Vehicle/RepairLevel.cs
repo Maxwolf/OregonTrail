@@ -1,4 +1,6 @@
-﻿namespace TrailSimulation.Entity
+﻿using System.ComponentModel;
+
+namespace TrailSimulation.Entity
 {
     /// <summary>
     ///     Overall health indicator for all entities in the simulation, we do not track health as a numeric value but as a
@@ -24,6 +26,7 @@
         /// <summary>
         ///     Severe damage, danger of complete failure of death imminent.
         /// </summary>
+        [Description("Very Poor")]
         VeryPoor = 200
     }
 }

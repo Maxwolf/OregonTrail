@@ -4,7 +4,7 @@
     ///     Base implementation of the IModule interface which allows for some overrides to be virtual so every implementation
     ///     doesn't have to use them.
     /// </summary>
-    public abstract class SimulationModule : IModule
+    public abstract class Module : IModule
     {
         /// <summary>
         ///     Determines if the module has been created by the simulation.
@@ -12,9 +12,9 @@
         private bool _moduleCreated;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.SimulationModule" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.Module" /> class.
         /// </summary>
-        protected SimulationModule()
+        protected Module()
         {
             _moduleCreated = true;
         }

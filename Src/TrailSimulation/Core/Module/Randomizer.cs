@@ -5,7 +5,7 @@ namespace TrailSimulation.Core
     /// <summary>
     ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
     /// </summary>
-    public sealed class Randomizer : SimulationModule
+    public sealed class Randomizer : Module
     {
         /// <summary>
         ///     Game logic objects.

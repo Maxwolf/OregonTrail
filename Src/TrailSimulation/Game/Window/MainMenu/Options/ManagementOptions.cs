@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     Glorified options menu for the game that allows player to remove top ten high scores, remove saved games, erase
     ///     TombstoneItem messages, etc.
     /// </summary>
-    [ParentWindow(Windows.MainMenu)]
+    [ParentWindow(SimulationModule.MainMenu)]
     public sealed class ManagementOptions : Form<NewGameInfo>
     {
         /// <summary>

@@ -9,7 +9,7 @@ namespace TrailSimulation.Core
     ///     Builds up a list of game modes and their states using reflection and attributes. Contains methods to add game modes
     ///     to running simulation. Can also remove modes and modify them further with states.
     /// </summary>
-    public sealed class WindowManager : SimulationModule
+    public sealed class WindowManager : Module
     {
         /// <summary>
         ///     Keeps track of all the possible states a given game mode can have by using attributes and reflection to keep track
@@ -30,7 +30,7 @@ namespace TrailSimulation.Core
         public WindowManager()
         {
             // References all of the active game modes that need to be ticked.
-            Windows = new Dictionary<Windows, IWindow>();
+            Windows = new Dictionary<SimulationModule, IWindow>();
 
             // Factories for modes and states that can be attached to them during runtime.
             _windowFactory = new WindowFactory();
@@ -49,7 +49,7 @@ namespace TrailSimulation.Core
         ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
         ///     of themselves like stores and trades.
         /// </summary>
-        internal Dictionary<Windows, IWindow> Windows { get; }
+        internal Dictionary<SimulationModule, IWindow> Windows { get; }
 
         /// <summary>
         ///     Determines if this simulation is currently accepting input at all, the conditions for this require some game
@@ -142,7 +142,7 @@ namespace TrailSimulation.Core
                 return false;
 
             // Create copy of all modes so we can destroy while iterating.
-            var copyModes = new Dictionary<Windows, IWindow>(Windows);
+            var copyModes = new Dictionary<SimulationModule, IWindow>(Windows);
             var updatedModes = false;
             foreach (var mode in copyModes)
             {
@@ -166,7 +166,7 @@ namespace TrailSimulation.Core
         ///     Creates and adds the specified game Windows to the simulation if it does not already exist in the list of modes.
         /// </summary>
         /// <param name="windows">Enumeration value of the Windows which should be created.</param>
-        public void Add(Windows windows)
+        public void Add(SimulationModule windows)
         {
             // Check if any other modes match the one we are adding.
             if (Windows.ContainsKey(windows))

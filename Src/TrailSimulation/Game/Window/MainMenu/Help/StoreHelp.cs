@@ -7,7 +7,7 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Introduces the player to the concept of a store as being run by a person by the name of Matt.
     /// </summary>
-    [ParentWindow(Windows.MainMenu)]
+    [ParentWindow(SimulationModule.MainMenu)]
     public sealed class StoreHelp : InputForm<NewGameInfo>
     {
         /// <summary>

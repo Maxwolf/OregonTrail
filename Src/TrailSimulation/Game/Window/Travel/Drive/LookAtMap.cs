@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     spot they are on and all the spots they have visited, shows percentage for completion and some other basic
     ///     statistics about the journey that could only be seen from this state.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class LookAtMap : InputForm<TravelInfo>
     {
         /// <summary>

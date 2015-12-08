@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     First panel on point information, shows how health of party members contributes to final score.
     /// </summary>
-    [ParentWindow(Windows.MainMenu)]
+    [ParentWindow(SimulationModule.MainMenu)]
     public sealed class PointsDistributionHelp : InputForm<NewGameInfo>
     {
         /// <summary>
@@ -26,13 +26,13 @@ namespace TrailSimulation.Game
         {
             // Build up string of help about points for people.
             var _pointsHealth = new StringBuilder();
-            _pointsHealth.Append($"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");
-            _pointsHealth.Append($"Your most important resource is the{Environment.NewLine}");
-            _pointsHealth.Append($"people you have with you. You{Environment.NewLine}");
-            _pointsHealth.Append($"receive points for each member of{Environment.NewLine}");
-            _pointsHealth.Append($"your party who arrives safely; you{Environment.NewLine}");
-            _pointsHealth.Append($"receive more points if they arrive{Environment.NewLine}");
-            _pointsHealth.Append($"in good health!{Environment.NewLine}{Environment.NewLine}");
+            _pointsHealth.AppendLine($"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}");
+            _pointsHealth.AppendLine("Your most important resource is the");
+            _pointsHealth.AppendLine("people you have with you. You");
+            _pointsHealth.AppendLine("receive points for each member of");
+            _pointsHealth.AppendLine("your party who arrives safely; you");
+            _pointsHealth.AppendLine("receive more points if they arrive");
+            _pointsHealth.AppendLine($"in good health!{Environment.NewLine}");
 
             // Repair status reference dictionary.
             var _repairLevels = new Dictionary<string, int>();
@@ -44,7 +44,7 @@ namespace TrailSimulation.Game
             // Build a text table from people point distribution with custom headers.
             var partyTextTable = _repairLevels.Values.ToStringTable(
                 new[] {"Health of Party", "Points per Person"},
-                u => Enum.Parse(typeof (RepairLevel), u.ToString()).ToString(),
+                u => Enum.Parse(typeof (RepairLevel), u.ToString()).ToDescriptionAttribute(),
                 u => u);
 
             // Print the table to the screen buffer.

@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     Handles the interaction of the player party and another AI controlled party that offers up items for trading which
     ///     the player can choose to accept or not.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class Trading : Form<TravelInfo>
     {
         private readonly HashSet<SimItem> _possibleTrades;

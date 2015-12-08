@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     order to continue and there is no going around. We tell them how deep the water is and how many feed across the
     ///     river is they will need to travel.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class RiverCrossHelp : InputForm<TravelInfo>
     {
         /// <summary>

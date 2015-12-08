@@ -7,7 +7,7 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Shows the player hard-coded top ten list as it is known internally in static list.
     /// </summary>
-    [ParentWindow(Windows.MainMenu)]
+    [ParentWindow(SimulationModule.MainMenu)]
     public sealed class OriginalTopTen : InputForm<NewGameInfo>
     {
         /// <summary>

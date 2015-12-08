@@ -12,10 +12,10 @@
         public RiverGenerator()
         {
             // Randomly generates statistics about the river each time you cross it.
-            RiverDepth = GameSimulationApp.Instance.Random.Next(1, 20);
-            FerryCost = GameSimulationApp.Instance.Random.Next(3, 8);
-            FerryDelayInDays = GameSimulationApp.Instance.Random.Next(1, 10);
-            RiverWidth = GameSimulationApp.Instance.Random.Next(100, 1500);
+            RiverDepth = GameSimulationApp.Instance.Randomizer.Next(1, 20);
+            FerryCost = GameSimulationApp.Instance.Randomizer.Next(3, 8);
+            FerryDelayInDays = GameSimulationApp.Instance.Randomizer.Next(1, 10);
+            RiverWidth = GameSimulationApp.Instance.Randomizer.Next(100, 1500);
             CrossingType = RiverCrossChoice.None;
         }
 

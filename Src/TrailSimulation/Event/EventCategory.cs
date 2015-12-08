@@ -9,41 +9,41 @@
         /// <summary>
         ///     When something bad happens to vehicle.
         /// </summary>
-        Vehicle = 1,
+        Vehicle,
 
         /// <summary>
         ///     Something bad happens to oxen pulling the vehicle.
         /// </summary>
-        Animal = 2,
+        Animal,
 
         /// <summary>
         ///     Something bad happens to party member such as disease or illness.
         /// </summary>
-        Person = 3,
+        Person,
 
         /// <summary>
         ///     Warnings about low food, medical problems, weather, etc.
         /// </summary>
-        Warning = 4,
+        Warning,
 
         /// <summary>
         ///     Used for displaying information about severe weather like blizzards and storms.
         /// </summary>
-        Climate = 5,
+        Climate,
 
         /// <summary>
         ///     Wild animals, Indians, wolves, riders, and various other critters and strangers that you can encounter.
         /// </summary>
-        Attack = 6,
+        Attack,
 
         /// <summary>
         ///     Crossing a river by diving directly into and hoping for the best. Easy to be washed away by current.
         /// </summary>
-        RiverFord = 7,
+        RiverFord,
 
         /// <summary>
         ///     Caulking the vehicle and attempting to float it across the river can result in flooding and or tipping over.
         /// </summary>
-        RiverFloat = 8
+        RiverFloat
     }
 }

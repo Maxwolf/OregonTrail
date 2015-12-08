@@ -7,7 +7,7 @@ namespace TrailSimulation.Game
     ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
     ///     simulation by one day. There are also other options and events for checking state, and changing state.
     /// </summary>
-    public sealed class TimeModule : SimulationModule
+    public sealed class TimeModule : Module
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.

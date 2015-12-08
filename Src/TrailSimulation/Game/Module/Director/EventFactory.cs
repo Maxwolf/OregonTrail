@@ -131,7 +131,7 @@ namespace TrailSimulation.Game
                 return null;
 
             // Roll the dice against the event reference ceiling count to see which one we use.
-            var diceRoll = GameSimulationApp.Instance.Random.Next(groupedEventList.Count);
+            var diceRoll = GameSimulationApp.Instance.Randomizer.Next(groupedEventList.Count);
 
             // Create the event we decided to execute from these types of event types.
             var randomEvent = CreateInstance(groupedEventList[diceRoll]);

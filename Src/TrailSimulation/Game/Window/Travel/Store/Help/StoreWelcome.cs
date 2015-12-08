@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Offers up some free information about what items are important to the player and what they mean for the during the
     ///     course of the simulation.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class StoreWelcome : Form<TravelInfo>
     {
         /// <summary>

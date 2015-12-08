@@ -15,9 +15,9 @@ namespace TrailSimulation.Game
         ///     Defines the current game Windows the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override Windows Windows
+        public override SimulationModule Windows
         {
-            get { return Windows.RandomEvent; }
+            get { return SimulationModule.RandomEvent; }
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Fired when this game Windows is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        protected override void OnModeRemoved(Windows windows)
+        protected override void OnModeRemoved(SimulationModule windows)
         {
             base.OnModeRemoved(windows);
 

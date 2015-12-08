@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     would indeed like to use all the entered names they have provided or had randomly generated for them by just
     ///     pressing enter.
     /// </summary>
-    [ParentWindow(Windows.MainMenu)]
+    [ParentWindow(SimulationModule.MainMenu)]
     public sealed class ConfirmPlayerNames : InputForm<NewGameInfo>
     {
         /// <summary>
@@ -34,7 +34,7 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             // Pass the game data to the simulation for each new game Windows state.
-            GameSimulationApp.Instance.SetData(UserData);
+            GameSimulationApp.Instance.SetStartInfo(UserData);
 
             // Create string builder, counter, print info about party members.
             var _confirmPartyText = new StringBuilder();

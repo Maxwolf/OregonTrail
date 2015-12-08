@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     we
     ///     can move from here to next state.
     /// </summary>
-    [ParentWindow(Windows.MainMenu)]
+    [ParentWindow(SimulationModule.MainMenu)]
     public sealed class InitialItemsHelp : InputForm<NewGameInfo>
     {
         /// <summary>
@@ -18,7 +18,7 @@ namespace TrailSimulation.Game
         public InitialItemsHelp(IWindow gameMode) : base(gameMode)
         {
             // Pass the game data to the simulation for each new game Windows state.
-            GameSimulationApp.Instance.SetData(UserData);
+            GameSimulationApp.Instance.SetStartInfo(UserData);
         }
 
         /// <summary>

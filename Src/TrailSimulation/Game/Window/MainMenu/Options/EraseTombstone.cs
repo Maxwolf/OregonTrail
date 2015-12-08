@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     be
     ///     created then.
     /// </summary>
-    [ParentWindow(Windows.MainMenu)]
+    [ParentWindow(SimulationModule.MainMenu)]
     public sealed class EraseTombstone : InputForm<NewGameInfo>
     {
         /// <summary>

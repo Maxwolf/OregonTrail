@@ -10,7 +10,7 @@ namespace TrailSimulation.Core
     ///     console only view of the simulation which is intended to be the lowest level of visualization but theoretically
     ///     anything could be a renderer for the simulation.
     /// </summary>
-    public sealed class SceneGraph : SimulationModule
+    public sealed class SceneGraph : Module
     {
         /// <summary>
         ///     Fired when the screen back buffer has changed from what is currently being shown, this forces a redraw.

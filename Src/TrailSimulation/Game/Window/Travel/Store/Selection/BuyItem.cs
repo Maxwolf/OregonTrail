@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Allows the player to purchase a number of oxen to pull their vehicle.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class BuyItem : Form<TravelInfo>
     {
         /// <summary>

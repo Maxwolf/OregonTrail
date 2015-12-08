@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     Offers the player the ability to change the starting month of the simulation, this affects how many resources will
     ///     be available to them and the severity of the random events they encounter along the trail.
     /// </summary>
-    [ParentWindow(Windows.MainMenu)]
+    [ParentWindow(SimulationModule.MainMenu)]
     public sealed class SelectStartingMonthState : Form<NewGameInfo>
     {
         /// <summary>
@@ -44,7 +44,7 @@ namespace TrailSimulation.Game
             base.OnFormPostCreate();
 
             // Pass the game data to the simulation for each new game Windows state.
-            GameSimulationApp.Instance.SetData(UserData);
+            GameSimulationApp.Instance.SetStartInfo(UserData);
 
             // Tell the user they need to make a decision.
             _startMonthQuestion = new StringBuilder();

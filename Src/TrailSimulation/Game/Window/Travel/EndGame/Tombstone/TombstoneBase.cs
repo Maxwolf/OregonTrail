@@ -43,7 +43,6 @@ namespace TrailSimulation.Game
             Epitaph = epitaph;
             MileMarker = mileMarker;
             PlayerName = playerName;
-            FailReason = FailureReason.None;
 
             // Note: This will be able to produce approximately 5,316,911,983,139,663,491,615,228,241,121,400,000 unique values.
             TombstoneID = Guid.NewGuid().ToString("N");
@@ -93,12 +92,6 @@ namespace TrailSimulation.Game
                 _playerName = value;
             }
         }
-
-        /// <summary>
-        ///     Defines the underlying cause for the tombstones existence, used to inform the player about why they failed if it
-        ///     was not already obvious to them.
-        /// </summary>
-        public FailureReason FailReason { get; set; }
 
         /// <summary>
         ///     Determines if the tombstone data should be locked in and 'set in stone'. This is typically done when the tombstone

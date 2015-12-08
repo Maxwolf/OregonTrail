@@ -8,7 +8,7 @@ namespace TrailSimulation.Core
     ///     implementation is a text user interface (TUI) which allows for the currently accepted commands to be seen and only
     ///     then accepted.
     /// </summary>
-    public sealed class InputManager : SimulationModule
+    public sealed class InputManager : Module
     {
         /// <summary>
         ///     Holds a constant representation of the string telling the user to press enter key to continue so we don't repeat

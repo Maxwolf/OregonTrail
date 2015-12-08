@@ -19,6 +19,7 @@
    from Indian wanting clothes
  * Random chance for Indian Guide to help cross river 
    for 1-5 sets of clothes
+ * Random chance for Indians to help you find food if you have none.
  
 [HUNTING]
 1. Random shooting word selected

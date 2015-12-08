@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     they have. This screen is not for looking at group stats, only items which are normally not shown unlike the travel
     ///     menu that shows basic party stats at all times.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class CheckSupplies : InputForm<TravelInfo>
     {
         /// <summary>

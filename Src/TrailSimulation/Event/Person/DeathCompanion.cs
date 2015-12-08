@@ -5,10 +5,11 @@ using TrailSimulation.Game;
 namespace TrailSimulation.Event
 {
     /// <summary>
-    ///     Party leader has died! This will end the entire simulation since the others cannot go on without the leader.
+    ///     Called when one of your party members dies that is not the leader of the group, the game will still be able to
+    ///     continue without this person.
     /// </summary>
     [DirectorEvent(EventCategory.Person)]
-    public sealed class DeathPlayerEvent : EventProduct
+    public sealed class DeathCompanion : EventProduct
     {
         /// <summary>
         ///     Creates a new instance of an event product with the specified event type for reference purposes.
@@ -16,7 +17,7 @@ namespace TrailSimulation.Event
         /// <param name="category">
         ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
         /// </param>
-        public DeathPlayerEvent(EventCategory category) : base(category)
+        public DeathCompanion(EventCategory category) : base(category)
         {
         }
 

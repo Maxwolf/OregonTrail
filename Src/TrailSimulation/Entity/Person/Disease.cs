@@ -7,6 +7,11 @@
     public enum Disease
     {
         /// <summary>
+        ///     Default infection.
+        /// </summary>
+        None,
+
+        /// <summary>
         ///     Cholera is an infection of the small intestine by some strains of the bacterium Vibrio cholerae.
         /// </summary>
         Cholera,

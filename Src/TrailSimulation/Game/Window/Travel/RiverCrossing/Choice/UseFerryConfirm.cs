@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     confirm by saying yes. At this point the simulation will check if they have enough money or not and jump to the
     ///     next state accordingly.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class UseFerryConfirm : InputForm<TravelInfo>
     {
         /// <summary>

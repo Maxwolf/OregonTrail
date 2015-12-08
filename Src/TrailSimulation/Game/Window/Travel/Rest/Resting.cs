@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     Keeps track of a set number of days and every time the game Windows is ticked a day is simulated and days to rest
     ///     subtracted until we are at zero, then the player can close the window but until then input will not be accepted.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class Resting : Form<TravelInfo>
     {
         /// <summary>

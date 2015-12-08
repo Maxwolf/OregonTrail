@@ -5,11 +5,10 @@ using TrailSimulation.Game;
 namespace TrailSimulation.Event
 {
     /// <summary>
-    ///     Called when one of your party members dies that is not the leader of the group, the game will still be able to
-    ///     continue without this person.
+    ///     Infects the source entity player that is casted. Will not change infections or overwrite then, or add multiple only
+    ///     one infection at a time may be active on a person to keep the simulation simple.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
-    public sealed class DeathCompanionEvent : EventProduct
+    public sealed class InfectPlayer : EventProduct
     {
         /// <summary>
         ///     Creates a new instance of an event product with the specified event type for reference purposes.
@@ -17,7 +16,7 @@ namespace TrailSimulation.Event
         /// <param name="category">
         ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
         /// </param>
-        public DeathCompanionEvent(EventCategory category) : base(category)
+        public InfectPlayer(EventCategory category) : base(category)
         {
         }
 
@@ -31,7 +30,7 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            //  
         }
 
         /// <summary>

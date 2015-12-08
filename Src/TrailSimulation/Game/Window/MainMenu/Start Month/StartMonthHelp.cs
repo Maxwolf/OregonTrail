@@ -7,7 +7,7 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Shows the player information about what the various starting months mean.
     /// </summary>
-    [ParentWindow(Windows.MainMenu)]
+    [ParentWindow(SimulationModule.MainMenu)]
     public sealed class StartMonthHelp : InputForm<NewGameInfo>
     {
         public StartMonthHelp(IWindow gameMode) : base(gameMode)

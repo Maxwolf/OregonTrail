@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     the rate at which random events that are considered bad will occur along with other factors in the simulation such
     ///     as making players more susceptible to disease and also making them hungry more often.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class ChangePace : Form<TravelInfo>
     {
         /// <summary>

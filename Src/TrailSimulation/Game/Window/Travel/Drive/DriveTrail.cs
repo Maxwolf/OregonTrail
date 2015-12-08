@@ -11,7 +11,7 @@ namespace TrailSimulation.Game
     ///     moving back and fourth which lets the player know they are moving. Stats are also shown from the travel info
     ///     object, if any random events occur they will be selected from this state.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class DriveTrail : Form<TravelInfo>
     {
         /// <summary>
@@ -117,8 +117,39 @@ namespace TrailSimulation.Game
             // Advance the progress bar, step it to next phase.
             _swayBarText = _marqueeBar.Step();
 
-            // Advances the simulation forward by a day every second (or each tick of simulation).
-            GameSimulationApp.Instance.TakeTurn();
+            // Determines if the end of the game has occurred, if not then we tick the next turn.
+            if (CheckEndGame())
+                GameSimulationApp.Instance.TakeTurn();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool CheckEndGame()
+        {
+            // Some variables to make this not so long and easier on eyes.
+            var _vehicle = GameSimulationApp.Instance.Vehicle;
+            var _trail = GameSimulationApp.Instance.Trail;
+
+            // Check if the player made it all the way to the end of the trail.
+
+
+            // Check if the player has animals to pull their vehicle.
+            if (_vehicle.Inventory[Entities.Animal].Quantity <= 0)
+            {
+                UserData.TombstoneItem = new TombstoneItem();
+                SetForm(typeof(GameFail));
+                return true;
+            }
+
+            // Check if everybody is dead, bring out your dead.
+            foreach (var person in _vehicle.Passengers)
+            {
+                if (person.Health.
+            }
+
+            // Default response is to let the game continue.
+            return false;
         }
 
         /// <summary>

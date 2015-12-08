@@ -57,9 +57,9 @@ namespace TrailSimulation.Core
             TickPhase = _spinningPixel.Step();
 
             // Create modules needed for managing simulation.
-            Random = new Randomizer();
+            Randomizer = new Randomizer();
             WindowManager = new WindowManager();
-            TextRender = new SceneGraph();
+            SceneGraph = new SceneGraph();
 
             // Input manager needs event hook for knowing when buffer is sent.
             InputManager = new InputManager();
@@ -87,7 +87,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
         /// </summary>
-        internal Randomizer Random { get; private set; }
+        internal Randomizer Randomizer { get; private set; }
 
         /// <summary>
         ///     Keeps track of the currently attached game Windows, which one is active, and getting text user interface data.
@@ -105,7 +105,7 @@ namespace TrailSimulation.Core
         ///     Windows
         ///     or state does not override this functionality and it is ticked.
         /// </summary>
-        public SceneGraph TextRender { get; private set; }
+        public SceneGraph SceneGraph { get; private set; }
 
         /// <summary>
         ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
@@ -127,13 +127,13 @@ namespace TrailSimulation.Core
             InputManager?.OnTick(systemTick);
 
             // Back buffer for only sending text when changed.
-            TextRender?.OnTick(systemTick);
+            SceneGraph?.OnTick(systemTick);
 
             // Changes game Windows and state when needed.
             WindowManager?.OnTick(systemTick);
 
             // Rolls virtual dice.
-            Random?.OnTick(systemTick);
+            Randomizer?.OnTick(systemTick);
 
             // System tick is from execution platform, otherwise they are linear simulation ticks.
             if (systemTick)
@@ -192,9 +192,9 @@ namespace TrailSimulation.Core
             TickPhase = string.Empty;
 
             // Remove simulation core modules.
-            Random = null;
+            Randomizer = null;
             WindowManager = null;
-            TextRender = null;
+            SceneGraph = null;
             InputManager = null;
         }
 

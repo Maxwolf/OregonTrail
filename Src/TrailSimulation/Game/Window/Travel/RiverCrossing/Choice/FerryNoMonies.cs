@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     enough money at this point this state will be attached and explain to the user they cannot use the ferry and must
     ///     pick one of the other two options.
     /// </summary>
-    [ParentWindow(Windows.Travel)]
+    [ParentWindow(SimulationModule.Travel)]
     public sealed class FerryNoMonies : InputForm<TravelInfo>
     {
         /// <summary>
