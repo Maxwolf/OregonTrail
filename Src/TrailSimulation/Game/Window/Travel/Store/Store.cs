@@ -46,7 +46,7 @@ namespace TrailSimulation.Game
         private void BuyOxen()
         {
             UserData.Store.SelectedItem = Parts.Oxen;
-            SetForm(typeof (BuyItem));
+            SetForm(typeof (StorePurchase));
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace TrailSimulation.Game
         private void BuyFood()
         {
             UserData.Store.SelectedItem = Resources.Food;
-            SetForm(typeof (BuyItem));
+            SetForm(typeof (StorePurchase));
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace TrailSimulation.Game
         private void BuyClothing()
         {
             UserData.Store.SelectedItem = Resources.Clothing;
-            SetForm(typeof (BuyItem));
+            SetForm(typeof (StorePurchase));
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace TrailSimulation.Game
         private void BuyAmmunition()
         {
             UserData.Store.SelectedItem = Resources.Bullets;
-            SetForm(typeof (BuyItem));
+            SetForm(typeof (StorePurchase));
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace TrailSimulation.Game
         private void BuySpareWheels()
         {
             UserData.Store.SelectedItem = Parts.Wheel;
-            SetForm(typeof (BuyItem));
+            SetForm(typeof (StorePurchase));
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace TrailSimulation.Game
         private void BuySpareAxles()
         {
             UserData.Store.SelectedItem = Parts.Axle;
-            SetForm(typeof (BuyItem));
+            SetForm(typeof (StorePurchase));
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace TrailSimulation.Game
         private void BuySpareTongues()
         {
             UserData.Store.SelectedItem = Parts.Tongue;
-            SetForm(typeof (BuyItem));
+            SetForm(typeof (StorePurchase));
         }
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace TrailSimulation.Game
             if (UserData.Store.MissingImportantItems)
             {
                 UserData.Store.SelectedItem = Parts.Oxen;
-                SetForm(typeof (MissingItem));
+                SetForm(typeof (RequiredItem));
                 return;
             }
 
@@ -240,7 +240,7 @@ namespace TrailSimulation.Game
             var totalBill = UserData.Store.TotalTransactionCost;
             if (GameSimulationApp.Instance.Vehicle.Balance < totalBill)
             {
-                SetForm(typeof (StoreDebt));
+                SetForm(typeof (StoreDebtWarning));
                 return;
             }
 

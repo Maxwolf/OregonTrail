@@ -11,12 +11,12 @@ namespace TrailSimulation.Game
     ///     order to start the simulation.
     /// </summary>
     [ParentWindow(GameWindow.Travel)]
-    public sealed class MissingItem : InputForm<TravelInfo>
+    public sealed class RequiredItem : InputForm<TravelInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public MissingItem(IWindow window) : base(window)
+        public RequiredItem(IWindow window) : base(window)
         {
         }
 

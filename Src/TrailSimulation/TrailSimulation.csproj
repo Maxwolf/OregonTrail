@@ -64,7 +64,7 @@
     <Compile Include="Game\Window\Travel\ForkInRoad\ForkInRoad.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Choice\RiverCrossChoice.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverGenerator.cs" />
-    <Compile Include="Game\Window\Travel\Store\Selection\StoreGenerator.cs" />
+    <Compile Include="Game\Window\Travel\Store\StoreGenerator.cs" />
     <Compile Include="Game\Module\Director\EventFactory.cs" />
     <Compile Include="Game\Window\Travel\EndGame\GameWin.cs" />
     <Compile Include="Entity\IEntity.cs" />
@@ -140,10 +140,10 @@
     <Compile Include="Game\Window\MainMenu\Start Month\SelectStartingMonthState.cs" />
     <Compile Include="Game\Window\MainMenu\Start Month\StartMonthHelp.cs" />
     <Compile Include="Game\Window\MainMenu\Options\ManagementOptions.cs" />
-    <Compile Include="Game\Window\Travel\Store\Selection\BuyItem.cs" />
-    <Compile Include="Game\Window\Travel\Store\Selection\MissingItem.cs" />
+    <Compile Include="Game\Window\Travel\Store\StorePurchase.cs" />
+    <Compile Include="Game\Window\Travel\Store\Help\RequiredItem.cs" />
     <Compile Include="Game\Window\Travel\Store\Help\StoreWelcome.cs" />
-    <Compile Include="Game\Window\Travel\Store\Help\StoreDebt.cs" />
+    <Compile Include="Game\Window\Travel\Store\Help\StoreDebtWarning.cs" />
     <Compile Include="Game\Window\Travel\Drive\ChangeRations.cs" />
     <Compile Include="Game\Window\Travel\Drive\ChangePace.cs" />
     <Compile Include="Game\Window\Travel\Drive\CheckSupplies.cs" />

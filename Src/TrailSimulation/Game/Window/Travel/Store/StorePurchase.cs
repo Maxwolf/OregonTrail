@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     Allows the player to purchase a number of oxen to pull their vehicle.
     /// </summary>
     [ParentWindow(GameWindow.Travel)]
-    public sealed class BuyItem : Form<TravelInfo>
+    public sealed class StorePurchase : Form<TravelInfo>
     {
         /// <summary>
         ///     Help text to ask the player a question about how many of the particular SimItem they would like to purchase.
@@ -34,7 +34,7 @@ namespace TrailSimulation.Game
         ///     Attaches a state that will allow the player to purchase a certain number of a particular SimItem.
         /// </summary>
         /// <param name="window">Current game Windows that requested this.</param>
-        public BuyItem(IWindow window) : base(window)
+        public StorePurchase(IWindow window) : base(window)
         {
         }
 
@@ -149,7 +149,7 @@ namespace TrailSimulation.Game
                 var totalBill = UserData.Store.TotalTransactionCost;
                 if (GameSimulationApp.Instance.Vehicle.Balance < totalBill)
                 {
-                    SetForm(typeof(StoreDebt));
+                    SetForm(typeof(StoreDebtWarning));
                     return;
                 }
             }

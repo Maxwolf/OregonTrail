@@ -9,13 +9,16 @@ namespace TrailSimulation.Game
     ///     capable of carrying and or purchasing this will be displayed to inform the user they need to pay up.
     /// </summary>
     [ParentWindow(GameWindow.Travel)]
-    public sealed class StoreDebt : InputForm<TravelInfo>
+    public sealed class StoreDebtWarning : InputForm<TravelInfo>
     {
+        private StringBuilder storeDebt;
+
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public StoreDebt(IWindow window) : base(window)
+        public StoreDebtWarning(IWindow window) : base(window)
         {
+            storeDebt = new StringBuilder();
         }
 
         /// <summary>
@@ -23,10 +26,12 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
-            var storeDebt = new StringBuilder();
+            storeDebt.Clear();
             storeDebt.AppendLine($"{Environment.NewLine}Whoa there partner!");
-            storeDebt.AppendLine($"I see you got {UserData.Store.Transactions.Count} items worth {UserData.Store.TotalTransactionCost.ToString("C2")}.{Environment.NewLine}");
-            storeDebt.AppendLine($"You only got {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")}! Put some items back in order to leave the store...{Environment.NewLine}");
+            storeDebt.AppendLine(
+                $"I see you got {UserData.Store.Transactions.Count} items worth {UserData.Store.TotalTransactionCost.ToString("C2")}.");
+            storeDebt.AppendLine($"You only got {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")}!");
+            storeDebt.AppendLine($"Put some items back in order to leave the store...{Environment.NewLine}");
             return storeDebt.ToString();
         }
 
