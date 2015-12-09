@@ -15,9 +15,9 @@ namespace TrailSimulation.Game
         ///     Defines the current game Windows the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public override SimulationModule Windows
+        public override GameWindow Windows
         {
-            get { return SimulationModule.Travel; }
+            get { return GameWindow.Travel; }
         }
 
         /// <summary>

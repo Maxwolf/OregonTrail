@@ -7,7 +7,7 @@ namespace TrailSimulation.Game
     ///     view to attach on the view. This enum serves that purpose, it is required to add any new game modes the simulation
     ///     needs to know about to this file.
     /// </summary>
-    public enum SimulationModule
+    public enum GameWindow
     {
         /// <summary>
         ///     Primary game Windows used for advancing simulation down the trail.

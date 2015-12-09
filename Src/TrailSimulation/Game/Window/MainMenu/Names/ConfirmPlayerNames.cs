@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     ///     would indeed like to use all the entered names they have provided or had randomly generated for them by just
     ///     pressing enter.
     /// </summary>
-    [ParentWindow(SimulationModule.MainMenu)]
+    [ParentWindow(GameWindow.MainMenu)]
     public sealed class ConfirmPlayerNames : InputForm<NewGameInfo>
     {
         /// <summary>

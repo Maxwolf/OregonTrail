@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     just attach this state to the travel mode and it will show the final score and reset the game and return to main
     ///     menu when the player is done.
     /// </summary>
-    [ParentWindow(SimulationModule.Travel)]
+    [ParentWindow(GameWindow.Travel)]
     public sealed class FinalPoints : Form<TravelInfo>
     {
         /// <summary>

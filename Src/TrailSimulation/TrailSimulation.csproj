@@ -127,7 +127,7 @@
     <Compile Include="Core\Window\Form\IForm.cs" />
     <Compile Include="Core\Window\Menu\MenuChoice.cs" />
     <Compile Include="Core\Window\Form\Form.cs" />
-    <Compile Include="Game\SimulationModule.cs" />
+    <Compile Include="Game\GameWindow.cs" />
     <Compile Include="Game\Window\MainMenu\Help\InitialItemsHelp.cs" />
     <Compile Include="Game\Window\MainMenu\CurrentTopTen.cs" />
     <Compile Include="Game\Window\MainMenu\Names\InputPlayerNames.cs" />

@@ -17,7 +17,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ParentWindowAttribute" /> class.
         /// </summary>
-        public ParentWindowAttribute(SimulationModule parentWindow)
+        public ParentWindowAttribute(GameWindow parentWindow)
         {
             ParentWindow = parentWindow;
         }
@@ -25,6 +25,6 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Defines what the parent game mode of this particular state should be.
         /// </summary>
-        public SimulationModule ParentWindow { get; private set; }
+        public GameWindow ParentWindow { get; private set; }
     }
 }

@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Special form we can use to view existing tombstones as a dialog offering no changes or input from other players
     ///     letting them only look at the name and epitaph message left if any.
     /// </summary>
-    [ParentWindow(SimulationModule.Travel)]
+    [ParentWindow(GameWindow.Travel)]
     public sealed class TombstoneViewer : InputForm<TravelInfo>
     {
         /// <summary>

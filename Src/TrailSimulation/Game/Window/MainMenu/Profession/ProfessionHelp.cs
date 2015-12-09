@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Shows information about what the player leader professions mean and how it affects the party, vehicle, game
     ///     difficulty, and scoring at the end (if they make it).
     /// </summary>
-    [ParentWindow(SimulationModule.MainMenu)]
+    [ParentWindow(GameWindow.MainMenu)]
     public sealed class ProfessionHelp : InputForm<NewGameInfo>
     {
         public ProfessionHelp(IWindow gameMode) : base(gameMode)

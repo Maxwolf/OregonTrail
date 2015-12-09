@@ -9,7 +9,7 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     First panel on point information, shows how health of party members contributes to final score.
     /// </summary>
-    [ParentWindow(SimulationModule.MainMenu)]
+    [ParentWindow(GameWindow.MainMenu)]
     public sealed class PointsDistributionHelp : InputForm<NewGameInfo>
     {
         /// <summary>

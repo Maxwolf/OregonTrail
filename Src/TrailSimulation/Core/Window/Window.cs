@@ -176,7 +176,7 @@ namespace TrailSimulation.Core
         ///     Defines the current game Windows the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public abstract SimulationModule Windows { get; }
+        public abstract GameWindow Windows { get; }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
@@ -456,7 +456,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Fired when this game Windows is removed from the list of available and ticked modes in the simulation.
         /// </summary>
-        protected virtual void OnModeRemoved(SimulationModule windows)
+        protected virtual void OnModeRemoved(GameWindow windows)
         {
             _menuChoices = null;
         }

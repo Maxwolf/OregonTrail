@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     in
     ///     order to start the simulation.
     /// </summary>
-    [ParentWindow(SimulationModule.Travel)]
+    [ParentWindow(GameWindow.Travel)]
     public sealed class MissingItem : InputForm<TravelInfo>
     {
         /// <summary>

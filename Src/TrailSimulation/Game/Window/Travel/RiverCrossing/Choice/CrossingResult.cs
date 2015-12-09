@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     Runs the player over the river based on the crossing information. Depending on what happens a message will be
     ///     printed to the screen explaining what happened before defaulting back to travel game Windows.
     /// </summary>
-    [ParentWindow(SimulationModule.Travel)]
+    [ParentWindow(GameWindow.Travel)]
     public sealed class CrossingResult : Form<TravelInfo>
     {
         /// <summary>

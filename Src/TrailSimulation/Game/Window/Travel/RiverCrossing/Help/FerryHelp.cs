@@ -4,7 +4,7 @@ using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
-    [ParentWindow(SimulationModule.Travel)]
+    [ParentWindow(GameWindow.Travel)]
     public sealed class FerryHelp : InputForm<TravelInfo>
     {
         /// <summary>

@@ -6,7 +6,7 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Attached when the party leader dies, or the vehicle reaches the end of the trail.
     /// </summary>
-    [ParentWindow(SimulationModule.Travel)]
+    [ParentWindow(GameWindow.Travel)]
     public sealed class GameWin : InputForm<TravelInfo>
     {
         /// <summary>

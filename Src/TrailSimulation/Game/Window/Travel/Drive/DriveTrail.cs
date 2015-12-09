@@ -13,7 +13,7 @@ namespace TrailSimulation.Game
     ///     moving back and fourth which lets the player know they are moving. Stats are also shown from the travel info
     ///     object, if any random events occur they will be selected from this state.
     /// </summary>
-    [ParentWindow(SimulationModule.Travel)]
+    [ParentWindow(GameWindow.Travel)]
     public sealed class DriveTrail : Form<TravelInfo>
     {
         /// <summary>

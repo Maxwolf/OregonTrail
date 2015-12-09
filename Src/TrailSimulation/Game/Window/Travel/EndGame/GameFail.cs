@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     ///     epitaph, process that decision, confirm it, and finally show the viewer that will also show the reason why the
     ///     player died using description attribute from an enumeration value that determines how they died.
     /// </summary>
-    [ParentWindow(SimulationModule.Travel)]
+    [ParentWindow(GameWindow.Travel)]
     public sealed class GameFail : InputForm<TravelInfo>
     {
         /// <summary>

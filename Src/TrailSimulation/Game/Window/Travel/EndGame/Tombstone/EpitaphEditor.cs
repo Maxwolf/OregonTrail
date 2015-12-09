@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     ///     Allows for the message on the TombstoneItem to be edited or added, either way this form will get the job done. Will
     ///     limit the input of the epitaph also and do basic whitespace checks and trimming.
     /// </summary>
-    [ParentWindow(SimulationModule.Travel)]
+    [ParentWindow(GameWindow.Travel)]
     public sealed class EpitaphEditor : Form<TravelInfo>
     {
         /// <summary>

@@ -30,7 +30,7 @@ namespace TrailSimulation.Core
         public WindowManager()
         {
             // References all of the active game modes that need to be ticked.
-            Windows = new Dictionary<SimulationModule, IWindow>();
+            Windows = new Dictionary<GameWindow, IWindow>();
 
             // Factories for modes and states that can be attached to them during runtime.
             _windowFactory = new WindowFactory();
@@ -49,7 +49,7 @@ namespace TrailSimulation.Core
         ///     Current list of all game modes, only the last one added gets ticked this is so game modes can attach things on-top
         ///     of themselves like stores and trades.
         /// </summary>
-        internal Dictionary<SimulationModule, IWindow> Windows { get; }
+        internal Dictionary<GameWindow, IWindow> Windows { get; }
 
         /// <summary>
         ///     Determines if this simulation is currently accepting input at all, the conditions for this require some game
@@ -142,7 +142,7 @@ namespace TrailSimulation.Core
                 return false;
 
             // Create copy of all modes so we can destroy while iterating.
-            var copyModes = new Dictionary<SimulationModule, IWindow>(Windows);
+            var copyModes = new Dictionary<GameWindow, IWindow>(Windows);
             var updatedModes = false;
             foreach (var mode in copyModes)
             {
@@ -166,7 +166,7 @@ namespace TrailSimulation.Core
         ///     Creates and adds the specified game Windows to the simulation if it does not already exist in the list of modes.
         /// </summary>
         /// <param name="windows">Enumeration value of the Windows which should be created.</param>
-        public void Add(SimulationModule windows)
+        public void Add(GameWindow windows)
         {
             // Check if any other modes match the one we are adding.
             if (Windows.ContainsKey(windows))

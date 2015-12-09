@@ -11,7 +11,7 @@ namespace TrailSimulation.Game
     ///     the constructor there is a default boolean value to skip the question asking part and force a look around event to
     ///     occur without player consent.
     /// </summary>
-    [ParentWindow(SimulationModule.Travel)]
+    [ParentWindow(GameWindow.Travel)]
     public sealed class LocationArrive : InputForm<TravelInfo>
     {
         /// <summary>
