@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.MainMenu)]
     public sealed class StartMonthHelp : InputForm<NewGameInfo>
     {
-        public StartMonthHelp(IWindow gameMode) : base(gameMode)
+        public StartMonthHelp(IWindow window) : base(window)
         {
         }
 

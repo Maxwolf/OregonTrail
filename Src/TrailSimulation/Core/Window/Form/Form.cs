@@ -18,9 +18,9 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        protected Form(IWindow gameMode)
+        protected Form(IWindow window)
         {
-            ParentMode = gameMode;
+            ParentWindow = window;
         }
 
         /// <summary>
@@ -29,13 +29,13 @@ namespace TrailSimulation.Core
         /// </summary>
         protected TData UserData
         {
-            get { return ParentMode.UserData as TData; }
+            get { return ParentWindow.UserData as TData; }
         }
 
         /// <summary>
         ///     Current parent game Windows which this state is binded to and is doing work on behalf of.
         /// </summary>
-        protected IWindow ParentMode { get; }
+        protected IWindow ParentWindow { get; }
 
         /// <summary>
         ///     Compares the current object with another object of the same type.
@@ -105,7 +105,7 @@ namespace TrailSimulation.Core
             }
 
             if (UserData.Equals(other.UserData) &&
-                ParentMode.Equals(other.ParentMode))
+                ParentWindow.Equals(other.ParentWindow))
             {
                 return true;
             }
@@ -128,7 +128,7 @@ namespace TrailSimulation.Core
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
         public virtual bool InputFillsBuffer
         {
-            get { return !ParentMode.ShouldRemoveMode; }
+            get { return !ParentWindow.ShouldRemoveMode; }
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace TrailSimulation.Core
         /// </summary>
         public virtual bool AllowInput
         {
-            get { return !ParentMode.ShouldRemoveMode; }
+            get { return !ParentWindow.ShouldRemoveMode; }
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace TrailSimulation.Core
         public void SetForm(Type stateType)
         {
             // Pass the state wanted to the parent game Windows.
-            ParentMode.SetForm(stateType);
+            ParentWindow.SetForm(stateType);
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace TrailSimulation.Core
         public void ClearForm()
         {
             // Refers to parent game Windows to actually clear the state.
-            ParentMode.ClearForm();
+            ParentWindow.ClearForm();
         }
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace TrailSimulation.Core
         {
             var hash = 23;
             hash = (hash*31) + UserData.GetHashCode();
-            hash = (hash*31) + ParentMode.GetHashCode();
+            hash = (hash*31) + ParentWindow.GetHashCode();
             return hash;
         }
     }

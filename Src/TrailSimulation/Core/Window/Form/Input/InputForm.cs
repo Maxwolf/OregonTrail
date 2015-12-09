@@ -23,7 +23,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        protected InputForm(IWindow gameMode) : base(gameMode)
+        protected InputForm(IWindow window) : base(window)
         {
             _prompt = new StringBuilder();
         }

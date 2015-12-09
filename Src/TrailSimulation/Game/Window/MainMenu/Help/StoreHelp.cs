@@ -13,7 +13,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public StoreHelp(IWindow gameMode) : base(gameMode)
+        public StoreHelp(IWindow window) : base(window)
         {
         }
 
@@ -36,7 +36,7 @@ namespace TrailSimulation.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // Closes main menu and drops back to travel Windows at the bottom level which should have store already open and ready.
-            ParentMode.RemoveModeNextTick();
+            ParentWindow.RemoveModeNextTick();
         }
     }
 }

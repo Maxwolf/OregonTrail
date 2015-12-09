@@ -5,7 +5,7 @@ using TrailSimulation.Core;
 namespace TrailSimulation.Game
 {
     /// <summary>
-    ///     Special form we can use to view existing tombstones as a dialog offering no changes or input from other players
+    ///     Special window we can use to view existing tombstones as a dialog offering no changes or input from other players
     ///     letting them only look at the name and epitaph message left if any.
     /// </summary>
     [ParentWindow(GameWindow.Travel)]
@@ -19,7 +19,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public TombstoneViewer(IWindow gameMode) : base(gameMode)
+        public TombstoneViewer(IWindow window) : base(window)
         {
             _tombstone = new StringBuilder();
         }

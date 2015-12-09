@@ -16,7 +16,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public UseFerryConfirm(IWindow gameMode) : base(gameMode)
+        public UseFerryConfirm(IWindow window) : base(window)
         {
         }
 

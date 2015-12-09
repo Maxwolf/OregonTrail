@@ -5,7 +5,7 @@ using TrailSimulation.Core;
 namespace TrailSimulation.Game
 {
     /// <summary>
-    ///     Allows for the message on the TombstoneItem to be edited or added, either way this form will get the job done. Will
+    ///     Allows for the message on the TombstoneItem to be edited or added, either way this window will get the job done. Will
     ///     limit the input of the epitaph also and do basic whitespace checks and trimming.
     /// </summary>
     [ParentWindow(GameWindow.Travel)]
@@ -25,7 +25,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public EpitaphEditor(IWindow gameMode) : base(gameMode)
+        public EpitaphEditor(IWindow window) : base(window)
         {
             _epitaphPrompt = new StringBuilder();
         }

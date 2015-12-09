@@ -17,7 +17,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public GameWin(IWindow gameMode) : base(gameMode)
+        public GameWin(IWindow window) : base(window)
         {
             _gameOver = new StringBuilder();
         }

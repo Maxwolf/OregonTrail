@@ -14,7 +14,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public FinalPoints(IWindow gameMode) : base(gameMode)
+        public FinalPoints(IWindow window) : base(window)
         {
         }
 

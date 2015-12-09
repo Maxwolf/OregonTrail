@@ -15,7 +15,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ConfirmPlayerNames(IWindow gameMode) : base(gameMode)
+        public ConfirmPlayerNames(IWindow window) : base(window)
         {
         }
 

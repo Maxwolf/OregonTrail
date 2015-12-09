@@ -21,7 +21,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ChangePace(IWindow gameMode) : base(gameMode)
+        public ChangePace(IWindow window) : base(window)
         {
         }
 

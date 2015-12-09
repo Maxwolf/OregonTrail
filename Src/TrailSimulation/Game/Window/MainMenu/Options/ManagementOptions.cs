@@ -20,7 +20,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ManagementOptions(IWindow gameMode) : base(gameMode)
+        public ManagementOptions(IWindow window) : base(window)
         {
             _optionsPrompt = new StringBuilder();
         }

@@ -11,7 +11,7 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.MainMenu)]
     public sealed class ProfessionHelp : InputForm<NewGameInfo>
     {
-        public ProfessionHelp(IWindow gameMode) : base(gameMode)
+        public ProfessionHelp(IWindow window) : base(window)
         {
         }
 

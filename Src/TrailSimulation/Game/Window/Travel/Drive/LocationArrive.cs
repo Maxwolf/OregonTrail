@@ -17,7 +17,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public LocationArrive(IWindow gameMode) : base(gameMode)
+        public LocationArrive(IWindow window) : base(window)
         {
         }
 
@@ -92,7 +92,7 @@ namespace TrailSimulation.Game
                 case DialogResponse.Custom:
                 case DialogResponse.No:
                     // Cast the parent game Windows as travel Windows.
-                    var travelMode = ParentMode as Travel;
+                    var travelMode = ParentWindow as Travel;
                     if (travelMode == null)
                         throw new InvalidCastException(
                             "Unable to cast parent game Windows into travel game Windows when it should be that!");

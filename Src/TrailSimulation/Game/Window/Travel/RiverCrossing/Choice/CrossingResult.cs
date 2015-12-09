@@ -48,7 +48,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CrossingResult(IWindow gameMode) : base(gameMode)
+        public CrossingResult(IWindow window) : base(window)
         {
             // Create the string builder for holding all our text about river crossing as it happens.
             _crossingResult = new StringBuilder();

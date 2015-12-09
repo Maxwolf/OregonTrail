@@ -15,7 +15,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public PointsDistributionHelp(IWindow gameMode) : base(gameMode)
+        public PointsDistributionHelp(IWindow window) : base(window)
         {
         }
 

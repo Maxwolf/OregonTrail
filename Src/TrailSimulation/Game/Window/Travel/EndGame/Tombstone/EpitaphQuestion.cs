@@ -15,7 +15,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public EpitaphQuestion(IWindow gameMode) : base(gameMode)
+        public EpitaphQuestion(IWindow window) : base(window)
         {
         }
 

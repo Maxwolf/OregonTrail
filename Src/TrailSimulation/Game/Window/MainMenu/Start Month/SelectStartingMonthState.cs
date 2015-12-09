@@ -22,7 +22,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public SelectStartingMonthState(IWindow gameMode) : base(gameMode)
+        public SelectStartingMonthState(IWindow window) : base(window)
         {
         }
 

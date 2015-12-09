@@ -15,7 +15,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Fired when the screen back buffer has changed from what is currently being shown, this forces a redraw.
         /// </summary>
-        public delegate void ScreenBufferDirty( string tuiContent);
+        public delegate void ScreenBufferDirty(string tuiContent);
 
         /// <summary>
         ///     Default string used when game Windows has nothing better to say.

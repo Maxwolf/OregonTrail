@@ -15,7 +15,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public InitialItemsHelp(IWindow gameMode) : base(gameMode)
+        public InitialItemsHelp(IWindow window) : base(window)
         {
             // Pass the game data to the simulation for each new game Windows state.
             GameSimulationApp.Instance.SetStartInfo(UserData);

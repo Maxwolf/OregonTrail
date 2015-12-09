@@ -23,7 +23,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public RiverCross(IWindow gameMode) : base(gameMode)
+        public RiverCross(IWindow window) : base(window)
         {
         }
 

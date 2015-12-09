@@ -17,7 +17,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public Trading(IWindow gameMode) : base(gameMode)
+        public Trading(IWindow window) : base(window)
         {
         }
 

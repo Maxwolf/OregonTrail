@@ -15,7 +15,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public LookAtMap(IWindow gameMode) : base(gameMode)
+        public LookAtMap(IWindow window) : base(window)
         {
         }
 

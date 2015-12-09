@@ -16,7 +16,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public LocationDepart(IWindow gameMode) : base(gameMode)
+        public LocationDepart(IWindow window) : base(window)
         {
         }
 

@@ -26,7 +26,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public Resting(IWindow gameMode) : base(gameMode)
+        public Resting(IWindow window) : base(window)
         {
             _restMessage = new StringBuilder();
         }

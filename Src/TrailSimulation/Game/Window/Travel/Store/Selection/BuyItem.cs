@@ -33,8 +33,8 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Attaches a state that will allow the player to purchase a certain number of a particular SimItem.
         /// </summary>
-        /// <param name="gameMode">Current game Windows that requested this.</param>
-        public BuyItem(IWindow gameMode) : base(gameMode)
+        /// <param name="window">Current game Windows that requested this.</param>
+        public BuyItem(IWindow window) : base(window)
         {
         }
 
@@ -62,7 +62,7 @@ namespace TrailSimulation.Game
             // Add some information about how many you can buy and total amount you can carry.
             _itemBuyText = new StringBuilder();
 
-            // Change up question asked if plural form matches the name of the SimItem.
+            // Change up question asked if plural window matches the name of the SimItem.
             var pluralMatchesName = UserData.Store.SelectedItem.PluralForm.Equals(UserData.Store.SelectedItem.Name,
                 StringComparison.InvariantCultureIgnoreCase);
 

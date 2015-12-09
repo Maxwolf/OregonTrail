@@ -30,7 +30,7 @@ namespace TrailSimulation.Game
         ///     Offers up some free information about what items are important to the player and what they mean for the during the
         ///     course of the simulation.
         /// </summary>
-        public StoreWelcome(IWindow gameMode) : base(gameMode)
+        public StoreWelcome(IWindow window) : base(window)
         {
         }
 

@@ -10,7 +10,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CaulkRiverHelp(IWindow gameMode) : base(gameMode)
+        public CaulkRiverHelp(IWindow window) : base(window)
         {
         }
 

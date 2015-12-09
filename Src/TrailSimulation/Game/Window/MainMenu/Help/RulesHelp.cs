@@ -13,7 +13,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public RulesHelp(IWindow gameMode) : base(gameMode)
+        public RulesHelp(IWindow window) : base(window)
         {
         }
 

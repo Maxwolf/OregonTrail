@@ -23,7 +23,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ProfessionSelector(IWindow gameMode) : base(gameMode)
+        public ProfessionSelector(IWindow window) : base(window)
         {
         }
 

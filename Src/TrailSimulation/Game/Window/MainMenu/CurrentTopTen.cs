@@ -14,7 +14,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CurrentTopTen(IWindow gameMode) : base(gameMode)
+        public CurrentTopTen(IWindow window) : base(window)
         {
         }
 

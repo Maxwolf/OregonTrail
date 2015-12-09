@@ -21,7 +21,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public ChangeRations(IWindow gameMode) : base(gameMode)
+        public ChangeRations(IWindow window) : base(window)
         {
         }
 

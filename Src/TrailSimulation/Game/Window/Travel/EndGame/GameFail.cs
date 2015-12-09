@@ -16,7 +16,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public GameFail(IWindow gameMode) : base(gameMode)
+        public GameFail(IWindow window) : base(window)
         {
         }
 

@@ -21,7 +21,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public EventExecutor(IWindow gameMode) : base(gameMode)
+        public EventExecutor(IWindow window) : base(window)
         {
         }
 
@@ -59,7 +59,7 @@ namespace TrailSimulation.Game
                 return;
 
             _eventPlayerAcknowledge = true;
-            ParentMode.RemoveModeNextTick();
+            ParentWindow.RemoveModeNextTick();
         }
     }
 }

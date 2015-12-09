@@ -14,7 +14,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public FerryNoMonies(IWindow gameMode) : base(gameMode)
+        public FerryNoMonies(IWindow window) : base(window)
         {
         }
 
