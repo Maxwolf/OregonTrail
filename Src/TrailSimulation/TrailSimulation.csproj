@@ -61,7 +61,7 @@
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneItem.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneManager.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneViewer.cs" />
-    <Compile Include="Game\Window\Travel\ForkInRoad\ForkInRoad.cs" />
+    <Compile Include="Game\Window\Travel\Drive\LocationFork.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Choice\RiverCrossChoice.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverGenerator.cs" />
     <Compile Include="Game\Window\Travel\Store\StoreGenerator.cs" />
@@ -169,7 +169,7 @@
     <Compile Include="Game\Module\Time\TimeModule.cs" />
     <Compile Include="Game\Module\Trail\TrailModule.cs" />
     <Compile Include="Entity\Person\Person.cs" />
-    <Compile Include="Game\Window\Travel\Hunting\Hunting.cs" />
+    <Compile Include="Game\Window\Travel\Drive\Hunting.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverCross.cs" />
     <Compile Include="Game\Window\Travel\Store\Store.cs" />
     <Compile Include="Game\Window\Travel\Drive\Trading.cs" />

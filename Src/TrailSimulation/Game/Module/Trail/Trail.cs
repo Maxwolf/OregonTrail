@@ -40,5 +40,15 @@ namespace TrailSimulation.Game
         ///     randomly but keep it within this range.
         /// </summary>
         public int TrailLength { get; private set; }
+
+        /// <summary>
+        ///     Forcefully inserts skip location into location list after current location.
+        /// </summary>
+        /// <param name="skipIndex">Index in the location list we will add the new one.</param>
+        /// <param name="skipLocation">Location that the trail module will point to after current location.</param>
+        public void InsertLocation(int skipIndex, Location skipLocation)
+        {
+            _locations.Insert(skipIndex, skipLocation);
+        }
     }
 }

@@ -139,11 +139,12 @@ namespace TrailSimulation.Game
         ///     Since the trail does not directly define the total distance between all the points and only the ceiling for the
         ///     entire trail it is necessary to create a chunk of distance to needs to be traveled from this total mileage.
         /// </summary>
-        private int GenerateDistanceToNextLocation()
+        private int GenerateLocationDistance()
         {
             // TODO: Generate dictionary of distances blocked out by total trail length defined in loaded trail file.
             return 100;
         }
+
 
         /// <summary>
         ///     Fired by the simulation when it would like to trigger advancement to the next location, doesn't matter when this is
@@ -157,7 +158,7 @@ namespace TrailSimulation.Game
                 return;
 
             // Setup next travel distance requirement.
-            DistanceToNextLocation = GenerateDistanceToNextLocation();
+            DistanceToNextLocation = GenerateLocationDistance();
 
             // Skip incrementing to next location on first turn, we use first turn to setup game world and player position in it.
             if (GameSimulationApp.Instance.TotalTurns > 0)
@@ -168,6 +169,15 @@ namespace TrailSimulation.Game
 
             // Check for end of game if we are at the end of the trail.
             GameSimulationApp.Instance.WindowManager.Add(GameWindow.Travel);
+        }
+
+        /// <summary>
+        ///     Forcefully inserts skip location into location list after current location.
+        /// </summary>
+        /// <param name="skipChoice">Location that the trail module will point to after current location.</param>
+        public void InsertLocation(Location skipChoice)
+        {
+            Trail.InsertLocation(LocationIndex + 1, skipChoice);
         }
     }
 }

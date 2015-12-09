@@ -62,7 +62,7 @@ namespace TrailSimulation.Game
                     break;
                 case LocationCategory.ForkInRoad:
                     // Player needs to decide on which location when road splits.
-                    SetForm(typeof (ForkInRoad));
+                    SetForm(typeof (LocationFork));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
