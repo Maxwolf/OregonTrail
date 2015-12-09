@@ -53,7 +53,7 @@ namespace TrailSimulation.Game
         public void TriggerEventByType(IEntity sourceEntity, EventCategory eventCategory)
         {
             // Roll the dice here to determine if the event is triggered at all.
-            var diceRoll = GameSimulationApp.Instance.Randomizer.Next(100);
+            var diceRoll = GameSimulationApp.Instance.Random.Next(100);
             if (diceRoll > 0)
                 return;
 

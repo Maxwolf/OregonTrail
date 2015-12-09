@@ -145,7 +145,7 @@ namespace TrailSimulation.Entity
                 var cost_animals = Inventory[Entities.Animal].TotalValue;
 
                 // Variables that will hold the distance we should travel in the next day.
-                var total_miles = Mileage + (cost_animals - 110)/2.5 + 10*GameSimulationApp.Instance.Randomizer.NextDouble();
+                var total_miles = Mileage + (cost_animals - 110)/2.5 + 10*GameSimulationApp.Instance.Random.NextDouble();
 
                 return (int) Math.Abs(total_miles);
             }
@@ -252,7 +252,7 @@ namespace TrailSimulation.Entity
             Mileage = RandomMileage;
 
             // Sometimes things just go slow on the trail, cut mileage in half if above zero randomly.
-            if (GameSimulationApp.Instance.Randomizer.NextBool() && Mileage > 0)
+            if (GameSimulationApp.Instance.Random.NextBool() && Mileage > 0)
                 Mileage = Mileage/2;
 
             // Check for random events that might trigger regardless of calculations made.
@@ -376,11 +376,11 @@ namespace TrailSimulation.Entity
                     continue;
 
                 // Determine if we will be destroying this item.
-                if (GameSimulationApp.Instance.Randomizer.NextBool())
+                if (GameSimulationApp.Instance.Random.NextBool())
                     continue;
 
                 // Destroy some random amount of the item from one to total amount.
-                var destroyAmount = GameSimulationApp.Instance.Randomizer.Next(1, itemPair.Value.Quantity);
+                var destroyAmount = GameSimulationApp.Instance.Random.Next(1, itemPair.Value.Quantity);
 
                 // Subtract the amount we destroyed from the actual inventory.
                 Inventory[itemPair.Key] = new SimItem(itemPair.Value, itemPair.Value.Quantity - destroyAmount);

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -44,6 +46,44 @@ namespace TrailSimulation.Game
         public override bool InputFillsBuffer
         {
             get { return false; }
+        }
+
+        /// <summary>
+        ///     Determines if the player has died, reached the end of the trail, won, lost, and figures out how to proceed based on
+        ///     the current state of the game simulation. If everything is normal then it will let the game continue. Should be run
+        ///     after every turn made in the game to see if it should end.
+        /// </summary>
+        /// <returns>TRUE if the game should end, FALSE if game should continue.</returns>
+        [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Local")]
+        private bool IsGameOver
+        {
+            get { return ShouldEndGame(); }
+        }
+
+        /// <summary>
+        ///     Determines if the player has died, reached the end of the trail, won, lost, and figures out how to proceed based on
+        ///     the current state of the game simulation. If everything is normal then it will let the game continue. Should be run
+        ///     after every turn made in the game to see if it should end.
+        /// </summary>
+        /// <returns>TRUE if the game should end, FALSE if game should continue.</returns>
+        [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Local")]
+        private bool ShouldEndGame()
+        {
+            // Some variables to make this not so long and easier on eyes.
+            var _vehicle = GameSimulationApp.Instance.Vehicle;
+            var _trail = GameSimulationApp.Instance.Trail;
+
+            // Check if the player made it all the way to the end of the trail.
+            if (_trail.LocationIndex >= _trail.Locations.Count)
+                return true;
+
+            // Check if the player has animals to pull their vehicle.
+            if (_vehicle.Inventory[Entities.Animal].Quantity <= 0)
+                return true;
+
+            // Determine if everybody is dead, otherwise let the game continue.
+            var allDead = _vehicle.Passengers.All(p => p.IsDead);
+            return allDead;
         }
 
         /// <summary>
@@ -118,38 +158,14 @@ namespace TrailSimulation.Game
             _swayBarText = _marqueeBar.Step();
 
             // Determines if the end of the game has occurred, if not then we tick the next turn.
-            if (CheckEndGame())
+            if (IsGameOver)
+            {
+                SetForm(typeof (GameFail));
+            }
+            else
+            {
                 GameSimulationApp.Instance.TakeTurn();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private bool CheckEndGame()
-        {
-            // Some variables to make this not so long and easier on eyes.
-            var _vehicle = GameSimulationApp.Instance.Vehicle;
-            var _trail = GameSimulationApp.Instance.Trail;
-
-            // Check if the player made it all the way to the end of the trail.
-
-
-            // Check if the player has animals to pull their vehicle.
-            if (_vehicle.Inventory[Entities.Animal].Quantity <= 0)
-            {
-                UserData.TombstoneItem = new TombstoneItem();
-                SetForm(typeof(GameFail));
-                return true;
             }
-
-            // Check if everybody is dead, bring out your dead.
-            foreach (var person in _vehicle.Passengers)
-            {
-                if (person.Health.
-            }
-
-            // Default response is to let the game continue.
-            return false;
         }
 
         /// <summary>

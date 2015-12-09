@@ -57,7 +57,7 @@ namespace TrailSimulation.Core
             TickPhase = _spinningPixel.Step();
 
             // Create modules needed for managing simulation.
-            Randomizer = new Randomizer();
+            Random = new Randomizer();
             WindowManager = new WindowManager();
             SceneGraph = new SceneGraph();
 
@@ -87,7 +87,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
         /// </summary>
-        internal Randomizer Randomizer { get; private set; }
+        internal Randomizer Random { get; private set; }
 
         /// <summary>
         ///     Keeps track of the currently attached game Windows, which one is active, and getting text user interface data.
@@ -133,7 +133,7 @@ namespace TrailSimulation.Core
             WindowManager?.OnTick(systemTick);
 
             // Rolls virtual dice.
-            Randomizer?.OnTick(systemTick);
+            Random?.OnTick(systemTick);
 
             // System tick is from execution platform, otherwise they are linear simulation ticks.
             if (systemTick)
@@ -192,7 +192,7 @@ namespace TrailSimulation.Core
             TickPhase = string.Empty;
 
             // Remove simulation core modules.
-            Randomizer = null;
+            Random = null;
             WindowManager = null;
             SceneGraph = null;
             InputManager = null;

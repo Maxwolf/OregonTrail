@@ -9,7 +9,7 @@
         /// <summary>
         ///     Default infection.
         /// </summary>
-        None,
+        None = 0,
 
         /// <summary>
         ///     Cholera is an infection of the small intestine by some strains of the bacterium Vibrio cholerae.

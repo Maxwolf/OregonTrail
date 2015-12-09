@@ -22,7 +22,7 @@ namespace TrailSimulation.Game
         MainMenu,
 
         /// <summary>
-        ///     Randomizer event Windows is attached by the event director which then listens for the event it will throw at it over
+        ///     Random event Windows is attached by the event director which then listens for the event it will throw at it over
         ///     event delegate the random event Windows will subscribe to.
         /// </summary>
         [Window(typeof (RandomEvent))]

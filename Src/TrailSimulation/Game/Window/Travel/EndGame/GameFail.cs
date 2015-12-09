@@ -39,6 +39,18 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnFormPostCreate()
+        {
+            base.OnFormPostCreate();
+
+            // Creates the tombstone that will represent the player leader (since he is most important).
+            UserData.TombstoneItem = new TombstoneItem();
+        }
+
+        /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         protected override string OnDialogPrompt()

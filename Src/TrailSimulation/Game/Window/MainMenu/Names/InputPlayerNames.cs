@@ -140,7 +140,7 @@ namespace TrailSimulation.Game
                 "Kristy", "Sharice", "Joanna", "Chrystal", "Genevie", "Angela", "Ruthann", "Viva", "Iris", "Anderson",
                 "Siobhan", "Karey", "Jolie", "Carlene", "Lekisha", "Buck"
             };
-            return names[GameSimulationApp.Instance.Randomizer.Next(names.Length)];
+            return names[GameSimulationApp.Instance.Random.Next(names.Length)];
         }
     }
 }
