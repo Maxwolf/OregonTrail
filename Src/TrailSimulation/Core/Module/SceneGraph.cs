@@ -15,7 +15,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Fired when the screen back buffer has changed from what is currently being shown, this forces a redraw.
         /// </summary>
-        public delegate void ScreenBufferDirty(string tuiContent);
+        public delegate void ScreenBufferDirty( string tuiContent);
 
         /// <summary>
         ///     Default string used when game Windows has nothing better to say.
@@ -84,8 +84,8 @@ namespace TrailSimulation.Core
             tui.Append($"[ {GameSimulationApp.Instance.TickPhase} ] - ");
 
             // Keeps track of active Windows name and active Windows current state name for debugging purposes.
-            tui.Append(windowMan.FocusedWindow?.CurrentState != null
-                ? $"Window({windowMan.Windows.Count}): {windowMan.FocusedWindow}({windowMan.FocusedWindow.CurrentState}) - "
+            tui.Append(windowMan.FocusedWindow?.CurrentForm != null
+                ? $"Window({windowMan.Windows.Count}): {windowMan.FocusedWindow}({windowMan.FocusedWindow.CurrentForm}) - "
                 : $"Window({windowMan.Windows.Count}): {windowMan.FocusedWindow}() - ");
 
             // Total number of turns that have passed in the simulation.

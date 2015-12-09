@@ -37,7 +37,7 @@ namespace TrailSimulation.Core
         ///     finished and
         ///     then detach.
         /// </summary>
-        IForm CurrentState { get; }
+        IForm CurrentForm { get; }
 
         /// <summary>
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
@@ -53,7 +53,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Removes the current state from the active game Windows.
         /// </summary>
-        void ClearState();
+        void ClearForm();
 
         /// <summary>
         ///     Sets the flag for this game Windows to be removed the next time it is ticked by the simulation.

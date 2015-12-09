@@ -65,17 +65,17 @@ namespace TrailSimulation.Core
                     return false;
 
                 // Skip if Windows doesn't want input and has no state.
-                if (!FocusedWindow.AcceptsInput && FocusedWindow.CurrentState == null)
+                if (!FocusedWindow.AcceptsInput && FocusedWindow.CurrentForm == null)
                     return false;
 
                 // Skip if Windows state doesn't want input and current state is not null.
-                if ((FocusedWindow.CurrentState != null && !FocusedWindow.AcceptsInput))
+                if ((FocusedWindow.CurrentForm != null && !FocusedWindow.AcceptsInput))
                     return false;
 
                 // Skip if state is not null and, game Windows accepts input, but current state doesn't want input.
-                return FocusedWindow.CurrentState == null ||
+                return FocusedWindow.CurrentForm == null ||
                        !FocusedWindow.AcceptsInput ||
-                       FocusedWindow.CurrentState.InputFillsBuffer;
+                       FocusedWindow.CurrentForm.InputFillsBuffer;
             }
         }
 

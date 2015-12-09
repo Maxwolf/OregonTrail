@@ -182,7 +182,7 @@ namespace TrailSimulation.Core
         public void ClearForm()
         {
             // Refers to parent game Windows to actually clear the state.
-            ParentMode.ClearState();
+            ParentMode.ClearForm();
         }
 
         /// <summary>

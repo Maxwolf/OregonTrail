@@ -65,7 +65,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Current game Windows state that is being ticked when this Windows is ticked by the underlying simulation.
         /// </summary>
-        private IForm State { get; set; }
+        private IForm Form { get; set; }
 
         /// <summary>
         ///     Defines the text prefix which will go above the menu, used to show any useful information the game Windows might
@@ -134,7 +134,7 @@ namespace TrailSimulation.Core
             }
 
             if (Windows.Equals(other.Windows) &&
-                State.Equals(other.State))
+                Form.Equals(other.Form))
             {
                 return true;
             }
@@ -166,7 +166,7 @@ namespace TrailSimulation.Core
         {
             // Forcefully detaches any state that was active before calling Windows removed.
             ShouldRemoveMode = true;
-            State = null;
+            Form = null;
 
             // Allows any data structures that care about themselves to save before the next tick comes.
             OnModeRemoved(Windows);
@@ -192,21 +192,21 @@ namespace TrailSimulation.Core
         ///     finished and
         ///     then detach.
         /// </summary>
-        IForm IWindow.CurrentState
+        IForm IWindow.CurrentForm
         {
-            get { return State; }
+            get { return Form; }
         }
 
         /// <summary>
         ///     Removes the current state from the active game Windows.
         /// </summary>
-        public void ClearState()
+        public void ClearForm()
         {
             // Don't do anything if the state is already empty.
-            if (State == null)
+            if (Form == null)
                 return;
 
-            State = null;
+            Form = null;
             OnStateChange();
         }
 
@@ -220,7 +220,7 @@ namespace TrailSimulation.Core
             var modeTUI = new StringBuilder();
 
             // Only add menu choices if there are some to actually add, otherwise just return the string buffer now.
-            if (_menuChoices?.Count > 0 && State == null)
+            if (_menuChoices?.Count > 0 && Form == null)
             {
                 // Header text for above menu.
                 if (!string.IsNullOrEmpty(MenuHeader))
@@ -246,7 +246,7 @@ namespace TrailSimulation.Core
             else
             {
                 // Added any descriptive text about the Windows, like stats, health, weather, location, etc.
-                var prependMessage = State?.OnRenderForm();
+                var prependMessage = Form?.OnRenderForm();
                 if (!string.IsNullOrEmpty(prependMessage))
                     modeTUI.Append($"{prependMessage}{Environment.NewLine}");
             }
@@ -267,7 +267,7 @@ namespace TrailSimulation.Core
         /// </param>
         public virtual void OnTick(bool systemTick)
         {
-            State?.OnTick(systemTick);
+            Form?.OnTick(systemTick);
         }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace TrailSimulation.Core
         public void SendCommand(string command)
         {
             // Only process menu items for game Windows when current state is null, or there are no menu choices to select from.
-            if (State == null &&
+            if (Form == null &&
                 _menuChoices?.Count > 0 &&
                 !string.IsNullOrEmpty(command) &&
                 !string.IsNullOrWhiteSpace(command))
@@ -305,15 +305,15 @@ namespace TrailSimulation.Core
             else
             {
                 // Skip if current state is null.
-                if (State == null)
+                if (Form == null)
                     return;
 
                 // Skip if current state doesn't want our input.
-                if (!State.AllowInput)
+                if (!Form.AllowInput)
                     return;
 
                 // Pass the input buffer to the current state, if it manages to get this far.
-                State.OnInputBufferReturned(command);
+                Form.OnInputBufferReturned(command);
             }
         }
 
@@ -353,7 +353,7 @@ namespace TrailSimulation.Core
             var result = x.Windows.CompareTo(y.Windows);
             if (result != 0) return result;
 
-            result = x.CurrentState.CompareTo(y.CurrentState);
+            result = x.CurrentForm.CompareTo(y.CurrentForm);
             if (result != 0) return result;
 
             return result;
@@ -366,7 +366,7 @@ namespace TrailSimulation.Core
             var result = other.Windows.CompareTo(Windows);
             if (result != 0) return result;
 
-            result = other.CurrentState.CompareTo(State);
+            result = other.CurrentForm.CompareTo(Form);
             if (result != 0) return result;
 
             return result;
@@ -379,14 +379,14 @@ namespace TrailSimulation.Core
         public void SetForm(Type stateType)
         {
             // Clear the previous state if something happens.
-            if (State != null)
-                ClearState();
+            if (Form != null)
+                ClearForm();
 
             // States and modes both direct calls to window manager for adding a state.
-            State = GameSimulationApp.Instance.WindowManager.CreateStateFromType(this, stateType);
+            Form = GameSimulationApp.Instance.WindowManager.CreateStateFromType(this, stateType);
 
             // Fire method that will allow attaching state to know it is ready for work.
-            State.OnFormPostCreate();
+            Form.OnFormPostCreate();
 
             // Allows underlying parent game Windows to the state understand it changed.
             OnStateChange();

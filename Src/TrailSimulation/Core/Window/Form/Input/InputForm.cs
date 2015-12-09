@@ -53,7 +53,7 @@ namespace TrailSimulation.Core
                     case DialogType.Custom:
                         return true;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        return false;
                 }
             }
         }
