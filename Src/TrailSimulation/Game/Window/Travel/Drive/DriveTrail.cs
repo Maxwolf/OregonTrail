@@ -49,44 +49,6 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Determines if the player has died, reached the end of the trail, won, lost, and figures out how to proceed based on
-        ///     the current state of the game simulation. If everything is normal then it will let the game continue. Should be run
-        ///     after every turn made in the game to see if it should end.
-        /// </summary>
-        /// <returns>TRUE if the game should end, FALSE if game should continue.</returns>
-        [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Local")]
-        private bool IsGameOver
-        {
-            get { return ShouldEndGame(); }
-        }
-
-        /// <summary>
-        ///     Determines if the player has died, reached the end of the trail, won, lost, and figures out how to proceed based on
-        ///     the current state of the game simulation. If everything is normal then it will let the game continue. Should be run
-        ///     after every turn made in the game to see if it should end.
-        /// </summary>
-        /// <returns>TRUE if the game should end, FALSE if game should continue.</returns>
-        [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Local")]
-        private bool ShouldEndGame()
-        {
-            // Some variables to make this not so long and easier on eyes.
-            var _vehicle = GameSimulationApp.Instance.Vehicle;
-            var _trail = GameSimulationApp.Instance.Trail;
-
-            // Check if the player made it all the way to the end of the trail.
-            if (_trail.LocationIndex >= _trail.Locations.Count)
-                return true;
-
-            // Check if the player has animals to pull their vehicle.
-            if (_vehicle.Inventory[Entities.Animal].Quantity <= 0)
-                return true;
-
-            // Determine if everybody is dead, otherwise let the game continue.
-            var allDead = _vehicle.Passengers.All(p => p.IsDead);
-            return allDead;
-        }
-
-        /// <summary>
         ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
         ///     data and other properties below it.
         /// </summary>
@@ -158,7 +120,7 @@ namespace TrailSimulation.Game
             _swayBarText = _marqueeBar.Step();
 
             // Determines if the end of the game has occurred, if not then we tick the next turn.
-            if (IsGameOver)
+            if (GameSimulationApp.Instance.ShouldGameEnd)
             {
                 SetForm(typeof (GameFail));
             }

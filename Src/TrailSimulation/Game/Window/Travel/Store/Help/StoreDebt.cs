@@ -24,10 +24,9 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             var storeDebt = new StringBuilder();
-            storeDebt.Append(
-                $"Whoa there partner! I see you got {UserData.Store.Transactions.Count} items to buy that are worth {UserData.Store.TotalTransactionCost.ToString("C2")}.{Environment.NewLine}");
-            storeDebt.Append(
-                $"You only got {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")}! Put some items back in order to leave the store...{Environment.NewLine}");
+            storeDebt.AppendLine($"{Environment.NewLine}Whoa there partner!");
+            storeDebt.AppendLine($"I see you got {UserData.Store.Transactions.Count} items worth {UserData.Store.TotalTransactionCost.ToString("C2")}.{Environment.NewLine}");
+            storeDebt.AppendLine($"You only got {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")}! Put some items back in order to leave the store...{Environment.NewLine}");
             return storeDebt.ToString();
         }
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
@@ -98,6 +100,31 @@ namespace TrailSimulation.Game
 
             // Set the starting month to match what the user selected.
             Time.SetMonth(startingInfo.StartingMonth);
+        }
+
+        /// <summary>
+        ///     Determines if the player has died, reached the end of the trail, won, lost, and figures out how to proceed based on
+        ///     the current state of the game simulation. If everything is normal then it will let the game continue. Should be run
+        ///     after every turn made in the game to see if it should end.
+        /// </summary>
+        /// <returns>TRUE if the game should end, FALSE if game should continue.</returns>
+        [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Local")]
+        public bool ShouldGameEnd
+        {
+            get
+            {
+                // Check if the player made it all the way to the end of the trail.
+                if (Trail.LocationIndex >= Trail.Locations.Count)
+                    return true;
+
+                // Check if the player has animals to pull their vehicle.
+                if (Vehicle.Inventory[Entities.Animal].Quantity <= 0)
+                    return true;
+
+                // Determine if everybody is dead, otherwise let the game continue.
+                var allDead = Vehicle.Passengers.All(p => p.IsDead);
+                return allDead;
+            }
         }
 
         /// <summary>

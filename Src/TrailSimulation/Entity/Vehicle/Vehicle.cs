@@ -137,7 +137,7 @@ namespace TrailSimulation.Entity
         ///     from this ideal figure; the revised total is printed at the start of the next trip segment.
         /// </summary>
         /// <returns>The expected mileage over the next two week segment.</returns>
-        internal int RandomMileage
+        private int RandomMileage
         {
             get
             {

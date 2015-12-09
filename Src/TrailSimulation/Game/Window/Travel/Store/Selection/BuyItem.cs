@@ -109,26 +109,50 @@ namespace TrailSimulation.Game
 
             // Check that number is less than maximum quantity based on monies.
             if (parsedInputNumber > _purchaseLimit)
-                return;
-
-            // Check that number is less than or equal to limit that is hard-coded.
-            if (parsedInputNumber > _itemToBuy.MaxQuantity)
-                return;
-
-            // Add the SimItem the player wants in given amount.
-            UserData.Store.AddItem(_itemToBuy, parsedInputNumber);
-
-            // Check if player can afford the items they have selected.
-            var totalBill = UserData.Store.TotalTransactionCost;
-            if (GameSimulationApp.Instance.Vehicle.Balance < totalBill)
             {
-                SetForm(typeof (StoreDebt));
+                UserData.Store.RemoveItem(_itemToBuy);
+                UserData.Store.SelectedItem = null;
+                SetForm(typeof (Store));
                 return;
             }
 
+            // Check that number is less than or equal to limit that is hard-coded.
+            if (parsedInputNumber > _itemToBuy.MaxQuantity)
+            {
+                UserData.Store.RemoveItem(_itemToBuy);
+                UserData.Store.SelectedItem = null;
+                SetForm(typeof (Store));
+                return;
+            }
+
+            // Check that the player has enough monies to pay for the quantity of item they specified.
+            if (GameSimulationApp.Instance.Vehicle.Balance < (_itemToBuy.TotalValue*parsedInputNumber))
+            {
+                UserData.Store.RemoveItem(_itemToBuy);
+                UserData.Store.SelectedItem = null;
+                SetForm(typeof (Store));
+                return;
+            }
+
+            // First location on the trail uses receipt to keep track of all the purchases player wants.
+            UserData.Store.AddItem(_itemToBuy, parsedInputNumber);
+
             // If we are not on the first location we will add the item right away.
             if (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Arrived)
+            {
+                // Normal store operation while on the trail.
                 UserData.Store.PurchaseItems();
+            }
+            else
+            {
+                // Check if player can afford the items they have selected.
+                var totalBill = UserData.Store.TotalTransactionCost;
+                if (GameSimulationApp.Instance.Vehicle.Balance < totalBill)
+                {
+                    SetForm(typeof(StoreDebt));
+                    return;
+                }
+            }
 
             // Clear the selection for the type of item the player was purchasing.
             UserData.Store.SelectedItem = null;

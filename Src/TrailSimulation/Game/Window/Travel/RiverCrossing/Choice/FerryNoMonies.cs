@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -24,9 +25,9 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             var _prompt = new StringBuilder();
-            _prompt.AppendLine("You do not have enough");
+            _prompt.AppendLine($"{Environment.NewLine}You do not have enough");
             _prompt.AppendLine("monies to take the");
-            _prompt.AppendLine("ferry.");
+            _prompt.AppendLine($"ferry.{Environment.NewLine}");
             return _prompt.ToString();
         }
 
