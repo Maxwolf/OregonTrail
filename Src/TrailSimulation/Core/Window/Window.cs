@@ -207,7 +207,7 @@ namespace TrailSimulation.Core
                 return;
 
             Form = null;
-            OnStateChange();
+            OnFormChange();
         }
 
         /// <summary>
@@ -320,7 +320,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Called after the Windows has been added to list of modes and made active.
         /// </summary>
-        public virtual void OnModePostCreate()
+        public virtual void OnWindowPostCreate()
         {
             // Nothing to see here, move along...
         }
@@ -330,7 +330,7 @@ namespace TrailSimulation.Core
         ///     order of
         ///     modes this might not get called until the Windows is actually ticked by the simulation.
         /// </summary>
-        public virtual void OnModeActivate()
+        public virtual void OnWindowActivate()
         {
             // Nothing to see here, move along...
         }
@@ -340,7 +340,7 @@ namespace TrailSimulation.Core
         ///     are not
         ///     the active Windows anymore one last time.
         /// </summary>
-        public virtual void OnModeAdded()
+        public virtual void OnWindowAdded()
         {
             // Nothing to see here, move along...
         }
@@ -389,13 +389,13 @@ namespace TrailSimulation.Core
             Form.OnFormPostCreate();
 
             // Allows underlying parent game Windows to the state understand it changed.
-            OnStateChange();
+            OnFormChange();
         }
 
         /// <summary>
         ///     Allows underlying parent game Windows to the state understand it changed.
         /// </summary>
-        protected virtual void OnStateChange()
+        protected virtual void OnFormChange()
         {
             // Nothing to see here, move along...
         }

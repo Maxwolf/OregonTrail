@@ -33,7 +33,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Called after the Windows has been added to list of modes and made active.
         /// </summary>
-        public override void OnModePostCreate()
+        public override void OnWindowPostCreate()
         {
             var headerText = new StringBuilder();
             headerText.Append($"{Environment.NewLine}The Oregon Trail{Environment.NewLine}{Environment.NewLine}");
@@ -52,7 +52,7 @@ namespace TrailSimulation.Game
         ///     order of
         ///     modes this might not get called until the Windows is actually ticked by the simulation.
         /// </summary>
-        public override void OnModeActivate()
+        public override void OnWindowActivate()
         {
         }
 
@@ -61,7 +61,7 @@ namespace TrailSimulation.Game
         ///     are not
         ///     the active Windows anymore one last time.
         /// </summary>
-        public override void OnModeAdded()
+        public override void OnWindowAdded()
         {
         }
 

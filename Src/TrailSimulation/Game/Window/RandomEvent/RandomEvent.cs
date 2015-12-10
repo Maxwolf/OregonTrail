@@ -23,7 +23,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Called after the Windows has been added to list of modes and made active.
         /// </summary>
-        public override void OnModePostCreate()
+        public override void OnWindowPostCreate()
         {
             // Event director has event to know when events are triggered.
             GameSimulationApp.Instance.EventDirector.OnEventTriggered += Director_OnEventTriggered;
@@ -34,7 +34,7 @@ namespace TrailSimulation.Game
         ///     order of
         ///     modes this might not get called until the Windows is actually ticked by the simulation.
         /// </summary>
-        public override void OnModeActivate()
+        public override void OnWindowActivate()
         {
             throw new NotImplementedException();
         }
@@ -44,7 +44,7 @@ namespace TrailSimulation.Game
         ///     are not
         ///     the active Windows anymore one last time.
         /// </summary>
-        public override void OnModeAdded()
+        public override void OnWindowAdded()
         {
             throw new NotImplementedException();
         }

@@ -177,9 +177,9 @@ namespace TrailSimulation.Game
         ///     Fired when the game Windows changes it's internal state. Allows the attached Windows to do special behaviors when
         ///     it realizes a state is set or removed and act on it.
         /// </summary>
-        protected override void OnStateChange()
+        protected override void OnFormChange()
         {
-            base.OnStateChange();
+            base.OnFormChange();
 
             // Update menu with proper choices.
             UpdateLocation();
@@ -188,7 +188,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Called after the Windows has been added to list of modes and made active.
         /// </summary>
-        public override void OnModePostCreate()
+        public override void OnWindowPostCreate()
         {
             // Update menu with proper choices.
             UpdateLocation();
@@ -206,7 +206,7 @@ namespace TrailSimulation.Game
         ///     Called when the Windows manager in simulation makes this Windows the currently active game Windows. Depending on
         ///     order of modes this might not get called until the Windows is actually ticked by the simulation.
         /// </summary>
-        public override void OnModeActivate()
+        public override void OnWindowActivate()
         {
             CheckLookAround();
         }
@@ -233,7 +233,7 @@ namespace TrailSimulation.Game
         ///     Fired when the simulation adds a game Windows that is not this Windows. Used to execute code in other modes that
         ///     are not the active Windows anymore one last time.
         /// </summary>
-        public override void OnModeAdded()
+        public override void OnWindowAdded()
         {
             CheckLookAround();
         }

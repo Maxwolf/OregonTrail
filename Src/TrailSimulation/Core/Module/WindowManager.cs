@@ -114,7 +114,7 @@ namespace TrailSimulation.Core
 
             // When list of modes is updated then we need to activate now active Windows since they shifted.
             if (updatedModes)
-                FocusedWindow.OnModeActivate();
+                FocusedWindow.OnWindowActivate();
 
             // Otherwise just tick the game Windows logic.
             FocusedWindow?.OnTick(systemTick);
@@ -172,7 +172,7 @@ namespace TrailSimulation.Core
             if (Windows.ContainsKey(windows))
             {
                 // If Windows is attempted to be added we will fire activate for it so Windows knows it was added again without having to call post create.
-                Windows[windows].OnModeActivate();
+                Windows[windows].OnWindowActivate();
                 return;
             }
 
@@ -188,12 +188,12 @@ namespace TrailSimulation.Core
                 if (loadedMode.Key == FocusedWindow.Windows)
                 {
                     // Only call post create on the newly added active game Windows.
-                    loadedMode.Value.OnModePostCreate();
+                    loadedMode.Value.OnWindowPostCreate();
                 }
                 else
                 {
                     // All other game modes just get notification via method a Windows was added on top of them.
-                    loadedMode.Value.OnModeAdded();
+                    loadedMode.Value.OnWindowAdded();
                 }
             }
         }

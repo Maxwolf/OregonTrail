@@ -134,6 +134,10 @@ namespace TrailSimulation.Game
             }
         }
 
+        /// <summary>
+        ///     Takes a single turn that will advance the vehicle and all passengers down the trail a little further towards the
+        ///     next location.
+        /// </summary>
         private void TakeTurn()
         {
             // Get instance of game simulation for easy reading.
