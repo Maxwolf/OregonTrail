@@ -119,7 +119,7 @@ namespace TrailSimulation.Game
             _crossingResult.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
             _crossingResult.AppendLine(
                 $"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather.ToDescriptionAttribute()}");
-            _crossingResult.AppendLine($"Health: {GameSimulationApp.Instance.Vehicle.RepairLevel}");
+            _crossingResult.AppendLine($"Health: {GameSimulationApp.Instance.Vehicle.Health}");
             _crossingResult.AppendLine($"Crossing By: {UserData.River.CrossingType}");
             _crossingResult.AppendLine(
                 $"River width: {UserData.River.RiverWidth.ToString("N0")} feet");

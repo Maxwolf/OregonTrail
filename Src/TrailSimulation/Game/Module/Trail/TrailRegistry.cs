@@ -68,5 +68,22 @@ namespace TrailSimulation.Game
                 return new Trail(testTrail, 100, Climate.Continental);
             }
         }
+
+        /// <summary>
+        /// Debugging trail for quickly getting to the end of the game for points tabulation and high-score tests.
+        /// </summary>
+        public static Trail TestPoints
+        {
+            get
+            {
+                var testPoints = new[]
+                {
+                    new Location("Start Of Test", LocationCategory.Settlement),
+                    new Location("End Of Test", LocationCategory.Settlement)
+                };
+
+                return new Trail(testPoints, 1, Climate.Tropical);
+            }
+        }
     }
 }

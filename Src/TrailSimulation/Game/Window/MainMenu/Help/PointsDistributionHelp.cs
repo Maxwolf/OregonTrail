@@ -36,15 +36,15 @@ namespace TrailSimulation.Game
 
             // Repair status reference dictionary.
             var _repairLevels = new Dictionary<string, int>();
-            foreach (var repairStat in Enum.GetNames(typeof (RepairLevel)))
+            foreach (var repairStat in Enum.GetNames(typeof (Health)))
             {
-                _repairLevels.Add(repairStat, (int) Enum.Parse(typeof (RepairLevel), repairStat));
+                _repairLevels.Add(repairStat, (int) Enum.Parse(typeof (Health), repairStat));
             }
 
             // Build a text table from people point distribution with custom headers.
             var partyTextTable = _repairLevels.Values.ToStringTable(
                 new[] {"Health of Party", "Points per Person"},
-                u => Enum.Parse(typeof (RepairLevel), u.ToString()).ToDescriptionAttribute(),
+                u => Enum.Parse(typeof (Health), u.ToString()).ToDescriptionAttribute(),
                 u => u);
 
             // Print the table to the screen buffer.

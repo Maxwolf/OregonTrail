@@ -68,7 +68,7 @@ namespace TrailSimulation.Game
             }
 
             // Check if per amount is default value of one.
-            return _perAmount == SimItem.DEFAULT_PER_AMOUNT
+            return _perAmount == 1
                 ? $"{displayName}"
                 : $"{displayName} (per {_perAmount})";
         }

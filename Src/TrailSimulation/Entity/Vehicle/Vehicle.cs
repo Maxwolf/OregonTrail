@@ -63,7 +63,7 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Current health of the vehicle, determines how well it will be able to perform
         /// </summary>
-        public RepairLevel RepairLevel { get; private set; }
+        public Health Health { get; private set; }
 
         /// <summary>
         ///     Total number of miles the vehicle has traveled since the start of the simulation.
@@ -342,7 +342,7 @@ namespace TrailSimulation.Entity
             Balance = startingMonies;
             _passengers = new List<Person>();
             Ration = RationLevel.Filling;
-            RepairLevel = RepairLevel.Good;
+            Health = Health.Good;
             Odometer = 0;
             Status = VehicleStatus.Stopped;
         }

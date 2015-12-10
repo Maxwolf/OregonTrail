@@ -10,12 +10,6 @@ namespace TrailSimulation.Entity
     public sealed class SimItem : IEntity
     {
         /// <summary>
-        ///     Default value that will be used in delineating how many points will be awarded per a particular object type. Used
-        ///     as default value and also checking in overload for ToString.
-        /// </summary>
-        public const int DEFAULT_PER_AMOUNT = 1;
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Entities.SimItem" /> class.
         /// </summary>
         public SimItem(
@@ -28,8 +22,8 @@ namespace TrailSimulation.Entity
             int weight = 1,
             int minimumQuantity = 1,
             int startingQuantity = 0,
-            int pointsAwarded = DEFAULT_PER_AMOUNT,
-            int pointsPerAmount = DEFAULT_PER_AMOUNT)
+            int pointsAwarded = 1,
+            int pointsPerAmount = 1)
         {
             // Complain if minimum amount is zero, you cannot have zero of something.
             if (minimumQuantity <= 0)
@@ -45,6 +39,10 @@ namespace TrailSimulation.Entity
             // Scoring information for points tabulation if player wins the game.
             PointsPerAmount = pointsPerAmount;
             PointsAwarded = pointsAwarded;
+
+            // Ensure the values for points per amount are not zero.
+            if (PointsPerAmount <= 0)
+                PointsPerAmount = 1;
 
             // Identification of SimItem should be unique, we should also be able to refer to multiples and per.
             Category = category;
@@ -71,6 +69,14 @@ namespace TrailSimulation.Entity
             MinQuantity = oldItem.MinQuantity;
             MaxQuantity = oldItem.MaxQuantity;
             StartingQuantity = oldItem.StartingQuantity;
+
+            // Scoring information for points tabulation if player wins the game.
+            PointsPerAmount = oldItem.PointsPerAmount;
+            PointsAwarded = oldItem.PointsAwarded;
+
+            // Ensure the values for points per amount are not zero.
+            if (PointsPerAmount <= 0)
+                PointsPerAmount = 1;
 
             // Display name and SimItem entity type.
             Name = oldItem.Name;
