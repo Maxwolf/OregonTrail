@@ -1,4 +1,6 @@
-﻿namespace TrailSimulation.Game
+﻿using System.ComponentModel;
+
+namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Defines a rating the player can get based on the number of points they receive during the entire course of the
@@ -19,6 +21,7 @@
         /// <summary>
         ///     Hard
         /// </summary>
+        [Description("Trail Guide")]
         TrailGuide = 3
     }
 }

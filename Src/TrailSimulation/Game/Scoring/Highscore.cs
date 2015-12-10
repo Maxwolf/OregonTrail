@@ -1,4 +1,6 @@
-﻿namespace TrailSimulation.Game
+﻿using TrailSimulation.Core;
+
+namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Defines an object that keeps track of a particular high score of a given simulation round. This includes the name
@@ -8,17 +10,31 @@
     public sealed class Highscore
     {
         /// <summary>
+        ///     Internal enumeration value for the score the player actually had as enumeration value, we convert this to string
+        ///     when asked for it.
+        /// </summary>
+        private readonly Performance _rating;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.Highscore" /> class.
         /// </summary>
         public Highscore(string name, int points, Performance rating)
         {
             Name = name;
             Points = points;
-            Rating = rating;
+            _rating = rating;
         }
 
         public string Name { get; }
         public int Points { get; }
-        public Performance Rating { get; }
+
+        /// <summary>
+        ///     Stores an enumeration as read only inside high score object, returns a string for the rating using extension method
+        ///     to get description attribute so it looks correct when rendered and shown to users.
+        /// </summary>
+        public string Rating
+        {
+            get { return _rating.ToDescriptionAttribute(); }
+        }
     }
 }

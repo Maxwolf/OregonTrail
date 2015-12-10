@@ -101,26 +101,27 @@ namespace TrailSimulation.Core
         public static string ToStringTable<T>(this IEnumerable<T> values,
             params Expression<Func<T, object>>[] valueSelectors)
         {
-            var headers = valueSelectors.Select(func => GetProperty(func).Name).ToArray();
-            var selectors = valueSelectors.Select(exp => exp.Compile()).ToArray();
+            var list = new List<string>();
+            foreach (var func in valueSelectors)
+                list.Add(GetProperty(func).Name);
+
+            var headers = list.ToArray();
+            var list1 = new List<Func<T, object>>();
+            foreach (var exp in valueSelectors)
+                list1.Add(exp.Compile());
+
+            var selectors = list1.ToArray();
             return ToStringTable(values, headers, selectors);
         }
 
         private static PropertyInfo GetProperty<T>(Expression<Func<T, object>> expresstion)
         {
-            if (expresstion.Body is UnaryExpression)
+            if ((expresstion.Body as UnaryExpression)?.Operand is MemberExpression)
             {
-                if ((expresstion.Body as UnaryExpression).Operand is MemberExpression)
-                {
-                    return ((expresstion.Body as UnaryExpression).Operand as MemberExpression).Member as PropertyInfo;
-                }
+                return (((UnaryExpression) expresstion.Body).Operand as MemberExpression)?.Member as PropertyInfo;
             }
 
-            if ((expresstion.Body is MemberExpression))
-            {
-                return (expresstion.Body as MemberExpression).Member as PropertyInfo;
-            }
-            return null;
+            return (expresstion.Body as MemberExpression)?.Member as PropertyInfo;
         }
     }
 }
