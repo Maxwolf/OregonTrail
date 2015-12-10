@@ -111,16 +111,33 @@ namespace TrailSimulation.Game
         {
             base.OnTick(systemTick);
 
-            // Get instance of game simulation for easy reading.
-            var game = GameSimulationApp.Instance;
-
             // Only game simulation ticks please.
             if (systemTick)
                 return;
 
-            // Check to see if we should be ticking by days with each simulation tick (defaults to every second).
-            if (game.Vehicle.Status == VehicleStatus.Stopped)
-                return;
+            // Determine if we should continue down the trail based on current vehicle status.
+            switch (GameSimulationApp.Instance.Vehicle.Status)
+            {
+                case VehicleStatus.Stopped:
+                    // Do not proceed if the vehicle is stopped.
+                    return;
+                case VehicleStatus.Stuck:
+                    // Attach form saying the players vehicle is stuck.
+                    SetForm(typeof (UnableToContinue));
+                    break;
+                case VehicleStatus.Moving:
+                    // Proceed as normal if moving.
+                    TakeTurn();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void TakeTurn()
+        {
+            // Get instance of game simulation for easy reading.
+            var game = GameSimulationApp.Instance;
 
             // Advance the progress bar, step it to next phase.
             _swayBarText = _marqueeBar.Step();

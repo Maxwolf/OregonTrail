@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using TrailSimulation.Core;
+using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
 {
@@ -41,6 +42,13 @@ namespace TrailSimulation.Game
         /// </summary>
         internal void ContinueOnTrail()
         {
+            // Check if the vehicle is stuck and unable to continue.
+            if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Stuck)
+            {
+                SetForm(typeof(VehicleStuck));
+                return;
+            }
+
             // Check if player has already departed and we are just moving along again.
             if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Departed)
             {
@@ -121,8 +129,7 @@ namespace TrailSimulation.Game
 
         /// <summary>
         ///     Attaches a new Windows on top of this one that allows the player to hunt for animals and kill them using bullets
-        ///     for a
-        ///     specified time limit.
+        ///     for a specified time limit.
         /// </summary>
         private void HuntForFood()
         {
@@ -160,9 +167,7 @@ namespace TrailSimulation.Game
                 AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
 
             if (location.ShoppingAllowed && location.Status == LocationStatus.Arrived)
-            {
                 AddCommand(BuySupplies, TravelCommands.BuySupplies);
-            }
 
             if (location.HuntingAllowed)
                 AddCommand(HuntForFood, TravelCommands.HuntForFood);
@@ -170,8 +175,7 @@ namespace TrailSimulation.Game
 
         /// <summary>
         ///     Fired when the game Windows changes it's internal state. Allows the attached Windows to do special behaviors when
-        ///     it
-        ///     realizes a state is set or removed and act on it.
+        ///     it realizes a state is set or removed and act on it.
         /// </summary>
         protected override void OnStateChange()
         {
@@ -200,8 +204,7 @@ namespace TrailSimulation.Game
 
         /// <summary>
         ///     Called when the Windows manager in simulation makes this Windows the currently active game Windows. Depending on
-        ///     order of
-        ///     modes this might not get called until the Windows is actually ticked by the simulation.
+        ///     order of modes this might not get called until the Windows is actually ticked by the simulation.
         /// </summary>
         public override void OnModeActivate()
         {
@@ -228,8 +231,7 @@ namespace TrailSimulation.Game
 
         /// <summary>
         ///     Fired when the simulation adds a game Windows that is not this Windows. Used to execute code in other modes that
-        ///     are not
-        ///     the active Windows anymore one last time.
+        ///     are not the active Windows anymore one last time.
         /// </summary>
         public override void OnModeAdded()
         {

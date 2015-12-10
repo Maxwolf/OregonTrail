@@ -54,6 +54,8 @@
     <Compile Include="Core\Window\Form\FormFactory.cs" />
     <Compile Include="Core\Module\SceneGraph.cs" />
     <Compile Include="Core\Module\WindowManager.cs" />
+    <Compile Include="Game\Window\Travel\Drive\Help\UnableToContinue.cs" />
+    <Compile Include="Game\Window\Travel\Drive\Help\VehicleStuck.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\EpitaphConfirm.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\EpitaphEditor.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\EpitaphQuestion.cs" />
@@ -62,7 +64,7 @@
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneItem.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneManager.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneViewer.cs" />
-    <Compile Include="Game\Window\Travel\Drive\LocationFork.cs" />
+    <Compile Include="Game\Window\Travel\Drive\Help\LocationFork.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverCrossChoice.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverGenerator.cs" />
     <Compile Include="Game\Window\Travel\Store\StoreGenerator.cs" />
@@ -148,8 +150,8 @@
     <Compile Include="Game\Window\Travel\Drive\ChangeRations.cs" />
     <Compile Include="Game\Window\Travel\Drive\ChangePace.cs" />
     <Compile Include="Game\Window\Travel\Drive\CheckSupplies.cs" />
-    <Compile Include="Game\Window\Travel\Drive\LocationDepart.cs" />
-    <Compile Include="Game\Window\Travel\Drive\LocationArrive.cs" />
+    <Compile Include="Game\Window\Travel\Drive\Help\LocationDepart.cs" />
+    <Compile Include="Game\Window\Travel\Drive\Help\LocationArrive.cs" />
     <Compile Include="Game\Window\Travel\Drive\LookAtMap.cs" />
     <Compile Include="Game\Window\Travel\Rest\Resting.cs" />
     <Compile Include="Game\Window\Travel\Rest\RestAmount.cs" />
