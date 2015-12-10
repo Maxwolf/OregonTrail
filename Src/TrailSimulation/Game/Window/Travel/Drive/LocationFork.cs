@@ -100,6 +100,9 @@ namespace TrailSimulation.Game
             {
                 // Insert the skip location into location list after current location.
                 GameSimulationApp.Instance.Trail.InsertLocation(_skipChoices[parsedInputNumber]);
+
+                // Start going there...
+                SetForm(typeof(LocationDepart));
             }
             else
             {

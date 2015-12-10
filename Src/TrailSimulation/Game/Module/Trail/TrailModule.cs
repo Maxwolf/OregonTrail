@@ -13,7 +13,7 @@ namespace TrailSimulation.Game
         public TrailModule()
         {
             // Load a trail from file or prefab.
-            Trail = TrailRegistry.OregonTrail;
+            Trail = TrailRegistry.TestTrail;
 
             // Startup location on the trail and distance to next point so it triggers immediately when we tick the first day.
             LocationIndex = 0;
@@ -73,7 +73,7 @@ namespace TrailSimulation.Game
                 var nextPointIndex = LocationIndex + 1;
 
                 // Check if the next point is greater than point count, then get next point of interest if within bounds.
-                return nextPointIndex > Locations.Count ? null : Locations[nextPointIndex];
+                return nextPointIndex >= Locations.Count ? null : Locations[nextPointIndex];
             }
         }
 

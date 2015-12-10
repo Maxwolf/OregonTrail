@@ -43,6 +43,7 @@
     <Compile Include="Event\Prefab\EventItemDestroyer.cs" />
     <Compile Include="Event\RiverFloat\VehicleFloodsEvent.cs" />
     <Compile Include="Event\RiverFord\VehicleWashedOutEvent.cs" />
+    <Compile Include="Game\GameStatus.cs" />
     <Compile Include="Game\Window\MainMenu\Start Month\StartingMonth.cs" />
     <Compile Include="Core\Module\InputManager.cs" />
     <Compile Include="Core\Window\WindowData.cs" />
@@ -62,7 +63,7 @@
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneManager.cs" />
     <Compile Include="Game\Window\Travel\EndGame\Tombstone\TombstoneViewer.cs" />
     <Compile Include="Game\Window\Travel\Drive\LocationFork.cs" />
-    <Compile Include="Game\Window\Travel\RiverCrossing\Choice\RiverCrossChoice.cs" />
+    <Compile Include="Game\Window\Travel\RiverCrossing\RiverCrossChoice.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverGenerator.cs" />
     <Compile Include="Game\Window\Travel\Store\StoreGenerator.cs" />
     <Compile Include="Game\Module\Director\EventFactory.cs" />
@@ -87,13 +88,13 @@
     <Compile Include="Game\Window\RandomEvent\RandomEventCommands.cs" />
     <Compile Include="Game\Window\RandomEvent\RandomEventInfo.cs" />
     <Compile Include="Game\Window\RandomEvent\RandomEvent.cs" />
-    <Compile Include="Game\Window\Travel\RiverCrossing\Choice\CrossingResult.cs" />
-    <Compile Include="Game\Window\Travel\RiverCrossing\Choice\FerryNoMonies.cs" />
+    <Compile Include="Game\Window\Travel\RiverCrossing\CrossingResult.cs" />
+    <Compile Include="Game\Window\Travel\RiverCrossing\Help\FerryNoMonies.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Help\CaulkRiverHelp.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Help\FerryHelp.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Help\FordRiverHelp.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Help\RiverCrossHelp.cs" />
-    <Compile Include="Game\Window\Travel\RiverCrossing\Choice\UseFerryConfirm.cs" />
+    <Compile Include="Game\Window\Travel\RiverCrossing\Help\UseFerryConfirm.cs" />
     <Compile Include="Core\Window\WindowFactory.cs" />
     <Compile Include="Game\Module\Trail\LocationCategory.cs" />
     <Compile Include="Game\Module\Trail\LocationStatus.cs" />

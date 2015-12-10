@@ -120,13 +120,19 @@ namespace TrailSimulation.Game
             _swayBarText = _marqueeBar.Step();
 
             // Determines if the end of the game has occurred, if not then we tick the next turn.
-            if (GameSimulationApp.Instance.ShouldGameEnd)
+            switch (GameSimulationApp.Instance.Status)
             {
-                SetForm(typeof (GameFail));
-            }
-            else
-            {
-                GameSimulationApp.Instance.TakeTurn();
+                case GameStatus.Running:
+                    GameSimulationApp.Instance.TakeTurn();
+                    break;
+                case GameStatus.Fail:
+                    SetForm(typeof(GameFail));
+                    break;
+                case GameStatus.Win:
+                    SetForm(typeof(GameWin));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

@@ -53,19 +53,39 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
+            // Grab instance of game simulation for easy reading.
+            var game = GameSimulationApp.Instance;
             var pointReached = new StringBuilder();
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation)
+
+            // Depending on the status of the game simulation when we arrive at a location different things will happen.
+            switch (GameSimulationApp.Instance.Status)
             {
-                // First point of interest has slightly different message about time travel.
-                pointReached.AppendLine(
-                    $"{Environment.NewLine}Going back to {GameSimulationApp.Instance.Time.CurrentYear}...{Environment.NewLine}");
-            }
-            else
-            {
-                // Build up message about location the player is arriving at.
-                pointReached.AppendLine(
-                    $"{Environment.NewLine}You are now at the {GameSimulationApp.Instance.Trail.CurrentLocation.Name}.");
-                pointReached.Append("Would you like to look around? Y/N");
+                case GameStatus.Running:
+                    // Build up representation of arrival to new location, depending on location it can change.
+                    if (game.Trail.IsFirstLocation)
+                    {
+                        // First point of interest has slightly different message about time travel.
+                        pointReached.AppendLine(
+                            $"{Environment.NewLine}Going back to {game.Time.CurrentYear}...{Environment.NewLine}");
+                    }
+                    else if (game.Trail.LocationIndex < game.Trail.Locations.Count)
+                    {
+                        // Build up message about location the player is arriving at.
+                        pointReached.AppendLine(
+                            $"{Environment.NewLine}You are now at the {game.Trail.CurrentLocation.Name}.");
+                        pointReached.Append("Would you like to look around? Y/N");
+                    }
+                    break;
+                case GameStatus.Fail:
+                    // Shows a tombstone the player can fill out with epitaph if they wish.
+                    SetForm(typeof (GameFail));
+                    break;
+                case GameStatus.Win:
+                    // Shows congratulations form, and them shows total points for making it to the end.
+                    SetForm(typeof (GameWin));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // Wait for input on deciding if we should take a look around.

@@ -8,7 +8,7 @@ namespace TrailSimulation.Game
     public static class TrailRegistry
     {
         /// <summary>
-        ///     Creates the original Oregon trail which was in the 1986 Apple II version of the game.
+        ///     Original Oregon trail which was in the 1986 Apple II version of the game.
         /// </summary>
         public static Trail OregonTrail
         {
@@ -42,6 +42,30 @@ namespace TrailSimulation.Game
                 };
 
                 return new Trail(oregonTrail, 2000);
+            }
+        }
+
+        /// <summary>
+        ///     Debugging and testing trail that is used to quickly iterate over the different location types.
+        /// </summary>
+        public static Trail TestTrail
+        {
+            get
+            {
+                var testTrail = new[]
+                {
+                    new Location("Start Settlement", LocationCategory.Settlement),
+                    new Location("Landmark", LocationCategory.Landmark),
+                    new Location("Fork In Road", LocationCategory.ForkInRoad, new List<Location>
+                    {
+                        new Location("Inserted Settlement", LocationCategory.Settlement),
+                        new Location("Inserted Landmark", LocationCategory.Landmark)
+                    }),
+                    new Location("River Crossing", LocationCategory.RiverCrossing),
+                    new Location("End Settlement", LocationCategory.Settlement)
+                };
+
+                return new Trail(testTrail, 100);
             }
         }
     }

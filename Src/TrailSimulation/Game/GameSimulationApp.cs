@@ -63,6 +63,31 @@ namespace TrailSimulation.Game
         /// </summary>
         public int TotalTurns { get; private set; }
 
+
+        /// <summary>
+        /// </summary>
+        [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Local")]
+        public GameStatus Status
+        {
+            get
+            {
+                // Check if the player made it all the way to the end of the trail.
+                if (Trail.LocationIndex >= Trail.Locations.Count)
+                    return GameStatus.Win;
+
+                // Check if the player has animals to pull their vehicle.
+                if (Vehicle.Inventory[Entities.Animal].Quantity <= 0)
+                    return GameStatus.Fail;
+
+                // Determine if everybody is dead, otherwise let the game continue.
+                if (Vehicle.Passengers.All(p => p.IsDead))
+                    return GameStatus.Fail;
+
+                // Default response is to let the simulation keep running.
+                return GameStatus.Running;
+            }
+        }
+
         /// <summary>
         ///     Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
         ///     capacity or want to do so in this turn.
@@ -100,31 +125,6 @@ namespace TrailSimulation.Game
 
             // Set the starting month to match what the user selected.
             Time.SetMonth(startingInfo.StartingMonth);
-        }
-
-        /// <summary>
-        ///     Determines if the player has died, reached the end of the trail, won, lost, and figures out how to proceed based on
-        ///     the current state of the game simulation. If everything is normal then it will let the game continue. Should be run
-        ///     after every turn made in the game to see if it should end.
-        /// </summary>
-        /// <returns>TRUE if the game should end, FALSE if game should continue.</returns>
-        [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Local")]
-        public bool ShouldGameEnd
-        {
-            get
-            {
-                // Check if the player made it all the way to the end of the trail.
-                if (Trail.LocationIndex >= Trail.Locations.Count)
-                    return true;
-
-                // Check if the player has animals to pull their vehicle.
-                if (Vehicle.Inventory[Entities.Animal].Quantity <= 0)
-                    return true;
-
-                // Determine if everybody is dead, otherwise let the game continue.
-                var allDead = Vehicle.Passengers.All(p => p.IsDead);
-                return allDead;
-            }
         }
 
         /// <summary>
