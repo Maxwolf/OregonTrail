@@ -106,7 +106,7 @@ namespace TrailSimulation.Game
             }
 
             // One day has passed.
-            OnTickDay(TotalDays);
+            OnTickDay();
 
             if (shouldCheckMonthEnd)
             {
@@ -118,7 +118,7 @@ namespace TrailSimulation.Game
                     TotalMonths++;
 
                     // Fire month end event
-                    OnMonthEnd(TotalMonths);
+                    OnMonthEnd();
                 }
                 else
                 {
@@ -130,10 +130,10 @@ namespace TrailSimulation.Game
                     TotalYears++;
 
                     // Fire month end event
-                    OnMonthEnd(TotalMonths);
+                    OnMonthEnd();
 
                     // Fire year end event
-                    OnYearEnd(TotalYears);
+                    OnYearEnd();
                 }
             }
         }
@@ -141,8 +141,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Fired after each year in the simulation.
         /// </summary>
-        /// <param name="totalYears">Total number of years the simulation has ticked.</param>
-        private void OnYearEnd(int totalYears)
+        private void OnYearEnd()
         {
             // TODO: Use time module year end or remove it...
         }
@@ -150,8 +149,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Fired after each month in the simulation.
         /// </summary>
-        /// <param name="totalMonths">Total number of months the simulation has ticked.</param>
-        private void OnMonthEnd(int totalMonths)
+        private void OnMonthEnd()
         {
             // TODO: Use time module month end or remove it...
         }
@@ -159,8 +157,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Fired after each day in the simulation.
         /// </summary>
-        /// <param name="totalDays">Total number of days the simulation has ticked.</param>
-        private void OnTickDay(int totalDays)
+        private void OnTickDay()
         {
             // Each day we tick the weather, vehicle, and the people in it.
             GameSimulationApp.Instance.Climate.OnTick(false);

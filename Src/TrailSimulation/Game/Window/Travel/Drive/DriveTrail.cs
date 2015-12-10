@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -56,6 +54,9 @@ namespace TrailSimulation.Game
         {
             base.OnFormPostCreate();
 
+            // Get instance of game simulation for easy reading.
+            var game = GameSimulationApp.Instance;
+
             // We don't create it in the constructor, will update with ticks.
             _drive = new StringBuilder();
 
@@ -63,13 +64,15 @@ namespace TrailSimulation.Game
             _marqueeBar = new MarqueeBar();
             _swayBarText = _marqueeBar.Step();
 
-            // When starting the Windows we automatically begin linear progression of time.
-            GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Moving;
+            // Check if the player has animals to pull their vehicle.
+            game.Vehicle.Status = game.Vehicle.Inventory[Entities.Animal].Quantity <= 0
+                ? VehicleStatus.Stuck
+                : VehicleStatus.Moving;
 
             // Vehicle has departed the current location for the next one but you can only depart once.
-            if (GameSimulationApp.Instance.Trail.DistanceToNextLocation > 0 &&
-                GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Arrived)
-                GameSimulationApp.Instance.Trail.CurrentLocation.Status = LocationStatus.Departed;
+            if (game.Trail.DistanceToNextLocation > 0 &&
+                game.Trail.CurrentLocation.Status == LocationStatus.Arrived)
+                game.Trail.CurrentLocation.Status = LocationStatus.Departed;
         }
 
         /// <summary>
@@ -108,28 +111,34 @@ namespace TrailSimulation.Game
         {
             base.OnTick(systemTick);
 
+            // Get instance of game simulation for easy reading.
+            var game = GameSimulationApp.Instance;
+
             // Only game simulation ticks please.
             if (systemTick)
                 return;
 
             // Check to see if we should be ticking by days with each simulation tick (defaults to every second).
-            if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Stopped)
+            if (game.Vehicle.Status == VehicleStatus.Stopped)
                 return;
 
             // Advance the progress bar, step it to next phase.
             _swayBarText = _marqueeBar.Step();
 
             // Determines if the end of the game has occurred, if not then we tick the next turn.
-            switch (GameSimulationApp.Instance.Status)
+            switch (game.Status)
             {
                 case GameStatus.Running:
-                    GameSimulationApp.Instance.TakeTurn();
+                    // Processes the next turn in the game simulation.
+                    game.TakeTurn();
                     break;
                 case GameStatus.Fail:
-                    SetForm(typeof(GameFail));
+                    // Tombstone created for player, optional epitaph.
+                    SetForm(typeof (GameFail));
                     break;
                 case GameStatus.Win:
-                    SetForm(typeof(GameWin));
+                    // Winning screen shown, points tabulated for remaining inventory items.
+                    SetForm(typeof (GameWin));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

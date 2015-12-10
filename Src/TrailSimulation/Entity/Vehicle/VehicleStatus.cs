@@ -15,6 +15,11 @@
         /// <summary>
         ///     Vehicle is moving and decreasing distance to next location on the trail with each turn made.
         /// </summary>
-        Moving = 1
+        Moving = 1,
+
+        /// <summary>
+        ///     Vehicle cannot move anymore because it is either broken beyond repair or has no animals to pull it.
+        /// </summary>
+        Stuck = 2
     }
 }

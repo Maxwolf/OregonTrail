@@ -75,9 +75,7 @@ namespace TrailSimulation.Game
                 if (Trail.LocationIndex >= Trail.Locations.Count)
                     return GameStatus.Win;
 
-                // Check if the player has animals to pull their vehicle.
-                if (Vehicle.Inventory[Entities.Animal].Quantity <= 0)
-                    return GameStatus.Fail;
+
 
                 // Determine if everybody is dead, otherwise let the game continue.
                 if (Vehicle.Passengers.All(p => p.IsDead))

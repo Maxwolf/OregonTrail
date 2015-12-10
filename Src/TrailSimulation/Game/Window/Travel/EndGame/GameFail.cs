@@ -44,10 +44,11 @@ namespace TrailSimulation.Game
         /// </summary>
         public override void OnFormPostCreate()
         {
-            base.OnFormPostCreate();
-
             // Creates the tombstone that will represent the player leader (since he is most important).
             UserData.TombstoneItem = new TombstoneItem();
+
+            // Allows dialog prompt to continue executing with created tombstone item.
+            base.OnFormPostCreate();
         }
 
         /// <summary>
