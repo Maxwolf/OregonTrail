@@ -102,7 +102,7 @@ namespace TrailSimulation.Game
                 GameSimulationApp.Instance.Trail.InsertLocation(_skipChoices[parsedInputNumber]);
 
                 // Start going there...
-                SetForm(typeof(LocationDepart));
+                SetForm(typeof (LocationDepart));
             }
             else
             {

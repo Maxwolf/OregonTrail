@@ -145,7 +145,6 @@ namespace TrailSimulation.Game
             return 100;
         }
 
-
         /// <summary>
         ///     Fired by the simulation when it would like to trigger advancement to the next location, doesn't matter when this is
         ///     called could be right in the middle a trail midway between two points and it would still forcefully place the

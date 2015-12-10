@@ -155,11 +155,14 @@ namespace TrailSimulation.Game
             if (_finishedCrossingRiver)
                 return;
 
+            // Grab instance of game simulation for easy reading.
+            var game = GameSimulationApp.Instance;
+
             // Advance the progress bar, step it to next phase.
             _swayBarText = _marqueeBar.Step();
 
             // Increment the amount we have floated over the river.
-            _riverCrossingOfTotalWidth += GameSimulationApp.Instance.Random.Next(1, (UserData.River.RiverWidth/4));
+            _riverCrossingOfTotalWidth += game.Random.Next(1, (UserData.River.RiverWidth/4));
 
             // Check to see if we will finish crossing river before crossing more.
             if (_riverCrossingOfTotalWidth >= UserData.River.RiverWidth)
@@ -180,17 +183,14 @@ namespace TrailSimulation.Game
                         _riverCrossingOfTotalWidth >= (UserData.River.RiverWidth/2))
                     {
                         _hasFlooded = true;
-                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
-                            typeof (VehicleWashedOutEvent));
+                        game.EventDirector.TriggerEvent(game.Vehicle, typeof (VehicleWashedOutEvent));
                         return;
                     }
 
-                    GameSimulationApp.Instance.EventDirector.TriggerEventByType(GameSimulationApp.Instance.Vehicle,
-                        EventCategory.RiverFord);
+                    game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverFord);
                     break;
                 case RiverCrossChoice.Float:
-                    GameSimulationApp.Instance.EventDirector.TriggerEventByType(GameSimulationApp.Instance.Vehicle,
-                        EventCategory.RiverFloat);
+                    game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverFloat);
                     break;
                 case RiverCrossChoice.Ferry:
                     break;

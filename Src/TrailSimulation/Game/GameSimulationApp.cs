@@ -72,10 +72,8 @@ namespace TrailSimulation.Game
             get
             {
                 // Check if the player made it all the way to the end of the trail.
-                if (Trail.LocationIndex >= Trail.Locations.Count)
+                if (Trail.CurrentLocation.IsLast)
                     return GameStatus.Win;
-
-
 
                 // Determine if everybody is dead, otherwise let the game continue.
                 if (Vehicle.Passengers.All(p => p.IsDead))

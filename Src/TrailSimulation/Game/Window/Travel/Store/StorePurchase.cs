@@ -149,7 +149,7 @@ namespace TrailSimulation.Game
                 var totalBill = UserData.Store.TotalTransactionCost;
                 if (GameSimulationApp.Instance.Vehicle.Balance < totalBill)
                 {
-                    SetForm(typeof(StoreDebtWarning));
+                    SetForm(typeof (StoreDebtWarning));
                     return;
                 }
             }

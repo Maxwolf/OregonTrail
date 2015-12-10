@@ -126,5 +126,12 @@ namespace TrailSimulation.Game
         ///     being asked twice for any one location.
         /// </summary>
         public bool LookedAroundPrompted { get; set; }
+
+        /// <summary>
+        ///     Determines if the given location is the last location on the trail, this is useful to know because we want to do
+        ///     something special with the location before we actually arrive to it but we can know the next location is last using
+        ///     this.
+        /// </summary>
+        public bool IsLast { get; set; }
     }
 }

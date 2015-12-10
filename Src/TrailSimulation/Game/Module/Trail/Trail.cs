@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace TrailSimulation.Game
 {
@@ -25,6 +26,10 @@ namespace TrailSimulation.Game
         {
             _locations = new List<Location>(locations);
             TrailLength = trailLength;
+
+            // Mark the last location being as such, will throw exception is locations list is empty as it should.
+            var lastLocation = _locations.Last();
+            lastLocation.IsLast = true;
         }
 
         /// <summary>

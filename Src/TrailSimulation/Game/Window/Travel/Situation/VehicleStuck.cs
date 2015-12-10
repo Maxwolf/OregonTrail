@@ -10,6 +10,7 @@ namespace TrailSimulation.Game
     ///     they cannot continue without using the same message that the drive form triggers since it is intended to be spawned
     ///     when the problem occurs.
     /// </summary>
+    [ParentWindow(GameWindow.Travel)]
     public sealed class VehicleStuck : InputForm<TravelInfo>
     {
         /// <summary>

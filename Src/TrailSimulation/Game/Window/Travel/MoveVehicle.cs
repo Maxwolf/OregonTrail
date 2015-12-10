@@ -7,12 +7,11 @@ namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Attached to the travel Windows when the player requests to continue on the trail. This shows a ping-pong progress
-    ///     bar
-    ///     moving back and fourth which lets the player know they are moving. Stats are also shown from the travel info
+    ///     bar moving back and fourth which lets the player know they are moving. Stats are also shown from the travel info
     ///     object, if any random events occur they will be selected from this state.
     /// </summary>
     [ParentWindow(GameWindow.Travel)]
-    public sealed class DriveTrail : Form<TravelInfo>
+    public sealed class MoveVehicle : Form<TravelInfo>
     {
         /// <summary>
         ///     Holds the current drive state, since we can size up the situation at any time.
@@ -33,7 +32,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public DriveTrail(IWindow window) : base(window)
+        public MoveVehicle(IWindow window) : base(window)
         {
         }
 
@@ -63,11 +62,6 @@ namespace TrailSimulation.Game
             // Animated sway bar.
             _marqueeBar = new MarqueeBar();
             _swayBarText = _marqueeBar.Step();
-
-            // Check if the player has animals to pull their vehicle.
-            game.Vehicle.Status = game.Vehicle.Inventory[Entities.Animal].Quantity <= 0
-                ? VehicleStatus.Stuck
-                : VehicleStatus.Moving;
 
             // Vehicle has departed the current location for the next one but you can only depart once.
             if (game.Trail.DistanceToNextLocation > 0 &&
@@ -115,8 +109,16 @@ namespace TrailSimulation.Game
             if (systemTick)
                 return;
 
+            // Get instance of game simulation for easy reading.
+            var game = GameSimulationApp.Instance;
+
+            // Checks if the player has animals to pull their vehicle.
+            game.Vehicle.Status = game.Vehicle.Inventory[Entities.Animal].Quantity <= 0
+                ? VehicleStatus.Stuck
+                : VehicleStatus.Moving;
+
             // Determine if we should continue down the trail based on current vehicle status.
-            switch (GameSimulationApp.Instance.Vehicle.Status)
+            switch (game.Vehicle.Status)
             {
                 case VehicleStatus.Stopped:
                     // Do not proceed if the vehicle is stopped.
@@ -151,14 +153,17 @@ namespace TrailSimulation.Game
             {
                 case GameStatus.Running:
                     // Processes the next turn in the game simulation.
+                    game.Vehicle.Status = VehicleStatus.Moving;
                     game.TakeTurn();
                     break;
                 case GameStatus.Fail:
                     // Tombstone created for player, optional epitaph.
+                    game.Vehicle.Status = VehicleStatus.Stopped;
                     SetForm(typeof (GameFail));
                     break;
                 case GameStatus.Win:
                     // Winning screen shown, points tabulated for remaining inventory items.
+                    game.Vehicle.Status = VehicleStatus.Stopped;
                     SetForm(typeof (GameWin));
                     break;
                 default:

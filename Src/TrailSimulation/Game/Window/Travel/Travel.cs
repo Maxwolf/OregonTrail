@@ -45,14 +45,14 @@ namespace TrailSimulation.Game
             // Check if the vehicle is stuck and unable to continue.
             if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Stuck)
             {
-                SetForm(typeof(VehicleStuck));
+                SetForm(typeof (VehicleStuck));
                 return;
             }
 
             // Check if player has already departed and we are just moving along again.
             if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Departed)
             {
-                SetForm(typeof (DriveTrail));
+                SetForm(typeof (MoveVehicle));
                 return;
             }
 
