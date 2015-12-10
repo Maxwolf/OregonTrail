@@ -1,6 +1,6 @@
 ﻿namespace TrailSimulation.Game
 {
-    public enum ClimateClassification
+    public enum Climate
     {
         Tropical,
         Dry,

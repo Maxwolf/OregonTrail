@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using TrailSimulation.Core;
+using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
 {
@@ -19,6 +21,29 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Reference to points that will be given for entities of given matching types in this list.
+        /// </summary>
+        private static IEnumerable<Points> ResourcePoints
+        {
+            get
+            {
+                return new List<Points>
+                {
+                    new Points(Resources.Person),
+                    new Points(Resources.Vehicle),
+                    new Points(Parts.Oxen),
+                    new Points(Parts.Wheel),
+                    new Points(Parts.Axle),
+                    new Points(Parts.Tongue),
+                    new Points(Resources.Clothing),
+                    new Points(Resources.Bullets),
+                    new Points(Resources.Food),
+                    new Points(Resources.Cash)
+                };
+            }
+        }
+
+        /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         protected override string OnDialogPrompt()
@@ -31,8 +56,8 @@ namespace TrailSimulation.Game
             _pointsItems.Append($"item you bring safely to Oregon.{Environment.NewLine}{Environment.NewLine}");
 
             // Build up the table of resource points and how they work for player.
-            var partyTable = ScoreRegistry.ResourcePoints.ToStringTable(
-                new[] {"Resources of Party", "Points per SimItem"},
+            var partyTable = ResourcePoints.ToStringTable(
+                new[] {"Resources of Party", "Points per Item"},
                 u => u.ToString(),
                 u => u.PointsAwarded
                 );

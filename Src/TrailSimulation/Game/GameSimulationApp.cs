@@ -173,13 +173,15 @@ namespace TrailSimulation.Game
             Time = new TimeModule();
 
             // Scoring tracker and tabulator for end game results from current simulation state.
-            ScoreTopTen = new List<Highscore>(ScoreRegistry.TopTenDefaults);
+            ScoreTopTen = new List<Highscore>(OriginalTopTen.DefaultTopTen);
             // TODO: Load custom list from JSON with user high scores altered from defaults.
 
             // Environment, weather, conditions, climate, tail, stats, event director, etc.
             EventDirector = new EventDirectorModule();
-            Climate = new ClimateModule();
             Trail = new TrailModule();
+
+            // Climate needs data from trail module about climate type.
+            Climate = new ClimateModule(Trail.ClimateType);
 
             // Vehicle entity for the players to travel in along the trail.
             Vehicle = new Vehicle();

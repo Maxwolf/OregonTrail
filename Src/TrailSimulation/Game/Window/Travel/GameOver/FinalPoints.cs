@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -12,10 +14,16 @@ namespace TrailSimulation.Game
     public sealed class FinalPoints : Form<TravelInfo>
     {
         /// <summary>
+        /// Holds the final point tabulation for the player to see.
+        /// </summary>
+        private StringBuilder _pointsPrompt;
+
+        /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public FinalPoints(IWindow window) : base(window)
         {
+            _pointsPrompt = new StringBuilder();
         }
 
         /// <summary>
@@ -24,7 +32,15 @@ namespace TrailSimulation.Game
         /// </summary>
         public override string OnRenderForm()
         {
-            throw new NotImplementedException();
+            // Build up a representation of the current points the player has.
+            _pointsPrompt.AppendLine($"{Environment.NewLine}Points for arriving in Oregon");
+
+            // Grab any person that is not dead and check their profession.
+            //GameSimulationApp.Instance.
+
+            //_pointsPrompt.AppendLine("");
+
+            return _pointsPrompt.ToString();
         }
 
         /// <summary>
@@ -33,7 +49,8 @@ namespace TrailSimulation.Game
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
         public override void OnInputBufferReturned(string input)
         {
-            throw new NotImplementedException();
+            // Completely resets the game to default state it was in when it first started.
+            GameSimulationApp.Instance.Restart();
         }
     }
 }

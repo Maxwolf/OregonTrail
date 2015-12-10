@@ -7,8 +7,14 @@ namespace TrailSimulation.Entity
     ///     Defines a base SimItem which can represent almost any commodity the player can purchase for the party or
     ///     vehicle.
     /// </summary>
-    public class SimItem : IEntity
+    public sealed class SimItem : IEntity
     {
+        /// <summary>
+        ///     Default value that will be used in delineating how many points will be awarded per a particular object type. Used
+        ///     as default value and also checking in overload for ToString.
+        /// </summary>
+        public const int DEFAULT_PER_AMOUNT = 1;
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Entities.SimItem" /> class.
         /// </summary>
@@ -21,7 +27,9 @@ namespace TrailSimulation.Entity
             float cost,
             int weight = 1,
             int minimumQuantity = 1,
-            int startingQuantity = 0)
+            int startingQuantity = 0,
+            int pointsAwarded = DEFAULT_PER_AMOUNT,
+            int pointsPerAmount = DEFAULT_PER_AMOUNT)
         {
             // Complain if minimum amount is zero, you cannot have zero of something.
             if (minimumQuantity <= 0)
@@ -33,6 +41,10 @@ namespace TrailSimulation.Entity
             MinQuantity = minimumQuantity;
             MaxQuantity = maxQuantity;
             Quantity = startingQuantity;
+
+            // Scoring information for points tabulation if player wins the game.
+            PointsPerAmount = pointsPerAmount;
+            PointsAwarded = pointsAwarded;
 
             // Identification of SimItem should be unique, we should also be able to refer to multiples and per.
             Category = category;
@@ -67,6 +79,52 @@ namespace TrailSimulation.Entity
             DelineatingUnit = oldItem.DelineatingUnit;
             PluralForm = oldItem.PluralForm;
             Weight = oldItem.Weight;
+        }
+
+        /// <summary>
+        ///     Calculates the total points that should be given for inputted quantity of the object in question.
+        /// </summary>
+        /// <returns>Points to be awarded for the given quantity of the item according to scoring rules.</returns>
+        public int Points
+        {
+            get
+            {
+                // Check quantity is above zero.
+                if (Quantity <= 0)
+                    return 0;
+
+                // Check that quantity is above divisor for point calculation.
+                if (Quantity < PointsPerAmount)
+                    return 0;
+
+                // Figure out how many points for this quantity.
+                var points = (Quantity/PointsPerAmount)*PointsAwarded;
+
+                // Return the result to the caller.
+                return points;
+            }
+        }
+
+        /// <summary>
+        ///     Calculates the total points that should be given for inputted quantity of the object in question.
+        /// </summary>
+        /// <param name="quantity">Amount of the item found int he players inventory that needs to be calculated.</param>
+        /// <returns>Points to be awarded for the given quantity of the item according to scoring rules.</returns>
+        public int CalculatePointsForAmount(int quantity)
+        {
+            // Check quantity is above zero.
+            if (quantity <= 0)
+                return 0;
+
+            // Check that quantity is above divisor for point calculation.
+            if (quantity < PointsPerAmount)
+                return 0;
+
+            // Figure out how many points for this quantity.
+            var points = (quantity / PointsPerAmount) * PointsAwarded;
+
+            // Return the result to the caller.
+            return points;
         }
 
         /// <summary>
@@ -111,7 +169,17 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Total number of items this SimItem represents.
         /// </summary>
-        public int StartingQuantity { get; }
+        private int StartingQuantity { get; }
+
+        /// <summary>
+        ///     Total points the player will get for this item being in their inventory multiplied by the quantity owned.
+        /// </summary>
+        public int PointsAwarded { get; }
+
+        /// <summary>
+        ///     Defines the quantity of the type of item that must be located in inventory for points awarded to be returned.
+        /// </summary>
+        public int PointsPerAmount { get; }
 
         /// <summary>
         ///     Total weight of all food items this represents multiplied by base minimum weight.
@@ -261,7 +329,7 @@ namespace TrailSimulation.Entity
         ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
         ///     pulsed by game simulation at fixed interval.
         /// </param>
-        public virtual void OnTick(bool systemTick)
+        public void OnTick(bool systemTick)
         {
             // Nothing to see here, move along...
         }

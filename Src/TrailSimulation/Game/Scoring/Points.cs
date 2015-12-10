@@ -11,12 +11,6 @@ namespace TrailSimulation.Game
     public sealed class Points
     {
         /// <summary>
-        ///     Default value that will be used in delineating how many points will be awarded per a particular object type. Used
-        ///     as default value and also checking in overload for ToString.
-        /// </summary>
-        private const int DEFAULT_PER_AMOUNT = 1;
-
-        /// <summary>
         ///     Since the string.empty property is computed and not static we have to make a empty string for a constant for
         ///     default display name.
         /// </summary>
@@ -36,18 +30,17 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.Points" /> class.
         /// </summary>
-        public Points(SimItem resource, int pointsAwarded,
-            int perAmount = DEFAULT_PER_AMOUNT, string optionalDisplayName = DEFAULT_DISPLAY_NAME)
+        public Points(SimItem resource, string optionalDisplayName = DEFAULT_DISPLAY_NAME)
         {
             // Complain if the per amount is zero, the developer is doing it wrong.
-            if (perAmount <= 0)
+            if (resource.PointsPerAmount <= 0)
                 throw new ArgumentException("Per amount is less than zero, default value is one for a reason!");
 
             // Setup point tabulator basics.
             Resource = resource;
-            PointsAwarded = pointsAwarded;
+            PointsAwarded = resource.PointsAwarded;
             _optionalDisplayName = optionalDisplayName;
-            _perAmount = perAmount;
+            _perAmount = resource.PointsPerAmount;
         }
 
         /// <summary>
@@ -75,31 +68,9 @@ namespace TrailSimulation.Game
             }
 
             // Check if per amount is default value of one.
-            return _perAmount == DEFAULT_PER_AMOUNT
+            return _perAmount == SimItem.DEFAULT_PER_AMOUNT
                 ? $"{displayName}"
                 : $"{displayName} (per {_perAmount})";
-        }
-
-        /// <summary>
-        ///     Calculates the total points that should be given for inputted quantity of the object in question.
-        /// </summary>
-        /// <param name="quantity">Amount of the item found int he players inventory that needs to be calculated.</param>
-        /// <returns>Points to be awarded for the given quantity of the item according to scoring rules.</returns>
-        public int CalculatePointsForAmount(int quantity)
-        {
-            // Check quantity is above zero.
-            if (quantity <= 0)
-                return 0;
-
-            // Check that quantity is above divisor for point calculation.
-            if (quantity < _perAmount)
-                return 0;
-
-            // Figure out how many points for this quantity.
-            var points = (quantity/_perAmount)*PointsAwarded;
-
-            // Return the result to the caller.
-            return points;
         }
     }
 }

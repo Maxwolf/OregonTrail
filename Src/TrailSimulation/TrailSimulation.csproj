@@ -110,7 +110,6 @@
     <Compile Include="Game\Window\MainMenu\Help\PointsMultiplyerHelp.cs" />
     <Compile Include="Game\Window\MainMenu\Help\PointsAwardHelp.cs" />
     <Compile Include="Game\Scoring\Points.cs" />
-    <Compile Include="Game\Scoring\ScoreRegistry.cs" />
     <Compile Include="Game\Window\MainMenu\Options\OriginalTopTen.cs" />
     <Compile Include="Game\Window\RandomEvent\EventExecutor.cs" />
     <Compile Include="Game\Window\Travel\MoveVehicle.cs" />
@@ -160,7 +159,7 @@
     <Compile Include="Game\Window\Travel\TravelInfo.cs" />
     <Compile Include="Game\Window\Travel\Travel.cs" />
     <Compile Include="Game\GameSimulationApp.cs" />
-    <Compile Include="Game\Module\Climate\ClimateClassification.cs" />
+    <Compile Include="Game\Module\Climate\Climate.cs" />
     <Compile Include="Game\Module\Climate\ClimateData.cs" />
     <Compile Include="Game\Module\Climate\WeatherCondition.cs" />
     <Compile Include="Game\Module\Director\EventDirectorModule.cs" />

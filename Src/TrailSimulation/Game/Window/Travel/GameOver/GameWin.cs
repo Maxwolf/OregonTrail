@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -27,10 +28,10 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
-            _gameOver.AppendLine("Congratulations! You have ");
+            _gameOver.AppendLine($"{Environment.NewLine}Congratulations! You have ");
             _gameOver.AppendLine("made it to Oregon! Let's see ");
             _gameOver.AppendLine("how many points you have ");
-            _gameOver.Append("received.");
+            _gameOver.Append($"received.{Environment.NewLine}");
             return _gameOver.ToString();
         }
 

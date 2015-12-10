@@ -15,14 +15,14 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
         /// </summary>
-        public ClimateModule()
+        public ClimateModule(Climate climateType)
         {
-            ClimateClassificationType = ClimateClassification.Moderate;
+            ClimateType = climateType;
 
             // Select climate and determine humidity and temperature based on it.
-            switch (ClimateClassificationType)
+            switch (ClimateType)
             {
-                case ClimateClassification.Polar:
+                case Climate.Polar:
                     _averageTemperatures = new List<ClimateData>
                     {
                         new ClimateData(Month.January, -2.9f, -0.2f, -5.5f, 15,
@@ -51,7 +51,7 @@ namespace TrailSimulation.Game
                             15.7f, 2)
                     };
                     break;
-                case ClimateClassification.Continental:
+                case Climate.Continental:
                     _averageTemperatures = new List<ClimateData>
                     {
                         new ClimateData(Month.January, 20.5f, 28, 13, 54, 53),
@@ -68,7 +68,7 @@ namespace TrailSimulation.Game
                         new ClimateData(Month.December, 18.5f, 26, 11, 47, 53)
                     };
                     break;
-                case ClimateClassification.Moderate:
+                case Climate.Moderate:
                     _averageTemperatures = new List<ClimateData>
                     {
                         new ClimateData(Month.January, -6.1f, 8.6f, -8.8f, 40,
@@ -94,7 +94,7 @@ namespace TrailSimulation.Game
                             49, 86)
                     };
                     break;
-                case ClimateClassification.Dry:
+                case Climate.Dry:
                     _averageTemperatures = new List<ClimateData>
                     {
                         new ClimateData(Month.January, 27, 33, 21, 102, 70),
@@ -111,7 +111,7 @@ namespace TrailSimulation.Game
                         new ClimateData(Month.December, 27.5f, 34, 21, 67, 69)
                     };
                     break;
-                case ClimateClassification.Tropical:
+                case Climate.Tropical:
                     _averageTemperatures = new List<ClimateData>
                     {
                         new ClimateData(Month.January, 12, 18, 7, 40, 73),
@@ -133,7 +133,7 @@ namespace TrailSimulation.Game
             }
         }
 
-        public ClimateClassification ClimateClassificationType { get; set; }
+        public Climate ClimateType { get; set; }
 
         public float DisasterChance { get; private set; }
 
@@ -168,7 +168,7 @@ namespace TrailSimulation.Game
         /// </param>
         public override void OnTick(bool systemTick)
         {
-            // TODO: Fire off events for weather related events so this simulation will directly affect the simulation.
+            // TODO: Fire off weather related events so this module and thus weather will affect the simulation.
 
             var possibleClimate = GetTemperatureByMonth(GameSimulationApp.Instance.Time.CurrentMonth);
             var possibleTemperature = GameSimulationApp.Instance.Random.Next((int) possibleClimate.MeanDailyMin,
@@ -385,7 +385,7 @@ namespace TrailSimulation.Game
             // Adjust temperature levels.
             if (InsideTemperature > OutsideTemperature)
             {
-                if (ClimateClassificationType == ClimateClassification.Polar)
+                if (ClimateType == Climate.Polar)
                 {
                     // Polar regions get a bonus for heat reduction.
                     InsideTemperature -= GameSimulationApp.Instance.Random.Next(1, 3);
@@ -405,7 +405,7 @@ namespace TrailSimulation.Game
             // Adjust humidity levels.
             if (InsideHumidity > OutsideHumidity)
             {
-                if (ClimateClassificationType == ClimateClassification.Polar)
+                if (ClimateType == Climate.Polar)
                 {
                     // Polar regions get a bonus for heat reduction.
                     InsideHumidity -= 0.2f;

@@ -21,6 +21,14 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Determines what the weather will be like on the trail.
+        /// </summary>
+        public Climate ClimateType
+        {
+            get { return Trail.ClimateType; }
+        }
+
+        /// <summary>
         ///     Reference to the loaded trail which the simulation and trail module are using to let the player iterate over them.
         /// </summary>
         private Trail Trail { get; set; }
