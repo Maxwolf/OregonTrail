@@ -35,7 +35,7 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             // Build up a representation of the current points the player has.
-            _pointsPrompt.AppendLine($"{Environment.NewLine}Points for arriving in Oregon");
+            _pointsPrompt.AppendLine($"{Environment.NewLine}Points for arriving in Oregon{Environment.NewLine}");
 
             // Shortcut to the game simulation instance to make code easier to read.
             var game = GameSimulationApp.Instance;
@@ -81,39 +81,39 @@ namespace TrailSimulation.Game
             // Builds up a list of tuples that represent quantity, description, and total points.
             var tuplePoints = new List<Tuple<int, string, int>>
             {
-                // Health of vehicle passengers.
+                // Health of vehicle passengers that are still alive.
                 new Tuple<int, string, int>(
                     game.Vehicle.Passengers.Count(),
-                    $"people in {((Health) averageHealth).ToDescriptionAttribute().ToLowerInvariant()} health",
-                    Resources.Person.Points*game.Vehicle.Passengers.Count()),
+                    $"people in {averageHealth.ToDescriptionAttribute().ToLowerInvariant()} health",
+                    alivePersonsHealth.Count * (int) averageHealth),
                 // Vehicle existence counts for some points.
                 new Tuple<int, string, int>(1, "wagon", Resources.Vehicle.Points),
                 // Number of oxen still alive pulling vehicle.
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Animal].Quantity,
-                    game.Vehicle.Inventory[Entities.Animal].PluralForm,
+                    "oxen",
                     game.Vehicle.Inventory[Entities.Animal].Points),
                 // Spare vehicle parts.
                 spareParts,
                 // Clothing
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Clothes].Quantity,
-                    game.Vehicle.Inventory[Entities.Clothes].PluralForm,
+                    "sets of clothing",
                     game.Vehicle.Inventory[Entities.Clothes].Points),
                 // Bullets
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Ammo].Quantity,
-                    game.Vehicle.Inventory[Entities.Ammo].PluralForm,
+                    "bullets",
                     game.Vehicle.Inventory[Entities.Ammo].Points),
                 // Food
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Food].Quantity,
-                    game.Vehicle.Inventory[Entities.Food].PluralForm,
+                    "pounds of food",
                     game.Vehicle.Inventory[Entities.Food].Points),
                 // Cash
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Cash].Quantity,
-                    game.Vehicle.Inventory[Entities.Cash].PluralForm,
+                    "cash",
                     game.Vehicle.Inventory[Entities.Cash].Points)
             };
 
@@ -160,7 +160,7 @@ namespace TrailSimulation.Game
             }
 
             // When building up the bonus text we will change the message about point multiplier so it makes sense.
-            _pointsPrompt.AppendLine($"For going as a {leaderProfession.ToString().ToLowerInvariant()}, your");
+            _pointsPrompt.AppendLine($"{Environment.NewLine}For going as a {leaderProfession.ToString().ToLowerInvariant()}, your");
             switch (leaderProfession)
             {
                 case Profession.Banker:
