@@ -122,11 +122,17 @@ namespace TrailSimulation.Game
             if (systemTick)
                 return;
 
+            // Grab the current vehicle from the game simulation.
+            var vehicle = GameSimulationApp.Instance.Vehicle;
+
             // Tick the current location, typically this will randomize the possible trades, weather, and advice.
             CurrentLocation?.OnTick(false);
 
+            // Update total distance traveled on vehicle if we have not reached the point.
+            vehicle.OnTick(false);
+
             // No advancing down the trail when vehicle is parked.
-            if (GameSimulationApp.Instance.Vehicle.Status != VehicleStatus.Moving)
+            if (vehicle.Status != VehicleStatus.Moving)
                 return;
 
             // Check if the player is still working with the location they are currently arrived at.
@@ -135,7 +141,7 @@ namespace TrailSimulation.Game
                 return;
 
             // Move us towards the next point if not zero.
-            DistanceToNextLocation -= GameSimulationApp.Instance.Vehicle.Mileage;
+            DistanceToNextLocation -= vehicle.Mileage;
 
             // If distance is zero we have arrived at the next location!
             if (DistanceToNextLocation >= 0)

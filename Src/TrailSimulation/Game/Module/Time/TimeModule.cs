@@ -159,13 +159,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void OnTickDay()
         {
-            // Each day we tick the weather, vehicle, and the people in it.
-            GameSimulationApp.Instance.Climate.OnTick(false);
-
-            // Update total distance traveled on vehicle if we have not reached the point.
-            GameSimulationApp.Instance.Vehicle.OnTick(false);
-
-            // Move towards the next location on the trail.
+            // Move towards the next location on the trail. Ticks vehicle, location, people, weather, etc.
             GameSimulationApp.Instance.Trail.OnTick(false);
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using TrailSimulation.Game;
 
 namespace TrailSimulation.Entity
 {
@@ -232,7 +233,7 @@ namespace TrailSimulation.Entity
         {
             var hash = 23;
             hash = (hash*31) + Name.GetHashCode();
-            hash = (hash * 31) + Category.GetHashCode();
+            hash = (hash*31) + Category.GetHashCode();
             return hash;
         }
 
@@ -252,7 +253,8 @@ namespace TrailSimulation.Entity
             if (systemTick)
                 return;
 
-            // TODO: Move climate ticking to location responsibility?!
+            // We tick the weather all the time not just based on days, but every time the location is ticked.
+            GameSimulationApp.Instance.Climate.OnTick(false);
 
             // TODO: Trades are randomly generated when ticking the location every day.
         }
