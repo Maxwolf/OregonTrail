@@ -73,7 +73,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Debugging trail for quickly getting to the end of the game for points tabulation and high-score tests.
         /// </summary>
-        public static Trail TestPoints
+        public static Trail TestWin
         {
             get
             {
@@ -84,6 +84,28 @@ namespace TrailSimulation.Game
                 };
 
                 return new Trail(testPoints, 1);
+            }
+        }
+
+        /// <summary>
+        ///     Debugging trail for quickly drowning the player and killing them off so tombstones and epitaphs can be tested.
+        /// </summary>
+        public static Trail TestFail
+        {
+            get
+            {
+                var testFail = new[]
+                {
+                    new Location("Start Of Test", LocationCategory.Settlement, Climate.Moderate),
+                    new Location("Wolf River Crossing", LocationCategory.RiverCrossing, Climate.Continental),
+                    new Location("Fox River Crossing", LocationCategory.RiverCrossing, Climate.Continental),
+                    new Location("Otter River Crossing", LocationCategory.RiverCrossing, Climate.Continental),
+                    new Location("Coyote River Crossing", LocationCategory.RiverCrossing, Climate.Continental),
+                    new Location("Deer River Crossing", LocationCategory.RiverCrossing, Climate.Continental),
+                    new Location("End Of Test", LocationCategory.Settlement, Climate.Dry)
+                };
+
+                return new Trail(testFail, 1);
             }
         }
     }
