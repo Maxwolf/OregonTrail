@@ -2,10 +2,10 @@
 using System.Threading;
 using TrailSimulation.Game;
 
-namespace TrailGame
+namespace TrailConsole
 {
     /// <summary>
-    ///     Trail Simulation Game
+    ///     Trail Simulation Game - Console Edition
     /// </summary>
     internal static class Program
     {

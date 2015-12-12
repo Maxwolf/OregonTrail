@@ -7,8 +7,8 @@
     <ProjectGuid>{DD3975F5-C52D-4F39-AE21-D9F5148F9D65}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TrailGame</RootNamespace>
-    <AssemblyName>TrailGame</AssemblyName>
+    <RootNamespace>TrailConsole</RootNamespace>
+    <AssemblyName>TrailConsole</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
