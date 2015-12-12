@@ -4,8 +4,7 @@ namespace TrailSimulation.Game
 {
     /// <summary>
     ///     All of the commands associated with the traveling game Windows which is one of the primary simulation game modes
-    ///     since
-    ///     it is at the bottom of the game modes stack and all others will be stacking on top of it.
+    ///     since it is at the bottom of the game modes stack and all others will be stacking on top of it.
     /// </summary>
     public enum TravelCommands
     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using TrailSimulation.Core;
@@ -41,30 +40,6 @@ namespace TrailSimulation.Game
             // Shortcut to the game simulation instance to make code easier to read.
             var game = GameSimulationApp.Instance;
 
-            // Leaders profession, used to determine points multiplier at end.
-            Person leaderPerson = null;
-
-            // Builds up a list of enumeration health values for living passengers.
-            var alivePersonsHealth = new List<Health>();
-            foreach (var person in game.Vehicle.Passengers)
-            {
-                // Only add the health to average calculation if person is not dead.
-                if (!person.IsDead)
-                    alivePersonsHealth.Add(person.Health);
-
-                // Add leader position when we come by it.
-                if (person.IsLeader)
-                    leaderPerson = person;
-            }
-
-            // Casts all the enumeration health values to integers and averages them.
-            var averageHealthValue = (int) alivePersonsHealth.Cast<int>().Average();
-
-            // If we fail to parse the health value we averaged then we set health to very poor as default.
-            Health averageHealth;
-            if (!Enum.TryParse(averageHealthValue.ToString(CultureInfo.InvariantCulture), true, out averageHealth))
-                averageHealth = Health.VeryPoor;
-
             // Calculate the total points of all spare parts for the tuple list below ahead of time.
             var spareAxles = new Tuple<int, string, int>(
                 game.Vehicle.Inventory[Entities.Axle].Quantity,
@@ -86,14 +61,20 @@ namespace TrailSimulation.Game
                 "spare wagon parts",
                 spareAxles.Item3 + spareTongues.Item3 + spareWheels.Item3);
 
+            // Calculates the average health just once because we need it many times.
+            var avgHealth = game.Vehicle.PassengerAverageHealth;
+
+            // Figures out who the leader is among the vehicle passengers.
+            var leaderPerson = game.Vehicle.Leader;
+
             // Builds up a list of tuples that represent quantity, description, and total points.
             var tuplePoints = new List<Tuple<int, string, int>>
             {
                 // Health of vehicle passengers that are still alive.
                 new Tuple<int, string, int>(
                     game.Vehicle.Passengers.Count(),
-                    $"people in {averageHealth.ToDescriptionAttribute().ToLowerInvariant()} health",
-                    alivePersonsHealth.Count*(int) averageHealth),
+                    $"people in {avgHealth.ToDescriptionAttribute().ToLowerInvariant()} health",
+                    game.Vehicle.LivingPassengerCount*(int) avgHealth),
                 // Vehicle existence counts for some points.
                 new Tuple<int, string, int>(1, "wagon", Resources.Vehicle.Points),
                 // Number of oxen still alive pulling vehicle.

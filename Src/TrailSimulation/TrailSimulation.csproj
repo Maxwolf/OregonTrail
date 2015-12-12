@@ -123,7 +123,7 @@
     <Compile Include="Core\Window\Control\TextProgress.cs" />
     <Compile Include="Core\Window\Control\TextTableExtensions.cs" />
     <Compile Include="Entity\Location\Location.cs" />
-    <Compile Include="Entity\Vehicle\Health.cs" />
+    <Compile Include="Entity\Person\Health.cs" />
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
     <Compile Include="Core\Window\Window.cs" />
     <Compile Include="Core\Window\IWindow.cs" />

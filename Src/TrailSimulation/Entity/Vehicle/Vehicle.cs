@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using TrailSimulation.Event;
 using TrailSimulation.Game;
 
@@ -59,11 +61,6 @@ namespace TrailSimulation.Entity
         ///     Current travel pace, determines how fast the vehicle will attempt to move down the trail.
         /// </summary>
         public TravelPace Pace { get; private set; }
-
-        /// <summary>
-        ///     Current health of the vehicle, determines how well it will be able to perform
-        /// </summary>
-        public Health Health { get; private set; }
 
         /// <summary>
         ///     Total number of miles the vehicle has traveled since the start of the simulation.
@@ -148,6 +145,100 @@ namespace TrailSimulation.Entity
                 var total_miles = Mileage + (cost_animals - 110)/2.5 + 10*GameSimulationApp.Instance.Random.NextDouble();
 
                 return (int) Math.Abs(total_miles);
+            }
+        }
+
+        /// <summary>
+        ///     Locates the leader in the passenger manifest and returns the person object that represents them.
+        /// </summary>
+        public Person Leader
+        {
+            get
+            {
+                // Leaders profession, used to determine points multiplier at end.
+                Person leaderPerson = null;
+
+                // Check if passenger manifest exists.
+                if (Passengers == null)
+                    return null;
+
+                // Check if there are any passengers to work with.
+                if (!Passengers.Any())
+                    return null;
+
+                foreach (var person in Passengers)
+                {
+                    // Add leader position when we come by it.
+                    if (person.IsLeader)
+                        leaderPerson = person;
+                }
+
+                return leaderPerson;
+            }
+        }
+
+        /// <summary>
+        ///     Grabs the averaged health of all the passengers in the vehicle, only adds towards total if they are alive. Will be
+        ///     recalculated each time this is called.
+        /// </summary>
+        public Health PassengerAverageHealth
+        {
+            get
+            {
+                // Check if passenger manifest exists.
+                if (Passengers == null)
+                    return Health.VeryPoor;
+
+                // Check if there are any passengers to work with.
+                if (!Passengers.Any())
+                    return Health.VeryPoor;
+
+                // Builds up a list of enumeration health values for living passengers.
+                var alivePersonsHealth = new List<Health>();
+                foreach (var person in Passengers)
+                {
+                    // Only add the health to average calculation if person is not dead.
+                    if (!person.IsDead)
+                        alivePersonsHealth.Add(person.Health);
+                }
+
+                // Casts all the enumeration health values to integers and averages them.
+                var averageHealthValue = (int) alivePersonsHealth.Cast<int>().Average();
+
+                // If we fail to parse the health value we averaged then we set health to very poor as default.
+                Health averageHealth;
+                if (!Enum.TryParse(averageHealthValue.ToString(CultureInfo.InvariantCulture), true, out averageHealth))
+                    averageHealth = Health.VeryPoor;
+
+                return averageHealth;
+            }
+        }
+
+        /// <summary>
+        ///     Calculates the total number of passengers that are still alive in the vehicle and consuming resources every turn.
+        /// </summary>
+        public int LivingPassengerCount
+        {
+            get
+            {
+                // Check if passenger manifest exists.
+                if (Passengers == null)
+                    return 0;
+
+                // Check if there are any passengers to work with.
+                if (!Passengers.Any())
+                    return 0;
+
+                // Builds up a list of enumeration health values for living passengers.
+                var alivePersonsHealth = new List<Health>();
+                foreach (var person in Passengers)
+                {
+                    // Only add the health to average calculation if person is not dead.
+                    if (!person.IsDead)
+                        alivePersonsHealth.Add(person.Health);
+                }
+
+                return alivePersonsHealth.Count;
             }
         }
 
@@ -342,7 +433,6 @@ namespace TrailSimulation.Entity
             Balance = startingMonies;
             _passengers = new List<Person>();
             Ration = RationLevel.Filling;
-            Health = Health.Good;
             Odometer = 0;
             Status = VehicleStatus.Stopped;
         }

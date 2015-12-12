@@ -28,7 +28,7 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Current health of this person which is enum that also represents the total points they are currently worth.
         /// </summary>
-        public Health Health { get; set; }
+        public Health Health { get; private set; }
 
         /// <summary>
         ///     Determines how many total consecutive days this player has not eaten any food. If this continues for more than five
@@ -59,7 +59,7 @@ namespace TrailSimulation.Entity
         ///     Determines if the person is dead and no longer consuming resources. Dead party members in the same vehicle will
         ///     lower total possible mileage for several turns as remaining people mourn the loss of the other.
         /// </summary>
-        public bool IsDead { get; }
+        public bool IsDead { get; private set; }
 
         /// <summary>
         ///     Name of the person as they should be known by other players and the simulation.
@@ -262,6 +262,9 @@ namespace TrailSimulation.Entity
             {
                 // Some dying makes everybody take a huge morale hit.
                 GameSimulationApp.Instance.Vehicle.ReduceMileage(50);
+
+                // Mark the player as being dead now.
+                IsDead = true;
 
                 // Check if leader died or party member.
                 GameSimulationApp.Instance.EventDirector.TriggerEvent(this, IsLeader
