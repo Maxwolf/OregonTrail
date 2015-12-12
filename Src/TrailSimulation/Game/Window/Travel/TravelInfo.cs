@@ -62,7 +62,7 @@ namespace TrailSimulation.Game
                 driveStatus.AppendLine("--------------------------------");
                 driveStatus.AppendLine($"Date: {game.Time.Date}");
                 driveStatus.AppendLine(
-                    $"Weather: {game.Trail.CurrentLocation.Weather.Condition.ToDescriptionAttribute()}");
+                    $"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
                 driveStatus.AppendLine($"Health: {game.Vehicle.Health}");
                 driveStatus.AppendLine($"Food: {foodStatus}");
                 driveStatus.AppendLine($"Next landmark: {game.Trail.DistanceToNextLocation} miles");
@@ -101,7 +101,7 @@ namespace TrailSimulation.Game
                 locationStatus.AppendLine($"{game.Time.Date}");
                 locationStatus.AppendLine("--------------------------------");
                 locationStatus.AppendLine(
-                    $"Weather: {game.Trail.CurrentLocation.Weather.Condition.ToDescriptionAttribute()}");
+                    $"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
                 locationStatus.AppendLine($"Health: {game.Vehicle.Health}");
                 locationStatus.AppendLine($"Pace: {game.Vehicle.Pace}");
                 locationStatus.AppendLine($"Rations: {game.Vehicle.Ration}");

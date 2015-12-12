@@ -29,7 +29,7 @@
         /// <summary>
         ///     Used for displaying information about severe weather like blizzards and storms.
         /// </summary>
-        Climate,
+        Weather,
 
         /// <summary>
         ///     Wild animals, Indians, wolves, riders, and various other critters and strangers that you can encounter.

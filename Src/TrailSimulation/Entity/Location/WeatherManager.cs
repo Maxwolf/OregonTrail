@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TrailSimulation.Event;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Entity
@@ -11,9 +12,24 @@ namespace TrailSimulation.Entity
     public sealed class WeatherManager
     {
         /// <summary>
+        ///     Defines the type of climate this weather manager is currently simulating.
+        /// </summary>
+        private readonly Climate _climateType;
+
+        /// <summary>
         ///     Contains of all the average temperatures that we loaded from the static climate registry.
         /// </summary>
         private List<ClimateData> _averageTemperatures;
+
+        /// <summary>
+        ///     Chance that a weather event will occur such as storm, tornado, blizzard, etc.
+        /// </summary>
+        private double _disasterChance;
+
+        /// <summary>
+        ///     Next change that the weather might change.
+        /// </summary>
+        private double _nextWeatherChance;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
@@ -21,10 +37,10 @@ namespace TrailSimulation.Entity
         public WeatherManager(Climate climateType)
         {
             // Sets up the climate type which this weather manager is responsible for ticking.
-            ClimateType = climateType;
+            _climateType = climateType;
 
             // Select climate and determine humidity and temperature based on it.
-            switch (ClimateType)
+            switch (_climateType)
             {
                 case Climate.Polar:
                     _averageTemperatures = new List<ClimateData>(ClimateRegistry.Polar);
@@ -46,28 +62,30 @@ namespace TrailSimulation.Entity
             }
         }
 
-        public Climate ClimateType { get; set; }
-
-        public float DisasterChance { get; private set; }
-
+        /// <summary>
+        ///     Current temperature in Celsius for inside a building with four walls and a roof.
+        /// </summary>
         public int InsideTemperature { get; private set; }
 
-        public IEnumerable<ClimateData> AverageTemperatures
-        {
-            get { return _averageTemperatures; }
-        }
-
+        /// <summary>
+        ///     Current weather condition this location is experiencing.
+        /// </summary>
         public WeatherCondition Condition { get; private set; }
 
-        public int GrassAvaliable { get; private set; }
-
+        /// <summary>
+        ///     Current temperature in Celsius for outside a building, exposed to the elements.
+        /// </summary>
         public int OutsideTemperature { get; private set; }
 
+        /// <summary>
+        ///     Current humidity for inside a building with four walls and a roof.
+        /// </summary>
         public float InsideHumidity { get; private set; }
 
+        /// <summary>
+        ///     Current humidity for outside a building, exposed to the elements.
+        /// </summary>
         public float OutsideHumidity { get; private set; }
-
-        public double NextWeatherChance { get; private set; }
 
         /// <summary>
         ///     Processes the weather based on climate type, and fires off weather related events so this module and thus weather
@@ -75,18 +93,27 @@ namespace TrailSimulation.Entity
         /// </summary>
         public void Tick()
         {
-            // TODO: Fire off weather related events so this module and thus weather will affect the simulation.
+            // Grab instance of the game simulation.
+            var game = GameSimulationApp.Instance;
 
-            var possibleClimate = GetTemperatureByMonth(GameSimulationApp.Instance.Time.CurrentMonth);
-            var possibleTemperature = GameSimulationApp.Instance.Random.Next((int) possibleClimate.MeanDailyMin,
+            // Fire off weather related events so this module and thus weather will affect the simulation.
+            if (_disasterChance > 0 && game.Random.NextDouble() >= _disasterChance)
+            {
+                game.EventDirector.TriggerEventByType(game.Trail.CurrentLocation, EventCategory.Weather);
+
+                // Resets the disaster chance after firing event for it.
+                _disasterChance = 0;
+                return;
+            }
+
+            var possibleClimate = GetTemperatureByMonth(game.Time.CurrentMonth);
+            var possibleTemperature = game.Random.Next((int) possibleClimate.MeanDailyMin,
                 (int) possibleClimate.MeanDailyMax);
 
             // Make it so climate doesn't change every single day (ex. 4 days of clear skies, 2 of rain).
-            var someRandom = GameSimulationApp.Instance.Random.NextDouble();
-            if (someRandom > NextWeatherChance)
-            {
+            var someRandom = game.Random.NextDouble();
+            if (someRandom > _nextWeatherChance)
                 return;
-            }
 
             // If generated temp is greater than average for this month we consider this a good day!
             OutsideTemperature = possibleTemperature;
@@ -94,33 +121,25 @@ namespace TrailSimulation.Entity
             if (possibleTemperature > possibleClimate.AverageDailyTemperature)
             {
                 // Determine if this should be a very hot day or not for the region.
-                if (GameSimulationApp.Instance.Random.NextBool())
-                {
+                if (game.Random.NextBool())
                     HotDay();
-                }
                 else
-                {
                     NiceDay();
-                }
             }
             else
             {
                 // It was a bad day outside!
-                if (possibleClimate.MeanMonthlyRainfall > GameSimulationApp.Instance.Random.NextDouble())
-                {
+                if (possibleClimate.MeanMonthlyRainfall > game.Random.NextDouble())
                     RainyDay();
-                }
                 else
-                {
                     ColdDay();
-                }
 
                 // If temp is above 10 and there is snow convert it to rain.
                 ConvertSnowIntoRain();
             }
 
+            // Adjust both temperature and humidity.
             AdjustTemperature();
-
             AdjustHumidity();
         }
 
@@ -131,7 +150,7 @@ namespace TrailSimulation.Entity
         {
             if (InsideHumidity > OutsideHumidity)
             {
-                if (ClimateType == Climate.Polar)
+                if (_climateType == Climate.Polar)
                 {
                     // Polar regions get a bonus for heat reduction.
                     InsideHumidity -= 0.2f;
@@ -156,7 +175,7 @@ namespace TrailSimulation.Entity
         {
             if (InsideTemperature > OutsideTemperature)
             {
-                if (ClimateType == Climate.Polar)
+                if (_climateType == Climate.Polar)
                 {
                     // Polar regions get a bonus for heat reduction.
                     InsideTemperature -= GameSimulationApp.Instance.Random.Next(1, 3);
@@ -191,33 +210,33 @@ namespace TrailSimulation.Entity
             {
                 case 0:
                     Condition = WeatherCondition.Clear;
-                    NextWeatherChance = 0.30d;
+                    _nextWeatherChance = 0.30d;
                     break;
                 case 1:
                     Condition = WeatherCondition.MostlySunny;
-                    NextWeatherChance = 0.25d;
+                    _nextWeatherChance = 0.25d;
                     break;
                 case 2:
                     Condition = WeatherCondition.PartlySunny;
-                    NextWeatherChance = 0.42d;
+                    _nextWeatherChance = 0.42d;
                     break;
                 case 3:
                     Condition = WeatherCondition.Sunny;
-                    NextWeatherChance = 0.33d;
+                    _nextWeatherChance = 0.33d;
                     break;
                 case 4:
                     Condition = WeatherCondition.ChanceOfThunderstorm;
-                    NextWeatherChance = 0.45d;
-                    DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                    _nextWeatherChance = 0.45d;
+                    _disasterChance = GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 case 5:
                     Condition = WeatherCondition.ChanceOfRain;
-                    NextWeatherChance = 0.55d;
-                    DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                    _nextWeatherChance = 0.55d;
+                    _disasterChance = GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 default:
                     Condition = WeatherCondition.Clear;
-                    NextWeatherChance = 0.30d;
+                    _nextWeatherChance = 0.30d;
                     break;
             }
         }
@@ -231,32 +250,32 @@ namespace TrailSimulation.Entity
             {
                 case 0:
                     Condition = WeatherCondition.Flurries;
-                    NextWeatherChance = 0.80d;
+                    _nextWeatherChance = 0.80d;
                     break;
                 case 1:
                     Condition = WeatherCondition.SnowShowers;
-                    NextWeatherChance = 0.85d;
+                    _nextWeatherChance = 0.85d;
                     break;
                 case 2:
                     Condition = WeatherCondition.Snow;
-                    NextWeatherChance = 0.75d;
+                    _nextWeatherChance = 0.75d;
                     break;
                 case 3:
                     Condition = WeatherCondition.Sleet;
-                    NextWeatherChance = 0.90d;
+                    _nextWeatherChance = 0.90d;
                     break;
                 case 4:
                     Condition = WeatherCondition.Hail;
-                    NextWeatherChance = 0.95d;
+                    _nextWeatherChance = 0.95d;
                     break;
                 case 5:
                     Condition = WeatherCondition.Storm;
-                    NextWeatherChance = 0.85d;
-                    DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                    _nextWeatherChance = 0.85d;
+                    _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 default:
                     Condition = WeatherCondition.Snow;
-                    NextWeatherChance = 0.75d;
+                    _nextWeatherChance = 0.75d;
                     break;
             }
         }
@@ -270,46 +289,46 @@ namespace TrailSimulation.Entity
             {
                 case 0:
                     Condition = WeatherCondition.ScatteredThunderstorms;
-                    NextWeatherChance = 0.90d;
-                    DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                    _nextWeatherChance = 0.90d;
+                    _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 case 1:
                     Condition = WeatherCondition.ScatteredShowers;
-                    NextWeatherChance = 0.85d;
-                    DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                    _nextWeatherChance = 0.85d;
+                    _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 case 2:
                     Condition = WeatherCondition.MostlySunny;
-                    NextWeatherChance = 0.50d;
+                    _nextWeatherChance = 0.50d;
                     break;
                 case 3:
                     Condition = WeatherCondition.Thunderstorm;
-                    NextWeatherChance = 0.90d;
-                    DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                    _nextWeatherChance = 0.90d;
+                    _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 case 4:
                     Condition = WeatherCondition.Haze;
-                    NextWeatherChance = 0.70d;
+                    _nextWeatherChance = 0.70d;
                     break;
                 case 5:
                     Condition = WeatherCondition.Fog;
-                    NextWeatherChance = 0.78d;
+                    _nextWeatherChance = 0.78d;
                     break;
                 case 6:
                     Condition = WeatherCondition.Rain;
-                    NextWeatherChance = 0.56d;
+                    _nextWeatherChance = 0.56d;
                     break;
                 case 7:
                     Condition = WeatherCondition.Overcast;
-                    NextWeatherChance = 0.42d;
+                    _nextWeatherChance = 0.42d;
                     break;
                 case 8:
                     Condition = WeatherCondition.Cloudy;
-                    NextWeatherChance = 0.30d;
+                    _nextWeatherChance = 0.30d;
                     break;
                 default:
                     Condition = WeatherCondition.MostlySunny;
-                    NextWeatherChance = 0.50d;
+                    _nextWeatherChance = 0.50d;
                     break;
             }
         }
@@ -323,33 +342,33 @@ namespace TrailSimulation.Entity
             {
                 case 0:
                     Condition = WeatherCondition.Clear;
-                    NextWeatherChance = 0.28d;
+                    _nextWeatherChance = 0.28d;
                     break;
                 case 1:
                     Condition = WeatherCondition.MostlySunny;
-                    NextWeatherChance = 0.35d;
+                    _nextWeatherChance = 0.35d;
                     break;
                 case 2:
                     Condition = WeatherCondition.PartlySunny;
-                    NextWeatherChance = 0.28d;
+                    _nextWeatherChance = 0.28d;
                     break;
                 case 3:
                     Condition = WeatherCondition.Sunny;
-                    NextWeatherChance = 0.24d;
+                    _nextWeatherChance = 0.24d;
                     break;
                 case 4:
                     Condition = WeatherCondition.ChanceOfThunderstorm;
-                    NextWeatherChance = 0.60d;
-                    DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                    _nextWeatherChance = 0.60d;
+                    _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 case 5:
                     Condition = WeatherCondition.ChanceOfRain;
-                    NextWeatherChance = 0.56d;
-                    DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                    _nextWeatherChance = 0.56d;
+                    _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 default:
                     Condition = WeatherCondition.Clear;
-                    NextWeatherChance = 0.28d;
+                    _nextWeatherChance = 0.28d;
                     break;
             }
         }
@@ -363,33 +382,33 @@ namespace TrailSimulation.Entity
             {
                 case 0:
                     Condition = WeatherCondition.Clear;
-                    NextWeatherChance = 0.10d;
+                    _nextWeatherChance = 0.10d;
                     break;
                 case 1:
                     Condition = WeatherCondition.MostlySunny;
-                    NextWeatherChance = 0.25d;
+                    _nextWeatherChance = 0.25d;
                     break;
                 case 2:
                     Condition = WeatherCondition.PartlySunny;
-                    NextWeatherChance = 0.35d;
+                    _nextWeatherChance = 0.35d;
                     break;
                 case 3:
                     Condition = WeatherCondition.Sunny;
-                    NextWeatherChance = 0.60d;
+                    _nextWeatherChance = 0.60d;
                     break;
                 case 4:
                     Condition = WeatherCondition.ChanceOfThunderstorm;
-                    NextWeatherChance = 0.30d;
-                    DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                    _nextWeatherChance = 0.30d;
+                    _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 case 5:
                     Condition = WeatherCondition.ChanceOfRain;
-                    NextWeatherChance = 0.33d;
-                    DisasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+                    _nextWeatherChance = 0.33d;
+                    _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 default:
                     Condition = WeatherCondition.Clear;
-                    NextWeatherChance = 0.10d;
+                    _nextWeatherChance = 0.10d;
                     break;
             }
         }
@@ -399,10 +418,11 @@ namespace TrailSimulation.Entity
         /// </summary>
         private ClimateData GetTemperatureByMonth(Month whichMonth)
         {
-            foreach (var data in AverageTemperatures)
+            foreach (var data in _averageTemperatures)
             {
                 if (data.ClimateMonth == whichMonth) return data;
             }
+
             return null;
         }
     }
