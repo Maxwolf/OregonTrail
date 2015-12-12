@@ -12,14 +12,16 @@
         /// </summary>
         Running = 0,
 
-        /// <summary>
-        ///     Game has failed and now we will show the player the game over screen and let them restart.
-        /// </summary>
-        Fail = 1,
 
         /// <summary>
         ///     Game won by player, time to show them the end game points and let them choose to restart if they want.
         /// </summary>
-        Win = 2
+        Win = 1,
+
+
+        /// <summary>
+        ///     Game has failed and now we will show the player the game over screen and let them restart.
+        /// </summary>
+        Fail = 2
     }
 }
