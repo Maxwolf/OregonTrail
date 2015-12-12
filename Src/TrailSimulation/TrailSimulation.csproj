@@ -44,6 +44,16 @@
     <Compile Include="Event\Prefab\EventItemDestroyer.cs" />
     <Compile Include="Event\RiverFloat\VehicleFloodsEvent.cs" />
     <Compile Include="Event\RiverFord\VehicleWashedOutEvent.cs" />
+    <Compile Include="Event\Weather\Desert.cs" />
+    <Compile Include="Event\Weather\HeavyFog.cs" />
+    <Compile Include="Event\Weather\MountainClimbing.cs" />
+    <Compile Include="Event\Weather\ObstructedPath.cs" />
+    <Compile Include="Event\Weather\QuicksandAhead.cs" />
+    <Compile Include="Event\Weather\RoughTrail.cs" />
+    <Compile Include="Event\Weather\SevereWeather.cs" />
+    <Compile Include="Event\Weather\WagonDust.cs" />
+    <Compile Include="Event\Weather\Wildfire.cs" />
+    <Compile Include="Event\Weather\WrongTrail.cs" />
     <Compile Include="Game\GameStatus.cs" />
     <Compile Include="Game\Module\Director\EventKey.cs" />
     <Compile Include="Game\Module\Scoring\ScoringModule.cs" />
@@ -189,7 +199,6 @@
     <Folder Include="Event\Attack\" />
     <Folder Include="Event\Vehicle\" />
     <Folder Include="Event\Warning\" />
-    <Folder Include="Event\Weather\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
