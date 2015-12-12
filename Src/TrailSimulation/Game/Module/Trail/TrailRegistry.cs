@@ -70,7 +70,7 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        /// Debugging trail for quickly getting to the end of the game for points tabulation and high-score tests.
+        ///     Debugging trail for quickly getting to the end of the game for points tabulation and high-score tests.
         /// </summary>
         public static Trail TestPoints
         {

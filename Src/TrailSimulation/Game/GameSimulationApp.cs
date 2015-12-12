@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using TrailSimulation.Core;
@@ -41,11 +40,6 @@ namespace TrailSimulation.Game
         public ClimateModule Climate { get; private set; }
 
         /// <summary>
-        ///     Keeps track of the total number of points the player has earned through the course of the game.
-        /// </summary>
-        public List<Highscore> ScoreTopTen { get; private set; }
-
-        /// <summary>
         ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
         ///     game modes, people, and vehicles.
         /// </summary>
@@ -62,7 +56,6 @@ namespace TrailSimulation.Game
         ///     (246 days) or approximately two-thousand (2000) miles.
         /// </summary>
         public int TotalTurns { get; private set; }
-
 
         /// <summary>
         /// </summary>
@@ -83,6 +76,11 @@ namespace TrailSimulation.Game
                 return GameStatus.Running;
             }
         }
+
+        /// <summary>
+        ///     Scoring tracker and tabulator for end game results from current simulation state.
+        /// </summary>
+        public ScoringModule Scoring { get; private set; }
 
         /// <summary>
         ///     Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
@@ -133,6 +131,16 @@ namespace TrailSimulation.Game
                     "Unable to create new instance of game simulation since it already exists!");
 
             Instance = new GameSimulationApp();
+            Instance.OnPostCreate();
+        }
+
+        /// <summary>
+        ///     Fired after the simulation instance has been created, allowing us to call it using the instance of the simulation
+        ///     from static method.
+        /// </summary>
+        private void OnPostCreate()
+        {
+            Scoring = new ScoringModule();
         }
 
         /// <summary>
@@ -140,14 +148,23 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override void OnBeforeDestroy()
         {
-            // Destroy all instances.
-            ScoreTopTen = null;
+            // Notify modules of impending doom allowing them to save data.
+            Scoring.Destroy();
+            Time.Destroy();
+            Climate.Destroy();
+            EventDirector.Destroy();
+            Trail.Destroy();
+
+            // Null the destroyed instances.
             Time = null;
             Climate = null;
             EventDirector = null;
             Trail = null;
             TotalTurns = 0;
             Vehicle = null;
+
+            // Destroys game simulation instance.
+            Instance.Destroy();
             Instance = null;
         }
 
@@ -171,10 +188,6 @@ namespace TrailSimulation.Game
 
             // Linear time simulation with ticks.
             Time = new TimeModule();
-
-            // Scoring tracker and tabulator for end game results from current simulation state.
-            ScoreTopTen = new List<Highscore>(OriginalTopTen.DefaultTopTen);
-            // TODO: Load custom list from JSON with user high scores altered from defaults.
 
             // Environment, weather, conditions, climate, tail, stats, event director, etc.
             EventDirector = new EventDirectorModule();

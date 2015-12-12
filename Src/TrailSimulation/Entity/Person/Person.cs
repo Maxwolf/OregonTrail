@@ -21,7 +21,7 @@ namespace TrailSimulation.Entity
             Name = name;
             IsLeader = isLeader;
             DaysStarving = 0;
-            Health = Entity.Health.Good;
+            Health = Health.Good;
             Infection = Disease.None;
         }
 

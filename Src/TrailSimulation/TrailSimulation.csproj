@@ -44,6 +44,7 @@
     <Compile Include="Event\RiverFloat\VehicleFloodsEvent.cs" />
     <Compile Include="Event\RiverFord\VehicleWashedOutEvent.cs" />
     <Compile Include="Game\GameStatus.cs" />
+    <Compile Include="Game\Scoring\ScoringModule.cs" />
     <Compile Include="Game\Window\MainMenu\Start Month\StartingMonth.cs" />
     <Compile Include="Core\Module\InputManager.cs" />
     <Compile Include="Core\Window\WindowData.cs" />

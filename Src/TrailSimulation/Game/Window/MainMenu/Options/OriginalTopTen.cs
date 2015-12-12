@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using TrailSimulation.Core;
 
@@ -19,29 +18,6 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Original high scores from Apple II version of the game.
-        /// </summary>
-        public static IEnumerable<Highscore> DefaultTopTen
-        {
-            get
-            {
-                return new List<Highscore>
-                {
-                    new Highscore("Stephen Meek", 7650, Performance.TrailGuide),
-                    new Highscore("Celinda Hines", 5694, Performance.Adventurer),
-                    new Highscore("Andrew Sublette", 4138, Performance.Adventurer),
-                    new Highscore("David Hastings", 2945, Performance.Greenhorn),
-                    new Highscore("Ezra Meeker", 2052, Performance.Greenhorn),
-                    new Highscore("Willian Vaughn", 1401, Performance.Greenhorn),
-                    new Highscore("Mary Bartlett", 937, Performance.Greenhorn),
-                    new Highscore("Willian Wiggins", 615, Performance.Greenhorn),
-                    new Highscore("Charles Hopper", 396, Performance.Greenhorn),
-                    new Highscore("Elijah White", 250, Performance.Greenhorn)
-                };
-            }
-        }
-
-        /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         protected override string OnDialogPrompt()
@@ -49,10 +25,10 @@ namespace TrailSimulation.Game
             var sourceTopTen = new StringBuilder();
 
             // Text above the table to declare what this state is.
-            sourceTopTen.Append($"{Environment.NewLine}The Oregon Top Ten{Environment.NewLine}{Environment.NewLine}");
+            sourceTopTen.AppendLine($"{Environment.NewLine}The Oregon Top Ten{Environment.NewLine}");
 
             // Create text table representation of default high score list.
-            var table = DefaultTopTen.ToStringTable(
+            var table = ScoringModule.DefaultTopTen.ToStringTable(
                 u => u.Name,
                 u => u.Points,
                 u => u.Rating);

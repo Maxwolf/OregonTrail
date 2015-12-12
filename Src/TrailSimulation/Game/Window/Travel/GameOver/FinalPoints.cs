@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,9 @@ namespace TrailSimulation.Game
             // Shortcut to the game simulation instance to make code easier to read.
             var game = GameSimulationApp.Instance;
 
+            // Leaders profession, used to determine points multiplier at end.
+            Person leaderPerson = null;
+
             // Builds up a list of enumeration health values for living passengers.
             var alivePersonsHealth = new List<Health>();
             foreach (var person in game.Vehicle.Passengers)
@@ -47,10 +51,14 @@ namespace TrailSimulation.Game
                 // Only add the health to average calculation if person is not dead.
                 if (!person.IsDead)
                     alivePersonsHealth.Add(person.Health);
+
+                // Add leader position when we come by it.
+                if (person.IsLeader)
+                    leaderPerson = person;
             }
 
             // Casts all the enumeration health values to integers and averages them.
-            var averageHealthValue = (int)alivePersonsHealth.Cast<int>().Average();
+            var averageHealthValue = (int) alivePersonsHealth.Cast<int>().Average();
 
             // If we fail to parse the health value we averaged then we set health to very poor as default.
             Health averageHealth;
@@ -85,7 +93,7 @@ namespace TrailSimulation.Game
                 new Tuple<int, string, int>(
                     game.Vehicle.Passengers.Count(),
                     $"people in {averageHealth.ToDescriptionAttribute().ToLowerInvariant()} health",
-                    alivePersonsHealth.Count * (int) averageHealth),
+                    alivePersonsHealth.Count*(int) averageHealth),
                 // Vehicle existence counts for some points.
                 new Tuple<int, string, int>(1, "wagon", Resources.Vehicle.Points),
                 // Number of oxen still alive pulling vehicle.
@@ -119,7 +127,7 @@ namespace TrailSimulation.Game
 
             // Create the actual points table from the tuple list data we created above from game simulation state.
             var locationTable = tuplePoints.ToStringTable(
-                new[] { "Quantity", "Description", "Points" },
+                new[] {"Quantity", "Description", "Points"},
                 u => u.Item1,
                 u => u.Item2,
                 u => u.Item3
@@ -134,34 +142,28 @@ namespace TrailSimulation.Game
             }
             _pointsPrompt.AppendLine($"Total: {totalPoints}");
 
-            // Grab the leaders profession, used to determine points multiplier at end.
-            var leaderProfession = Profession.Banker;
-            foreach (var person in game.Vehicle.Passengers)
-            {
-                // Add leader position when we come by it.
-                if (person.IsLeader)
-                    leaderProfession = person.Profession;
-            }
-
             // Add the total with the bonus so player can see the difference.
-            switch (leaderProfession)
+            Debug.Assert(leaderPerson != null, "leaderPerson != null");
+            var totalPointsWithBonus = totalPoints*(int) leaderPerson.Profession;
+            switch (leaderPerson.Profession)
             {
                 case Profession.Banker:
                     // Banker doesn't get this print out since he gets no bonus.
                     break;
                 case Profession.Carpenter:
-                    _pointsPrompt.AppendLine($"Total with bonus: {totalPoints * (int)leaderProfession}");
+                    _pointsPrompt.AppendLine($"Bonus Total: {totalPointsWithBonus}");
                     break;
                 case Profession.Farmer:
-                    _pointsPrompt.AppendLine($"Total with bonus: {totalPoints * (int)leaderProfession}");
+                    _pointsPrompt.AppendLine($"Bonus Total: {totalPointsWithBonus}");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
             // When building up the bonus text we will change the message about point multiplier so it makes sense.
-            _pointsPrompt.AppendLine($"{Environment.NewLine}For going as a {leaderProfession.ToString().ToLowerInvariant()}, your");
-            switch (leaderProfession)
+            _pointsPrompt.AppendLine(
+                $"{Environment.NewLine}For going as a {leaderPerson.Profession.ToString().ToLowerInvariant()}, your");
+            switch (leaderPerson.Profession)
             {
                 case Profession.Banker:
                     _pointsPrompt.AppendLine($"points are normal, no bonus!{Environment.NewLine}");
@@ -175,6 +177,9 @@ namespace TrailSimulation.Game
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            // Add the score to the current listing that will get saved.
+            GameSimulationApp.Instance.Scoring.Add(new Highscore(leaderPerson.Name, totalPointsWithBonus));
 
             return _pointsPrompt.ToString();
         }
