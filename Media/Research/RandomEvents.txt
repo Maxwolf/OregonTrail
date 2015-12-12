@@ -1,9 +1,0 @@
-----------[WILD]----------
-StrangersApproach,
-AbandonedVehicle,
-Thief,
-Meadow,
-Gravesite,
-FoodSpoilage,
-FindBerries,
-FindFruit

@@ -89,6 +89,14 @@
     <Compile Include="Event\Weather\WagonDust.cs" />
     <Compile Include="Event\Weather\Wildfire.cs" />
     <Compile Include="Event\Vehicle\WrongTrail.cs" />
+    <Compile Include="Event\Wild\AbandonedVehicle.cs" />
+    <Compile Include="Event\Wild\FindBerries.cs" />
+    <Compile Include="Event\Wild\FindFruit.cs" />
+    <Compile Include="Event\Wild\FoodSpoilage.cs" />
+    <Compile Include="Event\Wild\Gravesite.cs" />
+    <Compile Include="Event\Wild\Meadow.cs" />
+    <Compile Include="Event\Wild\StrangersApproach.cs" />
+    <Compile Include="Event\Wild\Thief.cs" />
     <Compile Include="Game\GameStatus.cs" />
     <Compile Include="Game\Module\Director\EventKey.cs" />
     <Compile Include="Game\Module\Scoring\ScoringModule.cs" />
@@ -229,9 +237,7 @@
     <Compile Include="Core\Module\Randomizer.cs" />
     <Compile Include="Core\Utility\TypeExtensions.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Event\Wild\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
