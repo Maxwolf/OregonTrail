@@ -34,7 +34,7 @@ namespace TrailSimulation.Game
                     new Location("Fort Hall", LocationCategory.Settlement, Climate.Moderate),
                     new Location("Snake River Crossing", LocationCategory.RiverCrossing, Climate.Moderate),
                     new Location("Fort Boise", LocationCategory.Settlement, Climate.Moderate),
-                    new Location("Blue Mountains", LocationCategory.ForkInRoad, Climate.Polar , new List<Location>
+                    new Location("Blue Mountains", LocationCategory.ForkInRoad, Climate.Polar, new List<Location>
                     {
                         new Location("Fort Walla Walla", LocationCategory.Settlement, Climate.Polar),
                         new Location("The Dalles", LocationCategory.Landmark, Climate.Polar)

@@ -27,16 +27,19 @@ namespace TrailSimulation.Entity
         ///     Deals with the weather simulation for this location, each location on the trail is capable of simulating it's own
         ///     type of weather for the purposes of keeping them unique.
         /// </summary>
-        private WeatherManager _weather;
+        private LocationWeather _weather;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Entity.Location" /> class.
         /// </summary>
-        public Location(string name, LocationCategory category, Climate climateType,
+        public Location(
+            string name,
+            LocationCategory category,
+            Climate climateType,
             IEnumerable<Location> skipChoices = null)
         {
             // Creates a new system to deal with the management of the weather for this given location.
-            _weather = new WeatherManager(climateType);
+            _weather = new LocationWeather(climateType);
 
             // Trades are randomly generated when ticking the location.
             _trades = new List<SimItem>();
@@ -47,6 +50,9 @@ namespace TrailSimulation.Entity
 
             // Name of the point as it should be known to the player.
             Name = name;
+
+            // Default location status is not visited by the player or vehicle.
+            Status = LocationStatus.Unreached;
 
             // Category of the location determines how the game simulation will treat it.
             Category = category;
@@ -65,15 +71,12 @@ namespace TrailSimulation.Entity
                 default:
                     throw new ArgumentOutOfRangeException(nameof(category), category, null);
             }
-
-            // Default location status is not visited by the player or vehicle.
-            Status = LocationStatus.Unreached;
         }
 
         /// <summary>
         ///     Current weather condition this location is experiencing.
         /// </summary>
-        public WeatherCondition Weather
+        public Weather Weather
         {
             get { return _weather.Condition; }
         }
@@ -124,7 +127,7 @@ namespace TrailSimulation.Entity
         ///     change vehicle options. Otherwise they will just continue on the trail, this property prevents the question from
         ///     being asked twice for any one location.
         /// </summary>
-        public bool LookedAroundPrompted { get; set; }
+        public bool ArrivalFlag { get; set; }
 
         /// <summary>
         ///     Determines if the given location is the last location on the trail, this is useful to know because we want to do
@@ -156,8 +159,6 @@ namespace TrailSimulation.Entity
         ///     <paramref name="x" /> equals <paramref name="y" />.Greater than zero<paramref name="x" /> is greater than
         ///     <paramref name="y" />.
         /// </returns>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
         public int Compare(IEntity x, IEntity y)
         {
             Debug.Assert(x != null, "x != null");
@@ -228,8 +229,6 @@ namespace TrailSimulation.Entity
         /// <returns>
         ///     true if the specified objects are equal; otherwise, false.
         /// </returns>
-        /// <param name="x">The first object of type <paramref name="T" /> to compare.</param>
-        /// <param name="y">The second object of type <paramref name="T" /> to compare.</param>
         public bool Equals(IEntity x, IEntity y)
         {
             return x.Equals(y);

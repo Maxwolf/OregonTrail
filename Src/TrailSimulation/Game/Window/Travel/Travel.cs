@@ -230,9 +230,9 @@ namespace TrailSimulation.Game
         {
             // Check if player is just arriving at a new location.
             if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Arrived &&
-                !GameSimulationApp.Instance.Trail.CurrentLocation.LookedAroundPrompted)
+                !GameSimulationApp.Instance.Trail.CurrentLocation.ArrivalFlag)
             {
-                GameSimulationApp.Instance.Trail.CurrentLocation.LookedAroundPrompted = true;
+                GameSimulationApp.Instance.Trail.CurrentLocation.ArrivalFlag = true;
                 SetForm(typeof (LocationArrive));
                 return;
             }

@@ -2,29 +2,64 @@
 
 namespace TrailSimulation.Entity
 {
+    /// <summary>
+    ///     Defines all the data for a given climate simulation for a location.
+    /// </summary>
     public class ClimateData
     {
-        public ClimateData(Month cMonth, float cAverageTemp, float tempMax, float tempMin,
-            float cRainfall, int avgHumidity)
+        /// <summary>
+        ///     Creates a new bit of climate data.
+        /// </summary>
+        /// <param name="month">Month this data is representative of.</param>
+        /// <param name="averageTemp">Average set of temperatures for this month.</param>
+        /// <param name="tempMax">Maximum temperature this month can have.</param>
+        /// <param name="tempMin">Minimum temperature this month can have.</param>
+        /// <param name="rainfall">Average rainfall for this month.</param>
+        /// <param name="avgHumidity">Daily humidity for this month.</param>
+        public ClimateData(
+            Month month,
+            float averageTemp,
+            float tempMax,
+            float tempMin,
+            float rainfall,
+            int avgHumidity)
         {
-            ClimateMonth = cMonth;
-            AverageDailyTemperature = cAverageTemp;
-            MeanDailyMax = tempMax;
-            MeanDailyMin = tempMin;
-            MeanMonthlyRainfall = cRainfall;
-            AverageDailyHumidity = avgHumidity;
+            Month = month;
+            Temperature = averageTemp;
+            TemperatureMax = tempMax;
+            TemperatureMin = tempMin;
+            Rainfall = rainfall;
+            Humidity = avgHumidity;
         }
 
-        public Month ClimateMonth { get; set; }
+        /// <summary>
+        ///     Month this data is representative of.
+        /// </summary>
+        public Month Month { get; }
 
-        public float AverageDailyTemperature { get; set; }
+        /// <summary>
+        ///     Average set of temperatures for this month.
+        /// </summary>
+        public float Temperature { get; }
 
-        public float MeanDailyMax { get; set; }
+        /// <summary>
+        ///     Maximum temperature this month can have.
+        /// </summary>
+        public float TemperatureMax { get; }
 
-        public float MeanDailyMin { get; set; }
+        /// <summary>
+        ///     Minimum temperature this month can have.
+        /// </summary>
+        public float TemperatureMin { get; }
 
-        public float MeanMonthlyRainfall { get; set; }
+        /// <summary>
+        ///     Average rainfall for this month.
+        /// </summary>
+        public float Rainfall { get; }
 
-        public int AverageDailyHumidity { get; set; }
+        /// <summary>
+        ///     Daily humidity for this month.
+        /// </summary>
+        public int Humidity { get; }
     }
 }
