@@ -9,6 +9,7 @@ namespace TrailSimulation.Event
     ///     Infects the source entity player that is casted. Will not change infections or overwrite then, or add multiple only
     ///     one infection at a time may be active on a person to keep the simulation simple.
     /// </summary>
+    [DirectorEvent(EventCategory.Person, false)]
     public sealed class InfectPlayer : EventProduct
     {
         /// <summary>

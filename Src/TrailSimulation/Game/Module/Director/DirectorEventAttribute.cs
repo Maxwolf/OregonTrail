@@ -13,9 +13,10 @@ namespace TrailSimulation.Game
         ///     Defines what type of event this will be recognized as in the director when it tells the factory to create a list of
         ///     all known events it can call and sort by.
         /// </summary>
-        public DirectorEventAttribute(EventCategory eventCategory)
+        public DirectorEventAttribute(EventCategory eventCategory, bool allowRandomSelectionByCategory = true)
         {
             EventCategory = eventCategory;
+            AllowRandomSelectionByCategory = allowRandomSelectionByCategory;
         }
 
         /// <summary>
@@ -23,5 +24,11 @@ namespace TrailSimulation.Game
         ///     director.
         /// </summary>
         public EventCategory EventCategory { get; private set; }
+
+        /// <summary>
+        ///     Determines if this event will be selected for being chosen at random when events are fired by category and not
+        ///     directly by their type.
+        /// </summary>
+        public bool AllowRandomSelectionByCategory { get; private set; }
     }
 }

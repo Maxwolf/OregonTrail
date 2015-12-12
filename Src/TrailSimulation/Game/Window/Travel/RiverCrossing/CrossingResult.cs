@@ -190,10 +190,13 @@ namespace TrailSimulation.Game
                         return;
                     }
 
-                    game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverFord);
+                    // Check that we don't flood the user twice, that is just annoying.
+                    if (!_hasFlooded)
+                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverFord);
                     break;
                 case RiverCrossChoice.Float:
-                    game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverFloat);
+                    if (!_hasFlooded)
+                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverFloat);
                     break;
                 case RiverCrossChoice.Ferry:
                     break;

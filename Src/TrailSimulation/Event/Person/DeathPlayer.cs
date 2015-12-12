@@ -7,7 +7,7 @@ namespace TrailSimulation.Event
     /// <summary>
     ///     Party leader has died! This will end the entire simulation since the others cannot go on without the leader.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategory.Person, false)]
     public sealed class DeathPlayer : EventProduct
     {
         /// <summary>

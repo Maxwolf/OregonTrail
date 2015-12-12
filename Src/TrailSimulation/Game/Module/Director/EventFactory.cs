@@ -19,9 +19,9 @@ namespace TrailSimulation.Game
         public EventFactory()
         {
             // Create dictionaries for storing event reference types, history of execution, and execution count.
-            EventReference = new Dictionary<Tuple<EventCategory, string>, Type>();
+            EventReference = new Dictionary<EventKey, Type>();
             EventHistory = new List<EventHistory>();
-            ExecutionCount = new Dictionary<Tuple<EventCategory, string>, int>();
+            ExecutionCount = new Dictionary<EventKey, int>();
 
             // Collect all of the event types with the attribute decorated on them.
             var randomEvents = AttributeHelper.GetTypesWith<DirectorEventAttribute>(true);
@@ -31,7 +31,7 @@ namespace TrailSimulation.Game
                 if (eventObject.IsAbstract)
                     continue;
 
-                // GetModule the attribute itself from the event we are working on, which gives us the event type enum.
+                // Check the attribute itself from the event we are working on, which gives us the event type enum.
                 var eventAttribute = eventObject.GetAttributes<DirectorEventAttribute>(true).First();
                 var eventType = eventAttribute.EventCategory;
 
@@ -43,15 +43,16 @@ namespace TrailSimulation.Game
                         continue;
 
                     // Create key for the event execution counter.
-                    var tupleKey = new Tuple<EventCategory, string>((EventCategory) modeType, eventObject.Name);
+                    var eventKey = new EventKey((EventCategory) modeType, eventObject.Name,
+                        eventAttribute.AllowRandomSelectionByCategory);
 
                     // Execution counter by name and type.
-                    if (!ExecutionCount.ContainsKey(tupleKey))
-                        ExecutionCount.Add(tupleKey, 0);
+                    if (!ExecutionCount.ContainsKey(eventKey))
+                        ExecutionCount.Add(eventKey, 0);
 
                     // Reference type for creating instances.
-                    if (!EventReference.ContainsKey(tupleKey))
-                        EventReference.Add(tupleKey, eventObject);
+                    if (!EventReference.ContainsKey(eventKey))
+                        EventReference.Add(eventKey, eventObject);
                 }
             }
         }
@@ -59,7 +60,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     References all of the events that have been triggered by the system in chronological order they occurred.
         /// </summary>
-        private Dictionary<Tuple<EventCategory, string>, Type> EventReference { get; }
+        private Dictionary<EventKey, Type> EventReference { get; }
 
         /// <summary>
         ///     Contains history of events that have happened.
@@ -69,7 +70,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Keeps track of all the different times that a particular type of event has been run.
         /// </summary>
-        public Dictionary<Tuple<EventCategory, string>, int> ExecutionCount { get; }
+        public Dictionary<EventKey, int> ExecutionCount { get; }
 
         /// <summary>
         ///     Creates a new event based on system type which we keep track of in dictionary of event references.
@@ -82,7 +83,7 @@ namespace TrailSimulation.Game
             if (!EventReference.ContainsValue(eventType))
                 throw new ArgumentException(
                     $"Attempted to create instance of {eventType.Name} without any known reference to it in event factory! " +
-                    "Perhaps you are missing an attribute to define the event for reflection to correctly reference it.");
+                    "Perhaps you are missing the [DirectorEvent()] attribute.");
 
             // Grab the key value pair from event references that matches inputted type via equality reference.
             var directorEventKeyValuePair = EventReference.FirstOrDefault(x => (x.Value == eventType));
@@ -96,7 +97,7 @@ namespace TrailSimulation.Game
                 directorEventKeyValuePair.Value,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
                 null,
-                new object[] {directorEventKeyValuePair.Key.Item1}, // Constructor with one parameter.
+                new object[] {directorEventKeyValuePair.Key.Category}, // Constructor with one parameter.
                 CultureInfo.InvariantCulture) as EventProduct;
 
             // If the event instance is null then complain.
@@ -104,10 +105,11 @@ namespace TrailSimulation.Game
                 throw new ArgumentException($"Attempted to create instance of {eventType} event but failed!");
 
             // Create key for the event execution counter.
-            var tupleKey = new Tuple<EventCategory, string>(directorEventKeyValuePair.Key.Item1, eventInstance.Name);
+            var eventKey = new EventKey(directorEventKeyValuePair.Key.Category, eventInstance.Name,
+                directorEventKeyValuePair.Key.AllowRandomSelectionByCategory);
 
             // Increment the history for loading this type of event.
-            ExecutionCount[tupleKey]++;
+            ExecutionCount[eventKey]++;
             return eventInstance;
         }
 
@@ -122,7 +124,9 @@ namespace TrailSimulation.Game
             var groupedEventList = new List<Type>();
             foreach (var type in EventReference)
             {
-                if (type.Key.Item1.Equals(eventCategory))
+                // Check that the event wants to participate in being chosen randomly.
+                if (type.Key.Category.Equals(eventCategory) &&
+                    type.Key.AllowRandomSelectionByCategory)
                     groupedEventList.Add(type.Value);
             }
 

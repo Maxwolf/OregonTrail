@@ -8,7 +8,7 @@ namespace TrailSimulation.Event
     ///     Called when one of your party members dies that is not the leader of the group, the game will still be able to
     ///     continue without this person.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategory.Person, false)]
     public sealed class DeathCompanion : EventProduct
     {
         /// <summary>
