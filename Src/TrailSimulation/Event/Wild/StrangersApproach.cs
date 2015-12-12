@@ -1,4 +1,5 @@
-﻿using TrailSimulation.Entity;
+﻿using System;
+using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
@@ -26,7 +27,7 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(IEntity sourceEntity)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace TrailSimulation.Event
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

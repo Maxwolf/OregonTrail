@@ -212,7 +212,7 @@ namespace TrailSimulation.Entity
             var game = GameSimulationApp.Instance;
 
             var cost_food = game.Vehicle.Inventory[Entities.Food].TotalValue;
-            cost_food = cost_food - 8 - 5*(int)game.Vehicle.Ration;
+            cost_food = cost_food - 8 - 5*(int) game.Vehicle.Ration;
             if (cost_food >= 13)
             {
                 // Consume the food since we still have some.
@@ -237,16 +237,16 @@ namespace TrailSimulation.Entity
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
-            if (100* game.Random.NextDouble() <
-                10 + 35*((int)game.Vehicle.Ration - 1))
+            if (100*game.Random.NextDouble() <
+                10 + 35*((int) game.Vehicle.Ration - 1))
             {
                 // Mild illness.
                 game.Vehicle.ReduceMileage(5);
                 Health = Health.Fair;
             }
-            else if (100* game.Random.NextDouble() < 100 -
-                     (40/ game.Vehicle.Passengers.Count()*
-                      ((int)game.Vehicle.Ration - 1)))
+            else if (100*game.Random.NextDouble() < 100 -
+                     (40/game.Vehicle.Passengers.Count()*
+                      ((int) game.Vehicle.Ration - 1)))
             {
                 // Bad illness.
                 game.Vehicle.ReduceMileage(10);
