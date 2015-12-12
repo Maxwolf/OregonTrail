@@ -99,8 +99,8 @@
     <Compile Include="Game\Window\Travel\RiverCrossing\Help\RiverCrossHelp.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Help\UseFerryConfirm.cs" />
     <Compile Include="Core\Window\WindowFactory.cs" />
-    <Compile Include="Game\Module\Trail\LocationCategory.cs" />
-    <Compile Include="Game\Module\Trail\LocationStatus.cs" />
+    <Compile Include="Entity\Location\LocationCategory.cs" />
+    <Compile Include="Entity\Location\LocationStatus.cs" />
     <Compile Include="Game\Module\Trail\Trail.cs" />
     <Compile Include="Game\Module\Scoring\Highscore.cs" />
     <Compile Include="Game\Module\Scoring\Performance.cs" />
@@ -121,7 +121,7 @@
     <Compile Include="Core\Window\Control\MarqueeBar.cs" />
     <Compile Include="Core\Window\Control\TextProgress.cs" />
     <Compile Include="Core\Window\Control\TextTableExtensions.cs" />
-    <Compile Include="Game\Module\Trail\Location.cs" />
+    <Compile Include="Entity\Location\Location.cs" />
     <Compile Include="Entity\Vehicle\Health.cs" />
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
     <Compile Include="Core\Window\Window.cs" />

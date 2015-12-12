@@ -7,8 +7,7 @@ namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Primary game Windows of the simulation, used to show simulation advancing through linear time. Shows all major
-    ///     stats
-    ///     of party and vehicle, plus climate and other things like distance traveled and distance to next point.
+    ///     stats of party and vehicle, plus climate and other things like distance traveled and distance to next point.
     /// </summary>
     public sealed class Travel : Window<TravelCommands, TravelInfo>
     {
@@ -159,18 +158,31 @@ namespace TrailSimulation.Game
             AddCommand(ChangeFoodRations, TravelCommands.ChangeFoodRations);
             AddCommand(StopToRest, TravelCommands.StopToRest);
 
-            // Some commands are optional and change depending on location category.
-            if (location.TradingAllowed && location.Status == LocationStatus.Arrived)
-                AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
+            // Depending on where you are at on the trail the last few available commands change.
+            switch (location.Status)
+            {
+                case LocationStatus.Unreached:
+                    // Setup phase of the game before you are placed on the first location.
+                    break;
+                case LocationStatus.Arrived:
+                    // Can always attempt to trade, probability is good ones is way less outside settlements.
+                    AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
 
-            if (location.ChattingAllowed && location.Status == LocationStatus.Arrived)
-                AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
+                    // Some commands are optional and change depending on location category.
+                    if (location.ChattingAllowed)
+                        AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
 
-            if (location.ShoppingAllowed && location.Status == LocationStatus.Arrived)
-                AddCommand(BuySupplies, TravelCommands.BuySupplies);
-
-            if (location.HuntingAllowed)
-                AddCommand(HuntForFood, TravelCommands.HuntForFood);
+                    if (location.ShoppingAllowed)
+                        AddCommand(BuySupplies, TravelCommands.BuySupplies);
+                    break;
+                case LocationStatus.Departed:
+                    // Some commands can only be done when between locations.
+                    AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
+                    AddCommand(HuntForFood, TravelCommands.HuntForFood);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         /// <summary>

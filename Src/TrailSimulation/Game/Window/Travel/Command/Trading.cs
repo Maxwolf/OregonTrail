@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using TrailSimulation.Core;
-using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
 {
@@ -12,25 +10,11 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.Travel)]
     public sealed class Trading : Form<TravelInfo>
     {
-        private readonly HashSet<SimItem> _possibleTrades;
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public Trading(IWindow window) : base(window)
         {
-        }
-
-        public IEnumerable<SimItem> PossibleTrades
-        {
-            get { return _possibleTrades; }
-        }
-
-        public void TradeAttempt(SimItem item)
-        {
-            // Cannot trade if there are no offers.
-            if (_possibleTrades.Count <= 0)
-                return;
         }
 
         /// <summary>

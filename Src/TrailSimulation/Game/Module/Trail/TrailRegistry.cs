@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
 {

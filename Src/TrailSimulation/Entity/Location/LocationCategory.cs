@@ -1,4 +1,4 @@
-﻿namespace TrailSimulation.Game
+﻿namespace TrailSimulation.Entity
 {
     /// <summary>
     ///     Defines the type of location this will serve as. All locations have the same base operations and hooks to events,

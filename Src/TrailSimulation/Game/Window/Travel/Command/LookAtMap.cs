@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using TrailSimulation.Core;
+using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
 {
@@ -28,7 +29,7 @@ namespace TrailSimulation.Game
             var _map = new StringBuilder();
             _map.AppendLine($"{Environment.NewLine}Trail progress{Environment.NewLine}");
             _map.AppendLine(TextProgress.DrawProgressBar(
-                GameSimulationApp.Instance.Trail.LocationIndex,
+                GameSimulationApp.Instance.Trail.LocationIndex + 1,
                 GameSimulationApp.Instance.Trail.Locations.Count, 32) + Environment.NewLine);
 
             // Build up a table of location names and if the player has visited them.

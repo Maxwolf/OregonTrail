@@ -1,4 +1,4 @@
-﻿namespace TrailSimulation.Game
+﻿namespace TrailSimulation.Entity
 {
     /// <summary>
     ///     Determines the status of the location as it is known to the vehicle and persons inside of it. Used to keep track of

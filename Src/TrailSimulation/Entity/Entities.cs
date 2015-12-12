@@ -74,6 +74,12 @@ namespace TrailSimulation.Entity
         ///     Represents paper currency which can be exchanged for goods at store. The game makes no attempt at money delineation
         ///     outside of quantity of single dollars.
         /// </summary>
-        Cash = 10
+        Cash = 10,
+
+        /// <summary>
+        ///     Location on the trail the player can visit with their vehicle and purchase things, or a river crossing, or a toll
+        ///     road, etc.
+        /// </summary>
+        Location = 11
     }
 }
