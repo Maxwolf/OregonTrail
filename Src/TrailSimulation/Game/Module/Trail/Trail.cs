@@ -23,16 +23,11 @@ namespace TrailSimulation.Game
         /// </summary>
         /// <param name="locations">List of locations indexed in the order they should be visited in simulation.</param>
         /// <param name="trailLength">Total length of the entire trail, simulation will decide length between locations randomly.</param>
-        /// <param name="climateType">Determines what the weather will be like on the trail.</param>
-        public Trail(IEnumerable<Location> locations, int trailLength, Climate climateType)
+        public Trail(IEnumerable<Location> locations, int trailLength)
         {
             _locations = new List<Location>(locations);
             TrailLength = trailLength;
-            ClimateType = climateType;
-
-            // Mark the last location being as such, will throw exception is locations list is empty as it should.
-            var lastLocation = _locations.Last();
-            lastLocation.IsLast = true;
+            FlagLastLocation();
         }
 
         /// <summary>
@@ -50,9 +45,18 @@ namespace TrailSimulation.Game
         public int TrailLength { get; private set; }
 
         /// <summary>
-        ///     Determines what the weather will be like on the trail.
+        ///     Mark the last location being as such, will throw exception is locations list is empty as it should.
         /// </summary>
-        public Climate ClimateType { get; }
+        private void FlagLastLocation()
+        {
+            // Remove last flag from all locations before setting it again.
+            foreach (var location in _locations)
+                location.IsLast = false;
+
+            // Set the last location flag on the last location in the list.
+            var lastLocation = _locations.Last();
+            lastLocation.IsLast = true;
+        }
 
         /// <summary>
         ///     Forcefully inserts skip location into location list after current location.
@@ -62,6 +66,7 @@ namespace TrailSimulation.Game
         public void InsertLocation(int skipIndex, Location skipLocation)
         {
             _locations.Insert(skipIndex, skipLocation);
+            FlagLastLocation();
         }
     }
 }

@@ -17,32 +17,32 @@ namespace TrailSimulation.Game
             {
                 var oregonTrail = new[]
                 {
-                    new Location("Independence", LocationCategory.Settlement),
-                    new Location("Kansas River Crossing", LocationCategory.RiverCrossing),
-                    new Location("Big Blue River Crossing", LocationCategory.RiverCrossing),
-                    new Location("Fort Kearney", LocationCategory.Settlement),
-                    new Location("Chimney Rock", LocationCategory.Landmark),
-                    new Location("Fort Laramie", LocationCategory.Settlement),
-                    new Location("Independence Rock", LocationCategory.Landmark),
-                    new Location("South Pass", LocationCategory.ForkInRoad, new List<Location>
+                    new Location("Independence", LocationCategory.Settlement, Climate.Moderate),
+                    new Location("Kansas River Crossing", LocationCategory.RiverCrossing, Climate.Continental),
+                    new Location("Big Blue River Crossing", LocationCategory.RiverCrossing, Climate.Continental),
+                    new Location("Fort Kearney", LocationCategory.Settlement, Climate.Continental),
+                    new Location("Chimney Rock", LocationCategory.Landmark, Climate.Moderate),
+                    new Location("Fort Laramie", LocationCategory.Settlement, Climate.Moderate),
+                    new Location("Independence Rock", LocationCategory.Landmark, Climate.Moderate),
+                    new Location("South Pass", LocationCategory.ForkInRoad, Climate.Dry, new List<Location>
                     {
-                        new Location("Fort Bridger", LocationCategory.Settlement),
-                        new Location("Green River Shortcut", LocationCategory.Landmark)
+                        new Location("Fort Bridger", LocationCategory.Settlement, Climate.Dry),
+                        new Location("Green River Shortcut", LocationCategory.Landmark, Climate.Dry)
                     }),
-                    new Location("Green River Crossing", LocationCategory.RiverCrossing),
-                    new Location("Soda Springs", LocationCategory.Landmark),
-                    new Location("Fort Hall", LocationCategory.Settlement),
-                    new Location("Snake River Crossing", LocationCategory.RiverCrossing),
-                    new Location("Fort Boise", LocationCategory.Settlement),
-                    new Location("Blue Mountains", LocationCategory.ForkInRoad, new List<Location>
+                    new Location("Green River Crossing", LocationCategory.RiverCrossing, Climate.Dry),
+                    new Location("Soda Springs", LocationCategory.Landmark, Climate.Dry),
+                    new Location("Fort Hall", LocationCategory.Settlement, Climate.Moderate),
+                    new Location("Snake River Crossing", LocationCategory.RiverCrossing, Climate.Moderate),
+                    new Location("Fort Boise", LocationCategory.Settlement, Climate.Moderate),
+                    new Location("Blue Mountains", LocationCategory.ForkInRoad, Climate.Polar , new List<Location>
                     {
-                        new Location("Fort Walla Walla", LocationCategory.Settlement),
-                        new Location("The Dalles", LocationCategory.Landmark)
+                        new Location("Fort Walla Walla", LocationCategory.Settlement, Climate.Polar),
+                        new Location("The Dalles", LocationCategory.Landmark, Climate.Polar)
                     }),
-                    new Location("Oregon City", LocationCategory.Settlement)
+                    new Location("Oregon City", LocationCategory.Settlement, Climate.Moderate)
                 };
 
-                return new Trail(oregonTrail, 2000, Climate.Moderate);
+                return new Trail(oregonTrail, 2000);
             }
         }
 
@@ -55,18 +55,18 @@ namespace TrailSimulation.Game
             {
                 var testTrail = new[]
                 {
-                    new Location("Start Settlement", LocationCategory.Settlement),
-                    new Location("Landmark", LocationCategory.Landmark),
-                    new Location("Fork In Road", LocationCategory.ForkInRoad, new List<Location>
+                    new Location("Start Settlement", LocationCategory.Settlement, Climate.Moderate),
+                    new Location("Landmark", LocationCategory.Landmark, Climate.Dry),
+                    new Location("Fork In Road", LocationCategory.ForkInRoad, Climate.Continental, new List<Location>
                     {
-                        new Location("Inserted Settlement", LocationCategory.Settlement),
-                        new Location("Inserted Landmark", LocationCategory.Landmark)
+                        new Location("Inserted Settlement", LocationCategory.Settlement, Climate.Polar),
+                        new Location("Inserted Landmark", LocationCategory.Landmark, Climate.Tropical)
                     }),
-                    new Location("River Crossing", LocationCategory.RiverCrossing),
-                    new Location("End Settlement", LocationCategory.Settlement)
+                    new Location("River Crossing", LocationCategory.RiverCrossing, Climate.Continental),
+                    new Location("End Settlement", LocationCategory.Settlement, Climate.Moderate)
                 };
 
-                return new Trail(testTrail, 100, Climate.Continental);
+                return new Trail(testTrail, 100);
             }
         }
 
@@ -79,11 +79,11 @@ namespace TrailSimulation.Game
             {
                 var testPoints = new[]
                 {
-                    new Location("Start Of Test", LocationCategory.Settlement),
-                    new Location("End Of Test", LocationCategory.Settlement)
+                    new Location("Start Of Test", LocationCategory.Settlement, Climate.Moderate),
+                    new Location("End Of Test", LocationCategory.Settlement, Climate.Dry)
                 };
 
-                return new Trail(testPoints, 1, Climate.Tropical);
+                return new Trail(testPoints, 1);
             }
         }
     }

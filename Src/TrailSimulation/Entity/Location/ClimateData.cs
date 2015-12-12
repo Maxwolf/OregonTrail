@@ -1,4 +1,6 @@
-﻿namespace TrailSimulation.Game
+﻿using TrailSimulation.Game;
+
+namespace TrailSimulation.Entity
 {
     public class ClimateData
     {

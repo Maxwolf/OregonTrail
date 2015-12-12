@@ -135,7 +135,8 @@ namespace TrailSimulation.Game
                 // Skip if store item is cash, person, or vehicle.
                 if (storeItem == Entities.Cash ||
                     storeItem == Entities.Person ||
-                    storeItem == Entities.Vehicle)
+                    storeItem == Entities.Vehicle ||
+                    storeItem == Entities.Location)
                     continue;
 
                 // Creates a store price tag that shows the user how much the item is and or how much the store has.
@@ -146,10 +147,10 @@ namespace TrailSimulation.Game
                             GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached));
 
                 // Last line should not print new line.
-                if (index == (storeAssets.Count - 4))
+                if (index == (storeAssets.Count - 5))
                 {
                     _storePrompt.AppendLine($"  {(int) storeItem}. {storeTag}");
-                    _storePrompt.AppendLine($"  {storeAssets.Count - 2}. Leave store");
+                    _storePrompt.AppendLine($"  {storeAssets.Count - 3}. Leave store");
                 }
                 else
                 {

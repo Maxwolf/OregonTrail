@@ -35,11 +35,6 @@ namespace TrailSimulation.Game
         public TimeModule Time { get; private set; }
 
         /// <summary>
-        ///     Manages weather, temperature, humidity, and current grazing level for living animals.
-        /// </summary>
-        public ClimateModule Climate { get; private set; }
-
-        /// <summary>
         ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
         ///     game modes, people, and vehicles.
         /// </summary>
@@ -151,20 +146,18 @@ namespace TrailSimulation.Game
             // Notify modules of impending doom allowing them to save data.
             Scoring.Destroy();
             Time.Destroy();
-            Climate.Destroy();
             EventDirector.Destroy();
             Trail.Destroy();
 
             // Null the destroyed instances.
+            Scoring = null;
             Time = null;
-            Climate = null;
             EventDirector = null;
             Trail = null;
             TotalTurns = 0;
             Vehicle = null;
 
             // Destroys game simulation instance.
-            Instance.Destroy();
             Instance = null;
         }
 
@@ -186,17 +179,12 @@ namespace TrailSimulation.Game
             // Reset turn counter back to zero.
             TotalTurns = 0;
 
-            // Linear time simulation with ticks.
+            // Linear time simulation (should tick first).
             Time = new TimeModule();
 
-            // Environment, weather, conditions, climate, tail, stats, event director, etc.
+            // Vehicle, weather, conditions, climate, tail, stats, event director, etc.
             EventDirector = new EventDirectorModule();
             Trail = new TrailModule();
-
-            // Climate needs data from trail module about climate type.
-            Climate = new ClimateModule(Trail.ClimateType);
-
-            // Vehicle entity for the players to travel in along the trail.
             Vehicle = new Vehicle();
 
             // Resets the window manager and clears out all windows and forms from previous session.

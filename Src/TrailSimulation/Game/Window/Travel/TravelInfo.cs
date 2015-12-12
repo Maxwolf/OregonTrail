@@ -46,8 +46,11 @@ namespace TrailSimulation.Game
         {
             get
             {
+                // Grab instance of game simulation.
+                var game = GameSimulationApp.Instance;
+
                 // GetModule the current food item from vehicle inventory.
-                var foodItem = GameSimulationApp.Instance.Vehicle.Inventory[Entities.Food];
+                var foodItem = game.Vehicle.Inventory[Entities.Food];
 
                 // Set default food status text, update to actual food item total weight if it exists.
                 var foodStatus = "0 pounds";
@@ -57,15 +60,13 @@ namespace TrailSimulation.Game
                 // Build up the status for the vehicle as it moves through the simulation.
                 var driveStatus = new StringBuilder();
                 driveStatus.AppendLine("--------------------------------");
-                driveStatus.AppendLine($"Date: {GameSimulationApp.Instance.Time.Date}");
+                driveStatus.AppendLine($"Date: {game.Time.Date}");
                 driveStatus.AppendLine(
-                    $"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather.ToDescriptionAttribute()}");
-                driveStatus.AppendLine($"Health: {GameSimulationApp.Instance.Vehicle.Health}");
+                    $"Weather: {game.Trail.CurrentLocation.Weather.Condition.ToDescriptionAttribute()}");
+                driveStatus.AppendLine($"Health: {game.Vehicle.Health}");
                 driveStatus.AppendLine($"Food: {foodStatus}");
-                driveStatus.AppendLine(
-                    $"Next landmark: {GameSimulationApp.Instance.Trail.DistanceToNextLocation} miles");
-                driveStatus.AppendLine(
-                    $"Miles traveled: {GameSimulationApp.Instance.Vehicle.Odometer} miles");
+                driveStatus.AppendLine($"Next landmark: {game.Trail.DistanceToNextLocation} miles");
+                driveStatus.AppendLine($"Miles traveled: {game.Vehicle.Odometer} miles");
                 driveStatus.AppendLine("--------------------------------");
                 return driveStatus.ToString();
             }
@@ -85,22 +86,25 @@ namespace TrailSimulation.Game
         {
             get
             {
-                var showLocationName = GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Arrived;
+                // Grab instance of game simulation.
+                var game = GameSimulationApp.Instance;
+
+                var showLocationName = game.Trail.CurrentLocation.Status == LocationStatus.Arrived;
                 var locationStatus = new StringBuilder();
                 locationStatus.AppendLine("--------------------------------");
 
                 // Only add the location name if we are on the next point, otherwise we should not show this.
                 locationStatus.AppendLine(showLocationName
-                    ? GameSimulationApp.Instance.Trail.CurrentLocation.Name
-                    : $"{GameSimulationApp.Instance.Trail.DistanceToNextLocation.ToString("N0")} miles to {GameSimulationApp.Instance.Trail.NextLocation.Name}");
+                    ? game.Trail.CurrentLocation.Name
+                    : $"{game.Trail.DistanceToNextLocation.ToString("N0")} miles to {game.Trail.NextLocation.Name}");
 
-                locationStatus.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
+                locationStatus.AppendLine($"{game.Time.Date}");
                 locationStatus.AppendLine("--------------------------------");
                 locationStatus.AppendLine(
-                    $"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather.ToDescriptionAttribute()}");
-                locationStatus.AppendLine($"Health: {GameSimulationApp.Instance.Vehicle.Health}");
-                locationStatus.AppendLine($"Pace: {GameSimulationApp.Instance.Vehicle.Pace}");
-                locationStatus.AppendLine($"Rations: {GameSimulationApp.Instance.Vehicle.Ration}");
+                    $"Weather: {game.Trail.CurrentLocation.Weather.Condition.ToDescriptionAttribute()}");
+                locationStatus.AppendLine($"Health: {game.Vehicle.Health}");
+                locationStatus.AppendLine($"Pace: {game.Vehicle.Pace}");
+                locationStatus.AppendLine($"Rations: {game.Vehicle.Ration}");
                 locationStatus.AppendLine("--------------------------------");
                 return locationStatus.ToString();
             }

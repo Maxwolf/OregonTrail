@@ -39,6 +39,7 @@ namespace TrailSimulation.Game
                 var itemFormattedQuantity = item.Value.Quantity.ToString("N0");
 
                 // Skip money, it is only shown in store.
+                // Note: Not the same as ignore list for entity types, default inventory has cash entity in it.
                 if (item.Key == Entities.Cash)
                     continue;
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using TrailSimulation.Game;
 
 namespace TrailSimulation.Entity
 {
@@ -27,8 +26,12 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Entity.Location" /> class.
         /// </summary>
-        public Location(string name, LocationCategory category, IEnumerable<Location> skipChoices = null)
+        public Location(string name, LocationCategory category, Climate climateType,
+            IEnumerable<Location> skipChoices = null)
         {
+            // Creates a new system to deal with the management of the weather for this given location.
+            Weather = new WeatherManager(climateType);
+
             // Trades are randomly generated when ticking the location.
             _trades = new List<SimItem>();
 
@@ -41,6 +44,7 @@ namespace TrailSimulation.Entity
 
             // Category of the location determines how the game simulation will treat it.
             Category = category;
+            ClimateType = climateType;
             switch (category)
             {
                 case LocationCategory.Settlement:
@@ -60,6 +64,12 @@ namespace TrailSimulation.Entity
             // Default location status is not visited by the player or vehicle.
             Status = LocationStatus.Unreached;
         }
+
+        /// <summary>
+        ///     Deals with the weather simulation for this location, each location on the trail is capable of simulating it's own
+        ///     type of weather for the purposes of keeping them unique.
+        /// </summary>
+        public WeatherManager Weather { get; }
 
         /// <summary>
         ///     Determines if the location allows the player to chat to other NPC's in the area which can offer up advice about the
@@ -115,6 +125,11 @@ namespace TrailSimulation.Entity
         ///     this.
         /// </summary>
         public bool IsLast { get; set; }
+
+        /// <summary>
+        ///     Determines what the weather will be like on the trail.
+        /// </summary>
+        public Climate ClimateType { get; }
 
         /// <summary>
         ///     Name of the current point of interest as it should be known to the player.
@@ -234,6 +249,7 @@ namespace TrailSimulation.Entity
             var hash = 23;
             hash = (hash*31) + Name.GetHashCode();
             hash = (hash*31) + Category.GetHashCode();
+            hash = (hash*31) + ClimateType.GetHashCode();
             return hash;
         }
 
@@ -254,7 +270,7 @@ namespace TrailSimulation.Entity
                 return;
 
             // We tick the weather all the time not just based on days, but every time the location is ticked.
-            GameSimulationApp.Instance.Climate.OnTick(false);
+            Weather.Tick();
 
             // TODO: Trades are randomly generated when ticking the location every day.
         }

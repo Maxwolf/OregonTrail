@@ -113,12 +113,15 @@ namespace TrailSimulation.Game
             // Ping-pong progress bar to show that we are moving.
             _crossingResult.AppendLine($"{Environment.NewLine}{_swayBarText}");
 
+            // Get instance of game simulation.
+            var game = GameSimulationApp.Instance;
+
             // Shows basic status of vehicle and total river crossing percentage.
             _crossingResult.AppendLine("--------------------------------");
-            _crossingResult.AppendLine($"{GameSimulationApp.Instance.Trail.CurrentLocation.Name}");
-            _crossingResult.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
+            _crossingResult.AppendLine($"{game.Trail.CurrentLocation.Name}");
+            _crossingResult.AppendLine($"{game.Time.Date}");
             _crossingResult.AppendLine(
-                $"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather.ToDescriptionAttribute()}");
+                $"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
             _crossingResult.AppendLine($"Health: {GameSimulationApp.Instance.Vehicle.Health}");
             _crossingResult.AppendLine($"Crossing By: {UserData.River.CrossingType}");
             _crossingResult.AppendLine(

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace TrailSimulation.Game
+namespace TrailSimulation.Entity
 {
     /// <summary>
     ///     Determines what the environment is like and goes into helping calculate roll chance. For example, experiencing

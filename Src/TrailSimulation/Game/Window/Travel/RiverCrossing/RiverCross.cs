@@ -35,14 +35,17 @@ namespace TrailSimulation.Game
         {
             base.OnFormPostCreate();
 
+            // Grab instance of the game simulation.
+            var game = GameSimulationApp.Instance;
+
             // Header text for above menu comes from river crossing info object.
             _riverInfo = new StringBuilder();
             _riverInfo.AppendLine("--------------------------------");
-            _riverInfo.AppendLine($"{GameSimulationApp.Instance.Trail.CurrentLocation.Name}");
-            _riverInfo.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
+            _riverInfo.AppendLine($"{game.Trail.CurrentLocation.Name}");
+            _riverInfo.AppendLine($"{game.Time.Date}");
             _riverInfo.AppendLine("--------------------------------");
             _riverInfo.AppendLine(
-                $"Weather: {GameSimulationApp.Instance.Climate.CurrentWeather.ToDescriptionAttribute()}");
+                $"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
             _riverInfo.AppendLine($"River width: {UserData.River.RiverWidth.ToString("N0")} feet");
             _riverInfo.AppendLine($"River depth: {UserData.River.RiverDepth.ToString("N0")} feet");
             _riverInfo.AppendLine("--------------------------------");
