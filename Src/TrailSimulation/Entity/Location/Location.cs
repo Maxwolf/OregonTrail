@@ -248,6 +248,10 @@ namespace TrailSimulation.Entity
         /// </param>
         public void OnTick(bool systemTick)
         {
+            // Skip system ticks.
+            if (systemTick)
+                return;
+
             // TODO: Move climate ticking to location responsibility?!
 
             // TODO: Trades are randomly generated when ticking the location every day.

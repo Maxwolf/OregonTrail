@@ -143,7 +143,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void OnYearEnd()
         {
-            // TODO: Use time module year end or remove it...
+            // TODO: Use time module year end or remove it!
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void OnMonthEnd()
         {
-            // TODO: Use time module month end or remove it...
+            // TODO: Use time module month end or remove it!
         }
 
         /// <summary>

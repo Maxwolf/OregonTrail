@@ -122,12 +122,15 @@ namespace TrailSimulation.Game
             if (systemTick)
                 return;
 
+            // Tick the current location, typically this will randomize the possible trades, weather, and advice.
+            CurrentLocation?.OnTick(false);
+
             // No advancing down the trail when vehicle is parked.
             if (GameSimulationApp.Instance.Vehicle.Status != VehicleStatus.Moving)
                 return;
 
             // Check if the player is still working with the location they are currently arrived at.
-            if (CurrentLocation.Status == LocationStatus.Arrived &&
+            if (CurrentLocation?.Status == LocationStatus.Arrived &&
                 DistanceToNextLocation <= 0)
                 return;
 
