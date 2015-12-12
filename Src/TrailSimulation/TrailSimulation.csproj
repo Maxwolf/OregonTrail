@@ -44,6 +44,13 @@
     <Compile Include="Event\Prefab\EventItemDestroyer.cs" />
     <Compile Include="Event\RiverFloat\VehicleFloodsEvent.cs" />
     <Compile Include="Event\RiverFord\VehicleWashedOutEvent.cs" />
+    <Compile Include="Event\Vehicle\BrokenVehiclePart.cs" />
+    <Compile Include="Event\Vehicle\ImpassableTrail.cs" />
+    <Compile Include="Event\Vehicle\LostTrail.cs" />
+    <Compile Include="Event\Vehicle\SwampedVehicle.cs" />
+    <Compile Include="Event\Vehicle\TippedVehicle.cs" />
+    <Compile Include="Event\Vehicle\VehicleFire.cs" />
+    <Compile Include="Event\Vehicle\StuckInMud.cs" />
     <Compile Include="Event\Warning\BadWater.cs" />
     <Compile Include="Event\Warning\LowFood.cs" />
     <Compile Include="Event\Warning\LowGrass.cs" />
@@ -60,7 +67,7 @@
     <Compile Include="Event\Weather\SevereWeather.cs" />
     <Compile Include="Event\Weather\WagonDust.cs" />
     <Compile Include="Event\Weather\Wildfire.cs" />
-    <Compile Include="Event\Weather\WrongTrail.cs" />
+    <Compile Include="Event\Vehicle\WrongTrail.cs" />
     <Compile Include="Game\GameStatus.cs" />
     <Compile Include="Game\Module\Director\EventKey.cs" />
     <Compile Include="Game\Module\Scoring\ScoringModule.cs" />
@@ -204,7 +211,6 @@
   <ItemGroup>
     <Folder Include="Event\Animal\" />
     <Folder Include="Event\Attack\" />
-    <Folder Include="Event\Vehicle\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
