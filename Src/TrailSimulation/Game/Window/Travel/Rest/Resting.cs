@@ -86,8 +86,9 @@ namespace TrailSimulation.Game
         {
             base.OnFormPostCreate();
 
-            // Vehicle should be stopped while resting to prevent it from moving during ticks.
-            GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
+            // Only change the vehicle status to stopped if it is moving, it could just be stuck.
+            if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Moving)
+                GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
         }
 
         /// <summary>
@@ -164,6 +165,14 @@ namespace TrailSimulation.Game
         {
             // Determine if we should bounce back to travel menu or some special Windows.
             if (UserData.River == null)
+            {
+                ClearForm();
+                return;
+            }
+
+            // Check if we have already departed from current location, so we just return to travel menu.
+            if (GameSimulationApp.Instance.Trail.CurrentLocation.ArrivalFlag &&
+                GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Departed)
             {
                 ClearForm();
                 return;
