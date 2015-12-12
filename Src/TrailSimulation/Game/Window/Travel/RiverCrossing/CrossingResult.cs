@@ -178,32 +178,37 @@ namespace TrailSimulation.Game
             // Attempt to throw a random event related to some failure happening with river crossing.
             switch (UserData.River.CrossingType)
             {
-                case RiverCrossChoice.None:
-                    break;
                 case RiverCrossChoice.Ford:
-                    // If river is deeper than a few feet and you ford it you will get flooded every time at least once.
+                    // If river is deeper than a few feet and you ford it you will get flooded at least once.
                     if (UserData.River.RiverDepth > 3 && !_hasFlooded &&
                         _riverCrossingOfTotalWidth >= (UserData.River.RiverWidth/2))
                     {
                         _hasFlooded = true;
-                        game.EventDirector.TriggerEvent(game.Vehicle, typeof (VehicleWashedOutEvent));
+                        game.EventDirector.TriggerEvent(game.Vehicle, typeof (VehicleWashOut));
                         return;
                     }
 
                     // Check that we don't flood the user twice, that is just annoying.
                     if (!_hasFlooded)
-                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverFord);
+                    {
+                        _hasFlooded = true;
+                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
+                    }
                     break;
                 case RiverCrossChoice.Float:
-                    if (!_hasFlooded)
-                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverFloat);
-                    break;
                 case RiverCrossChoice.Ferry:
+                    // Ferry and floating over river both have the same risks.
+                    if (!_hasFlooded)
+                    {
+                        _hasFlooded = true;
+                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
+                    }
                     break;
+                case RiverCrossChoice.None:
                 case RiverCrossChoice.WaitForWeather:
-                    break;
                 case RiverCrossChoice.GetMoreInformation:
-                    break;
+                    throw new InvalidOperationException(
+                        $"Invalid river crossing result choice {UserData.River.CrossingType}.");
                 default:
                     throw new ArgumentOutOfRangeException();
             }

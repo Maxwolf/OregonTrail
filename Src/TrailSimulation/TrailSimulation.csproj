@@ -40,10 +40,17 @@
     <Compile Include="Core\Utility\StringExtensions.cs" />
     <Compile Include="Entity\Location\ClimateRegistry.cs" />
     <Compile Include="Entity\Vehicle\VehicleStatus.cs" />
+    <Compile Include="Event\Animal\BuffaloStampede.cs" />
+    <Compile Include="Event\Animal\Locusts.cs" />
+    <Compile Include="Event\Animal\Mosquitos.cs" />
+    <Compile Include="Event\Animal\OxDied.cs" />
+    <Compile Include="Event\Animal\OxIsSick.cs" />
+    <Compile Include="Event\Animal\OxWanderedOff.cs" />
+    <Compile Include="Event\Animal\Snakebite.cs" />
     <Compile Include="Event\Person\InfectPlayer.cs" />
     <Compile Include="Event\Prefab\EventItemDestroyer.cs" />
-    <Compile Include="Event\RiverFloat\VehicleFloodsEvent.cs" />
-    <Compile Include="Event\RiverFord\VehicleWashedOutEvent.cs" />
+    <Compile Include="Event\River\VehicleFloods.cs" />
+    <Compile Include="Event\River\VehicleWashOut.cs" />
     <Compile Include="Event\Vehicle\BrokenVehiclePart.cs" />
     <Compile Include="Event\Vehicle\ImpassableTrail.cs" />
     <Compile Include="Event\Vehicle\LostTrail.cs" />
@@ -209,8 +216,7 @@
     <Compile Include="Core\Utility\TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Event\Animal\" />
-    <Folder Include="Event\Attack\" />
+    <Folder Include="Event\Wild\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

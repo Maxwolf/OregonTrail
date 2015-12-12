@@ -34,16 +34,11 @@
         /// <summary>
         ///     Wild animals, Indians, wolves, riders, and various other critters and strangers that you can encounter.
         /// </summary>
-        Attack,
+        Wild,
 
         /// <summary>
-        ///     Crossing a river by diving directly into and hoping for the best. Easy to be washed away by current.
+        ///     Crossing a river has many dangers regardless of transport mode. Flooding, capsizing, hitting rocks, etc.
         /// </summary>
-        RiverFord,
-
-        /// <summary>
-        ///     Caulking the vehicle and attempting to float it across the river can result in flooding and or tipping over.
-        /// </summary>
-        RiverFloat
+        RiverCross
     }
 }

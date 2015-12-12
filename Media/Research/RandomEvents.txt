@@ -32,13 +32,3 @@ Measles,
 Gangrene,
 WellAgain,
 Fever
-
-----------[ACCIDENT]----------
-ImpassableTrail,
-WrongTrail,
-LostTrail,
-VehicleFire,
-BrokenVehiclePart,
-TippedVehicle,
-SwampedVehicle,
-VehicleStuckInMud

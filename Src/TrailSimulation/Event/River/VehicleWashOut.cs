@@ -4,11 +4,10 @@ using TrailSimulation.Game;
 namespace TrailSimulation.Event
 {
     /// <summary>
-    ///     When crossing a river there is a chance that your wagon will flood if you choose to caulk and float across the
-    ///     river.
+    ///     Player forded the river and it was to deep, they have been washed out by the current and some items destroyed.
     /// </summary>
-    [DirectorEvent(EventCategory.RiverFloat)]
-    public sealed class VehicleFloodsEvent : EventItemDestroyer
+    [DirectorEvent(EventCategory.RiverCross, false)]
+    public sealed class VehicleWashOut : EventItemDestroyer
     {
         /// <summary>
         ///     Creates a new instance of an event product with the specified event type for reference purposes.
@@ -16,7 +15,7 @@ namespace TrailSimulation.Event
         /// <param name="category">
         ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
         /// </param>
-        public VehicleFloodsEvent(EventCategory category) : base(category)
+        public VehicleWashOut(EventCategory category) : base(category)
         {
         }
 
@@ -27,10 +26,10 @@ namespace TrailSimulation.Event
         protected override string OnEventPrompt()
         {
             var _eventText = new StringBuilder();
-            _eventText.AppendLine("Vehicle floods ");
-            _eventText.AppendLine("while crossing the ");
-            _eventText.AppendLine("river results in ");
-            _eventText.AppendLine("the loss of:");
+            _eventText.AppendLine("Vehicle was washed ");
+            _eventText.AppendLine("out when attempting to ");
+            _eventText.AppendLine("ford the river results ");
+            _eventText.AppendLine("in the loss of:");
 
             return _eventText.ToString();
         }
