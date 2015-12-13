@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
+using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
@@ -23,9 +25,10 @@ namespace TrailSimulation.Event
         /// <summary>
         ///     Fired by the event prefab after the event has executed.
         /// </summary>
-        protected override string OnPostCreateItems()
+        /// <param name="createdItems"></param>
+        protected override string OnPostCreateItems(IDictionary<Entities, int> createdItems)
         {
-            throw new System.NotImplementedException();
+            return createdItems.Count > 0 ? "and find:" : "but it is empty";
         }
 
         /// <summary>
@@ -35,10 +38,6 @@ namespace TrailSimulation.Event
         {
             var _eventText = new StringBuilder();
             _eventText.AppendLine("You find an abandoned wagon,");
-            _eventText.AppendLine("and find:");
-
-            //_eventText.AppendLine("but it is empty");
-
             return _eventText.ToString();
         }
     }

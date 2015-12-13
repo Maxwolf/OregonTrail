@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
@@ -49,6 +50,11 @@ namespace TrailSimulation.Event
             // Destroy some items at random and get a list back of what and how much.
             var _destroyedItems = GameSimulationApp.Instance.Vehicle.DestroyRandomItems();
 
+            // Show the post item destruction text if it exists.
+            var postDestroyPrompt = OnPostDestroyItems(_destroyedItems);
+            if (!string.IsNullOrEmpty(postDestroyPrompt))
+                _eventText.AppendLine(postDestroyPrompt);
+
             // Skip if destroyed items count is zero.
             if (!(_destroyedItems?.Count > 0))
                 return;
@@ -56,17 +62,13 @@ namespace TrailSimulation.Event
             // Loop through all of the destroyed items and add them to string builder.
             foreach (var destroyedItem in _destroyedItems)
                 _eventText.AppendLine($"{destroyedItem.Value.ToString("N0")} {destroyedItem.Key}");
-
-            // Show the post item destruction text if it exists.
-            var postDestroyPrompt = OnPostDestroyItems();
-            if (!string.IsNullOrEmpty(postDestroyPrompt))
-                _eventText.AppendLine(postDestroyPrompt);
         }
 
         /// <summary>
         ///     Fired by the item destroyer event prefab before items are destroyed.
         /// </summary>
-        protected abstract string OnPostDestroyItems();
+        /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
+        protected abstract string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems);
 
         /// <summary>
         ///     Fired by the item destroyer event prefab after items are destroyed.

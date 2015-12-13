@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
@@ -49,6 +50,11 @@ namespace TrailSimulation.Event
             // Create some items at random and get a list back of what and how much.
             var createdItems = GameSimulationApp.Instance.Vehicle.CreateRandomItems();
 
+            // Add the post create message if it exists.
+            var postCreatePrompt = OnPostCreateItems(createdItems);
+            if (!string.IsNullOrEmpty(postCreatePrompt))
+                _eventText.AppendLine(postCreatePrompt);
+
             // Skip if created items count is zero.
             if (!(createdItems?.Count > 0))
                 return;
@@ -56,17 +62,13 @@ namespace TrailSimulation.Event
             // Loop through all of the created items and add them to string builder.
             foreach (var createdItem in createdItems)
                 _eventText.AppendLine($"{createdItem.Value.ToString("N0")} {createdItem.Key}");
-
-            // Add the post create message if it exists.
-            var postCreatePrompt = OnPostCreateItems();
-            if (!string.IsNullOrEmpty(postCreatePrompt))
-                _eventText.AppendLine(postCreatePrompt);
         }
 
         /// <summary>
         ///     Fired by the event prefab after the event has executed.
         /// </summary>
-        protected abstract string OnPostCreateItems();
+        /// <param name="createdItems">Items that were created and added to vehicle inventory.</param>
+        protected abstract string OnPostCreateItems(IDictionary<Entities, int> createdItems);
 
         /// <summary>
         ///     Fired by the event prefab before the event has executed.

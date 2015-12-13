@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
+using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
@@ -22,9 +24,10 @@ namespace TrailSimulation.Event
         /// <summary>
         ///     Fired by the item destroyer event prefab before items are destroyed.
         /// </summary>
-        protected override string OnPostDestroyItems()
+        /// <param name="destroyedItems"></param>
+        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
-            throw new System.NotImplementedException();
+            return destroyedItems.Count > 0 ? "in the loss of:" : "in no loss of items.";
         }
 
         /// <summary>
@@ -33,11 +36,9 @@ namespace TrailSimulation.Event
         protected override string OnPreDestroyItems()
         {
             var _eventText = new StringBuilder();
-            _eventText.AppendLine("Vehicle was washed ");
-            _eventText.AppendLine("out when attempting to ");
-            _eventText.AppendLine("ford the river results ");
-            _eventText.AppendLine("in the loss of:");
-
+            _eventText.AppendLine("Vehicle was washed");
+            _eventText.AppendLine("out when attempting to");
+            _eventText.AppendLine("ford the river results");
             return _eventText.ToString();
         }
     }
