@@ -1,85 +1,42 @@
 [OREGON TRAIL 1975,78,86 VERSION RESEARCH]
 monday march 29 1847
 
----------------[START]---------------
-if (illness=1 || injury=1)
-	start_cash=start_cash-20
-
 ---------------[TURN]---------------
-
-// Low food warning.
-if (cost_food >= 13)
-{	
-	if (illness=1 || injury=1)
-	{
-		start_cash=start_cash-20
-		if (start_cash<0) 
-		{
-			start_cash=0
-			"you can't afford a doctor"
-			endgame(diereason.nodoctor)
-		}
-		else
-		{
-			"doctor's bill is $20"
-			injury=illness=0
-			if (clear_southpass_setmileage=1)
-			{
-				"TOTAL MILEAGE IS 950"
-				CLEAR_SOUTHPASS_SETMILEAGE=0
-			}
-			else
-			{
-				"total mileage is";total_miles
-				"food","bullets","clothing","misc. supp.","cash"
-				cost_food,cost_ammo,cost_clothes,cost_aid,start_cash
-				if (fort_option=-1)
-				{
-					addmode(travel)
-				}
-			}
-		}
-	}
-}
-else
-{
-	"you'd better do some hunting or buy food and soon!!!!"
-}
 
 climate_blizzard=no_clothes=0
 
-IF TOTAL_MILES <= 950 THEN 1230
-IF RND(0)*10>9-((TOTAL_MILES/100-15) ** 2+72)/((TOTAL_MILES/100-15) ** 2+12) THEN 4560
-PRINT "RUGGED MOUNTAINS"
-IF RND(0)>.1 THEN 4780
-PRINT "YOU GOT LOST---LOSE VALUABLE TIME TRYING TO FIND TRAIL!"
-TOTAL_MILES=TOTAL_MILES-60
-GOTO 4560
-IF RND(0)>.11 THEN 4840
-PRINT "WAGON DAMAGED!---LOSE TIME AND SUPPLIES"
-COST_AID=COST_AID-5
-COST_AMMO=COST_AMMO-200
-TOTAL_MILES=TOTAL_MILES-20-30*RND(0)
-GOTO 4860
-IF CLEAR_SOUTHPASS=1 THEN 4900
-CLEAR_SOUTHPASS=1
-IF RND(0)<.8 THEN 4970
-PRINT "YOU MADE IT SAFELY THROUGH SOUTH PASS--NO SNOW"
-IF TOTAL_MILES<1700 THEN 4940
-IF CLEAR_BLUEMOUNTAINS=1 THEN 4940
-CLEAR_BLUEMOUNTAINS=1
-IF RND(0)<.7 THEN 4970
-IF TOTAL_MILES>950 THEN 1230
-CLEAR_SOUTHPASS_SETMILEAGE=1
-GOTO 1230
-PRINT "BLIZZARD IN MOUNTAIN PASS--TIME AND SUPPLIES LOST"
-CLIMATE_BLIZZARD=1
-COST_FOOD=COST_FOOD-25
-COST_AID=COST_AID-10
-COST_AMMO=COST_AMMO-300
-TOTAL_MILES=TOTAL_MILES-30-40*RND(0)
-IF COST_CLOTHES<18+2*RND(0) THEN 6300
-GOTO 4940
+if total_miles <= 950 then 1230
+if rnd(0)*10>9-((total_miles/100-15) ** 2+72)/((total_miles/100-15) ** 2+12) then 4560
+print "rugged mountains"
+if rnd(0)>.1 then 4780
+print "you got lost---lose valuable time trying to find trail!"
+total_miles=total_miles-60
+goto 4560
+if rnd(0)>.11 then 4840
+print "wagon damaged!---lose time and supplies"
+cost_aid=cost_aid-5
+cost_ammo=cost_ammo-200
+total_miles=total_miles-20-30*rnd(0)
+goto 4860
+if clear_southpass=1 then 4900
+clear_southpass=1
+if rnd(0)<.8 then 4970
+print "you made it safely through south pass--no snow"
+if total_miles<1700 then 4940
+if clear_bluemountains=1 then 4940
+clear_bluemountains=1
+if rnd(0)<.7 then 4970
+if total_miles>950 then 1230
+clear_southpass_setmileage=1
+goto 1230
+print "blizzard in mountain pass--time and supplies lost"
+climate_blizzard=1
+cost_food=cost_food-25
+cost_aid=cost_aid-10
+cost_ammo=cost_ammo-300
+total_miles=total_miles-30-40*rnd(0)
+if cost_clothes<18+2*rnd(0) then 6300
+goto 4940
 
 ---------------[HUNTING]---------------
 

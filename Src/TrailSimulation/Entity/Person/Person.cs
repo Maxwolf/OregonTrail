@@ -34,7 +34,7 @@ namespace TrailSimulation.Entity
         ///     Determines how many total consecutive days this player has not eaten any food. If this continues for more than five
         ///     (5) days then the probability they will die increases exponentially.
         /// </summary>
-        public int DaysStarving { get; private set; }
+        public int DaysStarving { get; set; }
 
         /// <summary>
         ///     Profession of this person, typically if the leader is a banker then the entire family is all bankers for sanity
@@ -219,13 +219,18 @@ namespace TrailSimulation.Entity
                 game.Vehicle.Inventory[Entities.Food] = new SimItem(
                     game.Vehicle.Inventory[Entities.Food],
                     (int) cost_food);
+
+                // Change to get better when eating well.
+                TryHeal();
             }
             else
             {
-                // TODO: Complain about low food with event warning.
-
                 // Otherwise we begin to starve.
                 DaysStarving++;
+
+                // Not eating well is gonna hurt you bad.
+                if (game.Vehicle.Status == VehicleStatus.Moving)
+                    TryInfect();
             }
         }
 
@@ -258,25 +263,160 @@ namespace TrailSimulation.Entity
                 Health = Health.VeryPoor;
                 game.Vehicle.ReduceMileage(15);
 
-                // Pick an actual severe illness from list, roll the dice for it on very low health.
-                if (game.Random.Next(100) >= 99 && Infection == Disease.None)
-                    game.EventDirector.TriggerEvent(this, typeof (InfectPlayer));
+                TryInfect();
             }
 
-            if (Health == Health.VeryPoor &&
-                game.Random.Next((int) Health) <= 0)
+            // If vehicle is not moving we will assume we are resting.
+            if (game.Vehicle.Status != VehicleStatus.Moving)
+                TryHeal();
+
+            // Determines if we should roll for infections based on previous complications.
+            switch (Health)
             {
-                // Some dying makes everybody take a huge morale hit.
-                game.Vehicle.ReduceMileage(50);
-
-                // Mark the player as being dead now.
-                IsDead = true;
-
-                // Check if leader died or party member.
-                game.EventDirector.TriggerEvent(this, IsLeader
-                    ? typeof (DeathPlayer)
-                    : typeof (DeathCompanion));
+                case Health.Good:
+                    // Congrats on living a healthy lifestyle...
+                    TryHeal();
+                    break;
+                case Health.Fair:
+                    // Not eating for a couple days is going to hit you hard.
+                    if (DaysStarving > 2 &&
+                        game.Vehicle.Status == VehicleStatus.Moving)
+                    {
+                        game.Vehicle.ReduceMileage(5);
+                        Health = Health.Poor;
+                    }
+                    break;
+                case Health.Poor:
+                    // Player is working themselves to death.
+                    if (DaysStarving > 5 &&
+                        game.Vehicle.Status == VehicleStatus.Moving)
+                    {
+                        game.Vehicle.ReduceMileage(10);
+                        Health = Health.VeryPoor;
+                    }
+                    break;
+                case Health.VeryPoor:
+                    TryInfect();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+        }
+
+        /// <summary>
+        ///     Attempts to infect the person with some ailment, rolls the dice to determine if this should be done. Will not
+        ///     infect people that already have an infection.
+        /// </summary>
+        private void TryInfect()
+        {
+            // Grab instance of the game simulation to increase readability.
+            var game = GameSimulationApp.Instance;
+
+            // Infects the uninfected, progresses infections of existing people.
+            if (game.Random.Next(100) >= 99 && Infection == Disease.None)
+            {
+                // Pick an actual severe illness from list, roll the dice for it on very low health.
+                game.EventDirector.TriggerEvent(this, typeof (InfectPlayer));
+            }
+            else if (game.Random.Next(100) >= 50 && Infection != Disease.None)
+            {
+                StepHealthDown();
+            }
+        }
+
+        /// <summary>
+        ///     Attempts to heal the player and increase their health and remove infections. Requires them to not be moving and
+        ///     resting, eating well, and various other factors such as current climate and condition.
+        /// </summary>
+        private void TryHeal()
+        {
+            // Grab instance of the game simulation to increase readability.
+            var game = GameSimulationApp.Instance;
+
+            // Completely 
+            if (game.Random.Next(100) >= 99 && Infection == Disease.None)
+            {
+                // Pick an actual severe illness from list, roll the dice for it on very low health.
+                game.EventDirector.TriggerEvent(this, typeof (InfectPlayer));
+            }
+            else if (game.Random.Next(100) >= 50 && Infection != Disease.None)
+            {
+                StepHealthUp();
+            }
+        }
+
+        /// <summary>
+        ///     Increases the health of the player up to the best possible status, effectively healing them with rest and good
+        ///     eating.
+        /// </summary>
+        private void StepHealthUp()
+        {
+            switch (Health)
+            {
+                case Health.Good:
+                    // Chance to be rid of infections when at good health.
+                    if (GameSimulationApp.Instance.Random.Next(100) >= 99 && Infection != Disease.None)
+                    {
+                        Infection = Disease.None;
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(this, typeof (WellAgain));
+                    }
+                    break;
+                case Health.Fair:
+                    Health = Health.Good;
+                    break;
+                case Health.Poor:
+                    Health = Health.Fair;
+                    break;
+                case Health.VeryPoor:
+                    Health = Health.Poor;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
+        ///     Progress the severity of a infection the person already has.
+        /// </summary>
+        private void StepHealthDown()
+        {
+            switch (Health)
+            {
+                case Health.Good:
+                    Health = Health.Fair;
+                    break;
+                case Health.Fair:
+                    Health = Health.Poor;
+                    break;
+                case Health.Poor:
+                    Health = Health.VeryPoor;
+                    break;
+                case Health.VeryPoor:
+                    // Player succumbs to their poor health.
+                    Kill();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
+        ///     Kills the person, meaning they will no longer consume resources or count towards final point total if the leader
+        ///     still wins the game.
+        /// </summary>
+        private void Kill()
+        {
+            // Grab instance of the game simulation to increase readability.
+            var game = GameSimulationApp.Instance;
+
+            // Death makes everybody take a huge morale hit.
+            game.Vehicle.ReduceMileage(50);
+
+            // Mark the player as being dead now.
+            IsDead = true;
+
+            // Check if leader died or party member.
+            game.EventDirector.TriggerEvent(this, IsLeader ? typeof (DeathPlayer) : typeof (DeathCompanion));
         }
 
         /// <summary>
