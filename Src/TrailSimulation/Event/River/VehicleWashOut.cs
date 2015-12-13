@@ -20,10 +20,17 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        ///     Fired by the item destroyer event prefab.
+        ///     Fired by the item destroyer event prefab before items are destroyed.
         /// </summary>
-        /// <returns>Returns a string that will be displayed to the user after event executes.</returns>
-        protected override string OnEventPrompt()
+        protected override string OnPostDestroyItems()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        ///     Fired by the item destroyer event prefab after items are destroyed.
+        /// </summary>
+        protected override string OnPreDestroyItems()
         {
             var _eventText = new StringBuilder();
             _eventText.AppendLine("Vehicle was washed ");

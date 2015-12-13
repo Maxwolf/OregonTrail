@@ -62,6 +62,7 @@
     <Compile Include="Event\Person\TurnForWorse.cs" />
     <Compile Include="Event\Person\TyphoidFever.cs" />
     <Compile Include="Event\Person\WellAgain.cs" />
+    <Compile Include="Event\Prefab\EventItemCreator.cs" />
     <Compile Include="Event\Prefab\EventItemDestroyer.cs" />
     <Compile Include="Event\River\VehicleFloods.cs" />
     <Compile Include="Event\River\VehicleWashOut.cs" />

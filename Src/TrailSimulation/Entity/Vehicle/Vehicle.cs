@@ -448,6 +448,53 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     Creates some random items that will be given to the player, this is normally used when the player encounters a
+        ///     abandoned vehicle.
+        /// </summary>
+        public IDictionary<Entities, int> CreateRandomItems()
+        {
+            // Items that will be created by this method.
+            IDictionary<Entities, int> createdItems = new Dictionary<Entities, int>();
+
+            // Make a copy of the inventory to iterate over.
+            var copiedInventory = new Dictionary<Entities, SimItem>(Inventory);
+
+            // Loop through the inventory and decide which items to give free copies of.
+            foreach (var itemPair in copiedInventory)
+            {
+                // Skip item if quantity is at maximum.
+                if (itemPair.Value.Quantity >= itemPair.Value.MaxQuantity)
+                    continue;
+
+                // Determine if we will be making more of this item.
+                if (GameSimulationApp.Instance.Random.NextBool())
+                    continue;
+
+                // Add some random amount of the item from one to total amount.
+                var createdAmount = GameSimulationApp.Instance.Random.Next(1, (itemPair.Value.MaxQuantity / 4));
+
+                // Add the amount ahead of time so we can figure out of it is above maximum.
+                var simulatedAmountAdd = itemPair.Value.Quantity + createdAmount;
+
+                // Adjust the simulated added amount to item max quantity if it ended up being above it.
+                if (simulatedAmountAdd >= itemPair.Value.MaxQuantity)
+                    simulatedAmountAdd = itemPair.Value.MaxQuantity;
+
+                // Add the amount we created to total of actual item in inventory.
+                Inventory[itemPair.Key] = new SimItem(itemPair.Value, simulatedAmountAdd);
+
+                // Tabulate the amount we created in dictionary to be returned to caller.
+                createdItems.Add(itemPair.Key, createdAmount);
+            }
+
+            // Clear out the copied list we made for iterating.
+            copiedInventory.Clear();
+
+            // Return the created item summary.
+            return createdItems;
+        }
+
+        /// <summary>
         ///     Destroys some of the inventory items in no particular order and or reason. That is left up the caller to decide.
         /// </summary>
         public IDictionary<Entities, int> DestroyRandomItems()

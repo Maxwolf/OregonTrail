@@ -114,7 +114,7 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Minimum number of this SimItem the player must purchase for it to be considered actually in his inventory.
         /// </summary>
-        private int MinQuantity { get; }
+        public int MinQuantity { get; }
 
         /// <summary>
         ///     Total number of the items the player is going to be taking.

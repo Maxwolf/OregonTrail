@@ -1,11 +1,14 @@
-﻿using System;
-using TrailSimulation.Entity;
+﻿using System.Text;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
+    /// <summary>
+    ///     Discover a vehicle on the side of the road that might have some items inside of it that will be added to the
+    ///     players inventory.
+    /// </summary>
     [DirectorEvent(EventCategory.Wild)]
-    public sealed class AbandonedVehicle : EventProduct
+    public sealed class AbandonedVehicle : EventItemCreator
     {
         /// <summary>
         ///     Creates a new instance of an event product with the specified event type for reference purposes.
@@ -18,26 +21,25 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
-        ///     left completely up to handler.
+        ///     Fired by the event prefab after the event has executed.
         /// </summary>
-        /// <param name="sourceEntity">
-        ///     Entities which the event is going to directly affect. This way there is no confusion about
-        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
-        /// </param>
-        public override void Execute(IEntity sourceEntity)
+        protected override string OnPostCreateItems()
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         /// <summary>
-        ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
-        ///     change depending on requirements of the implementation.
+        ///     Fired by the event prefab before the event has executed.
         /// </summary>
-        /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
-        protected override string OnRender()
+        protected override string OnPreCreateItems()
         {
-            throw new NotImplementedException();
+            var _eventText = new StringBuilder();
+            _eventText.AppendLine("You find an abandoned wagon,");
+            _eventText.AppendLine("and find:");
+
+            //_eventText.AppendLine("but it is empty");
+
+            return _eventText.ToString();
         }
     }
 }
