@@ -24,11 +24,6 @@ namespace TrailSimulation.Game
         private bool _finishedCrossingRiver;
 
         /// <summary>
-        ///     Determines if the wagon has already flooded manually because river was to deep.
-        /// </summary>
-        private bool _hasFlooded;
-
-        /// <summary>
         ///     Animated sway bar that prints out as text, ping-pongs back and fourth between left and right side, moved by
         ///     stepping it with tick.
         /// </summary>
@@ -44,6 +39,11 @@ namespace TrailSimulation.Game
         ///     Holds the text related to animated sway bar, each tick of simulation steps it.
         /// </summary>
         private string _swayBarText;
+
+        /// <summary>
+        /// Determines if we have force triggered an event to destroy items in the vehicle.
+        /// </summary>
+        private bool hasForcedEvent;
 
         /// <summary>
         ///     This constructor will be used by the other one
@@ -117,19 +117,26 @@ namespace TrailSimulation.Game
             var game = GameSimulationApp.Instance;
 
             // Shows basic status of vehicle and total river crossing percentage.
-            _crossingResult.AppendLine("--------------------------------");
-            _crossingResult.AppendLine($"{game.Trail.CurrentLocation.Name}");
-            _crossingResult.AppendLine($"{game.Time.Date}");
+            _crossingResult.AppendLine(
+                "--------------------------------");
+            _crossingResult.AppendLine(
+                $"{game.Trail.CurrentLocation.Name}");
+            _crossingResult.AppendLine(
+                $"{game.Time.Date}");
             _crossingResult.AppendLine(
                 $"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
-            _crossingResult.AppendLine($"Health: {game.Vehicle.PassengerAverageHealth.ToDescriptionAttribute()}");
-            _crossingResult.AppendLine($"Crossing By: {UserData.River.CrossingType}");
+            _crossingResult.AppendLine(
+                $"Health: {game.Vehicle.PassengerAverageHealth.ToDescriptionAttribute()}");
+            _crossingResult.AppendLine(
+                $"Crossing By: {UserData.River.CrossingType}");
             _crossingResult.AppendLine(
                 $"River width: {UserData.River.RiverWidth.ToString("N0")} feet");
             _crossingResult.AppendLine(
                 $"River crossed: {_riverCrossingOfTotalWidth.ToString("N0")} feet");
-            _crossingResult.AppendLine("--------------------------------");
+            _crossingResult.AppendLine(
+                "--------------------------------");
 
+            // Wait for user input...
             if (_finishedCrossingRiver)
                 _crossingResult.AppendLine(InputManager.PRESS_ENTER);
 
@@ -180,29 +187,22 @@ namespace TrailSimulation.Game
             {
                 case RiverCrossChoice.Ford:
                     // If river is deeper than a few feet and you ford it you will get flooded at least once.
-                    if (UserData.River.RiverDepth > 3 && !_hasFlooded &&
+                    if (UserData.River.RiverDepth > 3 && !hasForcedEvent &&
                         _riverCrossingOfTotalWidth >= (UserData.River.RiverWidth/2))
                     {
-                        _hasFlooded = true;
+                        hasForcedEvent = true;
                         game.EventDirector.TriggerEvent(game.Vehicle, typeof (VehicleWashOut));
-                        return;
                     }
-
-                    // Check that we don't flood the user twice, that is just annoying.
-                    if (!_hasFlooded)
+                    else
                     {
-                        _hasFlooded = true;
+                        // Check that we don't flood the user twice, that is just annoying.
                         game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
                     }
                     break;
                 case RiverCrossChoice.Float:
                 case RiverCrossChoice.Ferry:
                     // Ferry and floating over river both have the same risks.
-                    if (!_hasFlooded)
-                    {
-                        _hasFlooded = true;
-                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
-                    }
+                    game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
                     break;
                 case RiverCrossChoice.None:
                 case RiverCrossChoice.WaitForWeather:

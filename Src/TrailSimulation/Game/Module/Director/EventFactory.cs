@@ -20,8 +20,6 @@ namespace TrailSimulation.Game
         {
             // Create dictionaries for storing event reference types, history of execution, and execution count.
             EventReference = new Dictionary<EventKey, Type>();
-            EventHistory = new List<EventHistory>();
-            ExecutionCount = new Dictionary<EventKey, int>();
 
             // Collect all of the event types with the attribute decorated on them.
             var randomEvents = AttributeHelper.GetTypesWith<DirectorEventAttribute>(true);
@@ -46,10 +44,6 @@ namespace TrailSimulation.Game
                     var eventKey = new EventKey((EventCategory) modeType, eventObject.Name,
                         eventAttribute.AllowRandomSelectionByCategory);
 
-                    // Execution counter by name and type.
-                    if (!ExecutionCount.ContainsKey(eventKey))
-                        ExecutionCount.Add(eventKey, 0);
-
                     // Reference type for creating instances.
                     if (!EventReference.ContainsKey(eventKey))
                         EventReference.Add(eventKey, eventObject);
@@ -61,16 +55,6 @@ namespace TrailSimulation.Game
         ///     References all of the events that have been triggered by the system in chronological order they occurred.
         /// </summary>
         private Dictionary<EventKey, Type> EventReference { get; }
-
-        /// <summary>
-        ///     Contains history of events that have happened.
-        /// </summary>
-        public List<EventHistory> EventHistory { get; }
-
-        /// <summary>
-        ///     Keeps track of all the different times that a particular type of event has been run.
-        /// </summary>
-        public Dictionary<EventKey, int> ExecutionCount { get; }
 
         /// <summary>
         ///     Creates a new event based on system type which we keep track of in dictionary of event references.
@@ -104,12 +88,7 @@ namespace TrailSimulation.Game
             if (eventInstance == null)
                 throw new ArgumentException($"Attempted to create instance of {eventType} event but failed!");
 
-            // Create key for the event execution counter.
-            var eventKey = new EventKey(directorEventKeyValuePair.Key.Category, eventInstance.Name,
-                directorEventKeyValuePair.Key.AllowRandomSelectionByCategory);
-
             // Increment the history for loading this type of event.
-            ExecutionCount[eventKey]++;
             return eventInstance;
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
@@ -27,7 +28,9 @@ namespace TrailSimulation.Event
         /// <param name="destroyedItems"></param>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
-            return destroyedItems.Count > 0 ? "in the loss of:" : "in no loss of items.";
+            return destroyedItems.Count > 0
+                ? $"in the loss of:{Environment.NewLine}"
+                : $"in no loss of items.{Environment.NewLine}";
         }
 
         /// <summary>
@@ -38,7 +41,7 @@ namespace TrailSimulation.Event
             var _eventText = new StringBuilder();
             _eventText.AppendLine("Vehicle was washed");
             _eventText.AppendLine("out when attempting to");
-            _eventText.AppendLine("ford the river results");
+            _eventText.Append("ford the river results");
             return _eventText.ToString();
         }
     }

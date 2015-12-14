@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
@@ -29,7 +30,9 @@ namespace TrailSimulation.Event
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
             // Change event text depending on if items were destroyed or not.
-            return destroyedItems.Count > 0 ? "the loss of:" : "no loss of items.";
+            return destroyedItems.Count > 0
+                ? $"the loss of:{Environment.NewLine}"
+                : $"no loss of items.{Environment.NewLine}";
         }
 
         /// <summary>
@@ -41,7 +44,7 @@ namespace TrailSimulation.Event
             _floodPrompt.Clear();
             _floodPrompt.AppendLine("Vehicle floods");
             _floodPrompt.AppendLine("while crossing the");
-            _floodPrompt.AppendLine("river results in");
+            _floodPrompt.Append("river results in");
             return _floodPrompt.ToString();
         }
     }
