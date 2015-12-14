@@ -34,17 +34,17 @@ namespace TrailSimulation.Game
             base.OnFormPostCreate();
 
             _ration = new StringBuilder();
-            _ration.Append($"{Environment.NewLine}Change food rations{Environment.NewLine}");
-            _ration.Append(
-                $"(currently \"{GameSimulationApp.Instance.Vehicle.Ration}\"){Environment.NewLine}{Environment.NewLine}");
-            _ration.Append($"The amount of food the people in{Environment.NewLine}");
-            _ration.Append($"your party eat each day can{Environment.NewLine}");
-            _ration.Append($"change. These amounts are:{Environment.NewLine}{Environment.NewLine}");
-            _ration.Append($"1. filling - meals are large and{Environment.NewLine}");
-            _ration.Append($"   generous.{Environment.NewLine}{Environment.NewLine}");
-            _ration.Append($"2. meager - meals are small, but{Environment.NewLine}");
-            _ration.Append($"   adequate.{Environment.NewLine}{Environment.NewLine}");
-            _ration.Append($"3. bare bones - meals are very{Environment.NewLine}");
+            _ration.AppendLine($"{Environment.NewLine}Change food rations");
+            _ration.AppendLine(
+                $"(currently \"{GameSimulationApp.Instance.Vehicle.Ration.ToDescriptionAttribute()}\"){Environment.NewLine}");
+            _ration.AppendLine($"The amount of food the people in");
+            _ration.AppendLine($"your party eat each day can");
+            _ration.AppendLine($"change. These amounts are:{Environment.NewLine}");
+            _ration.AppendLine($"1. filling - meals are large and");
+            _ration.AppendLine($"   generous.{Environment.NewLine}");
+            _ration.AppendLine($"2. meager - meals are small, but");
+            _ration.AppendLine($"   adequate.{Environment.NewLine}");
+            _ration.AppendLine($"3. bare bones - meals are very");
             _ration.Append($"   small, everyone stays hungry.");
         }
 

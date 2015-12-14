@@ -242,14 +242,14 @@ namespace TrailSimulation.Entity
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
-            if (100*game.Random.NextDouble() <
-                10 + 35*((int) game.Vehicle.Ration - 1))
+            if (game.Random.Next(100) < 10 + 
+                35*((int) game.Vehicle.Ration - 1))
             {
                 // Mild illness.
                 game.Vehicle.ReduceMileage(5);
                 Health = Health.Fair;
             }
-            else if (100*game.Random.NextDouble() < 100 -
+            else if (game.Random.Next(100) < 100 -
                      (40/game.Vehicle.Passengers.Count()*
                       ((int) game.Vehicle.Ration - 1)))
             {
