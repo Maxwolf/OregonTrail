@@ -35,7 +35,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public override void OnWindowActivate()
         {
-            throw new NotImplementedException();
+            // Nothing to see here, move along...
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public override void OnWindowAdded()
         {
-            throw new NotImplementedException();
+            // Nothing to see here, move along...
         }
 
         /// <summary>

@@ -60,6 +60,9 @@ namespace TrailSimulation.Game
 
             _eventPlayerAcknowledge = true;
             ParentWindow.RemoveModeNextTick();
+
+            // Fires off event so events can do something special when the event closes.
+            UserData.DirectorEvent.OnEventClose();
         }
     }
 }

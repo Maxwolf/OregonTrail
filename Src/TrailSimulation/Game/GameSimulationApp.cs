@@ -59,6 +59,10 @@ namespace TrailSimulation.Game
         {
             get
             {
+                // Check if an event asked the simulation to end the game for us.
+                if (ShouldEndGame)
+                    return GameStatus.Fail;
+
                 // Check if the player made it all the way to the end of the trail.
                 if (Trail.CurrentLocation.IsLast)
                     return GameStatus.Win;
@@ -71,6 +75,13 @@ namespace TrailSimulation.Game
                 return GameStatus.Running;
             }
         }
+
+        /// <summary>
+        ///     Determines if the game should end when the status is asked for. This is typically used by events whom are not
+        ///     directly connected to the window and form management system directly so we give them a bridge to fail the game if
+        ///     they determine something catastrophic happened.
+        /// </summary>
+        public bool ShouldEndGame { get; set; }
 
         /// <summary>
         ///     Scoring tracker and tabulator for end game results from current simulation state.
@@ -176,6 +187,9 @@ namespace TrailSimulation.Game
         /// </summary>
         public void Restart()
         {
+            // Game no longer is ending.
+            ShouldEndGame = false;
+
             // Reset turn counter back to zero.
             TotalTurns = 0;
 

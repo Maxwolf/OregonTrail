@@ -203,14 +203,11 @@ namespace TrailSimulation.Entity
                 }
 
                 // Casts all the enumeration health values to integers and averages them.
-                var averageHealthValue = (int) alivePersonsHealth.Cast<int>().Average();
+                var averageHealthValue = Health.Good;
+                if (alivePersonsHealth.Count > 0)
+                    averageHealthValue = (Health) alivePersonsHealth.Cast<int>().Average();
 
-                // If we fail to parse the health value we averaged then we set health to very poor as default.
-                Health averageHealth;
-                if (!Enum.TryParse(averageHealthValue.ToString(CultureInfo.InvariantCulture), true, out averageHealth))
-                    averageHealth = Health.VeryPoor;
-
-                return averageHealth;
+                return averageHealthValue;
             }
         }
 

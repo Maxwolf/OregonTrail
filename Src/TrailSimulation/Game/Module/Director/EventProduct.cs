@@ -60,5 +60,13 @@ namespace TrailSimulation.Game
         /// </summary>
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected abstract string OnRender();
+
+        /// <summary>
+        ///     Fired when the event is closed by the user or system after being executed and rendered out on text user interface.
+        /// </summary>
+        public virtual void OnEventClose()
+        {
+            // Nothing to see here, move along...
+        }
     }
 }
