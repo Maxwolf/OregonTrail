@@ -6,8 +6,7 @@ namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Attached by the event director when it wants to execute an event against the simulation. It will attach this
-    ///     Windows,
-    ///     which then hooks the event delegate it will trigger right after this class finishes initializing.
+    ///     Windows, which then hooks the event delegate it will trigger right after this class finishes initializing.
     /// </summary>
     public sealed class RandomEvent : Window<RandomEventCommands, RandomEventInfo>
     {

@@ -73,7 +73,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Debugging trail for quickly getting to the end of the game for points tabulation and high-score tests.
         /// </summary>
-        public static Trail TestWin
+        public static Trail WinTrail
         {
             get
             {
@@ -90,7 +90,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Debugging trail for quickly drowning the player and killing them off so tombstones and epitaphs can be tested.
         /// </summary>
-        public static Trail TestFail
+        public static Trail FailTrail
         {
             get
             {

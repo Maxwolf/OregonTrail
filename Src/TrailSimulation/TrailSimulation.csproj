@@ -169,7 +169,7 @@
     <Compile Include="Game\Module\Scoring\Points.cs" />
     <Compile Include="Game\Window\MainMenu\Options\OriginalTopTen.cs" />
     <Compile Include="Game\Window\RandomEvent\EventExecutor.cs" />
-    <Compile Include="Game\Window\Travel\MoveVehicle.cs" />
+    <Compile Include="Game\Window\Travel\Command\ContinueOnTrail.cs" />
     <Compile Include="Game\Window\Travel\Situation\PaceHelp.cs" />
     <Compile Include="Game\Window\Travel\GameOver\FinalPoints.cs" />
     <Compile Include="Core\Utility\AttributeHelper.cs" />

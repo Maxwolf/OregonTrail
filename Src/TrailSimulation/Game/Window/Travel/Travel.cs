@@ -51,7 +51,7 @@ namespace TrailSimulation.Game
             // Check if player has already departed and we are just moving along again.
             if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Departed)
             {
-                SetForm(typeof (MoveVehicle));
+                SetForm(typeof (ContinueOnTrail));
                 return;
             }
 

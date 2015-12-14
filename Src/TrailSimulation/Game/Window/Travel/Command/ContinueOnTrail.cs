@@ -11,7 +11,7 @@ namespace TrailSimulation.Game
     ///     object, if any random events occur they will be selected from this state.
     /// </summary>
     [ParentWindow(GameWindow.Travel)]
-    public sealed class MoveVehicle : Form<TravelInfo>
+    public sealed class ContinueOnTrail : Form<TravelInfo>
     {
         /// <summary>
         ///     Holds the current drive state, since we can size up the situation at any time.
@@ -32,7 +32,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public MoveVehicle(IWindow window) : base(window)
+        public ContinueOnTrail(IWindow window) : base(window)
         {
         }
 
