@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using TrailSimulation.Game;
 
 namespace TrailSimulation.Entity
 {
@@ -38,6 +39,9 @@ namespace TrailSimulation.Entity
             Climate climateType,
             IEnumerable<Location> skipChoices = null)
         {
+            // Determines if this location will have fresh water.
+            FreshWater = GameSimulationApp.Instance.Random.NextBool();
+
             // Creates a new system to deal with the management of the weather for this given location.
             _weather = new LocationWeather(climateType);
 
@@ -72,6 +76,11 @@ namespace TrailSimulation.Entity
                     throw new ArgumentOutOfRangeException(nameof(category), category, null);
             }
         }
+
+        /// <summary>
+        ///     Locations have fresh water flag if enabled doubles chance for dysentery and cholera.
+        /// </summary>
+        private bool FreshWater { get; }
 
         /// <summary>
         ///     Current weather condition this location is experiencing.

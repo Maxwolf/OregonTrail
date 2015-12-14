@@ -11,8 +11,6 @@
  * Oxen go up 5 dollars at each fort
  * When you rest at a land mark people often heal quicker
    than on the trail
- * Locations have fresh water flag if enabled doubles change for dysentery
-   and cholera
  * Maximum amount of weight that can be carried back after a hunt
    is 250 lbs of food
  * The less buffalo you kill the better deal you shall receive

@@ -10,17 +10,17 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Meals are large and generous.
         /// </summary>
-        Filling,
+        Filling = 1,
 
         /// <summary>
         ///     Meals are small, but adequate.
         /// </summary>
-        Meager,
+        Meager = 2,
 
         /// <summary>
         ///     Meals are very small; everyone stays hungry.
         /// </summary>
         [Description("Bare Bones")]
-        BareBones
+        BareBones = 3
     }
 }

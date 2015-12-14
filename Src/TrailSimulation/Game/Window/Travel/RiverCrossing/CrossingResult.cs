@@ -41,7 +41,7 @@ namespace TrailSimulation.Game
         private string _swayBarText;
 
         /// <summary>
-        /// Determines if we have force triggered an event to destroy items in the vehicle.
+        ///     Determines if we have force triggered an event to destroy items in the vehicle.
         /// </summary>
         private bool hasForcedEvent;
 

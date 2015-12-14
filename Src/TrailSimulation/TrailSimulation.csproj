@@ -53,7 +53,6 @@
     <Compile Include="Event\Person\Dysentery.cs" />
     <Compile Include="Event\Person\Fever.cs" />
     <Compile Include="Event\Person\Gangrene.cs" />
-    <Compile Include="Event\Person\InfectPlayer.cs" />
     <Compile Include="Event\Person\Measles.cs" />
     <Compile Include="Event\Person\MountainFever.cs" />
     <Compile Include="Event\Person\SprainedMuscle.cs" />
@@ -133,7 +132,6 @@
     <Compile Include="Entity\Item\Parts.cs" />
     <Compile Include="Entity\Item\Resources.cs" />
     <Compile Include="Entity\Item\SimItem.cs" />
-    <Compile Include="Entity\Person\Disease.cs" />
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />
     <Compile Include="Event\EventCategory.cs" />

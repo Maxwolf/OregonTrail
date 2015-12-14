@@ -39,7 +39,7 @@ namespace TrailSimulation.Event
 
             // Remove the infection if any exists.
             if (_sourceEntity != null)
-                _sourceEntity.Infection = Disease.None;
+                _sourceEntity.Health = Health.Good;
         }
 
         /// <summary>

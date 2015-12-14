@@ -22,19 +22,18 @@ namespace TrailSimulation.Entity
             IsLeader = isLeader;
             DaysStarving = 0;
             Health = Health.Good;
-            Infection = Disease.None;
         }
 
         /// <summary>
         ///     Current health of this person which is enum that also represents the total points they are currently worth.
         /// </summary>
-        public Health Health { get; private set; }
+        public Health Health { get; set; }
 
         /// <summary>
         ///     Determines how many total consecutive days this player has not eaten any food. If this continues for more than five
         ///     (5) days then the probability they will die increases exponentially.
         /// </summary>
-        public int DaysStarving { get; set; }
+        private int DaysStarving { get; set; }
 
         /// <summary>
         ///     Profession of this person, typically if the leader is a banker then the entire family is all bankers for sanity
@@ -47,13 +46,6 @@ namespace TrailSimulation.Entity
         ///     without them.
         /// </summary>
         public bool IsLeader { get; }
-
-        /// <summary>
-        ///     Determines if this person is inflicted with a disease. It is possible to contract them from bad water, food, not
-        ///     eating right, over working, stress, etc. Only one disease supported at a time to prevent people from getting
-        ///     multiple infections since that would over complicate things for the player.
-        /// </summary>
-        public Disease Infection { get; set; }
 
         /// <summary>
         ///     Determines if the person is dead and no longer consuming resources. Dead party members in the same vehicle will
@@ -242,14 +234,14 @@ namespace TrailSimulation.Entity
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
-            if (game.Random.Next(100) < 10 + 
+            if (game.Random.Next(100) <= 10 +
                 35*((int) game.Vehicle.Ration - 1))
             {
                 // Mild illness.
                 game.Vehicle.ReduceMileage(5);
                 Health = Health.Fair;
             }
-            else if (game.Random.Next(100) < 100 -
+            else if (game.Random.Next(100) <= 5 -
                      (40/game.Vehicle.Passengers.Count()*
                       ((int) game.Vehicle.Ration - 1)))
             {
@@ -313,14 +305,12 @@ namespace TrailSimulation.Entity
             var game = GameSimulationApp.Instance;
 
             // Infects the uninfected, progresses infections of existing people.
-            if (game.Random.Next(100) >= 99 &&
-                Infection == Disease.None)
+            if (game.Random.Next(100) <= 5)
             {
                 // Pick an actual severe illness from list, roll the dice for it on very low health.
-                game.EventDirector.TriggerEvent(this, typeof (InfectPlayer));
+                game.EventDirector.TriggerEventByType(this, EventCategory.Person);
             }
-            else if (game.Random.Next(100) >= 50 &&
-                     Infection != Disease.None)
+            else if (game.Random.Next(100) >= 50)
             {
                 StepHealthDown();
             }
@@ -336,13 +326,11 @@ namespace TrailSimulation.Entity
             var game = GameSimulationApp.Instance;
 
             // Completely heal the player.
-            if (game.Random.Next(100) >= 99 &&
-                Infection != Disease.None)
+            if (game.Random.Next(100) >= 99)
             {
                 game.EventDirector.TriggerEvent(this, typeof (WellAgain));
             }
-            else if (game.Random.Next(100) >= 50 &&
-                     Infection != Disease.None)
+            else if (game.Random.Next(100) >= 50)
             {
                 StepHealthUp();
             }
@@ -358,9 +346,8 @@ namespace TrailSimulation.Entity
             {
                 case Health.Good:
                     // Chance to be rid of infections when at good health.
-                    if (GameSimulationApp.Instance.Random.Next(100) >= 99 && Infection != Disease.None)
+                    if (GameSimulationApp.Instance.Random.Next(100) >= 99)
                     {
-                        Infection = Disease.None;
                         GameSimulationApp.Instance.EventDirector.TriggerEvent(this, typeof (WellAgain));
                     }
                     break;
@@ -420,29 +407,6 @@ namespace TrailSimulation.Entity
 
             // Check if leader died or party member.
             game.EventDirector.TriggerEvent(this, IsLeader ? typeof (DeathPlayer) : typeof (DeathCompanion));
-        }
-
-        /// <summary>
-        ///     Selects a random disease from the enumeration of the same name, applies it to this person. Only one infection can
-        ///     be present at any given time.
-        /// </summary>
-        public void Infect()
-        {
-            // Skip if this person is already infected with a disease.
-            if (Infection != Disease.None)
-                return;
-
-            // Create an array of all the disease enumeration values.
-            var values = Enum.GetValues(typeof (Disease));
-
-            // Select a random disease from the array, make sure to skip zero index since that is no disease.
-            var randomDisease = (Disease) values.GetValue(GameSimulationApp.Instance.Random.Next(1, values.Length));
-            if (randomDisease == Disease.None)
-                throw new InvalidOperationException(
-                    "Attempted to grab a random disease, skipping zero index but was returned zero index for none! That means no disease!");
-
-            // Infect this person.
-            Infection = randomDisease;
         }
     }
 }
