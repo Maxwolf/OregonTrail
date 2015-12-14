@@ -42,7 +42,7 @@ namespace TrailSimulation.Game
                     new Location("Oregon City", LocationCategory.Settlement, Climate.Moderate)
                 };
 
-                return new Trail(oregonTrail, 2000);
+                return new Trail(oregonTrail, 32, 164);
             }
         }
 
@@ -66,7 +66,7 @@ namespace TrailSimulation.Game
                     new Location("End Settlement", LocationCategory.Settlement, Climate.Moderate)
                 };
 
-                return new Trail(testTrail, 100);
+                return new Trail(testTrail, 5, 10);
             }
         }
 
@@ -83,7 +83,7 @@ namespace TrailSimulation.Game
                     new Location("End Of Test", LocationCategory.Settlement, Climate.Dry)
                 };
 
-                return new Trail(testPoints, 1);
+                return new Trail(testPoints, 5, 10);
             }
         }
 
@@ -105,7 +105,7 @@ namespace TrailSimulation.Game
                     new Location("End Of Test", LocationCategory.Settlement, Climate.Dry)
                 };
 
-                return new Trail(testFail, 1);
+                return new Trail(testFail, 5, 10);
             }
         }
     }

@@ -471,7 +471,7 @@ namespace TrailSimulation.Entity
                     continue;
 
                 // Add some random amount of the item from one to total amount.
-                var createdAmount = GameSimulationApp.Instance.Random.Next(1, (itemPair.Value.MaxQuantity / 4));
+                var createdAmount = GameSimulationApp.Instance.Random.Next(1, (itemPair.Value.MaxQuantity/4));
 
                 // Add the amount ahead of time so we can figure out of it is above maximum.
                 var simulatedAmountAdd = itemPair.Value.Quantity + createdAmount;

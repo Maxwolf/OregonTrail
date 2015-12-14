@@ -26,7 +26,7 @@ namespace TrailSimulation.Game
             aboutTrail.AppendLine($"{Environment.NewLine}Your journey over the Oregon Trail takes place in 1847. Start");
             aboutTrail.AppendLine($"ing in Independence, Missouri, you plan to take your family of");
             aboutTrail.AppendLine(
-                $"five over {GameSimulationApp.Instance.Trail.TrailLength.ToString("N0")} tough miles to Oregon City.{Environment.NewLine}");
+                $"five over {GameSimulationApp.Instance.Trail.Length.ToString("N0")} tough miles to Oregon City.{Environment.NewLine}");
 
             aboutTrail.AppendLine($"Having saved for the trip, you bought a wagon and");
             aboutTrail.AppendLine($"now have to purchase the following items:{Environment.NewLine}");

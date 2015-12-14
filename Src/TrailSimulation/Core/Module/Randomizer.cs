@@ -67,10 +67,6 @@ namespace TrailSimulation.Core
         /// </exception>
         public int Next(int minValue, int maxValue)
         {
-            // Check to make sure max is larger than min.
-            if (maxValue < minValue)
-                maxValue = minValue + 1;
-
             return _random.Next(minValue, maxValue);
         }
 

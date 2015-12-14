@@ -313,14 +313,14 @@ namespace TrailSimulation.Entity
             var game = GameSimulationApp.Instance;
 
             // Infects the uninfected, progresses infections of existing people.
-            if (game.Random.Next(100) >= 99 && 
+            if (game.Random.Next(100) >= 99 &&
                 Infection == Disease.None)
             {
                 // Pick an actual severe illness from list, roll the dice for it on very low health.
                 game.EventDirector.TriggerEvent(this, typeof (InfectPlayer));
             }
-            else if (game.Random.Next(100) >= 50 && 
-                Infection != Disease.None)
+            else if (game.Random.Next(100) >= 50 &&
+                     Infection != Disease.None)
             {
                 StepHealthDown();
             }
@@ -336,13 +336,13 @@ namespace TrailSimulation.Entity
             var game = GameSimulationApp.Instance;
 
             // Completely heal the player.
-            if (game.Random.Next(100) >= 99 && 
+            if (game.Random.Next(100) >= 99 &&
                 Infection != Disease.None)
             {
                 game.EventDirector.TriggerEvent(this, typeof (WellAgain));
             }
-            else if (game.Random.Next(100) >= 50 && 
-                Infection != Disease.None)
+            else if (game.Random.Next(100) >= 50 &&
+                     Infection != Disease.None)
             {
                 StepHealthUp();
             }

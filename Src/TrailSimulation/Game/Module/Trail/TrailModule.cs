@@ -47,9 +47,9 @@ namespace TrailSimulation.Game
         ///     Total length of the entire trail and locations added together. Simulation will decide distance between points
         ///     randomly but keep it within this range.
         /// </summary>
-        public int TrailLength
+        public int Length
         {
-            get { return Trail.TrailLength; }
+            get { return Trail.Length; }
         }
 
         /// <summary>
