@@ -137,6 +137,11 @@ namespace TrailSimulation.Entity
         public bool IsLast { get; set; }
 
         /// <summary>
+        ///     Total distance to the next location the player must travel before it will be triggered
+        /// </summary>
+        public int TotalDistance { get; set; }
+
+        /// <summary>
         ///     Name of the current point of interest as it should be known to the player.
         /// </summary>
         public string Name { get; }

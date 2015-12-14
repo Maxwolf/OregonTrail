@@ -13,7 +13,7 @@ namespace TrailSimulation.Game
         public TrailModule()
         {
             // Load a trail from file or prefab.
-            Trail = TrailRegistry.TestFail;
+            Trail = TrailRegistry.OregonTrail;
 
             // Startup location on the trail and distance to next point so it triggers immediately when we tick the first day.
             LocationIndex = 0;
@@ -145,16 +145,6 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Since the trail does not directly define the total distance between all the points and only the ceiling for the
-        ///     entire trail it is necessary to create a chunk of distance to needs to be traveled from this total mileage.
-        /// </summary>
-        private int GenerateLocationDistance()
-        {
-            // TODO: Generate dictionary of distances blocked out by total trail length defined in loaded trail file.
-            return 100;
-        }
-
-        /// <summary>
         ///     Fired by the simulation when it would like to trigger advancement to the next location, doesn't matter when this is
         ///     called could be right in the middle a trail midway between two points and it would still forcefully place the
         ///     vehicle and players at the next location on the trail.
@@ -166,7 +156,7 @@ namespace TrailSimulation.Game
                 return;
 
             // Setup next travel distance requirement.
-            DistanceToNextLocation = GenerateLocationDistance();
+            DistanceToNextLocation = CurrentLocation.TotalDistance;
 
             // Skip incrementing to next location on first turn, we use first turn to setup game world and player position in it.
             if (GameSimulationApp.Instance.TotalTurns > 0)
