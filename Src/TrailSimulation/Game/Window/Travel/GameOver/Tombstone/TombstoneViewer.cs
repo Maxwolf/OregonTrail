@@ -38,31 +38,31 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
-            // Grab the current TombstoneItem based on players progress on the trail so far.
-            TombstoneItem foundTombstone;
+            // Grab the current Tombstone based on players progress on the trail so far.
+            Tombstone foundTombstone;
             UserData.TombstoneManager.Tombstones.TryGetValue(GameSimulationApp.Instance.Vehicle.Odometer,
                 out foundTombstone);
 
             // Check if the tombstone manager returned anything, if not then check for user data it's player death then.
             _tombstone.Clear();
-            if (foundTombstone == null && UserData.TombstoneItem != null)
+            if (foundTombstone == null && UserData.Tombstone != null)
             {
-                // Adds TombstoneItem from the user data because the player died.
-                _tombstone.AppendLine($"{Environment.NewLine}{UserData.TombstoneItem}");
+                // Adds Tombstone from the user data because the player died.
+                _tombstone.AppendLine($"{Environment.NewLine}{UserData.Tombstone}");
 
                 // Adds the underlying reason for the games failure if it was not obvious to the player by now.
                 _tombstone.AppendLine("All the members of");
                 _tombstone.AppendLine("your party have");
                 _tombstone.AppendLine("died");
             }
-            else if (foundTombstone != null && UserData.TombstoneItem == null)
+            else if (foundTombstone != null && UserData.Tombstone == null)
             {
-                // Add TombstoneItem message we want to show the player from TombstoneItem manager.
+                // Add Tombstone message we want to show the player from Tombstone manager.
                 _tombstone.AppendLine($"{Environment.NewLine}{foundTombstone}");
             }
             else
             {
-                // Could not find TombstoneItem in either the manager or user data we have none to actually display...
+                // Could not find Tombstone in either the manager or user data we have none to actually display...
                 _tombstone.AppendLine($"{Environment.NewLine}[NO TOMBSTONE FOUND!]");
             }
 
@@ -77,7 +77,7 @@ namespace TrailSimulation.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // Determine if we are showing the player a tombstone because they died.
-            if (UserData.TombstoneItem != null)
+            if (UserData.Tombstone != null)
             {
                 // Completely resets the game to default state it was in when it first started.
                 GameSimulationApp.Instance.Restart();

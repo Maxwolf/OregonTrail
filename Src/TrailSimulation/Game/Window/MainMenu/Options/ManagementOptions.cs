@@ -7,7 +7,7 @@ namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Glorified options menu for the game that allows player to remove top ten high scores, remove saved games, erase
-    ///     TombstoneItem messages, etc.
+    ///     Tombstone messages, etc.
     /// </summary>
     [ParentWindow(GameWindow.MainMenu)]
     public sealed class ManagementOptions : Form<NewGameInfo>
@@ -40,7 +40,7 @@ namespace TrailSimulation.Game
             _optionsPrompt.AppendLine("You may:");
             _optionsPrompt.AppendLine("1. See the original Top Ten list");
             _optionsPrompt.AppendLine("2. Erase the current Top Ten list");
-            _optionsPrompt.AppendLine("3. Erase the TombstoneItem messages");
+            _optionsPrompt.AppendLine("3. Erase the Tombstone messages");
             _optionsPrompt.Append("4. Return to the main menu");
         }
 
@@ -76,7 +76,7 @@ namespace TrailSimulation.Game
                     SetForm(typeof (EraseCurrentTopTen));
                     break;
                 case 3:
-                    // Erase the TombstoneItem messages.
+                    // Erase the Tombstone messages.
                     SetForm(typeof (EraseTombstone));
                     break;
                 case 4:

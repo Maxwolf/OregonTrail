@@ -5,27 +5,27 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Facilitates a tombstone base class that supports shallow copies of itself to be created.
     /// </summary>
-    public abstract class TombstoneBase : ICloneable
+    public sealed class Tombstone : ICloneable
     {
         /// <summary>
-        ///     Message that can be included on the TombstoneItem below the players name. It can only be a few characters long but
+        ///     Message that can be included on the Tombstone below the players name. It can only be a few characters long but
         ///     interesting to see what people leave as warnings or just silliness for other travelers.
         /// </summary>
         private string _epitaph;
 
         /// <summary>
         ///     Defines where on the trail in regards to length in miles traveled. The purpose of this is so we can check for this
-        ///     TombstoneItem in the exact same spot where the player actually died on the trail.
+        ///     Tombstone in the exact same spot where the player actually died on the trail.
         /// </summary>
         private int _mileMarker;
 
         /// <summary>
-        ///     Name of the player whom died and the TombstoneItem is paying respects to.
+        ///     Name of the player whom died and the Tombstone is paying respects to.
         /// </summary>
         private string _playerName;
 
         /// <summary>
-        ///     Creates a TombstoneItem from scratch, useful for when re-creating them from disk to be loaded back into the
+        ///     Creates a Tombstone from scratch, useful for when re-creating them from disk to be loaded back into the
         ///     simulation
         ///     for other players to find on the trail.
         /// </summary>
@@ -35,10 +35,10 @@ namespace TrailSimulation.Game
         ///     is long enough for that to happen if it is randomized).
         /// </param>
         /// <param name="epitaph">
-        ///     Optional message the player can leave on the TombstoneItem to warn, tease, or taunt other players.
+        ///     Optional message the player can leave on the Tombstone to warn, tease, or taunt other players.
         ///     Cool part is not knowing what it will say!
         /// </param>
-        protected TombstoneBase(string playerName, int mileMarker, string epitaph)
+        public Tombstone(string playerName, int mileMarker, string epitaph)
         {
             Epitaph = epitaph;
             MileMarker = mileMarker;
@@ -52,9 +52,18 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Creates a nice formatted version of the Tombstone for use in text renderer.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"Here lies {PlayerName}" +
+                   $"{Environment.NewLine}{Epitaph}";
+        }
+
+        /// <summary>
         ///     Creates a shallow copy of the tombstone, generates a new tombstone ID in the process.
         /// </summary>
-        protected TombstoneBase()
+        public Tombstone()
         {
             // Loop through all the vehicle passengers and find the leader.
             foreach (var passenger in GameSimulationApp.Instance.Vehicle.Passengers)
@@ -63,12 +72,12 @@ namespace TrailSimulation.Game
                 if (!passenger.IsLeader)
                     continue;
 
-                // Add the leaders name to the TombstoneItem header.
+                // Add the leaders name to the Tombstone header.
                 PlayerName = passenger.Name;
                 break;
             }
 
-            // Grabs the current mile marker where the player died on the trail for the TombstoneItem to sit at.
+            // Grabs the current mile marker where the player died on the trail for the Tombstone to sit at.
             MileMarker = GameSimulationApp.Instance.Vehicle.Odometer;
 
             // Epitaph is left empty by default and ready to be filled in.
@@ -79,7 +88,7 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Name of the player whom died and the TombstoneItem is paying respects to.
+        ///     Name of the player whom died and the Tombstone is paying respects to.
         /// </summary>
         public string PlayerName
         {
@@ -98,18 +107,18 @@ namespace TrailSimulation.Game
         ///     is copied, this is done typically when it is added to a list. Both of these assumptions together make for a tightly
         ///     closed loop of functionality that will do exactly what I want.
         /// </summary>
-        public bool Locked { get; private set; }
+        private bool Locked { get; set; }
 
         /// <summary>
         ///     Determines the unique and randomly generated tombstone identification string. This is created once for every
         ///     tombstone and should be unique to each one, used to check if the tombstone is the same as the one for player who
         ///     recently died so we know if they should be offered a chance to edit it.
         /// </summary>
-        public string TombstoneID { get; }
+        private string TombstoneID { get; }
 
         /// <summary>
         ///     Defines where on the trail in regards to length in miles traveled. The purpose of this is so we can check for this
-        ///     TombstoneItem in the exact same spot where the player actually died on the trail.
+        ///     Tombstone in the exact same spot where the player actually died on the trail.
         /// </summary>
         public int MileMarker
         {
@@ -124,12 +133,12 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Message that can be included on the TombstoneItem below the players name. It can only be a few characters long but
+        ///     Message that can be included on the Tombstone below the players name. It can only be a few characters long but
         ///     interesting to see what people leave as warnings or just silliness for other travelers.
         /// </summary>
         public string Epitaph
         {
-            protected get { return _epitaph; }
+            get { return _epitaph; }
             set
             {
                 if (Locked)
@@ -144,7 +153,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public object Clone()
         {
-            var clone = (TombstoneBase) MemberwiseClone();
+            var clone = (Tombstone) MemberwiseClone();
 
             // Cloned tombstones prevent further edits, for the clone and parent.
             Locked = true;

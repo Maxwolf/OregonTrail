@@ -4,7 +4,7 @@ namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Keeps track of all the tombstones in a nice collection and also supports saving them to disk and loading them again
-    ///     using JSON. Finally it also has all the needed methods to check for a TombstoneItem at a particular spot on the
+    ///     using JSON. Finally it also has all the needed methods to check for a Tombstone at a particular spot on the
     ///     trail.
     /// </summary>
     public sealed class TombstoneManager
@@ -14,7 +14,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public TombstoneManager()
         {
-            Tombstones = new Dictionary<int, TombstoneItem>();
+            Tombstones = new Dictionary<int, Tombstone>();
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace TrailSimulation.Game
         ///     <paramref name="key" /> does not exist in the collection, and the <see cref="T:System.Collections.IDictionary" />
         ///     has a fixed size.
         /// </exception>
-        public TombstoneItem this[int key]
+        public Tombstone this[int key]
         {
             get { return Tombstones[key]; }
             set { Tombstones[key] = value; }
@@ -40,16 +40,16 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     References all of the currently loaded tombstones.
         /// </summary>
-        public Dictionary<int, TombstoneItem> Tombstones { get; }
+        public Dictionary<int, Tombstone> Tombstones { get; }
 
         /// <summary>
         ///     Creates a shallow copy of the tombstone item and adds it to the list of tombstones. Does not check if it already
         ///     exists. Only safety is that multiple tombstones cannot be placed at the same mile marker.
         /// </summary>
-        public void Add(TombstoneItem tombstoneItem)
+        public void Add(Tombstone tombstoneItem)
         {
             // Clone the tombstone.
-            var tombstoneClone = tombstoneItem.Clone() as TombstoneItem;
+            var tombstoneClone = tombstoneItem.Clone() as Tombstone;
 
             // Skip if the cloning fails.
             if (tombstoneClone == null)

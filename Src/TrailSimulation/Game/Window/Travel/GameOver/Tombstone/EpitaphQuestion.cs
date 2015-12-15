@@ -5,7 +5,7 @@ using TrailSimulation.Core;
 namespace TrailSimulation.Game
 {
     /// <summary>
-    ///     Asks the user if they would like to write a custom message on their TombstoneItem for other users to see when the
+    ///     Asks the user if they would like to write a custom message on their Tombstone for other users to see when the
     ///     come
     ///     across this part of the trail in the future.
     /// </summary>
@@ -26,9 +26,9 @@ namespace TrailSimulation.Game
         {
             var epitaphPrompt = new StringBuilder();
 
-            // Add TombstoneItem message with here lies player name, no epitaph yet.
+            // Add Tombstone message with here lies player name, no epitaph yet.
             epitaphPrompt.Clear();
-            epitaphPrompt.AppendLine(UserData.TombstoneItem.ToString());
+            epitaphPrompt.AppendLine(UserData.Tombstone.ToString());
             epitaphPrompt.AppendLine("Would you like to write");
             epitaphPrompt.Append("an epitaph?");
             return epitaphPrompt.ToString();
@@ -49,8 +49,8 @@ namespace TrailSimulation.Game
                     break;
                 case DialogResponse.No:
                 case DialogResponse.Custom:
-                    // Add the TombstoneItem as is to the TombstoneItem manager for future players to see.
-                    UserData.TombstoneManager.Add(UserData.TombstoneItem);
+                    // Add the Tombstone as is to the Tombstone manager for future players to see.
+                    UserData.TombstoneManager.Add(UserData.Tombstone);
                     SetForm(typeof (TombstoneViewer));
                     break;
                 default:

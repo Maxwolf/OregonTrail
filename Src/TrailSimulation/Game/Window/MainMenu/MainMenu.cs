@@ -74,7 +74,7 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Glorified options menu, used to clear top ten, TombstoneItem messages, and saved games.
+        ///     Glorified options menu, used to clear top ten, Tombstone messages, and saved games.
         /// </summary>
         private void ChooseManagementOptions()
         {

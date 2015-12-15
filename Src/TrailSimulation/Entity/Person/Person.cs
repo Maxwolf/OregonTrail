@@ -217,12 +217,19 @@ namespace TrailSimulation.Entity
             }
             else
             {
-                // Otherwise we begin to starve.
-                DaysStarving++;
+                if (DaysStarving > 5)
+                {
+                    Kill();
+                }
+                else
+                {
+                    // Otherwise we begin to starve.
+                    DaysStarving++;
 
-                // Not eating well is gonna hurt you bad.
-                if (game.Vehicle.Status == VehicleStatus.Moving)
-                    TryInfect();
+                    // Not eating well is gonna hurt you bad.
+                    if (game.Vehicle.Status != VehicleStatus.Stopped)
+                        TryInfect();
+                }
             }
         }
 
