@@ -128,43 +128,12 @@ namespace TrailSimulation.Game
                     SetForm(typeof (UnableToContinue));
                     break;
                 case VehicleStatus.Moving:
-                    // Proceed as normal if moving.
-                    TakeTurn();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+                    // Advance the progress bar, step it to next phase.
+                    _swayBarText = _marqueeBar.Step();
 
-        /// <summary>
-        ///     Takes a single turn that will advance the vehicle and all passengers down the trail a little further towards the
-        ///     next location.
-        /// </summary>
-        private void TakeTurn()
-        {
-            // Get instance of game simulation for easy reading.
-            var game = GameSimulationApp.Instance;
-
-            // Advance the progress bar, step it to next phase.
-            _swayBarText = _marqueeBar.Step();
-
-            // Determines if the end of the game has occurred, if not then we tick the next turn.
-            switch (game.Status)
-            {
-                case GameStatus.Running:
                     // Processes the next turn in the game simulation.
                     game.Vehicle.Status = VehicleStatus.Moving;
                     game.TakeTurn();
-                    break;
-                case GameStatus.Fail:
-                    // Tombstone created for player, optional epitaph.
-                    game.Vehicle.Status = VehicleStatus.Stopped;
-                    SetForm(typeof (GameFail));
-                    break;
-                case GameStatus.Win:
-                    // Winning screen shown, points tabulated for remaining inventory items.
-                    game.Vehicle.Status = VehicleStatus.Stopped;
-                    SetForm(typeof (GameWin));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

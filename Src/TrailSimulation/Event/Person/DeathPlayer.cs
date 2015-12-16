@@ -47,17 +47,6 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        ///     Fired when the event is closed by the user or system after being executed and rendered out on text user interface.
-        /// </summary>
-        public override void OnEventClose()
-        {
-            base.OnEventClose();
-
-            // Forcefully ends the game.
-            GameSimulationApp.Instance.SetShouldEndGame();
-        }
-
-        /// <summary>
         ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
         ///     change depending on requirements of the implementation.
         /// </summary>

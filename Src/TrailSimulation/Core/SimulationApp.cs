@@ -68,7 +68,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Determines if the simulation is currently closing down.
         /// </summary>
-        private bool IsClosing { get; set; }
+        public bool IsClosing { get; private set; }
 
         /// <summary>
         ///     Shows the current status of the simulation visually as a spinning glyph, the purpose of which is to show that there

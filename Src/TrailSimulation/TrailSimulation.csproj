@@ -97,7 +97,6 @@
     <Compile Include="Event\Wild\Meadow.cs" />
     <Compile Include="Event\Wild\StrangersApproach.cs" />
     <Compile Include="Event\Wild\Thief.cs" />
-    <Compile Include="Game\GameStatus.cs" />
     <Compile Include="Game\Module\Director\EventKey.cs" />
     <Compile Include="Game\Module\Scoring\ScoringModule.cs" />
     <Compile Include="Game\Window\MainMenu\Start Month\StartingMonth.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -239,6 +240,57 @@ namespace TrailSimulation.Game
 
             // Update menu with proper choices.
             UpdateLocation();
+        }
+
+        /// <summary>
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
+        /// </summary>
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        public override void OnTick(bool systemTick)
+        {
+            base.OnTick(systemTick);
+
+            // Skip system ticks, we want to tick with the game.
+            if (systemTick)
+                return;
+
+            // Check if the player has won or lost the game.
+            CheckEndGame();
+        }
+
+        /// <summary>
+        ///     Determines if the game has ended and attaches the appropriate form for the occasion. Should be run whenever the
+        ///     travel mode is ticked.
+        /// </summary>
+        private void CheckEndGame()
+        {
+            // Grab instance of game simulation for easy reading.
+            var game = GameSimulationApp.Instance;
+
+            // Skip ticking logic for travel mode if game is closing.
+            if (game.IsClosing)
+                return;
+
+            // Check if the player made it all the way to the end of the trail.
+            if (game.Trail.CurrentLocation.IsLast)
+            {
+                SetForm(typeof (GameWin));
+                return;
+            }
+
+            // Determine if everybody is dead, otherwise let the game continue.
+            if (game.Vehicle.Passengers.All(p => p.IsDead))
+            {
+                SetForm(typeof (GameFail));
+            }
+
+            // Default answer is to let the game keep running.
         }
 
         /// <summary>
