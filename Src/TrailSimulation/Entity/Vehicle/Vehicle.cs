@@ -49,7 +49,7 @@ namespace TrailSimulation.Entity
                 for (var i = 0; i < Passengers.Count; i++)
                 {
                     var passenger = Passengers[i];
-                    allDead[i] = passenger.IsDead;
+                    allDead[i] = passenger.Health == Health.Dead;
                 }
 
                 // Determine if everybody is dead by checking if truths are greater than passenger count.
@@ -219,7 +219,7 @@ namespace TrailSimulation.Entity
                 foreach (var person in Passengers)
                 {
                     // Only add the health to average calculation if person is not dead.
-                    if (!person.IsDead)
+                    if (person.Health != Health.Dead)
                         alivePersonsHealth.Add(person.Health);
                 }
 
@@ -235,7 +235,7 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Calculates the total number of passengers that are still alive in the vehicle and consuming resources every turn.
         /// </summary>
-        public int LivingPassengerCount
+        public int PassengersLiving
         {
             get
             {
@@ -252,7 +252,7 @@ namespace TrailSimulation.Entity
                 foreach (var person in Passengers)
                 {
                     // Only add the health to average calculation if person is not dead.
-                    if (!person.IsDead)
+                    if (person.Health != Health.Dead)
                         alivePersonsHealth.Add(person.Health);
                 }
 

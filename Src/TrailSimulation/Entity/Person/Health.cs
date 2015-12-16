@@ -27,6 +27,13 @@ namespace TrailSimulation.Entity
         ///     Severe damage, danger of complete failure of death imminent.
         /// </summary>
         [Description("Very Poor")]
-        VeryPoor = 200
+        VeryPoor = 200,
+
+        /// <summary>
+        ///     Player is dead and no longer living. This means they also will no longer consume resources, or check of illnesses
+        ///     or participate in point count at the end of the game if the player wins. If the person that died was the leader of
+        ///     the party then the game ends entirely.
+        /// </summary>
+        Dead = 0
     }
 }

@@ -74,7 +74,7 @@ namespace TrailSimulation.Game
                 new Tuple<int, string, int>(
                     game.Vehicle.Passengers.Count(),
                     $"people in {avgHealth.ToDescriptionAttribute().ToLowerInvariant()} health",
-                    game.Vehicle.LivingPassengerCount*(int) avgHealth),
+                    game.Vehicle.PassengersLiving*(int) avgHealth),
                 // Vehicle existence counts for some points.
                 new Tuple<int, string, int>(1, "wagon", Resources.Vehicle.Points),
                 // Number of oxen still alive pulling vehicle.

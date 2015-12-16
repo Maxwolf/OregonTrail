@@ -48,12 +48,6 @@ namespace TrailSimulation.Entity
         public bool IsLeader { get; }
 
         /// <summary>
-        ///     Determines if the person is dead and no longer consuming resources. Dead party members in the same vehicle will
-        ///     lower total possible mileage for several turns as remaining people mourn the loss of the other.
-        /// </summary>
-        public bool IsDead { get; private set; }
-
-        /// <summary>
         ///     Name of the person as they should be known by other players and the simulation.
         /// </summary>
         public string Name { get; }
@@ -156,7 +150,7 @@ namespace TrailSimulation.Entity
 
             var cost_food = game.Vehicle.Inventory[Entities.Food].TotalValue;
             cost_food = cost_food - 8 - 5*(int) game.Vehicle.Ration;
-            if (cost_food >= 13 && !IsDead)
+            if (cost_food >= 13 && Health != Health.Dead)
             {
                 // Consume the food since we still have some.
                 game.Vehicle.Inventory[Entities.Food] = new SimItem(
@@ -169,11 +163,11 @@ namespace TrailSimulation.Entity
             else
             {
                 // Not eating for more than 5 days is a death sentence.
-                if (DaysStarving > 5 && !IsDead)
+                if (DaysStarving > 5 && Health != Health.Dead)
                 {
                     Kill();
                 }
-                else if (!IsDead && DaysStarving < 5)
+                else if (Health != Health.Dead && DaysStarving < 5)
                 {
                     // Otherwise we begin to starve.
                     DaysStarving++;
@@ -194,7 +188,7 @@ namespace TrailSimulation.Entity
             var game = GameSimulationApp.Instance;
 
             // Cannot calculate illness for the dead.
-            if (IsDead)
+            if (Health == Health.Dead)
                 return;
 
             if (game.Random.Next(100) <= 10 +
@@ -346,7 +340,7 @@ namespace TrailSimulation.Entity
                     break;
                 case Health.VeryPoor:
                     // Player succumbs to their poor health.
-                    if (!IsDead)
+                    if (Health != Health.Dead)
                         Kill();
                     break;
                 default:
@@ -361,7 +355,7 @@ namespace TrailSimulation.Entity
         private void Kill()
         {
             // Cannot kill what is already dead.
-            if (IsDead)
+            if (Health == Health.Dead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
@@ -371,7 +365,7 @@ namespace TrailSimulation.Entity
             game.Vehicle.ReduceMileage(50);
 
             // Mark the player as being dead now.
-            IsDead = true;
+            Health = Health.Dead;
 
             // Check if leader died or party member.
             game.EventDirector.TriggerEvent(this, IsLeader ? typeof (DeathPlayer) : typeof (DeathCompanion));
