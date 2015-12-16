@@ -47,6 +47,7 @@ namespace TrailSimulation.Game
                 case DialogResponse.No:
                     // Add the Tombstone as is to the Tombstone manager for future players to see.
                     UserData.TombstoneManager.Add(UserData.Tombstone);
+                    UserData.Tombstone = null;
                     SetForm(typeof (TombstoneViewer));
                     break;
                 case DialogResponse.Yes:

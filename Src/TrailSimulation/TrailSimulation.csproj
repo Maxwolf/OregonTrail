@@ -135,7 +135,6 @@
     <Compile Include="Entity\Person\Profession.cs" />
     <Compile Include="Entity\Person\RationLevel.cs" />
     <Compile Include="Event\EventCategory.cs" />
-    <Compile Include="Game\Module\Director\EventHistory.cs" />
     <Compile Include="Game\Module\Director\EventProduct.cs" />
     <Compile Include="Event\Person\DeathCompanion.cs" />
     <Compile Include="Event\Person\DeathPlayer.cs" />

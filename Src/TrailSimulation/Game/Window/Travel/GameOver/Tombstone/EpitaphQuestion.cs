@@ -39,7 +39,7 @@ namespace TrailSimulation.Game
             epitaphPrompt.Clear();
             epitaphPrompt.Append($"{Environment.NewLine}{UserData.Tombstone}");
             epitaphPrompt.AppendLine($"{Environment.NewLine}Would you like to write");
-            epitaphPrompt.AppendLine("an epitaph?");
+            epitaphPrompt.Append("an epitaph? Y/N");
             return epitaphPrompt.ToString();
         }
 
@@ -60,6 +60,7 @@ namespace TrailSimulation.Game
                 case DialogResponse.Custom:
                     // Add the Tombstone as is to the Tombstone manager for future players to see.
                     UserData.TombstoneManager.Add(UserData.Tombstone);
+                    UserData.Tombstone = null;
                     SetForm(typeof (TombstoneViewer));
                     break;
                 default:

@@ -77,7 +77,7 @@ namespace TrailSimulation.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // Determine if we are showing the player a tombstone because they died.
-            if (UserData.Tombstone != null)
+            if (GameSimulationApp.Instance.Vehicle.PassengerLivingCount <= 0)
             {
                 // Completely resets the game to default state it was in when it first started.
                 GameSimulationApp.Instance.Restart();

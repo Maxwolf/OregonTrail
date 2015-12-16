@@ -18,6 +18,12 @@ namespace TrailSimulation.Entity
         private int _health;
 
         /// <summary>
+        ///     Determines if the persons health was at any time at the very poor level, which means they were close to death. We
+        ///     can keep track of this and if they recover to full health we will make note about this for the player to see.
+        /// </summary>
+        private bool _nearDeathExperience;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Entities.Person" /> class.
         /// </summary>
         public Person(Profession profession, string name, bool isLeader)
@@ -44,13 +50,13 @@ namespace TrailSimulation.Entity
                 }
 
                 // Health is less than good, but greater than poor so it must be fair.
-                if (Health < (int)HealthLevel.Good && Health > (int)HealthLevel.Poor)
+                if (Health < (int) HealthLevel.Good && Health > (int) HealthLevel.Poor)
                 {
                     return HealthLevel.Fair;
                 }
 
                 // Health is less than fair, but greater than very poor so it is just poor.
-                if (Health < (int)HealthLevel.Fair && Health > (int)HealthLevel.VeryPoor)
+                if (Health < (int) HealthLevel.Fair && Health > (int) HealthLevel.VeryPoor)
                 {
                     return HealthLevel.Poor;
                 }
@@ -232,15 +238,18 @@ namespace TrailSimulation.Entity
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
-            // Increase health by a random amount.
-            Health += game.Random.Next(1, 10);
-
-            // Skip if we still have some more healing to do.
-            if (HealthLevel != HealthLevel.Good)
-                return;
-
-            // Full health fires off event indicating that we are at full health once more.
-            game.EventDirector.TriggerEvent(this, typeof (WellAgain));
+            // Check if the player has made a recovery from near death.
+            if (_nearDeathExperience)
+            {
+                // We only want to show the well again event if the player made a massive recovery.
+                _nearDeathExperience = false;
+                game.EventDirector.TriggerEvent(this, typeof (WellAgain));
+            }
+            else
+            {
+                // Increase health by a random amount.
+                Health += game.Random.Next(1, 10);
+            }
         }
 
         /// <summary>
@@ -310,6 +319,7 @@ namespace TrailSimulation.Entity
                     }
                     break;
                 case HealthLevel.VeryPoor:
+                    _nearDeathExperience = true;
                     Damage();
                     break;
                 case HealthLevel.Dead:

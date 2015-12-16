@@ -19,8 +19,7 @@ namespace TrailSimulation.Core
 
         /// <summary>
         ///     Factory pattern that will create game modes for it based on attribute at the top of each one that defines what
-        ///     Windows
-        ///     type it is responsible for.
+        ///     window type it is responsible for.
         /// </summary>
         private WindowFactory _windowFactory;
 
