@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -253,8 +252,8 @@ namespace TrailSimulation.Game
                 return;
             }
 
-            // Determine if everybody is dead, otherwise let the game continue.
-            if (game.Vehicle.Passengers.All(p => p.IsDead))
+            // Determines if all the passengers in the vehicle are dead.
+            if (game.Vehicle.PassengersDead)
             {
                 GameOver = true;
                 SetForm(typeof (GameFail));
@@ -263,7 +262,7 @@ namespace TrailSimulation.Game
 
             // Check if player is just arriving at a new location.
             if (game.Trail.CurrentLocation.Status == LocationStatus.Arrived &&
-                !game.Trail.CurrentLocation.ArrivalFlag)
+                !game.Trail.CurrentLocation.ArrivalFlag && !GameOver)
             {
                 game.Trail.CurrentLocation.ArrivalFlag = true;
                 SetForm(typeof (LocationArrive));

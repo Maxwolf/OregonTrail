@@ -62,7 +62,7 @@ namespace TrailSimulation.Game
                 spareAxles.Item3 + spareTongues.Item3 + spareWheels.Item3);
 
             // Calculates the average health just once because we need it many times.
-            var avgHealth = game.Vehicle.PassengerAverageHealth;
+            var avgHealth = game.Vehicle.PassengersHealth;
 
             // Figures out who the leader is among the vehicle passengers.
             var leaderPerson = game.Vehicle.Leader;

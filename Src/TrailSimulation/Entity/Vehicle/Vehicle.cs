@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using TrailSimulation.Core;
 using TrailSimulation.Event;
 using TrailSimulation.Game;
 
@@ -36,6 +38,26 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     Determines if all the passengers in the vehicle are dead by adding up number of truths to total passenger count.
+        /// </summary>
+        public bool PassengersDead
+        {
+            get
+            {
+                // Loop through all passengers and add their death flag to array.
+                var allDead = new bool[Passengers.Count];
+                for (var i = 0; i < Passengers.Count; i++)
+                {
+                    var passenger = Passengers[i];
+                    allDead[i] = passenger.IsDead;
+                }
+
+                // Determine if everybody is dead by checking if truths are greater than passenger count.
+                return allDead.TrueCount() >= Passengers.Count;
+            }
+        }
+
+        /// <summary>
         ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
         /// </summary>
         public IDictionary<Entities, SimItem> Inventory
@@ -46,9 +68,9 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     References all of the people inside of the vehicle.
         /// </summary>
-        public IEnumerable<Person> Passengers
+        public ReadOnlyCollection<Person> Passengers
         {
-            get { return _passengers; }
+            get { return _passengers.AsReadOnly(); }
         }
 
         /// <summary>
@@ -180,7 +202,7 @@ namespace TrailSimulation.Entity
         ///     Grabs the averaged health of all the passengers in the vehicle, only adds towards total if they are alive. Will be
         ///     recalculated each time this is called.
         /// </summary>
-        public Health PassengerAverageHealth
+        public Health PassengersHealth
         {
             get
             {
