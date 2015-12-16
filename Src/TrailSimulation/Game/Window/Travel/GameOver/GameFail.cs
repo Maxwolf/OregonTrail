@@ -35,7 +35,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public override bool AllowInput
         {
-            get { return false; }
+            get { return true; }
         }
 
         /// <summary>

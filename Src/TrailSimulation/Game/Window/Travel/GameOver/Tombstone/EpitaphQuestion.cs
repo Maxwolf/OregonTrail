@@ -20,6 +20,15 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
+        ///     desired behavior.
+        /// </summary>
+        protected override DialogType DialogType
+        {
+            get { return DialogType.YesNo; }
+        }
+
+        /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         protected override string OnDialogPrompt()
@@ -28,9 +37,9 @@ namespace TrailSimulation.Game
 
             // Add Tombstone message with here lies player name, no epitaph yet.
             epitaphPrompt.Clear();
-            epitaphPrompt.AppendLine(UserData.Tombstone.ToString());
-            epitaphPrompt.AppendLine("Would you like to write");
-            epitaphPrompt.Append("an epitaph?");
+            epitaphPrompt.Append($"{Environment.NewLine}{UserData.Tombstone}");
+            epitaphPrompt.AppendLine($"{Environment.NewLine}Would you like to write");
+            epitaphPrompt.AppendLine($"an epitaph?{Environment.NewLine}");
             return epitaphPrompt.ToString();
         }
 

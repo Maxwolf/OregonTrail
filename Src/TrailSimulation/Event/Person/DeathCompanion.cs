@@ -38,7 +38,8 @@ namespace TrailSimulation.Event
             // Cast the source entity as a passenger from vehicle.
             var sourcePerson = sourceEntity as Person;
             if (sourcePerson == null)
-                throw new ArgumentNullException(nameof(sourceEntity), "Could not cast source entity as passenger of vehicle.");
+                throw new ArgumentNullException(nameof(sourceEntity),
+                    "Could not cast source entity as passenger of vehicle.");
 
             // Check to make sure this player is not the leader (aka the player).
             if (sourcePerson.IsLeader)
@@ -55,7 +56,7 @@ namespace TrailSimulation.Event
             base.OnEventClose();
 
             // Forcefully ends the game.
-            GameSimulationApp.Instance.ShouldEndGame = true;
+            GameSimulationApp.Instance.SetShouldEndGame();
         }
 
         /// <summary>

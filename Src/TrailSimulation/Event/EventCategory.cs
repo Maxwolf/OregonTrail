@@ -17,7 +17,7 @@
         Animal,
 
         /// <summary>
-        ///     Something bad happens to party member such as disease or illness.
+        ///     Something bad happens to party member such as disease or injury.
         /// </summary>
         Person,
 

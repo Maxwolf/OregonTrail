@@ -1,5 +1,4 @@
-﻿using System;
-using TrailSimulation.Core;
+﻿using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game

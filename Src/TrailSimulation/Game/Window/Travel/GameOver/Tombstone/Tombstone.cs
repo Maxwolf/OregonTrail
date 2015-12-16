@@ -52,15 +52,6 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Creates a nice formatted version of the Tombstone for use in text renderer.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"Here lies {PlayerName}" +
-                   $"{Environment.NewLine}{Epitaph}";
-        }
-
-        /// <summary>
         ///     Creates a shallow copy of the tombstone, generates a new tombstone ID in the process.
         /// </summary>
         public Tombstone()
@@ -160,6 +151,15 @@ namespace TrailSimulation.Game
             clone.Locked = true;
 
             return clone;
+        }
+
+        /// <summary>
+        ///     Creates a nice formatted version of the Tombstone for use in text renderer.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"Here lies {PlayerName}" +
+                   $"{Environment.NewLine}{Epitaph}";
         }
     }
 }

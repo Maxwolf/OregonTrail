@@ -67,17 +67,6 @@ namespace TrailSimulation.Entity
             get { return Entities.Person; }
         }
 
-        /// <summary>
-        ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
-        /// </summary>
-        /// <returns>
-        ///     A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />, as shown in
-        ///     the following table.Value Meaning Less than zero<paramref name="x" /> is less than <paramref name="y" />.Zero
-        ///     <paramref name="x" /> equals <paramref name="y" />.Greater than zero<paramref name="x" /> is greater than
-        ///     <paramref name="y" />.
-        /// </returns>
-        /// <param name="x">The first object to compare.</param>
-        /// <param name="y">The second object to compare.</param>
         public int Compare(IEntity x, IEntity y)
         {
             Debug.Assert(x != null, "x != null");
@@ -89,16 +78,6 @@ namespace TrailSimulation.Entity
             return result;
         }
 
-        /// <summary>
-        ///     Compares the current object with another object of the same type.
-        /// </summary>
-        /// <returns>
-        ///     A value that indicates the relative order of the objects being compared. The return value has the following
-        ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This
-        ///     object is equal to <paramref name="other" />. Greater than zero This object is greater than
-        ///     <paramref name="other" />.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
         public int CompareTo(IEntity other)
         {
             Debug.Assert(other != null, "other != null");
@@ -109,13 +88,6 @@ namespace TrailSimulation.Entity
             return result;
         }
 
-        /// <summary>
-        ///     Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        ///     true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
         public bool Equals(IEntity other)
         {
             // Reference equality check
@@ -142,28 +114,11 @@ namespace TrailSimulation.Entity
             return false;
         }
 
-        /// <summary>
-        ///     Determines whether the specified objects are equal.
-        /// </summary>
-        /// <returns>
-        ///     true if the specified objects are equal; otherwise, false.
-        /// </returns>
         public bool Equals(IEntity x, IEntity y)
         {
             return x.Equals(y);
         }
 
-        /// <summary>
-        ///     Returns a hash code for the specified object.
-        /// </summary>
-        /// <returns>
-        ///     A hash code for the specified object.
-        /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object" /> for which a hash code is to be returned.</param>
-        /// <exception cref="T:System.ArgumentNullException">
-        ///     The type of <paramref name="obj" /> is a reference type and
-        ///     <paramref name="obj" /> is null.
-        /// </exception>
         public int GetHashCode(IEntity obj)
         {
             var hash = 23;
@@ -187,10 +142,6 @@ namespace TrailSimulation.Entity
             if (systemTick)
                 return;
 
-            // Dead people do not waste ticks living.
-            if (IsDead)
-                return;
-
             ConsumeFood();
             CheckIllness();
         }
@@ -205,7 +156,7 @@ namespace TrailSimulation.Entity
 
             var cost_food = game.Vehicle.Inventory[Entities.Food].TotalValue;
             cost_food = cost_food - 8 - 5*(int) game.Vehicle.Ration;
-            if (cost_food >= 13)
+            if (cost_food >= 13 && !IsDead)
             {
                 // Consume the food since we still have some.
                 game.Vehicle.Inventory[Entities.Food] = new SimItem(
@@ -217,11 +168,12 @@ namespace TrailSimulation.Entity
             }
             else
             {
-                if (DaysStarving > 5)
+                // Not eating for more than 5 days is a death sentence.
+                if (DaysStarving > 5 && !IsDead)
                 {
                     Kill();
                 }
-                else
+                else if (!IsDead && DaysStarving < 5)
                 {
                     // Otherwise we begin to starve.
                     DaysStarving++;
@@ -240,6 +192,10 @@ namespace TrailSimulation.Entity
         {
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
+
+            // Cannot calculate illness for the dead.
+            if (IsDead)
+                return;
 
             if (game.Random.Next(100) <= 10 +
                 35*((int) game.Vehicle.Ration - 1))
@@ -279,7 +235,7 @@ namespace TrailSimulation.Entity
                 case Health.Fair:
                     // Not eating for a couple days is going to hit you hard.
                     if (DaysStarving > 2 &&
-                        game.Vehicle.Status == VehicleStatus.Moving)
+                        game.Vehicle.Status != VehicleStatus.Stopped)
                     {
                         game.Vehicle.ReduceMileage(5);
                         Health = Health.Poor;
@@ -288,7 +244,7 @@ namespace TrailSimulation.Entity
                 case Health.Poor:
                     // Player is working themselves to death.
                     if (DaysStarving > 5 &&
-                        game.Vehicle.Status == VehicleStatus.Moving)
+                        game.Vehicle.Status != VehicleStatus.Stopped)
                     {
                         game.Vehicle.ReduceMileage(10);
                         Health = Health.VeryPoor;
@@ -390,7 +346,8 @@ namespace TrailSimulation.Entity
                     break;
                 case Health.VeryPoor:
                     // Player succumbs to their poor health.
-                    Kill();
+                    if (!IsDead)
+                        Kill();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -403,6 +360,10 @@ namespace TrailSimulation.Entity
         /// </summary>
         private void Kill()
         {
+            // Cannot kill what is already dead.
+            if (IsDead)
+                return;
+
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 

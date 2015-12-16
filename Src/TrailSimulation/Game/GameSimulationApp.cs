@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -17,6 +16,13 @@ namespace TrailSimulation.Game
         ///     names are asked for in new game Windows.
         /// </summary>
         public const int MAX_PLAYERS = 4;
+
+        /// <summary>
+        ///     Determines if the game should end when the status is asked for. This is typically used by events whom are not
+        ///     directly connected to the window and form management system directly so we give them a bridge to fail the game if
+        ///     they determine something catastrophic happened.
+        /// </summary>
+        public bool ShouldEndGame { get; private set; }
 
         /// <summary>
         ///     Keeps track of all the points of interest we want to visit from beginning to end that makeup the entire journey.
@@ -53,35 +59,10 @@ namespace TrailSimulation.Game
         public int TotalTurns { get; private set; }
 
         /// <summary>
+        ///     Determines the current status for the game simulation, each turn the status of the simulation will be evaluated for
+        ///     end game (both winning and failure) conditions.
         /// </summary>
-        [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Local")]
-        public GameStatus Status
-        {
-            get
-            {
-                // Check if an event asked the simulation to end the game for us.
-                if (ShouldEndGame)
-                    return GameStatus.Fail;
-
-                // Check if the player made it all the way to the end of the trail.
-                if (Trail.CurrentLocation.IsLast)
-                    return GameStatus.Win;
-
-                // Determine if everybody is dead, otherwise let the game continue.
-                if (Vehicle.Passengers.All(p => p.IsDead))
-                    return GameStatus.Fail;
-
-                // Default response is to let the simulation keep running.
-                return GameStatus.Running;
-            }
-        }
-
-        /// <summary>
-        ///     Determines if the game should end when the status is asked for. This is typically used by events whom are not
-        ///     directly connected to the window and form management system directly so we give them a bridge to fail the game if
-        ///     they determine something catastrophic happened.
-        /// </summary>
-        public bool ShouldEndGame { get; set; }
+        public GameStatus Status { get; private set; }
 
         /// <summary>
         ///     Scoring tracker and tabulator for end game results from current simulation state.
@@ -89,14 +70,47 @@ namespace TrailSimulation.Game
         public ScoringModule Scoring { get; private set; }
 
         /// <summary>
+        ///     Sets the flag that determines the simulation should stop ticking time and turns and end the game.
+        /// </summary>
+        public void SetShouldEndGame()
+        {
+            ShouldEndGame = true;
+        }
+
+        /// <summary>
         ///     Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
         ///     capacity or want to do so in this turn.
         /// </summary>
         public void TakeTurn()
         {
+            // Determine the current status of the game simulation.
+            Status = CheckShouldEndGame();
+
             // Advance the turn counter.
             TotalTurns++;
             Time.TickTime();
+        }
+
+        /// <summary>
+        ///     Checks end game scenarios and edge cases related to the operation of the game simulation.
+        /// </summary>
+        /// <returns>Current game status.</returns>
+        private GameStatus CheckShouldEndGame()
+        {
+            // Check if an event asked the simulation to end the game for us.
+            if (ShouldEndGame)
+                return GameStatus.Fail;
+
+            // Check if the player made it all the way to the end of the trail.
+            if (Trail.CurrentLocation.IsLast)
+                return GameStatus.Win;
+
+            // Determine if everybody is dead, otherwise let the game continue.
+            if (Vehicle.Passengers.All(p => p.IsDead))
+                return GameStatus.Fail;
+
+            // Default response is to let the simulation keep running.
+            return GameStatus.Running;
         }
 
         /// <summary>

@@ -54,7 +54,7 @@ namespace TrailSimulation.Event
             base.OnEventClose();
 
             // Forcefully ends the game.
-            GameSimulationApp.Instance.ShouldEndGame = true;
+            GameSimulationApp.Instance.SetShouldEndGame();
         }
 
         /// <summary>
