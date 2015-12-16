@@ -22,6 +22,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Determines if the simulation should continue to check if the game has ended.
+        /// </summary>
+        private bool GameOver { get; set; }
+
+        /// <summary>
         ///     Attaches state that picks strings from array at random to show from point of interest.
         /// </summary>
         private void TalkToPeople()
@@ -221,59 +226,13 @@ namespace TrailSimulation.Game
         /// </summary>
         public override void OnWindowActivate()
         {
-            CheckLookAround();
+            ArriveAtLocation();
         }
 
         /// <summary>
         ///     On the first point we are going to force the look around state onto the traveling Windows without asking.
         /// </summary>
-        private void CheckLookAround()
-        {
-            // Check if player is just arriving at a new location.
-            if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Arrived &&
-                !GameSimulationApp.Instance.Trail.CurrentLocation.ArrivalFlag)
-            {
-                GameSimulationApp.Instance.Trail.CurrentLocation.ArrivalFlag = true;
-                SetForm(typeof (LocationArrive));
-                return;
-            }
-
-            // Update menu with proper choices.
-            UpdateLocation();
-        }
-
-        /// <summary>
-        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
-        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
-        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
-        /// </summary>
-        /// <remarks>Default is one second or 1000ms.</remarks>
-        /// <param name="systemTick">
-        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
-        ///     pulsed by game simulation at fixed interval.
-        /// </param>
-        public override void OnTick(bool systemTick)
-        {
-            base.OnTick(systemTick);
-
-            // Skip system ticks, we want to tick with the game.
-            if (systemTick)
-                return;
-
-            // Check if the player has won or lost the game.
-            CheckEndGame();
-        }
-
-        /// <summary>
-        /// Determines if the simulation should continue to check if the game has ended.
-        /// </summary>
-        private bool GameOver { get; set; }
-
-        /// <summary>
-        ///     Determines if the game has ended and attaches the appropriate form for the occasion. Should be run whenever the
-        ///     travel mode is ticked.
-        /// </summary>
-        private void CheckEndGame()
+        private void ArriveAtLocation()
         {
             // Grab instance of game simulation for easy reading.
             var game = GameSimulationApp.Instance;
@@ -301,6 +260,18 @@ namespace TrailSimulation.Game
                 SetForm(typeof (GameFail));
                 return;
             }
+
+            // Check if player is just arriving at a new location.
+            if (game.Trail.CurrentLocation.Status == LocationStatus.Arrived &&
+                !game.Trail.CurrentLocation.ArrivalFlag)
+            {
+                game.Trail.CurrentLocation.ArrivalFlag = true;
+                SetForm(typeof (LocationArrive));
+                return;
+            }
+
+            // Update menu with proper choices.
+            UpdateLocation();
         }
 
         /// <summary>
@@ -309,7 +280,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public override void OnWindowAdded()
         {
-            CheckLookAround();
+            ArriveAtLocation();
         }
     }
 }
