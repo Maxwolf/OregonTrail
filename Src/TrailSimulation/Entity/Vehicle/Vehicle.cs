@@ -44,12 +44,16 @@ namespace TrailSimulation.Entity
         {
             get
             {
+                // Everybody cannot be dead if nobody is there!
+                if (Passengers.Count <= 0)
+                    return false;
+
                 // Loop through all passengers and add their death flag to array.
                 var allDead = new bool[Passengers.Count];
                 for (var i = 0; i < Passengers.Count; i++)
                 {
                     var passenger = Passengers[i];
-                    allDead[i] = passenger.Health == Health.Dead;
+                    allDead[i] = passenger.HealthLevel == HealthLevel.Dead;
                 }
 
                 // Determine if everybody is dead by checking if truths are greater than passenger count.
@@ -202,31 +206,31 @@ namespace TrailSimulation.Entity
         ///     Grabs the averaged health of all the passengers in the vehicle, only adds towards total if they are alive. Will be
         ///     recalculated each time this is called.
         /// </summary>
-        public Health PassengersHealth
+        public HealthLevel PassengersHealthLevel
         {
             get
             {
                 // Check if passenger manifest exists.
                 if (Passengers == null)
-                    return Health.VeryPoor;
+                    return HealthLevel.VeryPoor;
 
                 // Check if there are any passengers to work with.
                 if (!Passengers.Any())
-                    return Health.VeryPoor;
+                    return HealthLevel.VeryPoor;
 
                 // Builds up a list of enumeration health values for living passengers.
-                var alivePersonsHealth = new List<Health>();
+                var alivePersonsHealth = new List<HealthLevel>();
                 foreach (var person in Passengers)
                 {
                     // Only add the health to average calculation if person is not dead.
-                    if (person.Health != Health.Dead)
-                        alivePersonsHealth.Add(person.Health);
+                    if (person.HealthLevel != HealthLevel.Dead)
+                        alivePersonsHealth.Add(person.HealthLevel);
                 }
 
                 // Casts all the enumeration health values to integers and averages them.
-                var averageHealthValue = Health.Good;
+                var averageHealthValue = HealthLevel.Good;
                 if (alivePersonsHealth.Count > 0)
-                    averageHealthValue = (Health) alivePersonsHealth.Cast<int>().Average();
+                    averageHealthValue = (HealthLevel) alivePersonsHealth.Cast<int>().Average();
 
                 return averageHealthValue;
             }
@@ -248,12 +252,12 @@ namespace TrailSimulation.Entity
                     return 0;
 
                 // Builds up a list of enumeration health values for living passengers.
-                var alivePersonsHealth = new List<Health>();
+                var alivePersonsHealth = new List<HealthLevel>();
                 foreach (var person in Passengers)
                 {
                     // Only add the health to average calculation if person is not dead.
-                    if (person.Health != Health.Dead)
-                        alivePersonsHealth.Add(person.Health);
+                    if (person.HealthLevel != HealthLevel.Dead)
+                        alivePersonsHealth.Add(person.HealthLevel);
                 }
 
                 return alivePersonsHealth.Count;

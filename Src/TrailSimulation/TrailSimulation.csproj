@@ -99,6 +99,7 @@
     <Compile Include="Event\Wild\StrangersApproach.cs" />
     <Compile Include="Event\Wild\Thief.cs" />
     <Compile Include="Game\Module\Director\EventKey.cs" />
+    <Compile Include="Game\Module\Director\EventExecution.cs" />
     <Compile Include="Game\Module\Scoring\ScoringModule.cs" />
     <Compile Include="Game\Window\MainMenu\Start Month\StartingMonth.cs" />
     <Compile Include="Core\Module\InputManager.cs" />
@@ -175,7 +176,7 @@
     <Compile Include="Core\Window\Control\TextProgress.cs" />
     <Compile Include="Core\Window\Control\TextTableExtensions.cs" />
     <Compile Include="Entity\Location\Location.cs" />
-    <Compile Include="Entity\Person\Health.cs" />
+    <Compile Include="Entity\Person\HealthLevel.cs" />
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
     <Compile Include="Core\Window\Window.cs" />
     <Compile Include="Core\Window\IWindow.cs" />

@@ -36,18 +36,15 @@ namespace TrailSimulation.Event
         {
             // Cast the source entity as a player.
             _sourceEntity = sourceEntity as Person;
-
-            // Remove the infection if any exists.
-            if (_sourceEntity != null)
-                _sourceEntity.Health = Health.Good;
         }
 
         /// <summary>
         ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
         ///     change depending on requirements of the implementation.
         /// </summary>
+        /// <param name="sourceEntity"></param>
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
-        protected override string OnRender()
+        protected override string OnRender(IEntity sourceEntity)
         {
             return $"{_sourceEntity.Name} is well again.";
         }

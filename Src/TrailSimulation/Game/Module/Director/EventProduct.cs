@@ -48,18 +48,23 @@ namespace TrailSimulation.Game
         ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
         ///     change depending on requirements of the implementation.
         /// </summary>
+        /// <param name="sourceEntity">
+        ///     Entities which the event is going to directly affect. This way there is no confusion about
+        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
+        /// </param>
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
-        public string Render()
+        public string Render(IEntity sourceEntity)
         {
-            return OnRender();
+            return OnRender(sourceEntity);
         }
 
         /// <summary>
         ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
         ///     change depending on requirements of the implementation.
         /// </summary>
+        /// <param name="sourceEntity"></param>
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
-        protected abstract string OnRender();
+        protected abstract string OnRender(IEntity sourceEntity);
 
         /// <summary>
         ///     Fired when the event is closed by the user or system after being executed and rendered out on text user interface.

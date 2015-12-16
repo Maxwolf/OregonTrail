@@ -15,9 +15,9 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.EventKey" /> class.
         /// </summary>
-        public EventKey(EventCategory category, string name, bool allowRandomSelectionByCategory)
+        public EventKey(EventCategory category, string name, EventExecution executionType)
         {
-            AllowRandomSelectionByCategory = allowRandomSelectionByCategory;
+            ExecutionType = executionType;
             Category = category;
             Name = name;
         }
@@ -36,7 +36,7 @@ namespace TrailSimulation.Game
         ///     Determines if this event will be selected for being chosen at random when events are fired by category and not
         ///     directly by their type.
         /// </summary>
-        public bool AllowRandomSelectionByCategory { get; }
+        public EventExecution ExecutionType { get; }
 
         /// <summary>
         ///     Compares the current object with another object of the same type.

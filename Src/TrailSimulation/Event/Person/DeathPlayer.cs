@@ -8,7 +8,7 @@ namespace TrailSimulation.Event
     /// <summary>
     ///     Party leader has died! This will end the entire simulation since the others cannot go on without the leader.
     /// </summary>
-    [DirectorEvent(EventCategory.Person, false)]
+    [DirectorEvent(EventCategory.Person, EventExecution.ManualOnly)]
     public sealed class DeathPlayer : EventProduct
     {
         private StringBuilder _leaderDeath;
@@ -50,8 +50,9 @@ namespace TrailSimulation.Event
         ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
         ///     change depending on requirements of the implementation.
         /// </summary>
+        /// <param name="sourceEntity"></param>
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
-        protected override string OnRender()
+        protected override string OnRender(IEntity sourceEntity)
         {
             return _leaderDeath.ToString();
         }

@@ -35,7 +35,7 @@ namespace TrailSimulation.Game
 
             // Execute the event which should return us some text to display to user about what it did to running simulation.
             UserData.DirectorEvent.Execute(UserData.SourceEntity);
-            var eventText = UserData.DirectorEvent.Render();
+            var eventText = UserData.DirectorEvent.Render(UserData.SourceEntity);
 
             // Complain if the event text is empty.
             if (string.IsNullOrEmpty(eventText) || string.IsNullOrWhiteSpace(eventText))

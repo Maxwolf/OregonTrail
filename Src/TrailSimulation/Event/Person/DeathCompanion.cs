@@ -9,7 +9,7 @@ namespace TrailSimulation.Event
     ///     Called when one of your party members dies that is not the leader of the group, the game will still be able to
     ///     continue without this person.
     /// </summary>
-    [DirectorEvent(EventCategory.Person, false)]
+    [DirectorEvent(EventCategory.Person, EventExecution.ManualOnly)]
     public sealed class DeathCompanion : EventProduct
     {
         private StringBuilder _passengerDeath;
@@ -52,8 +52,9 @@ namespace TrailSimulation.Event
         ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
         ///     change depending on requirements of the implementation.
         /// </summary>
+        /// <param name="sourceEntity"></param>
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
-        protected override string OnRender()
+        protected override string OnRender(IEntity sourceEntity)
         {
             return _passengerDeath.ToString();
         }

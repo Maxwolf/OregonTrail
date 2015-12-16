@@ -13,6 +13,12 @@ namespace TrailSimulation.Entity
     public sealed class Person : IEntity
     {
         /// <summary>
+        ///     Defines the current health of the person. It will be tracked and kept within bounds of HealthMin and HealthMax
+        ///     constants.
+        /// </summary>
+        private int _health;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Entities.Person" /> class.
         /// </summary>
         public Person(Profession profession, string name, bool isLeader)
@@ -20,20 +26,44 @@ namespace TrailSimulation.Entity
             Profession = profession;
             Name = name;
             IsLeader = isLeader;
-            DaysStarving = 0;
-            Health = Health.Good;
+
+            // Starts the player at maximum health.
+            Health = (int) HealthLevel.Good;
         }
 
         /// <summary>
         ///     Current health of this person which is enum that also represents the total points they are currently worth.
         /// </summary>
-        public Health Health { get; set; }
+        public HealthLevel HealthLevel
+        {
+            get
+            {
+                // Default response is to report the person as dead.
+                return Health >= (int) HealthLevel.Good ? HealthLevel.Good : HealthLevel.Dead;
+            }
+        }
 
         /// <summary>
-        ///     Determines how many total consecutive days this player has not eaten any food. If this continues for more than five
-        ///     (5) days then the probability they will die increases exponentially.
+        ///     Defines the current health of the person. It will be tracked and kept within bounds of HealthMin and HealthMax
+        ///     constants.
         /// </summary>
-        private int DaysStarving { get; set; }
+        private int Health
+        {
+            get { return _health; }
+            set
+            {
+                // Check that value is not above max.
+                if (_health > (int) HealthLevel.Good)
+                    value = (int) HealthLevel.Good;
+
+                // Check that value is not below min.
+                if (_health < (int) HealthLevel.Dead)
+                    value = (int) HealthLevel.Dead;
+
+                // Set health to ceiling corrected value.
+                _health = value;
+            }
+        }
 
         /// <summary>
         ///     Profession of this person, typically if the leader is a banker then the entire family is all bankers for sanity
@@ -150,7 +180,7 @@ namespace TrailSimulation.Entity
 
             var cost_food = game.Vehicle.Inventory[Entities.Food].TotalValue;
             cost_food = cost_food - 8 - 5*(int) game.Vehicle.Ration;
-            if (cost_food >= 13 && Health != Health.Dead)
+            if (cost_food >= 13 && HealthLevel != HealthLevel.Dead)
             {
                 // Consume the food since we still have some.
                 game.Vehicle.Inventory[Entities.Food] = new SimItem(
@@ -158,25 +188,37 @@ namespace TrailSimulation.Entity
                     (int) cost_food);
 
                 // Change to get better when eating well.
-                TryHeal();
+                Heal();
             }
             else
             {
-                // Not eating for more than 5 days is a death sentence.
-                if (DaysStarving > 5 && Health != Health.Dead)
-                {
-                    Kill();
-                }
-                else if (Health != Health.Dead && DaysStarving < 5)
-                {
-                    // Otherwise we begin to starve.
-                    DaysStarving++;
-
-                    // Not eating well is gonna hurt you bad.
-                    if (game.Vehicle.Status != VehicleStatus.Stopped)
-                        TryInfect();
-                }
+                // Reduce the players health until they are dead.
+                Damage();
             }
+        }
+
+        /// <summary>
+        ///     Increases person's health until it reaches maximum value. When it does will fire off event indicating to player
+        ///     this person is now well again and fully healed.
+        /// </summary>
+        public void Heal()
+        {
+            // Skip if already at max health.
+            if (HealthLevel == HealthLevel.Good)
+                return;
+
+            // Grab instance of the game simulation to increase readability.
+            var game = GameSimulationApp.Instance;
+
+            // Increase health by a random amount.
+            Health += game.Random.Next(1, 10);
+
+            // Skip if we still have some more healing to do.
+            if (HealthLevel != HealthLevel.Good)
+                return;
+
+            // Full health fires off event indicating that we are at full health once more.
+            game.EventDirector.TriggerEvent(this, typeof (WellAgain));
         }
 
         /// <summary>
@@ -188,7 +230,7 @@ namespace TrailSimulation.Entity
             var game = GameSimulationApp.Instance;
 
             // Cannot calculate illness for the dead.
-            if (Health == Health.Dead)
+            if (HealthLevel == HealthLevel.Dead)
                 return;
 
             if (game.Random.Next(100) <= 10 +
@@ -196,7 +238,7 @@ namespace TrailSimulation.Entity
             {
                 // Mild illness.
                 game.Vehicle.ReduceMileage(5);
-                Health = Health.Fair;
+                Damage();
             }
             else if (game.Random.Next(100) <= 5 -
                      (40/game.Vehicle.Passengers.Count()*
@@ -204,48 +246,50 @@ namespace TrailSimulation.Entity
             {
                 // Bad illness.
                 game.Vehicle.ReduceMileage(10);
-                Health = Health.Poor;
+                Damage();
             }
             else
             {
                 // Severe illness.
-                Health = Health.VeryPoor;
                 game.Vehicle.ReduceMileage(15);
-
+                Damage();
                 TryInfect();
             }
 
             // If vehicle is not moving we will assume we are resting.
             if (game.Vehicle.Status != VehicleStatus.Moving)
-                TryHeal();
+                Heal();
 
             // Determines if we should roll for infections based on previous complications.
-            switch (Health)
+            switch (HealthLevel)
             {
-                case Health.Good:
+                case HealthLevel.Good:
                     // Congrats on living a healthy lifestyle...
-                    TryHeal();
+                    Heal();
                     break;
-                case Health.Fair:
+                case HealthLevel.Fair:
                     // Not eating for a couple days is going to hit you hard.
-                    if (DaysStarving > 2 &&
+                    if (game.Vehicle.Inventory[Entities.Food].Quantity <= 0 &&
                         game.Vehicle.Status != VehicleStatus.Stopped)
                     {
                         game.Vehicle.ReduceMileage(5);
-                        Health = Health.Poor;
+                        Damage();
                     }
                     break;
-                case Health.Poor:
+                case HealthLevel.Poor:
                     // Player is working themselves to death.
-                    if (DaysStarving > 5 &&
+                    if (game.Vehicle.Inventory[Entities.Food].Quantity <= 0 &&
                         game.Vehicle.Status != VehicleStatus.Stopped)
                     {
                         game.Vehicle.ReduceMileage(10);
-                        Health = Health.VeryPoor;
+                        Damage();
                     }
                     break;
-                case Health.VeryPoor:
+                case HealthLevel.VeryPoor:
+                    Damage();
                     TryInfect();
+                    break;
+                case HealthLevel.Dead:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -269,103 +313,38 @@ namespace TrailSimulation.Entity
             }
             else if (game.Random.Next(100) >= 50)
             {
-                StepHealthDown();
+                Health--;
             }
         }
 
         /// <summary>
-        ///     Attempts to heal the player and increase their health and remove infections. Requires them to not be moving and
-        ///     resting, eating well, and various other factors such as current climate and condition.
+        ///     Reduces the persons health by a random amount from minimum health value to highest. If this reduces the players
+        ///     health below zero the person will be considered dead.
         /// </summary>
-        private void TryHeal()
+        private void Damage()
         {
-            // Grab instance of the game simulation to increase readability.
-            var game = GameSimulationApp.Instance;
-
-            // Completely heal the player.
-            if (game.Random.Next(100) >= 99)
-            {
-                game.EventDirector.TriggerEvent(this, typeof (WellAgain));
-            }
-            else if (game.Random.Next(100) >= 50)
-            {
-                StepHealthUp();
-            }
-        }
-
-        /// <summary>
-        ///     Increases the health of the player up to the best possible status, effectively healing them with rest and good
-        ///     eating.
-        /// </summary>
-        private void StepHealthUp()
-        {
-            switch (Health)
-            {
-                case Health.Good:
-                    // Chance to be rid of infections when at good health.
-                    if (GameSimulationApp.Instance.Random.Next(100) >= 99)
-                    {
-                        GameSimulationApp.Instance.EventDirector.TriggerEvent(this, typeof (WellAgain));
-                    }
-                    break;
-                case Health.Fair:
-                    Health = Health.Good;
-                    break;
-                case Health.Poor:
-                    Health = Health.Fair;
-                    break;
-                case Health.VeryPoor:
-                    Health = Health.Poor;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        /// <summary>
-        ///     Progress the severity of a infection the person already has.
-        /// </summary>
-        private void StepHealthDown()
-        {
-            switch (Health)
-            {
-                case Health.Good:
-                    Health = Health.Fair;
-                    break;
-                case Health.Fair:
-                    Health = Health.Poor;
-                    break;
-                case Health.Poor:
-                    Health = Health.VeryPoor;
-                    break;
-                case Health.VeryPoor:
-                    // Player succumbs to their poor health.
-                    if (Health != Health.Dead)
-                        Kill();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        /// <summary>
-        ///     Kills the person, meaning they will no longer consume resources or count towards final point total if the leader
-        ///     still wins the game.
-        /// </summary>
-        private void Kill()
-        {
-            // Cannot kill what is already dead.
-            if (Health == Health.Dead)
+            // Skip what is already dead, no damage to be applied.
+            if (HealthLevel == HealthLevel.Dead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
+            // Reduce the persons health by random amount from death amount to desired damage level.
+            Health -= game.Random.Next(10, 50);
+
+            // Chance for broken bones and other ailments related to damage (but not death).
+            game.EventDirector.TriggerEventByType(this, EventCategory.Person);
+
+            // Check if health dropped to dead levels.
+            if (HealthLevel != HealthLevel.Dead)
+                return;
+
+            // Reduce person's health to dead level.
+            Health = (int) HealthLevel.Dead;
+
             // Death makes everybody take a huge morale hit.
             game.Vehicle.ReduceMileage(50);
-
-            // Mark the player as being dead now.
-            Health = Health.Dead;
 
             // Check if leader died or party member.
             game.EventDirector.TriggerEvent(this, IsLeader ? typeof (DeathPlayer) : typeof (DeathCompanion));

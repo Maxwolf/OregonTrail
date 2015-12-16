@@ -10,7 +10,7 @@ namespace TrailSimulation.Event
     ///     When crossing a river there is a chance that your wagon will flood if you choose to caulk and float across the
     ///     river.
     /// </summary>
-    [DirectorEvent(EventCategory.RiverCross, false)]
+    [DirectorEvent(EventCategory.RiverCross, EventExecution.ManualOnly)]
     public sealed class VehicleFloods : EventItemDestroyer
     {
         /// <summary>

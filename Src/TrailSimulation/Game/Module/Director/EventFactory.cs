@@ -42,7 +42,7 @@ namespace TrailSimulation.Game
 
                     // Create key for the event execution counter.
                     var eventKey = new EventKey((EventCategory) modeType, eventObject.Name,
-                        eventAttribute.AllowRandomSelectionByCategory);
+                        eventAttribute.EventExecutionType);
 
                     // Reference type for creating instances.
                     if (!EventReference.ContainsKey(eventKey))
@@ -105,7 +105,7 @@ namespace TrailSimulation.Game
             {
                 // Check that the event wants to participate in being chosen randomly.
                 if (type.Key.Category.Equals(eventCategory) &&
-                    type.Key.AllowRandomSelectionByCategory)
+                    type.Key.ExecutionType == EventExecution.RandomOrManual)
                     groupedEventList.Add(type.Value);
             }
 

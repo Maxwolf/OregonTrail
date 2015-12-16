@@ -9,7 +9,7 @@ namespace TrailSimulation.Event
     /// <summary>
     ///     Player forded the river and it was to deep, they have been washed out by the current and some items destroyed.
     /// </summary>
-    [DirectorEvent(EventCategory.RiverCross, false)]
+    [DirectorEvent(EventCategory.RiverCross, EventExecution.ManualOnly)]
     public sealed class VehicleWashOut : EventItemDestroyer
     {
         /// <summary>
