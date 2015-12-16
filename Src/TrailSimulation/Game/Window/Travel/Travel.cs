@@ -265,6 +265,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        /// Determines if the simulation should continue to check if the game has ended.
+        /// </summary>
+        private bool GameOver { get; set; }
+
+        /// <summary>
         ///     Determines if the game has ended and attaches the appropriate form for the occasion. Should be run whenever the
         ///     travel mode is ticked.
         /// </summary>
@@ -277,9 +282,14 @@ namespace TrailSimulation.Game
             if (game.IsClosing)
                 return;
 
+            // Skip if we have already ended the game.
+            if (GameOver)
+                return;
+
             // Check if the player made it all the way to the end of the trail.
             if (game.Trail.CurrentLocation.IsLast)
             {
+                GameOver = true;
                 SetForm(typeof (GameWin));
                 return;
             }
@@ -287,10 +297,10 @@ namespace TrailSimulation.Game
             // Determine if everybody is dead, otherwise let the game continue.
             if (game.Vehicle.Passengers.All(p => p.IsDead))
             {
+                GameOver = true;
                 SetForm(typeof (GameFail));
+                return;
             }
-
-            // Default answer is to let the game keep running.
         }
 
         /// <summary>
