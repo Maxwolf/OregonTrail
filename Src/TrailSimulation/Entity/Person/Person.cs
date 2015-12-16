@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using TrailSimulation.Event;
 using TrailSimulation.Game;
 
@@ -38,8 +37,31 @@ namespace TrailSimulation.Entity
         {
             get
             {
-                // Default response is to report the person as dead.
-                return Health >= (int) HealthLevel.Good ? HealthLevel.Good : HealthLevel.Dead;
+                // Health is greater than fair so it must be good.
+                if (Health > (int) HealthLevel.Fair)
+                {
+                    return HealthLevel.Good;
+                }
+
+                // Health is less than good, but greater than poor so it must be fair.
+                if (Health < (int)HealthLevel.Good && Health > (int)HealthLevel.Poor)
+                {
+                    return HealthLevel.Fair;
+                }
+
+                // Health is less than fair, but greater than very poor so it is just poor.
+                if (Health < (int)HealthLevel.Fair && Health > (int)HealthLevel.VeryPoor)
+                {
+                    return HealthLevel.Poor;
+                }
+
+                // Health is less than poor, but not quite dead yet so it must be very poor.
+                if (Health < (int) HealthLevel.Poor && Health > (int) HealthLevel.Dead)
+                {
+                    return HealthLevel.VeryPoor;
+                }
+
+                return HealthLevel.Dead;
             }
         }
 
@@ -201,7 +223,7 @@ namespace TrailSimulation.Entity
         ///     Increases person's health until it reaches maximum value. When it does will fire off event indicating to player
         ///     this person is now well again and fully healed.
         /// </summary>
-        public void Heal()
+        private void Heal()
         {
             // Skip if already at max health.
             if (HealthLevel == HealthLevel.Good)
@@ -241,7 +263,7 @@ namespace TrailSimulation.Entity
                 Damage();
             }
             else if (game.Random.Next(100) <= 5 -
-                     (40/game.Vehicle.Passengers.Count()*
+                     (40/game.Vehicle.Passengers.Count*
                       ((int) game.Vehicle.Ration - 1)))
             {
                 // Bad illness.
@@ -253,12 +275,14 @@ namespace TrailSimulation.Entity
                 // Severe illness.
                 game.Vehicle.ReduceMileage(15);
                 Damage();
-                TryInfect();
             }
 
             // If vehicle is not moving we will assume we are resting.
             if (game.Vehicle.Status != VehicleStatus.Moving)
+            {
                 Heal();
+                return;
+            }
 
             // Determines if we should roll for infections based on previous complications.
             switch (HealthLevel)
@@ -287,33 +311,11 @@ namespace TrailSimulation.Entity
                     break;
                 case HealthLevel.VeryPoor:
                     Damage();
-                    TryInfect();
                     break;
                 case HealthLevel.Dead:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        /// <summary>
-        ///     Attempts to infect the person with some ailment, rolls the dice to determine if this should be done. Will not
-        ///     infect people that already have an infection.
-        /// </summary>
-        private void TryInfect()
-        {
-            // Grab instance of the game simulation to increase readability.
-            var game = GameSimulationApp.Instance;
-
-            // Infects the uninfected, progresses infections of existing people.
-            if (game.Random.Next(100) <= 5)
-            {
-                // Pick an actual severe illness from list, roll the dice for it on very low health.
-                game.EventDirector.TriggerEventByType(this, EventCategory.Person);
-            }
-            else if (game.Random.Next(100) >= 50)
-            {
-                Health--;
             }
         }
 

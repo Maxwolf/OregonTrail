@@ -20,7 +20,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public Highscore(string name, int points)
         {
-            // Leader of party and total number of points.
+            // PassengerLeader of party and total number of points.
             Name = name;
             Points = points;
 

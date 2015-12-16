@@ -62,10 +62,10 @@ namespace TrailSimulation.Game
                 spareAxles.Item3 + spareTongues.Item3 + spareWheels.Item3);
 
             // Calculates the average health just once because we need it many times.
-            var avgHealth = game.Vehicle.PassengersHealthLevel;
+            var avgHealth = game.Vehicle.PassengerHealth;
 
             // Figures out who the leader is among the vehicle passengers.
-            var leaderPerson = game.Vehicle.Leader;
+            var leaderPerson = game.Vehicle.PassengerLeader;
 
             // Builds up a list of tuples that represent quantity, description, and total points.
             var tuplePoints = new List<Tuple<int, string, int>>
@@ -74,7 +74,7 @@ namespace TrailSimulation.Game
                 new Tuple<int, string, int>(
                     game.Vehicle.Passengers.Count(),
                     $"people in {avgHealth.ToDescriptionAttribute().ToLowerInvariant()} health",
-                    game.Vehicle.PassengersLiving*(int) avgHealth),
+                    game.Vehicle.PassengerLivingCount*(int) avgHealth),
                 // Vehicle existence counts for some points.
                 new Tuple<int, string, int>(1, "wagon", Resources.Vehicle.Points),
                 // Number of oxen still alive pulling vehicle.

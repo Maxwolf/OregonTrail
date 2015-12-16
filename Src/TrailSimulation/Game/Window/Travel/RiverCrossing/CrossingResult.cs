@@ -126,7 +126,7 @@ namespace TrailSimulation.Game
             _crossingResult.AppendLine(
                 $"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
             _crossingResult.AppendLine(
-                $"Health: {game.Vehicle.PassengersHealthLevel.ToDescriptionAttribute()}");
+                $"Health: {game.Vehicle.PassengerHealth.ToDescriptionAttribute()}");
             _crossingResult.AppendLine(
                 $"Crossing By: {UserData.River.CrossingType}");
             _crossingResult.AppendLine(

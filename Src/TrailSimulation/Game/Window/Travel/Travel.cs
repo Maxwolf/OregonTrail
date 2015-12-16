@@ -253,7 +253,7 @@ namespace TrailSimulation.Game
             }
 
             // Determines if all the passengers in the vehicle are dead.
-            if (game.Vehicle.PassengersDead)
+            if (game.Vehicle.PassengerDeadCount)
             {
                 GameOver = true;
                 SetForm(typeof (GameFail));

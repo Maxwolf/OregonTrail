@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace TrailSimulation.Core
@@ -18,6 +19,32 @@ namespace TrailSimulation.Core
         public static int TrueCount(this IEnumerable<bool> booleans)
         {
             return booleans.Count(b => b);
+        }
+
+        /// <summary>
+        ///     NB Method will return int. MaxValue for a sequence containing no elements. Intended to be used to match int value
+        ///     to enumeration but without directly casting it, instead looking for closest match to target value.
+        /// </summary>
+        /// <param name="collection">Enumerable collection of integers that make up our collection.</param>
+        /// <param name="target">Target value which needs to be compared against collection values.</param>
+        /// <returns>Int closest matching in collection to target value.</returns>
+        /// <remarks>http://stackoverflow.com/a/10120982</remarks>
+        public static int ClosestTo(this IEnumerable<int> collection, int target)
+        {
+            // Apply any defensive coding here as necessary.
+            var closest = int.MaxValue;
+            var minDifference = int.MaxValue;
+            foreach (var element in collection)
+            {
+                var difference = Math.Abs((long) element - target);
+                if (minDifference <= difference)
+                    continue;
+
+                minDifference = (int) difference;
+                closest = element;
+            }
+
+            return closest;
         }
     }
 }

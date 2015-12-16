@@ -39,7 +39,7 @@ namespace TrailSimulation.Game
             epitaphPrompt.Clear();
             epitaphPrompt.Append($"{Environment.NewLine}{UserData.Tombstone}");
             epitaphPrompt.AppendLine($"{Environment.NewLine}Would you like to write");
-            epitaphPrompt.AppendLine($"an epitaph?{Environment.NewLine}");
+            epitaphPrompt.AppendLine("an epitaph?");
             return epitaphPrompt.ToString();
         }
 
