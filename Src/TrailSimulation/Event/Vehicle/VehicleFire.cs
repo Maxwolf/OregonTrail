@@ -1,9 +1,12 @@
-﻿using System;
+﻿using System.Diagnostics;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
+    /// <summary>
+    ///     Fire in the vehicle occurs, there is a chance that some of the inventory items or people were burned to death.
+    /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
     public sealed class VehicleFire : EventProduct
     {
@@ -27,7 +30,19 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            // Cast the source entity as vehicle.
+            var vehicle = sourceEntity as Vehicle;
+            Debug.Assert(vehicle != null, "vehicle != null");
+
+            // Remove food, and ammo.
+            vehicle.Inventory[Entities.Food].ReduceQuantity(40);
+            vehicle.Inventory[Entities.Ammo].ReduceQuantity(400);
+
+            // Damage the passengers randomly up to certain amount.
+            vehicle.Passengers.Damage(GameSimulationApp.Instance.Random.Next()*68 - 3);
+
+            // Reduce the total possible mileage of the vehicle this turn.
+            vehicle.RemoveMileage(15);
         }
 
         /// <summary>
@@ -38,7 +53,7 @@ namespace TrailSimulation.Event
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            return "there was a fire in your wagon--food and supplies damage!";
         }
     }
 }
