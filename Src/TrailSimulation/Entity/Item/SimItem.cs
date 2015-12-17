@@ -402,5 +402,27 @@ namespace TrailSimulation.Entity
             // Set the quantity to desired amount.
             Quantity = simulatedSubtraction;
         }
+
+        /// <summary>
+        ///     Adjusts the quantity of the item instance to be higher than current quantity. Will automatically check for maximum
+        ///     ceiling and minimum floor values specified in the item.
+        /// </summary>
+        /// <param name="amount">Amount the quantity should increase by.</param>
+        public void AddQuantity(int amount)
+        {
+            // Add the amount from the quantity.
+            var simulatedAddition = Quantity + amount;
+
+            // Check that amount is not below minimum floor.
+            if (simulatedAddition < MinQuantity)
+                simulatedAddition = MinQuantity;
+
+            // Check that amount is not above maximum ceiling.
+            if (simulatedAddition > MaxQuantity)
+                simulatedAddition = MaxQuantity;
+
+            // Set the quantity to desired amount.
+            Quantity = simulatedAddition;
+        }
     }
 }

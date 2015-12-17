@@ -119,10 +119,6 @@ switch(event_counter)
 		total_miles=total_miles-5-4*rnd(0)
 		cost_aid=cost_aid-2-3*rnd(0)
 	break;
-	case 16:
-		"helpful indians show you where to find more food"
-		cost_food=cost_food+14
-	break;
 	case 17:
 		"your son gets lost---spend half the day looking for him"
 		total_miles=total_miles-10
