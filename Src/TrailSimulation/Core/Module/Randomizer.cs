@@ -37,14 +37,11 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Returns a nonnegative random number.
+        ///     C64 style RND with 0 would return clock timer 0 - 60 number so we do the same here for simulation.
         /// </summary>
-        /// <returns>
-        ///     A 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue" />.
-        /// </returns>
         public int Next()
         {
-            return _random.Next();
+            return _random.Next(60);
         }
 
         /// <summary>
