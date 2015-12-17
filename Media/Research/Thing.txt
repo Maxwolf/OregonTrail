@@ -2,6 +2,10 @@
 var vehicle = sourceEntity as Vehicle;
 Debug.Assert(vehicle != null, "vehicle != null");
 
+// Cast the source entity as person.
+var person = sourceEntity as Person;
+Debug.Assert(person != null, "person != null");
+
 // Remove food, and ammo.
 vehicle.Inventory[Entities.Food].ReduceQuantity(40);
 vehicle.Inventory[Entities.Ammo].ReduceQuantity(400);
@@ -10,4 +14,4 @@ vehicle.Inventory[Entities.Ammo].ReduceQuantity(400);
 vehicle.Passengers.Damage(GameSimulationApp.Instance.Random.Next()*68 - 3);
 
 // Reduce the total possible mileage of the vehicle this turn.
-vehicle.RemoveMileage(15);
+vehicle.ReduceMileage(15);

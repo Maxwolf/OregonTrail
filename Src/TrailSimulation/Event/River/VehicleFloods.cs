@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
@@ -33,6 +34,26 @@ namespace TrailSimulation.Event
             return destroyedItems.Count > 0
                 ? $"the loss of:{Environment.NewLine}"
                 : $"no loss of items.{Environment.NewLine}";
+        }
+
+        /// <summary>
+        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
+        ///     left completely up to handler.
+        /// </summary>
+        /// <param name="sourceEntity">
+        ///     Entities which the event is going to directly affect. This way there is no confusion about
+        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
+        /// </param>
+        public override void Execute(IEntity sourceEntity)
+        {
+            base.Execute(sourceEntity);
+
+            // Cast the source entity as vehicle.
+            var vehicle = sourceEntity as Vehicle;
+            Debug.Assert(vehicle != null, "vehicle != null");
+
+            // Reduce the total possible mileage of the vehicle this turn.
+            vehicle.ReduceMileage(20 - 20*GameSimulationApp.Instance.Random.Next());
         }
 
         /// <summary>

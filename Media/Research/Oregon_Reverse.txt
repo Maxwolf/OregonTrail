@@ -160,21 +160,6 @@ switch(event_counter)
 			"you got 'em!"
 		}
 	break;
-	case 44:
-		"you killed a poisonous snake after it bit you"
-		cost_ammo=cost_ammo-10
-		cost_aid=cost_aid-5
-		if (cost_aid >= 0)
-		{
-			endgame(diereason.snakebite);
-		}
-	break;
-	case 54:
-		"your wagon gets swamped fording river--lose food and clothes"
-		cost_food=cost_food-30
-		cost_clothes=cost_clothes-20
-		total_miles=total_miles-20-20*rnd(0)
-	break;
 	case 64:
 		"wild animals attack!"
 		AddMode(Hunting);
