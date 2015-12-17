@@ -1,9 +1,13 @@
-﻿using System;
+﻿using System.Diagnostics;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
+    /// <summary>
+    ///     Processes an attack of snake biting one of the passengers in the vehicle at random. Depending on the outcome of the
+    ///     event we might kill the player if they actually get bit, otherwise the event will say they killed it.
+    /// </summary>
     [DirectorEvent(EventCategory.Animal)]
     public sealed class Snakebite : EventProduct
     {
@@ -27,7 +31,15 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            // Cast the source entity as person.
+            var person = sourceEntity as Person;
+            Debug.Assert(person != null, "person != null");
+
+            // Ammo used to kill the snake.
+            GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].ReduceQuantity(10);
+
+            // Damage the person that was bit by the snake, it might be a little or a huge poisonousness bite.
+            person.Damage(GameSimulationApp.Instance.Random.NextBool() ? 5 : 256);
         }
 
         /// <summary>
@@ -38,7 +50,7 @@ namespace TrailSimulation.Event
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            return "you killed a poisonous snake after it bit you";
         }
     }
 }
