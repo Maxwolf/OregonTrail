@@ -113,11 +113,6 @@ switch(event_counter)
 		total_miles=total_miles-15-5*rnd(0)
 		cost_aid=cost_aid-8
 	break;
-	case 11:
-		"ox injures leg---slows you down rest of trip"
-		total_miles=total_miles-25
-		cost_animals=cost_animals-20
-	break;
 	case 13:
 		"bad luck---your daughter broke her arm"
 		"you had to stop and use supplies to make a sling"

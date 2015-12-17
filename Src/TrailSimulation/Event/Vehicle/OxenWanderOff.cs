@@ -5,7 +5,7 @@ using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
-    [DirectorEvent(EventCategory.Animal)]
+    [DirectorEvent(EventCategory.Vehicle)]
     public sealed class OxenWanderOff : EventProduct
     {
         /// <summary>

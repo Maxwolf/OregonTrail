@@ -1,11 +1,15 @@
-﻿using System;
+﻿using System.Diagnostics;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
-    [DirectorEvent(EventCategory.Animal)]
-    public sealed class OxenDied : EventProduct
+    /// <summary>
+    ///     Oxen is damaged, which decreases the ability for the vehicle to be pulled forward. It is possible for this event to
+    ///     make the vehicle stuck, unable to continue until the player acquires another oxen via trading.
+    /// </summary>
+    [DirectorEvent(EventCategory.Vehicle)]
+    public sealed class OxenInjured : EventProduct
     {
         /// <summary>
         ///     Creates a new instance of an event product with the specified event type for reference purposes.
@@ -13,7 +17,7 @@ namespace TrailSimulation.Event
         /// <param name="category">
         ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
         /// </param>
-        public OxenDied(EventCategory category) : base(category)
+        public OxenInjured(EventCategory category) : base(category)
         {
         }
 
@@ -27,7 +31,15 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            // Cast the source entity as vehicle.
+            var vehicle = sourceEntity as Vehicle;
+            Debug.Assert(vehicle != null, "vehicle != null");
+
+            // Damages the oxen, could make vehicle stuck.
+            vehicle.Inventory[Entities.Animal].ReduceQuantity(20);
+
+            // Reduce the total possible mileage of the vehicle this turn.
+            vehicle.RemoveMileage(25);
         }
 
         /// <summary>
@@ -38,7 +50,7 @@ namespace TrailSimulation.Event
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            return "ox injures leg---slows you down rest of trip";
         }
     }
 }

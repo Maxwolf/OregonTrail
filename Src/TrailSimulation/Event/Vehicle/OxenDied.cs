@@ -4,8 +4,8 @@ using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
-    [DirectorEvent(EventCategory.Animal)]
-    public sealed class OxenSick : EventProduct
+    [DirectorEvent(EventCategory.Vehicle)]
+    public sealed class OxenDied : EventProduct
     {
         /// <summary>
         ///     Creates a new instance of an event product with the specified event type for reference purposes.
@@ -13,7 +13,7 @@ namespace TrailSimulation.Event
         /// <param name="category">
         ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
         /// </param>
-        public OxenSick(EventCategory category) : base(category)
+        public OxenDied(EventCategory category) : base(category)
         {
         }
 

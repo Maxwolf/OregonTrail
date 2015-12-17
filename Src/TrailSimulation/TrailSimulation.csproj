@@ -45,10 +45,10 @@
     <Compile Include="Event\Animal\BuffaloStampede.cs" />
     <Compile Include="Event\Animal\Locusts.cs" />
     <Compile Include="Event\Animal\Mosquitos.cs" />
-    <Compile Include="Event\Animal\OxenDied.cs" />
-    <Compile Include="Event\Animal\OxenInjured.cs" />
-    <Compile Include="Event\Animal\OxenSick.cs" />
-    <Compile Include="Event\Animal\OxenWanderOff.cs" />
+    <Compile Include="Event\Vehicle\OxenDied.cs" />
+    <Compile Include="Event\Vehicle\OxenInjured.cs" />
+    <Compile Include="Event\Vehicle\OxenSick.cs" />
+    <Compile Include="Event\Vehicle\OxenWanderOff.cs" />
     <Compile Include="Event\Animal\Snakebite.cs" />
     <Compile Include="Event\Person\BrokenArm.cs" />
     <Compile Include="Event\Person\Cholera.cs" />
