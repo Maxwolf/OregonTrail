@@ -268,7 +268,7 @@ namespace TrailSimulation.Entity
                 35*((int) game.Vehicle.Ration - 1))
             {
                 // Mild illness.
-                game.Vehicle.RemoveMileage(5);
+                game.Vehicle.ReduceMileage(5);
                 Damage(10, 50);
             }
             else if (game.Random.Next(100) <= 5 -
@@ -276,13 +276,13 @@ namespace TrailSimulation.Entity
                       ((int) game.Vehicle.Ration - 1)))
             {
                 // Bad illness.
-                game.Vehicle.RemoveMileage(10);
+                game.Vehicle.ReduceMileage(10);
                 Damage(10, 50);
             }
             else
             {
                 // Severe illness.
-                game.Vehicle.RemoveMileage(15);
+                game.Vehicle.ReduceMileage(15);
                 Damage(10, 50);
             }
 
@@ -305,7 +305,7 @@ namespace TrailSimulation.Entity
                     if (game.Vehicle.Inventory[Entities.Food].Quantity <= 0 &&
                         game.Vehicle.Status != VehicleStatus.Stopped)
                     {
-                        game.Vehicle.RemoveMileage(5);
+                        game.Vehicle.ReduceMileage(5);
                         Damage(10, 50);
                     }
                     break;
@@ -314,13 +314,13 @@ namespace TrailSimulation.Entity
                     if (game.Vehicle.Inventory[Entities.Food].Quantity <= 0 &&
                         game.Vehicle.Status != VehicleStatus.Stopped)
                     {
-                        game.Vehicle.RemoveMileage(10);
+                        game.Vehicle.ReduceMileage(10);
                         Damage(5, 10);
                     }
                     break;
                 case HealthLevel.VeryPoor:
                     _nearDeathExperience = true;
-                    game.Vehicle.RemoveMileage(15);
+                    game.Vehicle.ReduceMileage(15);
                     Damage(1, 5);
                     break;
                 case HealthLevel.Dead:

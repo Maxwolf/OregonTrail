@@ -42,7 +42,7 @@ namespace TrailSimulation.Event
             vehicle.Passengers.Damage(GameSimulationApp.Instance.Random.Next()*68 - 3);
 
             // Reduce the total possible mileage of the vehicle this turn.
-            vehicle.RemoveMileage(15);
+            vehicle.ReduceMileage(15);
         }
 
         /// <summary>

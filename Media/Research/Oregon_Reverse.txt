@@ -160,10 +160,6 @@ switch(event_counter)
 			"you got 'em!"
 		}
 	break;
-	case 42:
-		"lose your way in heavy fog---time is lost"
-		total_miles=total_miles-10-5*rnd(0)
-	break;
 	case 44:
 		"you killed a poisonous snake after it bit you"
 		cost_ammo=cost_ammo-10

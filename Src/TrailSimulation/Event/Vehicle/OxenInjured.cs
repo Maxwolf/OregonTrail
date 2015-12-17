@@ -39,7 +39,7 @@ namespace TrailSimulation.Event
             vehicle.Inventory[Entities.Animal].ReduceQuantity(20);
 
             // Reduce the total possible mileage of the vehicle this turn.
-            vehicle.RemoveMileage(25);
+            vehicle.ReduceMileage(25);
         }
 
         /// <summary>

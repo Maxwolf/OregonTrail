@@ -33,7 +33,7 @@ namespace TrailSimulation.Event
             Debug.Assert(vehicle != null, "vehicle != null");
 
             // Reduce the total possible mileage of the vehicle this turn.
-            vehicle.RemoveMileage(17);
+            vehicle.ReduceMileage(17);
         }
 
         /// <summary>

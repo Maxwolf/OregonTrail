@@ -1,9 +1,13 @@
-﻿using System;
+﻿using System.Diagnostics;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
+    /// <summary>
+    ///     Reduces the total capacity for the vehicle to move in a given trip segment by a random amount calculated at the
+    ///     time of event execution.
+    /// </summary>
     [DirectorEvent(EventCategory.Weather)]
     public sealed class HeavyFog : EventProduct
     {
@@ -27,7 +31,12 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            // Cast the source entity as vehicle.
+            var vehicle = sourceEntity as Vehicle;
+            Debug.Assert(vehicle != null, "vehicle != null");
+
+            // Reduce the total possible mileage of the vehicle this turn.
+            vehicle.ReduceMileage(vehicle.Mileage - 10 - 5*GameSimulationApp.Instance.Random.Next());
         }
 
         /// <summary>
@@ -38,7 +47,7 @@ namespace TrailSimulation.Event
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            return "lose your way in heavy fog---time is lost";
         }
     }
 }

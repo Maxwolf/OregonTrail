@@ -386,7 +386,7 @@ namespace TrailSimulation.Entity
         ///     mileage to be reduced below zero.
         /// </summary>
         /// <param name="amount">Amount of mileage that will be reduced.</param>
-        internal void RemoveMileage(int amount)
+        internal void ReduceMileage(int amount)
         {
             // Mileage cannot be reduced when parked.
             if (Status != VehicleStatus.Moving)
