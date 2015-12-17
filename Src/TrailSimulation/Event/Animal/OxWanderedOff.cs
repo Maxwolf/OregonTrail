@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
@@ -27,7 +28,12 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            // Cast the source entity as vehicle.
+            var vehicle = sourceEntity as Vehicle;
+            Debug.Assert(vehicle != null, "vehicle != null");
+
+            // Reduce the total possible mileage of the vehicle this turn.
+            vehicle.RemoveMileage(17);
         }
 
         /// <summary>
