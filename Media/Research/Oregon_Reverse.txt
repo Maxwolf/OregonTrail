@@ -173,13 +173,6 @@ switch(event_counter)
 			"you got 'em!"
 		}
 	break;
-	case 37:
-		"there was a fire in your wagon--food and supplies damage!"
-		cost_food=cost_food-40
-		cost_ammo=cost_ammo-400
-		cost_aid=cost_aid-rnd(0)*68-3
-		total_miles=total_miles-15
-	break;
 	case 42:
 		"lose your way in heavy fog---time is lost"
 		total_miles=total_miles-10-5*rnd(0)
@@ -255,9 +248,6 @@ switch(event_counter)
 	break;
 }
 
-// Always take turn at end of random event
-TakeTurn();
-
 ---------------[CLIMATE]---------------
 
 void checkclimate()
@@ -282,65 +272,3 @@ void checkclimate()
 		}
 	}
 }
-
----------------[DEATH]---------------
-246 turns=you have been on the trail too long
-your family dies in the first blizzard of winter
-
-"you died of "
-if (injury=1)
-{
-	"injuries"
-}
-else
-{
-	"pneumonia"
-}
-
-"due to your unfortunate situation, there are a few"
-"formalities we must go through\n\n"
-"would you like a minister?"
-"would you like a fancy funeral?"
-"would you like us to inform your next of kin?"
-
-if (end_choice="yes")
-{
-	"that will be $4.50 for the telegraph charge.\n\n"
-	"we thank you for this information and we are sorry you\n"
-	"didn't make it to the great territory of oregon\n"
-	"better luck next time\n\n"
-	"sincerely\n\n"
-	"the oregon city chamber of commerce"
-}
-else
-{
-	"but your aunt sadie in st. louis is really worried about you"
-}
-
----------------[WINNING]---------------
-
-if (total_miles >= 2040)
-{
-	"you finally arrived at oregon city"
-	"after 2040 long miles---hooray!!!!!"
-}
-
-if (cost_ammo>0)
-	cost_ammo=0
-	
-if (cost_clothes>0)
-	cost_clothes=0
-	
-if (cost_aid>0)
-	cost_aid=0
-	
-if (start_cash>0)
-	start_cash=0
-	
-if (cost_food>0)
-	cost_food=0
-  
-"PRESIDENT JAMES K. POLK SENDS YOU HIS"
-"HEARTIEST CONGRATULATIONS"
-"AND WISHES YOU A PROSERPOUS LIFE AHEAD"
-"AT YOUR NEW HOME"

@@ -221,7 +221,7 @@ namespace TrailSimulation.Entity
             else
             {
                 // Reduce the players health until they are dead.
-                Damage();
+                Damage(10, 50);
             }
         }
 
@@ -268,22 +268,22 @@ namespace TrailSimulation.Entity
                 35*((int) game.Vehicle.Ration - 1))
             {
                 // Mild illness.
-                game.Vehicle.ReduceMileage(5);
-                Damage();
+                game.Vehicle.RemoveMileage(5);
+                Damage(10, 50);
             }
             else if (game.Random.Next(100) <= 5 -
                      (40/game.Vehicle.Passengers.Count*
                       ((int) game.Vehicle.Ration - 1)))
             {
                 // Bad illness.
-                game.Vehicle.ReduceMileage(10);
-                Damage();
+                game.Vehicle.RemoveMileage(10);
+                Damage(10, 50);
             }
             else
             {
                 // Severe illness.
-                game.Vehicle.ReduceMileage(15);
-                Damage();
+                game.Vehicle.RemoveMileage(15);
+                Damage(10, 50);
             }
 
             // If vehicle is not moving we will assume we are resting.
@@ -305,8 +305,8 @@ namespace TrailSimulation.Entity
                     if (game.Vehicle.Inventory[Entities.Food].Quantity <= 0 &&
                         game.Vehicle.Status != VehicleStatus.Stopped)
                     {
-                        game.Vehicle.ReduceMileage(5);
-                        Damage();
+                        game.Vehicle.RemoveMileage(5);
+                        Damage(10, 50);
                     }
                     break;
                 case HealthLevel.Poor:
@@ -314,13 +314,14 @@ namespace TrailSimulation.Entity
                     if (game.Vehicle.Inventory[Entities.Food].Quantity <= 0 &&
                         game.Vehicle.Status != VehicleStatus.Stopped)
                     {
-                        game.Vehicle.ReduceMileage(10);
-                        Damage();
+                        game.Vehicle.RemoveMileage(10);
+                        Damage(5, 10);
                     }
                     break;
                 case HealthLevel.VeryPoor:
                     _nearDeathExperience = true;
-                    Damage();
+                    game.Vehicle.RemoveMileage(15);
+                    Damage(1, 5);
                     break;
                 case HealthLevel.Dead:
                     break;
@@ -333,7 +334,9 @@ namespace TrailSimulation.Entity
         ///     Reduces the persons health by a random amount from minimum health value to highest. If this reduces the players
         ///     health below zero the person will be considered dead.
         /// </summary>
-        private void Damage()
+        /// <param name="minAmount">Minimum amount of damage that should be randomly generated.</param>
+        /// <param name="maxAmount">Maximum amount of damage that should be randomly generated.</param>
+        private void Damage(int minAmount, int maxAmount)
         {
             // Skip what is already dead, no damage to be applied.
             if (HealthLevel == HealthLevel.Dead)
@@ -343,7 +346,7 @@ namespace TrailSimulation.Entity
             var game = GameSimulationApp.Instance;
 
             // Reduce the persons health by random amount from death amount to desired damage level.
-            Health -= game.Random.Next(10, 50);
+            Health -= game.Random.Next(minAmount, maxAmount);
 
             // Chance for broken bones and other ailments related to damage (but not death).
             game.EventDirector.TriggerEventByType(this, EventCategory.Person);
@@ -355,11 +358,19 @@ namespace TrailSimulation.Entity
             // Reduce person's health to dead level.
             Health = (int) HealthLevel.Dead;
 
-            // Death makes everybody take a huge morale hit.
-            game.Vehicle.ReduceMileage(50);
-
-            // Check if leader died or party member.
+            // Check if leader died or party member and execute corresponding event.
             game.EventDirector.TriggerEvent(this, IsLeader ? typeof (DeathPlayer) : typeof (DeathCompanion));
+        }
+
+        /// <summary>
+        ///     Reduces the persons health by set amount, will check to make sure the amount is not higher than ceiling or lower
+        ///     than floor.
+        /// </summary>
+        /// <param name="amount">Total amount of damage that should be removed from the person.</param>
+        public void Damage(int amount)
+        {
+            // Remove the health from the person.
+            Health -= amount;
         }
     }
 }

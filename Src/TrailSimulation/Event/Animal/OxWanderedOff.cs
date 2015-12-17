@@ -38,7 +38,7 @@ namespace TrailSimulation.Event
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            return "ox wanders off---spend time looking for it";
         }
     }
 }

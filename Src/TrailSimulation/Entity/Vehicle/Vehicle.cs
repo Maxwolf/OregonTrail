@@ -386,7 +386,7 @@ namespace TrailSimulation.Entity
         ///     mileage to be reduced below zero.
         /// </summary>
         /// <param name="amount">Amount of mileage that will be reduced.</param>
-        internal void ReduceMileage(int amount)
+        internal void RemoveMileage(int amount)
         {
             // Mileage cannot be reduced when parked.
             if (Status != VehicleStatus.Moving)
@@ -543,7 +543,7 @@ namespace TrailSimulation.Entity
                 // Destroy some random amount of the item from one to total amount.
                 var destroyAmount = GameSimulationApp.Instance.Random.Next(1, itemPair.Value.Quantity);
 
-                // Subtract the amount we destroyed from the actual inventory.
+                // Remove the amount we destroyed from the actual inventory.
                 Inventory[itemPair.Key] = new SimItem(itemPair.Value, itemPair.Value.Quantity - destroyAmount);
 
                 // Tabulate the amount we destroyed in dictionary to be returned to caller.

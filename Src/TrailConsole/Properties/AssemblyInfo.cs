@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("TrailConsole")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("TrailConsole")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TrailGame")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany("TrailConsole")]
+[assembly: AssemblyProduct("TrailConsole")]
+[assembly: AssemblyCopyright("TrailConsole")]
+[assembly: AssemblyTrademark("TrailConsole")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

@@ -40,6 +40,7 @@
     <Compile Include="Core\Utility\ArrayExtensions.cs" />
     <Compile Include="Core\Utility\StringExtensions.cs" />
     <Compile Include="Entity\Location\ClimateRegistry.cs" />
+    <Compile Include="Entity\Vehicle\VehicleExtensions.cs" />
     <Compile Include="Entity\Vehicle\VehicleStatus.cs" />
     <Compile Include="Event\Animal\BuffaloStampede.cs" />
     <Compile Include="Event\Animal\Locusts.cs" />
