@@ -64,6 +64,14 @@ namespace TrailSimulation.Entity
         /// <param name="newQuantity">Updated quantity the new SimItem will have.</param>
         public SimItem(SimItem oldItem, int newQuantity)
         {
+            // Check that new quantity is greater than ceiling.
+            if (newQuantity > oldItem.MaxQuantity)
+                newQuantity = oldItem.MaxQuantity;
+
+            // Check that new quantity is not less than floor.
+            if (newQuantity < oldItem.MinQuantity)
+                newQuantity = oldItem.MinQuantity;
+
             // Set updated quantity values, plus ceiling and floor.
             Quantity = newQuantity;
             MinQuantity = oldItem.MinQuantity;
@@ -371,6 +379,28 @@ namespace TrailSimulation.Entity
         public override string ToString()
         {
             return ToString(false);
+        }
+
+        /// <summary>
+        ///     Adjusts the quantity of the item instance to be lower than current quantity. Will automatically check for quantity
+        ///     minimum floor and maximum ceiling values and adjust accordingly.
+        /// </summary>
+        /// <param name="amount">Total amount the quantity will be reduced by.</param>
+        public void ReduceQuantity(int amount)
+        {
+            // Subtract the amount from the quantity.
+            var simulatedSubtraction = Quantity - amount;
+
+            // Check that amount is not below minimum floor.
+            if (simulatedSubtraction < MinQuantity)
+                simulatedSubtraction = MinQuantity;
+
+            // Check that amount is not above maximum ceiling.
+            if (simulatedSubtraction > MaxQuantity)
+                simulatedSubtraction = MaxQuantity;
+
+            // Set the quantity to desired amount.
+            Quantity = simulatedSubtraction;
         }
     }
 }
