@@ -45,6 +45,7 @@
     <Compile Include="Event\Animal\BuffaloStampede.cs" />
     <Compile Include="Event\Animal\Locusts.cs" />
     <Compile Include="Event\Animal\Mosquitos.cs" />
+    <Compile Include="Event\Prefab\EventTimeSkipper.cs" />
     <Compile Include="Event\Vehicle\OxenDied.cs" />
     <Compile Include="Event\Vehicle\OxenInjured.cs" />
     <Compile Include="Event\Vehicle\OxenSick.cs" />
