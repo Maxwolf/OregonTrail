@@ -15,3 +15,4 @@ vehicle.Passengers.Damage(GameSimulationApp.Instance.Random.Next()*68 - 3);
 
 // Reduce the total possible mileage of the vehicle this turn.
 vehicle.ReduceMileage(15);
+

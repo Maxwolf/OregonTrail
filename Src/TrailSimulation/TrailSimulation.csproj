@@ -45,8 +45,10 @@
     <Compile Include="Event\Animal\BuffaloStampede.cs" />
     <Compile Include="Event\Animal\Locusts.cs" />
     <Compile Include="Event\Animal\WolfAttack.cs" />
+    <Compile Include="Event\Prefab\EventLoseTime.cs" />
     <Compile Include="Event\Prefab\EventPersonInfect.cs" />
     <Compile Include="Event\Prefab\EventPersonInjure.cs" />
+    <Compile Include="Event\River\SuppliesWet.cs" />
     <Compile Include="Event\Vehicle\OxenDied.cs" />
     <Compile Include="Event\Vehicle\OxenInjured.cs" />
     <Compile Include="Event\Vehicle\OxenSick.cs" />

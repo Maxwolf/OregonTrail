@@ -255,11 +255,19 @@ namespace TrailSimulation.Entity
                 CheckIllness();
             }
 
-            // Random chance for illness in general.
-            if (game.Random.NextDouble() > .25 ||
-                game.Random.NextDouble() < .5)
+            // More change for illness if you have no clothes.
+            var cost_clothes = game.Vehicle.Inventory[Entities.Clothes].TotalValue;
+            if (cost_clothes > 22 + 4*game.Random.Next())
             {
                 CheckIllness();
+            }
+            else
+            {
+                // Random chance for illness in general, even with nice clothes but much lower.
+                if (game.Random.NextDouble() > .25 || game.Random.NextDouble() < .5)
+                {
+                    CheckIllness();
+                }
             }
 
             // Everyday of the simulation we will attempt to eat food.
@@ -279,13 +287,10 @@ namespace TrailSimulation.Entity
             var game = GameSimulationApp.Instance;
 
             var cost_food = game.Vehicle.Inventory[Entities.Food].TotalValue;
-            cost_food = cost_food - 8 - 5*(int) game.Vehicle.Ration;
             if (cost_food >= 13)
             {
-                // Consume the food since we still have some.
-                game.Vehicle.Inventory[Entities.Food] = new SimItem(
-                    game.Vehicle.Inventory[Entities.Food],
-                    (int) cost_food);
+                // Consume some food based on ration level, then update the cost to check against.
+                game.Vehicle.Inventory[Entities.Food].ReduceQuantity((int) (cost_food - 8 - 5*(int) game.Vehicle.Ration));
 
                 // Change to get better when eating well.
                 Heal();

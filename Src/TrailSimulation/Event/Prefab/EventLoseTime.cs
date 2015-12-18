@@ -1,15 +1,13 @@
-﻿using System;
-using TrailSimulation.Entity;
+﻿using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
     /// <summary>
-    ///     A wildfire or wildland fire is an uncontrolled fire in an area of combustible vegetation that occurs in the
-    ///     countryside area.
+    ///     Forces the player to advance time in the date, this will make it so they will have to face harsher weather
+    ///     conditions and also other random events can fire from this one.
     /// </summary>
-    [DirectorEvent(EventCategory.Weather, EventExecution.ManualOnly)]
-    public sealed class Wildfire : EventProduct
+    public abstract class EventLoseTime : EventProduct
     {
         /// <summary>
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
@@ -21,7 +19,7 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         /// <summary>
@@ -32,7 +30,7 @@ namespace TrailSimulation.Event
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
     }
 }

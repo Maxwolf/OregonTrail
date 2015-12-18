@@ -188,28 +188,3 @@ switch(event_counter)
 		}
 	break;
 }
-
----------------[CLIMATE]---------------
-
-void checkclimate()
-{
-	// Cold weather makes it worse.
-	if (if total_miles>950)
-	{
-		"cold weather -- brrrrrr! -- you "
-		if (cost_clothes>22+4*rnd(0))
-		{
-			"have enough clothing to keep warm"
-		}
-		else
-		{
-			"don't "
-			no_clothes=1
-		}
-		
-		if (no_clothes=0)
-		{
-			CheckIllness();
-		}
-	}
-}
