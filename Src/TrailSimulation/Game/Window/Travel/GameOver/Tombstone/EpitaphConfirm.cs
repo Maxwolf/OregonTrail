@@ -37,7 +37,8 @@ namespace TrailSimulation.Game
 
             // Add Tombstone message with here lies player name and their epitaph.
             _confirmPrompt.Clear();
-            _confirmPrompt.AppendLine($"{Environment.NewLine}{UserData.Tombstone}{Environment.NewLine}");
+            _confirmPrompt.AppendLine(
+                $"{Environment.NewLine}{GameSimulationApp.Instance.Graveyard.TempTombstone}{Environment.NewLine}");
             _confirmPrompt.AppendLine("Would you like to make");
             _confirmPrompt.Append("changes?");
             return _confirmPrompt.ToString();
@@ -55,13 +56,13 @@ namespace TrailSimulation.Game
                 case DialogResponse.Custom:
                 case DialogResponse.No:
                     // Add the Tombstone as is to the Tombstone manager for future players to see.
-                    UserData.TombstoneManager.Add(UserData.Tombstone);
-                    UserData.Tombstone = null;
+                    GameSimulationApp.Instance.Graveyard.Add(GameSimulationApp.Instance.Graveyard.TempTombstone);
+                    GameSimulationApp.Instance.Graveyard.ClearTempTombstone();
                     SetForm(typeof (TombstoneViewer));
                     break;
                 case DialogResponse.Yes:
                     // Clears whatever was entered for epitaph before and restarts the entry process for that.
-                    UserData.Tombstone.Epitaph = string.Empty;
+                    GameSimulationApp.Instance.Graveyard.TempTombstone.Epitaph = string.Empty;
                     SetForm(typeof (EpitaphEditor));
                     break;
                 default:

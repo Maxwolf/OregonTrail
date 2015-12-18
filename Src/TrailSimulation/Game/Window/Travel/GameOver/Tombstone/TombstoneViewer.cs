@@ -43,18 +43,20 @@ namespace TrailSimulation.Game
             if (GameSimulationApp.Instance.Vehicle.PassengerLivingCount <= 0)
             {
                 // Adds Tombstone from the user data because the player died.
-                _tombstone.AppendLine($"{Environment.NewLine}{UserData.Tombstone}");
+                _tombstone.AppendLine(
+                    $"{Environment.NewLine}{GameSimulationApp.Instance.Graveyard.TempTombstone}{Environment.NewLine}");
 
                 // Adds the underlying reason for the games failure if it was not obvious to the player by now.
                 _tombstone.AppendLine("All the members of");
                 _tombstone.AppendLine("your party have");
-                _tombstone.AppendLine("died");
+                _tombstone.AppendLine($"died.{Environment.NewLine}");
             }
             else
             {
                 // Grab the current Tombstone based on players progress on the trail so far.
                 Tombstone foundTombstone;
-                UserData.TombstoneManager.Tombstones.TryGetValue(GameSimulationApp.Instance.Vehicle.Odometer,
+                GameSimulationApp.Instance.Graveyard.FindTombstone(
+                    GameSimulationApp.Instance.Vehicle.Odometer,
                     out foundTombstone);
 
                 // Add Tombstone message we want to show the player from Tombstone manager.

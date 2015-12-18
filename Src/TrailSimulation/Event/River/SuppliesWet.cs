@@ -1,6 +1,4 @@
-﻿using System;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
+﻿using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
@@ -10,6 +8,5 @@ namespace TrailSimulation.Event
     [DirectorEvent(EventCategory.RiverCross)]
     public sealed class SuppliesWet : EventLoseTime
     {
-
     }
 }

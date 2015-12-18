@@ -17,16 +17,7 @@ namespace TrailSimulation.Game
         {
             // Store so player can buy food, clothes, ammo, etc.
             Store = new StoreGenerator();
-
-            // Allows for other players to see deaths of previous players on the trail.
-            TombstoneManager = new TombstoneManager();
         }
-
-        /// <summary>
-        ///     References all of the tombstones that this trail might have associated with it, also allows adding of tombstones to
-        ///     this trail so other players can encounter them in the future.
-        /// </summary>
-        public TombstoneManager TombstoneManager { get; }
 
         /// <summary>
         ///     Reference for any river information that we might need to be holding when we encounter one it will be generated and
@@ -110,12 +101,6 @@ namespace TrailSimulation.Game
             }
         }
 
-        /// <summary>
-        ///     Tombstone for the player (or another dead player) that will be either viewed or shown to user so they can
-        ///     confirm
-        ///     their graves details.
-        /// </summary>
-        public Tombstone Tombstone { get; set; }
 
         /// <summary>
         ///     Creates a new river that can be accessed as a property from the travel game window.

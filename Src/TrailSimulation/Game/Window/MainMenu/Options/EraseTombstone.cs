@@ -59,7 +59,9 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            // TODO: Actually erase Tombstone messages.
+            // Actually erase Tombstone messages.
+            GameSimulationApp.Instance.Graveyard.Reset();
+
             SetForm(typeof (ManagementOptions));
         }
     }
