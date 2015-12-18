@@ -370,8 +370,8 @@ namespace TrailSimulation.Entity
             var simulatedSubtraction = Quantity - amount;
 
             // Check that amount is not below minimum floor.
-            if (simulatedSubtraction < MinQuantity)
-                simulatedSubtraction = MinQuantity;
+            if (simulatedSubtraction < 0)
+                simulatedSubtraction = 0;
 
             // Check that amount is not above maximum ceiling.
             if (simulatedSubtraction > MaxQuantity)
@@ -392,8 +392,8 @@ namespace TrailSimulation.Entity
             var simulatedAddition = Quantity + amount;
 
             // Check that amount is not below minimum floor.
-            if (simulatedAddition < MinQuantity)
-                simulatedAddition = MinQuantity;
+            if (simulatedAddition < 0)
+                simulatedAddition = 0;
 
             // Check that amount is not above maximum ceiling.
             if (simulatedAddition > MaxQuantity)
