@@ -5,8 +5,7 @@ using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
-    [DirectorEvent(EventCategory.Weather)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
+    [DirectorEvent(EventCategory.Weather, EventExecution.ManualOnly)]
     public sealed class Wildfire : EventProduct
     {
         /// <summary>

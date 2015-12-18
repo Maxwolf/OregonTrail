@@ -44,7 +44,7 @@
     <Compile Include="Entity\Vehicle\VehicleStatus.cs" />
     <Compile Include="Event\Animal\BuffaloStampede.cs" />
     <Compile Include="Event\Animal\Locusts.cs" />
-    <Compile Include="Event\Animal\Mosquitos.cs" />
+    <Compile Include="Event\Animal\WolfAttack.cs" />
     <Compile Include="Event\Prefab\EventPersonInfect.cs" />
     <Compile Include="Event\Prefab\EventPersonInjure.cs" />
     <Compile Include="Event\Vehicle\OxenDied.cs" />
@@ -84,10 +84,8 @@
     <Compile Include="Event\Warning\NoFood.cs" />
     <Compile Include="Event\Warning\NoWater.cs" />
     <Compile Include="Event\Warning\Starvation.cs" />
-    <Compile Include="Event\Weather\Desert.cs" />
     <Compile Include="Event\Weather\HailStorm.cs" />
     <Compile Include="Event\Weather\HeavyFog.cs" />
-    <Compile Include="Event\Weather\MountainClimbing.cs" />
     <Compile Include="Event\Weather\ObstructedPath.cs" />
     <Compile Include="Event\Weather\QuicksandAhead.cs" />
     <Compile Include="Event\Weather\RoughTrail.cs" />

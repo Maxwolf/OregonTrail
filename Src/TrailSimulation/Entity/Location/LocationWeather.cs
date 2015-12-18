@@ -258,11 +258,22 @@ namespace TrailSimulation.Entity
                 case 4:
                     Condition = Weather.Hail;
                     _nextWeatherChance = 0.95d;
+                    if (GameSimulationApp.Instance.Random.NextBool())
+                    {
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
+                            typeof (HailStorm));
+                    }
                     break;
                 case 5:
                     Condition = Weather.Storm;
                     _nextWeatherChance = 0.85d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+
+                    if (GameSimulationApp.Instance.Random.NextBool())
+                    {
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
+                            typeof (SevereWeather));
+                    }
                     break;
                 default:
                     Condition = Weather.Snow;
@@ -282,6 +293,12 @@ namespace TrailSimulation.Entity
                     Condition = Weather.ScatteredThunderstorms;
                     _nextWeatherChance = 0.90d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+
+                    if (GameSimulationApp.Instance.Random.NextBool())
+                    {
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
+                            typeof (SevereWeather));
+                    }
                     break;
                 case 1:
                     Condition = Weather.ScatteredShowers;
@@ -296,6 +313,12 @@ namespace TrailSimulation.Entity
                     Condition = Weather.Thunderstorm;
                     _nextWeatherChance = 0.90d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
+
+                    if (GameSimulationApp.Instance.Random.NextBool())
+                    {
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
+                            typeof (SevereWeather));
+                    }
                     break;
                 case 4:
                     Condition = Weather.Haze;
@@ -304,10 +327,24 @@ namespace TrailSimulation.Entity
                 case 5:
                     Condition = Weather.Fog;
                     _nextWeatherChance = 0.78d;
+
+                    if (GameSimulationApp.Instance.Random.NextBool())
+                    {
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
+                            typeof (HeavyFog));
+                    }
                     break;
                 case 6:
                     Condition = Weather.Rain;
                     _nextWeatherChance = 0.56d;
+
+                    // Chance for quicksand to slow you down on wet rainy days.
+                    if (GameSimulationApp.Instance.Random.NextBool())
+                    {
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
+                            typeof (QuicksandAhead));
+                    }
+
                     break;
                 case 7:
                     Condition = Weather.Overcast;
@@ -346,6 +383,14 @@ namespace TrailSimulation.Entity
                 case 3:
                     Condition = Weather.Sunny;
                     _nextWeatherChance = 0.24d;
+
+                    // Chance for wildfire to slow you down on hot sunny days.
+                    if (GameSimulationApp.Instance.Random.NextBool())
+                    {
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
+                            typeof (Wildfire));
+                    }
+
                     break;
                 case 4:
                     Condition = Weather.ChanceOfThunderstorm;
@@ -374,6 +419,14 @@ namespace TrailSimulation.Entity
                 case 0:
                     Condition = Weather.Clear;
                     _nextWeatherChance = 0.10d;
+
+                    // Chance for wagon dust to slow you down on hot sunny days.
+                    if (GameSimulationApp.Instance.Random.NextBool())
+                    {
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
+                            typeof (WagonDust));
+                    }
+
                     break;
                 case 1:
                     Condition = Weather.MostlySunny;
@@ -386,6 +439,13 @@ namespace TrailSimulation.Entity
                 case 3:
                     Condition = Weather.Sunny;
                     _nextWeatherChance = 0.60d;
+
+                    // Chance for wagon dust to slow you down on hot sunny days.
+                    if (GameSimulationApp.Instance.Random.NextBool())
+                    {
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
+                            typeof (WagonDust));
+                    }
                     break;
                 case 4:
                     Condition = Weather.ChanceOfThunderstorm;

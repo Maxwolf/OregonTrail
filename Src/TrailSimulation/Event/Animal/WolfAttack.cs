@@ -5,9 +5,13 @@ using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
-    [DirectorEvent(EventCategory.Weather)]
+    /// <summary>
+    ///     A pack of wolves is attacking the vehicle party! If there are not enough bullets to stop them then they will
+    ///     overwhelm the people and kill them!
+    /// </summary>
+    [DirectorEvent(EventCategory.Animal)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public sealed class Desert : EventProduct
+    public sealed class WolfAttack : EventProduct
     {
         /// <summary>
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
