@@ -127,14 +127,6 @@ switch(event_counter)
 		"unsafe water--lose time looking for clean spring"
 		total_miles=total_miles-10*rnd(0)*-2
 	break;
-	case 32:
-		checkclimate();
-		"heavy rains---time and supplies lost"
-		cost_food=cost_food-10
-		cost_ammo=cost_ammo-500
-		cost_aid=cost_aid-15
-		total_miles=total_miles-10*rnd(0)-5
-	break;
 	case 35:
 		"bandits attack"
 		AddMode(hunting)

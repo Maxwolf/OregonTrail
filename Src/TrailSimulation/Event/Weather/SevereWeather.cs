@@ -1,34 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
+    /// <summary>
+    ///     Severe weather will cause destruction of items and waste your time, but nobody will get killed.
+    /// </summary>
     [DirectorEvent(EventCategory.Weather, EventExecution.ManualOnly)]
-    public sealed class SevereWeather : EventProduct
+    public sealed class SevereWeather : EventItemDestroyer
     {
         /// <summary>
-        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
-        ///     left completely up to handler.
+        ///     Fired by the item destroyer event prefab before items are destroyed.
         /// </summary>
-        /// <param name="sourceEntity">
-        ///     Entities which the event is going to directly affect. This way there is no confusion about
-        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
-        /// </param>
-        public override void Execute(IEntity sourceEntity)
+        /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
+        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
-            throw new NotImplementedException();
+            return destroyedItems.Count > 0
+                ? $"time and supplies lost:{Environment.NewLine}"
+                : "no items lost.";
         }
 
         /// <summary>
-        ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
-        ///     change depending on requirements of the implementation.
+        ///     Fired by the item destroyer event prefab after items are destroyed.
         /// </summary>
-        /// <param name="sourceEntity"></param>
-        /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
-        protected override string OnRender(IEntity sourceEntity)
+        protected override string OnPreDestroyItems()
         {
-            throw new NotImplementedException();
+            return "heavy rains---";
         }
     }
 }
