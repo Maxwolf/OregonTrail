@@ -327,28 +327,6 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        ///     Calculates the total points that should be given for inputted quantity of the object in question.
-        /// </summary>
-        /// <param name="quantity">Amount of the item found int he players inventory that needs to be calculated.</param>
-        /// <returns>Points to be awarded for the given quantity of the item according to scoring rules.</returns>
-        public int CalculatePointsForAmount(int quantity)
-        {
-            // Check quantity is above zero.
-            if (quantity <= 0)
-                return 0;
-
-            // Check that quantity is above divisor for point calculation.
-            if (quantity < PointsPerAmount)
-                return 0;
-
-            // Figure out how many points for this quantity.
-            var points = (quantity/PointsPerAmount)*PointsAwarded;
-
-            // Return the result to the caller.
-            return points;
-        }
-
-        /// <summary>
         ///     Forcefully resets the quantity to whatever the starting quantity was configured to be when the SimItem was
         ///     created.
         /// </summary>
