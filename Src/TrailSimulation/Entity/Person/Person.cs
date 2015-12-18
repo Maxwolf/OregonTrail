@@ -430,7 +430,11 @@ namespace TrailSimulation.Entity
             Health -= game.Random.Next(minAmount, maxAmount);
 
             // Chance for broken bones and other ailments related to damage (but not death).
-            game.EventDirector.TriggerEventByType(this, EventCategory.Person);
+            if (!Infected || !Injured)
+            {
+                // Only plus is that if you are already infected or injured you will not have more events dumped for this person randomly.
+                game.EventDirector.TriggerEventByType(this, EventCategory.Person);
+            }
 
             // Check if health dropped to dead levels.
             if (HealthValue != HealthLevel.Dead)
