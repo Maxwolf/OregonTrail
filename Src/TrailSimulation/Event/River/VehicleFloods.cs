@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using TrailSimulation.Entity;
@@ -23,7 +24,7 @@ namespace TrailSimulation.Event
             var postDestroy = new StringBuilder();
             if (destroyedItems.Count > 0)
             {
-                postDestroy.AppendLine("the loss of:");
+                postDestroy.AppendLine($"the loss of:{Environment.NewLine}");
 
                 // Attempts to kill the living passengers of the vehicle.
                 var drownedPassengers = GameSimulationApp.Instance.Vehicle.Passengers.TryKill();

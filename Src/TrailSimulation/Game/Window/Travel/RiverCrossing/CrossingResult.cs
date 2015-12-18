@@ -200,6 +200,14 @@ namespace TrailSimulation.Game
                     }
                     break;
                 case RiverCrossChoice.Float:
+                    if (UserData.River.RiverDepth > 5 && !hasForcedEvent &&
+                        _riverCrossingOfTotalWidth >= (UserData.River.RiverWidth / 2) &&
+                        game.Random.NextBool())
+                    {
+                        hasForcedEvent = true;
+                        game.EventDirector.TriggerEvent(game.Vehicle, typeof(VehicleFloods));
+                    }
+                    break;
                 case RiverCrossChoice.Ferry:
                     // Ferry and floating over river both have the same risks.
                     game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
