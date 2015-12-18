@@ -17,10 +17,14 @@ namespace TrailSimulation.Event
         private StringBuilder _eventText;
 
         /// <summary>
-        ///     Creates a new instance of an event product with the specified event type for reference purposes.
+        ///     Fired when the event is created by the event factory, but before it is executed. Acts as a constructor mostly but
+        ///     used in this way so that only the factory will call the method and there is no worry of it accidentally getting
+        ///     called by creation.
         /// </summary>
-        protected EventTimeSkipper()
+        public override void OnEventCreate()
         {
+            base.OnEventCreate();
+
             // Create the string builder that will hold representation of event action to display for debugging.
             _eventText = new StringBuilder();
         }

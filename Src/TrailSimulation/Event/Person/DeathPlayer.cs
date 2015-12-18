@@ -14,10 +14,14 @@ namespace TrailSimulation.Event
         private StringBuilder _leaderDeath;
 
         /// <summary>
-        ///     Creates a new instance of an event product with the specified event type for reference purposes.
+        ///     Fired when the event is created by the event factory, but before it is executed. Acts as a constructor mostly but
+        ///     used in this way so that only the factory will call the method and there is no worry of it accidentally getting
+        ///     called by creation.
         /// </summary>
-        public DeathPlayer()
+        public override void OnEventCreate()
         {
+            base.OnEventCreate();
+
             _leaderDeath = new StringBuilder();
         }
 

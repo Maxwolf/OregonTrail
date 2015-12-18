@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization;
 using TrailSimulation.Core;
 using TrailSimulation.Event;
@@ -78,11 +76,15 @@ namespace TrailSimulation.Game
                 return null;
 
             // Create the event product, but don't call any constructor.
-            var eventInstance = FormatterServices.GetUninitializedObject(directorEventKeyValuePair.Value) as EventProduct;
+            var eventInstance =
+                FormatterServices.GetUninitializedObject(directorEventKeyValuePair.Value) as EventProduct;
 
             // If the event instance is null then complain.
             if (eventInstance == null)
                 throw new ArgumentException($"Attempted to create instance of {eventType} event but failed!");
+
+            // Fire event that acts like our own constructor for the object but only calling it when we say here.
+            eventInstance.OnEventCreate();
 
             // Increment the history for loading this type of event.
             return eventInstance;
