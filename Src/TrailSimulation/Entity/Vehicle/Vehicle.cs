@@ -233,7 +233,7 @@ namespace TrailSimulation.Entity
                     averageHealthValue = (int) livingPassengersHealth.Cast<int>().Average();
 
                 // Look for the closest health level to the average health level from all living passengers.
-                var closest = Enum.GetValues(typeof(HealthLevel)).Cast<int>().ClosestTo(averageHealthValue);
+                var closest = Enum.GetValues(typeof (HealthLevel)).Cast<int>().ClosestTo(averageHealthValue);
                 return (HealthLevel) closest;
             }
         }

@@ -50,7 +50,7 @@ namespace TrailSimulation.Game
                 _tombstone.AppendLine("your party have");
                 _tombstone.AppendLine("died");
             }
-            else 
+            else
             {
                 // Grab the current Tombstone based on players progress on the trail so far.
                 Tombstone foundTombstone;

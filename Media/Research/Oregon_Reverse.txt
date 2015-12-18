@@ -204,12 +204,8 @@ switch(event_counter)
 			checkillness();
 		}
 	break;
-	case 95:
-		"helpful indians show you where to find more food"
-		cost_food=cost_food+14
-	break;
 	case 97:
-		"hail storm---supplies damaged"
+		"---"
 		total_miles=total_miles-5-rnd(0)*10
 		cost_ammo=cost_ammo-200
 		cost_aid=cost_aid-4-rnd(0)*3
