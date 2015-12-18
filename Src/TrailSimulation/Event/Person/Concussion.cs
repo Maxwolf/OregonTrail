@@ -8,14 +8,14 @@ namespace TrailSimulation.Event
     ///     confusion or temporary incapacity.
     /// </summary>
     [DirectorEvent(EventCategory.Person)]
-    public sealed class Concussion : EventPersonInfect
+    public sealed class Concussion : EventPersonInjure
     {
         /// <summary>
-        ///     Fired after the event has executed and the infection flag set on the person.
+        ///     Fired after the event has executed and the injury flag set on the person.
         /// </summary>
-        /// <param name="person">Person whom is now infected by whatever you say they are here.</param>
-        /// <returns>Name or type of infection the person is currently affected with.</returns>
-        protected override string OnPostInfection(Person person)
+        /// <param name="person">Person whom is now injured by whatever you say they are here.</param>
+        /// <returns>Describes what type of physical injury has come to the person.</returns>
+        protected override string OnPostInjury(Person person)
         {
             return $"{person.Name} has a concussion.";
         }
