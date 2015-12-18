@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using TrailSimulation.Core;
 using TrailSimulation.Event;
 
@@ -76,13 +77,8 @@ namespace TrailSimulation.Game
             if (directorEventKeyValuePair.Value.IsAbstract)
                 return null;
 
-            // Create the game Windows, it will have constructor with one parameter.
-            var eventInstance = Activator.CreateInstance(
-                directorEventKeyValuePair.Value,
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
-                null,
-                new object[] {directorEventKeyValuePair.Key.Category}, // Constructor with one parameter.
-                CultureInfo.InvariantCulture) as EventProduct;
+            // Create the event product, but don't call any constructor.
+            var eventInstance = FormatterServices.GetUninitializedObject(directorEventKeyValuePair.Value) as EventProduct;
 
             // If the event instance is null then complain.
             if (eventInstance == null)

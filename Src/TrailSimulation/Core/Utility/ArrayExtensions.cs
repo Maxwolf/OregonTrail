@@ -31,7 +31,6 @@ namespace TrailSimulation.Core
         /// <remarks>http://stackoverflow.com/a/10120982</remarks>
         public static int ClosestTo(this IEnumerable<int> collection, int target)
         {
-            // Apply any defensive coding here as necessary.
             var closest = int.MaxValue;
             var minDifference = int.MaxValue;
             foreach (var element in collection)
