@@ -9,7 +9,7 @@ namespace TrailSimulation.Event
     ///     simulate the effect of them noticing you need help.
     /// </summary>
     [DirectorEvent(EventCategory.Wild)]
-    public sealed class IndianFindFood : EventProduct
+    public sealed class IndiansHelp : EventProduct
     {
         /// <summary>
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
