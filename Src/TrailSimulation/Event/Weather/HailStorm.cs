@@ -23,7 +23,7 @@ namespace TrailSimulation.Event
 
             // Check if there are enough clothes to keep people warm, need two sets of clothes for every person.
             return game.Vehicle.Inventory[Entities.Clothes].Quantity >= (game.Vehicle.PassengerLivingCount*2) &&
-                   destroyedItems.Count > 0
+                   destroyedItems.Count < 0
                 ? "no loss of items."
                 : TryKillPassengers("frozen");
         }
