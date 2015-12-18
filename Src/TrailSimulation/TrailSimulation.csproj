@@ -122,9 +122,9 @@
     <Compile Include="Game\Window\Travel\GameOver\Tombstone\EpitaphConfirm.cs" />
     <Compile Include="Game\Window\Travel\GameOver\Tombstone\EpitaphEditor.cs" />
     <Compile Include="Game\Window\Travel\GameOver\Tombstone\EpitaphQuestion.cs" />
-    <Compile Include="Game\Module\Tombstone\Tombstone.cs" />
+    <Compile Include="Game\Module\Graveyard\Tombstone.cs" />
     <Compile Include="Game\Window\Travel\GameOver\GameFail.cs" />
-    <Compile Include="Game\Module\Tombstone\GraveyardModule.cs" />
+    <Compile Include="Game\Module\Graveyard\GraveyardModule.cs" />
     <Compile Include="Game\Window\Travel\GameOver\Tombstone\TombstoneViewer.cs" />
     <Compile Include="Game\Window\Travel\Situation\LocationFork.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverCrossChoice.cs" />
