@@ -1,10 +1,14 @@
-﻿using System;
+﻿using System.Diagnostics;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
-    [DirectorEvent(EventCategory.Person)]
+    /// <summary>
+    ///     To start to get worse. It appeared that person was going to get well; then, unfortunately, they took a turn for the
+    ///     worse.
+    /// </summary>
+    [DirectorEvent(EventCategory.Person, EventExecution.ManualOnly)]
     public sealed class TurnForWorse : EventProduct
     {
         /// <summary>
@@ -17,7 +21,12 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            // Cast the source entity as person.
+            var person = sourceEntity as Person;
+            Debug.Assert(person != null, "person != null");
+
+            // We are going to inflict enough damage to probably kill the person.
+            person.Damage(100);
         }
 
         /// <summary>
@@ -28,7 +37,11 @@ namespace TrailSimulation.Event
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            // Cast the source entity as person.
+            var person = sourceEntity as Person;
+            Debug.Assert(person != null, "person != null");
+
+            return $"{person.Name} has taken a turn for the worse.";
         }
     }
 }
