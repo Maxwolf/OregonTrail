@@ -138,6 +138,7 @@ namespace TrailSimulation.Entity
         {
             get
             {
+                // Create inventory of items with default starting amounts.
                 var defaultInventory = new Dictionary<Entities, SimItem>
                 {
                     {Entities.Animal, Parts.Oxen},
@@ -149,6 +150,14 @@ namespace TrailSimulation.Entity
                     {Entities.Food, Resources.Food},
                     {Entities.Cash, Resources.Cash}
                 };
+
+                // Zero out all of the quantities by removing their max quantity.
+                foreach (var simItem in defaultInventory)
+                {
+                    simItem.Value.ReduceQuantity(simItem.Value.MaxQuantity);
+                }
+
+                // Now we have default inventory of a store with all quantities zeroed out.
                 return defaultInventory;
             }
         }
@@ -432,7 +441,7 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Adds the item to the inventory of the vehicle and subtracts it's cost multiplied by quantity from balance.
         /// </summary>
-        public void BuyItem(SimItem transaction)
+        public void Purchase(SimItem transaction)
         {
             // Check of the player can afford this item.
             if (Balance < transaction.TotalValue)
@@ -442,9 +451,7 @@ namespace TrailSimulation.Entity
             Balance -= transaction.TotalValue;
 
             // Make sure we add the quantity and not just replace it.
-            var oldQuantity = _inventory[transaction.Category].Quantity;
-            _inventory[transaction.Category] = new SimItem(_inventory[transaction.Category],
-                oldQuantity + transaction.Quantity);
+            _inventory[transaction.Category].AddQuantity(transaction.Quantity);
         }
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace TrailSimulation.Game
             _confirmPrompt.Clear();
             _confirmPrompt.AppendLine($"{Environment.NewLine}{UserData.Tombstone}{Environment.NewLine}");
             _confirmPrompt.AppendLine("Would you like to make");
-            _confirmPrompt.AppendLine("changes?");
+            _confirmPrompt.Append("changes?");
             return _confirmPrompt.ToString();
         }
 

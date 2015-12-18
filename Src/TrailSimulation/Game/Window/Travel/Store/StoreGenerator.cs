@@ -66,7 +66,7 @@ namespace TrailSimulation.Game
             {
                 return GameSimulationApp.Instance.Trail.IsFirstLocation &&
                        GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached &&
-                       Transactions[Entities.Animal].Quantity <= 0;
+                       _totalTransactions[Entities.Animal].Quantity <= 0;
             }
         }
 
@@ -83,14 +83,10 @@ namespace TrailSimulation.Game
                 throw new InvalidOperationException(
                     "Attempted to purchase items the player does not have enough monies for!");
 
-            // Modify the vehicles cash from purchases they made.
-            var playerCash = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
-            Transactions[Entities.Cash] = new SimItem(Transactions[Entities.Cash], (int) playerCash);
-
             // Loop through all the pending transaction and buy them out.
-            foreach (var transaction in Transactions)
+            foreach (var transaction in _totalTransactions)
             {
-                GameSimulationApp.Instance.Vehicle.BuyItem(transaction.Value);
+                GameSimulationApp.Instance.Vehicle.Purchase(transaction.Value);
             }
 
             // Remove all the transactions now that we have processed them.
