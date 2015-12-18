@@ -7,8 +7,7 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Used when the event director fires event that game simulation subscribes to which passes along events that should
     ///     be triggered when they occur so this state can be attached to the travel Windows and also have the event data
-    ///     passed
-    ///     into it so it may be executed and data shown in text user interface for this state.
+    ///     passed into it so it may be executed and data shown in text user interface for this state.
     /// </summary>
     [ParentWindow(GameWindow.RandomEvent)]
     public sealed class EventExecutor : InputForm<RandomEventInfo>

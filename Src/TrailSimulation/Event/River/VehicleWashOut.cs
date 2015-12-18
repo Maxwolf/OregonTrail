@@ -13,16 +13,6 @@ namespace TrailSimulation.Event
     public sealed class VehicleWashOut : EventItemDestroyer
     {
         /// <summary>
-        ///     Creates a new instance of an event product with the specified event type for reference purposes.
-        /// </summary>
-        /// <param name="category">
-        ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
-        /// </param>
-        public VehicleWashOut(EventCategory category) : base(category)
-        {
-        }
-
-        /// <summary>
         ///     Fired by the item destroyer event prefab before items are destroyed.
         /// </summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>

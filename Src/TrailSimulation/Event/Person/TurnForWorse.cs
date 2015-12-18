@@ -8,16 +8,6 @@ namespace TrailSimulation.Event
     public sealed class TurnForWorse : EventProduct
     {
         /// <summary>
-        ///     Creates a new instance of an event product with the specified event type for reference purposes.
-        /// </summary>
-        /// <param name="category">
-        ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
-        /// </param>
-        public TurnForWorse(EventCategory category)
-        {
-        }
-
-        /// <summary>
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.
         /// </summary>
