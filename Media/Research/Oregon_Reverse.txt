@@ -187,23 +187,6 @@ switch(event_counter)
 			endgame(diereason.wildanimal);
 		}
 	break;
-	case 69:
-		// Eating poorly raises risk of illness.
-		if (eat_command=1)
-		{
-			checkillness();
-		}
-		else if (eat_command=3 && rnd(0)<.5)
-		{
-			checkillness();
-		}
-		
-		// Random chance for illness in general.
-		if (rnd(0)>.25 || rnd(0)<.5)
-		{
-			checkillness();
-		}
-	break;
 }
 
 ---------------[CLIMATE]---------------

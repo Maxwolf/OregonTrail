@@ -194,8 +194,29 @@ namespace TrailSimulation.Entity
             if (systemTick)
                 return;
 
+            // Grab instance of the game simulation to increase readability.
+            var game = GameSimulationApp.Instance;
+
+            // Eating poorly raises risk of illness.
+            if (game.Vehicle.Ration == RationLevel.BareBones)
+            {
+                CheckIllness();
+            }
+            else if (game.Vehicle.Ration == RationLevel.Meager && 
+                     game.Random.NextBool())
+            {
+                CheckIllness();
+            }
+
+            // Random chance for illness in general.
+            if (game.Random.NextDouble() > .25 || 
+                game.Random.NextDouble() < .5)
+            {
+                CheckIllness();
+            }
+
+            // Everyday of the simulation we will attempt to eat food.
             ConsumeFood();
-            CheckIllness();
         }
 
         /// <summary>
