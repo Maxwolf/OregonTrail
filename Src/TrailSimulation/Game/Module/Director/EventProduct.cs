@@ -1,5 +1,4 @@
 ﻿using TrailSimulation.Entity;
-using TrailSimulation.Event;
 
 namespace TrailSimulation.Game
 {
@@ -8,23 +7,6 @@ namespace TrailSimulation.Game
     /// </summary>
     public abstract class EventProduct
     {
-        /// <summary>
-        ///     Creates a new instance of an event product with the specified event type for reference purposes.
-        /// </summary>
-        /// <param name="category">
-        ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
-        /// </param>
-        protected EventProduct(EventCategory category)
-        {
-            Category = category;
-        }
-
-        /// <summary>
-        ///     Defines what type of event this will be, used for grouping and filtering and triggering events by type rather than
-        ///     type of.
-        /// </summary>
-        public EventCategory Category { get; }
-
         /// <summary>
         ///     Grabs the current name of the event as it should be known by the simulation. Generally this is the friendly class
         ///     name.

@@ -22,7 +22,7 @@ namespace TrailSimulation.Event
         /// <param name="category">
         ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
         /// </param>
-        protected EventTimeSkipper(EventCategory category) : base(category)
+        protected EventTimeSkipper(EventCategory category)
         {
             // Create the string builder that will hold representation of event action to display for debugging.
             _eventText = new StringBuilder();
@@ -40,8 +40,6 @@ namespace TrailSimulation.Event
         {
             // Clear out the text from the string builder.
             _eventText.Clear();
-
-
         }
 
         /// <summary>
@@ -55,14 +53,13 @@ namespace TrailSimulation.Event
             return _eventText.ToString();
         }
 
+
         /// <summary>
         ///     Fired when the event is closed by the user or system after being executed and rendered out on text user interface.
         /// </summary>
         public override void OnEventClose()
         {
             base.OnEventClose();
-
-
         }
     }
 }

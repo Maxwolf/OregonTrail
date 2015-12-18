@@ -1,26 +1,15 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
     /// <summary>
-    /// Similar to wild berries, but with fruit there will be more to go around.
+    ///     Similar to wild berries, but with fruit there will be more to go around.
     /// </summary>
     [DirectorEvent(EventCategory.Wild)]
     public sealed class FindFruit : EventProduct
     {
-        /// <summary>
-        ///     Creates a new instance of an event product with the specified event type for reference purposes.
-        /// </summary>
-        /// <param name="category">
-        ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
-        /// </param>
-        public FindFruit(EventCategory category) : base(category)
-        {
-        }
-
         /// <summary>
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.

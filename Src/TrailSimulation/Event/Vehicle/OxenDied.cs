@@ -13,7 +13,7 @@ namespace TrailSimulation.Event
         /// <param name="category">
         ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
         /// </param>
-        public OxenDied(EventCategory category) : base(category)
+        public OxenDied(EventCategory category)
         {
         }
 

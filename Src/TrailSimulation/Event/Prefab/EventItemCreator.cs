@@ -23,7 +23,7 @@ namespace TrailSimulation.Event
         /// <param name="category">
         ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
         /// </param>
-        protected EventItemCreator(EventCategory category) : base(category)
+        protected EventItemCreator(EventCategory category)
         {
             // Create the string builder that will hold representation of event action to display for debugging.
             _eventText = new StringBuilder();
