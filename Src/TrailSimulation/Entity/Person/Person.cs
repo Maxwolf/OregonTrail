@@ -18,6 +18,12 @@ namespace TrailSimulation.Entity
         private int _health;
 
         /// <summary>
+        ///     Determines if this person has reached the point of no return and has died. There is no coming back from this and
+        ///     this flag will be used to prevent any further operations or resources being performed by this person.
+        /// </summary>
+        private bool _isDead;
+
+        /// <summary>
         ///     Determines if the persons health was at any time at the very poor level, which means they were close to death. We
         ///     can keep track of this and if they recover to full health we will make note about this for the player to see.
         /// </summary>
@@ -43,6 +49,13 @@ namespace TrailSimulation.Entity
         {
             get
             {
+                // Skip if this person is dead, cannot heal them.
+                if (_isDead)
+                {
+                    _health = (int) HealthLevel.Dead;
+                    return HealthLevel.Dead;
+                }
+
                 // Health is greater than fair so it must be good.
                 if (Health > (int) HealthLevel.Fair)
                 {
@@ -67,6 +80,7 @@ namespace TrailSimulation.Entity
                     return HealthLevel.VeryPoor;
                 }
 
+                // Default response is to indicate this person is dead.
                 return HealthLevel.Dead;
             }
         }
@@ -80,6 +94,13 @@ namespace TrailSimulation.Entity
             get { return _health; }
             set
             {
+                // Skip if this person is dead, cannot heal them.
+                if (HealthLevel == HealthLevel.Dead || _isDead)
+                {
+                    _health = (int) HealthLevel.Dead;
+                    return;
+                }
+
                 // Check that value is not above max.
                 if (_health > (int) HealthLevel.Good)
                     value = (int) HealthLevel.Good;
@@ -194,6 +215,10 @@ namespace TrailSimulation.Entity
             if (systemTick)
                 return;
 
+            // Skip if this person is dead, cannot heal them.
+            if (HealthLevel == HealthLevel.Dead || _isDead)
+                return;
+
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
@@ -202,14 +227,14 @@ namespace TrailSimulation.Entity
             {
                 CheckIllness();
             }
-            else if (game.Vehicle.Ration == RationLevel.Meager && 
+            else if (game.Vehicle.Ration == RationLevel.Meager &&
                      game.Random.NextBool())
             {
                 CheckIllness();
             }
 
             // Random chance for illness in general.
-            if (game.Random.NextDouble() > .25 || 
+            if (game.Random.NextDouble() > .25 ||
                 game.Random.NextDouble() < .5)
             {
                 CheckIllness();
@@ -224,12 +249,16 @@ namespace TrailSimulation.Entity
         /// </summary>
         private void ConsumeFood()
         {
+            // Skip if this person is dead, cannot heal them.
+            if (HealthLevel == HealthLevel.Dead || _isDead)
+                return;
+
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
             var cost_food = game.Vehicle.Inventory[Entities.Food].TotalValue;
             cost_food = cost_food - 8 - 5*(int) game.Vehicle.Ration;
-            if (cost_food >= 13 && HealthLevel != HealthLevel.Dead)
+            if (cost_food >= 13)
             {
                 // Consume the food since we still have some.
                 game.Vehicle.Inventory[Entities.Food] = new SimItem(
@@ -252,6 +281,10 @@ namespace TrailSimulation.Entity
         /// </summary>
         private void Heal()
         {
+            // Skip if this person is dead, cannot heal them.
+            if (HealthLevel == HealthLevel.Dead || _isDead)
+                return;
+
             // Skip if already at max health.
             if (HealthLevel == HealthLevel.Good)
                 return;
@@ -282,7 +315,7 @@ namespace TrailSimulation.Entity
             var game = GameSimulationApp.Instance;
 
             // Cannot calculate illness for the dead.
-            if (HealthLevel == HealthLevel.Dead)
+            if (HealthLevel == HealthLevel.Dead || _isDead)
                 return;
 
             if (game.Random.Next(100) <= 10 +
@@ -345,6 +378,7 @@ namespace TrailSimulation.Entity
                     Damage(1, 5);
                     break;
                 case HealthLevel.Dead:
+                    _isDead = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
