@@ -337,7 +337,7 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        /// Sets the persons health back to maximum amount and removes all infections and injuries.
+        ///     Sets the persons health back to maximum amount and removes all infections and injuries.
         /// </summary>
         public void HealEntirely()
         {
