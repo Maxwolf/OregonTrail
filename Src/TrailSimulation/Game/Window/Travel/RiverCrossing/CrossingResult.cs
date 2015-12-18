@@ -207,6 +207,11 @@ namespace TrailSimulation.Game
                         hasForcedEvent = true;
                         game.EventDirector.TriggerEvent(game.Vehicle, typeof (VehicleFloods));
                     }
+                    else
+                    {
+                        // Check that we don't flood the user twice, that is just annoying.
+                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
+                    }
                     break;
                 case RiverCrossChoice.Ferry:
                     // Ferry and floating over river both have the same risks.
