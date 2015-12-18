@@ -319,19 +319,31 @@ namespace TrailSimulation.Entity
                 return;
 
             // Check if the player has made a recovery from near death.
-            if (_nearDeathExperience)
+            if (_nearDeathExperience && (Infected || Injured))
             {
                 // We only want to show the well again event if the player made a massive recovery.
                 _nearDeathExperience = false;
-                Infected = false;
-                Injured = false;
-                game.EventDirector.TriggerEvent(this, typeof (WellAgain));
+
+                // Roll the dice, person can get better or way worse here.
+                game.EventDirector.TriggerEvent(this, game.Random.NextBool()
+                    ? typeof (WellAgain)
+                    : typeof (TurnForWorse));
             }
             else
             {
                 // Increase health by a random amount.
                 Health += game.Random.Next(1, 10);
             }
+        }
+
+        /// <summary>
+        /// Sets the persons health back to maximum amount and removes all infections and injuries.
+        /// </summary>
+        public void HealEntirely()
+        {
+            Health = (int) HealthLevel.Good;
+            Infected = false;
+            Injured = false;
         }
 
         /// <summary>

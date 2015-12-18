@@ -20,6 +20,12 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(IEntity sourceEntity)
         {
+            // Cast the source entity as person.
+            var person = sourceEntity as Person;
+            Debug.Assert(person != null, "person != null");
+
+            // Removes all infections, injuries, and heals the person in full.
+            person.HealEntirely();
         }
 
         /// <summary>
