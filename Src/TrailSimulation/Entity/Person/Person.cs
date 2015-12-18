@@ -34,12 +34,14 @@ namespace TrailSimulation.Entity
         /// </summary>
         public Person(Profession profession, string name, bool isLeader)
         {
+            // Person needs a name, profession, and need to know if they are the leader.
             Profession = profession;
             Name = name;
             IsLeader = isLeader;
-            Infected = false;
 
-            // Starts the player at maximum health.
+            // Person starts with clean bill of health.
+            Infected = false;
+            Injured = false;
             Health = (int) HealthLevel.Good;
         }
 
@@ -139,6 +141,12 @@ namespace TrailSimulation.Entity
         ///     without them.
         /// </summary>
         public bool IsLeader { get; }
+
+        /// <summary>
+        ///     Sets flag on person that marks them as being physically injured and now is handicapped and will take some time to
+        ///     heal that is much longer typically than an infection.
+        /// </summary>
+        private bool Injured { get; set; }
 
         /// <summary>
         ///     Name of the person as they should be known by other players and the simulation.
@@ -306,12 +314,17 @@ namespace TrailSimulation.Entity
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
+            // Person will not get healed every single time it is possible to do so.
+            if (game.Random.NextBool())
+                return;
+
             // Check if the player has made a recovery from near death.
             if (_nearDeathExperience)
             {
                 // We only want to show the well again event if the player made a massive recovery.
                 _nearDeathExperience = false;
                 Infected = false;
+                Injured = false;
                 game.EventDirector.TriggerEvent(this, typeof (WellAgain));
             }
             else
@@ -371,7 +384,7 @@ namespace TrailSimulation.Entity
                     break;
                 case HealthLevel.Fair:
                     // Not eating for a couple days is going to hit you hard.
-                    if (Infected && game.Vehicle.Status != VehicleStatus.Stopped)
+                    if ((Infected || Injured) && game.Vehicle.Status != VehicleStatus.Stopped)
                     {
                         game.Vehicle.ReduceMileage(5);
                         Damage(10, 50);
@@ -379,7 +392,7 @@ namespace TrailSimulation.Entity
                     break;
                 case HealthLevel.Poor:
                     // Player is working themselves to death.
-                    if (Infected && game.Vehicle.Status != VehicleStatus.Stopped)
+                    if ((Infected || Injured) && game.Vehicle.Status != VehicleStatus.Stopped)
                     {
                         game.Vehicle.ReduceMileage(10);
                         Damage(5, 10);
@@ -461,12 +474,22 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        ///     Flags the player as being infected with a disease, virus, fungus, etc. We don't specify what it is here, just that
+        ///     Flags the person as being infected with a disease, virus, fungus, etc. We don't specify what it is here, just that
         ///     they are afflicted with it and it will play into future rolls on their health.
         /// </summary>
         public void Infect()
         {
             Infected = true;
+        }
+
+        /// <summary>
+        ///     Flags the person as being injured physically, this separates it from the infection flag since it means the player
+        ///     will be operating at greatly diminished capacity and will take much longer to heal. An example of this type of
+        ///     injury would be the person breaking their arm.
+        /// </summary>
+        public void Injure()
+        {
+            Injured = true;
         }
     }
 }
