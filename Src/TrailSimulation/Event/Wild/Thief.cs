@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using TrailSimulation.Entity;
@@ -22,39 +21,10 @@ namespace TrailSimulation.Event
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
-            // Grab an instance of the game simulation.
-            var game = GameSimulationApp.Instance;
-
             // Change event text depending on if items were destroyed or not.
-            var postDestroy = new StringBuilder();
-            if (destroyedItems.Count > 0)
-            {
-                // Lists out the people and items destroyed.
-                postDestroy.AppendLine($"the loss of:{Environment.NewLine}");
-
-                // Check if there are enough clothes to keep people warm, need two sets of clothes for every person.
-                if (game.Vehicle.Inventory[Entities.Clothes].Quantity >= (game.Vehicle.PassengerLivingCount*2))
-                    return postDestroy.ToString();
-
-                // Attempts to kill the living passengers of the vehicle.
-                var murderedPassengers = game.Vehicle.Passengers.TryKill();
-
-                // If the killed passenger list contains any entries we print them out.
-                foreach (var person in murderedPassengers)
-                {
-                    // Only proceed if person is actually dead.
-                    if (person.HealthValue == HealthLevel.Dead)
-                        postDestroy.AppendLine($"{person.Name} (murdered)");
-                }
-            }
-            else
-            {
-                // Got lucky nothing was destroyed!
-                postDestroy.AppendLine("no loss of items.");
-            }
-
-            // Returns the processed text to event for rendering.
-            return postDestroy.ToString();
+            return destroyedItems.Count > 0
+                ? TryKillPassengers("murdered")
+                : "no loss of items.";
         }
 
         /// <summary>

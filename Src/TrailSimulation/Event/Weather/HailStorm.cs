@@ -21,36 +21,11 @@ namespace TrailSimulation.Event
             // Grab an instance of the game simulation.
             var game = GameSimulationApp.Instance;
 
-            // Change event text depending on if items were destroyed or not.
-            var postDestroy = new StringBuilder();
-            if (destroyedItems.Count > 0)
-            {
-                // Lists out the people and items destroyed.
-                postDestroy.AppendLine("the loss of:");
-
-                // Check if there are enough clothes to keep people warm, need two sets of clothes for every person.
-                if (game.Vehicle.Inventory[Entities.Clothes].Quantity >= (game.Vehicle.PassengerLivingCount*2))
-                    return postDestroy.ToString();
-
-                // Attempts to kill the living passengers of the vehicle.
-                var frozenPassengers = game.Vehicle.Passengers.TryKill();
-
-                // If the killed passenger list contains any entries we print them out.
-                foreach (var person in frozenPassengers)
-                {
-                    // Only proceed if person is actually dead.
-                    if (person.HealthValue == HealthLevel.Dead)
-                        postDestroy.AppendLine($"{person.Name} (frozen)");
-                }
-            }
-            else
-            {
-                // Got lucky nothing was destroyed!
-                postDestroy.AppendLine("no loss of items.");
-            }
-
-            // Returns the processed text to event for rendering.
-            return postDestroy.ToString();
+            // Check if there are enough clothes to keep people warm, need two sets of clothes for every person.
+            return game.Vehicle.Inventory[Entities.Clothes].Quantity >= (game.Vehicle.PassengerLivingCount*2) &&
+                   destroyedItems.Count > 0
+                ? "no loss of items."
+                : TryKillPassengers("frozen");
         }
 
         /// <summary>

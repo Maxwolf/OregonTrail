@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
@@ -28,6 +29,35 @@ namespace TrailSimulation.Event
 
             // Create the string builder that will hold representation of event action to display for debugging.
             _eventText = new StringBuilder();
+        }
+
+        /// <summary>
+        ///     Rolls the dice and attempts to kill the passengers of the vehicle. If that happens then the killing verb will be
+        ///     applied next to their name.
+        /// </summary>
+        /// <param name="killVerb">Action verb that describes how the person died such as burned, frozen, drowned, etc.</param>
+        /// <returns>
+        ///     Formatted string that can be displayed on render for event item destruction.
+        /// </returns>
+        internal static string TryKillPassengers(string killVerb)
+        {
+            // Change event text depending on if items were destroyed or not.
+            var postDestroy = new StringBuilder();
+            postDestroy.AppendLine($"the loss of:{Environment.NewLine}");
+
+            // Attempts to kill the living passengers of the vehicle.
+            var drownedPassengers = GameSimulationApp.Instance.Vehicle.Passengers.TryKill();
+
+            // If the killed passenger list contains any entries we print them out.
+            foreach (var person in drownedPassengers)
+            {
+                // Only proceed if person is actually dead.
+                if (person.HealthValue == HealthLevel.Dead)
+                    postDestroy.AppendLine($"{person.Name} ({killVerb})");
+            }
+
+            // Returns the processed flooding event for rendering.
+            return postDestroy.ToString();
         }
 
         /// <summary>
