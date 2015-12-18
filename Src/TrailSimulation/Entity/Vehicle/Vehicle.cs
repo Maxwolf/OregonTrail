@@ -40,7 +40,7 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Determines if all the passengers in the vehicle are dead by adding up number of truths to total passenger count.
         /// </summary>
-        public bool PassengerDeadCount
+        public bool PassengersDead
         {
             get
             {
@@ -53,7 +53,7 @@ namespace TrailSimulation.Entity
                 for (var i = 0; i < Passengers.Count; i++)
                 {
                     var passenger = Passengers[i];
-                    allDead[i] = passenger.HealthLevel == HealthLevel.Dead;
+                    allDead[i] = passenger.Status == HealthLevel.Dead;
                 }
 
                 // Determine if everybody is dead by checking if truths are greater than passenger count.
@@ -212,7 +212,7 @@ namespace TrailSimulation.Entity
             {
                 // Check if passenger manifest exists.
                 if (Passengers == null)
-                    return HealthLevel.VeryPoor;
+                    return HealthLevel.Good;
 
                 // Check if there are any passengers to work with, return good health if none.
                 if (!Passengers.Any())
@@ -223,8 +223,8 @@ namespace TrailSimulation.Entity
                 foreach (var person in Passengers)
                 {
                     // Only add the health to average calculation if person is not dead.
-                    if (person.HealthLevel != HealthLevel.Dead)
-                        livingPassengersHealth.Add(person.HealthLevel);
+                    if (person.Status != HealthLevel.Dead)
+                        livingPassengersHealth.Add(person.Status);
                 }
 
                 // Casts all the enumeration health values to integers and averages them.
@@ -258,8 +258,8 @@ namespace TrailSimulation.Entity
                 foreach (var person in Passengers)
                 {
                     // Only add the health to average calculation if person is not dead.
-                    if (person.HealthLevel != HealthLevel.Dead)
-                        alivePersonsHealth.Add(person.HealthLevel);
+                    if (person.Status != HealthLevel.Dead)
+                        alivePersonsHealth.Add(person.Status);
                 }
 
                 return alivePersonsHealth.Count;
