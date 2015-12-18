@@ -28,10 +28,19 @@ namespace TrailSimulation.Game
 
             // Add Tombstone message with here lies player name and their epitaph.
             _confirmPrompt.Clear();
-            _confirmPrompt.AppendLine($"{Environment.NewLine}{UserData.Tombstone}");
+            _confirmPrompt.AppendLine($"{Environment.NewLine}{UserData.Tombstone}{Environment.NewLine}");
             _confirmPrompt.AppendLine("Would you like to make");
-            _confirmPrompt.Append("changes?");
+            _confirmPrompt.AppendLine("changes?");
             return _confirmPrompt.ToString();
+        }
+
+        /// <summary>
+        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
+        ///     desired behavior.
+        /// </summary>
+        protected override DialogType DialogType
+        {
+            get { return DialogType.YesNo; }
         }
 
         /// <summary>
