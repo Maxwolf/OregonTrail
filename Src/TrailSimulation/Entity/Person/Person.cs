@@ -37,15 +37,22 @@ namespace TrailSimulation.Entity
             Profession = profession;
             Name = name;
             IsLeader = isLeader;
+            Infected = false;
 
             // Starts the player at maximum health.
             Health = (int) HealthLevel.Good;
         }
 
         /// <summary>
+        ///     Flag for indicating if the player is afflicted with a disease, virus, fungus, parasite, etc. The type is not
+        ///     defined here only the fact they are infected by something biological.
+        /// </summary>
+        private bool Infected { get; set; }
+
+        /// <summary>
         ///     Current health of this person which is enum that also represents the total points they are currently worth.
         /// </summary>
-        public HealthLevel Status
+        public HealthLevel HealthValue
         {
             get
             {
@@ -223,7 +230,7 @@ namespace TrailSimulation.Entity
                 return;
 
             // Skip if this person is dead, cannot heal them.
-            if (Status == HealthLevel.Dead || _isDead)
+            if (HealthValue == HealthLevel.Dead || _isDead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
@@ -257,7 +264,7 @@ namespace TrailSimulation.Entity
         private void ConsumeFood()
         {
             // Skip if this person is dead, cannot heal them.
-            if (Status == HealthLevel.Dead || _isDead)
+            if (HealthValue == HealthLevel.Dead || _isDead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
@@ -289,11 +296,11 @@ namespace TrailSimulation.Entity
         private void Heal()
         {
             // Skip if this person is dead, cannot heal them.
-            if (Status == HealthLevel.Dead || _isDead)
+            if (HealthValue == HealthLevel.Dead || _isDead)
                 return;
 
             // Skip if already at max health.
-            if (Status == HealthLevel.Good)
+            if (HealthValue == HealthLevel.Good)
                 return;
 
             // Grab instance of the game simulation to increase readability.
@@ -304,6 +311,7 @@ namespace TrailSimulation.Entity
             {
                 // We only want to show the well again event if the player made a massive recovery.
                 _nearDeathExperience = false;
+                Infected = false;
                 game.EventDirector.TriggerEvent(this, typeof (WellAgain));
             }
             else
@@ -322,7 +330,7 @@ namespace TrailSimulation.Entity
             var game = GameSimulationApp.Instance;
 
             // Cannot calculate illness for the dead.
-            if (Status == HealthLevel.Dead || _isDead)
+            if (HealthValue == HealthLevel.Dead || _isDead)
                 return;
 
             if (game.Random.Next(100) <= 10 +
@@ -355,7 +363,7 @@ namespace TrailSimulation.Entity
             }
 
             // Determines if we should roll for infections based on previous complications.
-            switch (Status)
+            switch (HealthValue)
             {
                 case HealthLevel.Good:
                     // Congrats on living a healthy lifestyle...
@@ -363,8 +371,7 @@ namespace TrailSimulation.Entity
                     break;
                 case HealthLevel.Fair:
                     // Not eating for a couple days is going to hit you hard.
-                    if (game.Vehicle.Inventory[Entities.Food].Quantity <= 0 &&
-                        game.Vehicle.Status != VehicleStatus.Stopped)
+                    if (Infected && game.Vehicle.Status != VehicleStatus.Stopped)
                     {
                         game.Vehicle.ReduceMileage(5);
                         Damage(10, 50);
@@ -372,8 +379,7 @@ namespace TrailSimulation.Entity
                     break;
                 case HealthLevel.Poor:
                     // Player is working themselves to death.
-                    if (game.Vehicle.Inventory[Entities.Food].Quantity <= 0 &&
-                        game.Vehicle.Status != VehicleStatus.Stopped)
+                    if (Infected && game.Vehicle.Status != VehicleStatus.Stopped)
                     {
                         game.Vehicle.ReduceMileage(10);
                         Damage(5, 10);
@@ -401,7 +407,7 @@ namespace TrailSimulation.Entity
         private void Damage(int minAmount, int maxAmount)
         {
             // Skip what is already dead, no damage to be applied.
-            if (Status == HealthLevel.Dead)
+            if (HealthValue == HealthLevel.Dead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
@@ -414,7 +420,7 @@ namespace TrailSimulation.Entity
             game.EventDirector.TriggerEventByType(this, EventCategory.Person);
 
             // Check if health dropped to dead levels.
-            if (Status != HealthLevel.Dead)
+            if (HealthValue != HealthLevel.Dead)
                 return;
 
             // Reduce person's health to dead level.
@@ -447,11 +453,20 @@ namespace TrailSimulation.Entity
         public void Kill()
         {
             // Skip if the person is already dead.
-            if (Status == HealthLevel.Dead)
+            if (HealthValue == HealthLevel.Dead)
                 return;
 
             // Ashes to ashes, dust to dust...
             Health = 0;
+        }
+
+        /// <summary>
+        ///     Flags the player as being infected with a disease, virus, fungus, etc. We don't specify what it is here, just that
+        ///     they are afflicted with it and it will play into future rolls on their health.
+        /// </summary>
+        public void Infect()
+        {
+            Infected = true;
         }
     }
 }
