@@ -224,6 +224,9 @@ namespace TrailSimulation.Game
             if (_riverCrossingOfTotalWidth < UserData.River.RiverWidth)
                 return;
 
+            // Destroy the river data now that we are done with it.
+            UserData.DestroyRiver();
+
             // River crossing takes you a day.
             GameSimulationApp.Instance.TakeTurn();
 

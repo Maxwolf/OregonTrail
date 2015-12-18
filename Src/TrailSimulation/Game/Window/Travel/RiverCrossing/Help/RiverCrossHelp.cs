@@ -25,7 +25,7 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             // Generates a new river with randomized width and depth.
-            UserData.River = new RiverGenerator();
+            UserData.GenerateRiver();
 
             var riverPrompt = new StringBuilder();
             riverPrompt.AppendLine($"{Environment.NewLine}You must cross the river in");

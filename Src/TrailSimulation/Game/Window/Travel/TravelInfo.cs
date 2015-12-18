@@ -32,7 +32,7 @@ namespace TrailSimulation.Game
         ///     Reference for any river information that we might need to be holding when we encounter one it will be generated and
         ///     this object filled with needed data that can be accessed by the other states as we attach them.
         /// </summary>
-        public RiverGenerator River { get; set; }
+        public RiverGenerator River { get; private set; }
 
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made when the player visits a store.
@@ -116,5 +116,31 @@ namespace TrailSimulation.Game
         ///     their graves details.
         /// </summary>
         public Tombstone Tombstone { get; set; }
+
+        /// <summary>
+        ///     Creates a new river that can be accessed as a property from the travel game window.
+        /// </summary>
+        public void GenerateRiver()
+        {
+            // Skip if river has already been created.
+            if (River != null)
+                return;
+
+            // Creates a new river.
+            River = new RiverGenerator();
+        }
+
+        /// <summary>
+        ///     Destroys all of the data associated with the previous river the player encountered.
+        /// </summary>
+        public void DestroyRiver()
+        {
+            // Skip if the river is already null.
+            if (River == null)
+                return;
+
+            // Destroy the river data.
+            River = null;
+        }
     }
 }
