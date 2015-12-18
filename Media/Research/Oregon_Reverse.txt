@@ -204,12 +204,6 @@ switch(event_counter)
 			checkillness();
 		}
 	break;
-	case 97:
-		"---"
-		total_miles=total_miles-5-rnd(0)*10
-		cost_ammo=cost_ammo-200
-		cost_aid=cost_aid-4-rnd(0)*3
-	break;
 }
 
 ---------------[CLIMATE]---------------
