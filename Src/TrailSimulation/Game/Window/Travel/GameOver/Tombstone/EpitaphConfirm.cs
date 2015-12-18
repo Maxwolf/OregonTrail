@@ -20,6 +20,15 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
+        ///     desired behavior.
+        /// </summary>
+        protected override DialogType DialogType
+        {
+            get { return DialogType.YesNo; }
+        }
+
+        /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         protected override string OnDialogPrompt()
@@ -32,15 +41,6 @@ namespace TrailSimulation.Game
             _confirmPrompt.AppendLine("Would you like to make");
             _confirmPrompt.Append("changes?");
             return _confirmPrompt.ToString();
-        }
-
-        /// <summary>
-        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
-        ///     desired behavior.
-        /// </summary>
-        protected override DialogType DialogType
-        {
-            get { return DialogType.YesNo; }
         }
 
         /// <summary>
