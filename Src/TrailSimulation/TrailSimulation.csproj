@@ -83,6 +83,7 @@
     <Compile Include="Event\Warning\NoWater.cs" />
     <Compile Include="Event\Warning\Starvation.cs" />
     <Compile Include="Event\Weather\Desert.cs" />
+    <Compile Include="Event\Weather\HailStorm.cs" />
     <Compile Include="Event\Weather\HeavyFog.cs" />
     <Compile Include="Event\Weather\MountainClimbing.cs" />
     <Compile Include="Event\Weather\ObstructedPath.cs" />

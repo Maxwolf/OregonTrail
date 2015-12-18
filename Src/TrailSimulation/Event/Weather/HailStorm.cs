@@ -7,11 +7,10 @@ using TrailSimulation.Game;
 namespace TrailSimulation.Event
 {
     /// <summary>
-    ///     When crossing a river there is a chance that your wagon will flood if you choose to caulk and float across the
-    ///     river.
+    ///     Bad hail storm damages supplies, this uses the item destroyer prefab like the river crossings do.
     /// </summary>
-    [DirectorEvent(EventCategory.RiverCross, EventExecution.ManualOnly)]
-    public sealed class VehicleFloods : EventItemDestroyer
+    [DirectorEvent(EventCategory.Weather)]
+    public sealed class HailStorm : EventItemDestroyer
     {
         /// <summary>
         ///     Creates a new instance of an event product with the specified event type for reference purposes.
@@ -19,40 +18,48 @@ namespace TrailSimulation.Event
         /// <param name="category">
         ///     what type of event this will be, used for grouping and filtering and triggering events by type rather than type of.
         /// </param>
-        public VehicleFloods(EventCategory category) : base(category)
+        public HailStorm(EventCategory category) : base(category)
         {
         }
 
         /// <summary>
         ///     Fired by the item destroyer event prefab before items are destroyed.
         /// </summary>
-        /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
+        /// <param name="destroyedItems"></param>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
+            // Grab an instance of the game simulation.
+            var game = GameSimulationApp.Instance;
+
             // Change event text depending on if items were destroyed or not.
             var postDestroy = new StringBuilder();
             if (destroyedItems.Count > 0)
             {
+                // Lists out the people and items destroyed.
                 postDestroy.AppendLine("the loss of:");
 
+                // Check if there are enough clothes to keep people warm, need two sets of clothes for every person.
+                if (game.Vehicle.Inventory[Entities.Clothes].Quantity >= (game.Vehicle.PassengerLivingCount*2))
+                    return postDestroy.ToString();
+
                 // Attempts to kill the living passengers of the vehicle.
-                var drownedPassengers = GameSimulationApp.Instance.Vehicle.Passengers.TryKill();
+                var frozenPassengers = game.Vehicle.Passengers.TryKill();
 
                 // If the killed passenger list contains any entries we print them out.
-                foreach (var person in drownedPassengers)
+                foreach (var person in frozenPassengers)
                 {
                     // Only proceed if person is actually dead.
                     if (person.HealthLevel == HealthLevel.Dead)
-                        postDestroy.AppendLine($"{person.Name} (drowned)");
+                        postDestroy.AppendLine($"{person.Name} (frozen)");
                 }
             }
             else
             {
-                // Player got lucky and nothing destroyed and nobody killed.
+                // Got lucky nothing was destroyed!
                 postDestroy.AppendLine("no loss of items.");
             }
 
-            // Returns the processed flooding event for rendering.
+            // Returns the processed text to event for rendering.
             return postDestroy.ToString();
         }
 
@@ -73,7 +80,7 @@ namespace TrailSimulation.Event
             Debug.Assert(vehicle != null, "vehicle != null");
 
             // Reduce the total possible mileage of the vehicle this turn.
-            vehicle.ReduceMileage(20 - 20*GameSimulationApp.Instance.Random.Next());
+            vehicle.ReduceMileage(vehicle.Mileage - 5 - GameSimulationApp.Instance.Random.Next()*10);
         }
 
         /// <summary>
@@ -83,9 +90,8 @@ namespace TrailSimulation.Event
         {
             var _floodPrompt = new StringBuilder();
             _floodPrompt.Clear();
-            _floodPrompt.AppendLine("Vehicle floods");
-            _floodPrompt.AppendLine("while crossing the");
-            _floodPrompt.Append("river results in");
+            _floodPrompt.AppendLine("Severe hail storm");
+            _floodPrompt.Append("results in");
             return _floodPrompt.ToString();
         }
     }

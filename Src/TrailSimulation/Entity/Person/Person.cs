@@ -369,8 +369,27 @@ namespace TrailSimulation.Entity
         /// <param name="amount">Total amount of damage that should be removed from the person.</param>
         public void Damage(int amount)
         {
+            // Skip if the amount is less than or equal to zero.
+            if (amount <= 0)
+                return;
+
             // Remove the health from the person.
             Health -= amount;
+        }
+
+        /// <summary>
+        ///     Kills the person without any regard for any other statistics of dice rolls. Only requirement is that the person is
+        ///     alive. Will not trigger event for death of player or companion, that is left up to implementation for this method
+        ///     and why it exists at all.
+        /// </summary>
+        public void Kill()
+        {
+            // Skip if the person is already dead.
+            if (HealthLevel == HealthLevel.Dead)
+                return;
+
+            // Ashes to ashes, dust to dust...
+            Health = 0;
         }
     }
 }

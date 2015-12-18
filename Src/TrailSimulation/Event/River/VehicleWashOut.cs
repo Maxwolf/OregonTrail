@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using TrailSimulation.Entity;
@@ -26,12 +25,33 @@ namespace TrailSimulation.Event
         /// <summary>
         ///     Fired by the item destroyer event prefab before items are destroyed.
         /// </summary>
-        /// <param name="destroyedItems"></param>
+        /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
-            return destroyedItems.Count > 0
-                ? $"in the loss of:{Environment.NewLine}"
-                : $"in no loss of items.{Environment.NewLine}";
+            var postDestroy = new StringBuilder();
+            if (destroyedItems.Count > 0)
+            {
+                postDestroy.AppendLine("in the loss of:");
+
+                // Attempts to kill the living passengers of the vehicle.
+                var drownedPassengers = GameSimulationApp.Instance.Vehicle.Passengers.TryKill();
+
+                // If the killed passenger list contains any entries we print them out.
+                foreach (var person in drownedPassengers)
+                {
+                    // Only proceed if person is actually dead.
+                    if (person.HealthLevel == HealthLevel.Dead)
+                        postDestroy.AppendLine($"{person.Name} (drowned)");
+                }
+            }
+            else
+            {
+                // Player got lucky and nothing destroyed and nobody killed.
+                postDestroy.AppendLine("in no loss of items.");
+            }
+
+            // Returns the processed vehicle wash out event for rendering.
+            return postDestroy.ToString();
         }
 
         /// <summary>
@@ -51,7 +71,7 @@ namespace TrailSimulation.Event
             Debug.Assert(vehicle != null, "vehicle != null");
 
             // Reduce the total possible mileage of the vehicle this turn.
-            vehicle.ReduceMileage(20 - 20 * GameSimulationApp.Instance.Random.Next());
+            vehicle.ReduceMileage(20 - 20*GameSimulationApp.Instance.Random.Next());
         }
 
         /// <summary>

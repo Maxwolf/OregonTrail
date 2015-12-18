@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TrailSimulation.Game;
 
 namespace TrailSimulation.Entity
 {
@@ -8,6 +9,32 @@ namespace TrailSimulation.Entity
     /// </summary>
     public static class VehicleExtensions
     {
+        /// <summary>
+        ///     Loops through all the currently living passengers and rolls the dice to see if they should be killed. This method
+        ///     is very powerful and can end the game quickly if used excessively.
+        /// </summary>
+        /// <param name="passengers">List of passengers from the vehicle.</param>
+        /// <returns>List of people the method killed, empty list means nobody was killed.</returns>
+        public static IEnumerable<Person> TryKill(this IEnumerable<Person> passengers)
+        {
+            // Determine if we lost any people, this is separate from items in vehicle.
+            var peopleKilled = new List<Person>();
+            foreach (var person in passengers)
+            {
+                // It all comes down to a dice roll if the storm kills you.
+                if (!GameSimulationApp.Instance.Random.NextBool() ||
+                    person.HealthLevel == HealthLevel.Dead)
+                    continue;
+
+                // Kills the person and adds them to list.
+                person.Kill();
+                peopleKilled.Add(person);
+            }
+
+            // Gives back the list of people that were killed by this extension method.
+            return peopleKilled;
+        }
+
         /// <summary>
         ///     Damages all of the players using the total amount given as a guideline for total amount of damage to be spread out
         ///     amongst the living players. It will be divided by the number of living and spread that way.
