@@ -1,4 +1,5 @@
-﻿using TrailSimulation.Entity;
+﻿using System.Diagnostics.CodeAnalysis;
+using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
@@ -8,6 +9,7 @@ namespace TrailSimulation.Event
     ///     confusion or temporary incapacity.
     /// </summary>
     [DirectorEvent(EventCategory.Person)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Concussion : EventPersonInjure
     {
         /// <summary>

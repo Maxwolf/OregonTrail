@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
     [DirectorEvent(EventCategory.Vehicle)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class OxenWanderOff : EventProduct
     {
         /// <summary>

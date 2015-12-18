@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
@@ -10,6 +11,7 @@ namespace TrailSimulation.Event
     ///     Bad hail storm damages supplies, this uses the item destroyer prefab like the river crossings do.
     /// </summary>
     [DirectorEvent(EventCategory.Weather)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class HailStorm : EventItemDestroyer
     {
         /// <summary>

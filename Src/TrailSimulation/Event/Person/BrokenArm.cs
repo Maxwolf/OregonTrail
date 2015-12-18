@@ -1,4 +1,5 @@
-﻿using TrailSimulation.Entity;
+﻿using System.Diagnostics.CodeAnalysis;
+using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
@@ -7,6 +8,7 @@ namespace TrailSimulation.Event
     ///     One of the members of the vehicle passenger manifest broke their arm somehow.
     /// </summary>
     [DirectorEvent(EventCategory.Person)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class BrokenArm : EventPersonInjure
     {
         /// <summary>

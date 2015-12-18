@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
@@ -9,6 +10,7 @@ namespace TrailSimulation.Event
     ///     make the vehicle stuck, unable to continue until the player acquires another oxen via trading.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class OxenInjured : EventProduct
     {
         /// <summary>

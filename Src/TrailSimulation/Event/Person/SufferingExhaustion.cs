@@ -1,4 +1,5 @@
-﻿using TrailSimulation.Entity;
+﻿using System.Diagnostics.CodeAnalysis;
+using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
@@ -7,6 +8,7 @@ namespace TrailSimulation.Event
     ///     A person with weakness or fatigue lacks energy, feels weary, and is constantly tired.
     /// </summary>
     [DirectorEvent(EventCategory.Person)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class SufferingExhaustion : EventPersonInjure
     {
         /// <summary>

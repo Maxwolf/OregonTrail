@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
@@ -10,6 +12,7 @@ namespace TrailSimulation.Event
     ///     players inventory.
     /// </summary>
     [DirectorEvent(EventCategory.Wild)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class AbandonedVehicle : EventItemCreator
     {
         /// <summary>
@@ -18,7 +21,7 @@ namespace TrailSimulation.Event
         /// <param name="createdItems"></param>
         protected override string OnPostCreateItems(IDictionary<Entities, int> createdItems)
         {
-            return createdItems.Count > 0 ? "and find:" : "but it is empty";
+            return createdItems.Count > 0 ? $"and find:{Environment.NewLine}" : "but it is empty";
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using TrailSimulation.Entity;
+﻿using System.Diagnostics.CodeAnalysis;
+using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
@@ -8,6 +9,7 @@ namespace TrailSimulation.Event
     ///     rickettsial illness in the United States.
     /// </summary>
     [DirectorEvent(EventCategory.Person)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class MountainFever : EventPersonInfect
     {
         /// <summary>

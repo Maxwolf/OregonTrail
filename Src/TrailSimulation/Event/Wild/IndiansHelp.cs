@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
@@ -9,6 +10,7 @@ namespace TrailSimulation.Event
     ///     simulate the effect of them noticing you need help.
     /// </summary>
     [DirectorEvent(EventCategory.Wild)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class IndiansHelp : EventProduct
     {
         /// <summary>

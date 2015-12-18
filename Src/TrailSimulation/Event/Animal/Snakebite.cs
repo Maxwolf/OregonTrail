@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
@@ -9,6 +10,7 @@ namespace TrailSimulation.Event
     ///     event we might kill the player if they actually get bit, otherwise the event will say they killed it.
     /// </summary>
     [DirectorEvent(EventCategory.Animal)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Snakebite : EventProduct
     {
         /// <summary>

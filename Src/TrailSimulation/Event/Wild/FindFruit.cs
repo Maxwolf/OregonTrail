@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
@@ -8,6 +9,7 @@ namespace TrailSimulation.Event
     ///     Similar to wild berries, but with fruit there will be more to go around.
     /// </summary>
     [DirectorEvent(EventCategory.Wild)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class FindFruit : EventProduct
     {
         /// <summary>

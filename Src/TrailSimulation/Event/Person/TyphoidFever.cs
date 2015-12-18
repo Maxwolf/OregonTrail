@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
     [DirectorEvent(EventCategory.Person)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class TyphoidFever : EventProduct
     {
         /// <summary>

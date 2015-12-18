@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
@@ -11,6 +13,7 @@ namespace TrailSimulation.Event
     ///     get murdered.
     /// </summary>
     [DirectorEvent(EventCategory.Wild)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Thief : EventItemDestroyer
     {
         /// <summary>
@@ -27,7 +30,7 @@ namespace TrailSimulation.Event
             if (destroyedItems.Count > 0)
             {
                 // Lists out the people and items destroyed.
-                postDestroy.AppendLine("the loss of:");
+                postDestroy.AppendLine($"the loss of:{Environment.NewLine}");
 
                 // Check if there are enough clothes to keep people warm, need two sets of clothes for every person.
                 if (game.Vehicle.Inventory[Entities.Clothes].Quantity >= (game.Vehicle.PassengerLivingCount*2))

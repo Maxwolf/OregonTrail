@@ -1,4 +1,5 @@
-﻿using TrailSimulation.Entity;
+﻿using System.Diagnostics.CodeAnalysis;
+using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
@@ -7,6 +8,7 @@ namespace TrailSimulation.Event
     ///     Infection of the intestines resulting in severe diarrhea with the presence of blood and mucus in the feces.
     /// </summary>
     [DirectorEvent(EventCategory.Person)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Dysentery : EventPersonInfect
     {
         /// <summary>

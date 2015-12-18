@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
@@ -9,6 +10,7 @@ namespace TrailSimulation.Event
     ///     out.
     /// </summary>
     [DirectorEvent(EventCategory.Weather)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class RoughTrail : EventProduct
     {
         /// <summary>

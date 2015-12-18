@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
@@ -8,6 +9,7 @@ namespace TrailSimulation.Event
     ///     Fire in the vehicle occurs, there is a chance that some of the inventory items or people were burned to death.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class VehicleFire : EventProduct
     {
         /// <summary>

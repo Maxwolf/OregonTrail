@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
@@ -8,6 +9,7 @@ namespace TrailSimulation.Event
     ///     Vehicle comes across some wild berries which the party picks up to eat.
     /// </summary>
     [DirectorEvent(EventCategory.Wild)]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class FindBerries : EventProduct
     {
         /// <summary>
