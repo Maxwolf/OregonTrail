@@ -1,9 +1,13 @@
-﻿using System;
+﻿using System.Diagnostics;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
+    /// <summary>
+    ///     Causes some of the vehicle food stores to be lost due to spoilage or improper storage. The amount taken will be
+    ///     randomly generated but never go above quarter of the total food reserves.
+    /// </summary>
     [DirectorEvent(EventCategory.Wild)]
     public sealed class FoodSpoilage : EventProduct
     {
@@ -27,7 +31,24 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            // Cast the source entity as vehicle.
+            var vehicle = sourceEntity as Vehicle;
+            Debug.Assert(vehicle != null, "vehicle != null");
+
+            // Check there is food to even remove.
+            if (vehicle.Inventory[Entities.Food].Quantity <= 0)
+                return;
+
+            // Check if there is enough food to cut up into four pieces.
+            if (vehicle.Inventory[Entities.Food].Quantity < 4)
+                return;
+
+            // Determine the amount of food we will destroy up to.
+            var spoiledFood = vehicle.Inventory[Entities.Food].Quantity/4;
+
+            // Remove some random amount of food, the minimum being three pieces.
+            // Note: If you only had four this would take 3/4 of food but you already had almost none.
+            vehicle.Inventory[Entities.Food].ReduceQuantity(GameSimulationApp.Instance.Random.Next(3, spoiledFood));
         }
 
         /// <summary>
@@ -38,7 +59,7 @@ namespace TrailSimulation.Event
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(IEntity sourceEntity)
         {
-            throw new NotImplementedException();
+            return "Food spoilage.";
         }
     }
 }
