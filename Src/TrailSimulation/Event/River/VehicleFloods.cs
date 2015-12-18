@@ -32,7 +32,7 @@ namespace TrailSimulation.Event
                 foreach (var person in drownedPassengers)
                 {
                     // Only proceed if person is actually dead.
-                    if (person.Status == HealthLevel.Dead)
+                    if (person.HealthValue == HealthLevel.Dead)
                         postDestroy.AppendLine($"{person.Name} (drowned)");
                 }
             }
