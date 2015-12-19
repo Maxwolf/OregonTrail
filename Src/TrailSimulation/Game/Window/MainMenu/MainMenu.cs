@@ -48,24 +48,6 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Called when the Windows manager in simulation makes this Windows the currently active game Windows. Depending on
-        ///     order of
-        ///     modes this might not get called until the Windows is actually ticked by the simulation.
-        /// </summary>
-        public override void OnWindowActivate()
-        {
-        }
-
-        /// <summary>
-        ///     Fired when the simulation adds a game Windows that is not this Windows. Used to execute code in other modes that
-        ///     are not
-        ///     the active Windows anymore one last time.
-        /// </summary>
-        public override void OnWindowAdded()
-        {
-        }
-
-        /// <summary>
         ///     Does exactly what it says on the tin, closes the simulation and releases all memory.
         /// </summary>
         private static void CloseSimulation()
