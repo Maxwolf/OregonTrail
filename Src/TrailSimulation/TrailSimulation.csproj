@@ -115,8 +115,8 @@
     <Compile Include="Core\Module\SceneGraph.cs" />
     <Compile Include="Core\Module\WindowManager.cs" />
     <Compile Include="Game\Window\RandomEvent\EventSkipDay.cs" />
-    <Compile Include="Game\Window\Travel\Situation\UnableToContinue.cs" />
-    <Compile Include="Game\Window\Travel\Situation\VehicleStuck.cs" />
+    <Compile Include="Game\Window\Travel\Other\UnableToContinue.cs" />
+    <Compile Include="Game\Window\Travel\Other\VehicleStuck.cs" />
     <Compile Include="Game\Window\Travel\GameOver\Tombstone\EpitaphConfirm.cs" />
     <Compile Include="Game\Window\Travel\GameOver\Tombstone\EpitaphEditor.cs" />
     <Compile Include="Game\Window\Travel\GameOver\Tombstone\EpitaphQuestion.cs" />
@@ -124,7 +124,7 @@
     <Compile Include="Game\Window\Travel\GameOver\GameFail.cs" />
     <Compile Include="Game\Module\Graveyard\GraveyardModule.cs" />
     <Compile Include="Game\Window\Travel\GameOver\Tombstone\TombstoneViewer.cs" />
-    <Compile Include="Game\Window\Travel\Situation\LocationFork.cs" />
+    <Compile Include="Game\Window\Travel\Other\LocationFork.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverCrossChoice.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverGenerator.cs" />
     <Compile Include="Game\Window\Travel\Store\StoreGenerator.cs" />
@@ -171,7 +171,7 @@
     <Compile Include="Game\Window\MainMenu\Options\OriginalTopTen.cs" />
     <Compile Include="Game\Window\RandomEvent\EventExecutor.cs" />
     <Compile Include="Game\Window\Travel\Command\ContinueOnTrail.cs" />
-    <Compile Include="Game\Window\Travel\Situation\PaceHelp.cs" />
+    <Compile Include="Game\Window\Travel\Other\PaceHelp.cs" />
     <Compile Include="Game\Window\Travel\GameOver\FinalPoints.cs" />
     <Compile Include="Core\Utility\AttributeHelper.cs" />
     <Compile Include="Core\Window\Control\SpinningPixel.cs" />
@@ -207,8 +207,8 @@
     <Compile Include="Game\Window\Travel\Command\ChangeRations.cs" />
     <Compile Include="Game\Window\Travel\Command\ChangePace.cs" />
     <Compile Include="Game\Window\Travel\Command\CheckSupplies.cs" />
-    <Compile Include="Game\Window\Travel\Situation\LocationDepart.cs" />
-    <Compile Include="Game\Window\Travel\Situation\LocationArrive.cs" />
+    <Compile Include="Game\Window\Travel\Other\LocationDepart.cs" />
+    <Compile Include="Game\Window\Travel\Other\LocationArrive.cs" />
     <Compile Include="Game\Window\Travel\Command\LookAtMap.cs" />
     <Compile Include="Game\Window\Travel\Rest\Resting.cs" />
     <Compile Include="Game\Window\Travel\Rest\RestAmount.cs" />
