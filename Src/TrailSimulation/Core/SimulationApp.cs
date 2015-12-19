@@ -117,23 +117,27 @@ namespace TrailSimulation.Core
         ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
         ///     pulsed by game simulation at fixed interval.
         /// </param>
-        public void OnTick(bool systemTick)
+        /// <param name="skipDay">
+        ///     Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        ///     special events that want to simulate passage of time without actually any actual time moving by.
+        /// </param>
+        public void OnTick(bool systemTick, bool skipDay = false)
         {
             // No ticks allowed if simulation is shutting down.
             if (IsClosing)
                 return;
 
             // Sends commands if queue has any.
-            InputManager?.OnTick(systemTick);
+            InputManager?.OnTick(systemTick, skipDay);
 
             // Back buffer for only sending text when changed.
-            SceneGraph?.OnTick(systemTick);
+            SceneGraph?.OnTick(systemTick, skipDay);
 
             // Changes game Windows and state when needed.
-            WindowManager?.OnTick(systemTick);
+            WindowManager?.OnTick(systemTick, skipDay);
 
             // Rolls virtual dice.
-            Random?.OnTick(systemTick);
+            Random?.OnTick(systemTick, skipDay);
 
             // System tick is from execution platform, otherwise they are linear simulation ticks.
             if (systemTick)
@@ -150,7 +154,7 @@ namespace TrailSimulation.Core
                 _lastTickTime = _currentTickTime;
 
                 // ReSharper disable TailRecursiveCall
-                OnTick(false);
+                OnTick(false, skipDay);
                 // ReSharper restore TailRecursiveCall
             }
             else

@@ -59,7 +59,11 @@ namespace TrailSimulation.Core
         ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
         ///     pulsed by game simulation at fixed interval.
         /// </param>
-        public override void OnTick(bool systemTick)
+        /// <param name="skipDay">
+        ///     Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        ///     special events that want to simulate passage of time without actually any actual time moving by.
+        /// </param>
+        public override void OnTick(bool systemTick, bool skipDay = false)
         {
             // Skip if there are no commands to tick.
             if (_commandQueue.Count <= 0)

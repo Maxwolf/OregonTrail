@@ -358,18 +358,22 @@ namespace TrailSimulation.Entity
         ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
         ///     pulsed by game simulation at fixed interval.
         /// </param>
-        public void OnTick(bool systemTick)
+        /// <param name="skipDay">
+        ///     Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        ///     special events that want to simulate passage of time without actually any actual time moving by.
+        /// </param>
+        public void OnTick(bool systemTick, bool skipDay)
         {
             // Only can tick vehicle on interval.
             if (systemTick)
                 return;
 
-            // Loop through all the people in the vehicle and tick them every day of simulation moving or not.
+            // Loop through all the people in the vehicle and tick them moving or ticking time or not.
             foreach (var person in _passengers)
-                person.OnTick(false);
+                person.OnTick(false, skipDay);
 
-            // Only advance the vehicle mileage and odometer if we are actually traveling.
-            if (Status != VehicleStatus.Moving)
+            // Only advance the vehicle if we are actually traveling and not skipping a day of simulation.
+            if (Status != VehicleStatus.Moving || skipDay)
                 return;
 
             // Figure out how far we need to go to reach the next point.

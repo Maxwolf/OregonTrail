@@ -108,7 +108,11 @@ namespace TrailSimulation.Game
         ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
         ///     pulsed by game simulation at fixed interval.
         /// </param>
-        public override void OnTick(bool systemTick)
+        /// <param name="skipDay">
+        ///     Determines if this tick skipped a day of the simulation and force ticked anyway. This is used for
+        ///     special events like river crossings, hunting, trading, etc.
+        /// </param>
+        public void OnTick(bool systemTick, bool skipDay)
         {
             // Skip system ticks.
             if (systemTick)
@@ -118,13 +122,13 @@ namespace TrailSimulation.Game
             var vehicle = GameSimulationApp.Instance.Vehicle;
 
             // Tick the current location, typically this will randomize the possible trades, weather, and advice.
-            CurrentLocation?.OnTick(false);
+            CurrentLocation?.OnTick(false, skipDay);
 
             // Update total distance traveled on vehicle if we have not reached the point.
-            vehicle.OnTick(false);
+            vehicle.OnTick(false, skipDay);
 
-            // No advancing down the trail when vehicle is parked.
-            if (vehicle.Status != VehicleStatus.Moving)
+            // No advancing down the trail when vehicle is parked or force ticked by skipping a day.
+            if (vehicle.Status != VehicleStatus.Moving || skipDay)
                 return;
 
             // Check if the player is still working with the location they are currently arrived at.

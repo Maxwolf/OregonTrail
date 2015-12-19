@@ -65,11 +65,11 @@ namespace TrailSimulation.Game
         ///     Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
         ///     capacity or want to do so in this turn.
         /// </summary>
-        public void TakeTurn()
+        public void TakeTurn(bool skipDay)
         {
             // Advance the turn counter.
             TotalTurns++;
-            Time.TickTime();
+            Time.TickTime(skipDay);
         }
 
         /// <summary>

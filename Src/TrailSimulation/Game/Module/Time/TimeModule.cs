@@ -88,8 +88,19 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Advances the tick of the game forward firing off events for new eras, years, months and days.
         /// </summary>
-        public void TickTime()
+        /// <param name="skipDay">
+        ///     Determines if the time module should fire off event for a day but not actually advance time
+        ///     itself.
+        /// </param>
+        public void TickTime(bool skipDay)
         {
+            // Check if we should skip date calculations and just fire off day.
+            if (skipDay)
+            {
+                OnTickDay(skipDay);
+                return;
+            }
+
             var shouldCheckMonthEnd = false;
             if (CurrentDay < Date.NumberOfDaysInMonth)
             {
@@ -106,7 +117,7 @@ namespace TrailSimulation.Game
             }
 
             // One day has passed.
-            OnTickDay();
+            OnTickDay(skipDay);
 
             if (shouldCheckMonthEnd)
             {
@@ -157,10 +168,11 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Fired after each day in the simulation.
         /// </summary>
-        private void OnTickDay()
+        /// <param name="skipDay">Determines if the time simulation did not advance the day but still ticked the game.</param>
+        private void OnTickDay(bool skipDay)
         {
             // Move towards the next location on the trail. Ticks vehicle, location, people, weather, etc.
-            GameSimulationApp.Instance.Trail.OnTick(false);
+            GameSimulationApp.Instance.Trail.OnTick(false, skipDay);
         }
 
         /// <summary>

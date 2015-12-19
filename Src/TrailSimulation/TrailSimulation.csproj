@@ -92,7 +92,6 @@
     <Compile Include="Event\Weather\QuicksandAhead.cs" />
     <Compile Include="Event\Weather\RoughTrail.cs" />
     <Compile Include="Event\Weather\SevereWeather.cs" />
-    <Compile Include="Event\Weather\WagonDust.cs" />
     <Compile Include="Event\Weather\Wildfire.cs" />
     <Compile Include="Event\Vehicle\WrongTrail.cs" />
     <Compile Include="Event\Wild\AbandonedVehicle.cs" />

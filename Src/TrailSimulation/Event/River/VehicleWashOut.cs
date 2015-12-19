@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using TrailSimulation.Entity;
@@ -20,8 +19,8 @@ namespace TrailSimulation.Event
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
             return destroyedItems.Count > 0
-                            ? TryKillPassengers("drowned")
-                            : "no loss of items.";
+                ? TryKillPassengers("drowned")
+                : "no loss of items.";
         }
 
         /// <summary>

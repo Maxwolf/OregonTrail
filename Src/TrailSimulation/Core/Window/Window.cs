@@ -256,21 +256,6 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
-        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
-        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
-        /// </summary>
-        /// <remarks>Default is one second or 1000ms.</remarks>
-        /// <param name="systemTick">
-        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
-        ///     pulsed by game simulation at fixed interval.
-        /// </param>
-        public virtual void OnTick(bool systemTick)
-        {
-            Form?.OnTick(systemTick);
-        }
-
-        /// <summary>
         ///     Fired by messaging system or user interface that wants to interact with the simulation by sending string command
         ///     that should be able to be parsed into a valid command that can be run on the current game Windows.
         /// </summary>
@@ -390,6 +375,25 @@ namespace TrailSimulation.Core
 
             // Allows underlying parent game Windows to the state understand it changed.
             OnFormChange();
+        }
+
+        /// <summary>
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
+        /// </summary>
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        /// <param name="skipDay">
+        ///     Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        ///     special events that want to simulate passage of time without actually any actual time moving by.
+        /// </param>
+        public void OnTick(bool systemTick, bool skipDay)
+        {
+            Form?.OnTick(systemTick, skipDay);
         }
 
         /// <summary>

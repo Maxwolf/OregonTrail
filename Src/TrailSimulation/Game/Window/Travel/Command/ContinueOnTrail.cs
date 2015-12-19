@@ -101,9 +101,13 @@ namespace TrailSimulation.Game
         ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
         ///     pulsed by game simulation at fixed interval.
         /// </param>
-        public override void OnTick(bool systemTick)
+        /// <param name="skipDay">
+        ///     Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        ///     special events that want to simulate passage of time without actually any actual time moving by.
+        /// </param>
+        public override void OnTick(bool systemTick, bool skipDay)
         {
-            base.OnTick(systemTick);
+            base.OnTick(systemTick, skipDay);
 
             // Only game simulation ticks please.
             if (systemTick)
@@ -133,7 +137,7 @@ namespace TrailSimulation.Game
 
                     // Processes the next turn in the game simulation.
                     game.Vehicle.Status = VehicleStatus.Moving;
-                    game.TakeTurn();
+                    game.TakeTurn(false);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

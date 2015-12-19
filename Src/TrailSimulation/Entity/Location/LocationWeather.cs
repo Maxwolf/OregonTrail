@@ -419,14 +419,6 @@ namespace TrailSimulation.Entity
                 case 0:
                     Condition = Weather.Clear;
                     _nextWeatherChance = 0.10d;
-
-                    // Chance for wagon dust to slow you down on hot sunny days.
-                    if (GameSimulationApp.Instance.Random.NextBool())
-                    {
-                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
-                            typeof (WagonDust));
-                    }
-
                     break;
                 case 1:
                     Condition = Weather.MostlySunny;
@@ -439,13 +431,6 @@ namespace TrailSimulation.Entity
                 case 3:
                     Condition = Weather.Sunny;
                     _nextWeatherChance = 0.60d;
-
-                    // Chance for wagon dust to slow you down on hot sunny days.
-                    if (GameSimulationApp.Instance.Random.NextBool())
-                    {
-                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
-                            typeof (WagonDust));
-                    }
                     break;
                 case 4:
                     Condition = Weather.ChanceOfThunderstorm;
