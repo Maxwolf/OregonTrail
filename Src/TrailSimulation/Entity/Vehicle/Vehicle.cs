@@ -555,7 +555,7 @@ namespace TrailSimulation.Entity
                 var destroyAmount = GameSimulationApp.Instance.Random.Next(1, itemPair.Value.Quantity);
 
                 // Remove the amount we destroyed from the actual inventory.
-                Inventory[itemPair.Key] = new SimItem(itemPair.Value, itemPair.Value.Quantity - destroyAmount);
+                Inventory[itemPair.Key].ReduceQuantity(destroyAmount);
 
                 // Tabulate the amount we destroyed in dictionary to be returned to caller.
                 destroyedItems.Add(itemPair.Key, destroyAmount);

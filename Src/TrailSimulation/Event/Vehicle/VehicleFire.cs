@@ -45,7 +45,7 @@ namespace TrailSimulation.Event
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(IEntity sourceEntity)
         {
-            return "there was a fire in your wagon--food and supplies damage!";
+            return "there was a fire in your wagon--food and supplies damaged!";
         }
     }
 }

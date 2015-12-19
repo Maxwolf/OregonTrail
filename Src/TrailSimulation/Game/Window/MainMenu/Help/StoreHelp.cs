@@ -36,7 +36,7 @@ namespace TrailSimulation.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // Closes main menu and drops back to travel Windows at the bottom level which should have store already open and ready.
-            ParentWindow.RemoveModeNextTick();
+            ParentWindow.RemoveWindowNextTick();
         }
     }
 }

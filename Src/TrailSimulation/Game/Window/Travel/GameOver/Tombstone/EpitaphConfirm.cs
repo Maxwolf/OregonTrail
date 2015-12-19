@@ -6,8 +6,7 @@ namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Confirms with the user if there is any changes they would like to make to their Tombstone before it gets saved
-    ///     for
-    ///     other travelers on this section of the trail to see.
+    ///     for other travelers on this section of the trail to see.
     /// </summary>
     [ParentWindow(GameWindow.Travel)]
     public sealed class EpitaphConfirm : InputForm<TravelInfo>
@@ -29,7 +28,7 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        ///     Fired when dialog prompt is attached to active game window and would like to have a string returned.
         /// </summary>
         protected override string OnDialogPrompt()
         {
@@ -55,8 +54,8 @@ namespace TrailSimulation.Game
             {
                 case DialogResponse.Custom:
                 case DialogResponse.No:
-                    // Add the Tombstone as is to the Tombstone manager for future players to see.
-                    GameSimulationApp.Instance.Graveyard.Add(GameSimulationApp.Instance.Graveyard.TempTombstone);
+                    // Add the tombstone instance to manager for future players.
+                    GameSimulationApp.Instance.Graveyard.Add(GameSimulationApp.Instance.Graveyard.TempTombstone.Clone() as Tombstone);
                     GameSimulationApp.Instance.Graveyard.ClearTempTombstone();
                     SetForm(typeof (TombstoneViewer));
                     break;

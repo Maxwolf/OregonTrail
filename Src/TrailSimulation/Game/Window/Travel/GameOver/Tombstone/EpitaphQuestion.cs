@@ -6,8 +6,7 @@ namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Asks the user if they would like to write a custom message on their Tombstone for other users to see when the
-    ///     come
-    ///     across this part of the trail in the future.
+    ///     come across this part of the trail in the future.
     /// </summary>
     [ParentWindow(GameWindow.Travel)]
     public sealed class EpitaphQuestion : InputForm<TravelInfo>

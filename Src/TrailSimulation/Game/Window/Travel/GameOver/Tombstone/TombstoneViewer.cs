@@ -40,28 +40,20 @@ namespace TrailSimulation.Game
         {
             // Check if the tombstone manager returned anything, if not then check for user data it's player death then.
             _tombstone.Clear();
-            if (GameSimulationApp.Instance.Vehicle.PassengerLivingCount <= 0)
-            {
-                // Adds Tombstone from the user data because the player died.
-                _tombstone.AppendLine(
-                    $"{Environment.NewLine}{GameSimulationApp.Instance.Graveyard.TempTombstone}");
+            
+            // Grab the current Tombstone based on players progress on the trail so far.
+            Tombstone foundTombstone;
+            GameSimulationApp.Instance.Graveyard.FindTombstone(
+                GameSimulationApp.Instance.Vehicle.Odometer,
+                out foundTombstone);
 
-                // Adds the underlying reason for the games failure if it was not obvious to the player by now.
-                _tombstone.AppendLine("All the members of");
-                _tombstone.AppendLine("your party have");
-                _tombstone.AppendLine($"died.{Environment.NewLine}");
-            }
-            else
-            {
-                // Grab the current Tombstone based on players progress on the trail so far.
-                Tombstone foundTombstone;
-                GameSimulationApp.Instance.Graveyard.FindTombstone(
-                    GameSimulationApp.Instance.Vehicle.Odometer,
-                    out foundTombstone);
+            // Add Tombstone message we want to show the player from Tombstone manager.
+            _tombstone.AppendLine($"{Environment.NewLine}{foundTombstone}");
 
-                // Add Tombstone message we want to show the player from Tombstone manager.
-                _tombstone.AppendLine($"{Environment.NewLine}{foundTombstone}");
-            }
+            // Adds the underlying reason for the games failure if it was not obvious to the player by now.
+            _tombstone.AppendLine("All the members of");
+            _tombstone.AppendLine("your party have");
+            _tombstone.AppendLine($"died.{Environment.NewLine}");
 
             return _tombstone.ToString();
         }

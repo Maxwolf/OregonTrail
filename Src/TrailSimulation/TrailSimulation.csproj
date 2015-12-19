@@ -91,7 +91,6 @@
     <Compile Include="Event\Weather\ObstructedPath.cs" />
     <Compile Include="Event\Weather\RoughTrail.cs" />
     <Compile Include="Event\Weather\SevereWeather.cs" />
-    <Compile Include="Event\Weather\Wildfire.cs" />
     <Compile Include="Event\Vehicle\WrongTrail.cs" />
     <Compile Include="Event\Wild\AbandonedVehicle.cs" />
     <Compile Include="Event\Wild\FindBerries.cs" />
@@ -115,6 +114,7 @@
     <Compile Include="Core\Window\Form\FormFactory.cs" />
     <Compile Include="Core\Module\SceneGraph.cs" />
     <Compile Include="Core\Module\WindowManager.cs" />
+    <Compile Include="Game\Window\RandomEvent\EventSkipDay.cs" />
     <Compile Include="Game\Window\Travel\Situation\UnableToContinue.cs" />
     <Compile Include="Game\Window\Travel\Situation\VehicleStuck.cs" />
     <Compile Include="Game\Window\Travel\GameOver\Tombstone\EpitaphConfirm.cs" />
