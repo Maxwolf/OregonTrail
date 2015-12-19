@@ -188,7 +188,7 @@ namespace TrailSimulation.Core
             // Tell all the other game modes that we added another Windows.
             foreach (var loadedMode in Windows)
             {
-                if (loadedMode.Key == FocusedWindow.Windows)
+                if (loadedMode.Key == FocusedWindow.WindowCategory)
                 {
                     // Only call post create on the newly added active game Windows.
                     loadedMode.Value.OnWindowPostCreate();

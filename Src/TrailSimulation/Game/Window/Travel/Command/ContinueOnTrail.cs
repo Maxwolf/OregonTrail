@@ -135,6 +135,12 @@ namespace TrailSimulation.Game
                     // Advance the progress bar, step it to next phase.
                     _swayBarText = _marqueeBar.Step();
 
+                    // Check if there is a tombstone here, if so we attach tombstone game window to handle it.
+                    if (game.Graveyard.ContainsTombstone(game.Vehicle.Odometer))
+                    {
+                        game.WindowManager.Add(GameWindow.Tombstone);
+                    }
+
                     // Processes the next turn in the game simulation.
                     game.Vehicle.Status = VehicleStatus.Moving;
                     game.TakeTurn(false);

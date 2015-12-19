@@ -24,7 +24,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Defines the type of game Windows this is and what it's purpose will be intended for.
         /// </summary>
-        GameWindow Windows { get; }
+        GameWindow WindowCategory { get; }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.

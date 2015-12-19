@@ -8,8 +8,8 @@ namespace TrailSimulation.Game
     ///     Asks the user if they would like to write a custom message on their Tombstone for other users to see when the
     ///     come across this part of the trail in the future.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
-    public sealed class EpitaphQuestion : InputForm<TravelInfo>
+    [ParentWindow(GameWindow.Tombstone)]
+    public sealed class EpitaphQuestion : InputForm<TombstoneInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -36,7 +36,7 @@ namespace TrailSimulation.Game
 
             // Add Tombstone message with here lies player name, no epitaph yet.
             epitaphPrompt.Clear();
-            epitaphPrompt.Append($"{Environment.NewLine}{GameSimulationApp.Instance.Graveyard.TempTombstone}");
+            epitaphPrompt.Append($"{Environment.NewLine}{UserData.Tombstone}");
             epitaphPrompt.AppendLine($"{Environment.NewLine}Would you like to write");
             epitaphPrompt.Append("an epitaph? Y/N");
             return epitaphPrompt.ToString();
@@ -58,9 +58,9 @@ namespace TrailSimulation.Game
                 case DialogResponse.No:
                 case DialogResponse.Custom:
                     // Add the Tombstone as is to the Tombstone manager for future players to see.
-                    GameSimulationApp.Instance.Graveyard.Add(GameSimulationApp.Instance.Graveyard.TempTombstone);
-                    GameSimulationApp.Instance.Graveyard.ClearTempTombstone();
-                    SetForm(typeof (TombstoneViewer));
+                    GameSimulationApp.Instance.Graveyard.Add(UserData.Tombstone);
+                    UserData.ClearTombstone();
+                    ClearForm();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);

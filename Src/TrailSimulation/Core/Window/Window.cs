@@ -133,7 +133,7 @@ namespace TrailSimulation.Core
                 return false;
             }
 
-            if (Windows.Equals(other.Windows) &&
+            if (WindowCategory.Equals(other.WindowCategory) &&
                 Form.Equals(other.Form))
             {
                 return true;
@@ -169,14 +169,14 @@ namespace TrailSimulation.Core
             Form = null;
 
             // Allows any data structures that care about themselves to save before the next tick comes.
-            OnModeRemoved(Windows);
+            OnModeRemoved(WindowCategory);
         }
 
         /// <summary>
         ///     Defines the current game Windows the inheriting class is going to take responsibility for when attached to the
         ///     simulation.
         /// </summary>
-        public abstract GameWindow Windows { get; }
+        public abstract GameWindow WindowCategory { get; }
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
@@ -335,7 +335,7 @@ namespace TrailSimulation.Core
             Debug.Assert(x != null, "x != null");
             Debug.Assert(y != null, "y != null");
 
-            var result = x.Windows.CompareTo(y.Windows);
+            var result = x.WindowCategory.CompareTo(y.WindowCategory);
             if (result != 0) return result;
 
             result = x.CurrentForm.CompareTo(y.CurrentForm);
@@ -348,7 +348,7 @@ namespace TrailSimulation.Core
         {
             Debug.Assert(other != null, "other != null");
 
-            var result = other.Windows.CompareTo(Windows);
+            var result = other.WindowCategory.CompareTo(WindowCategory);
             if (result != 0) return result;
 
             result = other.CurrentForm.CompareTo(Form);
@@ -467,13 +467,13 @@ namespace TrailSimulation.Core
 
         public override string ToString()
         {
-            return Windows.ToString();
+            return WindowCategory.ToString();
         }
 
         public override int GetHashCode()
         {
             var hash = 23;
-            hash = (hash*31) + Windows.GetHashCode();
+            hash = (hash*31) + WindowCategory.GetHashCode();
             return hash;
         }
     }

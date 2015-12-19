@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -43,12 +42,13 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
-            var _tombstone = new StringBuilder();
+            // Grab the leader name, complain if one does not exist.
+            var leaderPerson = GameSimulationApp.Instance.Vehicle.PassengerLeader;
+            if (leaderPerson == null)
+                throw new InvalidOperationException("Unable to grab the leader from the vehicle!");
 
-            // Adds Tombstone from the user data because the player died.
-            _tombstone.AppendLine($"{Environment.NewLine}{GameSimulationApp.Instance.Graveyard.TempTombstone}");
-
-            return _tombstone.ToString();
+            // We prompt and say the leader name is dead here since that is how we identity with player.
+            return $"{Environment.NewLine}Here lies {leaderPerson.Name}";
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            SetForm(typeof (EpitaphQuestion));
+            GameSimulationApp.Instance.WindowManager.Add(GameWindow.Tombstone);
         }
     }
 }

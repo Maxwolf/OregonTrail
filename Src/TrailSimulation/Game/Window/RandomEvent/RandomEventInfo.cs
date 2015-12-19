@@ -5,8 +5,7 @@ namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Random event Windows does not have any special information to carry around between states since it's sole purpose
-    ///     in
-    ///     life is to execute events and print the information before removing itself.
+    ///     in life is to execute events and print the information before removing itself.
     /// </summary>
     public sealed class RandomEventInfo : WindowData
     {

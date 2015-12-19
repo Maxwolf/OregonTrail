@@ -11,18 +11,11 @@ namespace TrailSimulation.Game
     public sealed class GraveyardModule : Module
     {
         /// <summary>
-        ///     Tombstone for the player (or another dead player) that will be either viewed or shown to user so they can
-        ///     confirm their graves details.
-        /// </summary>
-        private Tombstone _tempTombstone;
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.TombstoneManager" /> class.
         /// </summary>
         public GraveyardModule()
         {
             Tombstones = new Dictionary<int, Tombstone>();
-            _tempTombstone = null;
         }
 
         /// <summary>
@@ -49,19 +42,6 @@ namespace TrailSimulation.Game
         ///     References all of the currently loaded tombstones.
         /// </summary>
         private Dictionary<int, Tombstone> Tombstones { get; }
-
-        /// <summary>
-        ///     Creates a new internally workable tombstone that can be accessed by the running window and form logic. Intended to
-        ///     be used to create a tombstone for a player that has failed to reach the end of the trail.
-        /// </summary>
-        public Tombstone TempTombstone
-        {
-            get
-            {
-                // Create a tombstone if one does not exist, otherwise reference existing one.
-                return _tempTombstone ?? (_tempTombstone = new Tombstone());
-            }
-        }
 
         /// <summary>
         ///     Creates a shallow copy of the tombstone item and adds it to the list of tombstones. Does not check if it already
@@ -110,14 +90,6 @@ namespace TrailSimulation.Game
         public bool ContainsTombstone(int odemeter)
         {
             return Tombstones.ContainsKey(odemeter);
-        }
-
-        /// <summary>
-        ///     Destroys any currently existing temporary tombstone.
-        /// </summary>
-        public void ClearTempTombstone()
-        {
-            _tempTombstone = null;
         }
     }
 }

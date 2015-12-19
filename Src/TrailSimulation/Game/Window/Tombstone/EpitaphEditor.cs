@@ -9,8 +9,8 @@ namespace TrailSimulation.Game
     ///     Will
     ///     limit the input of the epitaph also and do basic whitespace checks and trimming.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
-    public sealed class EpitaphEditor : Form<TravelInfo>
+    [ParentWindow(GameWindow.Tombstone)]
+    public sealed class EpitaphEditor : Form<TombstoneInfo>
     {
         /// <summary>
         ///     Defines how long a epitaph on a tombstone can be in characters which will make up the entire string (spaces
@@ -48,7 +48,7 @@ namespace TrailSimulation.Game
         {
             // Add Tombstone message we want to show the player from Tombstone manager.
             _epitaphPrompt.Clear();
-            _epitaphPrompt.AppendLine($"{Environment.NewLine}{GameSimulationApp.Instance.Graveyard.TempTombstone}");
+            _epitaphPrompt.AppendLine($"{Environment.NewLine}{UserData.Tombstone}");
             return _epitaphPrompt.ToString();
         }
 
@@ -59,7 +59,7 @@ namespace TrailSimulation.Game
         public override void OnInputBufferReturned(string input)
         {
             // Trims the string and then cuts off any excess characters that go beyond our allowed limit.
-            GameSimulationApp.Instance.Graveyard.TempTombstone.Epitaph = input.Trim().Truncate(EPITAPH_MAXLENGTH);
+            UserData.Tombstone.Epitaph = input.Trim().Truncate(EPITAPH_MAXLENGTH);
 
             // Confirm with the player this is what they wanted the tombstone to say. Since we truncate need to confirm.
             SetForm(typeof (EpitaphConfirm));

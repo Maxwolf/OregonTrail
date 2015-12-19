@@ -8,8 +8,8 @@ namespace TrailSimulation.Game
     ///     Confirms with the user if there is any changes they would like to make to their Tombstone before it gets saved
     ///     for other travelers on this section of the trail to see.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
-    public sealed class EpitaphConfirm : InputForm<TravelInfo>
+    [ParentWindow(GameWindow.Tombstone)]
+    public sealed class EpitaphConfirm : InputForm<TombstoneInfo>
     {
         /// <summary>
         ///     This constructor will be used by the other one
@@ -37,7 +37,7 @@ namespace TrailSimulation.Game
             // Add Tombstone message with here lies player name and their epitaph.
             _confirmPrompt.Clear();
             _confirmPrompt.AppendLine(
-                $"{Environment.NewLine}{GameSimulationApp.Instance.Graveyard.TempTombstone}{Environment.NewLine}");
+                $"{Environment.NewLine}{UserData.Tombstone}{Environment.NewLine}");
             _confirmPrompt.AppendLine("Would you like to make");
             _confirmPrompt.Append("changes? Y/N");
             return _confirmPrompt.ToString();
@@ -55,14 +55,13 @@ namespace TrailSimulation.Game
                 case DialogResponse.Custom:
                 case DialogResponse.No:
                     // Add the tombstone instance to manager for future players.
-                    GameSimulationApp.Instance.Graveyard.Add(
-                        GameSimulationApp.Instance.Graveyard.TempTombstone.Clone() as Tombstone);
-                    GameSimulationApp.Instance.Graveyard.ClearTempTombstone();
-                    SetForm(typeof (TombstoneViewer));
+                    GameSimulationApp.Instance.Graveyard.Add(UserData.Tombstone.Clone() as Tombstone);
+                    UserData.ClearTombstone();
+                    ClearForm();
                     break;
                 case DialogResponse.Yes:
                     // Clears whatever was entered for epitaph before and restarts the entry process for that.
-                    GameSimulationApp.Instance.Graveyard.TempTombstone.Epitaph = string.Empty;
+                    UserData.Tombstone.Epitaph = string.Empty;
                     SetForm(typeof (EpitaphEditor));
                     break;
                 default:
