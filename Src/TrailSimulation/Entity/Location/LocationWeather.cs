@@ -99,7 +99,10 @@ namespace TrailSimulation.Entity
             // Fire off weather related events so this module and thus weather will affect the simulation.
             if (_disasterChance > 0 && game.Random.NextDouble() >= _disasterChance)
             {
-                game.EventDirector.TriggerEventByType(game.Trail.CurrentLocation, EventCategory.Weather);
+                // Only trigger weather events if the vehicle is moving and we are on the trail.
+                if (game.Vehicle.Status == VehicleStatus.Moving &&
+                    game.Trail.CurrentLocation.Status == LocationStatus.Departed)
+                    game.EventDirector.TriggerEventByType(game.Trail.CurrentLocation, EventCategory.Weather);
 
                 // Resets the disaster chance after firing event for it.
                 _disasterChance = 0;
