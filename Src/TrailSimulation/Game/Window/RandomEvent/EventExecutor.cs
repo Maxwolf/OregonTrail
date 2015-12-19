@@ -54,14 +54,27 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
+            // Person has already acknowledged this event form.
             if (_eventPlayerAcknowledge)
                 return;
 
+            // Prevent multiple closures of this form, and window.
             _eventPlayerAcknowledge = true;
-            ParentWindow.RemoveModeNextTick();
 
-            // Fires off event so events can do something special when the event closes.
-            UserData.DirectorEvent.OnEventClose();
+            // Check what we should do with the random event form now that the user is done with this part of it.
+            if (UserData.DaysToSkip <= 0)
+            {
+                // Only remove the entire random event form if we don't have any days to skip.
+                ParentWindow.RemoveWindowNextTick();
+
+                // Fires off event so events can do something special when the event closes.
+                UserData.DirectorEvent.OnEventClose();
+            }
+            else
+            {
+                // Attaches a new form that will skip over the required number of days we have detected.
+                SetForm(typeof (EventSkipDay));
+            }
         }
     }
 }

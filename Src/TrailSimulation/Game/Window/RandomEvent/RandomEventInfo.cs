@@ -20,5 +20,11 @@ namespace TrailSimulation.Game
         ///     person entity.
         /// </summary>
         public IEntity SourceEntity { get; set; }
+
+        /// <summary>
+        ///     Defines the total number of days that need to be skipped due to an event triggering the mechanism to attach another
+        ///     form and start ticking them away.
+        /// </summary>
+        public int DaysToSkip { get; internal set; }
     }
 }
