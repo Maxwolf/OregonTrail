@@ -34,32 +34,46 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Defines the text prefix which will go above the menu, used to show any useful information the game Windows might
-        ///     need to at the top of menu selections.
+        ///     Called after the Windows has been added to list of modes and made active.
         /// </summary>
-        protected override string MenuHeader
+        public override void OnWindowPostCreate()
         {
-            get
-            {
-                // Check if the tombstone manager returned anything, if not then check for user data it's player death then.
-                _tombstone.Clear();
+            base.OnWindowPostCreate();
 
-                // Grab the current Tombstone based on players progress on the trail so far.
-                Tombstone foundTombstone;
-                GameSimulationApp.Instance.Graveyard.FindTombstone(
-                    GameSimulationApp.Instance.Vehicle.Odometer,
-                    out foundTombstone);
+            UpdateTombstone();
+        }
 
-                // Add Tombstone message we want to show the player from Tombstone manager.
-                _tombstone.AppendLine($"{Environment.NewLine}{foundTombstone}");
+        /// <summary>
+        ///     Header text for above tombstone comes from player information.
+        /// </summary>
+        private void UpdateTombstone()
+        {
+            // Check if the tombstone manager returned anything, if not then check for user data it's player death then.
+            _tombstone.Clear();
 
-                // Adds the underlying reason for the games failure if it was not obvious to the player by now.
-                _tombstone.AppendLine("All the members of");
-                _tombstone.AppendLine("your party have");
-                _tombstone.AppendLine($"died.{Environment.NewLine}");
+            // Grab the current Tombstone based on players progress on the trail so far.
+            Tombstone foundTombstone;
+            GameSimulationApp.Instance.Graveyard.FindTombstone(
+                GameSimulationApp.Instance.Vehicle.Odometer,
+                out foundTombstone);
 
-                return _tombstone.ToString();
-            }
+            // Finding a tombstone at the current vehicle odometer means we use that reference.
+            _tombstone.AppendLine(foundTombstone != null
+                ? $"{Environment.NewLine}{foundTombstone}"
+                : $"{Environment.NewLine}{UserData.Tombstone}");
+
+            // Write out the tombstone text and epitaph message to the game window.
+            MenuHeader = _tombstone.ToString();
+        }
+
+        /// <summary>
+        ///     Allows underlying parent game Windows to the state understand it changed.
+        /// </summary>
+        protected override void OnFormChange()
+        {
+            base.OnFormChange();
+
+            UpdateTombstone();
         }
 
         /// <summary>

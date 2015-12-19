@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -12,11 +13,14 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.Travel)]
     public sealed class GameFail : InputForm<TravelInfo>
     {
+        private StringBuilder _tombstone;
+
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public GameFail(IWindow window) : base(window)
         {
+            _tombstone = new StringBuilder();
         }
 
         /// <summary>
@@ -42,13 +46,24 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
+            // Clear any previous message.
+            _tombstone.Clear();
+
             // Grab the leader name, complain if one does not exist.
             var leaderPerson = GameSimulationApp.Instance.Vehicle.PassengerLeader;
             if (leaderPerson == null)
                 throw new InvalidOperationException("Unable to grab the leader from the vehicle!");
 
             // We prompt and say the leader name is dead here since that is how we identity with player.
-            return $"{Environment.NewLine}Here lies {leaderPerson.Name}";
+            _tombstone.AppendLine($"{Environment.NewLine}Here lies {leaderPerson.Name}{Environment.NewLine}");
+
+            // Adds the underlying reason for the games failure if it was not obvious to the player by now.
+            _tombstone.AppendLine("All the members of");
+            _tombstone.AppendLine("your party have");
+            _tombstone.AppendLine($"died.{Environment.NewLine}");
+
+            // Prints out the message for death of all vehicle passengers.
+            return _tombstone.ToString();
         }
 
         /// <summary>
