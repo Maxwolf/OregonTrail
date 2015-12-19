@@ -89,7 +89,6 @@
     <Compile Include="Event\Weather\HailStorm.cs" />
     <Compile Include="Event\Weather\HeavyFog.cs" />
     <Compile Include="Event\Weather\ObstructedPath.cs" />
-    <Compile Include="Event\Weather\QuicksandAhead.cs" />
     <Compile Include="Event\Weather\RoughTrail.cs" />
     <Compile Include="Event\Weather\SevereWeather.cs" />
     <Compile Include="Event\Weather\Wildfire.cs" />

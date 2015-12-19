@@ -186,6 +186,9 @@ namespace TrailSimulation.Game
                 return;
             }
 
+            // River crossing will allow ticking of people, vehicle, and other important events but others like consuming food are disabled.
+            GameSimulationApp.Instance.TakeTurn(true);
+
             // Attempt to throw a random event related to some failure happening with river crossing.
             switch (UserData.River.CrossingType)
             {

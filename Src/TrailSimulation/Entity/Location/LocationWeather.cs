@@ -337,14 +337,6 @@ namespace TrailSimulation.Entity
                 case 6:
                     Condition = Weather.Rain;
                     _nextWeatherChance = 0.56d;
-
-                    // Chance for quicksand to slow you down on wet rainy days.
-                    if (GameSimulationApp.Instance.Random.NextBool())
-                    {
-                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
-                            typeof (QuicksandAhead));
-                    }
-
                     break;
                 case 7:
                     Condition = Weather.Overcast;
