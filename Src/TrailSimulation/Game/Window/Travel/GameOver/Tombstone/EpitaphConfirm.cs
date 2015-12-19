@@ -55,7 +55,8 @@ namespace TrailSimulation.Game
                 case DialogResponse.Custom:
                 case DialogResponse.No:
                     // Add the tombstone instance to manager for future players.
-                    GameSimulationApp.Instance.Graveyard.Add(GameSimulationApp.Instance.Graveyard.TempTombstone.Clone() as Tombstone);
+                    GameSimulationApp.Instance.Graveyard.Add(
+                        GameSimulationApp.Instance.Graveyard.TempTombstone.Clone() as Tombstone);
                     GameSimulationApp.Instance.Graveyard.ClearTempTombstone();
                     SetForm(typeof (TombstoneViewer));
                     break;

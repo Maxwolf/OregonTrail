@@ -103,6 +103,16 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Checks if there is a tombstone at the given mile marker, does not return it but only indicates if one exists.
+        /// </summary>
+        /// <param name="odemeter">Current mile marker the vehicle is located at on the trail.</param>
+        /// <returns>TRUE if tombstone exists for this mile marker.</returns>
+        public bool ContainsTombstone(int odemeter)
+        {
+            return Tombstones.ContainsKey(odemeter);
+        }
+
+        /// <summary>
         ///     Destroys any currently existing temporary tombstone.
         /// </summary>
         public void ClearTempTombstone()

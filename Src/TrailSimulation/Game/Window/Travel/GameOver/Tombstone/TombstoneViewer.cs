@@ -40,7 +40,7 @@ namespace TrailSimulation.Game
         {
             // Check if the tombstone manager returned anything, if not then check for user data it's player death then.
             _tombstone.Clear();
-            
+
             // Grab the current Tombstone based on players progress on the trail so far.
             Tombstone foundTombstone;
             GameSimulationApp.Instance.Graveyard.FindTombstone(
