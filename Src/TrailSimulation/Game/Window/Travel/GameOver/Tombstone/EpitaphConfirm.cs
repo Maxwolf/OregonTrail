@@ -40,7 +40,7 @@ namespace TrailSimulation.Game
             _confirmPrompt.AppendLine(
                 $"{Environment.NewLine}{GameSimulationApp.Instance.Graveyard.TempTombstone}{Environment.NewLine}");
             _confirmPrompt.AppendLine("Would you like to make");
-            _confirmPrompt.Append("changes?");
+            _confirmPrompt.Append("changes? Y/N");
             return _confirmPrompt.ToString();
         }
 

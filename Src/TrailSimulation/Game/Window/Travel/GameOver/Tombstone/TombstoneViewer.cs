@@ -44,7 +44,7 @@ namespace TrailSimulation.Game
             {
                 // Adds Tombstone from the user data because the player died.
                 _tombstone.AppendLine(
-                    $"{Environment.NewLine}{GameSimulationApp.Instance.Graveyard.TempTombstone}{Environment.NewLine}");
+                    $"{Environment.NewLine}{GameSimulationApp.Instance.Graveyard.TempTombstone}");
 
                 // Adds the underlying reason for the games failure if it was not obvious to the player by now.
                 _tombstone.AppendLine("All the members of");
