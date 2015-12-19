@@ -375,14 +375,6 @@ namespace TrailSimulation.Entity
                 case 3:
                     Condition = Weather.Sunny;
                     _nextWeatherChance = 0.24d;
-
-                    // Chance for wildfire to slow you down on hot sunny days.
-                    if (GameSimulationApp.Instance.Random.NextBool())
-                    {
-                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
-                            typeof (Wildfire));
-                    }
-
                     break;
                 case 4:
                     Condition = Weather.ChanceOfThunderstorm;
