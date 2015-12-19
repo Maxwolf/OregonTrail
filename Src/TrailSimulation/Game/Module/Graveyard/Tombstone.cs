@@ -72,8 +72,15 @@ namespace TrailSimulation.Game
         /// </summary>
         public override string ToString()
         {
-            return $"Here lies {PlayerName}" +
-                   $"{Environment.NewLine}{Epitaph}";
+            // Only print the name if the epitaph is empty or null.
+            if (string.IsNullOrEmpty(Epitaph))
+            {
+                return $"Here lies {PlayerName}{Environment.NewLine}";
+            }
+
+            // Print the name and epitaph message the player left for others to read.
+            return $"Here lies {PlayerName}{Environment.NewLine}" +
+                   $"{Epitaph}{Environment.NewLine}";
         }
     }
 }
