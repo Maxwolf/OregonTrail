@@ -162,7 +162,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Sets the flag for this game Windows to be removed the next time it is ticked by the simulation.
         /// </summary>
-        public void RemoveModeNextTick()
+        public void RemoveWindowNextTick()
         {
             // Forcefully detaches any state that was active before calling Windows removed.
             ShouldRemoveMode = true;

@@ -58,7 +58,7 @@ namespace TrailSimulation.Core
         /// <summary>
         ///     Sets the flag for this game Windows to be removed the next time it is ticked by the simulation.
         /// </summary>
-        void RemoveModeNextTick();
+        void RemoveWindowNextTick();
 
         /// <summary>
         ///     Grabs the text user interface string that will be used for debugging on console application.
