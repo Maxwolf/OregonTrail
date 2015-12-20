@@ -1,5 +1,4 @@
-﻿using System;
-using TrailSimulation.Game;
+﻿using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
@@ -13,50 +12,43 @@ namespace TrailSimulation.Event
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.
         /// </summary>
-        /// <param name="eventInfo">
+        /// <param name="userData">
         ///     Entities which the event is going to directly affect. This way there is no confusion about
         ///     what entity the event is for. Will require casting to correct instance type from interface instance.
         /// </param>
-        public override void Execute(RandomEventInfo eventInfo)
+        public override void Execute(RandomEventInfo userData)
         {
-            throw new NotImplementedException();
+            // Add to the days to skip since multiple events in a chain could keep adding to the total.
+            userData.DaysToSkip += DaysToSkip();
         }
+
+        /// <summary>
+        ///     Grabs the correct number of days that should be skipped by the lose time event. The event skip day form that
+        ///     follows will count down the number of days to zero before letting the player continue.
+        /// </summary>
+        /// <returns>Number of days that should be skipped in the simulation.</returns>
+        protected abstract int DaysToSkip();
 
         /// <summary>
         ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
         ///     change depending on requirements of the implementation.
         /// </summary>
-        /// <param name="eventInfo"></param>
+        /// <param name="userData">
+        ///     Entities which the event is going to directly affect. This way there is no confusion about
+        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
+        /// </param>
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
-        protected override string OnRender(RandomEventInfo eventInfo)
+        protected override string OnRender(RandomEventInfo userData)
         {
-            throw new NotImplementedException();
+            return OnLostTimeReason();
         }
 
         /// <summary>
-        ///     Fired when the event is closed by the user or system after being executed and rendered out on text user interface.
+        ///     Defines the string that will be used to define the event and how it affects the user. It will automatically append
+        ///     the number of days lost and count them down this only wants the text that days what the player lost the days
+        ///     because of.
         /// </summary>
-        public override void OnEventClose()
-        {
-            base.OnEventClose();
-
-            // Grab the game simulation instance into smaller variable.
-            var game = GameSimulationApp.Instance;
-
-            // Check if the window manager has the random event window attached (it should be).
-            if (!game.WindowManager.ContainsWindow(GameWindow.RandomEvent))
-                return;
-
-            // Cast the grabbed window into the random event window.
-            var randomWindow = game.WindowManager.Windows[GameWindow.RandomEvent] as RandomEvent;
-
-            // Complain if the window is null.
-            if (randomWindow == null)
-                throw new InvalidCastException(
-                    "Unable to cast window manager random event window to random event window type!");
-
-            // Set the form of the random event window to the event for skipping days.
-            randomWindow.SetForm(typeof (EventSkipDay));
-        }
+        /// <returns></returns>
+        protected abstract string OnLostTimeReason();
     }
 }

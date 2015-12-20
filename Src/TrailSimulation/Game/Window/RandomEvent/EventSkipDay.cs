@@ -44,7 +44,8 @@ namespace TrailSimulation.Game
             _skipMessage.Clear();
 
             // Print out the event information from user data.
-
+            if (!string.IsNullOrEmpty(UserData.EventText))
+                _skipMessage.AppendLine(UserData.EventText);
 
             // Determine if we have skipped a single day, or multiple days.
             _skipMessage.AppendLine(UserData.DaysToSkip > 1

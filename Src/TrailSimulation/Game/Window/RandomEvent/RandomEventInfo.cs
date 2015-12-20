@@ -25,5 +25,11 @@ namespace TrailSimulation.Game
         ///     form and start ticking them away.
         /// </summary>
         public int DaysToSkip { get; internal set; }
+
+        /// <summary>
+        ///     Holds the rendered out event text that we got from the event about what action it performed so we can use it on
+        ///     another form in the random event window.
+        /// </summary>
+        public string EventText { get; set; }
     }
 }

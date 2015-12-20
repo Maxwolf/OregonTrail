@@ -41,6 +41,9 @@ namespace TrailSimulation.Game
                 throw new InvalidOperationException(
                     $"Executed random event {UserData.DirectorEvent.Name} from director, but it returned no text data!");
 
+            // Add the text to the user data so we can print it on another form if needed.
+            UserData.EventText = eventText;
+
             // Add the text to our output about the random event.
             _randomEventText.AppendLine(
                 $"{Environment.NewLine}{eventText}{Environment.NewLine}");
