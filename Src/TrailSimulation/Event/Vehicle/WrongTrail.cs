@@ -18,7 +18,7 @@ namespace TrailSimulation.Event
         /// <returns>Number of days that should be skipped in the simulation.</returns>
         protected override int DaysToSkip()
         {
-            return GameSimulationApp.Instance.Random.Next(1, 5);
+            return GameSimulationApp.Instance.Random.Next(3, 8);
         }
 
         /// <summary>
