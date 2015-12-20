@@ -4,6 +4,12 @@ using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
+    /// <summary>
+    ///     Triggers one of the vehicle parts to break and will initially ask the player if they would like to try and fix it
+    ///     themselves, if this event fails it will ask the player if they would like to use one of their spare parts. If the
+    ///     player does not have any spare parts then they will become stuck on the trail and have to trade to get their parts
+    ///     and hopefully not die before that happens.
+    /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class BrokenVehiclePart : EventProduct
@@ -18,6 +24,7 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(RandomEventInfo userData)
         {
+            // TODO: Need to make this trigger travel game window methods to force the player to try and fix the vehicle.
             throw new NotImplementedException();
         }
 
