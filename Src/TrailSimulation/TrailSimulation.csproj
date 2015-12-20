@@ -96,7 +96,6 @@
     <Compile Include="Event\Wild\FindBerries.cs" />
     <Compile Include="Event\Wild\FindFruit.cs" />
     <Compile Include="Event\Wild\FoodSpoilage.cs" />
-    <Compile Include="Event\Wild\Gravesite.cs" />
     <Compile Include="Event\Wild\IndiansHelp.cs" />
     <Compile Include="Event\Wild\Meadow.cs" />
     <Compile Include="Event\Wild\StrangersApproach.cs" />
