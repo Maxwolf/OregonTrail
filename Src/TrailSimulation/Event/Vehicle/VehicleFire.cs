@@ -1,5 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
@@ -10,42 +11,30 @@ namespace TrailSimulation.Event
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public sealed class VehicleFire : EventProduct
+    public sealed class VehicleFire : EventItemDestroyer
     {
         /// <summary>
-        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
-        ///     left completely up to handler.
+        ///     Fired by the item destroyer event prefab before items are destroyed.
         /// </summary>
-        /// <param name="userData">
-        ///     Entities which the event is going to directly affect. This way there is no confusion about
-        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
-        /// </param>
-        public override void Execute(RandomEventInfo userData)
+        /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
+        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
-            // Cast the source entity as vehicle.
-            var vehicle = userData.SourceEntity as Vehicle;
-            Debug.Assert(vehicle != null, "vehicle != null");
-
-            // Remove food, and ammo.
-            vehicle.Inventory[Entities.Food].ReduceQuantity(40);
-            vehicle.Inventory[Entities.Ammo].ReduceQuantity(400);
-
-            // Damage the passengers randomly up to certain amount.
-            vehicle.Passengers.Damage(GameSimulationApp.Instance.Random.Next()*68 - 3);
-
-            // Reduce the total possible mileage of the vehicle this turn.
-            vehicle.ReduceMileage(15);
+            // Change event text depending on if items were destroyed or not.
+            return destroyedItems.Count > 0
+                ? TryKillPassengers("burned")
+                : "no loss of items.";
         }
 
         /// <summary>
-        ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
-        ///     change depending on requirements of the implementation.
+        ///     Fired by the item destroyer event prefab after items are destroyed.
         /// </summary>
-        /// <param name="userData"></param>
-        /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
-        protected override string OnRender(RandomEventInfo userData)
+        protected override string OnPreDestroyItems()
         {
-            return "there was a fire in your wagon--food and supplies damaged!";
+            var firePrompt = new StringBuilder();
+            firePrompt.Clear();
+            firePrompt.AppendLine("Fire in the wagon");
+            firePrompt.Append("resulting in ");
+            return firePrompt.ToString();
         }
     }
 }
