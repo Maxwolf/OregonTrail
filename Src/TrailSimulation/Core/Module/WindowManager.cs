@@ -209,5 +209,15 @@ namespace TrailSimulation.Core
         {
             Windows.Clear();
         }
+
+        /// <summary>
+        ///     Checks if the window manager contains the current window specified in the parameter.
+        /// </summary>
+        /// <param name="window">Game window that method will check for existence in current window stack.</param>
+        /// <returns>TRUE if the window exists in the stack, FALSE if the window has not been created.</returns>
+        public bool ContainsWindow(GameWindow window)
+        {
+            return Windows.ContainsKey(window);
+        }
     }
 }
