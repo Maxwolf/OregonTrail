@@ -287,8 +287,9 @@ namespace TrailSimulation.Entity
             if (systemTick)
                 return;
 
-            // We tick the weather all the time not just based on days, but every time the location is ticked.
-            _weather.Tick();
+            // Weather will only be ticked when not skipping a day.
+            if (!skipDay)
+                _weather.Tick();
 
             // TODO: Trades are randomly generated when ticking the location every day.
         }

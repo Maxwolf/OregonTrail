@@ -112,7 +112,7 @@ namespace TrailSimulation.Game
         ///     Determines if this tick skipped a day of the simulation and force ticked anyway. This is used for
         ///     special events like river crossings, hunting, trading, etc.
         /// </param>
-        public void OnTick(bool systemTick, bool skipDay)
+        public override void OnTick(bool systemTick, bool skipDay = false)
         {
             // Skip system ticks.
             if (systemTick)

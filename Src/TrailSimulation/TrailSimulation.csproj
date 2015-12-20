@@ -117,6 +117,7 @@
     <Compile Include="Game\Window\RandomEvent\EventSkipDay.cs" />
     <Compile Include="Game\Window\Tombstone\TombstoneCommands.cs" />
     <Compile Include="Game\Window\Tombstone\TombstoneInfo.cs" />
+    <Compile Include="Game\Window\Tombstone\TombstoneView.cs" />
     <Compile Include="Game\Window\Travel\Other\UnableToContinue.cs" />
     <Compile Include="Game\Window\Travel\Other\VehicleStuck.cs" />
     <Compile Include="Game\Window\Tombstone\EpitaphConfirm.cs" />
@@ -125,7 +126,7 @@
     <Compile Include="Game\Module\Graveyard\Tombstone.cs" />
     <Compile Include="Game\Window\Travel\GameOver\GameFail.cs" />
     <Compile Include="Game\Module\Graveyard\GraveyardModule.cs" />
-    <Compile Include="Game\Window\Tombstone\TombstoneViewer.cs" />
+    <Compile Include="Game\Window\Tombstone\TombstoneWindow.cs" />
     <Compile Include="Game\Window\Travel\Other\LocationFork.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverCrossChoice.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverGenerator.cs" />

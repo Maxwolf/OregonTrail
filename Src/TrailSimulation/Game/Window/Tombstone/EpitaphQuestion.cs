@@ -59,8 +59,7 @@ namespace TrailSimulation.Game
                 case DialogResponse.Custom:
                     // Add the Tombstone as is to the Tombstone manager for future players to see.
                     GameSimulationApp.Instance.Graveyard.Add(UserData.Tombstone);
-                    UserData.ClearTombstone();
-                    ClearForm();
+                    SetForm(typeof(TombstoneView));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);

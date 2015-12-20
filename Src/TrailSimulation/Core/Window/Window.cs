@@ -216,17 +216,17 @@ namespace TrailSimulation.Core
         /// </summary>
         public string OnRenderMode()
         {
-            // Build up string representation of the current state of the game Windows.
+            // Build up string representation of the current state of game window.
             var modeTUI = new StringBuilder();
 
-            // Only add menu choices if there are some to actually add, otherwise just return the string buffer now.
+            // Only add menu choices if there are some to actually add, otherwise just return string buffer now.
             if (_menuChoices?.Count > 0 && Form == null)
             {
                 // Header text for above menu.
                 if (!string.IsNullOrEmpty(MenuHeader))
                     modeTUI.Append($"{MenuHeader}{Environment.NewLine}{Environment.NewLine}");
 
-                // Loop through the menu choices and add each one to the Windows text user interface.
+                // Loop through the menu choices and add each one to text user interface.
                 var menuChoices = 1;
                 foreach (var menuChoice in _menuChoices)
                 {

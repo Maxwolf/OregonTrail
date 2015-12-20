@@ -11,11 +11,14 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.Tombstone)]
     public sealed class EpitaphConfirm : InputForm<TombstoneInfo>
     {
+        private StringBuilder _confirmPrompt;
+
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public EpitaphConfirm(IWindow window) : base(window)
         {
+            _confirmPrompt = new StringBuilder();
         }
 
         /// <summary>
@@ -32,12 +35,14 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
-            var _confirmPrompt = new StringBuilder();
+            // Clear previous tombstone prompt.
+            _confirmPrompt.Clear();
 
             // Add Tombstone message with here lies player name and their epitaph.
-            _confirmPrompt.Clear();
             _confirmPrompt.AppendLine(
-                $"{Environment.NewLine}{UserData.Tombstone}{Environment.NewLine}");
+                $"{Environment.NewLine}{UserData.Tombstone}");
+
+            // Confirmation message if player would like to edit tombstone.
             _confirmPrompt.AppendLine("Would you like to make");
             _confirmPrompt.Append("changes? Y/N");
             return _confirmPrompt.ToString();
@@ -56,8 +61,7 @@ namespace TrailSimulation.Game
                 case DialogResponse.No:
                     // Add the tombstone instance to manager for future players.
                     GameSimulationApp.Instance.Graveyard.Add(UserData.Tombstone.Clone() as Tombstone);
-                    UserData.ClearTombstone();
-                    ClearForm();
+                    SetForm(typeof(TombstoneView));
                     break;
                 case DialogResponse.Yes:
                     // Clears whatever was entered for epitaph before and restarts the entry process for that.

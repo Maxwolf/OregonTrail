@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using TrailSimulation.Core;
+﻿using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
@@ -11,16 +9,13 @@ namespace TrailSimulation.Game
     ///     player died using description attribute from an enumeration value that determines how they died.
     /// </summary>
     [ParentWindow(GameWindow.Travel)]
-    public sealed class GameFail : InputForm<TravelInfo>
+    public sealed class GameFail : Form<TravelInfo>
     {
-        private StringBuilder _tombstone;
-
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
         public GameFail(IWindow window) : base(window)
         {
-            _tombstone = new StringBuilder();
         }
 
         /// <summary>
@@ -38,42 +33,26 @@ namespace TrailSimulation.Game
         /// </summary>
         public override bool AllowInput
         {
-            get { return true; }
+            get { return false; }
         }
 
         /// <summary>
-        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        ///     waiting input, etc.
         /// </summary>
-        protected override string OnDialogPrompt()
+        public override string OnRenderForm()
         {
-            // Clear any previous message.
-            _tombstone.Clear();
-
-            // Grab the leader name, complain if one does not exist.
-            var leaderPerson = GameSimulationApp.Instance.Vehicle.PassengerLeader;
-            if (leaderPerson == null)
-                throw new InvalidOperationException("Unable to grab the leader from the vehicle!");
-
-            // We prompt and say the leader name is dead here since that is how we identity with player.
-            _tombstone.AppendLine($"{Environment.NewLine}Here lies {leaderPerson.Name}{Environment.NewLine}");
-
-            // Adds the underlying reason for the games failure if it was not obvious to the player by now.
-            _tombstone.AppendLine("All the members of");
-            _tombstone.AppendLine("your party have");
-            _tombstone.AppendLine($"died.{Environment.NewLine}");
-
-            // Prints out the message for death of all vehicle passengers.
-            return _tombstone.ToString();
-        }
-
-        /// <summary>
-        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.
-        /// </summary>
-        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
-        {
+            // Jump right to tombstone game window, it will reset the game.
             GameSimulationApp.Instance.WindowManager.Add(GameWindow.Tombstone);
+            return string.Empty;
+        }
+
+        /// <summary>
+        ///     Fired when the game Windows current state is not null and input buffer does not match any known command.
+        /// </summary>
+        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
+        public override void OnInputBufferReturned(string input)
+        {
         }
     }
 }

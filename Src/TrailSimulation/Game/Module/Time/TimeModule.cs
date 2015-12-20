@@ -97,7 +97,7 @@ namespace TrailSimulation.Game
             // Check if we should skip date calculations and just fire off day.
             if (skipDay)
             {
-                OnTickDay(skipDay);
+                OnTickDay(true);
                 return;
             }
 
@@ -117,7 +117,7 @@ namespace TrailSimulation.Game
             }
 
             // One day has passed.
-            OnTickDay(skipDay);
+            OnTickDay(false);
 
             if (shouldCheckMonthEnd)
             {
