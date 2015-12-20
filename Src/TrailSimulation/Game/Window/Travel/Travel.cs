@@ -248,7 +248,7 @@ namespace TrailSimulation.Game
             if (game.Trail.CurrentLocation.IsLast)
             {
                 GameOver = true;
-                SetForm(typeof(GameWin));
+                SetForm(typeof (GameWin));
                 return;
             }
 
@@ -256,7 +256,7 @@ namespace TrailSimulation.Game
             if (game.Vehicle.PassengersDead)
             {
                 GameOver = true;
-                SetForm(typeof(GameFail));
+                SetForm(typeof (GameFail));
                 return;
             }
 

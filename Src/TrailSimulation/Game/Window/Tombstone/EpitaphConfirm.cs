@@ -61,7 +61,7 @@ namespace TrailSimulation.Game
                 case DialogResponse.No:
                     // Add the tombstone instance to manager for future players.
                     GameSimulationApp.Instance.Graveyard.Add(UserData.Tombstone.Clone() as Tombstone);
-                    SetForm(typeof(TombstoneView));
+                    SetForm(typeof (TombstoneView));
                     break;
                 case DialogResponse.Yes:
                     // Clears whatever was entered for epitaph before and restarts the entry process for that.

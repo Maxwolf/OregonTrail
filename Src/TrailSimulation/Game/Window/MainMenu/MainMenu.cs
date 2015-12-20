@@ -19,7 +19,8 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Asked for every other party member name we want to collect.
         /// </summary>
-        public static readonly string MEMBERS_QUESTION = $"What are the first names of the{Environment.NewLine}three other members in your party?";
+        public static readonly string MEMBERS_QUESTION =
+            $"What are the first names of the{Environment.NewLine}three other members in your party?";
 
         /// <summary>
         ///     Defines the current game Windows the inheriting class is going to take responsibility for when attached to the
