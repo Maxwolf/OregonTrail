@@ -1,6 +1,4 @@
-﻿using TrailSimulation.Entity;
-
-namespace TrailSimulation.Game
+﻿namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Represents an event that can be triggered by the event director when vehicle is traveling along the trail.
@@ -20,33 +18,33 @@ namespace TrailSimulation.Game
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.
         /// </summary>
-        /// <param name="sourceEntity">
+        /// <param name="eventInfo">
         ///     Entities which the event is going to directly affect. This way there is no confusion about
         ///     what entity the event is for. Will require casting to correct instance type from interface instance.
         /// </param>
-        public abstract void Execute(IEntity sourceEntity);
+        public abstract void Execute(RandomEventInfo eventInfo);
 
         /// <summary>
         ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
         ///     change depending on requirements of the implementation.
         /// </summary>
-        /// <param name="sourceEntity">
+        /// <param name="eventInfo">
         ///     Entities which the event is going to directly affect. This way there is no confusion about
         ///     what entity the event is for. Will require casting to correct instance type from interface instance.
         /// </param>
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
-        public string Render(IEntity sourceEntity)
+        public string Render(RandomEventInfo eventInfo)
         {
-            return OnRender(sourceEntity);
+            return OnRender(eventInfo);
         }
 
         /// <summary>
         ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
         ///     change depending on requirements of the implementation.
         /// </summary>
-        /// <param name="sourceEntity"></param>
+        /// <param name="eventInfo"></param>
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
-        protected abstract string OnRender(IEntity sourceEntity);
+        protected abstract string OnRender(RandomEventInfo eventInfo);
 
         /// <summary>
         ///     Fired when the event is closed by the user or system after being executed and rendered out on text user interface.

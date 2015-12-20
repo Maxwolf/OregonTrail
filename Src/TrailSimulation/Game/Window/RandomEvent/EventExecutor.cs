@@ -33,8 +33,8 @@ namespace TrailSimulation.Game
             var _randomEventText = new StringBuilder();
 
             // Execute the event which should return us some text to display to user about what it did to running simulation.
-            UserData.DirectorEvent.Execute(UserData.SourceEntity);
-            var eventText = UserData.DirectorEvent.Render(UserData.SourceEntity);
+            UserData.DirectorEvent.Execute(UserData);
+            var eventText = UserData.DirectorEvent.Render(UserData);
 
             // Complain if the event text is empty.
             if (string.IsNullOrEmpty(eventText) || string.IsNullOrWhiteSpace(eventText))

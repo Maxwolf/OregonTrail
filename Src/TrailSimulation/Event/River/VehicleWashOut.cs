@@ -27,16 +27,16 @@ namespace TrailSimulation.Event
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.
         /// </summary>
-        /// <param name="sourceEntity">
+        /// <param name="eventInfo">
         ///     Entities which the event is going to directly affect. This way there is no confusion about
         ///     what entity the event is for. Will require casting to correct instance type from interface instance.
         /// </param>
-        public override void Execute(IEntity sourceEntity)
+        public override void Execute(RandomEventInfo eventInfo)
         {
-            base.Execute(sourceEntity);
+            base.Execute(eventInfo);
 
             // Cast the source entity as vehicle.
-            var vehicle = sourceEntity as Vehicle;
+            var vehicle = eventInfo.SourceEntity as Vehicle;
             Debug.Assert(vehicle != null, "vehicle != null");
 
             // Reduce the total possible mileage of the vehicle this turn.

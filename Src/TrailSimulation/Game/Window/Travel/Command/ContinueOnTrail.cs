@@ -138,7 +138,7 @@ namespace TrailSimulation.Game
                     // Check if there is a tombstone here, if so we attach question form that asks if we stop or not.
                     if (game.Graveyard.ContainsTombstone(game.Vehicle.Odometer))
                     {
-                        SetForm(typeof(TombstoneQuestion));
+                        SetForm(typeof (TombstoneQuestion));
                         return;
                     }
 
