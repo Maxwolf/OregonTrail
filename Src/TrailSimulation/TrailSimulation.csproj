@@ -50,7 +50,6 @@
     <Compile Include="Event\Prefab\EventPersonInjure.cs" />
     <Compile Include="Event\River\SuppliesWet.cs" />
     <Compile Include="Event\Vehicle\OxenDied.cs" />
-    <Compile Include="Event\Vehicle\OxenSick.cs" />
     <Compile Include="Event\Vehicle\OxenWanderOff.cs" />
     <Compile Include="Event\Animal\Snakebite.cs" />
     <Compile Include="Event\Person\BrokenArm.cs" />
@@ -74,7 +73,6 @@
     <Compile Include="Event\Vehicle\BrokenVehiclePart.cs" />
     <Compile Include="Event\Vehicle\ImpassableTrail.cs" />
     <Compile Include="Event\Vehicle\LostTrail.cs" />
-    <Compile Include="Event\Vehicle\SwampedVehicle.cs" />
     <Compile Include="Event\Vehicle\TippedVehicle.cs" />
     <Compile Include="Event\Vehicle\VehicleFire.cs" />
     <Compile Include="Event\Vehicle\StuckInMud.cs" />
@@ -87,8 +85,6 @@
     <Compile Include="Event\Warning\Starvation.cs" />
     <Compile Include="Event\Weather\HailStorm.cs" />
     <Compile Include="Event\Weather\HeavyFog.cs" />
-    <Compile Include="Event\Weather\ObstructedPath.cs" />
-    <Compile Include="Event\Weather\RoughTrail.cs" />
     <Compile Include="Event\Weather\SevereWeather.cs" />
     <Compile Include="Event\Vehicle\WrongTrail.cs" />
     <Compile Include="Event\Wild\AbandonedVehicle.cs" />

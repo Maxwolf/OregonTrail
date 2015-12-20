@@ -16,6 +16,8 @@ namespace TrailSimulation.Game
         public GraveyardModule()
         {
             Tombstones = new Dictionary<int, Tombstone>();
+
+            // TODO: Need to code JSON saving and loading of tombstone data for given trails.
         }
 
         /// <summary>
