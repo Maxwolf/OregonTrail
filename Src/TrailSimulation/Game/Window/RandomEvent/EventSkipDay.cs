@@ -89,6 +89,15 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Determines if this dialog state is allowed to receive any input at all, even empty line returns. This is useful for
+        ///     preventing the player from leaving a particular dialog until you are ready or finished processing some data.
+        /// </summary>
+        public override bool AllowInput
+        {
+            get { return UserData.DaysToSkip <= 0; }
+        }
+
+        /// <summary>
         ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
         ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
