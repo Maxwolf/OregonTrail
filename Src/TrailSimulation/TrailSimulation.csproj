@@ -50,7 +50,6 @@
     <Compile Include="Event\Prefab\EventPersonInjure.cs" />
     <Compile Include="Event\River\SuppliesWet.cs" />
     <Compile Include="Event\Vehicle\OxenDied.cs" />
-    <Compile Include="Event\Vehicle\OxenInjured.cs" />
     <Compile Include="Event\Vehicle\OxenSick.cs" />
     <Compile Include="Event\Vehicle\OxenWanderOff.cs" />
     <Compile Include="Event\Animal\Snakebite.cs" />
@@ -97,7 +96,6 @@
     <Compile Include="Event\Wild\FindFruit.cs" />
     <Compile Include="Event\Wild\FoodSpoilage.cs" />
     <Compile Include="Event\Wild\IndiansHelp.cs" />
-    <Compile Include="Event\Wild\Meadow.cs" />
     <Compile Include="Event\Wild\StrangersApproach.cs" />
     <Compile Include="Event\Wild\Thief.cs" />
     <Compile Include="Game\Module\Director\EventKey.cs" />

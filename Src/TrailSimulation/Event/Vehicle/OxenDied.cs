@@ -1,9 +1,14 @@
-﻿using System;
+﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
+    /// <summary>
+    ///     Oxen is damaged, which decreases the ability for the vehicle to be pulled forward. It is possible for this event to
+    ///     make the vehicle stuck, unable to continue until the player acquires another oxen via trading.
+    /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class OxenDied : EventProduct
@@ -18,7 +23,15 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(RandomEventInfo userData)
         {
-            throw new NotImplementedException();
+            // Cast the source entity as vehicle.
+            var vehicle = userData.SourceEntity as Vehicle;
+            Debug.Assert(vehicle != null, "vehicle != null");
+
+            // Damages the oxen, could make vehicle stuck.
+            vehicle.Inventory[Entities.Animal].ReduceQuantity(1);
+
+            // Reduce the total possible mileage of the vehicle this turn.
+            vehicle.ReduceMileage(25);
         }
 
         /// <summary>
@@ -29,7 +42,7 @@ namespace TrailSimulation.Event
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(RandomEventInfo userData)
         {
-            throw new NotImplementedException();
+            return "ox injures leg---you have to put it down";
         }
     }
 }
