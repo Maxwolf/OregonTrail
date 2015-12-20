@@ -1,35 +1,41 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
+using TrailSimulation.Entity;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
 {
+    /// <summary>
+    ///     Vehicle was going around a bend, hit a bump, rough trail, or any of the following it now tipped over and supplies
+    ///     could be destroyed and passengers can be crushed to death.
+    /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public sealed class TippedVehicle : EventProduct
+    public sealed class TippedVehicle : EventItemDestroyer
     {
         /// <summary>
-        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
-        ///     left completely up to handler.
+        ///     Fired by the item destroyer event prefab before items are destroyed.
         /// </summary>
-        /// <param name="userData">
-        ///     Entities which the event is going to directly affect. This way there is no confusion about
-        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
-        /// </param>
-        public override void Execute(RandomEventInfo userData)
+        /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
+        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
-            throw new NotImplementedException();
+            // Change event text depending on if items were destroyed or not.
+            return destroyedItems.Count > 0
+                ? TryKillPassengers("crushed")
+                : "no loss of items.";
         }
 
         /// <summary>
-        ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
-        ///     change depending on requirements of the implementation.
+        ///     Fired by the item destroyer event prefab after items are destroyed.
         /// </summary>
-        /// <param name="userData"></param>
-        /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
-        protected override string OnRender(RandomEventInfo userData)
+        protected override string OnPreDestroyItems()
         {
-            throw new NotImplementedException();
+            var capsizePrompt = new StringBuilder();
+            capsizePrompt.Clear();
+            capsizePrompt.AppendLine("vehicle has tipped");
+            capsizePrompt.Append("over resulting in ");
+            return capsizePrompt.ToString();
         }
     }
 }
