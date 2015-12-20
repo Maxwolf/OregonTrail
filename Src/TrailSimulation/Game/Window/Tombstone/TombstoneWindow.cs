@@ -24,8 +24,10 @@ namespace TrailSimulation.Game
         {
             base.OnWindowPostCreate();
 
-            // Attach the tombstone viewer.
-            SetForm(typeof (EpitaphQuestion));
+            // Depending on the living status of passengers in current player vehicle we will attach a different form.
+            SetForm(GameSimulationApp.Instance.Vehicle.PassengerLivingCount < 0
+                ? typeof (EpitaphQuestion)
+                : typeof (TombstoneView));
         }
     }
 }

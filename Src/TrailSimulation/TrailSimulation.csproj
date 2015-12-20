@@ -118,6 +118,7 @@
     <Compile Include="Game\Window\Tombstone\TombstoneCommands.cs" />
     <Compile Include="Game\Window\Tombstone\TombstoneInfo.cs" />
     <Compile Include="Game\Window\Tombstone\TombstoneView.cs" />
+    <Compile Include="Game\Window\Travel\Other\TombstoneQuestion.cs" />
     <Compile Include="Game\Window\Travel\Other\UnableToContinue.cs" />
     <Compile Include="Game\Window\Travel\Other\VehicleStuck.cs" />
     <Compile Include="Game\Window\Tombstone\EpitaphConfirm.cs" />
