@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
@@ -62,7 +63,17 @@ namespace TrailSimulation.Event
 
             // Loop through all of the created items and add them to string builder.
             foreach (var createdItem in createdItems)
-                _eventText.AppendLine($"{createdItem.Value.ToString("N0")} {createdItem.Key}");
+            {
+                // Last created item will not append a line.
+                if (createdItems.Last().Equals(createdItem))
+                {
+                    _eventText.Append($"{createdItem.Value.ToString("N0")} {createdItem.Key}");
+                }
+                else
+                {
+                    _eventText.AppendLine($"{createdItem.Value.ToString("N0")} {createdItem.Key}");
+                }
+            }
         }
 
         /// <summary>

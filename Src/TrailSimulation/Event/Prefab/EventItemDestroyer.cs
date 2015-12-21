@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
@@ -92,7 +93,17 @@ namespace TrailSimulation.Event
 
             // Loop through all of the destroyed items and add them to string builder.
             foreach (var destroyedItem in _destroyedItems)
-                _eventText.AppendLine($"{destroyedItem.Value.ToString("N0")} {destroyedItem.Key}");
+            {
+                // Last destroyed item will not append line.
+                if (_destroyedItems.Last().Equals(destroyedItem))
+                {
+                    _eventText.Append($"{destroyedItem.Value.ToString("N0")} {destroyedItem.Key}");
+                }
+                else
+                {
+                    _eventText.AppendLine($"{destroyedItem.Value.ToString("N0")} {destroyedItem.Key}");
+                }
+            }
         }
 
         /// <summary>
