@@ -26,6 +26,9 @@ namespace TrailSimulation.Game
         /// </summary>
         protected override string OnDialogPrompt()
         {
+            // Tick the people, but not the trail or the day.
+            GameSimulationApp.Instance.TakeTurn(true);
+
             // Build up representation of supplies once in constructor and then reference when asked for render.
             var supplies = new StringBuilder();
             supplies.AppendLine($"{Environment.NewLine}Your Supplies{Environment.NewLine}");
