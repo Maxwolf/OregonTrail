@@ -35,8 +35,8 @@ namespace TrailSimulation.Game
 
             // Build up message about there being something on the side of the road.
             pointReached.AppendLine(
-                $"{Environment.NewLine}Tombstone beside the road.");
-            pointReached.Append("Would you like to look at it? Y/N");
+                $"{Environment.NewLine}You pass a gravesite. Would you");
+            pointReached.Append("like to look closer? Y/N");
 
             return pointReached.ToString();
         }
