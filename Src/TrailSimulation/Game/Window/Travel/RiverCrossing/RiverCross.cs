@@ -15,6 +15,13 @@ namespace TrailSimulation.Game
     public sealed class RiverCross : Form<TravelInfo>
     {
         /// <summary>
+        ///     Holds reference to all of the choices that can be made in the river, since the are dynamic and change based on the
+        ///     location we are visiting this dictionary facilitates the ability for lookups and checking of inputted key for
+        ///     validity. If key is found then the appropriate action can be invoked.
+        /// </summary>
+        private Dictionary<RiverCrossChoice, Action> _riverActions;
+
+        /// <summary>
         ///     Holds all the information about the river and crossing decisions so it only needs to be constructed once at
         ///     startup.
         /// </summary>
@@ -25,6 +32,8 @@ namespace TrailSimulation.Game
         /// </summary>
         public RiverCross(IWindow window) : base(window)
         {
+            _riverActions = new Dictionary<RiverCrossChoice, Action>();
+            _riverInfo = new StringBuilder();
         }
 
         /// <summary>
@@ -39,7 +48,7 @@ namespace TrailSimulation.Game
             var game = GameSimulationApp.Instance;
 
             // Header text for above menu comes from river crossing info object.
-            _riverInfo = new StringBuilder();
+            _riverInfo.Clear();
             _riverInfo.AppendLine("--------------------------------");
             _riverInfo.AppendLine($"{game.Trail.CurrentLocation.Name}");
             _riverInfo.AppendLine($"{game.Time.Date}");
@@ -67,6 +76,67 @@ namespace TrailSimulation.Game
                 {
                     _riverInfo.AppendLine((int) riverChoice + ". " + riverChoice.ToDescriptionAttribute());
                 }
+
+                // Depending on selection made we will decide on what to do.
+                switch (riverChoice)
+                {
+                    case RiverCrossChoice.Ford:
+                        _riverActions.Add(riverChoice, delegate
+                        {
+                            // Driving straight into the river and hoping you don't drown.
+                            UserData.River.CrossingType = RiverCrossChoice.Ford;
+                            SetForm(typeof (CrossingTick));
+                        });
+                        break;
+                    case RiverCrossChoice.Float:
+                        _riverActions.Add(riverChoice, delegate
+                        {
+                            // Floating wagon manually without any help.
+                            UserData.River.CrossingType = RiverCrossChoice.Float;
+                            SetForm(typeof (CrossingTick));
+                        });
+                        break;
+                    case RiverCrossChoice.Ferry:
+                        _riverActions.Add(riverChoice, delegate
+                        {
+                            // Ferry operator charges money and time before player can cross.
+                            UserData.River.CrossingType = RiverCrossChoice.Ferry;
+                            SetForm(typeof (UseFerryConfirm));
+                        });
+                        break;
+                    case RiverCrossChoice.Indian:
+                        _riverActions.Add(riverChoice, delegate
+                        {
+                            // Indian guide helps float wagon across river for sets of clothing.
+                            UserData.River.CrossingType = RiverCrossChoice.Indian;
+                            SetForm(typeof (IndianGuidePrompt));
+                        });
+                        break;
+                    case RiverCrossChoice.WaitForWeather:
+                        _riverActions.Add(riverChoice, delegate
+                        {
+                            // Resting by a river only increments a single day at a time.
+                            UserData.DaysToRest = 1;
+                            UserData.River.CrossingType = RiverCrossChoice.WaitForWeather;
+                            SetForm(typeof (Resting));
+                        });
+                        break;
+                    case RiverCrossChoice.GetMoreInformation:
+                        _riverActions.Add(riverChoice, delegate
+                        {
+                            UserData.River.CrossingType = RiverCrossChoice.GetMoreInformation;
+                            SetForm(typeof (FordRiverHelp));
+                        });
+                        break;
+                    case RiverCrossChoice.None:
+                        // Complain if the choice is still default value.
+                        throw new ArgumentException(
+                            "Unable to use river cross choice NONE as a selection since it is only intended for initialization.");
+                    default:
+                        // Complain if the choice is invalid and or unknown.
+                        throw new ArgumentOutOfRangeException(nameof(riverChoice),
+                            "Unable to cast river cross choice into a valid selection for river crossing.");
+                }
             }
         }
 
@@ -92,39 +162,6 @@ namespace TrailSimulation.Game
             // Attempt to cast string to enum value, can be characters or integer.
             RiverCrossChoice riverChoice;
             Enum.TryParse(input, out riverChoice);
-
-            // Depending on selection made we will decide on what to do.
-            // ReSharper disable SwitchStatementMissingSomeCases
-            switch (riverChoice)
-            {
-                case RiverCrossChoice.Ford:
-                    UserData.River.CrossingType = RiverCrossChoice.Ford;
-                    SetForm(typeof (CrossingTick));
-                    break;
-                case RiverCrossChoice.Float:
-                    UserData.River.CrossingType = RiverCrossChoice.Float;
-                    SetForm(typeof (CrossingTick));
-                    break;
-                case RiverCrossChoice.Ferry:
-                    UserData.River.CrossingType = RiverCrossChoice.Ferry;
-                    SetForm(typeof (UseFerryConfirm));
-                    break;
-                case RiverCrossChoice.Indian:
-                    UserData.River.CrossingType = RiverCrossChoice.Indian;
-                    SetForm(typeof(UseFerryConfirm));
-                    break;
-                case RiverCrossChoice.WaitForWeather:
-                    // Resting by a river only increments a single day at a time.
-                    UserData.DaysToRest = 1;
-                    UserData.River.CrossingType = RiverCrossChoice.WaitForWeather;
-                    SetForm(typeof (Resting));
-                    break;
-                case RiverCrossChoice.GetMoreInformation:
-                    UserData.River.CrossingType = RiverCrossChoice.GetMoreInformation;
-                    SetForm(typeof (FordRiverHelp));
-                    break;
-            }
-            // ReSharper restore SwitchStatementMissingSomeCases
         }
     }
 }

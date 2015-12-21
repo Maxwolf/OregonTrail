@@ -123,8 +123,8 @@
     <Compile Include="Game\Window\Tombstone\TombstoneWindow.cs" />
     <Compile Include="Game\Window\Travel\Other\LocationFork.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\CrossingResult.cs" />
-    <Compile Include="Game\Window\Travel\RiverCrossing\Indian\IndianNoClothes.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Indian\UseIndianConfirm.cs" />
+    <Compile Include="Game\Window\Travel\RiverCrossing\Indian\IndianGuidePrompt.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverCrossChoice.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverGenerator.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverOption.cs" />

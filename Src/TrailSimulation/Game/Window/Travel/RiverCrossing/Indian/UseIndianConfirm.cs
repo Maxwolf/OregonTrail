@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Text;
 using TrailSimulation.Core;
-using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
 {
+    /// <summary>
+    ///     Confirms with the player the decision they made about crossing the riving using the Indian guide in exchange for a
+    ///     set amount of clothing. This form we will actually process that transaction and then let the Indian take the player
+    ///     across the river like he promised.
+    /// </summary>
     [ParentWindow(GameWindow.Travel)]
     public sealed class UseIndianConfirm : InputForm<TravelInfo>
     {
@@ -16,25 +20,13 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
-        ///     desired behavior.
-        /// </summary>
-        protected override DialogType DialogType
-        {
-            get { return DialogType.YesNo; }
-        }
-
-        /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         protected override string OnDialogPrompt()
         {
             var _prompt = new StringBuilder();
-            _prompt.AppendLine($"{Environment.NewLine}A Shoshoni guide says that he");
-            _prompt.AppendLine("will take your wagon across");
-            _prompt.AppendLine($"the river in exchange for {UserData.River.IndianCost.ToString("N0")}");
-            _prompt.AppendLine("sets of clothing. Will you");
-            _prompt.AppendLine("accept this offer? Y/N");
+            _prompt.AppendLine($"{Environment.NewLine}The Shoshoni guide will help");
+            _prompt.AppendLine("you float your wagon across.");
             return _prompt.ToString();
         }
 
@@ -45,28 +37,8 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            switch (reponse)
-            {
-                case DialogResponse.Yes:
-                    // Check if you have enough clothing sets to trade Indian guide for his services.
-                    if (UserData.River.IndianCost >
-                        GameSimulationApp.Instance.Vehicle.Inventory[Entities.Clothes].Quantity)
-                    {
-                        // Tell the player they do not have enough money to cross the river using the ferry.
-                        SetForm(typeof(FerryNoMonies));
-                        return;
-                    }
-
-                    SetForm(typeof(CrossingTick));
-                    break;
-                case DialogResponse.No:
-                case DialogResponse.Custom:
-                    UserData.River.CrossingType = RiverCrossChoice.None;
-                    SetForm(typeof(RiverCross));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);
-            }
+            // Player has enough clothing to satisfy the Indians cost.
+            SetForm(typeof(CrossingTick));
         }
     }
 }
