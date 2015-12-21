@@ -122,6 +122,7 @@
     <Compile Include="Game\Module\Graveyard\GraveyardModule.cs" />
     <Compile Include="Game\Window\Tombstone\TombstoneWindow.cs" />
     <Compile Include="Game\Window\Travel\Other\LocationFork.cs" />
+    <Compile Include="Game\Window\Travel\RiverCrossing\CrossingResult.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverCrossChoice.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverGenerator.cs" />
     <Compile Include="Game\Window\Travel\Store\StoreGenerator.cs" />

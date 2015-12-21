@@ -28,7 +28,7 @@ namespace TrailSimulation.Event
         /// <returns></returns>
         protected override string OnLostTimeReason()
         {
-            return "Stuck in mud.";
+            return "You become stuck in the mud.";
         }
     }
 }

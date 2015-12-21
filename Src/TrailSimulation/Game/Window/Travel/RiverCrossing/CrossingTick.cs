@@ -16,7 +16,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     String builder that will hold all the data about our river crossing as it occurs.
         /// </summary>
-        private StringBuilder _crossingResult;
+        private StringBuilder _crossingPrompt;
 
         /// <summary>
         ///     Determines if this state has performed it's duties and helped get the players and their vehicle across the river.
@@ -51,7 +51,7 @@ namespace TrailSimulation.Game
         public CrossingTick(IWindow window) : base(window)
         {
             // Create the string builder for holding all our text about river crossing as it happens.
-            _crossingResult = new StringBuilder();
+            _crossingPrompt = new StringBuilder();
 
             // Animated sway bar.
             _marqueeBar = new MarqueeBar();
@@ -108,39 +108,39 @@ namespace TrailSimulation.Game
         public override string OnRenderForm()
         {
             // Clears the string buffer for this render pass.
-            _crossingResult.Clear();
+            _crossingPrompt.Clear();
 
             // Ping-pong progress bar to show that we are moving.
-            _crossingResult.AppendLine($"{Environment.NewLine}{_swayBarText}");
+            _crossingPrompt.AppendLine($"{Environment.NewLine}{_swayBarText}");
 
             // Get instance of game simulation.
             var game = GameSimulationApp.Instance;
 
             // Shows basic status of vehicle and total river crossing percentage.
-            _crossingResult.AppendLine(
+            _crossingPrompt.AppendLine(
                 "--------------------------------");
-            _crossingResult.AppendLine(
+            _crossingPrompt.AppendLine(
                 $"{game.Trail.CurrentLocation.Name}");
-            _crossingResult.AppendLine(
+            _crossingPrompt.AppendLine(
                 $"{game.Time.Date}");
-            _crossingResult.AppendLine(
+            _crossingPrompt.AppendLine(
                 $"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
-            _crossingResult.AppendLine(
+            _crossingPrompt.AppendLine(
                 $"Health: {game.Vehicle.PassengerHealth.ToDescriptionAttribute()}");
-            _crossingResult.AppendLine(
+            _crossingPrompt.AppendLine(
                 $"Crossing By: {UserData.River.CrossingType}");
-            _crossingResult.AppendLine(
+            _crossingPrompt.AppendLine(
                 $"River width: {UserData.River.RiverWidth.ToString("N0")} feet");
-            _crossingResult.AppendLine(
+            _crossingPrompt.AppendLine(
                 $"River crossed: {_riverCrossingOfTotalWidth.ToString("N0")} feet");
-            _crossingResult.AppendLine(
+            _crossingPrompt.AppendLine(
                 "--------------------------------");
 
             // Wait for user input...
             if (_finishedCrossingRiver)
-                _crossingResult.AppendLine(InputManager.PRESS_ENTER);
+                _crossingPrompt.AppendLine(InputManager.PRESS_ENTER);
 
-            return _crossingResult.ToString();
+            return _crossingPrompt.ToString();
         }
 
         /// <summary>
@@ -244,14 +244,7 @@ namespace TrailSimulation.Game
             if (_riverCrossingOfTotalWidth < UserData.River.RiverWidth)
                 return;
 
-            // Destroy the river data now that we are done with it.
-            UserData.DestroyRiver();
-
-            // River crossing takes you a day.
-            GameSimulationApp.Instance.TakeTurn(false);
-
-            // Start going there...
-            SetForm(typeof (LocationDepart));
+            SetForm(typeof(CrossingResult));
         }
     }
 }
