@@ -44,9 +44,17 @@ namespace TrailSimulation.Game
             // Add the text to the user data so we can print it on another form if needed.
             UserData.EventText = eventText;
 
+            // Check what we should do with the random event form now that the user is done with this part of it.
+            if (UserData.DaysToSkip <= 0)
+            {
+                // Attaches a new form that will skip over the required number of days we have detected.
+                SetForm(typeof(EventSkipDay));
+                return "Loading Event...";
+            }
+
             // Add the text to our output about the random event.
             _randomEventText.AppendLine(
-                $"{Environment.NewLine}{eventText}{Environment.NewLine}");
+            $"{Environment.NewLine}{eventText}{Environment.NewLine}");
             return _randomEventText.ToString();
         }
 
@@ -64,20 +72,11 @@ namespace TrailSimulation.Game
             // Prevent multiple closures of this form, and window.
             _eventPlayerAcknowledge = true;
 
-            // Check what we should do with the random event form now that the user is done with this part of it.
-            if (UserData.DaysToSkip <= 0)
-            {
-                // Only remove the entire random event form if we don't have any days to skip.
-                ParentWindow.RemoveWindowNextTick();
+            // Only remove the entire random event form if we don't have any days to skip.
+            ParentWindow.RemoveWindowNextTick();
 
-                // Fires off event so events can do something special when the event closes.
-                UserData.DirectorEvent.OnEventClose();
-            }
-            else
-            {
-                // Attaches a new form that will skip over the required number of days we have detected.
-                SetForm(typeof (EventSkipDay));
-            }
+            // Fires off event so events can do something special when the event closes.
+            UserData.DirectorEvent.OnEventClose();
         }
     }
 }

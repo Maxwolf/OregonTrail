@@ -35,29 +35,48 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Determines if this dialog state is allowed to receive any input at all, even empty line returns. This is useful for
+        ///     preventing the player from leaving a particular dialog until you are ready or finished processing some data.
+        /// </summary>
+        public override bool AllowInput
+        {
+            get { return UserData.DaysToSkip <= 0; }
+        }
+
+        /// <summary>
         ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
         public override string OnRenderForm()
         {
+            return _skipMessage.ToString();
+        }
+
+        /// <summary>
+        ///     Rebuilds the text user interface that is shown to the user and allows them to know how many days are remaining.
+        /// </summary>
+        private void UpdateDaysLeft()
+        {
             // Clear any previous skip message.
             _skipMessage.Clear();
 
             // Print out the event information from user data.
-            if (!string.IsNullOrEmpty(UserData.EventText))
+            if (!string.IsNullOrEmpty($"{Environment.NewLine}{UserData.EventText}"))
                 _skipMessage.AppendLine(UserData.EventText);
 
-            // Determine if we have skipped a single day, or multiple days.
-            _skipMessage.AppendLine(UserData.DaysToSkip > 1
-                ? $"{Environment.NewLine}Lose {UserData.DaysToSkip} days."
-                : $"{Environment.NewLine}Lose 1 day.");
-
-            // Allow the user to stop resting, this will break the cycle and reset days to rest to zero.
+            // Show the losing day text until we are done doing that, then only show event text and wait for user input.
             if (UserData.DaysToSkip <= 0)
+            {
+                // Determine if we have skipped a single day, or multiple days.
+                _skipMessage.AppendLine(UserData.DaysToSkip > 1
+                    ? $"Lose {UserData.DaysToSkip} days."
+                    : "Lose 1 day.");
+            }
+            else
+            {
+                // Allow the user to stop resting, this will break the cycle and reset days to rest to zero.
                 _skipMessage.AppendLine($"{Environment.NewLine}{InputManager.PRESS_ENTER}{Environment.NewLine}");
-
-            // Return the skip message data to scene graph.
-            return _skipMessage.ToString();
+            }
         }
 
         /// <summary>
@@ -86,15 +105,8 @@ namespace TrailSimulation.Game
             // Only change the vehicle status to stopped if it is moving, it could just be stuck.
             if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Moving)
                 GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
-        }
 
-        /// <summary>
-        ///     Determines if this dialog state is allowed to receive any input at all, even empty line returns. This is useful for
-        ///     preventing the player from leaving a particular dialog until you are ready or finished processing some data.
-        /// </summary>
-        public override bool AllowInput
-        {
-            get { return UserData.DaysToSkip <= 0; }
+            UpdateDaysLeft();
         }
 
         /// <summary>
@@ -128,6 +140,9 @@ namespace TrailSimulation.Game
 
             // Simulate the days to rest in time and event system, this will trigger another random event if needed.
             GameSimulationApp.Instance.TakeTurn(false);
+
+            // Updates the text user interface about the event skipping time and days left.
+            UpdateDaysLeft();
         }
     }
 }
