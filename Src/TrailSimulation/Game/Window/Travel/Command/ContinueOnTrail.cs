@@ -9,8 +9,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Text;
 using TrailSimulation.Core;
@@ -42,13 +40,9 @@ namespace TrailSimulation.Game
         /// </summary>
         private string _swayBarText;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContinueOnTrail"/> class. 
-        /// This constructor will be used by the other one
-        /// </summary>
-        /// <param name="window">
-        /// The window.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="ContinueOnTrail"/> class.
+        ///     This constructor will be used by the other one</summary>
+        /// <param name="window">The window.</param>
         public ContinueOnTrail(IWindow window) : base(window)
         {
         }
@@ -87,11 +81,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        /// Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         public override string OnRenderForm()
         {
@@ -111,22 +105,14 @@ namespace TrailSimulation.Game
             return _drive.ToString();
         }
 
-        /// <summary>
-        /// Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        /// <summary>Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
-        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
-        /// </summary>
-        /// <remarks>
-        /// Default is one second or 1000ms.
-        /// </remarks>
-        /// <param name="systemTick">
-        /// TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
-        ///     pulsed by game simulation at fixed interval.
-        /// </param>
-        /// <param name="skipDay">
-        /// Determines if the simulation has force ticked without advancing time or down the trail. Used by
-        ///     special events that want to simulate passage of time without actually any actual time moving by.
-        /// </param>
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.</summary>
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.</param>
+        /// <param name="skipDay">Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        ///     special events that want to simulate passage of time without actually any actual time moving by.</param>
         public override void OnTick(bool systemTick, bool skipDay)
         {
             base.OnTick(systemTick, skipDay);
@@ -148,14 +134,17 @@ namespace TrailSimulation.Game
             {
                 case VehicleStatus.Stopped:
 
+
 // Do not proceed if the vehicle is stopped.
                     return;
                 case VehicleStatus.Stuck:
+
 
 // Attach form saying the players vehicle is stuck.
                     SetForm(typeof (UnableToContinue));
                     break;
                 case VehicleStatus.Moving:
+
 
 // Advance the progress bar, step it to next phase.
                     _swayBarText = _marqueeBar.Step();
@@ -176,12 +165,8 @@ namespace TrailSimulation.Game
             }
         }
 
-        /// <summary>
-        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
-        /// </summary>
-        /// <param name="input">
-        /// Contents of the input buffer which didn't match any known command in parent game Windows.
-        /// </param>
+        /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>
+        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
         public override void OnInputBufferReturned(string input)
         {
             // Can only stop the simulation if it is actually running.

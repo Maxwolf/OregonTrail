@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Reflection;
 using System.Text;
@@ -29,13 +27,9 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder _optionsPrompt;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ManagementOptions"/> class. 
-        /// This constructor will be used by the other one
-        /// </summary>
-        /// <param name="window">
-        /// The window.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="ManagementOptions"/> class.
+        ///     This constructor will be used by the other one</summary>
+        /// <param name="window">The window.</param>
         public ManagementOptions(IWindow window) : base(window)
         {
             _optionsPrompt = new StringBuilder();
@@ -61,23 +55,19 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        /// Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         public override string OnRenderForm()
         {
             return _optionsPrompt.ToString();
         }
 
-        /// <summary>
-        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
-        /// </summary>
-        /// <param name="input">
-        /// Contents of the input buffer which didn't match any known command in parent game Windows.
-        /// </param>
+        /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>
+        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
         public override void OnInputBufferReturned(string input)
         {
             // Convert input into a number, otherwise just return.
@@ -90,20 +80,24 @@ namespace TrailSimulation.Game
             {
                 case 1:
 
+
 // See the original Top Ten list.
                     SetForm(typeof (OriginalTopTen));
                     break;
                 case 2:
+
 
 // Erase the current Top Ten list.
                     SetForm(typeof (EraseCurrentTopTen));
                     break;
                 case 3:
 
+
 // Erase the Tombstone messages.
                     SetForm(typeof (EraseTombstone));
                     break;
                 case 4:
+
 
 // Return to the main menu.
                     ClearForm();

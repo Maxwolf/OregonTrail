@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Entity
@@ -19,7 +17,7 @@ namespace TrailSimulation.Entity
     public static class Animals
     {
         /// <summary>
-        /// Gets the bear.
+        ///     Gets the bear.
         /// </summary>
         public static SimItem Bear
         {
@@ -39,7 +37,7 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        /// Gets the caribou.
+        ///     Gets the caribou.
         /// </summary>
         public static SimItem Caribou
         {
@@ -51,7 +49,7 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        /// Gets the deer.
+        ///     Gets the deer.
         /// </summary>
         public static SimItem Deer
         {
@@ -59,7 +57,7 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        /// Gets the duck.
+        ///     Gets the duck.
         /// </summary>
         public static SimItem Duck
         {
@@ -67,7 +65,7 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        /// Gets the goose.
+        ///     Gets the goose.
         /// </summary>
         public static SimItem Goose
         {
@@ -75,7 +73,7 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        /// Gets the rabbit.
+        ///     Gets the rabbit.
         /// </summary>
         public static SimItem Rabbit
         {
@@ -83,7 +81,7 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        /// Gets the squirrel.
+        ///     Gets the squirrel.
         /// </summary>
         public static SimItem Squirrel
         {

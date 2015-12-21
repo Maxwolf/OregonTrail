@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,40 +18,22 @@ namespace TrailSimulation.Core
     /// </summary>
     public static class ArrayExtensions
     {
-        /// <summary>
-        /// Determines the count of boolean values in an array that are true. Intended to be used in conjunction with count to
-        ///     determine if all are true for a entire sequence.
-        /// </summary>
-        /// <param name="booleans">
-        /// Array of bool.
-        /// </param>
-        /// <returns>
-        /// Number of bool values in array that were true.
-        /// </returns>
-        /// <remarks>
-        /// http://stackoverflow.com/a/378282
-        /// </remarks>
+        /// <summary>Determines the count of boolean values in an array that are true. Intended to be used in conjunction with count to
+        ///     determine if all are true for a entire sequence.</summary>
+        /// <param name="booleans">Array of bool.</param>
+        /// <returns>Number of bool values in array that were true.</returns>
+        /// <remarks>http://stackoverflow.com/a/378282</remarks>
         public static int TrueCount(this IEnumerable<bool> booleans)
         {
             return booleans.Count(b => b);
         }
 
-        /// <summary>
-        /// NB Method will return int. MaxValue for a sequence containing no elements. Intended to be used to match int value
-        ///     to enumeration but without directly casting it, instead looking for closest match to target value.
-        /// </summary>
-        /// <param name="collection">
-        /// Enumerable collection of integers that make up our collection.
-        /// </param>
-        /// <param name="target">
-        /// Target value which needs to be compared against collection values.
-        /// </param>
-        /// <returns>
-        /// Int closest matching in collection to target value.
-        /// </returns>
-        /// <remarks>
-        /// http://stackoverflow.com/a/10120982
-        /// </remarks>
+        /// <summary>NB Method will return int. MaxValue for a sequence containing no elements. Intended to be used to match int value
+        ///     to enumeration but without directly casting it, instead looking for closest match to target value.</summary>
+        /// <param name="collection">Enumerable collection of integers that make up our collection.</param>
+        /// <param name="target">Target value which needs to be compared against collection values.</param>
+        /// <returns>Int closest matching in collection to target value.</returns>
+        /// <remarks>http://stackoverflow.com/a/10120982</remarks>
         public static int ClosestTo(this IEnumerable<int> collection, int target)
         {
             var closest = int.MaxValue;

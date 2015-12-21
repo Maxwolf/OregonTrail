@@ -7,7 +7,6 @@
 //   information about what it did.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Game
 {
     /// <summary>

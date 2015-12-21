@@ -6,7 +6,6 @@
 //   Defines all of the months in a given year.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Game
 {
     /// <summary>
@@ -15,62 +14,62 @@ namespace TrailSimulation.Game
     public enum Month
     {
         /// <summary>
-        /// The january.
+        ///     The january.
         /// </summary>
         January = 1, 
 
         /// <summary>
-        /// The february.
+        ///     The february.
         /// </summary>
         February = 2, 
 
         /// <summary>
-        /// The march.
+        ///     The march.
         /// </summary>
         March = 3, 
 
         /// <summary>
-        /// The april.
+        ///     The april.
         /// </summary>
         April = 4, 
 
         /// <summary>
-        /// The may.
+        ///     The may.
         /// </summary>
         May = 5, 
 
         /// <summary>
-        /// The june.
+        ///     The june.
         /// </summary>
         June = 6, 
 
         /// <summary>
-        /// The july.
+        ///     The july.
         /// </summary>
         July = 7, 
 
         /// <summary>
-        /// The august.
+        ///     The august.
         /// </summary>
         August = 8, 
 
         /// <summary>
-        /// The september.
+        ///     The september.
         /// </summary>
         September = 9, 
 
         /// <summary>
-        /// The october.
+        ///     The october.
         /// </summary>
         October = 10, 
 
         /// <summary>
-        /// The november.
+        ///     The november.
         /// </summary>
         November = 11, 
 
         /// <summary>
-        /// The december.
+        ///     The december.
         /// </summary>
         December = 12
     }

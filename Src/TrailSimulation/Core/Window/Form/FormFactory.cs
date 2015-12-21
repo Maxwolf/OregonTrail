@@ -9,8 +9,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -53,18 +51,10 @@ namespace TrailSimulation.Core
         /// </summary>
         private Dictionary<Type, GameWindow> LoadedForms { get; set; }
 
-        /// <summary>
-        /// Creates and adds the specified type of state to currently active game Windows.
-        /// </summary>
-        /// <param name="stateType">
-        /// Role object that is the actual type of state that needs created.
-        /// </param>
-        /// <param name="activeMode">
-        /// Current active game Windows passed to factory so no need to call game simulation singleton.
-        /// </param>
-        /// <returns>
-        /// Created state instance from reference types build on startup.
-        /// </returns>
+        /// <summary>Creates and adds the specified type of state to currently active game Windows.</summary>
+        /// <param name="stateType">Role object that is the actual type of state that needs created.</param>
+        /// <param name="activeMode">Current active game Windows passed to factory so no need to call game simulation singleton.</param>
+        /// <returns>Created state instance from reference types build on startup.</returns>
         public IForm CreateStateFromType(Type stateType, IWindow activeMode)
         {
             // Check if the state exists in our reference list.

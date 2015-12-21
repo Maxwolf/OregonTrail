@@ -12,8 +12,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using TrailSimulation.Game;
 
@@ -30,12 +28,8 @@ namespace TrailSimulation.Core
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public sealed class ParentWindowAttribute : Attribute
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:TrailSimulation.Core.ParentWindowAttribute"/> class.
-        /// </summary>
-        /// <param name="parentWindow">
-        /// The parent Window.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Core.ParentWindowAttribute"/> class.</summary>
+        /// <param name="parentWindow">The parent Window.</param>
         public ParentWindowAttribute(GameWindow parentWindow)
         {
             ParentWindow = parentWindow;

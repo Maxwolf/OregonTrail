@@ -6,31 +6,22 @@
 //   The date.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Game
 {
     /// <summary>
-    /// The date.
+    ///     The date.
     /// </summary>
     public class Date
     {
         /// <summary>
-        /// The number of days in month.
+        ///     The number of days in month.
         /// </summary>
         public const int NumberOfDaysInMonth = 30;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Date"/> class.
-        /// </summary>
-        /// <param name="dueYear">
-        /// The due year.
-        /// </param>
-        /// <param name="dueMonth">
-        /// The due month.
-        /// </param>
-        /// <param name="dueDay">
-        /// The due day.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="Date"/> class.</summary>
+        /// <param name="dueYear">The due year.</param>
+        /// <param name="dueMonth">The due month.</param>
+        /// <param name="dueDay">The due day.</param>
         public Date(int dueYear, Month dueMonth, int dueDay)
         {
             Day = dueDay;
@@ -39,25 +30,25 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        /// Gets or sets the month.
+        ///     Gets or sets the month.
         /// </summary>
         public Month Month { get; set; }
 
         /// <summary>
-        /// Gets or sets the year.
+        ///     Gets or sets the year.
         /// </summary>
         public int Year { get; set; }
 
         /// <summary>
-        /// Gets or sets the day.
+        ///     Gets or sets the day.
         /// </summary>
         public int Day { get; set; }
 
         /// <summary>
-        /// The to string.
+        ///     The to string.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         public override string ToString()
         {

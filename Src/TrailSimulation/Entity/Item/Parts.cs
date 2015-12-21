@@ -6,7 +6,6 @@
 //   Defines a bunch of items that are used as parts in the vehicle.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Entity
 {
     /// <summary>

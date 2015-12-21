@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -73,13 +71,9 @@ namespace TrailSimulation.Game
         /// </summary>
         public GraveyardModule Graveyard { get; private set; }
 
-        /// <summary>
-        /// Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
-        ///     capacity or want to do so in this turn.
-        /// </summary>
-        /// <param name="skipDay">
-        /// The skip Day.
-        /// </param>
+        /// <summary>Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
+        ///     capacity or want to do so in this turn.</summary>
+        /// <param name="skipDay">The skip Day.</param>
         public void TakeTurn(bool skipDay)
         {
             // Advance the turn counter if we are not skipping days.
@@ -90,14 +84,10 @@ namespace TrailSimulation.Game
             Time.TickTime(skipDay);
         }
 
-        /// <summary>
-        /// Attaches the traveling Windows and removes the new game Windows if it exists, this begins the simulation down the
-        ///     trail path and all the points of interest on it.
-        /// </summary>
-        /// <param name="startingInfo">
-        /// User data object that was passed around the new game Windows and populated by user
-        ///     selections.
-        /// </param>
+        /// <summary>Attaches the traveling Windows and removes the new game Windows if it exists, this begins the simulation down the
+        ///     trail path and all the points of interest on it.</summary>
+        /// <param name="startingInfo">User data object that was passed around the new game Windows and populated by user
+        ///     selections.</param>
         internal void SetStartInfo(NewGameInfo startingInfo)
         {
             // Clear out any data amount items, monies, people that might have been in the vehicle.

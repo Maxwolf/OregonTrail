@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System.ComponentModel;
 
 namespace TrailSimulation.Entity

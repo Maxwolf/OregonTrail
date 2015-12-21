@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System.Collections.Generic;
 using TrailSimulation.Game;
 
@@ -20,7 +18,7 @@ namespace TrailSimulation.Entity
     public static class ClimateRegistry
     {
         /// <summary>
-        /// Gets the polar.
+        ///     Gets the polar.
         /// </summary>
         public static IEnumerable<ClimateData> Polar
         {
@@ -47,7 +45,7 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        /// Gets the continental.
+        ///     Gets the continental.
         /// </summary>
         public static IEnumerable<ClimateData> Continental
         {
@@ -74,7 +72,7 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        /// Gets the moderate.
+        ///     Gets the moderate.
         /// </summary>
         public static IEnumerable<ClimateData> Moderate
         {
@@ -101,7 +99,7 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        /// Gets the dry.
+        ///     Gets the dry.
         /// </summary>
         public static IEnumerable<ClimateData> Dry
         {
@@ -128,7 +126,7 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        /// Gets the tropical.
+        ///     Gets the tropical.
         /// </summary>
         public static IEnumerable<ClimateData> Tropical
         {

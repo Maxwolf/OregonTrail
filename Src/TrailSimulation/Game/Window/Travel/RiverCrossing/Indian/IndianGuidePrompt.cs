@@ -11,8 +11,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Text;
 using TrailSimulation.Core;
@@ -30,13 +28,9 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.Travel)]
     public sealed class IndianGuidePrompt : InputForm<TravelInfo>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IndianGuidePrompt"/> class. 
-        /// This constructor will be used by the other one
-        /// </summary>
-        /// <param name="window">
-        /// The window.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="IndianGuidePrompt"/> class.
+        ///     This constructor will be used by the other one</summary>
+        /// <param name="window">The window.</param>
         public IndianGuidePrompt(IWindow window) : base(window)
         {
         }
@@ -71,10 +65,10 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        /// Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         protected override string OnDialogPrompt()
         {
@@ -103,13 +97,9 @@ namespace TrailSimulation.Game
             return _prompt.ToString();
         }
 
-        /// <summary>
-        /// Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.
-        /// </summary>
-        /// <param name="reponse">
-        /// The response the dialog parsed from simulation input buffer.
-        /// </param>
+        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // Depending on if the player has enough clothing their response to Indian guide changes.
@@ -120,12 +110,14 @@ namespace TrailSimulation.Game
                 {
                     case DialogResponse.Yes:
 
+
 // Player has enough clothing to satisfy the Indians cost, will be subtracted in confirmation.
                         UserData.River.CrossingType = RiverCrossChoice.Indian;
                         SetForm(typeof (UseIndianConfirm));
                         break;
                     case DialogResponse.No:
                     case DialogResponse.Custom:
+
 
 // Returns back to the river cross choice menu.
                         CancelIndianCrossing();

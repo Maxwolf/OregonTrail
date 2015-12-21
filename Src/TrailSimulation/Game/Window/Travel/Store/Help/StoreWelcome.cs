@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Text;
 using TrailSimulation.Core;
@@ -38,14 +36,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private int adviceCount;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StoreWelcome"/> class. 
-        /// Offers up some free information about what items are important to the player and what they mean for the during the
-        ///     course of the simulation.
-        /// </summary>
-        /// <param name="window">
-        /// The window.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="StoreWelcome"/> class.
+        ///     Offers up some free information about what items are important to the player and what they mean for the during the
+        ///     course of the simulation.</summary>
+        /// <param name="window">The window.</param>
         public StoreWelcome(IWindow window) : base(window)
         {
         }
@@ -110,23 +104,19 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        /// Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         public override string OnRenderForm()
         {
             return _storeHelp.ToString();
         }
 
-        /// <summary>
-        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
-        /// </summary>
-        /// <param name="input">
-        /// Contents of the input buffer which didn't match any known command in parent game Windows.
-        /// </param>
+        /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>
+        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
         public override void OnInputBufferReturned(string input)
         {
             // On the last advice panel we flip a normal boolean to know we are definitely done here.

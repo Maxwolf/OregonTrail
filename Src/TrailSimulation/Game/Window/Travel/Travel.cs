@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Text;
 using TrailSimulation.Core;
@@ -78,15 +76,18 @@ namespace TrailSimulation.Game
                 case LocationCategory.Landmark:
                 case LocationCategory.Settlement:
 
+
 // Player is going to continue driving down the trail now.
                     SetForm(typeof (LocationDepart));
                     break;
                 case LocationCategory.RiverCrossing:
 
+
 // Player needs to decide how to cross a river.
                     SetForm(typeof (RiverCrossHelp));
                     break;
                 case LocationCategory.ForkInRoad:
+
 
 // Player needs to decide on which location when road splits.
                     SetForm(typeof (LocationFork));
@@ -183,9 +184,11 @@ namespace TrailSimulation.Game
             {
                 case LocationStatus.Unreached:
 
+
 // Setup phase of the game before you are placed on the first location.
                     break;
                 case LocationStatus.Arrived:
+
 
 // Can always attempt to trade, probability is good ones is way less outside settlements.
                     AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
@@ -198,6 +201,7 @@ namespace TrailSimulation.Game
                         AddCommand(BuySupplies, TravelCommands.BuySupplies);
                     break;
                 case LocationStatus.Departed:
+
 
 // Some commands can only be done when between locations.
                     AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);

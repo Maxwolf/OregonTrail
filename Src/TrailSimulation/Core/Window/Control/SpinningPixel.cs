@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System.Collections.Generic;
 
 namespace TrailSimulation.Core
@@ -19,17 +17,17 @@ namespace TrailSimulation.Core
     internal sealed class SpinningPixel
     {
         /// <summary>
-        /// The animation.
+        ///     The animation.
         /// </summary>
         private List<string> animation;
 
         /// <summary>
-        /// The counter.
+        ///     The counter.
         /// </summary>
         private int counter;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SpinningPixel"/> class.
+        ///     Initializes a new instance of the <see cref="SpinningPixel" /> class.
         /// </summary>
         public SpinningPixel()
         {
@@ -38,10 +36,10 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        /// prints the character found in the animation according to the current index
+        ///     prints the character found in the animation according to the current index
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         public string Step()
         {

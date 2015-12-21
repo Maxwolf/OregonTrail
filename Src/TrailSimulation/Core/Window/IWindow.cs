@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Collections.Generic;
 using TrailSimulation.Game;
@@ -57,12 +55,8 @@ namespace TrailSimulation.Core
         /// </summary>
         WindowData UserData { get; }
 
-        /// <summary>
-        /// Creates and adds the specified type of state to currently active game Windows.
-        /// </summary>
-        /// <param name="stateType">
-        /// The state Type.
-        /// </param>
+        /// <summary>Creates and adds the specified type of state to currently active game Windows.</summary>
+        /// <param name="stateType">The state Type.</param>
         void SetForm(Type stateType);
 
         /// <summary>
@@ -76,21 +70,17 @@ namespace TrailSimulation.Core
         void RemoveWindowNextTick();
 
         /// <summary>
-        /// Grabs the text user interface string that will be used for debugging on console application.
+        ///     Grabs the text user interface string that will be used for debugging on console application.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         string OnRenderMode();
 
-        /// <summary>
-        /// Intended to be used by base simulation to pass along the input buffer after the user has typed several characters
+        /// <summary>Intended to be used by base simulation to pass along the input buffer after the user has typed several characters
         ///     into the input buffer. This is used when allowing the user to input custom strings like names for their party
-        ///     members.
-        /// </summary>
-        /// <param name="command">
-        /// The command.
-        /// </param>
+        ///     members.</summary>
+        /// <param name="command">The command.</param>
         void SendCommand(string command);
 
         /// <summary>

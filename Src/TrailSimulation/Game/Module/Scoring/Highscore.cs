@@ -9,8 +9,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -28,15 +26,9 @@ namespace TrailSimulation.Game
         /// </summary>
         private readonly Performance _rating;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:TrailSimulation.Game.Highscore"/> class.
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="points">
-        /// The points.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Game.Highscore"/> class.</summary>
+        /// <param name="name">The name.</param>
+        /// <param name="points">The points.</param>
         public Highscore(string name, int points)
         {
             // PassengerLeader of party and total number of points.

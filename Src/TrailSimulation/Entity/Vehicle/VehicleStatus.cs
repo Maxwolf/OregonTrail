@@ -7,7 +7,6 @@
 //   the vehicle moving then ticked or staying still.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Entity
 {
     /// <summary>

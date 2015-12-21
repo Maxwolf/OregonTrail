@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using TrailSimulation.Event;
 
@@ -20,17 +18,11 @@ namespace TrailSimulation.Game
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public sealed class DirectorEventAttribute : Attribute
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DirectorEventAttribute"/> class. 
-        /// Defines what type of event this will be recognized as in the director when it tells the factory to create a list of
-        ///     all known events it can call and sort by.
-        /// </summary>
-        /// <param name="eventCategory">
-        /// The event Category.
-        /// </param>
-        /// <param name="eventExecutionType">
-        /// The event Execution Type.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="DirectorEventAttribute"/> class.
+        ///     Defines what type of event this will be recognized as in the director when it tells the factory to create a list of
+        ///     all known events it can call and sort by.</summary>
+        /// <param name="eventCategory">The event Category.</param>
+        /// <param name="eventExecutionType">The event Execution Type.</param>
         public DirectorEventAttribute(
             EventCategory eventCategory, 
             EventExecution eventExecutionType = EventExecution.RandomOrManual)

@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 
 namespace TrailSimulation.Core
@@ -19,12 +17,8 @@ namespace TrailSimulation.Core
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
     public sealed class WindowAttribute : Attribute
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:TrailSimulation.Core.WindowAttribute"/> class.
-        /// </summary>
-        /// <param name="modeType">
-        /// The mode Type.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Core.WindowAttribute"/> class.</summary>
+        /// <param name="modeType">The mode Type.</param>
         public WindowAttribute(Type modeType)
         {
             // Complain if the type sent is not an implementation of game Windows interface.

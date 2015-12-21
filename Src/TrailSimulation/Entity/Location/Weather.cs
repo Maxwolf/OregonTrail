@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System.ComponentModel;
 
 namespace TrailSimulation.Entity
@@ -21,139 +19,139 @@ namespace TrailSimulation.Entity
     public enum Weather
     {
         /// <summary>
-        /// The partly sunny.
+        ///     The partly sunny.
         /// </summary>
         [Description("Partly Sunny")]
         PartlySunny, 
 
         /// <summary>
-        /// The scattered thunderstorms.
+        ///     The scattered thunderstorms.
         /// </summary>
         [Description("Scattered Thunderstorms")]
         ScatteredThunderstorms, 
 
         /// <summary>
-        /// The scattered showers.
+        ///     The scattered showers.
         /// </summary>
         [Description("Scattered Showers")]
         ScatteredShowers, 
 
         /// <summary>
-        /// The overcast.
+        ///     The overcast.
         /// </summary>
         [Description("Overcast")]
         Overcast, 
 
         /// <summary>
-        /// The light snow.
+        ///     The light snow.
         /// </summary>
         [Description("Light Snow")]
         LightSnow, 
 
         /// <summary>
-        /// The freezing drizzle.
+        ///     The freezing drizzle.
         /// </summary>
         [Description("Freezing Drizzle")]
         FreezingDrizzle, 
 
         /// <summary>
-        /// The chance of rain.
+        ///     The chance of rain.
         /// </summary>
         [Description("Chance Of Rain")]
         ChanceOfRain, 
 
         /// <summary>
-        /// The sunny.
+        ///     The sunny.
         /// </summary>
         [Description("Sunny")]
         Sunny, 
 
         /// <summary>
-        /// The clear.
+        ///     The clear.
         /// </summary>
         [Description("Clear")]
         Clear, 
 
         /// <summary>
-        /// The mostly sunny.
+        ///     The mostly sunny.
         /// </summary>
         [Description("Mostly Sunny")]
         MostlySunny, 
 
         /// <summary>
-        /// The rain.
+        ///     The rain.
         /// </summary>
         [Description("Rain")]
         Rain, 
 
         /// <summary>
-        /// The cloudy.
+        ///     The cloudy.
         /// </summary>
         [Description("Cloudy")]
         Cloudy, 
 
         /// <summary>
-        /// The storm.
+        ///     The storm.
         /// </summary>
         [Description("Storm")]
         Storm, 
 
         /// <summary>
-        /// The thunderstorm.
+        ///     The thunderstorm.
         /// </summary>
         [Description("Thunderstorm")]
         Thunderstorm, 
 
         /// <summary>
-        /// The chance of thunderstorm.
+        ///     The chance of thunderstorm.
         /// </summary>
         [Description("Chance Of Thunderstorm")]
         ChanceOfThunderstorm, 
 
         /// <summary>
-        /// The sleet.
+        ///     The sleet.
         /// </summary>
         [Description("Sleet")]
         Sleet, 
 
         /// <summary>
-        /// The snow.
+        ///     The snow.
         /// </summary>
         [Description("Snow")]
         Snow, 
 
         /// <summary>
-        /// The icy.
+        ///     The icy.
         /// </summary>
         [Description("Icy")]
         Icy, 
 
         /// <summary>
-        /// The fog.
+        ///     The fog.
         /// </summary>
         [Description("Fog")]
         Fog, 
 
         /// <summary>
-        /// The haze.
+        ///     The haze.
         /// </summary>
         [Description("Haze")]
         Haze, 
 
         /// <summary>
-        /// The flurries.
+        ///     The flurries.
         /// </summary>
         [Description("Flurries")]
         Flurries, 
 
         /// <summary>
-        /// The snow showers.
+        ///     The snow showers.
         /// </summary>
         [Description("Snow Showers")]
         SnowShowers, 
 
         /// <summary>
-        /// The hail.
+        ///     The hail.
         /// </summary>
         [Description("Hail")]
         Hail

@@ -6,11 +6,10 @@
 //   The Module interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Core
 {
     /// <summary>
-    /// The Module interface.
+    ///     The Module interface.
     /// </summary>
     public interface IModule : ITick
     {

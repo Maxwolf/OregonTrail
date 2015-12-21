@@ -9,7 +9,6 @@
 //   reference them and the river form deal with the appropriately.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Game
 {
     /// <summary>

@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 
 namespace TrailSimulation.Game
@@ -19,7 +17,7 @@ namespace TrailSimulation.Game
     public sealed class Tombstone : ICloneable
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Tombstone"/> class. 
+        ///     Initializes a new instance of the <see cref="Tombstone" /> class.
         ///     Creates a shallow copy of the tombstone, generates a new tombstone ID in the process.
         /// </summary>
         public Tombstone()
@@ -71,10 +69,10 @@ namespace TrailSimulation.Game
         public string Epitaph { get; set; }
 
         /// <summary>
-        /// Creates a shallow copy of our tombstone, used to add to list without having direct copy still tied to it.
+        ///     Creates a shallow copy of our tombstone, used to add to list without having direct copy still tied to it.
         /// </summary>
         /// <returns>
-        /// The <see cref="object"/>.
+        ///     The <see cref="object" />.
         /// </returns>
         public object Clone()
         {
@@ -83,10 +81,10 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        /// Creates a nice formatted version of the Tombstone for use in text renderer.
+        ///     Creates a nice formatted version of the Tombstone for use in text renderer.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         public override string ToString()
         {

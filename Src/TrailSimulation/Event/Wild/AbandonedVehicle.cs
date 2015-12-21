@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -27,24 +25,19 @@ namespace TrailSimulation.Event
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class AbandonedVehicle : EventItemCreator
     {
-        /// <summary>
-        /// Fired by the event prefab after the event has executed.
-        /// </summary>
-        /// <param name="createdItems">
-        /// </param>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
+        /// <summary>Fired by the event prefab after the event has executed.</summary>
+        /// <param name="createdItems"></param>
+        /// <returns>The <see cref="string"/>.</returns>
         protected override string OnPostCreateItems(IDictionary<Entities, int> createdItems)
         {
             return createdItems.Count > 0 ? $"and find:{Environment.NewLine}" : "but it is empty";
         }
 
         /// <summary>
-        /// Fired by the event prefab before the event has executed.
+        ///     Fired by the event prefab before the event has executed.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         protected override string OnPreCreateItems()
         {

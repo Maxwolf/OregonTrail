@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System.Collections.Generic;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -23,27 +21,27 @@ namespace TrailSimulation.Game
     public sealed class NewGameInfo : WindowData
     {
         /// <summary>
-        /// The _player names.
+        ///     The _player names.
         /// </summary>
         private List<string> _playerNames;
 
         /// <summary>
-        /// The _player profession.
+        ///     The _player profession.
         /// </summary>
         private Profession _playerProfession;
 
         /// <summary>
-        /// The _starting inventory.
+        ///     The _starting inventory.
         /// </summary>
         private List<SimItem> _startingInventory;
 
         /// <summary>
-        /// The _starting monies.
+        ///     The _starting monies.
         /// </summary>
         private int _startingMonies;
 
         /// <summary>
-        /// The _starting month.
+        ///     The _starting month.
         /// </summary>
         private Month _startingMonth;
 

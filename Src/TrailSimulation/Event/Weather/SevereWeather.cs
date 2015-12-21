@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Collections.Generic;
 using TrailSimulation.Entity;
@@ -22,15 +20,9 @@ namespace TrailSimulation.Event
     [DirectorEvent(EventCategory.Weather, EventExecution.ManualOnly)]
     public sealed class SevereWeather : EventItemDestroyer
     {
-        /// <summary>
-        /// Fired by the item destroyer event prefab before items are destroyed.
-        /// </summary>
-        /// <param name="destroyedItems">
-        /// Items that were destroyed from the players inventory.
-        /// </param>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
+        /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
+        /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
+        /// <returns>The <see cref="string"/>.</returns>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
             return destroyedItems.Count > 0
@@ -39,10 +31,10 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        /// Fired by the item destroyer event prefab after items are destroyed.
+        ///     Fired by the item destroyer event prefab after items are destroyed.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         protected override string OnPreDestroyItems()
         {

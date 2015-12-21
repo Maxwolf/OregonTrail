@@ -2,11 +2,6 @@
 // <copyright file="RiverCross.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Manages a boolean event where the player needs to make a choice before they can move onto the next location on the
-//   trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how
-//   bad it is.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
@@ -45,13 +40,9 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder _riverInfo;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RiverCross"/> class.
-        ///     This constructor will be used by the other one
-        /// </summary>
-        /// <param name="window">
-        /// The window.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="RiverCross"/> class.
+        ///     This constructor will be used by the other one</summary>
+        /// <param name="window">The window.</param>
         public RiverCross(IWindow window) : base(window)
         {
             _choiceMappings = new Dictionary<int, RiverCrossChoice>();
@@ -176,12 +167,8 @@ namespace TrailSimulation.Game
             return _riverInfo.ToString();
         }
 
-        /// <summary>
-        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
-        /// </summary>
-        /// <param name="input">
-        /// Contents of the input buffer which didn't match any known command in parent game Windows.
-        /// </param>
+        /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>
+        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
         public override void OnInputBufferReturned(string input)
         {
             // Skip if the input is null or empty.

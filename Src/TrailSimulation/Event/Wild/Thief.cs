@@ -9,8 +9,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
@@ -28,15 +26,9 @@ namespace TrailSimulation.Event
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Thief : EventItemDestroyer
     {
-        /// <summary>
-        /// Fired by the item destroyer event prefab before items are destroyed.
-        /// </summary>
-        /// <param name="destroyedItems">
-        /// Items that were destroyed from the players inventory.
-        /// </param>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
+        /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
+        /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
+        /// <returns>The <see cref="string"/>.</returns>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
             // Change event text depending on if items were destroyed or not.
@@ -46,10 +38,10 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        /// Fired by the item destroyer event prefab after items are destroyed.
+        ///     Fired by the item destroyer event prefab after items are destroyed.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         protected override string OnPreDestroyItems()
         {

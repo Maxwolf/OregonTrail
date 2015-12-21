@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Diagnostics;
 
@@ -21,42 +19,18 @@ namespace TrailSimulation.Entity
     /// </summary>
     public sealed class SimItem : IEntity
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:TrailEntities.Entities.SimItem"/> class.
-        /// </summary>
-        /// <param name="category">
-        /// The category.
-        /// </param>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="pluralForm">
-        /// The plural Form.
-        /// </param>
-        /// <param name="delineatingUnit">
-        /// The delineating Unit.
-        /// </param>
-        /// <param name="maxQuantity">
-        /// The max Quantity.
-        /// </param>
-        /// <param name="cost">
-        /// The cost.
-        /// </param>
-        /// <param name="weight">
-        /// The weight.
-        /// </param>
-        /// <param name="minimumQuantity">
-        /// The minimum Quantity.
-        /// </param>
-        /// <param name="startingQuantity">
-        /// The starting Quantity.
-        /// </param>
-        /// <param name="pointsAwarded">
-        /// The points Awarded.
-        /// </param>
-        /// <param name="pointsPerAmount">
-        /// The points Per Amount.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="T:TrailEntities.Entities.SimItem"/> class.</summary>
+        /// <param name="category">The category.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="pluralForm">The plural Form.</param>
+        /// <param name="delineatingUnit">The delineating Unit.</param>
+        /// <param name="maxQuantity">The max Quantity.</param>
+        /// <param name="cost">The cost.</param>
+        /// <param name="weight">The weight.</param>
+        /// <param name="minimumQuantity">The minimum Quantity.</param>
+        /// <param name="startingQuantity">The starting Quantity.</param>
+        /// <param name="pointsAwarded">The points Awarded.</param>
+        /// <param name="pointsPerAmount">The points Per Amount.</param>
         public SimItem(
             Entities category, 
             string name, 
@@ -102,16 +76,10 @@ namespace TrailSimulation.Entity
             Weight = weight;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SimItem"/> class. 
-        /// Creates a new SimItem from previous instance and with updated quantity.
-        /// </summary>
-        /// <param name="oldItem">
-        /// Old SimItem that is going to be replaced.
-        /// </param>
-        /// <param name="newQuantity">
-        /// Updated quantity the new SimItem will have.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="SimItem"/> class.
+        ///     Creates a new SimItem from previous instance and with updated quantity.</summary>
+        /// <param name="oldItem">Old SimItem that is going to be replaced.</param>
+        /// <param name="newQuantity">Updated quantity the new SimItem will have.</param>
         public SimItem(SimItem oldItem, int newQuantity)
         {
             // Check that new quantity is greater than ceiling.
@@ -257,21 +225,11 @@ namespace TrailSimulation.Entity
         /// </summary>
         public string Name { get; }
 
-        /// <summary>
-        /// Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
-        /// </summary>
-        /// <returns>
-        /// A signed integer that indicates the relative values of <paramref name="x"/> and <paramref name="y"/>, as shown in
-        ///     the following table.Value Meaning Less than zero<paramref name="x"/> is less than <paramref name="y"/>.Zero
-        ///     <paramref name="x"/> equals <paramref name="y"/>.Greater than zero<paramref name="x"/> is greater than
-        ///     <paramref name="y"/>.
-        /// </returns>
-        /// <param name="x">
-        /// The first object to compare.
-        /// </param>
-        /// <param name="y">
-        /// The second object to compare.
-        /// </param>
+        /// <summary>Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.</summary>
+        /// <returns>A signed integer that indicates the relative values of <paramref name="x"/> and <paramref name="y"/>, as shown in
+        ///     the following table.Value Meaning Less than zero<paramref name="x"/> is less than <paramref name="y"/>.Zero<paramref name="x"/> equals <paramref name="y"/>.Greater than zero<paramref name="x"/> is greater than<paramref name="y"/>.</returns>
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The second object to compare.</param>
         public int Compare(IEntity x, IEntity y)
         {
             Debug.Assert(x != null, "x != null");
@@ -283,18 +241,11 @@ namespace TrailSimulation.Entity
             return result;
         }
 
-        /// <summary>
-        /// Compares the current object with another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// A value that indicates the relative order of the objects being compared. The return value has the following
+        /// <summary>Compares the current object with another object of the same type.</summary>
+        /// <returns>A value that indicates the relative order of the objects being compared. The return value has the following
         ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other"/> parameter.Zero This
-        ///     object is equal to <paramref name="other"/>. Greater than zero This object is greater than
-        ///     <paramref name="other"/>.
-        /// </returns>
-        /// <param name="other">
-        /// An object to compare with this object.
-        /// </param>
+        ///     object is equal to <paramref name="other"/>. Greater than zero This object is greater than<paramref name="other"/>.</returns>
+        /// <param name="other">An object to compare with this object.</param>
         public int CompareTo(IEntity other)
         {
             Debug.Assert(other != null, "other != null");
@@ -305,15 +256,9 @@ namespace TrailSimulation.Entity
             return result;
         }
 
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">
-        /// An object to compare with this object.
-        /// </param>
+        /// <summary>Indicates whether the current object is equal to another object of the same type.</summary>
+        /// <returns>true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.</returns>
+        /// <param name="other">An object to compare with this object.</param>
         public bool Equals(IEntity other)
         {
             // Reference equality check
@@ -340,36 +285,19 @@ namespace TrailSimulation.Entity
             return false;
         }
 
-        /// <summary>
-        /// Determines whether the specified objects are equal.
-        /// </summary>
-        /// <param name="x">
-        /// The x.
-        /// </param>
-        /// <param name="y">
-        /// The y.
-        /// </param>
-        /// <returns>
-        /// true if the specified objects are equal; otherwise, false.
-        /// </returns>
+        /// <summary>Determines whether the specified objects are equal.</summary>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
+        /// <returns>true if the specified objects are equal; otherwise, false.</returns>
         public bool Equals(IEntity x, IEntity y)
         {
             return x.Equals(y);
         }
 
-        /// <summary>
-        /// Returns a hash code for the specified object.
-        /// </summary>
-        /// <returns>
-        /// A hash code for the specified object.
-        /// </returns>
-        /// <param name="obj">
-        /// The <see cref="T:System.Object"/> for which a hash code is to be returned.
-        /// </param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// The type of <paramref name="obj"/> is a reference type and
-        ///     <paramref name="obj"/> is null.
-        /// </exception>
+        /// <summary>Returns a hash code for the specified object.</summary>
+        /// <returns>A hash code for the specified object.</returns>
+        /// <param name="obj">The <see cref="T:System.Object"/> for which a hash code is to be returned.</param>
+        /// <exception cref="T:System.ArgumentNullException">The type of <paramref name="obj"/> is a reference type and<paramref name="obj"/> is null.</exception>
         public int GetHashCode(IEntity obj)
         {
             var hash = 23;
@@ -377,22 +305,14 @@ namespace TrailSimulation.Entity
             return hash;
         }
 
-        /// <summary>
-        /// Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        /// <summary>Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
-        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
-        /// </summary>
-        /// <remarks>
-        /// Default is one second or 1000ms.
-        /// </remarks>
-        /// <param name="systemTick">
-        /// TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
-        ///     pulsed by game simulation at fixed interval.
-        /// </param>
-        /// <param name="skipDay">
-        /// Determines if the simulation has force ticked without advancing time or down the trail. Used by
-        ///     special events that want to simulate passage of time without actually any actual time moving by.
-        /// </param>
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.</summary>
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.</param>
+        /// <param name="skipDay">Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        ///     special events that want to simulate passage of time without actually any actual time moving by.</param>
         public void OnTick(bool systemTick, bool skipDay)
         {
             // Nothing to see here, move along...
@@ -409,15 +329,9 @@ namespace TrailSimulation.Entity
             // TODO: Adjust cost of SimItem, create multiplier that can be used to make items more expensive with curve.
         }
 
-        /// <summary>
-        /// Shows off a representation of the SimItem as cost per delineating unit of the particular SimItem.
-        /// </summary>
-        /// <param name="storeMode">
-        /// The store Mode.
-        /// </param>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
+        /// <summary>Shows off a representation of the SimItem as cost per delineating unit of the particular SimItem.</summary>
+        /// <param name="storeMode">The store Mode.</param>
+        /// <returns>The <see cref="string"/>.</returns>
         public string ToString(bool storeMode)
         {
             return !storeMode
@@ -436,13 +350,9 @@ namespace TrailSimulation.Entity
             return ToString(false);
         }
 
-        /// <summary>
-        /// Adjusts the quantity of the item instance to be lower than current quantity. Will automatically check for quantity
-        ///     minimum floor and maximum ceiling values and adjust accordingly.
-        /// </summary>
-        /// <param name="amount">
-        /// Total amount the quantity will be reduced by.
-        /// </param>
+        /// <summary>Adjusts the quantity of the item instance to be lower than current quantity. Will automatically check for quantity
+        ///     minimum floor and maximum ceiling values and adjust accordingly.</summary>
+        /// <param name="amount">Total amount the quantity will be reduced by.</param>
         public void ReduceQuantity(int amount)
         {
             // Subtract the amount from the quantity.
@@ -466,13 +376,9 @@ namespace TrailSimulation.Entity
             Quantity = simulatedSubtraction;
         }
 
-        /// <summary>
-        /// Adjusts the quantity of the item instance to be higher than current quantity. Will automatically check for maximum
-        ///     ceiling and minimum floor values specified in the item.
-        /// </summary>
-        /// <param name="amount">
-        /// Amount the quantity should increase by.
-        /// </param>
+        /// <summary>Adjusts the quantity of the item instance to be higher than current quantity. Will automatically check for maximum
+        ///     ceiling and minimum floor values specified in the item.</summary>
+        /// <param name="amount">Amount the quantity should increase by.</param>
         public void AddQuantity(int amount)
         {
             // Add the amount from the quantity.

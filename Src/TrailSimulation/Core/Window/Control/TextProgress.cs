@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Text;
 
@@ -19,22 +17,12 @@ namespace TrailSimulation.Core
     /// </summary>
     public static class TextProgress
     {
-        /// <summary>
-        /// Creates text progress bar based on input parameters at specified value with inputted character as progress
-        ///     character.
-        /// </summary>
-        /// <param name="value">
-        /// Current value of the progress bar, should with within range of max value.
-        /// </param>
-        /// <param name="maxValue">
-        /// Maximum value that the progress bar can be.
-        /// </param>
-        /// <param name="barSize">
-        /// Total size of the progress bar.
-        /// </param>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
+        /// <summary>Creates text progress bar based on input parameters at specified value with inputted character as progress
+        ///     character.</summary>
+        /// <param name="value">Current value of the progress bar, should with within range of max value.</param>
+        /// <param name="maxValue">Maximum value that the progress bar can be.</param>
+        /// <param name="barSize">Total size of the progress bar.</param>
+        /// <returns>The <see cref="string"/>.</returns>
         public static string DrawProgressBar(int value, int maxValue, int barSize)
         {
             // Unicode block characters.

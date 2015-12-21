@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
@@ -27,7 +25,7 @@ namespace TrailSimulation.Game
         private Tombstone _tempTombstone;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TombstoneInfo"/> class.
+        ///     Initializes a new instance of the <see cref="TombstoneInfo" /> class.
         /// </summary>
         public TombstoneInfo()
         {

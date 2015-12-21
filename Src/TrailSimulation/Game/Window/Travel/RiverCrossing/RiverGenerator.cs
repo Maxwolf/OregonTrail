@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 
 namespace TrailSimulation.Game
@@ -39,12 +37,14 @@ namespace TrailSimulation.Game
             {
                 case RiverOption.FerryOperator:
 
+
 // Ferry operator will ask the player to wait some days, and pay money for the privilege to ride his ferry.
                     IndianCost = 0;
                     FerryCost = GameSimulationApp.Instance.Random.Next(3, 8);
                     FerryDelayInDays = GameSimulationApp.Instance.Random.Next(1, 10);
                     break;
                 case RiverOption.ForkAndFord:
+
 
 // No special options present, will have to ford or float vehicle over the rover.
                     IndianCost = 0;
@@ -53,6 +53,7 @@ namespace TrailSimulation.Game
                     break;
                 case RiverOption.IndianGuide:
 
+
 // Indian guide will ask you for sets of clothing, more sets the more animals killed in hunting.
                     IndianCost = GameSimulationApp.Instance.Random.Next(3, 8);
                     FerryCost = 0;
@@ -60,10 +61,12 @@ namespace TrailSimulation.Game
                     break;
                 case RiverOption.None:
 
+
 // Complain if river option is still set to default value from initialization.
                     throw new ArgumentException(
                         "Unable to generate river without having options configured to some value other than NONE!");
                 default:
+
 
 // Complain if river option is set to something outside the range of our enumeration.
                     throw new ArgumentException(

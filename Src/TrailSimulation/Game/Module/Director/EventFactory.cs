@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,15 +64,9 @@ namespace TrailSimulation.Game
         /// </summary>
         private Dictionary<EventKey, Type> EventReference { get; }
 
-        /// <summary>
-        /// Creates a new event based on system type which we keep track of in dictionary of event references.
-        /// </summary>
-        /// <param name="eventType">
-        /// The type of event which we should create an instance of.
-        /// </param>
-        /// <returns>
-        /// Instance of event type given in parameter.
-        /// </returns>
+        /// <summary>Creates a new event based on system type which we keep track of in dictionary of event references.</summary>
+        /// <param name="eventType">The type of event which we should create an instance of.</param>
+        /// <returns>Instance of event type given in parameter.</returns>
         internal EventProduct CreateInstance(Type eventType)
         {
             // Check if event type exists in reference dictionary.
@@ -105,15 +97,9 @@ namespace TrailSimulation.Game
             return eventInstance;
         }
 
-        /// <summary>
-        /// Gathers all of the events by specified type and picks one of them at random to return.
-        /// </summary>
-        /// <param name="eventCategory">
-        /// Enum value of the type of event such as medical, person, vehicle, etc.
-        /// </param>
-        /// <returns>
-        /// Created event product based on enum value.
-        /// </returns>
+        /// <summary>Gathers all of the events by specified type and picks one of them at random to return.</summary>
+        /// <param name="eventCategory">Enum value of the type of event such as medical, person, vehicle, etc.</param>
+        /// <returns>Created event product based on enum value.</returns>
         public EventProduct CreateRandomByType(EventCategory eventCategory)
         {
             // Query all of the reference event types that match the given enumeration value.

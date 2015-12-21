@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Entity
@@ -18,28 +16,14 @@ namespace TrailSimulation.Entity
     /// </summary>
     public class ClimateData
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ClimateData"/> class. 
-        /// Creates a new bit of climate data.
-        /// </summary>
-        /// <param name="month">
-        /// Month this data is representative of.
-        /// </param>
-        /// <param name="averageTemp">
-        /// Average set of temperatures for this month.
-        /// </param>
-        /// <param name="tempMax">
-        /// Maximum temperature this month can have.
-        /// </param>
-        /// <param name="tempMin">
-        /// Minimum temperature this month can have.
-        /// </param>
-        /// <param name="rainfall">
-        /// Average rainfall for this month.
-        /// </param>
-        /// <param name="avgHumidity">
-        /// Daily humidity for this month.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="ClimateData"/> class.
+        ///     Creates a new bit of climate data.</summary>
+        /// <param name="month">Month this data is representative of.</param>
+        /// <param name="averageTemp">Average set of temperatures for this month.</param>
+        /// <param name="tempMax">Maximum temperature this month can have.</param>
+        /// <param name="tempMin">Minimum temperature this month can have.</param>
+        /// <param name="rainfall">Average rainfall for this month.</param>
+        /// <param name="avgHumidity">Daily humidity for this month.</param>
         public ClimateData(
             Month month, 
             float averageTemp, 

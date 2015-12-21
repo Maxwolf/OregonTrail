@@ -6,7 +6,6 @@
 //   Used by game Windows state prefab to determine what the response was to a particular dialog prompt.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Core
 {
     /// <summary>

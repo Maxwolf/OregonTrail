@@ -9,8 +9,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -34,23 +32,19 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder _pointsPrompt;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FinalPoints"/> class. 
-        /// This constructor will be used by the other one
-        /// </summary>
-        /// <param name="window">
-        /// The window.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="FinalPoints"/> class.
+        ///     This constructor will be used by the other one</summary>
+        /// <param name="window">The window.</param>
         public FinalPoints(IWindow window) : base(window)
         {
             _pointsPrompt = new StringBuilder();
         }
 
         /// <summary>
-        /// Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         protected override string OnDialogPrompt()
         {
@@ -96,8 +90,10 @@ namespace TrailSimulation.Game
                     $"people in {avgHealth.ToDescriptionAttribute().ToLowerInvariant()} health", 
                     game.Vehicle.PassengerLivingCount*(int) avgHealth), 
 
+
 // Vehicle existence counts for some points.
                 new Tuple<int, string, int>(1, "wagon", Resources.Vehicle.Points), 
+
 
 // Number of oxen still alive pulling vehicle.
                 new Tuple<int, string, int>(
@@ -105,8 +101,10 @@ namespace TrailSimulation.Game
                     "oxen", 
                     game.Vehicle.Inventory[Entities.Animal].Points), 
 
+
 // Spare vehicle parts.
                 spareParts, 
+
 
 // Clothing
                 new Tuple<int, string, int>(
@@ -114,17 +112,20 @@ namespace TrailSimulation.Game
                     "sets of clothing", 
                     game.Vehicle.Inventory[Entities.Clothes].Points), 
 
+
 // Bullets
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Ammo].Quantity, 
                     "bullets", 
                     game.Vehicle.Inventory[Entities.Ammo].Points), 
 
+
 // Food
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Food].Quantity, 
                     "pounds of food", 
                     game.Vehicle.Inventory[Entities.Food].Points), 
+
 
 // Cash
                 new Tuple<int, string, int>(
@@ -157,6 +158,7 @@ namespace TrailSimulation.Game
             switch (leaderPerson.Profession)
             {
                 case Profession.Banker:
+
 
 // Banker doesn't get this print out since he gets no bonus.
                     break;
@@ -194,13 +196,9 @@ namespace TrailSimulation.Game
             return _pointsPrompt.ToString();
         }
 
-        /// <summary>
-        /// Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.
-        /// </summary>
-        /// <param name="reponse">
-        /// The response the dialog parsed from simulation input buffer.
-        /// </param>
+        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // Completely resets the game to default state it was in when it first started.

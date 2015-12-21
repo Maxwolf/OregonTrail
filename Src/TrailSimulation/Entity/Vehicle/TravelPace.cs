@@ -6,7 +6,6 @@
 //   The pace at which you travel can change.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Entity
 {
     /// <summary>

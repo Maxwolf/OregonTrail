@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,8 +34,8 @@ namespace TrailSimulation.Core
         private WindowFactory _windowFactory;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WindowManager"/> class. 
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct"/> class.
+        ///     Initializes a new instance of the <see cref="WindowManager" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
         /// </summary>
         public WindowManager()
         {
@@ -107,22 +105,14 @@ namespace TrailSimulation.Core
             _formFactory = null;
         }
 
-        /// <summary>
-        /// Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        /// <summary>Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
-        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
-        /// </summary>
-        /// <remarks>
-        /// Default is one second or 1000ms.
-        /// </remarks>
-        /// <param name="systemTick">
-        /// TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
-        ///     pulsed by game simulation at fixed interval.
-        /// </param>
-        /// <param name="skipDay">
-        /// Determines if the simulation has force ticked without advancing time or down the trail. Used by
-        ///     special events that want to simulate passage of time without actually any actual time moving by.
-        /// </param>
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.</summary>
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.</param>
+        /// <param name="skipDay">Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        ///     special events that want to simulate passage of time without actually any actual time moving by.</param>
         public override void OnTick(bool systemTick, bool skipDay = false)
         {
             // If the active Windows is not null and flag is set to remove then do that!
@@ -138,18 +128,10 @@ namespace TrailSimulation.Core
             FocusedWindow?.OnTick(systemTick, skipDay);
         }
 
-        /// <summary>
-        /// Creates and adds the specified type of state to currently active game Windows.
-        /// </summary>
-        /// <param name="parentMode">
-        /// The parent Mode.
-        /// </param>
-        /// <param name="stateType">
-        /// The state Type.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IForm"/>.
-        /// </returns>
+        /// <summary>Creates and adds the specified type of state to currently active game Windows.</summary>
+        /// <param name="parentMode">The parent Mode.</param>
+        /// <param name="stateType">The state Type.</param>
+        /// <returns>The <see cref="IForm"/>.</returns>
         public IForm CreateStateFromType(IWindow parentMode, Type stateType)
         {
             return _formFactory.CreateStateFromType(stateType, parentMode);
@@ -189,12 +171,8 @@ namespace TrailSimulation.Core
             return updatedModes;
         }
 
-        /// <summary>
-        /// Creates and adds the specified game Windows to the simulation if it does not already exist in the list of modes.
-        /// </summary>
-        /// <param name="windows">
-        /// Enumeration value of the Windows which should be created.
-        /// </param>
+        /// <summary>Creates and adds the specified game Windows to the simulation if it does not already exist in the list of modes.</summary>
+        /// <param name="windows">Enumeration value of the Windows which should be created.</param>
         public void Add(GameWindow windows)
         {
             // Check if any other modes match the one we are adding.
@@ -236,15 +214,9 @@ namespace TrailSimulation.Core
             Windows.Clear();
         }
 
-        /// <summary>
-        /// Checks if the window manager contains the current window specified in the parameter.
-        /// </summary>
-        /// <param name="window">
-        /// Game window that method will check for existence in current window stack.
-        /// </param>
-        /// <returns>
-        /// TRUE if the window exists in the stack, FALSE if the window has not been created.
-        /// </returns>
+        /// <summary>Checks if the window manager contains the current window specified in the parameter.</summary>
+        /// <param name="window">Game window that method will check for existence in current window stack.</param>
+        /// <returns>TRUE if the window exists in the stack, FALSE if the window has not been created.</returns>
         public bool ContainsWindow(GameWindow window)
         {
             return Windows.ContainsKey(window);

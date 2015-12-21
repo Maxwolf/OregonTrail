@@ -6,7 +6,6 @@
 //   Defines items which are used by the vehicle party members, typically consuming them everyday.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Entity
 {
     /// <summary>

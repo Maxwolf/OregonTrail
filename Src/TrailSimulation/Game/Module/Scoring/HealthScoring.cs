@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
@@ -18,15 +16,9 @@ namespace TrailSimulation.Game
     /// </summary>
     public sealed class HealthScoring
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:TrailSimulation.Game.HealthScoring"/> class.
-        /// </summary>
-        /// <param name="partyHealthLevel">
-        /// The party Health Level.
-        /// </param>
-        /// <param name="pointsPerPerson">
-        /// The points Per Person.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Game.HealthScoring"/> class.</summary>
+        /// <param name="partyHealthLevel">The party Health Level.</param>
+        /// <param name="pointsPerPerson">The points Per Person.</param>
         public HealthScoring(HealthLevel partyHealthLevel, int pointsPerPerson)
         {
             PartyHealthLevel = partyHealthLevel;
@@ -34,12 +26,12 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        /// Gets the party health level.
+        ///     Gets the party health level.
         /// </summary>
         public HealthLevel PartyHealthLevel { get; }
 
         /// <summary>
-        /// Gets the points per person.
+        ///     Gets the points per person.
         /// </summary>
         public int PointsPerPerson { get; }
     }

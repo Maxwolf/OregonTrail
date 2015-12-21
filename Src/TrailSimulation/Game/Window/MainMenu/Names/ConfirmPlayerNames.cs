@@ -9,8 +9,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Text;
 using TrailSimulation.Core;
@@ -25,13 +23,9 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.MainMenu)]
     public sealed class ConfirmPlayerNames : InputForm<NewGameInfo>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConfirmPlayerNames"/> class. 
-        /// This constructor will be used by the other one
-        /// </summary>
-        /// <param name="window">
-        /// The window.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="ConfirmPlayerNames"/> class.
+        ///     This constructor will be used by the other one</summary>
+        /// <param name="window">The window.</param>
         public ConfirmPlayerNames(IWindow window) : base(window)
         {
         }
@@ -46,10 +40,10 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        /// Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         protected override string OnDialogPrompt()
         {
@@ -87,13 +81,9 @@ namespace TrailSimulation.Game
             return _confirmPartyText.ToString();
         }
 
-        /// <summary>
-        /// Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.
-        /// </summary>
-        /// <param name="reponse">
-        /// The response the dialog parsed from simulation input buffer.
-        /// </param>
+        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             switch (reponse)
@@ -102,6 +92,7 @@ namespace TrailSimulation.Game
                     RestartNameInput();
                     break;
                 case DialogResponse.Yes:
+
 
 // Move along to confirming profession for party leader if user is happy with names.
                     UserData.PlayerNameIndex = 0;

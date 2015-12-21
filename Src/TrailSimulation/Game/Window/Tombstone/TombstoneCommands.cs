@@ -6,7 +6,6 @@
 //   Commands that would be used for the tombstone viewer window.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Game
 {
     /// <summary>

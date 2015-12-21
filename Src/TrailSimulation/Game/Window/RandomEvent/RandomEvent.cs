@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
@@ -59,16 +57,10 @@ namespace TrailSimulation.Game
             // Nothing to see here, move along...
         }
 
-        /// <summary>
-        /// Fired when the event director triggers an event because it rolled the dice and hit it or it was forcefully
-        ///     triggered by some method under a defined condition.
-        /// </summary>
-        /// <param name="simEntity">
-        /// The sim Entity.
-        /// </param>
-        /// <param name="directorEvent">
-        /// The director Event.
-        /// </param>
+        /// <summary>Fired when the event director triggers an event because it rolled the dice and hit it or it was forcefully
+        ///     triggered by some method under a defined condition.</summary>
+        /// <param name="simEntity">The sim Entity.</param>
+        /// <param name="directorEvent">The director Event.</param>
         private void Director_OnEventTriggered(IEntity simEntity, EventProduct directorEvent)
         {
             // Attached the random event state when we intercept an event it would like us to trigger.
@@ -77,12 +69,8 @@ namespace TrailSimulation.Game
             SetForm(typeof (EventExecutor));
         }
 
-        /// <summary>
-        /// Fired when this game Windows is removed from the list of available and ticked modes in the simulation.
-        /// </summary>
-        /// <param name="windows">
-        /// The windows.
-        /// </param>
+        /// <summary>Fired when this game Windows is removed from the list of available and ticked modes in the simulation.</summary>
+        /// <param name="windows">The windows.</param>
         protected override void OnModeRemoved(GameWindow windows)
         {
             base.OnModeRemoved(windows);

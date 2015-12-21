@@ -7,7 +7,6 @@
 //   the vehicle as it arrives, visits, and then departs the location.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Entity
 {
     /// <summary>

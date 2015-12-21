@@ -10,8 +10,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System.Collections.Generic;
 using System.Linq;
 using TrailSimulation.Core;
@@ -32,7 +30,7 @@ namespace TrailSimulation.Game
         private List<Highscore> _highScores;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScoringModule"/> class. 
+        ///     Initializes a new instance of the <see cref="ScoringModule" /> class.
         ///     Scoring tracker and tabulator for end game results from current simulation state.
         /// </summary>
         public ScoringModule()
@@ -71,11 +69,8 @@ namespace TrailSimulation.Game
             }
         }
 
-        /// <summary>
-        /// Adds a new high-score to the list.
-        /// </summary>
-        /// <param name="score">
-        /// </param>
+        /// <summary>Adds a new high-score to the list.</summary>
+        /// <param name="score"></param>
         public void Add(Highscore score)
         {
             _highScores.Add(score);

@@ -9,8 +9,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using TrailSimulation.Entity;
 
@@ -40,15 +38,9 @@ namespace TrailSimulation.Game
         /// </summary>
         private readonly int _perAmount;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:TrailSimulation.Game.Points"/> class.
-        /// </summary>
-        /// <param name="resource">
-        /// The resource.
-        /// </param>
-        /// <param name="optionalDisplayName">
-        /// The optional Display Name.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Game.Points"/> class.</summary>
+        /// <param name="resource">The resource.</param>
+        /// <param name="optionalDisplayName">The optional Display Name.</param>
         public Points(SimItem resource, string optionalDisplayName = DEFAULT_DISPLAY_NAME)
         {
             // Complain if the per amount is zero, the developer is doing it wrong.
@@ -73,11 +65,11 @@ namespace TrailSimulation.Game
         private SimItem Resource { get; }
 
         /// <summary>
-        /// Representation of the point scoring as a string that can be displayed visually to user so they understand the
+        ///     Representation of the point scoring as a string that can be displayed visually to user so they understand the
         ///     scoring mechanism.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         public override string ToString()
         {

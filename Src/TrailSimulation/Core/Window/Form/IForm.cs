@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Collections.Generic;
 
@@ -40,28 +38,20 @@ namespace TrailSimulation.Core
         bool AllowInput { get; }
 
         /// <summary>
-        /// Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         string OnRenderForm();
 
-        /// <summary>
-        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
-        /// </summary>
-        /// <param name="input">
-        /// Contents of the input buffer which didn't match any known command in parent game Windows.
-        /// </param>
+        /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>
+        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
         void OnInputBufferReturned(string input);
 
-        /// <summary>
-        /// Creates and adds the specified type of state to currently active game Windows.
-        /// </summary>
-        /// <param name="stateType">
-        /// The state Type.
-        /// </param>
+        /// <summary>Creates and adds the specified type of state to currently active game Windows.</summary>
+        /// <param name="stateType">The state Type.</param>
         void SetForm(Type stateType);
 
         /// <summary>

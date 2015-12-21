@@ -6,7 +6,6 @@
 //   Defines the event type, used by the director to determine how the collection and execution of event should occur.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Game
 {
     /// <summary>

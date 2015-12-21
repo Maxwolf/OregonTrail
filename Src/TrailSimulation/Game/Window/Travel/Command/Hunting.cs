@@ -9,8 +9,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using TrailSimulation.Core;
 
@@ -24,45 +22,31 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.Travel)]
     public sealed class Hunting : Form<TravelInfo>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Hunting"/> class. 
-        /// This constructor will be used by the other one
-        /// </summary>
-        /// <param name="window">
-        /// The window.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="Hunting"/> class.
+        ///     This constructor will be used by the other one</summary>
+        /// <param name="window">The window.</param>
         public Hunting(IWindow window) : base(window)
         {
         }
 
-        /// <summary>
-        /// The use bullets.
-        /// </summary>
-        /// <param name="amount">
-        /// The amount.
-        /// </param>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
+        /// <summary>The use bullets.</summary>
+        /// <param name="amount">The amount.</param>
+        /// <exception cref="NotImplementedException"></exception>
         public void UseBullets(int amount)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// The add food.
-        /// </summary>
-        /// <param name="amount">
-        /// The amount.
-        /// </param>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
+        /// <summary>The add food.</summary>
+        /// <param name="amount">The amount.</param>
+        /// <exception cref="NotImplementedException"></exception>
         public void AddFood(int amount)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// The update vehicle.
+        ///     The update vehicle.
         /// </summary>
         /// <exception cref="NotImplementedException">
         /// </exception>
@@ -72,23 +56,19 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        /// Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         public override string OnRenderForm()
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
-        /// </summary>
-        /// <param name="input">
-        /// Contents of the input buffer which didn't match any known command in parent game mode.
-        /// </param>
+        /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>
+        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
             throw new NotImplementedException();

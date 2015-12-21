@@ -10,8 +10,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
@@ -26,45 +24,32 @@ namespace TrailSimulation.Core
     /// </summary>
     public static class TypeExtensions
     {
-        /// <summary>
-        /// Note that (T)FormatterServices.GetUninitializedObject(t) will fail for string. Hence special handling for string is
-        ///     in place to return empty string.
-        /// </summary>
-        /// <param name="t">
-        /// The t.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
+        /// <summary>Note that (T)FormatterServices.GetUninitializedObject(t) will fail for string. Hence special handling for string is
+        ///     in place to return empty string.</summary>
+        /// <param name="t">The t.</param>
+        /// <returns>The <see cref="bool"/>.</returns>
         private static bool HasDefaultConstructor(this Type t)
         {
             return t.IsValueType || t.GetConstructor(Type.EmptyTypes) != null;
         }
 
-        /// <summary>
-        /// Create expression is effectively cached and incurs penalty only the first time the type is loaded. Will handle
-        ///     value types too in an efficient manner.
-        /// </summary>
-        /// <typeparam name="T">
-        /// </typeparam>
-        /// <remarks>
-        /// http://stackoverflow.com/a/16162475
-        /// </remarks>
-        /// <example>
-        /// MyType me = New`MyType`.Instance
-        /// </example>
+        /// <summary>Create expression is effectively cached and incurs penalty only the first time the type is loaded. Will handle
+        ///     value types too in an efficient manner.</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <remarks>http://stackoverflow.com/a/16162475</remarks>
+        /// <example>MyType me = New`MyType`.Instance</example>
         public static class New<T>
         {
             /// <summary>
-            /// The instance.
+            ///     The instance.
             /// </summary>
             public static readonly Func<T> Instance = Creator();
 
             /// <summary>
-            /// The creator.
+            ///     The creator.
             /// </summary>
             /// <returns>
-            /// The <see cref="Func"/>.
+            ///     The <see cref="Func" />.
             /// </returns>
             private static Func<T> Creator()
             {

@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Collections.Generic;
 using TrailSimulation.Event;
@@ -43,13 +41,9 @@ namespace TrailSimulation.Entity
         /// </summary>
         private double _nextWeatherChance;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LocationWeather"/> class. 
-        /// Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct"/> class.
-        /// </summary>
-        /// <param name="climateType">
-        /// The climate Type.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="LocationWeather"/> class.
+        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct"/> class.</summary>
+        /// <param name="climateType">The climate Type.</param>
         public LocationWeather(Climate climateType)
         {
             // Sets up the climate type which this weather manager is responsible for ticking.
@@ -457,15 +451,9 @@ namespace TrailSimulation.Entity
             }
         }
 
-        /// <summary>
-        /// Returns average temperature for given climate classification and month.
-        /// </summary>
-        /// <param name="whichMonth">
-        /// The which Month.
-        /// </param>
-        /// <returns>
-        /// The <see cref="ClimateData"/>.
-        /// </returns>
+        /// <summary>Returns average temperature for given climate classification and month.</summary>
+        /// <param name="whichMonth">The which Month.</param>
+        /// <returns>The <see cref="ClimateData"/>.</returns>
         private ClimateData GetTemperatureByMonth(Month whichMonth)
         {
             foreach (var data in _averageTemperatures)

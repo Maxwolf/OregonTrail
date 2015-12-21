@@ -9,8 +9,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System.Collections.Generic;
 using TrailSimulation.Game;
 
@@ -35,8 +33,8 @@ namespace TrailSimulation.Core
         private Queue<string> _commandQueue;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InputManager"/> class. 
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct"/> class.
+        ///     Initializes a new instance of the <see cref="InputManager" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
         /// </summary>
         public InputManager()
         {
@@ -63,22 +61,14 @@ namespace TrailSimulation.Core
             _commandQueue = null;
         }
 
-        /// <summary>
-        /// Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        /// <summary>Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
-        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
-        /// </summary>
-        /// <remarks>
-        /// Default is one second or 1000ms.
-        /// </remarks>
-        /// <param name="systemTick">
-        /// TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
-        ///     pulsed by game simulation at fixed interval.
-        /// </param>
-        /// <param name="skipDay">
-        /// Determines if the simulation has force ticked without advancing time or down the trail. Used by
-        ///     special events that want to simulate passage of time without actually any actual time moving by.
-        /// </param>
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.</summary>
+        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <param name="systemTick">TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.</param>
+        /// <param name="skipDay">Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        ///     special events that want to simulate passage of time without actually any actual time moving by.</param>
         public override void OnTick(bool systemTick, bool skipDay = false)
         {
             // Skip if there are no commands to tick.
@@ -109,13 +99,9 @@ namespace TrailSimulation.Core
             InputBuffer = string.Empty;
         }
 
-        /// <summary>
-        /// Fired when the simulation receives an individual character from then input system. Depending on what it is we will
-        ///     do something, or not!
-        /// </summary>
-        /// <param name="addedKeyString">
-        /// String character converted into a string representation of itself.
-        /// </param>
+        /// <summary>Fired when the simulation receives an individual character from then input system. Depending on what it is we will
+        ///     do something, or not!</summary>
+        /// <param name="addedKeyString">String character converted into a string representation of itself.</param>
         private void OnCharacterAddedToInputBuffer(string addedKeyString)
         {
             // Disable passing along input buffer if the simulation is not currently accepting input from the user.
@@ -126,13 +112,9 @@ namespace TrailSimulation.Core
             InputBuffer += addedKeyString;
         }
 
-        /// <summary>
-        /// Populates an internal input buffer for the simulation that is used to eventually return a possible command string
-        ///     to active game Windows.
-        /// </summary>
-        /// <param name="keyChar">
-        /// The key Char.
-        /// </param>
+        /// <summary>Populates an internal input buffer for the simulation that is used to eventually return a possible command string
+        ///     to active game Windows.</summary>
+        /// <param name="keyChar">The key Char.</param>
         public void AddCharToInputBuffer(char keyChar)
         {
             // Filter to prevent non-characters like delete, insert, scroll lock, etc.
@@ -153,13 +135,9 @@ namespace TrailSimulation.Core
                 InputBuffer = InputBuffer.Remove(InputBuffer.Length - 1);
         }
 
-        /// <summary>
-        /// Fired by messaging system or user interface that wants to interact with the simulation by sending string command
-        ///     that should be able to be parsed into a valid command that can be run on the current game Windows.
-        /// </summary>
-        /// <param name="returnedLine">
-        /// Passed in command from controller, text was trimmed but nothing more.
-        /// </param>
+        /// <summary>Fired by messaging system or user interface that wants to interact with the simulation by sending string command
+        ///     that should be able to be parsed into a valid command that can be run on the current game Windows.</summary>
+        /// <param name="returnedLine">Passed in command from controller, text was trimmed but nothing more.</param>
         private void AddCommandToQueue(string returnedLine)
         {
             // Trim the input.

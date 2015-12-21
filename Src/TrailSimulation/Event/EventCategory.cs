@@ -7,7 +7,6 @@
 //   for dice rolling purposes when picking random events.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Event
 {
     /// <summary>

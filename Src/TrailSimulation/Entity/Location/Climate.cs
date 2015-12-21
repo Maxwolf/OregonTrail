@@ -6,36 +6,35 @@
 //   The climate.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Entity
 {
     /// <summary>
-    /// The climate.
+    ///     The climate.
     /// </summary>
     public enum Climate
     {
         /// <summary>
-        /// The tropical.
+        ///     The tropical.
         /// </summary>
         Tropical, 
 
         /// <summary>
-        /// The dry.
+        ///     The dry.
         /// </summary>
         Dry, 
 
         /// <summary>
-        /// The moderate.
+        ///     The moderate.
         /// </summary>
         Moderate, 
 
         /// <summary>
-        /// The continental.
+        ///     The continental.
         /// </summary>
         Continental, 
 
         /// <summary>
-        /// The polar.
+        ///     The polar.
         /// </summary>
         Polar
     }

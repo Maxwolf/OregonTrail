@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 
 namespace TrailSimulation.Core
@@ -24,8 +22,8 @@ namespace TrailSimulation.Core
         private Random _random;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Randomizer"/> class. 
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct"/> class.
+        ///     Initializes a new instance of the <see cref="Randomizer" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
         /// </summary>
         public Randomizer()
         {
@@ -49,56 +47,33 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        /// C64 style RND with 0 would return clock timer 0 - 60 number so we do the same here for simulation.
+        ///     C64 style RND with 0 would return clock timer 0 - 60 number so we do the same here for simulation.
         /// </summary>
         /// <returns>
-        /// The <see cref="int"/>.
+        ///     The <see cref="int" />.
         /// </returns>
         public int Next()
         {
             return _random.Next(60);
         }
 
-        /// <summary>
-        /// Returns a random number within a specified range.
-        /// </summary>
-        /// <returns>
-        /// A 32-bit signed integer greater than or equal to <paramref name="minValue"/> and less than
-        ///     <paramref name="maxValue"/>; that is, the range of return values includes <paramref name="minValue"/> but not
-        ///     <paramref name="maxValue"/>. If <paramref name="minValue"/> equals <paramref name="maxValue"/>,
-        ///     <paramref name="minValue"/> is returned.
-        /// </returns>
-        /// <param name="minValue">
-        /// The inclusive lower bound of the random number returned. 
-        /// </param>
-        /// <param name="maxValue">
-        /// The exclusive upper bound of the random number returned. <paramref name="maxValue"/> must be
-        ///     greater than or equal to <paramref name="minValue"/>.
-        /// </param>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// <paramref name="minValue"/> is greater than
-        ///     <paramref name="maxValue"/>.
-        /// </exception>
+        /// <summary>Returns a random number within a specified range.</summary>
+        /// <returns>A 32-bit signed integer greater than or equal to <paramref name="minValue"/> and less than<paramref name="maxValue"/>; that is, the range of return values includes <paramref name="minValue"/> but not<paramref name="maxValue"/>. If <paramref name="minValue"/> equals <paramref name="maxValue"/>,<paramref name="minValue"/> is returned.</returns>
+        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
+        /// <param name="maxValue">The exclusive upper bound of the random number returned. <paramref name="maxValue"/> must be
+        ///     greater than or equal to <paramref name="minValue"/>.</param>
+        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="minValue"/> is greater than<paramref name="maxValue"/>.</exception>
         public int Next(int minValue, int maxValue)
         {
             return _random.Next(minValue, maxValue);
         }
 
-        /// <summary>
-        /// Returns a nonnegative random number less than the specified maximum.
-        /// </summary>
-        /// <returns>
-        /// A 32-bit signed integer greater than or equal to zero, and less than <paramref name="maxValue"/>; that is, the
-        ///     range of return values ordinarily includes zero but not <paramref name="maxValue"/>. However, if
-        ///     <paramref name="maxValue"/> equals zero, <paramref name="maxValue"/> is returned.
-        /// </returns>
-        /// <param name="maxValue">
-        /// The exclusive upper bound of the random number to be generated. <paramref name="maxValue"/>
-        ///     must be greater than or equal to zero.
-        /// </param>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// <paramref name="maxValue"/> is less than zero. 
-        /// </exception>
+        /// <summary>Returns a nonnegative random number less than the specified maximum.</summary>
+        /// <returns>A 32-bit signed integer greater than or equal to zero, and less than <paramref name="maxValue"/>; that is, the
+        ///     range of return values ordinarily includes zero but not <paramref name="maxValue"/>. However, if<paramref name="maxValue"/> equals zero, <paramref name="maxValue"/> is returned.</returns>
+        /// <param name="maxValue">The exclusive upper bound of the random number to be generated. <paramref name="maxValue"/>
+        ///     must be greater than or equal to zero.</param>
+        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than zero.</exception>
         public int Next(int maxValue)
         {
             return _random.Next(maxValue);
@@ -115,25 +90,19 @@ namespace TrailSimulation.Core
             return _random.NextDouble();
         }
 
-        /// <summary>
-        /// Fills the elements of a specified array of bytes with random numbers.
-        /// </summary>
-        /// <param name="buffer">
-        /// An array of bytes to contain random numbers. 
-        /// </param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="buffer"/> is null. 
-        /// </exception>
+        /// <summary>Fills the elements of a specified array of bytes with random numbers.</summary>
+        /// <param name="buffer">An array of bytes to contain random numbers.</param>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="buffer"/> is null.</exception>
         public void NextBytes(byte[] buffer)
         {
             _random.NextBytes(buffer);
         }
 
         /// <summary>
-        /// Returns a random Boolean value.
+        ///     Returns a random Boolean value.
         /// </summary>
         /// <returns>
-        /// The <see cref="bool"/>.
+        ///     The <see cref="bool" />.
         /// </returns>
         public bool NextBool()
         {

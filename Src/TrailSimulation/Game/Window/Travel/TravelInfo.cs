@@ -8,8 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -23,7 +21,7 @@ namespace TrailSimulation.Game
     public sealed class TravelInfo : WindowData
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TravelInfo"/> class. 
+        ///     Initializes a new instance of the <see cref="TravelInfo" /> class.
         ///     Creates default store implementation.
         /// </summary>
         public TravelInfo()

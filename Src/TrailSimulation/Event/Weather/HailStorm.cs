@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -23,14 +21,9 @@ namespace TrailSimulation.Event
     [DirectorEvent(EventCategory.Weather, EventExecution.ManualOnly)]
     public sealed class HailStorm : EventItemDestroyer
     {
-        /// <summary>
-        /// Fired by the item destroyer event prefab before items are destroyed.
-        /// </summary>
-        /// <param name="destroyedItems">
-        /// </param>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
+        /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
+        /// <param name="destroyedItems"></param>
+        /// <returns>The <see cref="string"/>.</returns>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
             // Grab an instance of the game simulation.
@@ -43,14 +36,10 @@ namespace TrailSimulation.Event
                 : TryKillPassengers("frozen");
         }
 
-        /// <summary>
-        /// Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
-        ///     left completely up to handler.
-        /// </summary>
-        /// <param name="userData">
-        /// Entities which the event is going to directly affect. This way there is no confusion about
-        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
-        /// </param>
+        /// <summary>Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
+        ///     left completely up to handler.</summary>
+        /// <param name="userData">Entities which the event is going to directly affect. This way there is no confusion about
+        ///     what entity the event is for. Will require casting to correct instance type from interface instance.</param>
         public override void Execute(RandomEventInfo userData)
         {
             base.Execute(userData);
@@ -64,10 +53,10 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        /// Fired by the item destroyer event prefab after items are destroyed.
+        ///     Fired by the item destroyer event prefab after items are destroyed.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         protected override string OnPreDestroyItems()
         {

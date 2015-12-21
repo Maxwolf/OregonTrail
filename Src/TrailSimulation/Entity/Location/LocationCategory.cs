@@ -9,7 +9,6 @@
 //   the given attached Windows rather than us assuming what it is going to do.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Entity
 {
     /// <summary>

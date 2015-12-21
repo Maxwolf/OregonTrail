@@ -10,8 +10,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Text;
 using TrailSimulation.Core;
@@ -29,27 +27,23 @@ namespace TrailSimulation.Game
     public sealed class CrossingResult : InputForm<TravelInfo>
     {
         /// <summary>
-        /// The _crossing result.
+        ///     The _crossing result.
         /// </summary>
         private StringBuilder _crossingResult;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CrossingResult"/> class. 
-        /// This constructor will be used by the other one
-        /// </summary>
-        /// <param name="window">
-        /// The window.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="CrossingResult"/> class.
+        ///     This constructor will be used by the other one</summary>
+        /// <param name="window">The window.</param>
         public CrossingResult(IWindow window) : base(window)
         {
             _crossingResult = new StringBuilder();
         }
 
         /// <summary>
-        /// Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         protected override string OnDialogPrompt()
         {
@@ -60,6 +54,7 @@ namespace TrailSimulation.Game
             switch (UserData.River.CrossingType)
             {
                 case RiverCrossChoice.Ford:
+
 
 // Roll the dice and see if end of river ford is muddy.
                     if (GameSimulationApp.Instance.Random.NextBool())
@@ -102,13 +97,9 @@ namespace TrailSimulation.Game
             return _crossingResult.ToString();
         }
 
-        /// <summary>
-        /// Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.
-        /// </summary>
-        /// <param name="reponse">
-        /// The response the dialog parsed from simulation input buffer.
-        /// </param>
+        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // Destroy the river data now that we are done with it.

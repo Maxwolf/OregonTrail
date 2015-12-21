@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,13 +27,9 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder _storePrompt;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Store"/> class. 
-        /// This constructor will be used by the other one
-        /// </summary>
-        /// <param name="window">
-        /// The window.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="Store"/> class.
+        ///     This constructor will be used by the other one</summary>
+        /// <param name="window">The window.</param>
         public Store(IWindow window) : base(window)
         {
         }
@@ -119,11 +113,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        /// Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         public override string OnRenderForm()
         {
@@ -191,12 +185,8 @@ namespace TrailSimulation.Game
                 : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
         }
 
-        /// <summary>
-        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
-        /// </summary>
-        /// <param name="input">
-        /// Contents of the input buffer which didn't match any known command in parent game Windows.
-        /// </param>
+        /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>
+        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
         public override void OnInputBufferReturned(string input)
         {
             // Skip if the input is null or empty.
@@ -234,6 +224,7 @@ namespace TrailSimulation.Game
                 case Entities.Vehicle:
                 case Entities.Person:
                 case Entities.Cash:
+
 
 // The other options we just make them do the same as leaving store.
                     LeaveStore();

@@ -9,8 +9,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 using System;
 using System.Collections.Generic;
 using TrailSimulation.Entity;
@@ -30,8 +28,8 @@ namespace TrailSimulation.Game
         private Dictionary<Entities, SimItem> _totalTransactions;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StoreGenerator"/> class. 
-        ///     Initializes a new instance of the <see cref="T:System.Object"/> class.
+        ///     Initializes a new instance of the <see cref="StoreGenerator" /> class.
+        ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
         public StoreGenerator()
         {
@@ -115,26 +113,16 @@ namespace TrailSimulation.Game
             _totalTransactions = new Dictionary<Entities, SimItem>(Vehicle.DefaultInventory);
         }
 
-        /// <summary>
-        /// Adds an SimItem to the list of pending transactions. If it already exists it will be replaced.
-        /// </summary>
-        /// <param name="item">
-        /// The item.
-        /// </param>
-        /// <param name="amount">
-        /// The amount.
-        /// </param>
+        /// <summary>Adds an SimItem to the list of pending transactions. If it already exists it will be replaced.</summary>
+        /// <param name="item">The item.</param>
+        /// <param name="amount">The amount.</param>
         public void AddItem(SimItem item, int amount)
         {
             _totalTransactions[item.Category] = new SimItem(item, amount);
         }
 
-        /// <summary>
-        /// Removes an SimItem from the list of pending transactions. If it does not exist then nothing will happen.
-        /// </summary>
-        /// <param name="item">
-        /// The item.
-        /// </param>
+        /// <summary>Removes an SimItem from the list of pending transactions. If it does not exist then nothing will happen.</summary>
+        /// <param name="item">The item.</param>
         public void RemoveItem(SimItem item)
         {
             // Loop through every single transaction.

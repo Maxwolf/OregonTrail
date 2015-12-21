@@ -8,7 +8,6 @@
 //   have them in selectable order that makes sense to the user.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace TrailSimulation.Game
 {
     /// <summary>
@@ -19,27 +18,27 @@ namespace TrailSimulation.Game
     public enum StartingMonth
     {
         /// <summary>
-        /// The march.
+        ///     The march.
         /// </summary>
         March = 1, 
 
         /// <summary>
-        /// The april.
+        ///     The april.
         /// </summary>
         April = 2, 
 
         /// <summary>
-        /// The may.
+        ///     The may.
         /// </summary>
         May = 3, 
 
         /// <summary>
-        /// The june.
+        ///     The june.
         /// </summary>
         June = 4, 
 
         /// <summary>
-        /// The july.
+        ///     The july.
         /// </summary>
         July = 5
     }
