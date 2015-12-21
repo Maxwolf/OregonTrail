@@ -125,6 +125,7 @@
     <Compile Include="Game\Window\Travel\RiverCrossing\CrossingResult.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverCrossChoice.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverGenerator.cs" />
+    <Compile Include="Game\Window\Travel\RiverCrossing\RiverOption.cs" />
     <Compile Include="Game\Window\Travel\Store\StoreGenerator.cs" />
     <Compile Include="Game\Module\Director\EventFactory.cs" />
     <Compile Include="Game\Window\Travel\GameOver\GameWin.cs" />

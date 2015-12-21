@@ -37,7 +37,8 @@ namespace TrailSimulation.Entity
             string name,
             LocationCategory category,
             Climate climateType,
-            IEnumerable<Location> skipChoices = null)
+            IEnumerable<Location> skipChoices = null,
+            RiverOption riverOption = RiverOption.ForkAndFord)
         {
             // Determines if this location will have fresh water.
             FreshWater = GameSimulationApp.Instance.Random.NextBool();
@@ -51,6 +52,13 @@ namespace TrailSimulation.Entity
             // Offers up a decision when traveling on the trail, there are normally one of many possible outcomes.
             if (skipChoices != null)
                 _skipChoices = new List<Location>(skipChoices);
+
+            // Throws an exception if the river option is set to none and not a usable option.
+            if (riverOption == RiverOption.None && category == LocationCategory.RiverCrossing)
+                throw new ArgumentException("Unable to create location with river option set to NONE!");
+
+            // Set the river option into the location itself.
+            RiverCrossOption = riverOption;
 
             // Name of the point as it should be known to the player.
             Name = name;
@@ -76,6 +84,12 @@ namespace TrailSimulation.Entity
                     throw new ArgumentOutOfRangeException(nameof(category), category, null);
             }
         }
+
+        /// <summary>
+        ///     Defines the type of river crossing this location will be, this is in regards to the types of options presented when
+        ///     the crossing comes up in the trail.
+        /// </summary>
+        public RiverOption RiverCrossOption { get; }
 
         /// <summary>
         ///     Locations have fresh water flag if enabled doubles chance for dysentery and cholera.
