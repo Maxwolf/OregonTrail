@@ -36,15 +36,23 @@ namespace TrailSimulation.Game
         Ferry = 3,
 
         /// <summary>
+        ///     Prompts to play in sets of clothing for Indian guide that will take you across a the river, he acts like ferry
+        ///     operator but depending on how many animals you killed hunting his price will change and go up the more animals
+        ///     killed.
+        /// </summary>
+        [Description("hire an Indian to help")]
+        Indian = 4,
+
+        /// <summary>
         ///     Waits for a day still ticking events but waiting to see if weather will improve and make crossing easier.
         /// </summary>
         [Description("wait to see if conditions improve")]
-        WaitForWeather = 4,
+        WaitForWeather = 5,
 
         /// <summary>
         ///     Attached a state on top of the river crossing Windows to explain what the different options mean and how they work.
         /// </summary>
         [Description("get more information")]
-        GetMoreInformation = 5
+        GetMoreInformation = 6
     }
 }

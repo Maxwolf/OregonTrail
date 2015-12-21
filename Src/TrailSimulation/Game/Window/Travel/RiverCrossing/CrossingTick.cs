@@ -221,7 +221,8 @@ namespace TrailSimulation.Game
                     }
                     break;
                 case RiverCrossChoice.Ferry:
-                    // Ferry and floating over river both have the same risks.
+                case RiverCrossChoice.Indian:
+                    // Ferry, Indian, and floating over river both have the same risks.
                     game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
                     break;
                 case RiverCrossChoice.None:
@@ -244,7 +245,7 @@ namespace TrailSimulation.Game
             if (_riverCrossingOfTotalWidth < UserData.River.RiverWidth)
                 return;
 
-            SetForm(typeof(CrossingResult));
+            SetForm(typeof (CrossingResult));
         }
     }
 }

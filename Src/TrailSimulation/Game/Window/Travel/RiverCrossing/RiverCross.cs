@@ -109,6 +109,10 @@ namespace TrailSimulation.Game
                     UserData.River.CrossingType = RiverCrossChoice.Ferry;
                     SetForm(typeof (UseFerryConfirm));
                     break;
+                case RiverCrossChoice.Indian:
+                    UserData.River.CrossingType = RiverCrossChoice.Indian;
+                    SetForm(typeof(UseFerryConfirm));
+                    break;
                 case RiverCrossChoice.WaitForWeather:
                     // Resting by a river only increments a single day at a time.
                     UserData.DaysToRest = 1;
@@ -116,6 +120,7 @@ namespace TrailSimulation.Game
                     SetForm(typeof (Resting));
                     break;
                 case RiverCrossChoice.GetMoreInformation:
+                    UserData.River.CrossingType = RiverCrossChoice.GetMoreInformation;
                     SetForm(typeof (FordRiverHelp));
                     break;
             }

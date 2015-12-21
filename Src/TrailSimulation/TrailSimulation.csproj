@@ -123,6 +123,8 @@
     <Compile Include="Game\Window\Tombstone\TombstoneWindow.cs" />
     <Compile Include="Game\Window\Travel\Other\LocationFork.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\CrossingResult.cs" />
+    <Compile Include="Game\Window\Travel\RiverCrossing\Indian\IndianNoClothes.cs" />
+    <Compile Include="Game\Window\Travel\RiverCrossing\Indian\UseIndianConfirm.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverCrossChoice.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverGenerator.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverOption.cs" />
@@ -148,12 +150,12 @@
     <Compile Include="Game\Window\RandomEvent\RandomEventInfo.cs" />
     <Compile Include="Game\Window\RandomEvent\RandomEvent.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\CrossingTick.cs" />
-    <Compile Include="Game\Window\Travel\RiverCrossing\Help\FerryNoMonies.cs" />
+    <Compile Include="Game\Window\Travel\RiverCrossing\Ferry\FerryNoMonies.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Help\CaulkRiverHelp.cs" />
-    <Compile Include="Game\Window\Travel\RiverCrossing\Help\FerryHelp.cs" />
+    <Compile Include="Game\Window\Travel\RiverCrossing\Ferry\FerryHelp.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Help\FordRiverHelp.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Help\RiverCrossHelp.cs" />
-    <Compile Include="Game\Window\Travel\RiverCrossing\Help\UseFerryConfirm.cs" />
+    <Compile Include="Game\Window\Travel\RiverCrossing\Ferry\UseFerryConfirm.cs" />
     <Compile Include="Core\Window\WindowFactory.cs" />
     <Compile Include="Entity\Location\LocationCategory.cs" />
     <Compile Include="Entity\Location\LocationStatus.cs" />

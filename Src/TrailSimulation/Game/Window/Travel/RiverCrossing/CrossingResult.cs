@@ -59,6 +59,10 @@ namespace TrailSimulation.Game
                     _crossingResult.AppendLine("The ferry got your party");
                     _crossingResult.AppendLine("and wagon safely across.");
                     break;
+                case RiverCrossChoice.Indian:
+                    _crossingResult.AppendLine("The Indian helped your");
+                    _crossingResult.AppendLine("wagon safely across.");
+                    break;
                 case RiverCrossChoice.None:
                 case RiverCrossChoice.WaitForWeather:
                 case RiverCrossChoice.GetMoreInformation:
