@@ -33,7 +33,7 @@ namespace TrailSimulation.Game
                     new Location("Soda Springs", LocationCategory.Landmark, Climate.Dry),
                     new Location("Fort Hall", LocationCategory.Settlement, Climate.Moderate),
                     new Location("Snake River Crossing", LocationCategory.RiverCrossing, Climate.Moderate),
-                    new Location("Fort Boise", LocationCategory.Settlement, Climate.Moderate),
+                    new Location("Fort Boise", LocationCategory.Settlement, Climate.Polar),
                     new Location("Blue Mountains", LocationCategory.ForkInRoad, Climate.Polar, new List<Location>
                     {
                         new Location("Fort Walla Walla", LocationCategory.Settlement, Climate.Polar),
@@ -66,7 +66,7 @@ namespace TrailSimulation.Game
                     new Location("End Settlement", LocationCategory.Settlement, Climate.Moderate)
                 };
 
-                return new Trail(testTrail, 5, 10);
+                return new Trail(testTrail, 50, 100);
             }
         }
 
@@ -83,7 +83,7 @@ namespace TrailSimulation.Game
                     new Location("End Of Test", LocationCategory.Settlement, Climate.Dry)
                 };
 
-                return new Trail(testPoints, 5, 10);
+                return new Trail(testPoints, 50, 100);
             }
         }
 
@@ -105,7 +105,7 @@ namespace TrailSimulation.Game
                     new Location("End Of Test", LocationCategory.Settlement, Climate.Dry)
                 };
 
-                return new Trail(testFail, 5, 10);
+                return new Trail(testFail, 50, 100);
             }
         }
     }

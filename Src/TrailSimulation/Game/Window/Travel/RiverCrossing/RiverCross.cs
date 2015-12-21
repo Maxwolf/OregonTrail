@@ -99,11 +99,11 @@ namespace TrailSimulation.Game
             {
                 case RiverCrossChoice.Ford:
                     UserData.River.CrossingType = RiverCrossChoice.Ford;
-                    SetForm(typeof (CrossingResult));
+                    SetForm(typeof (CrossingTick));
                     break;
                 case RiverCrossChoice.Float:
                     UserData.River.CrossingType = RiverCrossChoice.Float;
-                    SetForm(typeof (CrossingResult));
+                    SetForm(typeof (CrossingTick));
                     break;
                 case RiverCrossChoice.Ferry:
                     UserData.River.CrossingType = RiverCrossChoice.Ferry;

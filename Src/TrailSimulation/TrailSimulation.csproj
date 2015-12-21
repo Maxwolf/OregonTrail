@@ -145,7 +145,7 @@
     <Compile Include="Game\Window\RandomEvent\RandomEventCommands.cs" />
     <Compile Include="Game\Window\RandomEvent\RandomEventInfo.cs" />
     <Compile Include="Game\Window\RandomEvent\RandomEvent.cs" />
-    <Compile Include="Game\Window\Travel\RiverCrossing\CrossingResult.cs" />
+    <Compile Include="Game\Window\Travel\RiverCrossing\CrossingTick.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Help\FerryNoMonies.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Help\CaulkRiverHelp.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Help\FerryHelp.cs" />

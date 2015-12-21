@@ -71,7 +71,7 @@ namespace TrailSimulation.Game
                         return;
                     }
 
-                    SetForm(typeof (CrossingResult));
+                    SetForm(typeof (CrossingTick));
                     break;
                 case DialogResponse.No:
                 case DialogResponse.Custom:

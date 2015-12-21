@@ -201,7 +201,7 @@ namespace TrailSimulation.Game
                         UserData.River.FerryCost >= 0)
                     {
                         // If player was waiting for ferry operator to let them cross we will jump right to that.
-                        SetForm(typeof (CrossingResult));
+                        SetForm(typeof (CrossingTick));
                     }
                     else
                     {

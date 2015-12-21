@@ -67,8 +67,11 @@ namespace TrailSimulation.Game
         /// </summary>
         public void TakeTurn(bool skipDay)
         {
-            // Advance the turn counter.
-            TotalTurns++;
+            // Advance the turn counter if we are not skipping days.
+            if (!skipDay)
+                TotalTurns++;
+
+            // Let the modules of the game simulation decide how they want to deal with skip time turn.
             Time.TickTime(skipDay);
         }
 

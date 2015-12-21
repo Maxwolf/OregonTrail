@@ -11,7 +11,7 @@ namespace TrailSimulation.Game
     ///     printed to the screen explaining what happened before defaulting back to travel game Windows.
     /// </summary>
     [ParentWindow(GameWindow.Travel)]
-    public sealed class CrossingResult : Form<TravelInfo>
+    public sealed class CrossingTick : Form<TravelInfo>
     {
         /// <summary>
         ///     String builder that will hold all the data about our river crossing as it occurs.
@@ -48,7 +48,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     This constructor will be used by the other one
         /// </summary>
-        public CrossingResult(IWindow window) : base(window)
+        public CrossingTick(IWindow window) : base(window)
         {
             // Create the string builder for holding all our text about river crossing as it happens.
             _crossingResult = new StringBuilder();
