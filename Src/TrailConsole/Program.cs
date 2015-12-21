@@ -2,9 +2,6 @@
 // <copyright file="Program.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Trail Simulation Game - Console Edition
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailConsole
 {
@@ -18,7 +15,7 @@ namespace TrailConsole
     internal static class Program
     {
         /// <summary>
-        ///     The main.
+        ///     Example console app for game simulation entry point.
         /// </summary>
         private static void Main()
         {
@@ -57,9 +54,6 @@ namespace TrailConsole
                             GameSimulationApp.Instance.InputManager.RemoveLastCharOfInputBuffer();
                             break;
                         default:
-
-
-// if not enter or backspace we pass the key character to simulation individually.
                             GameSimulationApp.Instance.InputManager.AddCharToInputBuffer(key.KeyChar);
                             break;
                     }
@@ -77,7 +71,7 @@ namespace TrailConsole
         }
 
         /// <summary>Write all text from objects to screen.</summary>
-        /// <param name="tuiContent">The tui Content.</param>
+        /// <param name="tuiContent">The text user interface content.</param>
         private static void Simulation_ScreenBufferDirtyEvent(string tuiContent)
         {
             Console.Clear();

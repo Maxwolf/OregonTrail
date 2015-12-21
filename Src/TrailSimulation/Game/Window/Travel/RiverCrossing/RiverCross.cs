@@ -24,7 +24,7 @@ namespace TrailSimulation.Game
         ///     type of river crossing in the middle of the choices we need to have a correct mapping of integers to their
         ///     respective enumeration values. There is another dictionary for mapping enumeration values to actions.
         /// </summary>
-        private Dictionary<int, RiverCrossChoice> _choiceMappings;
+        private Dictionary<string, RiverCrossChoice> _choiceMappings;
 
         /// <summary>
         ///     Holds reference to all of the choices that can be made in the river, since the are dynamic and change based on the
@@ -44,9 +44,6 @@ namespace TrailSimulation.Game
         /// <param name="window">The window.</param>
         public RiverCross(IWindow window) : base(window)
         {
-            _choiceMappings = new Dictionary<int, RiverCrossChoice>();
-            _riverActions = new Dictionary<RiverCrossChoice, Action>();
-            _riverInfo = new StringBuilder();
         }
 
         /// <summary>
@@ -60,8 +57,12 @@ namespace TrailSimulation.Game
             // Grab instance of the game simulation.
             var game = GameSimulationApp.Instance;
 
+            // Re-create the mappings and text information on post create each time.
+            _choiceMappings = new Dictionary<string, RiverCrossChoice>();
+            _riverActions = new Dictionary<RiverCrossChoice, Action>();
+            _riverInfo = new StringBuilder();
+
             // Header text for above menu comes from river crossing info object.
-            _riverInfo.Clear();
             _riverInfo.AppendLine("--------------------------------");
             _riverInfo.AppendLine($"{game.Trail.CurrentLocation.Name}");
             _riverInfo.AppendLine($"{game.Time.Date}");
@@ -81,7 +82,7 @@ namespace TrailSimulation.Game
                 var riverChoice = choices[index];
 
                 // Add the mapping for text user interface mapping to enumeration value for action invoking below.
-                _choiceMappings.Add(index, riverChoice);
+                _choiceMappings.Add(index.ToString(), riverChoice);
 
                 // Last line should not print new line.
                 if (index == (choices.Count - 1))
@@ -174,16 +175,16 @@ namespace TrailSimulation.Game
             if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
                 return;
 
-            // Attempt to cast string to enum value, can be characters or integer.
-            RiverCrossChoice riverChoice;
-            Enum.TryParse(input, out riverChoice);
+            // Skip if the input does not match any known mapping for river choice.
+            if (!_choiceMappings.ContainsKey(input))
+                return;
 
             // Check if the river cross choice exists in the dictionary of choices valid for this river crossing location.
-            if (!_riverActions.ContainsKey(riverChoice))
+            if (!_riverActions.ContainsKey(_choiceMappings[input]))
                 return;
 
             // Invoke the anonymous delegate method that was created when this form was attached.
-            _riverActions[riverChoice].Invoke();
+            _riverActions[_choiceMappings[input]].Invoke();
         }
     }
 }

@@ -49,8 +49,8 @@ namespace TrailSimulation.Game
         {
             get
             {
-                return UserData.River.IndianCost >=
-                       GameSimulationApp.Instance.Vehicle.Inventory[Entities.Clothes].Quantity;
+                return GameSimulationApp.Instance.Vehicle.Inventory[Entities.Clothes].Quantity >=
+                       UserData.River.IndianCost;
             }
         }
 
@@ -76,20 +76,20 @@ namespace TrailSimulation.Game
             _prompt.AppendLine($"{Environment.NewLine}A Shoshoni guide says that he");
             _prompt.AppendLine("will take your wagon across");
             _prompt.AppendLine($"the river in exchange for {UserData.River.IndianCost.ToString("N0")}");
-            _prompt.AppendLine("sets of clothing.");
+            _prompt.AppendLine($"sets of clothing.{Environment.NewLine}");
 
             // Change up the message based on if the player has enough clothing, they won't be able to get more if they don't here.
             if (HasEnoughClothingToTrade)
             {
                 // Player has enough clothing to satisfy the Indians cost.
                 _prompt.AppendLine("Will you accept this");
-                _prompt.AppendLine("offer? Y/N");
+                _prompt.AppendLine($"offer? Y/N{Environment.NewLine}");
             }
             else
             {
                 // Player does not have enough clothing to satisfy the Indian cost.
                 _prompt.AppendLine($"You don't have {UserData.River.IndianCost.ToString("N0")} sets of");
-                _prompt.AppendLine("clothing.");
+                _prompt.AppendLine($"clothing.{Environment.NewLine}");
             }
 
             // Renders out the Indian guide river crossing confirmation and or denial.
