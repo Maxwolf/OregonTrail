@@ -33,8 +33,8 @@ namespace TrailSimulation.Event
         {
             var capsizePrompt = new StringBuilder();
             capsizePrompt.Clear();
-            capsizePrompt.AppendLine("vehicle has tipped");
-            capsizePrompt.Append("over resulting in ");
+            capsizePrompt.AppendLine("The wagon tipped over");
+            capsizePrompt.Append("while crossing. Resulting in ");
             return capsizePrompt.ToString();
         }
     }
