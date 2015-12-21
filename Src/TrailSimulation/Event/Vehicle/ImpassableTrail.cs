@@ -1,4 +1,16 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ImpassableTrail.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Wastes the players time by forcing them to go around a section of the trail that has been blocked by some natural
+//   and or man made obstruction.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System.Diagnostics.CodeAnalysis;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
@@ -22,11 +34,13 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        ///     Defines the string that will be used to define the event and how it affects the user. It will automatically append
+        /// Defines the string that will be used to define the event and how it affects the user. It will automatically append
         ///     the number of days lost and count them down this only wants the text that days what the player lost the days
         ///     because of.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnLostTimeReason()
         {
             return "Impassable trail--lose time going around.";

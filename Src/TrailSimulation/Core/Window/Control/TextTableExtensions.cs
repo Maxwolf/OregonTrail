@@ -1,4 +1,15 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TextTableExtensions.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Converts lists of objects into string table representations of themselves.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,13 +24,47 @@ namespace TrailSimulation.Core
     /// </summary>
     public static class TextTableExtensions
     {
-        public static string ToStringTable<T>(this IEnumerable<T> values, string[] columnHeaders,
+        /// <summary>
+        /// The to string table.
+        /// </summary>
+        /// <param name="values">
+        /// The values.
+        /// </param>
+        /// <param name="columnHeaders">
+        /// The column headers.
+        /// </param>
+        /// <param name="valueSelectors">
+        /// The value selectors.
+        /// </param>
+        /// <typeparam name="T">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public static string ToStringTable<T>(this IEnumerable<T> values, string[] columnHeaders, 
             params Func<T, object>[] valueSelectors)
         {
             return ToStringTable(values.ToArray(), columnHeaders, valueSelectors);
         }
 
-        public static string ToStringTable<T>(this T[] values, string[] columnHeaders,
+        /// <summary>
+        /// The to string table.
+        /// </summary>
+        /// <param name="values">
+        /// The values.
+        /// </param>
+        /// <param name="columnHeaders">
+        /// The column headers.
+        /// </param>
+        /// <param name="valueSelectors">
+        /// The value selectors.
+        /// </param>
+        /// <typeparam name="T">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public static string ToStringTable<T>(this T[] values, string[] columnHeaders, 
             params Func<T, object>[] valueSelectors)
         {
             Debug.Assert(columnHeaders.Length == valueSelectors.Length);
@@ -46,6 +91,15 @@ namespace TrailSimulation.Core
             return ToStringTable(arrValues);
         }
 
+        /// <summary>
+        /// The to string table.
+        /// </summary>
+        /// <param name="arrValues">
+        /// The arr values.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public static string ToStringTable(this string[,] arrValues)
         {
             var maxColumnsWidth = GetMaxColumnsWidth(arrValues);
@@ -78,6 +132,15 @@ namespace TrailSimulation.Core
             return sb.ToString();
         }
 
+        /// <summary>
+        /// The get max columns width.
+        /// </summary>
+        /// <param name="arrValues">
+        /// The arr values.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int[]"/>.
+        /// </returns>
         private static int[] GetMaxColumnsWidth(string[,] arrValues)
         {
             var maxColumnsWidth = new int[arrValues.GetLength(1)];
@@ -98,7 +161,21 @@ namespace TrailSimulation.Core
             return maxColumnsWidth;
         }
 
-        public static string ToStringTable<T>(this IEnumerable<T> values,
+        /// <summary>
+        /// The to string table.
+        /// </summary>
+        /// <param name="values">
+        /// The values.
+        /// </param>
+        /// <param name="valueSelectors">
+        /// The value selectors.
+        /// </param>
+        /// <typeparam name="T">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public static string ToStringTable<T>(this IEnumerable<T> values, 
             params Expression<Func<T, object>>[] valueSelectors)
         {
             var list = new List<string>();
@@ -114,6 +191,17 @@ namespace TrailSimulation.Core
             return ToStringTable(values, headers, selectors);
         }
 
+        /// <summary>
+        /// The get property.
+        /// </summary>
+        /// <param name="expresstion">
+        /// The expresstion.
+        /// </param>
+        /// <typeparam name="T">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="PropertyInfo"/>.
+        /// </returns>
         private static PropertyInfo GetProperty<T>(Expression<Func<T, object>> expresstion)
         {
             if ((expresstion.Body as UnaryExpression)?.Operand is MemberExpression)

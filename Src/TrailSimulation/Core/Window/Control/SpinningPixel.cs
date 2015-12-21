@@ -1,4 +1,15 @@
-﻿using System.Collections.Generic;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SpinningPixel.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Old school spinning pixel progress, normally used to show the thread is not locked by some running process.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System.Collections.Generic;
 
 namespace TrailSimulation.Core
 {
@@ -7,9 +18,19 @@ namespace TrailSimulation.Core
     /// </summary>
     internal sealed class SpinningPixel
     {
+        /// <summary>
+        /// The animation.
+        /// </summary>
         private List<string> animation;
+
+        /// <summary>
+        /// The counter.
+        /// </summary>
         private int counter;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpinningPixel"/> class.
+        /// </summary>
         public SpinningPixel()
         {
             animation = new List<string> {"/", "-", @"\", "|"};
@@ -17,8 +38,11 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     prints the character found in the animation according to the current index
+        /// prints the character found in the animation according to the current index
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public string Step()
         {
             var barText = animation[counter];

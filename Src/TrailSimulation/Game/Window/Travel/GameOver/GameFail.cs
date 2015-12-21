@@ -1,4 +1,18 @@
-﻿using TrailSimulation.Core;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="GameFail.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Fired when the simulation has determined the player has died. It specifically only attaches at this time. The flow
+//   for death like this is to first show the player the failure state like this, then ask if they want to leave an
+//   epitaph, process that decision, confirm it, and finally show the viewer that will also show the reason why the
+//   player died using description attribute from an enumeration value that determines how they died.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
@@ -12,8 +26,12 @@ namespace TrailSimulation.Game
     public sealed class GameFail : Form<TravelInfo>
     {
         /// <summary>
-        ///     This constructor will be used by the other one
+        /// Initializes a new instance of the <see cref="GameFail"/> class. 
+        /// This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public GameFail(IWindow window) : base(window)
         {
         }
@@ -37,9 +55,12 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        /// Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public override string OnRenderForm()
         {
             // Jump right to tombstone game window, it will reset the game.
@@ -48,9 +69,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the game Windows current state is not null and input buffer does not match any known command.
+        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
+        /// <param name="input">
+        /// Contents of the input buffer which didn't match any known command in parent game Windows.
+        /// </param>
         public override void OnInputBufferReturned(string input)
         {
         }

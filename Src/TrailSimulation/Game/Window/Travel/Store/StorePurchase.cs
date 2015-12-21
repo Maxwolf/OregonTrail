@@ -1,4 +1,15 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StorePurchase.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Allows the player to purchase a number of oxen to pull their vehicle.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -31,9 +42,12 @@ namespace TrailSimulation.Game
         private int _purchaseLimit;
 
         /// <summary>
-        ///     Attaches a state that will allow the player to purchase a certain number of a particular SimItem.
+        /// Initializes a new instance of the <see cref="StorePurchase"/> class. 
+        /// Attaches a state that will allow the player to purchase a certain number of a particular SimItem.
         /// </summary>
-        /// <param name="window">Current game Windows that requested this.</param>
+        /// <param name="window">
+        /// Current game Windows that requested this.
+        /// </param>
         public StorePurchase(IWindow window) : base(window)
         {
         }
@@ -63,7 +77,7 @@ namespace TrailSimulation.Game
             _itemBuyText = new StringBuilder();
 
             // Change up question asked if plural window matches the name of the SimItem.
-            var pluralMatchesName = UserData.Store.SelectedItem.PluralForm.Equals(UserData.Store.SelectedItem.Name,
+            var pluralMatchesName = UserData.Store.SelectedItem.PluralForm.Equals(UserData.Store.SelectedItem.Name, 
                 StringComparison.InvariantCultureIgnoreCase);
 
             // Print text about purchasing the selected item.
@@ -79,18 +93,23 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        /// Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public override string OnRenderForm()
         {
             return _itemBuyText.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game Windows current state is not null and input buffer does not match any known command.
+        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
+        /// <param name="input">
+        /// Contents of the input buffer which didn't match any known command in parent game Windows.
+        /// </param>
         public override void OnInputBufferReturned(string input)
         {
             // Parse the user input buffer as a unsigned int.

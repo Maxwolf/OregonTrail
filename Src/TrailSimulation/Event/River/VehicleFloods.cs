@@ -1,4 +1,16 @@
-﻿using System.Collections.Generic;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="VehicleFloods.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   When crossing a river there is a chance that your wagon will flood if you choose to caulk and float across the
+//   river.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using TrailSimulation.Entity;
@@ -14,9 +26,14 @@ namespace TrailSimulation.Event
     public sealed class VehicleFloods : EventItemDestroyer
     {
         /// <summary>
-        ///     Fired by the item destroyer event prefab before items are destroyed.
+        /// Fired by the item destroyer event prefab before items are destroyed.
         /// </summary>
-        /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
+        /// <param name="destroyedItems">
+        /// Items that were destroyed from the players inventory.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
             return destroyedItems.Count > 0
@@ -25,11 +42,11 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
+        /// Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.
         /// </summary>
         /// <param name="userData">
-        ///     Entities which the event is going to directly affect. This way there is no confusion about
+        /// Entities which the event is going to directly affect. This way there is no confusion about
         ///     what entity the event is for. Will require casting to correct instance type from interface instance.
         /// </param>
         public override void Execute(RandomEventInfo userData)
@@ -45,8 +62,11 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        ///     Fired by the item destroyer event prefab after items are destroyed.
+        /// Fired by the item destroyer event prefab after items are destroyed.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnPreDestroyItems()
         {
             var _floodPrompt = new StringBuilder();

@@ -1,4 +1,16 @@
-﻿using System.Collections.ObjectModel;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TrailModule.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps
+//   track of the vehicles current position on the trail and provides helper methods to quickly access it.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System.Collections.ObjectModel;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
@@ -10,6 +22,9 @@ namespace TrailSimulation.Game
     /// </summary>
     public sealed class TrailModule : Module
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TrailModule"/> class.
+        /// </summary>
         public TrailModule()
         {
             // Load a trail from file or prefab.
@@ -99,17 +114,19 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        /// Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
         ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
         /// </summary>
-        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <remarks>
+        /// Default is one second or 1000ms.
+        /// </remarks>
         /// <param name="systemTick">
-        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        /// TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
         ///     pulsed by game simulation at fixed interval.
         /// </param>
         /// <param name="skipDay">
-        ///     Determines if this tick skipped a day of the simulation and force ticked anyway. This is used for
+        /// Determines if this tick skipped a day of the simulation and force ticked anyway. This is used for
         ///     special events like river crossings, hunting, trading, etc.
         /// </param>
         public override void OnTick(bool systemTick, bool skipDay = false)
@@ -174,9 +191,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Forcefully inserts skip location into location list after current location.
+        /// Forcefully inserts skip location into location list after current location.
         /// </summary>
-        /// <param name="skipChoice">Location that the trail module will point to after current location.</param>
+        /// <param name="skipChoice">
+        /// Location that the trail module will point to after current location.
+        /// </param>
         public void InsertLocation(Location skipChoice)
         {
             Trail.InsertLocation(LocationIndex + 1, skipChoice);

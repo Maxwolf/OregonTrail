@@ -1,4 +1,16 @@
-﻿using System.Collections.Generic;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NewGameInfo.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Holds all of the information required to kick-start a running game simulation onto a trail path with people,
+//   professions, vehicle, starting items, and all stats related to luck and repair skill.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System.Collections.Generic;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
@@ -10,10 +22,29 @@ namespace TrailSimulation.Game
     /// </summary>
     public sealed class NewGameInfo : WindowData
     {
+        /// <summary>
+        /// The _player names.
+        /// </summary>
         private List<string> _playerNames;
+
+        /// <summary>
+        /// The _player profession.
+        /// </summary>
         private Profession _playerProfession;
+
+        /// <summary>
+        /// The _starting inventory.
+        /// </summary>
         private List<SimItem> _startingInventory;
+
+        /// <summary>
+        /// The _starting monies.
+        /// </summary>
         private int _startingMonies;
+
+        /// <summary>
+        /// The _starting month.
+        /// </summary>
         private Month _startingMonth;
 
         /// <summary>

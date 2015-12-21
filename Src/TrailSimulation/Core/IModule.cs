@@ -1,5 +1,17 @@
-﻿namespace TrailSimulation.Core
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IModule.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   The Module interface.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace TrailSimulation.Core
 {
+    /// <summary>
+    /// The Module interface.
+    /// </summary>
     public interface IModule : ITick
     {
         /// <summary>

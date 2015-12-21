@@ -1,4 +1,16 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ProfessionHelp.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Shows information about what the player leader professions mean and how it affects the party, vehicle, game
+//   difficulty, and scoring at the end (if they make it).
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 using TrailSimulation.Core;
 
@@ -11,13 +23,22 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.MainMenu)]
     public sealed class ProfessionHelp : InputForm<NewGameInfo>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProfessionHelp"/> class.
+        /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public ProfessionHelp(IWindow window) : base(window)
         {
         }
 
         /// <summary>
-        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        /// Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnDialogPrompt()
         {
             // Information about professions and how they work.
@@ -37,13 +58,15 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        /// Fired when the dialog receives favorable input and determines a response based on this. From this method it is
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        /// <param name="reponse">
+        /// The response the dialog parsed from simulation input buffer.
+        /// </param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //parentGameMode.State = new ProfessionSelector(parentGameMode, UserData);
+            // parentGameMode.State = new ProfessionSelector(parentGameMode, UserData);
             SetForm(typeof (ProfessionSelector));
         }
     }

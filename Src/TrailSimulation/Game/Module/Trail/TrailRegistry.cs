@@ -1,4 +1,15 @@
-﻿using System.Collections.Generic;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TrailRegistry.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Complete trails the player can travel on using the simulation. Some are remakes and others new.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System.Collections.Generic;
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
@@ -17,43 +28,43 @@ namespace TrailSimulation.Game
             {
                 var oregonTrail = new[]
                 {
-                    new Location("Independence",
-                        LocationCategory.Settlement, Climate.Moderate),
-                    new Location("Kansas River Crossing",
-                        LocationCategory.RiverCrossing, Climate.Continental, null, RiverOption.FerryOperator),
-                    new Location("Big Blue River Crossing",
-                        LocationCategory.RiverCrossing, Climate.Continental),
-                    new Location("Fort Kearney",
-                        LocationCategory.Settlement, Climate.Continental),
-                    new Location("Chimney Rock",
-                        LocationCategory.Landmark, Climate.Moderate),
-                    new Location("Fort Laramie",
-                        LocationCategory.Settlement, Climate.Moderate),
-                    new Location("Independence Rock",
-                        LocationCategory.Landmark, Climate.Moderate),
-                    new Location("South Pass",
+                    new Location("Independence", 
+                        LocationCategory.Settlement, Climate.Moderate), 
+                    new Location("Kansas River Crossing", 
+                        LocationCategory.RiverCrossing, Climate.Continental, null, RiverOption.FerryOperator), 
+                    new Location("Big Blue River Crossing", 
+                        LocationCategory.RiverCrossing, Climate.Continental), 
+                    new Location("Fort Kearney", 
+                        LocationCategory.Settlement, Climate.Continental), 
+                    new Location("Chimney Rock", 
+                        LocationCategory.Landmark, Climate.Moderate), 
+                    new Location("Fort Laramie", 
+                        LocationCategory.Settlement, Climate.Moderate), 
+                    new Location("Independence Rock", 
+                        LocationCategory.Landmark, Climate.Moderate), 
+                    new Location("South Pass", 
                         LocationCategory.ForkInRoad, Climate.Dry, new List<Location>
                         {
-                            new Location("Fort Bridger", LocationCategory.Settlement, Climate.Dry),
+                            new Location("Fort Bridger", LocationCategory.Settlement, Climate.Dry), 
                             new Location("Green River Shortcut", LocationCategory.Landmark, Climate.Dry)
-                        }),
-                    new Location("Green River Crossing",
-                        LocationCategory.RiverCrossing, Climate.Dry),
-                    new Location("Soda Springs",
-                        LocationCategory.Landmark, Climate.Dry),
-                    new Location("Fort Hall",
-                        LocationCategory.Settlement, Climate.Moderate),
-                    new Location("Snake River Crossing",
-                        LocationCategory.RiverCrossing, Climate.Moderate, null, RiverOption.IndianGuide),
-                    new Location("Fort Boise",
-                        LocationCategory.Settlement, Climate.Polar),
-                    new Location("Blue Mountains",
+                        }), 
+                    new Location("Green River Crossing", 
+                        LocationCategory.RiverCrossing, Climate.Dry), 
+                    new Location("Soda Springs", 
+                        LocationCategory.Landmark, Climate.Dry), 
+                    new Location("Fort Hall", 
+                        LocationCategory.Settlement, Climate.Moderate), 
+                    new Location("Snake River Crossing", 
+                        LocationCategory.RiverCrossing, Climate.Moderate, null, RiverOption.IndianGuide), 
+                    new Location("Fort Boise", 
+                        LocationCategory.Settlement, Climate.Polar), 
+                    new Location("Blue Mountains", 
                         LocationCategory.ForkInRoad, Climate.Polar, new List<Location>
                         {
-                            new Location("Fort Walla Walla", LocationCategory.Settlement, Climate.Polar),
+                            new Location("Fort Walla Walla", LocationCategory.Settlement, Climate.Polar), 
                             new Location("The Dalles", LocationCategory.Landmark, Climate.Polar)
-                        }),
-                    new Location("Oregon City",
+                        }), 
+                    new Location("Oregon City", 
                         LocationCategory.Settlement, Climate.Moderate)
                 };
 
@@ -70,21 +81,21 @@ namespace TrailSimulation.Game
             {
                 var testTrail = new[]
                 {
-                    new Location("Start Settlement",
-                        LocationCategory.Settlement, Climate.Moderate),
-                    new Location("Landmark",
-                        LocationCategory.Landmark, Climate.Dry),
-                    new Location("Fork In Road",
+                    new Location("Start Settlement", 
+                        LocationCategory.Settlement, Climate.Moderate), 
+                    new Location("Landmark", 
+                        LocationCategory.Landmark, Climate.Dry), 
+                    new Location("Fork In Road", 
                         LocationCategory.ForkInRoad, Climate.Continental, new List<Location>
                         {
-                            new Location("Inserted Settlement",
-                                LocationCategory.Settlement, Climate.Polar),
-                            new Location("Inserted Landmark",
+                            new Location("Inserted Settlement", 
+                                LocationCategory.Settlement, Climate.Polar), 
+                            new Location("Inserted Landmark", 
                                 LocationCategory.Landmark, Climate.Tropical)
-                        }),
-                    new Location("River Crossing",
-                        LocationCategory.RiverCrossing, Climate.Continental),
-                    new Location("End Settlement",
+                        }), 
+                    new Location("River Crossing", 
+                        LocationCategory.RiverCrossing, Climate.Continental), 
+                    new Location("End Settlement", 
                         LocationCategory.Settlement, Climate.Moderate)
                 };
 
@@ -101,9 +112,9 @@ namespace TrailSimulation.Game
             {
                 var testPoints = new[]
                 {
-                    new Location("Start Of Test",
-                        LocationCategory.Settlement, Climate.Moderate),
-                    new Location("End Of Test",
+                    new Location("Start Of Test", 
+                        LocationCategory.Settlement, Climate.Moderate), 
+                    new Location("End Of Test", 
                         LocationCategory.Settlement, Climate.Dry)
                 };
 
@@ -120,22 +131,22 @@ namespace TrailSimulation.Game
             {
                 var testFail = new[]
                 {
-                    new Location("Start Of Test",
-                        LocationCategory.Settlement, Climate.Moderate),
-                    new Location("Wolf River Crossing",
-                        LocationCategory.RiverCrossing, Climate.Continental, null,
-                        RiverOption.IndianGuide),
-                    new Location("Fox River Crossing",
-                        LocationCategory.RiverCrossing, Climate.Moderate, null,
-                        RiverOption.IndianGuide),
-                    new Location("Otter River Crossing",
-                        LocationCategory.RiverCrossing, Climate.Tropical, null,
-                        RiverOption.FerryOperator),
-                    new Location("Coyote River Crossing",
-                        LocationCategory.RiverCrossing, Climate.Polar),
-                    new Location("Deer River Crossing",
-                        LocationCategory.RiverCrossing, Climate.Continental),
-                    new Location("End Of Test",
+                    new Location("Start Of Test", 
+                        LocationCategory.Settlement, Climate.Moderate), 
+                    new Location("Wolf River Crossing", 
+                        LocationCategory.RiverCrossing, Climate.Continental, null, 
+                        RiverOption.IndianGuide), 
+                    new Location("Fox River Crossing", 
+                        LocationCategory.RiverCrossing, Climate.Moderate, null, 
+                        RiverOption.IndianGuide), 
+                    new Location("Otter River Crossing", 
+                        LocationCategory.RiverCrossing, Climate.Tropical, null, 
+                        RiverOption.FerryOperator), 
+                    new Location("Coyote River Crossing", 
+                        LocationCategory.RiverCrossing, Climate.Polar), 
+                    new Location("Deer River Crossing", 
+                        LocationCategory.RiverCrossing, Climate.Continental), 
+                    new Location("End Of Test", 
                         LocationCategory.Settlement, Climate.Dry)
                 };
 

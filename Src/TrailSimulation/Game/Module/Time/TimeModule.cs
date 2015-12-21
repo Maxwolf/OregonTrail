@@ -1,4 +1,16 @@
-﻿using TrailSimulation.Core;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TimeModule.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
+//   simulation by one day. There are also other options and events for checking state, and changing state.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
@@ -9,7 +21,8 @@ namespace TrailSimulation.Game
     public sealed class TimeModule : Module
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
+        /// Initializes a new instance of the <see cref="TimeModule"/> class. 
+        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct"/> class.
         /// </summary>
         public TimeModule()
         {
@@ -86,10 +99,10 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Advances the tick of the game forward firing off events for new eras, years, months and days.
+        /// Advances the tick of the game forward firing off events for new eras, years, months and days.
         /// </summary>
         /// <param name="skipDay">
-        ///     Determines if the time module should fire off event for a day but not actually advance time
+        /// Determines if the time module should fire off event for a day but not actually advance time
         ///     itself.
         /// </param>
         public void TickTime(bool skipDay)
@@ -166,9 +179,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired after each day in the simulation.
+        /// Fired after each day in the simulation.
         /// </summary>
-        /// <param name="skipDay">Determines if the time simulation did not advance the day but still ticked the game.</param>
+        /// <param name="skipDay">
+        /// Determines if the time simulation did not advance the day but still ticked the game.
+        /// </param>
         private void OnTickDay(bool skipDay)
         {
             // Move towards the next location on the trail. Ticks vehicle, location, people, weather, etc.
@@ -176,8 +191,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Changes the time simulations current month, this also will reset the day back to the first of that month.
+        /// Changes the time simulations current month, this also will reset the day back to the first of that month.
         /// </summary>
+        /// <param name="month">
+        /// The month.
+        /// </param>
         public void SetMonth(Month month)
         {
             CurrentMonth = month;

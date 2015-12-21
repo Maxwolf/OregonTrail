@@ -1,4 +1,18 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LocationDepart.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Attached when the player wants to continue on the trail, and doing so will force them to leave that point and be
+//   back on the trail counting up distance traveled until they reach the next one. The purpose of this state is to
+//   inform the player of the next points name, the distance away that it is, and that is all it will close and
+//   simulation resume after return key is pressed.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 using TrailSimulation.Core;
 
@@ -14,15 +28,22 @@ namespace TrailSimulation.Game
     public sealed class LocationDepart : InputForm<TravelInfo>
     {
         /// <summary>
-        ///     This constructor will be used by the other one
+        /// Initializes a new instance of the <see cref="LocationDepart"/> class. 
+        /// This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public LocationDepart(IWindow window) : base(window)
         {
         }
 
         /// <summary>
-        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        /// Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnDialogPrompt()
         {
             // Tell player how far it is to next location before attaching drive state.
@@ -35,10 +56,12 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        /// Fired when the dialog receives favorable input and determines a response based on this. From this method it is
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        /// <param name="reponse">
+        /// The response the dialog parsed from simulation input buffer.
+        /// </param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             SetForm(typeof (ContinueOnTrail));

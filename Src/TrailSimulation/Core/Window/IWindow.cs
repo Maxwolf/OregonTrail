@@ -1,4 +1,16 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IWindow.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Underlying game Windows interface, used by base simulation to keep track of what data should currently have control
+//   over the simulation details. Only top most game Windows will ever be ticked.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Collections.Generic;
 using TrailSimulation.Game;
 
@@ -9,8 +21,8 @@ namespace TrailSimulation.Core
     ///     over the simulation details. Only top most game Windows will ever be ticked.
     /// </summary>
     public interface IWindow :
-        IComparer<IWindow>,
-        IComparable<IWindow>,
+        IComparer<IWindow>, 
+        IComparable<IWindow>, 
         ITick
     {
         /// <summary>
@@ -46,8 +58,11 @@ namespace TrailSimulation.Core
         WindowData UserData { get; }
 
         /// <summary>
-        ///     Creates and adds the specified type of state to currently active game Windows.
+        /// Creates and adds the specified type of state to currently active game Windows.
         /// </summary>
+        /// <param name="stateType">
+        /// The state Type.
+        /// </param>
         void SetForm(Type stateType);
 
         /// <summary>
@@ -61,15 +76,21 @@ namespace TrailSimulation.Core
         void RemoveWindowNextTick();
 
         /// <summary>
-        ///     Grabs the text user interface string that will be used for debugging on console application.
+        /// Grabs the text user interface string that will be used for debugging on console application.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         string OnRenderMode();
 
         /// <summary>
-        ///     Intended to be used by base simulation to pass along the input buffer after the user has typed several characters
+        /// Intended to be used by base simulation to pass along the input buffer after the user has typed several characters
         ///     into the input buffer. This is used when allowing the user to input custom strings like names for their party
         ///     members.
         /// </summary>
+        /// <param name="command">
+        /// The command.
+        /// </param>
         void SendCommand(string command);
 
         /// <summary>

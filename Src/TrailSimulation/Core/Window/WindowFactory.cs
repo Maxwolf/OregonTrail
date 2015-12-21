@@ -1,4 +1,15 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="WindowFactory.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Factory pattern for creating game modes on the fly during runtime based on enumeration input parameter.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Collections.Generic;
 using TrailSimulation.Game;
 
@@ -10,6 +21,7 @@ namespace TrailSimulation.Core
     public sealed class WindowFactory
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="WindowFactory"/> class. 
         ///     Creates a new Windows factory that will look over the application for all known game types and create reference
         ///     list
         ///     which we can use to get instances of a given Windows by asking for it.
@@ -49,12 +61,16 @@ namespace TrailSimulation.Core
         public Dictionary<GameWindow, int> AttachCount { get; }
 
         /// <summary>
-        ///     Change to new view Windows when told that internal logic wants to display view options to player for a specific set
+        /// Change to new view Windows when told that internal logic wants to display view options to player for a specific set
         ///     of
         ///     data in the simulation.
         /// </summary>
-        /// <param name="Windows">Enumeration of the game Windows that requested to be attached.</param>
-        /// <returns>New game Windows instance based on the Windows input parameter.</returns>
+        /// <param name="windows">
+        /// The windows.
+        /// </param>
+        /// <returns>
+        /// New game Windows instance based on the Windows input parameter.
+        /// </returns>
         public IWindow CreateWindow(GameWindow windows)
         {
             // Grab the game Windows type reference from inputted Windows type enum.

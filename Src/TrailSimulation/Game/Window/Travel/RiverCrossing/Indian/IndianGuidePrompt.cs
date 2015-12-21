@@ -1,4 +1,19 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IndianGuidePrompt.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Prompts the player with a yes or no question regarding if they would like to use the services offered by the Indian
+//   guide. However, he requires sets of clothing and not money like the ferry operator. If they player does not have
+//   enough clothing in their inventory then the message will say so here since there is no opportunity to trade once
+//   you are actually at the river crossing. The amount of clothing he asks for will also change based on the amount of
+//   animals killed while hunting.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -16,8 +31,12 @@ namespace TrailSimulation.Game
     public sealed class IndianGuidePrompt : InputForm<TravelInfo>
     {
         /// <summary>
-        ///     This constructor will be used by the other one
+        /// Initializes a new instance of the <see cref="IndianGuidePrompt"/> class. 
+        /// This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public IndianGuidePrompt(IWindow window) : base(window)
         {
         }
@@ -52,8 +71,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        /// Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnDialogPrompt()
         {
             // Builds up the first part about the Indian guide for river crossing.
@@ -82,10 +104,12 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        /// Fired when the dialog receives favorable input and determines a response based on this. From this method it is
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        /// <param name="reponse">
+        /// The response the dialog parsed from simulation input buffer.
+        /// </param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // Depending on if the player has enough clothing their response to Indian guide changes.
@@ -95,13 +119,15 @@ namespace TrailSimulation.Game
                 switch (reponse)
                 {
                     case DialogResponse.Yes:
-                        // Player has enough clothing to satisfy the Indians cost, will be subtracted in confirmation.
+
+// Player has enough clothing to satisfy the Indians cost, will be subtracted in confirmation.
                         UserData.River.CrossingType = RiverCrossChoice.Indian;
                         SetForm(typeof (UseIndianConfirm));
                         break;
                     case DialogResponse.No:
                     case DialogResponse.Custom:
-                        // Returns back to the river cross choice menu.
+
+// Returns back to the river cross choice menu.
                         CancelIndianCrossing();
                         break;
                     default:

@@ -1,4 +1,15 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Store.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Manages a general store where the player can buy food, clothes, bullets, and parts for their vehicle.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,8 +30,12 @@ namespace TrailSimulation.Game
         private StringBuilder _storePrompt;
 
         /// <summary>
-        ///     This constructor will be used by the other one
+        /// Initializes a new instance of the <see cref="Store"/> class. 
+        /// This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public Store(IWindow window) : base(window)
         {
         }
@@ -104,9 +119,12 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        /// Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public override string OnRenderForm()
         {
             return _storePrompt.ToString();
@@ -141,7 +159,7 @@ namespace TrailSimulation.Game
 
                 // Creates a store price tag that shows the user how much the item is and or how much the store has.
                 var storeTag = storeItem.ToDescriptionAttribute()
-                    .Replace("@AMT@",
+                    .Replace("@AMT@", 
                         UserData.Store.Transactions[storeItem].ToString(
                             GameSimulationApp.Instance.Trail.IsFirstLocation &&
                             GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached));
@@ -174,9 +192,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the game Windows current state is not null and input buffer does not match any known command.
+        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
+        /// <param name="input">
+        /// Contents of the input buffer which didn't match any known command in parent game Windows.
+        /// </param>
         public override void OnInputBufferReturned(string input)
         {
             // Skip if the input is null or empty.
@@ -214,7 +234,8 @@ namespace TrailSimulation.Game
                 case Entities.Vehicle:
                 case Entities.Person:
                 case Entities.Cash:
-                    // The other options we just make them do the same as leaving store.
+
+// The other options we just make them do the same as leaving store.
                     LeaveStore();
                     break;
                 default:

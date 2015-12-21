@@ -1,4 +1,16 @@
-﻿using System.Diagnostics;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IndiansHelp.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Indians help you find some free food, this event will be called manually more often if you are low on food to
+//   simulate the effect of them noticing you need help.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using TrailSimulation.Entity;
 using TrailSimulation.Game;
@@ -14,11 +26,11 @@ namespace TrailSimulation.Event
     public sealed class IndiansHelp : EventProduct
     {
         /// <summary>
-        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
+        /// Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.
         /// </summary>
         /// <param name="userData">
-        ///     Entities which the event is going to directly affect. This way there is no confusion about
+        /// Entities which the event is going to directly affect. This way there is no confusion about
         ///     what entity the event is for. Will require casting to correct instance type from interface instance.
         /// </param>
         public override void Execute(RandomEventInfo userData)
@@ -32,11 +44,14 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
+        /// Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
         ///     change depending on requirements of the implementation.
         /// </summary>
-        /// <param name="userData"></param>
-        /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
+        /// <param name="userData">
+        /// </param>
+        /// <returns>
+        /// Text user interface string that can be used to explain what the event did when executed.
+        /// </returns>
         protected override string OnRender(RandomEventInfo userData)
         {
             return "helpful Indians show you where to find more food";

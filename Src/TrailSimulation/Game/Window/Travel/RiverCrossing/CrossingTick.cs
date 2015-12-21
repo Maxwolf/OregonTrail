@@ -1,4 +1,16 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CrossingTick.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Runs the player over the river based on the crossing information. Depending on what happens a message will be
+//   printed to the screen explaining what happened before defaulting back to travel game Windows.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -46,8 +58,12 @@ namespace TrailSimulation.Game
         private bool hasForcedEvent;
 
         /// <summary>
-        ///     This constructor will be used by the other one
+        /// Initializes a new instance of the <see cref="CrossingTick"/> class. 
+        /// This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public CrossingTick(IWindow window) : base(window)
         {
             // Create the string builder for holding all our text about river crossing as it happens.
@@ -102,9 +118,12 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        /// Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public override string OnRenderForm()
         {
             // Clears the string buffer for this render pass.
@@ -144,17 +163,19 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        /// Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
         ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
         /// </summary>
-        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <remarks>
+        /// Default is one second or 1000ms.
+        /// </remarks>
         /// <param name="systemTick">
-        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        /// TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
         ///     pulsed by game simulation at fixed interval.
         /// </param>
         /// <param name="skipDay">
-        ///     Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        /// Determines if the simulation has force ticked without advancing time or down the trail. Used by
         ///     special events that want to simulate passage of time without actually any actual time moving by.
         /// </param>
         public override void OnTick(bool systemTick, bool skipDay)
@@ -176,7 +197,7 @@ namespace TrailSimulation.Game
             _swayBarText = _marqueeBar.Step();
 
             // Increment the amount we have floated over the river.
-            _riverCrossingOfTotalWidth += game.Random.Next(1, (UserData.River.RiverWidth/4));
+            _riverCrossingOfTotalWidth += game.Random.Next(1, UserData.River.RiverWidth/4);
 
             // Check to see if we will finish crossing river before crossing more.
             if (_riverCrossingOfTotalWidth >= UserData.River.RiverWidth)
@@ -193,7 +214,8 @@ namespace TrailSimulation.Game
             switch (UserData.River.CrossingType)
             {
                 case RiverCrossChoice.Ford:
-                    // If river is deeper than a few feet and you ford it you will get flooded at least once.
+
+// If river is deeper than a few feet and you ford it you will get flooded at least once.
                     if (UserData.River.RiverDepth > 3 && !hasForcedEvent &&
                         _riverCrossingOfTotalWidth >= (UserData.River.RiverWidth/2))
                     {
@@ -205,6 +227,7 @@ namespace TrailSimulation.Game
                         // Check that we don't flood the user twice, that is just annoying.
                         game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
                     }
+
                     break;
                 case RiverCrossChoice.Float:
                     if (UserData.River.RiverDepth > 5 && !hasForcedEvent &&
@@ -219,10 +242,12 @@ namespace TrailSimulation.Game
                         // Check that we don't flood the user twice, that is just annoying.
                         game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
                     }
+
                     break;
                 case RiverCrossChoice.Ferry:
                 case RiverCrossChoice.Indian:
-                    // Ferry, Indian, and floating over river both have the same risks.
+
+// Ferry, Indian, and floating over river both have the same risks.
                     game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
                     break;
                 case RiverCrossChoice.None:
@@ -236,9 +261,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the game Windows current state is not null and input buffer does not match any known command.
+        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
+        /// <param name="input">
+        /// Contents of the input buffer which didn't match any known command in parent game Windows.
+        /// </param>
         public override void OnInputBufferReturned(string input)
         {
             // Skip if we are still crossing the river.

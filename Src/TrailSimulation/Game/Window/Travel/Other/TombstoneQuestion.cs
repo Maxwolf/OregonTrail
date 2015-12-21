@@ -1,4 +1,15 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TombstoneQuestion.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Asks the player if they would like to stop and check out a tombstone that is on this particular mile marker.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 using TrailSimulation.Core;
 
@@ -11,8 +22,12 @@ namespace TrailSimulation.Game
     public sealed class TombstoneQuestion : InputForm<TravelInfo>
     {
         /// <summary>
-        ///     This constructor will be used by the other one
+        /// Initializes a new instance of the <see cref="TombstoneQuestion"/> class. 
+        /// This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public TombstoneQuestion(IWindow window) : base(window)
         {
         }
@@ -27,8 +42,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        /// Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnDialogPrompt()
         {
             var pointReached = new StringBuilder();
@@ -42,22 +60,26 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        /// Fired when the dialog receives favorable input and determines a response based on this. From this method it is
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        /// <param name="reponse">
+        /// The response the dialog parsed from simulation input buffer.
+        /// </param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // Check if the player wants to look at the tombstone or not.
             switch (reponse)
             {
                 case DialogResponse.No:
-                    // Resumes our trajectory on the trail.
+
+// Resumes our trajectory on the trail.
                     SetForm(typeof (ContinueOnTrail));
                     break;
                 case DialogResponse.Yes:
                 case DialogResponse.Custom:
-                    // Show the tombstone to the player.
+
+// Show the tombstone to the player.
                     GameSimulationApp.Instance.WindowManager.Add(GameWindow.Tombstone);
 
                     // Goes back to continue on trail form below us.

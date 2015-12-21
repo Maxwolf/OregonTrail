@@ -1,4 +1,13 @@
-﻿namespace TrailSimulation.Entity
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Parts.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Defines a bunch of items that are used as parts in the vehicle.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace TrailSimulation.Entity
 {
     /// <summary>
     ///     Defines a bunch of items that are used as parts in the vehicle.

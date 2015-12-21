@@ -1,4 +1,15 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RiverCross.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Manages a boolean event where the player needs to make a choice before they can move onto the next location on the
+//   trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how
+//   bad it is.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +26,13 @@ namespace TrailSimulation.Game
     public sealed class RiverCross : Form<TravelInfo>
     {
         /// <summary>
+        ///     Reference mappings for all the choices the player can make on this form. Since we add and remove items depending on
+        ///     type of river crossing in the middle of the choices we need to have a correct mapping of integers to their
+        ///     respective enumeration values. There is another dictionary for mapping enumeration values to actions.
+        /// </summary>
+        private Dictionary<int, RiverCrossChoice> _choiceMappings;
+
+        /// <summary>
         ///     Holds reference to all of the choices that can be made in the river, since the are dynamic and change based on the
         ///     location we are visiting this dictionary facilitates the ability for lookups and checking of inputted key for
         ///     validity. If key is found then the appropriate action can be invoked.
@@ -28,10 +46,15 @@ namespace TrailSimulation.Game
         private StringBuilder _riverInfo;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="RiverCross"/> class.
         ///     This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public RiverCross(IWindow window) : base(window)
         {
+            _choiceMappings = new Dictionary<int, RiverCrossChoice>();
             _riverActions = new Dictionary<RiverCrossChoice, Action>();
             _riverInfo = new StringBuilder();
         }
@@ -67,14 +90,17 @@ namespace TrailSimulation.Game
                 // Get the current river choice enumeration value we casted into list.
                 var riverChoice = choices[index];
 
+                // Add the mapping for text user interface mapping to enumeration value for action invoking below.
+                _choiceMappings.Add(index, riverChoice);
+
                 // Last line should not print new line.
                 if (index == (choices.Count - 1))
                 {
-                    _riverInfo.Append((int) riverChoice + ". " + riverChoice.ToDescriptionAttribute());
+                    _riverInfo.Append(index + ". " + riverChoice.ToDescriptionAttribute());
                 }
                 else
                 {
-                    _riverInfo.AppendLine((int) riverChoice + ". " + riverChoice.ToDescriptionAttribute());
+                    _riverInfo.AppendLine(index + ". " + riverChoice.ToDescriptionAttribute());
                 }
 
                 // Depending on selection made we will decide on what to do.
@@ -129,12 +155,10 @@ namespace TrailSimulation.Game
                         });
                         break;
                     case RiverCrossChoice.None:
-                        // Complain if the choice is still default value.
                         throw new ArgumentException(
                             "Unable to use river cross choice NONE as a selection since it is only intended for initialization.");
                     default:
-                        // Complain if the choice is invalid and or unknown.
-                        throw new ArgumentOutOfRangeException(nameof(riverChoice),
+                        throw new ArgumentOutOfRangeException(nameof(riverChoice), 
                             "Unable to cast river cross choice into a valid selection for river crossing.");
                 }
             }
@@ -144,15 +168,20 @@ namespace TrailSimulation.Game
         ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
+        /// <returns>
+        ///     The river crossing text user interface.<see cref="_riverInfo" />.
+        /// </returns>
         public override string OnRenderForm()
         {
             return _riverInfo.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game Windows current state is not null and input buffer does not match any known command.
+        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
+        /// <param name="input">
+        /// Contents of the input buffer which didn't match any known command in parent game Windows.
+        /// </param>
         public override void OnInputBufferReturned(string input)
         {
             // Skip if the input is null or empty.
@@ -162,6 +191,13 @@ namespace TrailSimulation.Game
             // Attempt to cast string to enum value, can be characters or integer.
             RiverCrossChoice riverChoice;
             Enum.TryParse(input, out riverChoice);
+
+            // Check if the river cross choice exists in the dictionary of choices valid for this river crossing location.
+            if (!_riverActions.ContainsKey(riverChoice))
+                return;
+
+            // Invoke the anonymous delegate method that was created when this form was attached.
+            _riverActions[riverChoice].Invoke();
         }
     }
 }

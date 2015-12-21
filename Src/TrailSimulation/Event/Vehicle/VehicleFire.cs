@@ -1,4 +1,15 @@
-﻿using System.Collections.Generic;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="VehicleFire.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Fire in the vehicle occurs, there is a chance that some of the inventory items or people were burned to death.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using TrailSimulation.Entity;
@@ -14,9 +25,14 @@ namespace TrailSimulation.Event
     public sealed class VehicleFire : EventItemDestroyer
     {
         /// <summary>
-        ///     Fired by the item destroyer event prefab before items are destroyed.
+        /// Fired by the item destroyer event prefab before items are destroyed.
         /// </summary>
-        /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
+        /// <param name="destroyedItems">
+        /// Items that were destroyed from the players inventory.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
             // Change event text depending on if items were destroyed or not.
@@ -26,8 +42,11 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        ///     Fired by the item destroyer event prefab after items are destroyed.
+        /// Fired by the item destroyer event prefab after items are destroyed.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnPreDestroyItems()
         {
             var firePrompt = new StringBuilder();

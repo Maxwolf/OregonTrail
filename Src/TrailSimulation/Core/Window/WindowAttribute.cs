@@ -1,4 +1,15 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="WindowAttribute.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Allows the simulation to reflect over the Windows type enumeration and map classes to a given enum value.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 
 namespace TrailSimulation.Core
 {
@@ -9,8 +20,11 @@ namespace TrailSimulation.Core
     public sealed class WindowAttribute : Attribute
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.WindowAttribute" /> class.
+        /// Initializes a new instance of the <see cref="T:TrailSimulation.Core.WindowAttribute"/> class.
         /// </summary>
+        /// <param name="modeType">
+        /// The mode Type.
+        /// </param>
         public WindowAttribute(Type modeType)
         {
             // Complain if the type sent is not an implementation of game Windows interface.

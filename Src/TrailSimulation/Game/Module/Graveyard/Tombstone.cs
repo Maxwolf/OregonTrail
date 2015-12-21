@@ -1,4 +1,15 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Tombstone.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Facilitates a tombstone base class that supports shallow copies of itself to be created.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 
 namespace TrailSimulation.Game
 {
@@ -8,6 +19,7 @@ namespace TrailSimulation.Game
     public sealed class Tombstone : ICloneable
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Tombstone"/> class. 
         ///     Creates a shallow copy of the tombstone, generates a new tombstone ID in the process.
         /// </summary>
         public Tombstone()
@@ -59,8 +71,11 @@ namespace TrailSimulation.Game
         public string Epitaph { get; set; }
 
         /// <summary>
-        ///     Creates a shallow copy of our tombstone, used to add to list without having direct copy still tied to it.
+        /// Creates a shallow copy of our tombstone, used to add to list without having direct copy still tied to it.
         /// </summary>
+        /// <returns>
+        /// The <see cref="object"/>.
+        /// </returns>
         public object Clone()
         {
             var clone = (Tombstone) MemberwiseClone();
@@ -68,8 +83,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Creates a nice formatted version of the Tombstone for use in text renderer.
+        /// Creates a nice formatted version of the Tombstone for use in text renderer.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public override string ToString()
         {
             // Only print the name if the epitaph is empty or null.

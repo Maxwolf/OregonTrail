@@ -1,4 +1,17 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ChangePace.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Allows the player to alter how many 'miles' their vehicle will attempt to travel in a given day, this also changes
+//   the rate at which random events that are considered bad will occur along with other factors in the simulation such
+//   as making players more susceptible to disease and also making them hungry more often.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -19,8 +32,12 @@ namespace TrailSimulation.Game
         private StringBuilder _pace;
 
         /// <summary>
-        ///     This constructor will be used by the other one
+        /// Initializes a new instance of the <see cref="ChangePace"/> class. 
+        /// This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public ChangePace(IWindow window) : base(window)
         {
         }
@@ -47,18 +64,23 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        /// Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public override string OnRenderForm()
         {
             return _pace.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game Windows current state is not null and input buffer does not match any known command.
+        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
+        /// <param name="input">
+        /// Contents of the input buffer which didn't match any known command in parent game Windows.
+        /// </param>
         public override void OnInputBufferReturned(string input)
         {
             switch (input.ToUpperInvariant())

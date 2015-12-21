@@ -1,4 +1,16 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Travel.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Primary game Windows of the simulation, used to show simulation advancing through linear time. Shows all major
+//   stats of party and vehicle, plus climate and other things like distance traveled and distance to next point.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -65,15 +77,18 @@ namespace TrailSimulation.Game
             {
                 case LocationCategory.Landmark:
                 case LocationCategory.Settlement:
-                    // Player is going to continue driving down the trail now.
+
+// Player is going to continue driving down the trail now.
                     SetForm(typeof (LocationDepart));
                     break;
                 case LocationCategory.RiverCrossing:
-                    // Player needs to decide how to cross a river.
+
+// Player needs to decide how to cross a river.
                     SetForm(typeof (RiverCrossHelp));
                     break;
                 case LocationCategory.ForkInRoad:
-                    // Player needs to decide on which location when road splits.
+
+// Player needs to decide on which location when road splits.
                     SetForm(typeof (LocationFork));
                     break;
                 default:
@@ -167,10 +182,12 @@ namespace TrailSimulation.Game
             switch (location.Status)
             {
                 case LocationStatus.Unreached:
-                    // Setup phase of the game before you are placed on the first location.
+
+// Setup phase of the game before you are placed on the first location.
                     break;
                 case LocationStatus.Arrived:
-                    // Can always attempt to trade, probability is good ones is way less outside settlements.
+
+// Can always attempt to trade, probability is good ones is way less outside settlements.
                     AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
 
                     // Some commands are optional and change depending on location category.
@@ -181,7 +198,8 @@ namespace TrailSimulation.Game
                         AddCommand(BuySupplies, TravelCommands.BuySupplies);
                     break;
                 case LocationStatus.Departed:
-                    // Some commands can only be done when between locations.
+
+// Some commands can only be done when between locations.
                     AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
                     AddCommand(HuntForFood, TravelCommands.HuntForFood);
                     break;

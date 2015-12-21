@@ -1,4 +1,16 @@
-﻿using TrailSimulation.Core;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RandomEvent.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Attached by the event director when it wants to execute an event against the simulation. It will attach this
+//   Windows, which then hooks the event delegate it will trigger right after this class finishes initializing.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
@@ -48,9 +60,15 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the event director triggers an event because it rolled the dice and hit it or it was forcefully
+        /// Fired when the event director triggers an event because it rolled the dice and hit it or it was forcefully
         ///     triggered by some method under a defined condition.
         /// </summary>
+        /// <param name="simEntity">
+        /// The sim Entity.
+        /// </param>
+        /// <param name="directorEvent">
+        /// The director Event.
+        /// </param>
         private void Director_OnEventTriggered(IEntity simEntity, EventProduct directorEvent)
         {
             // Attached the random event state when we intercept an event it would like us to trigger.
@@ -60,8 +78,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when this game Windows is removed from the list of available and ticked modes in the simulation.
+        /// Fired when this game Windows is removed from the list of available and ticked modes in the simulation.
         /// </summary>
+        /// <param name="windows">
+        /// The windows.
+        /// </param>
         protected override void OnModeRemoved(GameWindow windows)
         {
             base.OnModeRemoved(windows);

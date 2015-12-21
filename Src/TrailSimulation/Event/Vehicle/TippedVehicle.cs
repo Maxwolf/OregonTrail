@@ -1,4 +1,16 @@
-﻿using System.Collections.Generic;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TippedVehicle.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Vehicle was going around a bend, hit a bump, rough trail, or any of the following it now tipped over and supplies
+//   could be destroyed and passengers can be crushed to death.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using TrailSimulation.Entity;
@@ -15,9 +27,14 @@ namespace TrailSimulation.Event
     public sealed class TippedVehicle : EventItemDestroyer
     {
         /// <summary>
-        ///     Fired by the item destroyer event prefab before items are destroyed.
+        /// Fired by the item destroyer event prefab before items are destroyed.
         /// </summary>
-        /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
+        /// <param name="destroyedItems">
+        /// Items that were destroyed from the players inventory.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
             // Change event text depending on if items were destroyed or not.
@@ -27,8 +44,11 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        ///     Fired by the item destroyer event prefab after items are destroyed.
+        /// Fired by the item destroyer event prefab after items are destroyed.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnPreDestroyItems()
         {
             var capsizePrompt = new StringBuilder();

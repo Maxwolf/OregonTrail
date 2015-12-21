@@ -1,4 +1,17 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Points.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Represents a given type of point that can take in a object of a given type in the concrete handler and we will
+//   process and calculate total points for this item and display the information in a to string override so it is easy
+//   to get to and visualize to user as a list of objects (such as a table).
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using TrailSimulation.Entity;
 
 namespace TrailSimulation.Game
@@ -28,8 +41,14 @@ namespace TrailSimulation.Game
         private readonly int _perAmount;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.Points" /> class.
+        /// Initializes a new instance of the <see cref="T:TrailSimulation.Game.Points"/> class.
         /// </summary>
+        /// <param name="resource">
+        /// The resource.
+        /// </param>
+        /// <param name="optionalDisplayName">
+        /// The optional Display Name.
+        /// </param>
         public Points(SimItem resource, string optionalDisplayName = DEFAULT_DISPLAY_NAME)
         {
             // Complain if the per amount is zero, the developer is doing it wrong.
@@ -54,9 +73,12 @@ namespace TrailSimulation.Game
         private SimItem Resource { get; }
 
         /// <summary>
-        ///     Representation of the point scoring as a string that can be displayed visually to user so they understand the
+        /// Representation of the point scoring as a string that can be displayed visually to user so they understand the
         ///     scoring mechanism.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public override string ToString()
         {
             // Check if optional display name is being used.

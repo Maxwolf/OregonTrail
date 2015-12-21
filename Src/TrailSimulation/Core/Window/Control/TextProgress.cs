@@ -1,4 +1,15 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TextProgress.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Text manipulation utilities for dealing with displaying progress visually as text in a console application.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 
 namespace TrailSimulation.Core
@@ -9,12 +20,21 @@ namespace TrailSimulation.Core
     public static class TextProgress
     {
         /// <summary>
-        ///     Creates text progress bar based on input parameters at specified value with inputted character as progress
+        /// Creates text progress bar based on input parameters at specified value with inputted character as progress
         ///     character.
         /// </summary>
-        /// <param name="value">Current value of the progress bar, should with within range of max value.</param>
-        /// <param name="maxValue">Maximum value that the progress bar can be.</param>
-        /// <param name="barSize">Total size of the progress bar.</param>
+        /// <param name="value">
+        /// Current value of the progress bar, should with within range of max value.
+        /// </param>
+        /// <param name="maxValue">
+        /// Maximum value that the progress bar can be.
+        /// </param>
+        /// <param name="barSize">
+        /// Total size of the progress bar.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public static string DrawProgressBar(int value, int maxValue, int barSize)
         {
             // Unicode block characters.

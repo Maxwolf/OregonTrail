@@ -1,4 +1,15 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PointsDistributionHelp.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   First panel on point information, shows how health of party members contributes to final score.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using TrailSimulation.Core;
@@ -13,15 +24,22 @@ namespace TrailSimulation.Game
     public sealed class PointsDistributionHelp : InputForm<NewGameInfo>
     {
         /// <summary>
-        ///     This constructor will be used by the other one
+        /// Initializes a new instance of the <see cref="PointsDistributionHelp"/> class. 
+        /// This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public PointsDistributionHelp(IWindow window) : base(window)
         {
         }
 
         /// <summary>
-        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        /// Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnDialogPrompt()
         {
             // Build up string of help about points for people.
@@ -43,8 +61,8 @@ namespace TrailSimulation.Game
 
             // Build a text table from people point distribution with custom headers.
             var partyTextTable = _repairLevels.Values.ToStringTable(
-                new[] {"HealthLevel of Party", "Points per Person"},
-                u => Enum.Parse(typeof (HealthLevel), u.ToString()).ToDescriptionAttribute(),
+                new[] {"HealthLevel of Party", "Points per Person"}, 
+                u => Enum.Parse(typeof (HealthLevel), u.ToString()).ToDescriptionAttribute(), 
                 u => u);
 
             // Print the table to the screen buffer.
@@ -53,13 +71,15 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        /// Fired when the dialog receives favorable input and determines a response based on this. From this method it is
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        /// <param name="reponse">
+        /// The response the dialog parsed from simulation input buffer.
+        /// </param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //parentGameMode.State = new PointsAwardHelp(parentGameMode, UserData);
+            // parentGameMode.State = new PointsAwardHelp(parentGameMode, UserData);
             SetForm(typeof (PointsAwardHelp));
         }
     }

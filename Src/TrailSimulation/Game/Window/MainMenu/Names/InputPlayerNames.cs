@@ -1,4 +1,17 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="InputPlayerNames.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Gets the name of a player for a particular index in the player name user data object. This will also offer the user
+//   a chance to confirm their selection in another state, reset if they don't like it, and also generate a random user
+//   name if they just press enter at the prompt for a name.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 using TrailSimulation.Core;
 
@@ -19,8 +32,12 @@ namespace TrailSimulation.Game
         private StringBuilder _inputNamesHelp;
 
         /// <summary>
-        ///     This constructor will be used by the other one
+        /// Initializes a new instance of the <see cref="InputPlayerNames"/> class. 
+        /// This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public InputPlayerNames(IWindow window) : base(window)
         {
         }
@@ -91,18 +108,23 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        /// Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public override string OnRenderForm()
         {
             return _inputNamesHelp.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game Windows current state is not null and input buffer does not match any known command.
+        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
+        /// <param name="input">
+        /// Contents of the input buffer which didn't match any known command in parent game Windows.
+        /// </param>
         public override void OnInputBufferReturned(string input)
         {
             // If player enters empty name fill out all the slots with random ones.
@@ -130,14 +152,17 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Returns a random name if there is an empty name returned, we assume the player doesn't care and just give him one.
+        /// Returns a random name if there is an empty name returned, we assume the player doesn't care and just give him one.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         private static string GetPlayerName()
         {
             string[] names =
             {
-                "Bob", "Joe", "Sally", "Tim", "Steve", "Zeke", "Suzan", "Rebekah", "Young", "Marquitta",
-                "Kristy", "Sharice", "Joanna", "Chrystal", "Genevie", "Angela", "Ruthann", "Viva", "Iris", "Anderson",
+                "Bob", "Joe", "Sally", "Tim", "Steve", "Zeke", "Suzan", "Rebekah", "Young", "Marquitta", 
+                "Kristy", "Sharice", "Joanna", "Chrystal", "Genevie", "Angela", "Ruthann", "Viva", "Iris", "Anderson", 
                 "Siobhan", "Karey", "Jolie", "Carlene", "Lekisha", "Buck"
             };
             return names[GameSimulationApp.Instance.Random.Next(names.Length)];

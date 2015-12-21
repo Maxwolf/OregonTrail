@@ -1,4 +1,16 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EpitaphQuestion.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Asks the user if they would like to write a custom message on their Tombstone for other users to see when the
+//   come across this part of the trail in the future.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 using TrailSimulation.Core;
 
@@ -12,8 +24,12 @@ namespace TrailSimulation.Game
     public sealed class EpitaphQuestion : InputForm<TombstoneInfo>
     {
         /// <summary>
-        ///     This constructor will be used by the other one
+        /// Initializes a new instance of the <see cref="EpitaphQuestion"/> class. 
+        /// This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public EpitaphQuestion(IWindow window) : base(window)
         {
         }
@@ -28,8 +44,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        /// Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnDialogPrompt()
         {
             var epitaphPrompt = new StringBuilder();
@@ -43,21 +62,25 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        /// Fired when the dialog receives favorable input and determines a response based on this. From this method it is
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        /// <param name="reponse">
+        /// The response the dialog parsed from simulation input buffer.
+        /// </param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             switch (reponse)
             {
                 case DialogResponse.Yes:
-                    // Allows player to enter custom message on their grave...
+
+// Allows player to enter custom message on their grave...
                     SetForm(typeof (EpitaphEditor));
                     break;
                 case DialogResponse.No:
                 case DialogResponse.Custom:
-                    // Add the Tombstone as is to the Tombstone manager for future players to see.
+
+// Add the Tombstone as is to the Tombstone manager for future players to see.
                     GameSimulationApp.Instance.Graveyard.Add(UserData.Tombstone);
                     SetForm(typeof (TombstoneView));
                     break;

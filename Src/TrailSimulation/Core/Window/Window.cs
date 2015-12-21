@@ -1,4 +1,17 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Window.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Facilitates the ability to control the entire simulation with the passes interface reference. Server simulation
+//   keeps track of all currently loaded game modes and will only tick the top-most one so they can be stacked and clear
+//   out until there are none.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -8,15 +21,19 @@ using TrailSimulation.Game;
 namespace TrailSimulation.Core
 {
     /// <summary>
-    ///     Facilitates the ability to control the entire simulation with the passes interface reference. Server simulation
+    /// Facilitates the ability to control the entire simulation with the passes interface reference. Server simulation
     ///     keeps track of all currently loaded game modes and will only tick the top-most one so they can be stacked and clear
     ///     out until there are none.
     /// </summary>
+    /// <typeparam name="TCommands">
+    /// </typeparam>
+    /// <typeparam name="TData">
+    /// </typeparam>
     public abstract class Window<TCommands, TData> :
-        Comparer<IWindow>,
-        IComparable<Window<TCommands, TData>>,
-        IEquatable<Window<TCommands, TData>>,
-        IEqualityComparer<Window<TCommands, TData>>,
+        Comparer<IWindow>, 
+        IComparable<Window<TCommands, TData>>, 
+        IEquatable<Window<TCommands, TData>>, 
+        IEqualityComparer<Window<TCommands, TData>>, 
         IWindow
         where TCommands : struct, IComparable, IFormattable, IConvertible
         where TData : WindowData, new()
@@ -38,7 +55,8 @@ namespace TrailSimulation.Core
         private string _menuHeader;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailEntities.Window" /> class.
+        /// Initializes a new instance of the <see cref="Window{TCommands,TData}"/> class. 
+        ///     Initializes a new instance of the <see cref="T:TrailEntities.Window"/> class.
         /// </summary>
         protected Window()
         {
@@ -100,21 +118,60 @@ namespace TrailSimulation.Core
         /// </summary>
         protected TData UserData { get; }
 
+        /// <summary>
+        /// The compare to.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         public int CompareTo(Window<TCommands, TData> other)
         {
             return Compare(this, other);
         }
 
+        /// <summary>
+        /// The equals.
+        /// </summary>
+        /// <param name="x">
+        /// The x.
+        /// </param>
+        /// <param name="y">
+        /// The y.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool Equals(Window<TCommands, TData> x, Window<TCommands, TData> y)
         {
             return x.Equals(y);
         }
 
+        /// <summary>
+        /// The get hash code.
+        /// </summary>
+        /// <param name="obj">
+        /// The obj.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         public int GetHashCode(Window<TCommands, TData> obj)
         {
             return obj.GetHashCode();
         }
 
+        /// <summary>
+        /// The equals.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool Equals(Window<TCommands, TData> other)
         {
             // Reference equality check
@@ -211,9 +268,12 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Fired by simulation when it wants to request latest text user interface data for the game Windows, this is used to
+        /// Fired by simulation when it wants to request latest text user interface data for the game Windows, this is used to
         ///     display to user console specific information about what the simulation wants.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public string OnRenderMode()
         {
             // Build up string representation of the current state of game window.
@@ -256,10 +316,12 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Fired by messaging system or user interface that wants to interact with the simulation by sending string command
+        /// Fired by messaging system or user interface that wants to interact with the simulation by sending string command
         ///     that should be able to be parsed into a valid command that can be run on the current game Windows.
         /// </summary>
-        /// <param name="command">Passed in command from controller, text was trimmed but nothing more.</param>
+        /// <param name="command">
+        /// Passed in command from controller, text was trimmed but nothing more.
+        /// </param>
         public void SendCommand(string command)
         {
             // Only process menu items for game Windows when current state is null, or there are no menu choices to select from.
@@ -330,6 +392,18 @@ namespace TrailSimulation.Core
             // Nothing to see here, move along...
         }
 
+        /// <summary>
+        /// The compare.
+        /// </summary>
+        /// <param name="x">
+        /// The x.
+        /// </param>
+        /// <param name="y">
+        /// The y.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         public override int Compare(IWindow x, IWindow y)
         {
             Debug.Assert(x != null, "x != null");
@@ -344,6 +418,15 @@ namespace TrailSimulation.Core
             return result;
         }
 
+        /// <summary>
+        /// The compare to.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         public int CompareTo(IWindow other)
         {
             Debug.Assert(other != null, "other != null");
@@ -358,9 +441,14 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Creates and adds the specified type of state to currently active game Windows.
+        /// Creates and adds the specified type of state to currently active game Windows.
         /// </summary>
-        /// <remarks>If Windows does not support given state, an argument exception will be thrown!</remarks>
+        /// <param name="stateType">
+        /// The state Type.
+        /// </param>
+        /// <remarks>
+        /// If Windows does not support given state, an argument exception will be thrown!
+        /// </remarks>
         public void SetForm(Type stateType)
         {
             // Clear the previous state if something happens.
@@ -378,17 +466,19 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        /// Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
         ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
         /// </summary>
-        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <remarks>
+        /// Default is one second or 1000ms.
+        /// </remarks>
         /// <param name="systemTick">
-        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        /// TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
         ///     pulsed by game simulation at fixed interval.
         /// </param>
         /// <param name="skipDay">
-        ///     Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        /// Determines if the simulation has force ticked without advancing time or down the trail. Used by
         ///     special events that want to simulate passage of time without actually any actual time moving by.
         /// </param>
         public void OnTick(bool systemTick, bool skipDay)
@@ -405,11 +495,16 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Because of how generics work in C# we need to have the ability to override a method in implementing classes to get
+        /// Because of how generics work in C# we need to have the ability to override a method in implementing classes to get
         ///     back the correct commands for the implementation from abstract class inheritance chain. On the bright side it
         ///     enforces the commands returned to be of the specified enum in generics.
         /// </summary>
-        /// <remarks>http://stackoverflow.com/a/5042675</remarks>
+        /// <remarks>
+        /// http://stackoverflow.com/a/5042675
+        /// </remarks>
+        /// <returns>
+        /// The <see cref="TCommands[]"/>.
+        /// </returns>
         private static TCommands[] GetCommands()
         {
             // Complain the generics implemented is not of an enum type.
@@ -422,11 +517,17 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Adds a new game Windows menu selection that will be available to send as a command for this specific game Windows.
+        /// Adds a new game Windows menu selection that will be available to send as a command for this specific game Windows.
         /// </summary>
-        /// <param name="action">Method that will be run when the choice is made.</param>
-        /// <param name="command">Associated command that will trigger the respective action in the active game Windows.</param>
-        /// <param name="description">Text that will be shown to user so they know what the choice means.</param>
+        /// <param name="action">
+        /// Method that will be run when the choice is made.
+        /// </param>
+        /// <param name="command">
+        /// Associated command that will trigger the respective action in the active game Windows.
+        /// </param>
+        /// <param name="description">
+        /// Text that will be shown to user so they know what the choice means.
+        /// </param>
         protected void AddCommand(Action action, TCommands command, string description)
         {
             var menuChoice = new MenuChoice<TCommands>(command, action, description);
@@ -437,12 +538,16 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Adds a new game menu selection with description pulled from attribute on command enumeration. This override is not
+        /// Adds a new game menu selection with description pulled from attribute on command enumeration. This override is not
         ///     meant for menu selections where you want to manually specify the description of the menu item, this way it will be
         ///     pulled from enum description attribute.
         /// </summary>
-        /// <param name="action">Method that will be run when the choice is made.</param>
-        /// <param name="command">Associated command that will trigger the respective action in the active game Windows.</param>
+        /// <param name="action">
+        /// Method that will be run when the choice is made.
+        /// </param>
+        /// <param name="command">
+        /// Associated command that will trigger the respective action in the active game Windows.
+        /// </param>
         protected void AddCommand(Action action, TCommands command)
         {
             AddCommand(action, command, command.ToDescriptionAttribute());
@@ -458,18 +563,33 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Fired when this game Windows is removed from the list of available and ticked modes in the simulation.
+        /// Fired when this game Windows is removed from the list of available and ticked modes in the simulation.
         /// </summary>
+        /// <param name="windows">
+        /// The windows.
+        /// </param>
         protected virtual void OnModeRemoved(GameWindow windows)
         {
             _menuChoices = null;
         }
 
+        /// <summary>
+        /// The to string.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public override string ToString()
         {
             return WindowCategory.ToString();
         }
 
+        /// <summary>
+        /// The get hash code.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         public override int GetHashCode()
         {
             var hash = 23;

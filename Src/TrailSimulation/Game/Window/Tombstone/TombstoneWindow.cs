@@ -1,4 +1,16 @@
-﻿using TrailSimulation.Core;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TombstoneWindow.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Base tombstone interaction window, this is used to edit and confirm epitaphs for tombstones. Spawns forms that deal
+//   with showing and editing tombstone object data.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {

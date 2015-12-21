@@ -1,4 +1,17 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FormFactory.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Keeps track of all the possible states a given game Windows can have by using attributes and reflection to keep
+//   track
+//   of which user data object gets mapped to which particular state.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -41,11 +54,17 @@ namespace TrailSimulation.Core
         private Dictionary<Type, GameWindow> LoadedForms { get; set; }
 
         /// <summary>
-        ///     Creates and adds the specified type of state to currently active game Windows.
+        /// Creates and adds the specified type of state to currently active game Windows.
         /// </summary>
-        /// <param name="stateType">Role object that is the actual type of state that needs created.</param>
-        /// <param name="activeMode">Current active game Windows passed to factory so no need to call game simulation singleton.</param>
-        /// <returns>Created state instance from reference types build on startup.</returns>
+        /// <param name="stateType">
+        /// Role object that is the actual type of state that needs created.
+        /// </param>
+        /// <param name="activeMode">
+        /// Current active game Windows passed to factory so no need to call game simulation singleton.
+        /// </param>
+        /// <returns>
+        /// Created state instance from reference types build on startup.
+        /// </returns>
         public IForm CreateStateFromType(Type stateType, IWindow activeMode)
         {
             // Check if the state exists in our reference list.
@@ -60,14 +79,14 @@ namespace TrailSimulation.Core
 
             // Create the state, it will have constructor with one parameter.
             var stateInstance = Activator.CreateInstance(
-                stateType,
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
-                null,
+                stateType, 
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, 
+                null, 
                 new object[]
                 {
                     // Grab the user data object from active Windows
                     activeMode
-                },
+                }, 
                 CultureInfo.InvariantCulture);
 
             // Pass the created state back to caller.

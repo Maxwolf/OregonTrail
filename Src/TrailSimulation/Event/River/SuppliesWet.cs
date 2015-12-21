@@ -1,4 +1,15 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SuppliesWet.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Does not destroy items or drown people but will make you lose time gathering your things and drying them out.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System.Diagnostics.CodeAnalysis;
 using TrailSimulation.Game;
 
 namespace TrailSimulation.Event
@@ -21,11 +32,13 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        ///     Defines the string that will be used to define the event and how it affects the user. It will automatically append
+        /// Defines the string that will be used to define the event and how it affects the user. It will automatically append
         ///     the number of days lost and count them down this only wants the text that days what the player lost the days
         ///     because of.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnLostTimeReason()
         {
             return "Your supplies got wet.";

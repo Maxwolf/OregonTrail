@@ -1,4 +1,18 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LocationArrive.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   State that is attached when the event is fired for reaching a new point of interest on the trail. Default action is
+//   to ask the player if they would like to look around, but there is a chance for this behavior to be overridden in
+//   the constructor there is a default boolean value to skip the question asking part and force a look around event to
+//   occur without player consent.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -15,8 +29,12 @@ namespace TrailSimulation.Game
     public sealed class LocationArrive : InputForm<TravelInfo>
     {
         /// <summary>
-        ///     This constructor will be used by the other one
+        /// Initializes a new instance of the <see cref="LocationArrive"/> class. 
+        /// This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public LocationArrive(IWindow window) : base(window)
         {
         }
@@ -49,8 +67,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        /// Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnDialogPrompt()
         {
             // Grab instance of game simulation for easy reading.
@@ -77,10 +98,12 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        /// Fired when the dialog receives favorable input and determines a response based on this. From this method it is
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        /// <param name="reponse">
+        /// The response the dialog parsed from simulation input buffer.
+        /// </param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // First location we will always clear state back to location since it is starting point.
@@ -95,7 +118,8 @@ namespace TrailSimulation.Game
             {
                 case DialogResponse.Custom:
                 case DialogResponse.No:
-                    // Cast the parent game Windows as travel Windows.
+
+// Cast the parent game Windows as travel Windows.
                     var travelMode = ParentWindow as Travel;
                     if (travelMode == null)
                         throw new InvalidCastException(
@@ -105,7 +129,8 @@ namespace TrailSimulation.Game
                     travelMode.ContinueOnTrail();
                     break;
                 case DialogResponse.Yes:
-                    // Clearing this state will drop back to travel Windows with options for the player to choose from.
+
+// Clearing this state will drop back to travel Windows with options for the player to choose from.
                     ClearForm();
                     break;
                 default:

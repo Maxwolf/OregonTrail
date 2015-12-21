@@ -1,4 +1,15 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Program.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Trail Simulation Game - Console Edition
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Threading;
 using TrailSimulation.Game;
 
@@ -9,6 +20,9 @@ namespace TrailConsole
     /// </summary>
     internal static class Program
     {
+        /// <summary>
+        /// The main.
+        /// </summary>
         private static void Main()
         {
             // Create console with title, no cursor, make CTRL-C act as input.
@@ -46,7 +60,8 @@ namespace TrailConsole
                             GameSimulationApp.Instance.InputManager.RemoveLastCharOfInputBuffer();
                             break;
                         default:
-                            // if not enter or backspace we pass the key character to simulation individually.
+
+// if not enter or backspace we pass the key character to simulation individually.
                             GameSimulationApp.Instance.InputManager.AddCharToInputBuffer(key.KeyChar);
                             break;
                     }
@@ -64,8 +79,11 @@ namespace TrailConsole
         }
 
         /// <summary>
-        ///     Write all text from objects to screen.
+        /// Write all text from objects to screen.
         /// </summary>
+        /// <param name="tuiContent">
+        /// The tui Content.
+        /// </param>
         private static void Simulation_ScreenBufferDirtyEvent(string tuiContent)
         {
             Console.Clear();
@@ -74,10 +92,16 @@ namespace TrailConsole
         }
 
         /// <summary>
-        ///     Fired when the user presses CTRL-C on their keyboard, this is only relevant to operating system tick and this view
+        /// Fired when the user presses CTRL-C on their keyboard, this is only relevant to operating system tick and this view
         ///     of simulation. If moved into another framework like game engine this statement would be removed and just destroy
         ///     the simulation when the engine is destroyed using its overrides.
         /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
             // Destroy the simulation.

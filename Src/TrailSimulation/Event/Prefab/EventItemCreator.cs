@@ -1,4 +1,17 @@
-﻿using System.Collections.Generic;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EventItemCreator.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Prefab class that is used to destroy some items at random from the vehicle inventory. Will return a list of items
+//   and print them to the screen and allow for a custom prompt message to be displayed so it can be different for each
+//   implementation that wants to use it.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TrailSimulation.Entity;
@@ -32,11 +45,11 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
+        /// Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.
         /// </summary>
         /// <param name="userData">
-        ///     Entities which the event is going to directly affect. This way there is no confusion about
+        /// Entities which the event is going to directly affect. This way there is no confusion about
         ///     what entity the event is for. Will require casting to correct instance type from interface instance.
         /// </param>
         public override void Execute(RandomEventInfo userData)
@@ -77,22 +90,33 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
-        ///     Fired by the event prefab after the event has executed.
+        /// Fired by the event prefab after the event has executed.
         /// </summary>
-        /// <param name="createdItems">Items that were created and added to vehicle inventory.</param>
+        /// <param name="createdItems">
+        /// Items that were created and added to vehicle inventory.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected abstract string OnPostCreateItems(IDictionary<Entities, int> createdItems);
 
         /// <summary>
-        ///     Fired by the event prefab before the event has executed.
+        /// Fired by the event prefab before the event has executed.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected abstract string OnPreCreateItems();
 
         /// <summary>
-        ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
+        /// Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
         ///     change depending on requirements of the implementation.
         /// </summary>
-        /// <param name="userData"></param>
-        /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
+        /// <param name="userData">
+        /// </param>
+        /// <returns>
+        /// Text user interface string that can be used to explain what the event did when executed.
+        /// </returns>
         protected override string OnRender(RandomEventInfo userData)
         {
             return _eventText.ToString();

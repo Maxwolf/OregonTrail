@@ -1,4 +1,16 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Vehicle.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Vessel that holds all the players, their inventory, money, and keeps track of total miles traveled in the form of
+//   an odometer.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -125,7 +137,7 @@ namespace TrailSimulation.Entity
                 }
                 else
                 {
-                    _inventory[Entities.Cash] = new SimItem(_inventory[Entities.Cash],
+                    _inventory[Entities.Cash] = new SimItem(_inventory[Entities.Cash], 
                         (int) value);
                 }
             }
@@ -141,13 +153,13 @@ namespace TrailSimulation.Entity
                 // Create inventory of items with default starting amounts.
                 var defaultInventory = new Dictionary<Entities, SimItem>
                 {
-                    {Entities.Animal, Parts.Oxen},
-                    {Entities.Clothes, Resources.Clothing},
-                    {Entities.Ammo, Resources.Bullets},
-                    {Entities.Wheel, Parts.Wheel},
-                    {Entities.Axle, Parts.Axle},
-                    {Entities.Tongue, Parts.Tongue},
-                    {Entities.Food, Resources.Food},
+                    {Entities.Animal, Parts.Oxen}, 
+                    {Entities.Clothes, Resources.Clothing}, 
+                    {Entities.Ammo, Resources.Bullets}, 
+                    {Entities.Wheel, Parts.Wheel}, 
+                    {Entities.Axle, Parts.Axle}, 
+                    {Entities.Tongue, Parts.Tongue}, 
+                    {Entities.Food, Resources.Food}, 
                     {Entities.Cash, Resources.Cash}
                 };
 
@@ -289,6 +301,18 @@ namespace TrailSimulation.Entity
             get { return Entities.Vehicle; }
         }
 
+        /// <summary>
+        /// The compare.
+        /// </summary>
+        /// <param name="x">
+        /// The x.
+        /// </param>
+        /// <param name="y">
+        /// The y.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         public int Compare(IEntity x, IEntity y)
         {
             Debug.Assert(x != null, "x != null");
@@ -300,6 +324,15 @@ namespace TrailSimulation.Entity
             return result;
         }
 
+        /// <summary>
+        /// The compare to.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         public int CompareTo(IEntity other)
         {
             Debug.Assert(other != null, "other != null");
@@ -310,6 +343,15 @@ namespace TrailSimulation.Entity
             return result;
         }
 
+        /// <summary>
+        /// The equals.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool Equals(IEntity other)
         {
             // Reference equality check
@@ -336,11 +378,32 @@ namespace TrailSimulation.Entity
             return false;
         }
 
+        /// <summary>
+        /// The equals.
+        /// </summary>
+        /// <param name="x">
+        /// The x.
+        /// </param>
+        /// <param name="y">
+        /// The y.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool Equals(IEntity x, IEntity y)
         {
             return x.Equals(y);
         }
 
+        /// <summary>
+        /// The get hash code.
+        /// </summary>
+        /// <param name="obj">
+        /// The obj.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         public int GetHashCode(IEntity obj)
         {
             var hash = 23;
@@ -349,17 +412,19 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        /// Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
         ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
         /// </summary>
-        /// <remarks>Default is one second or 1000ms.</remarks>
+        /// <remarks>
+        /// Default is one second or 1000ms.
+        /// </remarks>
         /// <param name="systemTick">
-        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        /// TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
         ///     pulsed by game simulation at fixed interval.
         /// </param>
         /// <param name="skipDay">
-        ///     Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        /// Determines if the simulation has force ticked without advancing time or down the trail. Used by
         ///     special events that want to simulate passage of time without actually any actual time moving by.
         /// </param>
         public void OnTick(bool systemTick, bool skipDay)
@@ -395,10 +460,12 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        ///     Reduces the total mileage the vehicle has rolled to move within the next two week block section. Will not allow
+        /// Reduces the total mileage the vehicle has rolled to move within the next two week block section. Will not allow
         ///     mileage to be reduced below zero.
         /// </summary>
-        /// <param name="amount">Amount of mileage that will be reduced.</param>
+        /// <param name="amount">
+        /// Amount of mileage that will be reduced.
+        /// </param>
         internal void ReduceMileage(int amount)
         {
             // Mileage cannot be reduced when parked.
@@ -425,8 +492,11 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        ///     Sets the current speed of the game simulation.
+        /// Sets the current speed of the game simulation.
         /// </summary>
+        /// <param name="castedSpeed">
+        /// The casted Speed.
+        /// </param>
         public void ChangePace(TravelPace castedSpeed)
         {
             // Change game simulation speed.
@@ -434,17 +504,22 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        ///     Adds a new person object to the list of vehicle passengers.
+        /// Adds a new person object to the list of vehicle passengers.
         /// </summary>
-        /// <param name="person">Person that wishes to become a vehicle passenger.</param>
+        /// <param name="person">
+        /// Person that wishes to become a vehicle passenger.
+        /// </param>
         public void AddPerson(Person person)
         {
             _passengers.Add(person);
         }
 
         /// <summary>
-        ///     Adds the item to the inventory of the vehicle and subtracts it's cost multiplied by quantity from balance.
+        /// Adds the item to the inventory of the vehicle and subtracts it's cost multiplied by quantity from balance.
         /// </summary>
+        /// <param name="transaction">
+        /// The transaction.
+        /// </param>
         public void Purchase(SimItem transaction)
         {
             // Check of the player can afford this item.
@@ -459,9 +534,11 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        ///     Resets the vehicle status to the defaults.
+        /// Resets the vehicle status to the defaults.
         /// </summary>
-        /// <param name="startingMonies">Amount of money the vehicle should have to work with.</param>
+        /// <param name="startingMonies">
+        /// Amount of money the vehicle should have to work with.
+        /// </param>
         public void ResetVehicle(int startingMonies)
         {
             _inventory = new Dictionary<Entities, SimItem>(DefaultInventory);
@@ -473,19 +550,24 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        ///     Changes the current ration level to new value if it is not already set to that. Also fires even about this for
+        /// Changes the current ration level to new value if it is not already set to that. Also fires even about this for
         ///     subscribers to get event notification about the change.
         /// </summary>
-        /// <param name="ration">The rate at which people are permitted to eat in the vehicle party.</param>
+        /// <param name="ration">
+        /// The rate at which people are permitted to eat in the vehicle party.
+        /// </param>
         public void ChangeRations(RationLevel ration)
         {
             Ration = ration;
         }
 
         /// <summary>
-        ///     Creates some random items that will be given to the player, this is normally used when the player encounters a
+        /// Creates some random items that will be given to the player, this is normally used when the player encounters a
         ///     abandoned vehicle.
         /// </summary>
+        /// <returns>
+        /// The <see cref="IDictionary"/>.
+        /// </returns>
         public IDictionary<Entities, int> CreateRandomItems()
         {
             // Items that will be created by this method.
@@ -506,7 +588,7 @@ namespace TrailSimulation.Entity
                     continue;
 
                 // Add some random amount of the item from one to total amount.
-                var createdAmount = GameSimulationApp.Instance.Random.Next(1, (itemPair.Value.MaxQuantity/4));
+                var createdAmount = GameSimulationApp.Instance.Random.Next(1, itemPair.Value.MaxQuantity/4);
 
                 // Add the amount ahead of time so we can figure out of it is above maximum.
                 var simulatedAmountAdd = itemPair.Value.Quantity + createdAmount;
@@ -530,8 +612,11 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        ///     Destroys some of the inventory items in no particular order and or reason. That is left up the caller to decide.
+        /// Destroys some of the inventory items in no particular order and or reason. That is left up the caller to decide.
         /// </summary>
+        /// <returns>
+        /// The <see cref="IDictionary"/>.
+        /// </returns>
         public IDictionary<Entities, int> DestroyRandomItems()
         {
             // Dictionary that will keep track of enumeration item type and destroyed amount for record keeping purposes.

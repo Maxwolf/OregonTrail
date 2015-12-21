@@ -1,4 +1,15 @@
-﻿using System.ComponentModel;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RationLevel.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Amount of food people in party eat each day can change.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System.ComponentModel;
 
 namespace TrailSimulation.Entity
 {
@@ -10,12 +21,12 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Meals are large and generous.
         /// </summary>
-        Filling = 1,
+        Filling = 1, 
 
         /// <summary>
         ///     Meals are small, but adequate.
         /// </summary>
-        Meager = 2,
+        Meager = 2, 
 
         /// <summary>
         ///     Meals are very small; everyone stays hungry.

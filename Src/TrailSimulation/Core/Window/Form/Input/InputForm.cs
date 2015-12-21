@@ -1,13 +1,27 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="InputForm.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Represents a dialog box that acts like a pop-up where it displays some piece of data, accepts any key for input and
+//   then closes.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 
 namespace TrailSimulation.Core
 {
     /// <summary>
-    ///     Represents a dialog box that acts like a pop-up where it displays some piece of data, accepts any key for input and
+    /// Represents a dialog box that acts like a pop-up where it displays some piece of data, accepts any key for input and
     ///     then closes.
     /// </summary>
-    /// <typeparam name="T">Windows information object that will be applied to this state on when constructor is called.</typeparam>
+    /// <typeparam name="T">
+    /// Windows information object that will be applied to this state on when constructor is called.
+    /// </typeparam>
     public abstract class InputForm<T> : Form<T> where T : WindowData, new()
     {
         /// <summary>
@@ -21,8 +35,12 @@ namespace TrailSimulation.Core
         private bool _seenPrompt;
 
         /// <summary>
-        ///     This constructor will be used by the other one
+        /// Initializes a new instance of the <see cref="InputForm{T}"/> class. 
+        /// This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         protected InputForm(IWindow window) : base(window)
         {
             _prompt = new StringBuilder();
@@ -84,23 +102,31 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        /// Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected abstract string OnDialogPrompt();
 
         /// <summary>
-        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
+        /// Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public override string OnRenderForm()
         {
             return _prompt.ToString();
         }
 
         /// <summary>
-        ///     Fired when the game Windows current state is not null and input buffer does not match any known command.
+        /// Fired when the game Windows current state is not null and input buffer does not match any known command.
         /// </summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
+        /// <param name="input">
+        /// Contents of the input buffer which didn't match any known command in parent game Windows.
+        /// </param>
         public override void OnInputBufferReturned(string input)
         {
             // Only process input for dialog once.
@@ -128,10 +154,12 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        /// Fired when the dialog receives favorable input and determines a response based on this. From this method it is
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        /// <param name="reponse">
+        /// The response the dialog parsed from simulation input buffer.
+        /// </param>
         protected abstract void OnDialogResponse(DialogResponse reponse);
     }
 }

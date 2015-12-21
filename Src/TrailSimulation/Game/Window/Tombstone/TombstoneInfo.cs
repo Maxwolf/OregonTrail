@@ -1,4 +1,16 @@
-﻿using TrailSimulation.Core;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TombstoneInfo.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Holds intermediate information about tombstone for editing purposes. Eventually the data edited here will be passed
+//   off to the graveyard module which handles the archiving of tombstones.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using TrailSimulation.Core;
 
 namespace TrailSimulation.Game
 {
@@ -14,6 +26,9 @@ namespace TrailSimulation.Game
         /// </summary>
         private Tombstone _tempTombstone;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TombstoneInfo"/> class.
+        /// </summary>
         public TombstoneInfo()
         {
             _tempTombstone = null;

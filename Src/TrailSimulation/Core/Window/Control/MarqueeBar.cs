@@ -1,4 +1,15 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MarqueeBar.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Progress bar that is drawn in characters and is a ping-pong marquee action bouncing back and fourth.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 
 namespace TrailSimulation.Core
@@ -8,12 +19,34 @@ namespace TrailSimulation.Core
     /// </summary>
     internal sealed class MarqueeBar
     {
+        /// <summary>
+        /// The bar.
+        /// </summary>
         private string bar;
+
+        /// <summary>
+        /// The blank pointer.
+        /// </summary>
         private string blankPointer;
+
+        /// <summary>
+        /// The counter.
+        /// </summary>
         private int counter;
+
+        /// <summary>
+        /// The currdir.
+        /// </summary>
         private Direction currdir;
+
+        /// <summary>
+        /// The pointer.
+        /// </summary>
         private string pointer;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MarqueeBar"/> class.
+        /// </summary>
         public MarqueeBar()
         {
             bar = "|                         |";
@@ -44,10 +77,14 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     remove the previous pointer and place it in a new position
+        /// remove the previous pointer and place it in a new position
         /// </summary>
-        /// <param name="start">start index</param>
-        /// <param name="end">end index</param>
+        /// <param name="start">
+        /// start index
+        /// </param>
+        /// <param name="end">
+        /// end index
+        /// </param>
         private void PlacePointer(int start, int end)
         {
             ClearBar();
@@ -56,8 +93,11 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>
-        ///     prints the progress bar according to pointers and current Direction
+        /// prints the progress bar according to pointers and current Direction
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public string Step()
         {
             if (currdir == Direction.Right)
@@ -75,12 +115,22 @@ namespace TrailSimulation.Core
                     currdir = Direction.Right;
             }
 
-            return (bar + Environment.NewLine);
+            return bar + Environment.NewLine;
         }
 
+        /// <summary>
+        /// The direction.
+        /// </summary>
         private enum Direction
         {
-            Right,
+            /// <summary>
+            /// The right.
+            /// </summary>
+            Right, 
+
+            /// <summary>
+            /// The left.
+            /// </summary>
             Left
         };
     }

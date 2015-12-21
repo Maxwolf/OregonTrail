@@ -1,4 +1,16 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RiverGenerator.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Special data class that is used to generate river data in the travel info as requested. Creation of this object
+//   will automatically create a new river with random width and depth.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 
 namespace TrailSimulation.Game
 {
@@ -26,29 +38,34 @@ namespace TrailSimulation.Game
             switch (GameSimulationApp.Instance.Trail.CurrentLocation.RiverCrossOption)
             {
                 case RiverOption.FerryOperator:
-                    // Ferry operator will ask the player to wait some days, and pay money for the privilege to ride his ferry.
+
+// Ferry operator will ask the player to wait some days, and pay money for the privilege to ride his ferry.
                     IndianCost = 0;
                     FerryCost = GameSimulationApp.Instance.Random.Next(3, 8);
                     FerryDelayInDays = GameSimulationApp.Instance.Random.Next(1, 10);
                     break;
                 case RiverOption.ForkAndFord:
-                    // No special options present, will have to ford or float vehicle over the rover.
+
+// No special options present, will have to ford or float vehicle over the rover.
                     IndianCost = 0;
                     FerryCost = 0;
                     FerryDelayInDays = 0;
                     break;
                 case RiverOption.IndianGuide:
-                    // Indian guide will ask you for sets of clothing, more sets the more animals killed in hunting.
+
+// Indian guide will ask you for sets of clothing, more sets the more animals killed in hunting.
                     IndianCost = GameSimulationApp.Instance.Random.Next(3, 8);
                     FerryCost = 0;
                     FerryDelayInDays = 0;
                     break;
                 case RiverOption.None:
-                    // Complain if river option is still set to default value from initialization.
+
+// Complain if river option is still set to default value from initialization.
                     throw new ArgumentException(
                         "Unable to generate river without having options configured to some value other than NONE!");
                 default:
-                    // Complain if river option is set to something outside the range of our enumeration.
+
+// Complain if river option is set to something outside the range of our enumeration.
                     throw new ArgumentException(
                         "Unable to figure out what the river option value should be! Check value being sent to river generator class!");
             }

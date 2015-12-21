@@ -1,4 +1,17 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Trail.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Wrapper object for the trail, defines all the locations and total trail length. The purpose of this class is to
+//   support serialization and abstraction of the trail creation process so it can be loaded from files or downloaded as
+//   JSON from a server.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,12 +32,19 @@ namespace TrailSimulation.Game
         private List<Location> _locations;
 
         /// <summary>
-        ///     Creates a new trail the simulation can let a vehicle travel on. Requires a list of locations and total length in
+        /// Initializes a new instance of the <see cref="Trail"/> class. 
+        /// Creates a new trail the simulation can let a vehicle travel on. Requires a list of locations and total length in
         ///     miles.
         /// </summary>
-        /// <param name="locations">List of locations indexed in the order they should be visited in simulation.</param>
-        /// <param name="lengthMin">Minimum length of any given trail segment.</param>
-        /// <param name="lengthMax">Maximum length of any given trail segment.</param>
+        /// <param name="locations">
+        /// List of locations indexed in the order they should be visited in simulation.
+        /// </param>
+        /// <param name="lengthMin">
+        /// Minimum length of any given trail segment.
+        /// </param>
+        /// <param name="lengthMax">
+        /// Maximum length of any given trail segment.
+        /// </param>
         public Trail(IEnumerable<Location> locations, int lengthMin, int lengthMax)
         {
             // Check if trail given to us is valid.
@@ -131,10 +151,14 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Forcefully inserts skip location into location list after current location.
+        /// Forcefully inserts skip location into location list after current location.
         /// </summary>
-        /// <param name="skipIndex">Index in the location list we will add the new one.</param>
-        /// <param name="skipLocation">Location that the trail module will point to after current location.</param>
+        /// <param name="skipIndex">
+        /// Index in the location list we will add the new one.
+        /// </param>
+        /// <param name="skipLocation">
+        /// Location that the trail module will point to after current location.
+        /// </param>
         public void InsertLocation(int skipIndex, Location skipLocation)
         {
             _locations.Insert(skipIndex, skipLocation);

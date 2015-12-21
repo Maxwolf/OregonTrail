@@ -1,4 +1,17 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MainMenu.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Allows the user to completely configure the simulation before they start off on the trail path. It will offer up
+//   ability to choose names, professions, buy initial items, and starting month. The final thing it offers is ability
+//   to change any of these values before actually starting the game as a final confirmation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Text;
 using TrailSimulation.Core;
 
@@ -69,7 +82,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void SeeTopTen()
         {
-            //State = new CurrentTopTen(this, NewGameInfo);
+            // State = new CurrentTopTen(this, NewGameInfo);
             SetForm(typeof (CurrentTopTen));
         }
 
@@ -78,7 +91,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void LearnAboutTrail()
         {
-            //State = new RulesHelp(this, NewGameInfo);
+            // State = new RulesHelp(this, NewGameInfo);
             SetForm(typeof (RulesHelp));
         }
 
@@ -87,7 +100,7 @@ namespace TrailSimulation.Game
         /// </summary>
         private void TravelTheTrail()
         {
-            //State = new ProfessionSelector(this, NewGameInfo);
+            // State = new ProfessionSelector(this, NewGameInfo);
             SetForm(typeof (ProfessionSelector));
         }
     }

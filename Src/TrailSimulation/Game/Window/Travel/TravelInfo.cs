@@ -1,4 +1,16 @@
-﻿using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TravelInfo.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Holds all the information about traveling that we want to know, such as how long we need to go until next point,
+//   what our current Windows is like moving, paused, etc.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
 
@@ -11,6 +23,7 @@ namespace TrailSimulation.Game
     public sealed class TravelInfo : WindowData
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="TravelInfo"/> class. 
         ///     Creates default store implementation.
         /// </summary>
         public TravelInfo()

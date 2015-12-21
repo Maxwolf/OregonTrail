@@ -1,4 +1,13 @@
-﻿namespace TrailSimulation.Entity
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Resources.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Defines items which are used by the vehicle party members, typically consuming them everyday.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace TrailSimulation.Entity
 {
     /// <summary>
     ///     Defines items which are used by the vehicle party members, typically consuming them everyday.

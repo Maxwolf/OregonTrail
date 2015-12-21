@@ -1,4 +1,17 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CheckSupplies.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Shows all the players supplies that they currently have in their vehicle inventory, along with the amount of money
+//   they have. This screen is not for looking at group stats, only items which are normally not shown unlike the travel
+//   menu that shows basic party stats at all times.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using TrailSimulation.Core;
@@ -15,15 +28,22 @@ namespace TrailSimulation.Game
     public sealed class CheckSupplies : InputForm<TravelInfo>
     {
         /// <summary>
-        ///     This constructor will be used by the other one
+        /// Initializes a new instance of the <see cref="CheckSupplies"/> class. 
+        /// This constructor will be used by the other one
         /// </summary>
+        /// <param name="window">
+        /// The window.
+        /// </param>
         public CheckSupplies(IWindow window) : base(window)
         {
         }
 
         /// <summary>
-        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
+        /// Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         protected override string OnDialogPrompt()
         {
             // Tick the people, but not the trail or the day.
@@ -64,7 +84,8 @@ namespace TrailSimulation.Game
                         suppliesList.Add(new Tuple<string, string>("wagon tongues", itemFormattedQuantity));
                         break;
                     case Entities.Food:
-                        suppliesList.Add(new Tuple<string, string>("pounds of food", item.Value.TotalWeight.ToString("N0")));
+                        suppliesList.Add(new Tuple<string, string>("pounds of food", 
+                            item.Value.TotalWeight.ToString("N0")));
                         break;
                     case Entities.Cash:
                         suppliesList.Add(new Tuple<string, string>("money left", item.Value.TotalValue.ToString("C")));
@@ -80,8 +101,8 @@ namespace TrailSimulation.Game
 
             // Generate the formatted table of supplies we will show to user.
             var supplyTable = suppliesList.ToStringTable(
-                new[] {"Item Name", "Amount"},
-                u => u.Item1,
+                new[] {"Item Name", "Amount"}, 
+                u => u.Item1, 
                 u => u.Item2);
 
             // Add the table to the text user interface.
@@ -91,13 +112,15 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        /// Fired when the dialog receives favorable input and determines a response based on this. From this method it is
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
-        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        /// <param name="reponse">
+        /// The response the dialog parsed from simulation input buffer.
+        /// </param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            //parentGameMode.State = null;
+            // parentGameMode.State = null;
             ClearForm();
         }
     }

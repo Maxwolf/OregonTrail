@@ -1,4 +1,17 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StoreGenerator.cs" company="Ron 'Maxwolf' McDowell">
+//   ron.mcdowell@gmail.com
+// </copyright>
+// <summary>
+//   Before any items are removed, or added to the store all the interactions are stored in receipt info object. When
+//   the game mode for the store is removed all the transactions will be completed and the players vehicle updated and
+//   the store items removed, and balances of both updated respectfully.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Collections.Generic;
 using TrailSimulation.Entity;
 
@@ -17,7 +30,8 @@ namespace TrailSimulation.Game
         private Dictionary<Entities, SimItem> _totalTransactions;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:System.Object" /> class.
+        /// Initializes a new instance of the <see cref="StoreGenerator"/> class. 
+        ///     Initializes a new instance of the <see cref="T:System.Object"/> class.
         /// </summary>
         public StoreGenerator()
         {
@@ -102,16 +116,25 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
-        ///     Adds an SimItem to the list of pending transactions. If it already exists it will be replaced.
+        /// Adds an SimItem to the list of pending transactions. If it already exists it will be replaced.
         /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <param name="amount">
+        /// The amount.
+        /// </param>
         public void AddItem(SimItem item, int amount)
         {
             _totalTransactions[item.Category] = new SimItem(item, amount);
         }
 
         /// <summary>
-        ///     Removes an SimItem from the list of pending transactions. If it does not exist then nothing will happen.
+        /// Removes an SimItem from the list of pending transactions. If it does not exist then nothing will happen.
         /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
         public void RemoveItem(SimItem item)
         {
             // Loop through every single transaction.
