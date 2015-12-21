@@ -65,7 +65,7 @@ namespace TrailSimulation.Game
                 _skipMessage.AppendLine(UserData.EventText);
 
             // Show the losing day text until we are done doing that, then only show event text and wait for user input.
-            if (UserData.DaysToSkip <= 0)
+            if (UserData.DaysToSkip > 0)
             {
                 // Determine if we have skipped a single day, or multiple days.
                 _skipMessage.AppendLine(UserData.DaysToSkip > 1
@@ -86,7 +86,7 @@ namespace TrailSimulation.Game
         public override void OnInputBufferReturned(string input)
         {
             // Skip if we have not actually skipped any days yet.
-            if (UserData.DaysToSkip <= 0)
+            if (UserData.DaysToSkip > 0)
                 return;
 
             // After the event skips some days we will want to return to what were doing
