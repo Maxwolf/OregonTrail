@@ -61,7 +61,7 @@ namespace TrailSimulation.Game
             _skipMessage.Clear();
 
             // Print out the event information from user data.
-            if (!string.IsNullOrEmpty($"{Environment.NewLine}{UserData.EventText}"))
+            if (!string.IsNullOrEmpty($"{Environment.NewLine}{Environment.NewLine}{UserData.EventText}"))
                 _skipMessage.AppendLine(UserData.EventText);
 
             // Show the losing day text until we are done doing that, then only show event text and wait for user input.
