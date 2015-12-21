@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using TrailSimulation.Core;
 using TrailSimulation.Entity;
@@ -26,35 +27,64 @@ namespace TrailSimulation.Game
         protected override string OnDialogPrompt()
         {
             // Build up representation of supplies once in constructor and then reference when asked for render.
-            var _supplies = new StringBuilder();
-            _supplies.AppendLine($"{Environment.NewLine}Your Supplies{Environment.NewLine}");
+            var supplies = new StringBuilder();
+            supplies.AppendLine($"{Environment.NewLine}Your Supplies{Environment.NewLine}");
+
+            // Build up a list with tuple in it to hold our data about supplies.
+            var suppliesList = new List<Tuple<string, string>>();
 
             // Loop through every inventory item in the vehicle.
             foreach (var item in GameSimulationApp.Instance.Vehicle.Inventory)
             {
-                // GetModule the next item in the vehicle inventory.
-                var itemName = item.Value.Name.ToLowerInvariant();
-
                 // Apply number formatting to quantities so they have thousand separators.
                 var itemFormattedQuantity = item.Value.Quantity.ToString("N0");
 
-                // Skip money, it is only shown in store.
-                // Note: Not the same as ignore list for entity types, default inventory has cash entity in it.
-                if (item.Key == Entities.Cash)
-                    continue;
-
-                // Place tab characters between the item name and the quantity.
-                _supplies.AppendFormat("{0} {1}{2}",
-                    itemName.PadRight(15),
-                    itemFormattedQuantity.PadLeft(3),
-                    Environment.NewLine);
+                // Change up how we print out various items in the vehicle inventory.
+                switch (item.Key)
+                {
+                    case Entities.Animal:
+                        suppliesList.Add(new Tuple<string, string>("oxen", itemFormattedQuantity));
+                        break;
+                    case Entities.Clothes:
+                        suppliesList.Add(new Tuple<string, string>("sets of clothing", itemFormattedQuantity));
+                        break;
+                    case Entities.Ammo:
+                        suppliesList.Add(new Tuple<string, string>("bullets", itemFormattedQuantity));
+                        break;
+                    case Entities.Wheel:
+                        suppliesList.Add(new Tuple<string, string>("wagon wheels", itemFormattedQuantity));
+                        break;
+                    case Entities.Axle:
+                        suppliesList.Add(new Tuple<string, string>("wagon axles", itemFormattedQuantity));
+                        break;
+                    case Entities.Tongue:
+                        suppliesList.Add(new Tuple<string, string>("wagon tongues", itemFormattedQuantity));
+                        break;
+                    case Entities.Food:
+                        suppliesList.Add(new Tuple<string, string>("pounds of food", item.Value.TotalWeight.ToString("N0")));
+                        break;
+                    case Entities.Cash:
+                        suppliesList.Add(new Tuple<string, string>("money left", item.Value.TotalValue.ToString("C")));
+                        break;
+                    case Entities.Vehicle:
+                    case Entities.Person:
+                    case Entities.Location:
+                        throw new ArgumentOutOfRangeException();
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
 
-            // Add one more new line at the end of the table.
-            _supplies.Append(Environment.NewLine);
+            // Generate the formatted table of supplies we will show to user.
+            var supplyTable = suppliesList.ToStringTable(
+                new[] {"Item Name", "Amount"},
+                u => u.Item1,
+                u => u.Item2);
 
+            // Add the table to the text user interface.
+            supplies.AppendLine(supplyTable);
 
-            return _supplies.ToString();
+            return supplies.ToString();
         }
 
         /// <summary>
