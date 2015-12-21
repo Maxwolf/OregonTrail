@@ -6,12 +6,11 @@
 //   Does not destroy items or drown people but will make you lose time gathering your things and drying them out.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Game;
+
     /// <summary>
     ///     Does not destroy items or drown people but will make you lose time gathering your things and drying them out.
     /// </summary>

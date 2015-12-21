@@ -7,11 +7,10 @@
 //   with showing and editing tombstone object data.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using Core;
+
     /// <summary>
     ///     Base tombstone interaction window, this is used to edit and confirm epitaphs for tombstones. Spawns forms that deal
     ///     with showing and editing tombstone object data.

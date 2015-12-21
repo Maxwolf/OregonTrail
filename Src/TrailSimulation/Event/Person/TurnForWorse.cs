@@ -7,13 +7,12 @@
 //   worse.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     To start to get worse. It appeared that person was going to get well; then, unfortunately, they took a turn for the
     ///     worse.

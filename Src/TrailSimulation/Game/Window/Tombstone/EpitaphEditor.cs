@@ -8,13 +8,12 @@
 //   limit the input of the epitaph also and do basic whitespace checks and trimming.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Allows for the message on the Tombstone to be edited or added, either way this window will get the job done.
     ///     Will

@@ -6,13 +6,12 @@
 //   Attached when the party leader dies, or the vehicle reaches the end of the trail.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Attached when the party leader dies, or the vehicle reaches the end of the trail.
     /// </summary>

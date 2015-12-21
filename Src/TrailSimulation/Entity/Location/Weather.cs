@@ -7,11 +7,10 @@
 //   stormy weather will mean there is a higher chance of a travel event being triggered.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.ComponentModel;
-
 namespace TrailSimulation.Entity
 {
+    using System.ComponentModel;
+
     /// <summary>
     ///     Determines what the environment is like and goes into helping calculate roll chance. For example, experiencing
     ///     stormy weather will mean there is a higher chance of a travel event being triggered.

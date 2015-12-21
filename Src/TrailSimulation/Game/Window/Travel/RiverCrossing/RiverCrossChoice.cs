@@ -7,11 +7,10 @@
 //   of failure and what will happen.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.ComponentModel;
-
 namespace TrailSimulation.Game
 {
+    using System.ComponentModel;
+
     /// <summary>
     ///     Determines what kind of river crossing the player would like to perform the time comes to dice roll the probability
     ///     of failure and what will happen.

@@ -6,13 +6,12 @@
 //   Shows the player information about what the various starting months mean.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Shows the player information about what the various starting months mean.
     /// </summary>

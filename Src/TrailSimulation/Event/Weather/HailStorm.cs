@@ -6,15 +6,14 @@
 //   Bad hail storm damages supplies, this uses the item destroyer prefab like the river crossings do.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Text;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Bad hail storm damages supplies, this uses the item destroyer prefab like the river crossings do.
     /// </summary>

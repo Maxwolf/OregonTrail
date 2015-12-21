@@ -8,12 +8,11 @@
 //   the simulation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using Core;
+
     /// <summary>
     ///     Attaches a state that will ask the player how long they would like to rest in the number of days, zero is a valid
     ///     response and will not do anything. If greater than zero we will attach another state to tick that many days by in

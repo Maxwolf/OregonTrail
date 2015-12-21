@@ -8,12 +8,11 @@
 //   trail.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System.Collections.Generic;
+    using Core;
+
     /// <summary>
     ///     Keeps track of all the tombstones in a nice collection and also supports saving them to disk and loading them again
     ///     using JSON. Finally it also has all the needed methods to check for a Tombstone at a particular spot on the
@@ -36,7 +35,8 @@ namespace TrailSimulation.Game
         /// <returns>The element with the specified key.</returns>
         /// <param name="key">The key of the element to get or set.</param>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is null.</exception>
-        /// <exception cref="T:System.NotSupportedException">The property is set and the<see cref="T:System.Collections.IDictionary"/> object is read-only.-or- The property is set,<paramref name="key"/> does not exist in the collection, and the <see cref="T:System.Collections.IDictionary"/>
+        /// <exception cref="T:System.NotSupportedException">The property is set and the<see cref="T:System.Collections.IDictionary"/> object is read-only.-or- The property is
+        ///     set,<paramref name="key"/> does not exist in the collection, and the<see cref="T:System.Collections.IDictionary"/>
         ///     has a fixed size.</exception>
         public Tombstone this[int key]
         {

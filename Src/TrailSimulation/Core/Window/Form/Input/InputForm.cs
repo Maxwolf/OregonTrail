@@ -7,12 +7,11 @@
 //   then closes.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-
 namespace TrailSimulation.Core
 {
+    using System;
+    using System.Text;
+
     /// <summary>Represents a dialog box that acts like a pop-up where it displays some piece of data, accepts any key for input and
     ///     then closes.</summary>
     /// <typeparam name="T">Windows information object that will be applied to this state on when constructor is called.</typeparam>

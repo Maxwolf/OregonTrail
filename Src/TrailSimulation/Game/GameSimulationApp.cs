@@ -7,13 +7,12 @@
 //   of the simulations ability to manage itself, process ticks, and input.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Primary game simulation singleton. Purpose of this class is to control game specific modules that are independent
     ///     of the simulations ability to manage itself, process ticks, and input.

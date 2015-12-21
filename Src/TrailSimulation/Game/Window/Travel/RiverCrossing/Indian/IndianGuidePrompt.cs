@@ -10,14 +10,13 @@
 //   animals killed while hunting.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Prompts the player with a yes or no question regarding if they would like to use the services offered by the Indian
     ///     guide. However, he requires sets of clothing and not money like the ferry operator. If they player does not have

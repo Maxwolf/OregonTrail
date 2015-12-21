@@ -7,14 +7,13 @@
 //   subtracted until we are at zero, then the player can close the window but until then input will not be accepted.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Keeps track of a set number of days and every time the game Windows is ticked a day is simulated and days to rest
     ///     subtracted until we are at zero, then the player can close the window but until then input will not be accepted.

@@ -7,12 +7,11 @@
 //   the player can choose to accept or not.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using Core;
+
     /// <summary>
     ///     Handles the interaction of the player party and another AI controlled party that offers up items for trading which
     ///     the player can choose to accept or not.

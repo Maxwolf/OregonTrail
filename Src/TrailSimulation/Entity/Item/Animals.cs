@@ -6,11 +6,10 @@
 //   Defines a bunch of predefined animal items that can be hunted for food using bullets by the player.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Entity
 {
+    using Game;
+
     /// <summary>
     ///     Defines a bunch of predefined animal items that can be hunted for food using bullets by the player.
     /// </summary>

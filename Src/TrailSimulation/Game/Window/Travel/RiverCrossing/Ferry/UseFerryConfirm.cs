@@ -8,14 +8,13 @@
 //   next state accordingly.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Explains to the user how many monies and days they will be charged to cross the river using the ferry and to
     ///     confirm by saying yes. At this point the simulation will check if they have enough money or not and jump to the

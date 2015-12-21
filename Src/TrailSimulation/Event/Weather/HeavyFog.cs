@@ -7,14 +7,13 @@
 //   time of event execution.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Reduces the total capacity for the vehicle to move in a given trip segment by a random amount calculated at the
     ///     time of event execution.

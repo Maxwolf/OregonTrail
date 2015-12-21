@@ -7,13 +7,12 @@
 //   confusion or temporary incapacity.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Temporary unconsciousness caused by a blow to the head. The term is also used loosely of the aftereffects such as
     ///     confusion or temporary incapacity.

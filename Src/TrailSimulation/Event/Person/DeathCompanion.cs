@@ -7,14 +7,13 @@
 //   continue without this person.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System;
+    using System.Text;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Called when one of your party members dies that is not the leader of the group, the game will still be able to
     ///     continue without this person.

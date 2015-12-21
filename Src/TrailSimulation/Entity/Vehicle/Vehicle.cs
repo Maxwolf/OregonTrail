@@ -7,18 +7,17 @@
 //   an odometer.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using TrailSimulation.Core;
-using TrailSimulation.Event;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Entity
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+    using System.Linq;
+    using Core;
+    using Event;
+    using Game;
+
     /// <summary>
     ///     Vessel that holds all the players, their inventory, money, and keeps track of total miles traveled in the form of
     ///     an odometer.

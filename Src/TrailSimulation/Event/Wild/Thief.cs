@@ -8,15 +8,14 @@
 //   get murdered.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Text;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Robber who can come in the middle of the night and steal things from the vehicle inventory. He is also very
     ///     dangerous and will do whatever it takes to get what he wants, so there is a chance some of your party members may

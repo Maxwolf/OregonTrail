@@ -8,13 +8,12 @@
 //   around them to try and get them to leave.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using Game;
+
     /// <summary>
     ///     Deals with a random event that involves strangers approaching your vehicle. Once they do this the player is given
     ///     several choices about what they would like to do, they can attack them, try to outrun them, or circle the vehicle

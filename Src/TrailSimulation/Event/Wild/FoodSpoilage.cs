@@ -7,14 +7,13 @@
 //   randomly generated but never go above quarter of the total food reserves.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Causes some of the vehicle food stores to be lost due to spoilage or improper storage. The amount taken will be
     ///     randomly generated but never go above quarter of the total food reserves.

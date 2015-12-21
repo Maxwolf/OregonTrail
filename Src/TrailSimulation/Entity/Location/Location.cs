@@ -7,15 +7,14 @@
 //   his vehicle travel upon.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Entity
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+    using Game;
+
     /// <summary>
     ///     Defines a location in the game that is added to a list of points that make up the entire trail which the player and
     ///     his vehicle travel upon.
@@ -191,7 +190,8 @@ namespace TrailSimulation.Entity
             get { return Entities.Location; }
         }
 
-        /// <summary>Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.</summary>
+        /// <summary>Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the
+        ///     other.</summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns>A signed integer that indicates the relative values of <paramref name="x"/> and <paramref name="y"/>, as shown in

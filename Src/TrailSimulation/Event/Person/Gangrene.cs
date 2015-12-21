@@ -7,13 +7,12 @@
 //   infection.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Localized death and decomposition of body tissue, resulting from either obstructed circulation or bacterial
     ///     infection.

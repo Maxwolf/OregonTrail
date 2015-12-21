@@ -7,11 +7,10 @@
 //   game. At the end after tabulation this enum is assigned as an overall representation of the scoring level.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.ComponentModel;
-
 namespace TrailSimulation.Game
 {
+    using System.ComponentModel;
+
     /// <summary>
     ///     Defines a rating the player can get based on the number of points they receive during the entire course of the
     ///     game. At the end after tabulation this enum is assigned as an overall representation of the scoring level.

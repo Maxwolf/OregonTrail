@@ -7,13 +7,12 @@
 //   an increase in the body's temperature.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Fever, also known as pyrexia and febrile response, is defined as having a temperature above the normal range due to
     ///     an increase in the body's temperature.

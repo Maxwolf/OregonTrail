@@ -8,13 +8,12 @@
 //   diminished greatly. An example of this type of event would be the player breaking their arm.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Event prefab that is intended to be used to indicate physical harm has come to a person in the vehicle. As such
     ///     this separates it from the infection flag since being injured means your physical capacity for work has been

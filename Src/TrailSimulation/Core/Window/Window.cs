@@ -8,16 +8,15 @@
 //   out until there are none.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Text;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Text;
+    using Game;
+
     /// <summary>Facilitates the ability to control the entire simulation with the passes interface reference. Server simulation
     ///     keeps track of all currently loaded game modes and will only tick the top-most one so they can be stacked and clear
     ///     out until there are none.</summary>
@@ -452,7 +451,8 @@ namespace TrailSimulation.Core
             return Enum.GetValues(typeof (TCommands)) as TCommands[];
         }
 
-        /// <summary>Adds a new game Windows menu selection that will be available to send as a command for this specific game Windows.</summary>
+        /// <summary>Adds a new game Windows menu selection that will be available to send as a command for this specific game
+        ///     Windows.</summary>
         /// <param name="action">Method that will be run when the choice is made.</param>
         /// <param name="command">Associated command that will trigger the respective action in the active game Windows.</param>
         /// <param name="description">Text that will be shown to user so they know what the choice means.</param>

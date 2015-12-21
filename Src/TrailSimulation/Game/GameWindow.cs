@@ -8,11 +8,10 @@
 //   simulation needs to know about to this file.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using Core;
+
     /// <summary>
     ///     Since the forms for game windows are separated from the actual logic being performed we need a logical way to know
     ///     what form to attach on the window. This enum serves that purpose, it is required to add any new game modes the

@@ -6,13 +6,12 @@
 //   Helper methods for working with arrays.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace TrailSimulation.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>
     ///     Helper methods for working with arrays.
     /// </summary>

@@ -7,12 +7,11 @@
 //   one after the other. Typically these methods will be used by random events triggered by the game simulation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Entity
 {
+    using System.Collections.Generic;
+    using Game;
+
     /// <summary>
     ///     Utility methods used by vehicle entity to make working with passengers and inventory easier on the eyes when used
     ///     one after the other. Typically these methods will be used by random events triggered by the game simulation.

@@ -6,12 +6,11 @@
 //   Complete trails the player can travel on using the simulation. Some are remakes and others new.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System.Collections.Generic;
+    using Entity;
+
     /// <summary>
     ///     Complete trails the player can travel on using the simulation. Some are remakes and others new.
     /// </summary>

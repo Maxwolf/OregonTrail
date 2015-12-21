@@ -6,11 +6,10 @@
 //   Old school spinning pixel progress, normally used to show the thread is not locked by some running process.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-
 namespace TrailSimulation.Core
 {
+    using System.Collections.Generic;
+
     /// <summary>
     ///     Old school spinning pixel progress, normally used to show the thread is not locked by some running process.
     /// </summary>

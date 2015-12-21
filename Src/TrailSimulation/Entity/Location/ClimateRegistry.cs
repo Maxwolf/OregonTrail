@@ -6,12 +6,11 @@
 //   Holds a bunch of static data about various climate types that is used in the location weather simulation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Entity
 {
+    using System.Collections.Generic;
+    using Game;
+
     /// <summary>
     ///     Holds a bunch of static data about various climate types that is used in the location weather simulation.
     /// </summary>

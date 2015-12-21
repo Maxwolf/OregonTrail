@@ -6,11 +6,10 @@
 //   Amount of food people in party eat each day can change.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.ComponentModel;
-
 namespace TrailSimulation.Entity
 {
+    using System.ComponentModel;
+
     /// <summary>
     ///     Amount of food people in party eat each day can change.
     /// </summary>

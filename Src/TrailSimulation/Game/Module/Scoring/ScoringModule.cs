@@ -9,13 +9,12 @@
 //   under options.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-using System.Linq;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Core;
+
     /// <summary>
     ///     Keeps track of all the high scores, loads them from a default set that can always be reset to. If there are no
     ///     custom scores to be loaded then the defaults will be used, the high-score should not be reset when the simulation

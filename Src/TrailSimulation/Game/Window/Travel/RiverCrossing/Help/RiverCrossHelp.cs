@@ -8,13 +8,12 @@
 //   river is they will need to travel.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Shown to the user the first time they cross a river, this way it can be explained to them they must cross it in
     ///     order to continue and there is no going around. We tell them how deep the water is and how many feed across the

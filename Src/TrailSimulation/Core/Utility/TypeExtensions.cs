@@ -9,13 +9,12 @@
 //   for type activation is only hit once on first instance creation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Linq.Expressions;
-using System.Runtime.Serialization;
-
 namespace TrailSimulation.Core
 {
+    using System;
+    using System.Linq.Expressions;
+    using System.Runtime.Serialization;
+
     /// <summary>
     ///     Helper class that deals with activating classes without using the actual activator class because that requires and
     ///     empty parameterless constructor and we cannot always guarantee we will be able have one. Using these methods don't

@@ -6,12 +6,11 @@
 //   The no food.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System;
+    using Game;
+
     /// <summary>
     ///     The no food.
     /// </summary>

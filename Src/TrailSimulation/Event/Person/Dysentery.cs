@@ -6,13 +6,12 @@
 //   Infection of the intestines resulting in severe diarrhea with the presence of blood and mucus in the feces.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Infection of the intestines resulting in severe diarrhea with the presence of blood and mucus in the feces.
     /// </summary>

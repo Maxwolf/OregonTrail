@@ -9,11 +9,10 @@
 //   player died using description attribute from an enumeration value that determines how they died.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using Core;
+
     /// <summary>
     ///     Fired when the simulation has determined the player has died. It specifically only attaches at this time. The flow
     ///     for death like this is to first show the player the failure state like this, then ask if they want to leave an

@@ -9,13 +9,12 @@
 //   form will be shown again.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Something has happened with the players vehicle and they are no longer able to continue on the trail. This form is
     ///     shown normally after it happens and or is detected. After the player sees the dialog it will be cleared and the

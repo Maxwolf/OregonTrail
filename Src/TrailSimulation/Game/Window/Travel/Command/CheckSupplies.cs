@@ -8,15 +8,14 @@
 //   menu that shows basic party stats at all times.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Shows all the players supplies that they currently have in their vehicle inventory, along with the amount of money
     ///     they have. This screen is not for looking at group stats, only items which are normally not shown unlike the travel

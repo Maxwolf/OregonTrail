@@ -6,11 +6,10 @@
 //   Facilitates a tombstone base class that supports shallow copies of itself to be created.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-
 namespace TrailSimulation.Game
 {
+    using System;
+
     /// <summary>
     ///     Facilitates a tombstone base class that supports shallow copies of itself to be created.
     /// </summary>

@@ -7,15 +7,14 @@
 //   score.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Second panel on point information, shows how the number of resources you end the game with contribute to your final
     ///     score.

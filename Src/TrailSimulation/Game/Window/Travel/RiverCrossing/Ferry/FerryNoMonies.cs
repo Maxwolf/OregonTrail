@@ -8,13 +8,12 @@
 //   pick one of the other two options.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Attached when the user attempts to cross the river using the ferry, confirms they would like to but does not have
     ///     enough money at this point this state will be attached and explain to the user they cannot use the ferry and must

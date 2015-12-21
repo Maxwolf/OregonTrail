@@ -6,15 +6,14 @@
 //   Fire in the vehicle occurs, there is a chance that some of the inventory items or people were burned to death.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Text;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Fire in the vehicle occurs, there is a chance that some of the inventory items or people were burned to death.
     /// </summary>

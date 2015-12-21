@@ -9,13 +9,12 @@
 //   order to start the simulation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Informs the player they need to purchase at least a single one of the specified SimItem in order to
     ///     continue. This is used in the new game Windows to force the player to have at least one oxen to pull their vehicle

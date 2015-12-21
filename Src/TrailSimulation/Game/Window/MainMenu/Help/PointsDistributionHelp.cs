@@ -6,15 +6,14 @@
 //   First panel on point information, shows how health of party members contributes to final score.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     First panel on point information, shows how health of party members contributes to final score.
     /// </summary>

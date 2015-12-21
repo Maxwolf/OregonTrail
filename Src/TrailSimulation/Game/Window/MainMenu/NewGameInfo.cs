@@ -7,13 +7,12 @@
 //   professions, vehicle, starting items, and all stats related to luck and repair skill.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System.Collections.Generic;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Holds all of the information required to kick-start a running game simulation onto a trail path with people,
     ///     professions, vehicle, starting items, and all stats related to luck and repair skill.

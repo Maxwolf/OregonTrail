@@ -7,13 +7,12 @@
 //   avoid activities that involve moving your arm.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     If you have sprained your acromioclavicular joint (the joint at the top of your shoulder), you may be advised to
     ///     avoid activities that involve moving your arm.

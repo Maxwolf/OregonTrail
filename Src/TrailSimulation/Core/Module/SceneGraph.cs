@@ -9,13 +9,12 @@
 //   anything could be a renderer for the simulation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Core
 {
+    using System;
+    using System.Text;
+    using Game;
+
     /// <summary>
     ///     Provides base functionality for rendering out the simulation state via text user interface (TUI). This class has no
     ///     idea about how other modules work and only serves to query them for string data which will be compiled into a

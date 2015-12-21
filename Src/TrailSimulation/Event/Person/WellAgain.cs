@@ -6,13 +6,12 @@
 //   Makes the person whom the event was fired on no loner afflicted by any illness.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Makes the person whom the event was fired on no loner afflicted by any illness.
     /// </summary>

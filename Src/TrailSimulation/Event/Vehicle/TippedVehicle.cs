@@ -7,15 +7,14 @@
 //   could be destroyed and passengers can be crushed to death.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Text;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Vehicle was going around a bend, hit a bump, rough trail, or any of the following it now tipped over and supplies
     ///     could be destroyed and passengers can be crushed to death.

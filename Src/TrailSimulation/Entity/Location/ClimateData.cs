@@ -6,11 +6,10 @@
 //   Defines all the data for a given climate simulation for a location.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Entity
 {
+    using Game;
+
     /// <summary>
     ///     Defines all the data for a given climate simulation for a location.
     /// </summary>

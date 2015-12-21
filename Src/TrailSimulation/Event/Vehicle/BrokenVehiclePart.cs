@@ -9,13 +9,12 @@
 //   and hopefully not die before that happens.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using Game;
+
     /// <summary>
     ///     Triggers one of the vehicle parts to break and will initially ask the player if they would like to try and fix it
     ///     themselves, if this event fails it will ask the player if they would like to use one of their spare parts. If the

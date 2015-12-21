@@ -8,13 +8,12 @@
 //   to change any of these values before actually starting the game as a final confirmation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Allows the user to completely configure the simulation before they start off on the trail path. It will offer up
     ///     ability to choose names, professions, buy initial items, and starting month. The final thing it offers is ability

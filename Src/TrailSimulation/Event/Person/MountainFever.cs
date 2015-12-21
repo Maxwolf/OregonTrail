@@ -7,13 +7,12 @@
 //   rickettsial illness in the United States.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Rocky Mountain spotted fever (RMSF), also known as blue disease, is the most lethal and most frequently reported
     ///     rickettsial illness in the United States.

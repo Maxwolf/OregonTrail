@@ -7,15 +7,14 @@
 //   river.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Text;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     When crossing a river there is a chance that your wagon will flood if you choose to caulk and float across the
     ///     river.

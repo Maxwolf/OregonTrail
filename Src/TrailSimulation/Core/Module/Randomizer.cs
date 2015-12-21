@@ -6,11 +6,10 @@
 //   Used for rolling the virtual dice in the simulation to determine the outcome of various events.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-
 namespace TrailSimulation.Core
 {
+    using System;
+
     /// <summary>
     ///     Used for rolling the virtual dice in the simulation to determine the outcome of various events.
     /// </summary>

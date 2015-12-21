@@ -7,14 +7,13 @@
 //   forced like a river crossing does so days won't go by while crossing a single river.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Skips over a set amount of time that an event would like to move past. The days will be ticked normally, and not
     ///     forced like a river crossing does so days won't go by while crossing a single river.

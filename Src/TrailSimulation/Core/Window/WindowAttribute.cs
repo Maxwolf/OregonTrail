@@ -6,11 +6,10 @@
 //   Allows the simulation to reflect over the Windows type enumeration and map classes to a given enum value.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-
 namespace TrailSimulation.Core
 {
+    using System;
+
     /// <summary>
     ///     Allows the simulation to reflect over the Windows type enumeration and map classes to a given enum value.
     /// </summary>

@@ -7,14 +7,13 @@
 //   stats of party and vehicle, plus climate and other things like distance traveled and distance to next point.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Primary game Windows of the simulation, used to show simulation advancing through linear time. Shows all major
     ///     stats of party and vehicle, plus climate and other things like distance traveled and distance to next point.

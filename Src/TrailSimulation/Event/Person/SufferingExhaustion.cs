@@ -6,13 +6,12 @@
 //   A person with weakness or fatigue lacks energy, feels weary, and is constantly tired.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     A person with weakness or fatigue lacks energy, feels weary, and is constantly tired.
     /// </summary>

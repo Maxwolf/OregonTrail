@@ -7,14 +7,13 @@
 //   health.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Diagnostics;
-using TrailSimulation.Event;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Entity
 {
+    using System;
+    using System.Diagnostics;
+    using Event;
+    using Game;
+
     /// <summary>
     ///     Represents a human-being. Gender is not tracked, we only care about them as an entity that consumes food and their
     ///     health.

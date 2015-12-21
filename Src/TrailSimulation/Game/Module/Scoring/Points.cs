@@ -8,12 +8,11 @@
 //   to get to and visualize to user as a list of objects (such as a table).
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using Entity;
+
     /// <summary>
     ///     Represents a given type of point that can take in a object of a given type in the concrete handler and we will
     ///     process and calculate total points for this item and display the information in a to string override so it is easy

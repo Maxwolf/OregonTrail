@@ -8,16 +8,15 @@
 //   simulation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Facilitates the ability for a user to select a given profession for the party leader. This will determine the
     ///     starting amount of money their party has access to when purchasing starting items for the journey on the trail path

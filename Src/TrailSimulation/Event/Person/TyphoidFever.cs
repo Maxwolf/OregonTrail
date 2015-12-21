@@ -7,13 +7,12 @@
 //   irritation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     An infectious bacterial fever with an eruption of red spots on the chest and abdomen and severe intestinal
     ///     irritation.

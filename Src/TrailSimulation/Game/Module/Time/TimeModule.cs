@@ -7,11 +7,10 @@
 //   simulation by one day. There are also other options and events for checking state, and changing state.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using Core;
+
     /// <summary>
     ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
     ///     simulation by one day. There are also other options and events for checking state, and changing state.

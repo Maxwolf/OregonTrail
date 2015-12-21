@@ -8,13 +8,12 @@
 //   across the river like he promised.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Confirms with the player the decision they made about crossing the riving using the Indian guide in exchange for a
     ///     set amount of clothing. This form we will actually process that transaction and then let the Indian take the player

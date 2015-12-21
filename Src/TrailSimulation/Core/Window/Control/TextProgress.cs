@@ -6,12 +6,11 @@
 //   Text manipulation utilities for dealing with displaying progress visually as text in a console application.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-
 namespace TrailSimulation.Core
 {
+    using System;
+    using System.Text;
+
     /// <summary>
     ///     Text manipulation utilities for dealing with displaying progress visually as text in a console application.
     /// </summary>

@@ -7,11 +7,10 @@
 //   instance of game controller.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-
 namespace TrailSimulation.Core
 {
+    using System;
+
     /// <summary>
     ///     Base simulation application class object. This class should not be declared directly but inherited by actual
     ///     instance of game controller.

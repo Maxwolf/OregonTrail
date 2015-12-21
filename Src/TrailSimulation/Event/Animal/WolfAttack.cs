@@ -7,13 +7,12 @@
 //   overwhelm the people and kill them!
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using Game;
+
     /// <summary>
     ///     A pack of wolves is attacking the vehicle party! If there are not enough bullets to stop them then they will
     ///     overwhelm the people and kill them!

@@ -8,13 +8,12 @@
 //   pressing enter.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Prints out every entered player name in the user data for simulation initialization. Confirms with the player they
     ///     would indeed like to use all the entered names they have provided or had randomly generated for them by just

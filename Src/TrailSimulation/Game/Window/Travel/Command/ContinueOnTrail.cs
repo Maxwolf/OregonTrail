@@ -8,14 +8,13 @@
 //   object, if any random events occur they will be selected from this state.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Attached to the travel Windows when the player requests to continue on the trail. This shows a ping-pong progress
     ///     bar moving back and fourth which lets the player know they are moving. Stats are also shown from the travel info

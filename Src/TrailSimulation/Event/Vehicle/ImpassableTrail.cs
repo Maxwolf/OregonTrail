@@ -7,12 +7,11 @@
 //   and or man made obstruction.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Game;
+
     /// <summary>
     ///     Wastes the players time by forcing them to go around a section of the trail that has been blocked by some natural
     ///     and or man made obstruction.

@@ -8,13 +8,12 @@
 //   name if they just press enter at the prompt for a name.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Gets the name of a player for a particular index in the player name user data object. This will also offer the user
     ///     a chance to confirm their selection in another state, reset if they don't like it, and also generate a random user

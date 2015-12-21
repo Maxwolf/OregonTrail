@@ -7,11 +7,10 @@
 //   enum state that has a roll chance of lowering to the lowest possible state over time.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.ComponentModel;
-
 namespace TrailSimulation.Entity
 {
+    using System.ComponentModel;
+
     /// <summary>
     ///     Overall health indicator for all entities in the simulation, we do not track health as a numeric value but as a
     ///     enum state that has a roll chance of lowering to the lowest possible state over time.

@@ -7,14 +7,13 @@
 //   simulate the effect of them noticing you need help.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Indians help you find some free food, this event will be called manually more often if you are low on food to
     ///     simulate the effect of them noticing you need help.

@@ -7,14 +7,13 @@
 //   game simulation normally.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-using TrailSimulation.Event;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using Core;
+    using Entity;
+    using Event;
+
     /// <summary>
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
     ///     game simulation normally.

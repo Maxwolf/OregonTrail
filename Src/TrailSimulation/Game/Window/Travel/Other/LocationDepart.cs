@@ -9,13 +9,12 @@
 //   simulation resume after return key is pressed.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Attached when the player wants to continue on the trail, and doing so will force them to leave that point and be
     ///     back on the trail counting up distance traveled until they reach the next one. The purpose of this state is to

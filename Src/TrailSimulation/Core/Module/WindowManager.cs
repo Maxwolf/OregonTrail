@@ -7,14 +7,13 @@
 //   to running simulation. Can also remove modes and modify them further with states.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Game;
+
     /// <summary>
     ///     Builds up a list of game modes and their states using reflection and attributes. Contains methods to add game modes
     ///     to running simulation. Can also remove modes and modify them further with states.
@@ -171,7 +170,8 @@ namespace TrailSimulation.Core
             return updatedModes;
         }
 
-        /// <summary>Creates and adds the specified game Windows to the simulation if it does not already exist in the list of modes.</summary>
+        /// <summary>Creates and adds the specified game Windows to the simulation if it does not already exist in the list of
+        ///     modes.</summary>
         /// <param name="windows">Enumeration value of the Windows which should be created.</param>
         public void Add(GameWindow windows)
         {

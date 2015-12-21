@@ -6,13 +6,12 @@
 //   The most common soft tissues injured are muscles, tendons, and ligaments.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     The most common soft tissues injured are muscles, tendons, and ligaments.
     /// </summary>

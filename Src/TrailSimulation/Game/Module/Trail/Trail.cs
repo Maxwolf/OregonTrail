@@ -8,15 +8,14 @@
 //   JSON from a server.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using Entity;
+
     /// <summary>
     ///     Wrapper object for the trail, defines all the locations and total trail length. The purpose of this class is to
     ///     support serialization and abstraction of the trail creation process so it can be loaded from files or downloaded as

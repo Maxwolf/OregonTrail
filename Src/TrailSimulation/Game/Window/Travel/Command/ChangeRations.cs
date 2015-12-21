@@ -8,14 +8,13 @@
 //   simulation such as disease, chance for breaking body parts, and or complete death from starvation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Allows the player to change the amount of food their party members will have access to in a given day, the purpose
     ///     of which is to limit the amount they take in to slow the loss of food per pound. This has many affects on the

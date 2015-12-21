@@ -7,12 +7,11 @@
 //   have user data custom per implementation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-
 namespace TrailSimulation.Core
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     ///     Defines interface for game mode state which can show data, accept input, add new game modes, set new state, and
     ///     have user data custom per implementation.

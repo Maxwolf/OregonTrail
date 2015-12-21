@@ -7,11 +7,10 @@
 //   over them in a list.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.ComponentModel;
-
 namespace TrailSimulation.Entity
 {
+    using System.ComponentModel;
+
     /// <summary>
     ///     Defines all the possible types of items, used for sorting and quickly being able to determine type when iterating
     ///     over them in a list.

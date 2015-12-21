@@ -8,13 +8,12 @@
 //   passed into it so it may be executed and data shown in text user interface for this state.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Used when the event director fires event that game simulation subscribes to which passes along events that should
     ///     be triggered when they occur so this state can be attached to the travel Windows and also have the event data

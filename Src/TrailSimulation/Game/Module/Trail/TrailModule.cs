@@ -7,13 +7,12 @@
 //   track of the vehicles current position on the trail and provides helper methods to quickly access it.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.ObjectModel;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System.Collections.ObjectModel;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps
     ///     track of the vehicles current position on the trail and provides helper methods to quickly access it.

@@ -9,14 +9,13 @@
 //   occur without player consent.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     State that is attached when the event is fired for reaching a new point of interest on the trail. Default action is
     ///     to ask the player if they would like to look around, but there is a chance for this behavior to be overridden in

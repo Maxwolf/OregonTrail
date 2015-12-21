@@ -7,11 +7,10 @@
 //   conditions and also other random events can fire from this one.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using Game;
+
     /// <summary>
     ///     Forces the player to advance time in the date, this will make it so they will have to face harsher weather
     ///     conditions and also other random events can fire from this one.

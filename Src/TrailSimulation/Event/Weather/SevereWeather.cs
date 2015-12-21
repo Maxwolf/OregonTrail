@@ -6,14 +6,13 @@
 //   Severe weather will cause destruction of items and waste your time, but nobody will get killed.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System;
+    using System.Collections.Generic;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Severe weather will cause destruction of items and waste your time, but nobody will get killed.
     /// </summary>

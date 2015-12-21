@@ -7,11 +7,10 @@
 //   since it is at the bottom of the game modes stack and all others will be stacking on top of it.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.ComponentModel;
-
 namespace TrailSimulation.Game
 {
+    using System.ComponentModel;
+
     /// <summary>
     ///     All of the commands associated with the traveling game Windows which is one of the primary simulation game modes
     ///     since it is at the bottom of the game modes stack and all others will be stacking on top of it.

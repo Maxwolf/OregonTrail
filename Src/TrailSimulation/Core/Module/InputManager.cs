@@ -8,12 +8,11 @@
 //   then accepted.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Core
 {
+    using System.Collections.Generic;
+    using Game;
+
     /// <summary>
     ///     Deals with keep track of input to the simulation via whatever form that may end up taking. The default
     ///     implementation is a text user interface (TUI) which allows for the currently accepted commands to be seen and only

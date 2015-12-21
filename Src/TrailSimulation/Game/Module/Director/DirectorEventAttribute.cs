@@ -6,12 +6,11 @@
 //   Used to tag the base event item class so we can grab all inheriting types that use it.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using TrailSimulation.Event;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using Event;
+
     /// <summary>
     ///     Used to tag the base event item class so we can grab all inheriting types that use it.
     /// </summary>

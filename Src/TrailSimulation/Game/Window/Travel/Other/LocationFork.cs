@@ -8,16 +8,15 @@
 //   pear shaped in the sense any fork will eventually lead back to the same path.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Defines a location that has the player make a choice about the next location they want to travel to, it is not a
     ///     linear choice and depends on the player telling the simulation which way to fork down the path. The decisions are

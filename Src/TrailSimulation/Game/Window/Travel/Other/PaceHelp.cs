@@ -7,13 +7,12 @@
 //   vehicle, party, and events.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Shows information about what the different pace settings mean in terms for the simulation and how they will affect
     ///     vehicle, party, and events.

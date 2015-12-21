@@ -7,12 +7,11 @@
 //   in life is to execute events and print the information before removing itself.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Random event Windows does not have any special information to carry around between states since it's sole purpose
     ///     in life is to execute events and print the information before removing itself.

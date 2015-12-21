@@ -6,13 +6,12 @@
 //   The locusts.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using Game;
+
     /// <summary>
     ///     The locusts.
     /// </summary>

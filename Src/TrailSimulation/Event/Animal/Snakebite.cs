@@ -7,14 +7,13 @@
 //   event we might kill the player if they actually get bit, otherwise the event will say they killed it.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Processes an attack of snake biting one of the passengers in the vehicle at random. Depending on the outcome of the
     ///     event we might kill the player if they actually get bit, otherwise the event will say they killed it.

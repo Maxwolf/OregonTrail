@@ -7,14 +7,13 @@
 //   Tombstone messages, etc.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Reflection;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Reflection;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Glorified options menu for the game that allows player to remove top ten high scores, remove saved games, erase
     ///     Tombstone messages, etc.

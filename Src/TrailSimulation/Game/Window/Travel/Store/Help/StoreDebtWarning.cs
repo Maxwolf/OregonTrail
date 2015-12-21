@@ -7,13 +7,12 @@
 //   capable of carrying and or purchasing this will be displayed to inform the user they need to pay up.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     If the player cannot afford to leave the store because they have attempted to purchase more items than they are
     ///     capable of carrying and or purchasing this will be displayed to inform the user they need to pay up.

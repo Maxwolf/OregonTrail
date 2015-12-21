@@ -9,13 +9,12 @@
 //   when the problem occurs.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Used when the player attempts to go from travel command menu to continue on the trail after they have already been
     ///     told the vehicle is stuck and unable to move. This message purpose is to remind them what they need to do and why

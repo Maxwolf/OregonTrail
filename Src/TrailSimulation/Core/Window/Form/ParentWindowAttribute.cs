@@ -11,12 +11,11 @@
 //   and what user data IModeInfo object will be created.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Core
 {
+    using System;
+    using Game;
+
     /// <summary>
     ///     Used to map game Windows states to their respective parent modes by Windows type enumeration value. All of this is
     ///     done

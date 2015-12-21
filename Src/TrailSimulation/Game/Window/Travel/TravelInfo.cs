@@ -7,13 +7,12 @@
 //   what our current Windows is like moving, paused, etc.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System.Text;
+    using Core;
+    using Entity;
+
     /// <summary>
     ///     Holds all the information about traveling that we want to know, such as how long we need to go until next point,
     ///     what our current Windows is like moving, paused, etc.

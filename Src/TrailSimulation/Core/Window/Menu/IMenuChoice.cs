@@ -9,11 +9,10 @@
 //   in the simulation.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-
 namespace TrailSimulation.Core
 {
+    using System;
+
     /// <summary>Defines a choice in the dynamic action selection system for a given game Windows. This is intended to be used by a
     ///     wrapper for menu choices that aggregates all of the possible actions a given game Windows can make while it is
     ///     active

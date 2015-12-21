@@ -7,12 +7,11 @@
 //   or trail location.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Game;
+
     /// <summary>
     ///     Player gets lost and heads in the wrong direction which forces time to be lost without any progression of the date
     ///     or trail location.

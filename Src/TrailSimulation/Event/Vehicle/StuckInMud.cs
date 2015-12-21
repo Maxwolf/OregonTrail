@@ -6,12 +6,11 @@
 //   Vehicle gets stuck in the mud, wasting the entire day.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Game;
+
     /// <summary>
     ///     Vehicle gets stuck in the mud, wasting the entire day.
     /// </summary>

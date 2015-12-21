@@ -9,14 +9,13 @@
 //   finally made it across.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-using TrailSimulation.Event;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+    using Event;
+
     /// <summary>
     ///     Displays the final crossing result for the river crossing location. No matter what choice the player made, what
     ///     events happen along the way, this final screen will be shown to let the user know how the last leg of the journey

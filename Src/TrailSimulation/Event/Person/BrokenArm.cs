@@ -6,13 +6,12 @@
 //   One of the members of the vehicle passenger manifest broke their arm somehow.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     One of the members of the vehicle passenger manifest broke their arm somehow.
     /// </summary>

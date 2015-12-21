@@ -6,11 +6,10 @@
 //   Little class that will help me build a nice looking table in the scoring help states in the management options.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using Entity;
+
     /// <summary>
     ///     Little class that will help me build a nice looking table in the scoring help states in the management options.
     /// </summary>

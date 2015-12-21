@@ -6,13 +6,12 @@
 //   Asks the player if they would like to stop and check out a tombstone that is on this particular mile marker.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Asks the player if they would like to stop and check out a tombstone that is on this particular mile marker.
     /// </summary>

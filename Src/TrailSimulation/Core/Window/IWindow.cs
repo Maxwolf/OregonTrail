@@ -7,13 +7,12 @@
 //   over the simulation details. Only top most game Windows will ever be ticked.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using Game;
+
     /// <summary>
     ///     Underlying game Windows interface, used by base simulation to keep track of what data should currently have control
     ///     over the simulation details. Only top most game Windows will ever be ticked.

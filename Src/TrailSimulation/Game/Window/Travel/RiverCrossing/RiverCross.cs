@@ -3,15 +3,14 @@
 //   ron.mcdowell@gmail.com
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Manages a boolean event where the player needs to make a choice before they can move onto the next location on the
     ///     trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how

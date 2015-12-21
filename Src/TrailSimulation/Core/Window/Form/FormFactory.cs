@@ -8,16 +8,15 @@
 //   of which user data object gets mapped to which particular state.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Reflection;
+    using Game;
+
     /// <summary>
     ///     Keeps track of all the possible states a given game Windows can have by using attributes and reflection to keep
     ///     track

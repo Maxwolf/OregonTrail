@@ -8,13 +8,12 @@
 //   can move from here to next state.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Text;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Text;
+    using Core;
+
     /// <summary>
     ///     Spawns a new game Windows in the game simulation while maintaining the state of previous one so when we bounce back
     ///     we

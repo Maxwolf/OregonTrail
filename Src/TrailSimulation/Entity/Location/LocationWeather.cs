@@ -7,14 +7,13 @@
 //   related to the players current location in the game world.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using TrailSimulation.Event;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Entity
 {
+    using System;
+    using System.Collections.Generic;
+    using Event;
+    using Game;
+
     /// <summary>
     ///     Controls the weather, temperature, environment for getting food, illness probability, and various other factors
     ///     related to the players current location in the game world.

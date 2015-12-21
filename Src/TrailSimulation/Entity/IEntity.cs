@@ -6,13 +6,12 @@
 //   Base interface for all entities in the simulation, this is used as a constraint for generics in event system.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Entity
 {
+    using System;
+    using System.Collections.Generic;
+    using Core;
+
     /// <summary>
     ///     Base interface for all entities in the simulation, this is used as a constraint for generics in event system.
     /// </summary>

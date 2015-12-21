@@ -7,18 +7,15 @@
 //   Hopefully there are some tracks you can follow!
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using Game;
+
     /// <summary>
     ///     Vehicle has lost the trail and ended up in the deep woods, now they need to find their way back onto the trail.
     ///     Hopefully there are some tracks you can follow!
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class LostTrail : EventLoseTime
     {
         /// <summary>

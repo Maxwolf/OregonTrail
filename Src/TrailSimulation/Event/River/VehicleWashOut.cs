@@ -6,15 +6,14 @@
 //   Player forded the river and it was to deep, they have been washed out by the current and some items destroyed.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Text;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Player forded the river and it was to deep, they have been washed out by the current and some items destroyed.
     /// </summary>

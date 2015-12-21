@@ -6,12 +6,11 @@
 //   The low grass.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System;
+    using Game;
+
     /// <summary>
     ///     The low grass.
     /// </summary>

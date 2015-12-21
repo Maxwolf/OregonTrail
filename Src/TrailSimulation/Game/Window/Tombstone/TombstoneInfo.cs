@@ -7,11 +7,10 @@
 //   off to the graveyard module which handles the archiving of tombstones.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using Core;
+
     /// <summary>
     ///     Holds intermediate information about tombstone for editing purposes. Eventually the data edited here will be passed
     ///     off to the graveyard module which handles the archiving of tombstones.

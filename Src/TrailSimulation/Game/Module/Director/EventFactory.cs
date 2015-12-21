@@ -6,16 +6,15 @@
 //   Factory pattern for creating director event items from type references.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using TrailSimulation.Core;
-using TrailSimulation.Event;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Runtime.Serialization;
+    using Core;
+    using Event;
+
     /// <summary>
     ///     Factory pattern for creating director event items from type references.
     /// </summary>

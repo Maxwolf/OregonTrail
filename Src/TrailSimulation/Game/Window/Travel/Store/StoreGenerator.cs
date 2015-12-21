@@ -8,13 +8,12 @@
 //   the store items removed, and balances of both updated respectfully.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using TrailSimulation.Entity;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using System.Collections.Generic;
+    using Entity;
+
     /// <summary>
     ///     Before any items are removed, or added to the store all the interactions are stored in receipt info object. When
     ///     the game mode for the store is removed all the transactions will be completed and the players vehicle updated and

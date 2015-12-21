@@ -7,15 +7,14 @@
 //   using generics.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-
 namespace TrailSimulation.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Reflection;
+
     /// <summary>
     ///     Meant for dealing with attributes and grabbing all the available classes of a given type with specified attribute
     ///     using generics.

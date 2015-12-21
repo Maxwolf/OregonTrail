@@ -6,11 +6,10 @@
 //   The profession.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.ComponentModel;
-
 namespace TrailSimulation.Entity
 {
+    using System.ComponentModel;
+
     /// <summary>
     ///     The profession.
     /// </summary>

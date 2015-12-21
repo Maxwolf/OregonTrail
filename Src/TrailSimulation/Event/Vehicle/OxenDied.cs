@@ -7,14 +7,13 @@
 //   make the vehicle stuck, unable to continue until the player acquires another oxen via trading.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using TrailSimulation.Entity;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Event
 {
+    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using Entity;
+    using Game;
+
     /// <summary>
     ///     Oxen is damaged, which decreases the ability for the vehicle to be pulled forward. It is possible for this event to
     ///     make the vehicle stuck, unable to continue until the player acquires another oxen via trading.

@@ -6,13 +6,12 @@
 //   Factory pattern for creating game modes on the fly during runtime based on enumeration input parameter.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using TrailSimulation.Game;
-
 namespace TrailSimulation.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using Game;
+
     /// <summary>
     ///     Factory pattern for creating game modes on the fly during runtime based on enumeration input parameter.
     /// </summary>

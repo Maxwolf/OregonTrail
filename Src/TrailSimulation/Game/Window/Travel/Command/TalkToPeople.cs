@@ -8,12 +8,11 @@
 //   advice should be shown and one day will advance in the simulation to prevent the player from just spamming it.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using System;
+    using Core;
+
     /// <summary>
     ///     Attaches a game state that will loop through random advice that is associated with the given point of interest.
     ///     This is not a huge list and players will eventually see the same advice if they keep coming back, only one piece of

@@ -6,13 +6,12 @@
 //   Trail Simulation Game - Console Edition
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Threading;
-using TrailSimulation.Game;
-
 namespace TrailConsole
 {
+    using System;
+    using System.Threading;
+    using TrailSimulation.Game;
+
     /// <summary>
     ///     Trail Simulation Game - Console Edition
     /// </summary>

@@ -8,11 +8,10 @@
 //   game them.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using TrailSimulation.Core;
-
 namespace TrailSimulation.Game
 {
+    using Core;
+
     /// <summary>
     ///     Defines an object that keeps track of a particular high score of a given simulation round. This includes the name
     ///     of the person for bragging rights, points they earned in total at the end of the trip, and the overall rating this
