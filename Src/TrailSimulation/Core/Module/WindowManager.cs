@@ -183,6 +183,31 @@ namespace TrailSimulation.Core
             }
         }
 
+        /// <summary>
+        ///     Tell all the other game modes that we added another Windows.
+        /// </summary>
+        private static void NotifyWindowAdd()
+        {
+            lock (windowList)
+            {
+                var tempWindowList = new Dictionary<GameWindow, IWindow>(windowList);
+                foreach (var loadedMode in tempWindowList)
+                {
+                    if (loadedMode.Key == FocusedWindow.WindowCategory)
+                    {
+                        // Only call post create on the newly added active game Windows.
+                        loadedMode.Value.OnWindowPostCreate();
+                    }
+                    else
+                    {
+                        // All other game modes just get notification via method a Windows was added on top of them.
+                        loadedMode.Value.OnWindowAdded();
+                    }
+                }
+                tempWindowList.Clear();
+            }
+        }
+
         /// <summary>Creates and adds the specified game Windows to the simulation if it does not already exist in the list of
         ///     modes.</summary>
         /// <param name="windows">Enumeration value of the Windows which should be created.</param>
@@ -203,28 +228,7 @@ namespace TrailSimulation.Core
 
                 // Add the game Windows to the simulation now that we know it does not exist in the stack yet.
                 windowList.Add(windows, modeProduct);
-
                 NotifyWindowAdd();
-            }
-        }
-
-        /// <summary>
-        ///     Tell all the other game modes that we added another Windows.
-        /// </summary>
-        private static void NotifyWindowAdd()
-        {
-            foreach (var loadedMode in windowList)
-            {
-                if (loadedMode.Key == FocusedWindow.WindowCategory)
-                {
-                    // Only call post create on the newly added active game Windows.
-                    loadedMode.Value.OnWindowPostCreate();
-                }
-                else
-                {
-                    // All other game modes just get notification via method a Windows was added on top of them.
-                    loadedMode.Value.OnWindowAdded();
-                }
             }
         }
 
