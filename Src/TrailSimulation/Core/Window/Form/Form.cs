@@ -2,9 +2,6 @@
 // <copyright file="Form.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Requires type parameter that is a reference type with a constructor.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Core
 {
@@ -12,8 +9,8 @@ namespace TrailSimulation.Core
     using System.Collections.Generic;
     using System.Diagnostics;
 
-    /// <summary>Requires type parameter that is a reference type with a constructor.</summary>
-    /// <typeparam name="TData"></typeparam>
+    /// <summary>Forms are attached to windows.</summary>
+    /// <typeparam name="TData">UserData type.</typeparam>
     public abstract class Form<TData> :
         Comparer<Form<TData>>, 
         IComparable<Form<TData>>, 
@@ -134,7 +131,7 @@ namespace TrailSimulation.Core
         ///     waiting input, etc.
         /// </summary>
         /// <returns>
-        ///     The <see cref="string" />.
+        ///     The text user interface.<see cref="string" />.
         /// </returns>
         public abstract string OnRenderForm();
 
@@ -177,7 +174,8 @@ namespace TrailSimulation.Core
         public int Compare(IForm x, IForm y)
         {
             var result = string.Compare(x.GetType().Name, y.GetType().Name, StringComparison.Ordinal);
-            if (result != 0) return result;
+            if (result != 0)
+                return result;
 
             return result;
         }
@@ -227,8 +225,6 @@ namespace TrailSimulation.Core
             Debug.Assert(x != null, "x != null");
             Debug.Assert(y != null, "y != null");
             var result = string.Compare(x.GetType().Name, y.GetType().Name, StringComparison.Ordinal);
-            if (result != 0) return result;
-
             return result;
         }
 
