@@ -40,6 +40,12 @@
     <Compile Include="Core\Utility\ArrayExtensions.cs" />
     <Compile Include="Core\Utility\StringExtensions.cs" />
     <Compile Include="Entity\Location\ClimateRegistry.cs" />
+    <Compile Include="Entity\Location\ILocation.cs" />
+    <Compile Include="Entity\Location\LocationWarning.cs" />
+    <Compile Include="Entity\Location\Point\ForkInRoad.cs" />
+    <Compile Include="Entity\Location\Point\Landmark.cs" />
+    <Compile Include="Entity\Location\Point\RiverCrossing.cs" />
+    <Compile Include="Entity\Location\Point\Settlement.cs" />
     <Compile Include="Entity\Vehicle\VehicleExtensions.cs" />
     <Compile Include="Entity\Vehicle\VehicleStatus.cs" />
     <Compile Include="Event\Animal\BuffaloStampede.cs" />
@@ -76,13 +82,6 @@
     <Compile Include="Event\Vehicle\TippedVehicle.cs" />
     <Compile Include="Event\Vehicle\VehicleFire.cs" />
     <Compile Include="Event\Vehicle\StuckInMud.cs" />
-    <Compile Include="Event\Warning\BadWater.cs" />
-    <Compile Include="Event\Warning\LowFood.cs" />
-    <Compile Include="Event\Warning\LowGrass.cs" />
-    <Compile Include="Event\Warning\LowWater.cs" />
-    <Compile Include="Event\Warning\NoFood.cs" />
-    <Compile Include="Event\Warning\NoWater.cs" />
-    <Compile Include="Event\Warning\Starvation.cs" />
     <Compile Include="Event\Weather\HailStorm.cs" />
     <Compile Include="Event\Weather\HeavyFog.cs" />
     <Compile Include="Event\Weather\SevereWeather.cs" />

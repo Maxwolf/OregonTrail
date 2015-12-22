@@ -34,7 +34,7 @@ namespace TrailSimulation.Game
             base.OnWindowPostCreate();
 
             // Check if passengers in the vehicle are dead.
-            if (GameSimulationApp.Instance.Trail.CurrentLocation.IsLast)
+            if (GameSimulationApp.Instance.Trail.CurrentLocation.LastLocation)
             {
                 SetForm(typeof (GameWin));
                 return;

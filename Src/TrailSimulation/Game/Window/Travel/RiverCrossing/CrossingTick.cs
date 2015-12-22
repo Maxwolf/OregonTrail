@@ -93,16 +93,21 @@ namespace TrailSimulation.Game
         {
             base.OnFormPostCreate();
 
+            // Grab instance of the game simulation.
+            var game = GameSimulationApp.Instance;
+
             // Park the vehicle if it is not somehow by now.
-            GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
+            game.Vehicle.Status = VehicleStatus.Stopped;
 
-            // Remove the monies from the player for ferry trip.
-            var oldMoney = GameSimulationApp.Instance.Vehicle.Inventory[Entities.Cash];
-            GameSimulationApp.Instance.Vehicle.Inventory[Entities.Cash] =
-                new SimItem(oldMoney, (int) (oldMoney.TotalValue - UserData.River.FerryCost));
+            // Check if ferry operator wants players monies for trip across river.
+            if (UserData.River.FerryCost > 0 &&
+                game.Vehicle.Inventory[Entities.Cash].TotalValue > UserData.River.FerryCost)
+            {
+                game.Vehicle.Inventory[Entities.Cash].ReduceQuantity((int) UserData.River.FerryCost);
 
-            // Clear out the cost for the ferry since it has been paid for now.
-            UserData.River.FerryCost = 0;
+                // Clear out the cost for the ferry since it has been paid for now.
+                UserData.River.FerryCost = 0;
+            }
         }
 
         /// <summary>

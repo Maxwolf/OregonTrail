@@ -2,10 +2,6 @@
 // <copyright file="Location.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Defines a location in the game that is added to a list of points that make up the entire trail which the player and
-//   his vehicle travel upon.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Entity
 {
@@ -19,14 +15,8 @@ namespace TrailSimulation.Entity
     ///     Defines a location in the game that is added to a list of points that make up the entire trail which the player and
     ///     his vehicle travel upon.
     /// </summary>
-    public sealed class Location : IEntity
+    public abstract class Location : ILocation
     {
-        /// <summary>
-        ///     List of possible alternate locations the player might have to choose from if this list is not null and greater than
-        ///     one. Game simulation will ask using modes and states what choice player would like.
-        /// </summary>
-        private List<Location> skipChoices;
-
         /// <summary>
         ///     References all of the possible trades this location will be able to offer the player. If the list is empty that
         ///     means nobody wants to trade with the player at this time.
@@ -40,20 +30,12 @@ namespace TrailSimulation.Entity
         private LocationWeather weather;
 
         /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Entity.Location"/> class.</summary>
-        /// <param name="name">The name.</param>
-        /// <param name="category">The category.</param>
-        /// <param name="climateType">The climate Type.</param>
-        /// <param name="skipChoices">The skip Choices.</param>
-        /// <param name="riverOption">The river Option.</param>
-        public Location(
-            string name, 
-            LocationCategory category, 
-            Climate climateType, 
-            IEnumerable<Location> skipChoices = null, 
-            RiverOption riverOption = RiverOption.FloatAndFord)
+        /// <param name="name">Display name of the location as it should be known to the player.</param>
+        /// <param name="climateType">Defines the type of weather the location will have overall.</param>
+        protected Location(string name, Climate climateType)
         {
-            // Determines if this location will have fresh water.
-            FreshWater = GameSimulationApp.Instance.Random.NextBool();
+            // Default warning message for the location is based on fresh water status.
+            Warning = GameSimulationApp.Instance.Random.NextBool() ? LocationWarning.None : LocationWarning.BadWater;
 
             // Creates a new system to deal with the management of the weather for this given location.
             weather = new LocationWeather(climateType);
@@ -61,52 +43,17 @@ namespace TrailSimulation.Entity
             // Trades are randomly generated when ticking the location.
             trades = new List<SimItem>();
 
-            // Offers up a decision when traveling on the trail, there are normally one of many possible outcomes.
-            if (skipChoices != null)
-                this.skipChoices = new List<Location>(skipChoices);
-
-            // Throws an exception if the river option is set to none and not a usable option.
-            if (riverOption == RiverOption.None && category == LocationCategory.RiverCrossing)
-                throw new ArgumentException("Unable to create location with river option set to NONE!");
-
-            // Set the river option into the location itself.
-            RiverCrossOption = riverOption;
-
             // Name of the point as it should be known to the player.
             Name = name;
 
             // Default location status is not visited by the player or vehicle.
             Status = LocationStatus.Unreached;
-
-            // Category of the location determines how the game simulation will treat it.
-            Category = category;
-            switch (category)
-            {
-                case LocationCategory.Settlement:
-                    ShoppingAllowed = true;
-                    ChattingAllowed = true;
-                    break;
-                case LocationCategory.Landmark:
-                case LocationCategory.RiverCrossing:
-                case LocationCategory.ForkInRoad:
-                    ShoppingAllowed = false;
-                    ChattingAllowed = false;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(category), category, null);
-            }
         }
 
         /// <summary>
-        ///     Defines the type of river crossing this location will be, this is in regards to the types of options presented when
-        ///     the crossing comes up in the trail.
+        ///     Warnings about low food, medical problems, weather, etc.
         /// </summary>
-        public RiverOption RiverCrossOption { get; }
-
-        /// <summary>
-        ///     Locations have fresh water flag if enabled doubles chance for dysentery and cholera.
-        /// </summary>
-        private bool FreshWater { get; }
+        public LocationWarning Warning { get; }
 
         /// <summary>
         ///     Current weather condition this location is experiencing.
@@ -120,33 +67,24 @@ namespace TrailSimulation.Entity
         ///     Determines if the location allows the player to chat to other NPC's in the area which can offer up advice about the
         ///     trail ahead.
         /// </summary>
-        public bool ChattingAllowed { get; private set; }
+        public abstract bool ChattingAllowed { get; }
 
         /// <summary>
         ///     Defines the type of location this is, the game simulation will trigger and load different states depending on this
         ///     value. Defaults to default value which is a normal location with nothing special happening.
         /// </summary>
-        public LocationCategory Category { get; }
+        public abstract LocationCategory Category { get; }
 
         /// <summary>
         ///     Determines if this location has a store which the player can buy items from using their monies.
         /// </summary>
-        public bool ShoppingAllowed { get; }
+        public abstract bool ShoppingAllowed { get; }
 
         /// <summary>
         ///     Determines if this location has already been visited by the vehicle and party members.
         /// </summary>
         /// <returns>TRUE if location has been passed by, FALSE if location has yet to be reached.</returns>
         public LocationStatus Status { get; set; }
-
-        /// <summary>
-        ///     Defines all of the skip choices that were defined for this location. Will return null if there are no skip choices
-        ///     associated with this location.
-        /// </summary>
-        public ReadOnlyCollection<Location> SkipChoices
-        {
-            get { return skipChoices.AsReadOnly(); }
-        }
 
         /// <summary>
         ///     References all of the possible trades this location will be able to offer the player. If the list is empty that
@@ -169,7 +107,7 @@ namespace TrailSimulation.Entity
         ///     something special with the location before we actually arrive to it but we can know the next location is last using
         ///     this.
         /// </summary>
-        public bool IsLast { get; set; }
+        public bool LastLocation { get; set; }
 
         /// <summary>
         ///     Total distance to the next location the player must travel before it will be triggered

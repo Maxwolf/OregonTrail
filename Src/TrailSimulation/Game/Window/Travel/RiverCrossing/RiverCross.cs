@@ -15,6 +15,7 @@ namespace TrailSimulation.Game
     using System.Linq;
     using System.Text;
     using Core;
+    using Entity;
 
     /// <summary>
     ///     Manages a boolean event where the player needs to make a choice before they can move onto the next location on the
@@ -72,6 +73,11 @@ namespace TrailSimulation.Game
             // Grab instance of the game simulation.
             var game = GameSimulationApp.Instance;
 
+            // Cast the current location as river crossing.
+            var riverLocation = game.Trail.CurrentLocation as RiverCrossing;
+            if (riverLocation == null)
+                throw new InvalidCastException("Unable to cast location as river crossing even though it returns as one!");
+
             // Re-create the mappings and text information on post create each time.
             _riverOptionsCount = 0;
             _riverChoices =
@@ -82,11 +88,11 @@ namespace TrailSimulation.Game
 
             // Header text for above menu comes from river crossing info object.
             _riverInfo.AppendLine("--------------------------------");
-            _riverInfo.AppendLine($"{game.Trail.CurrentLocation.Name}");
+            _riverInfo.AppendLine($"{riverLocation.Name}");
             _riverInfo.AppendLine($"{game.Time.Date}");
             _riverInfo.AppendLine("--------------------------------");
             _riverInfo.AppendLine(
-                $"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
+                $"Weather: {riverLocation.Weather.ToDescriptionAttribute()}");
             _riverInfo.AppendLine($"River width: {UserData.River.RiverWidth.ToString("N0")} feet");
             _riverInfo.AppendLine($"River depth: {UserData.River.RiverDepth.ToString("N0")} feet");
             _riverInfo.AppendLine("--------------------------------");
@@ -99,19 +105,19 @@ namespace TrailSimulation.Game
                 var riverChoice = _riverChoices[index];
 
                 // Figure out what kind of river options this location is configured for.
-                if (game.Trail.CurrentLocation.RiverCrossOption == RiverOption.FerryOperator &&
+                if (riverLocation.RiverCrossOption == RiverOption.FerryOperator &&
                     riverChoice == RiverCrossChoice.Ferry)
                 {
                     // Ferry operator costs money.
                     PopulateRiverMappings(riverChoice);
                 }
-                else if (game.Trail.CurrentLocation.RiverCrossOption == RiverOption.IndianGuide &&
+                else if (riverLocation.RiverCrossOption == RiverOption.IndianGuide &&
                          riverChoice == RiverCrossChoice.Indian)
                 {
                     // Indian wants sets of clothes in exchange for helping float.
                     PopulateRiverMappings(riverChoice);
                 }
-                else if (game.Trail.CurrentLocation.RiverCrossOption == RiverOption.FloatAndFord ||
+                else if (riverLocation.RiverCrossOption == RiverOption.FloatAndFord ||
                          (riverChoice == RiverCrossChoice.Float || riverChoice == RiverCrossChoice.Ford))
                 {
                     // Default float and ford choices that exist on every river.

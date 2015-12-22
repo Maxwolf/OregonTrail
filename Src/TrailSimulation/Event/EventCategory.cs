@@ -31,11 +31,6 @@ namespace TrailSimulation.Event
         Person, 
 
         /// <summary>
-        ///     Warnings about low food, medical problems, weather, etc.
-        /// </summary>
-        Warning, 
-
-        /// <summary>
         ///     Used for displaying information about severe weather like blizzards and storms.
         /// </summary>
         Weather, 

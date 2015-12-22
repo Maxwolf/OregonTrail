@@ -107,10 +107,15 @@ namespace TrailSimulation.Game
             foreach (var location in _locations)
             {
                 // Check if the location is a fork in the road and has skip choices.
-                if (location.Category == LocationCategory.ForkInRoad &&
-                    location.SkipChoices != null)
+                if (location.Category == LocationCategory.ForkInRoad)
                 {
-                    foreach (var skipChoice in location.SkipChoices)
+                    // Cast the location as a fork in the road.
+                    var forkInRoad = location as ForkInRoad;
+                    if (forkInRoad == null)
+                        throw new InvalidCastException("Unable to cast location to a fork in the road even though it returns as one!");
+
+                    // Loop through all the skip choices unique to forks.
+                    foreach (var skipChoice in forkInRoad.SkipChoices)
                     {
                         skipChoice.TotalDistance = CreateRandomLength;
                         totalTrailLength += skipChoice.TotalDistance;
@@ -132,11 +137,11 @@ namespace TrailSimulation.Game
         {
             // Remove last flag from all locations before setting it again.
             foreach (var location in _locations)
-                location.IsLast = false;
+                location.LastLocation = false;
 
             // Set the last location flag on the last location in the list.
             var lastLocation = _locations.Last();
-            lastLocation.IsLast = true;
+            lastLocation.LastLocation = true;
         }
 
         /// <summary>Forcefully inserts skip location into location list after current location.</summary>

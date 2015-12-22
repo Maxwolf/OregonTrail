@@ -52,11 +52,16 @@ namespace TrailSimulation.Game
         {
             base.OnFormPostCreate();
 
+            // Cast the current location as a fork in the road.
+            var forkInRoad = GameSimulationApp.Instance.Trail.CurrentLocation as ForkInRoad;
+            if (forkInRoad == null)
+                throw new InvalidCastException("Unable to cast current location to fork in the road.");
+
             // Create a dictionary that represents all the choices with index starting at one not zero.
             _skipChoices = new Dictionary<int, Location>();
-            for (var index = 0; index < GameSimulationApp.Instance.Trail.CurrentLocation.SkipChoices.Count; index++)
+            for (var index = 0; index < forkInRoad.SkipChoices.Count; index++)
             {
-                var skipChoice = GameSimulationApp.Instance.Trail.CurrentLocation.SkipChoices[index];
+                var skipChoice = forkInRoad.SkipChoices[index];
                 _skipChoices.Add(index + 1, skipChoice);
             }
         }

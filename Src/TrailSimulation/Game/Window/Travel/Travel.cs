@@ -248,7 +248,7 @@ namespace TrailSimulation.Game
                 return;
 
             // Check if passengers in the vehicle are dead, or player reached end of the trail.
-            if (game.Trail.CurrentLocation.IsLast ||
+            if (game.Trail.CurrentLocation.LastLocation ||
                 game.Vehicle.PassengersDead)
             {
                 GameOver = true;
