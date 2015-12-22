@@ -2,10 +2,6 @@
 // <copyright file="Resting.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Keeps track of a set number of days and every time the game Windows is ticked a day is simulated and days to rest
-//   subtracted until we are at zero, then the player can close the window but until then input will not be accepted.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {
@@ -114,9 +110,6 @@ namespace TrailSimulation.Game
             switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
             {
                 case LocationCategory.RiverCrossing:
-
-
-// Ferry operator can request you rest or player decides to wait out weather conditions.
                     if (_daysRested > 1)
                     {
                         _restMessage.AppendLine($"{Environment.NewLine}You camp near the river for {_daysRested} days.");
@@ -134,9 +127,6 @@ namespace TrailSimulation.Game
                 case LocationCategory.Landmark:
                 case LocationCategory.Settlement:
                 case LocationCategory.ForkInRoad:
-
-
-// Normal resting message just says time rested.
                     if (_daysRested > 1)
                     {
                         _restMessage.AppendLine($"{Environment.NewLine}You rest for {_daysRested} days");
@@ -197,15 +187,9 @@ namespace TrailSimulation.Game
             {
                 case LocationCategory.Landmark:
                 case LocationCategory.Settlement:
-
-
-// Player is going to go back to travel Windows now.
                     ClearForm();
                     break;
                 case LocationCategory.RiverCrossing:
-
-
-// Reset the days to rest to zero, ferry operator adds to this value.
                     UserData.DaysToRest = 0;
 
                     // Player might be crossing a river, so we check if they made a decision and are waiting for ferry operator.
@@ -225,9 +209,6 @@ namespace TrailSimulation.Game
 
                     break;
                 case LocationCategory.ForkInRoad:
-
-
-// Player needs to decide on which location when road splits.
                     SetForm(typeof (LocationFork));
                     break;
                 default:
