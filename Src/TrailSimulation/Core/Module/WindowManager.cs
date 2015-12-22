@@ -153,7 +153,7 @@ namespace TrailSimulation.Core
         ///     TRUE if modes were removes, changing the active Windows or nulling it. FALSE if nothing changed because nothing
         ///     was removed or no modes.
         /// </returns>
-        private bool CleanWindows()
+        private static bool CleanWindows()
         {
             lock (windowList)
             {
@@ -204,19 +204,26 @@ namespace TrailSimulation.Core
                 // Add the game Windows to the simulation now that we know it does not exist in the stack yet.
                 windowList.Add(windows, modeProduct);
 
-                // Tell all the other game modes that we added another Windows.
-                foreach (var loadedMode in windowList)
+                NotifyWindowAdd();
+            }
+        }
+
+        /// <summary>
+        ///     Tell all the other game modes that we added another Windows.
+        /// </summary>
+        private static void NotifyWindowAdd()
+        {
+            foreach (var loadedMode in windowList)
+            {
+                if (loadedMode.Key == FocusedWindow.WindowCategory)
                 {
-                    if (loadedMode.Key == FocusedWindow.WindowCategory)
-                    {
-                        // Only call post create on the newly added active game Windows.
-                        loadedMode.Value.OnWindowPostCreate();
-                    }
-                    else
-                    {
-                        // All other game modes just get notification via method a Windows was added on top of them.
-                        loadedMode.Value.OnWindowAdded();
-                    }
+                    // Only call post create on the newly added active game Windows.
+                    loadedMode.Value.OnWindowPostCreate();
+                }
+                else
+                {
+                    // All other game modes just get notification via method a Windows was added on top of them.
+                    loadedMode.Value.OnWindowAdded();
                 }
             }
         }
