@@ -2,10 +2,6 @@
 // <copyright file="Person.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Represents a human-being. Gender is not tracked, we only care about them as an entity that consumes food and their
-//   health.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Entity
 {
@@ -21,33 +17,33 @@ namespace TrailSimulation.Entity
     public sealed class Person : IEntity
     {
         /// <summary>
-        ///     Defines the current health of the person. It will be tracked and kept within bounds of HealthMin and HealthMax
-        ///     constants.
-        /// </summary>
-        private int _health;
-
-        /// <summary>
         ///     Determines if this person has reached the point of no return and has died. There is no coming back from this and
         ///     this flag will be used to prevent any further operations or resources being performed by this person.
         /// </summary>
-        private bool _isDead;
+        private bool dead;
+
+        /// <summary>
+        ///     Defines the current health of the person. It will be tracked and kept within bounds of HealthMin and HealthMax
+        ///     constants.
+        /// </summary>
+        private int health;
 
         /// <summary>
         ///     Determines if the persons health was at any time at the very poor level, which means they were close to death. We
         ///     can keep track of this and if they recover to full health we will make note about this for the player to see.
         /// </summary>
-        private bool _nearDeathExperience;
+        private bool nearDeathExperience;
 
         /// <summary>Initializes a new instance of the <see cref="T:TrailEntities.Entities.Person"/> class.</summary>
         /// <param name="profession">The profession.</param>
         /// <param name="name">The name.</param>
-        /// <param name="isLeader">The is Leader.</param>
-        public Person(Profession profession, string name, bool isLeader)
+        /// <param name="leader">The is Leader.</param>
+        public Person(Profession profession, string name, bool leader)
         {
             // Person needs a name, profession, and need to know if they are the leader.
             Profession = profession;
             Name = name;
-            IsLeader = isLeader;
+            Leader = leader;
 
             // Person starts with clean bill of health.
             Infected = false;
@@ -69,9 +65,9 @@ namespace TrailSimulation.Entity
             get
             {
                 // Skip if this person is dead, cannot heal them.
-                if (_isDead)
+                if (dead)
                 {
-                    _health = (int) HealthLevel.Dead;
+                    health = (int) HealthLevel.Dead;
                     return HealthLevel.Dead;
                 }
 
@@ -110,33 +106,33 @@ namespace TrailSimulation.Entity
         /// </summary>
         private int Health
         {
-            get { return _health; }
+            get { return health; }
             set
             {
                 // Skip if this person is dead, cannot heal them.
-                if (_isDead)
+                if (dead)
                 {
-                    _health = (int) HealthLevel.Dead;
+                    health = (int) HealthLevel.Dead;
                     return;
                 }
 
                 // Check that value is not above max.
                 if (value >= (int) HealthLevel.Good)
                 {
-                    _health = (int) HealthLevel.Good;
+                    health = (int) HealthLevel.Good;
                     return;
                 }
 
                 // Check that value is not below min.
                 if (value <= (int) HealthLevel.Dead)
                 {
-                    _isDead = true;
-                    _health = (int) HealthLevel.Dead;
+                    dead = true;
+                    health = (int) HealthLevel.Dead;
                     return;
                 }
 
                 // Set health to ceiling corrected value.
-                _health = value;
+                health = value;
             }
         }
 
@@ -150,7 +146,7 @@ namespace TrailSimulation.Entity
         ///     Determines if this person is the party leader, without this person the game will end. The others cannot go on
         ///     without them.
         /// </summary>
-        public bool IsLeader { get; }
+        public bool Leader { get; }
 
         /// <summary>
         ///     Sets flag on person that marks them as being physically injured and now is handicapped and will take some time to
@@ -162,15 +158,6 @@ namespace TrailSimulation.Entity
         ///     Name of the person as they should be known by other players and the simulation.
         /// </summary>
         public string Name { get; }
-
-        /// <summary>
-        ///     Defines what type of entity this will take the role of in the simulation. Depending on this value the simulation
-        ///     will affect how it is treated, points tabulated, and interactions governed.
-        /// </summary>
-        public Entities Category
-        {
-            get { return Entities.Person; }
-        }
 
         /// <summary>The compare.</summary>
         /// <param name="x">The x.</param>
@@ -195,8 +182,6 @@ namespace TrailSimulation.Entity
             Debug.Assert(other != null, "other != null");
 
             var result = string.Compare(other.Name, Name, StringComparison.Ordinal);
-            if (result != 0) return result;
-
             return result;
         }
 
@@ -263,7 +248,7 @@ namespace TrailSimulation.Entity
                 return;
 
             // Skip if this person is dead, cannot heal them.
-            if (HealthValue == HealthLevel.Dead || _isDead)
+            if (HealthValue == HealthLevel.Dead || dead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
@@ -289,7 +274,7 @@ namespace TrailSimulation.Entity
             else
             {
                 // Random chance for illness in general, even with nice clothes but much lower.
-                if (game.Random.NextDouble() > .25 || game.Random.NextDouble() < .5)
+                if (game.Random.NextBool() && game.Random.NextBool())
                 {
                     CheckIllness();
                 }
@@ -306,17 +291,18 @@ namespace TrailSimulation.Entity
         private void ConsumeFood()
         {
             // Skip if this person is dead, cannot heal them.
-            if (HealthValue == HealthLevel.Dead || _isDead)
+            if (HealthValue == HealthLevel.Dead || dead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
-            var cost_food = game.Vehicle.Inventory[Entities.Food].TotalValue;
-            if (cost_food >= 13)
+            // Check if player has any food to eat.
+            if (game.Vehicle.Inventory[Entities.Food].Quantity > 0)
             {
                 // Consume some food based on ration level, then update the cost to check against.
-                game.Vehicle.Inventory[Entities.Food].ReduceQuantity((int) (cost_food - 8 - 5*(int) game.Vehicle.Ration));
+                game.Vehicle.Inventory[Entities.Food].ReduceQuantity((int) game.Vehicle.Ration*
+                                                                     game.Vehicle.PassengerLivingCount);
 
                 // Change to get better when eating well.
                 Heal();
@@ -335,7 +321,7 @@ namespace TrailSimulation.Entity
         private void Heal()
         {
             // Skip if this person is dead, cannot heal them.
-            if (HealthValue == HealthLevel.Dead || _isDead)
+            if (HealthValue == HealthLevel.Dead || dead)
                 return;
 
             // Skip if already at max health.
@@ -350,10 +336,10 @@ namespace TrailSimulation.Entity
                 return;
 
             // Check if the player has made a recovery from near death.
-            if (_nearDeathExperience && (Infected || Injured))
+            if (nearDeathExperience && (Infected || Injured))
             {
                 // We only want to show the well again event if the player made a massive recovery.
-                _nearDeathExperience = false;
+                nearDeathExperience = false;
 
                 // Roll the dice, person can get better or way worse here.
                 game.EventDirector.TriggerEvent(this, game.Random.NextBool()
@@ -386,7 +372,11 @@ namespace TrailSimulation.Entity
             var game = GameSimulationApp.Instance;
 
             // Cannot calculate illness for the dead.
-            if (HealthValue == HealthLevel.Dead || _isDead)
+            if (HealthValue == HealthLevel.Dead || dead)
+                return;
+
+            // Person will not get hurt every single time it is called.
+            if (game.Random.NextBool())
                 return;
 
             if (game.Random.Next(100) <= 10 +
@@ -400,37 +390,15 @@ namespace TrailSimulation.Entity
                      (40/game.Vehicle.Passengers.Count*
                       ((int) game.Vehicle.Ration - 1)))
             {
-                // Bad illness.
-                game.Vehicle.ReduceMileage(10);
-                Damage(10, 50);
-            }
-            else
-            {
                 // Severe illness.
                 game.Vehicle.ReduceMileage(15);
                 Damage(10, 50);
-            }
-
-            // If vehicle is not moving we will assume we are resting.
-            if (game.Vehicle.Status != VehicleStatus.Moving)
-            {
-                Heal();
-                return;
             }
 
             // Determines if we should roll for infections based on previous complications.
             switch (HealthValue)
             {
                 case HealthLevel.Good:
-
-
-// Congrats on living a healthy lifestyle...
-                    Heal();
-                    break;
-                case HealthLevel.Fair:
-
-
-// Not eating for a couple days is going to hit you hard.
                     if ((Infected || Injured) && game.Vehicle.Status != VehicleStatus.Stopped)
                     {
                         game.Vehicle.ReduceMileage(5);
@@ -438,10 +406,24 @@ namespace TrailSimulation.Entity
                     }
 
                     break;
+                case HealthLevel.Fair:
+                    if ((Infected || Injured) && game.Vehicle.Status != VehicleStatus.Stopped)
+                    {
+                        if (game.Random.NextBool())
+                        {
+                            // Hurt the player and reduce total possible mileage this turn.
+                            game.Vehicle.ReduceMileage(5);
+                            Damage(10, 50);
+                        }
+                        else if ((!Infected || !Injured) && game.Vehicle.Status == VehicleStatus.Stopped)
+                        {
+                            // Heal the player if their health is below good with no infections or injures.
+                            Heal();
+                        }
+                    }
+
+                    break;
                 case HealthLevel.Poor:
-
-
-// Player is working themselves to death.
                     if ((Infected || Injured) && game.Vehicle.Status != VehicleStatus.Stopped)
                     {
                         game.Vehicle.ReduceMileage(10);
@@ -450,12 +432,12 @@ namespace TrailSimulation.Entity
 
                     break;
                 case HealthLevel.VeryPoor:
-                    _nearDeathExperience = true;
+                    nearDeathExperience = true;
                     game.Vehicle.ReduceMileage(15);
                     Damage(1, 5);
                     break;
                 case HealthLevel.Dead:
-                    _isDead = true;
+                    dead = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -493,7 +475,7 @@ namespace TrailSimulation.Entity
             Health = (int) HealthLevel.Dead;
 
             // Check if leader died or party member and execute corresponding event.
-            game.EventDirector.TriggerEvent(this, IsLeader ? typeof (DeathPlayer) : typeof (DeathCompanion));
+            game.EventDirector.TriggerEvent(this, Leader ? typeof (DeathPlayer) : typeof (DeathCompanion));
         }
 
         /// <summary>Reduces the persons health by set amount, will check to make sure the amount is not higher than ceiling or lower
