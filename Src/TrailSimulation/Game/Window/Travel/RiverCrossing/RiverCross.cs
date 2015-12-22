@@ -76,7 +76,8 @@ namespace TrailSimulation.Game
             // Cast the current location as river crossing.
             var riverLocation = game.Trail.CurrentLocation as RiverCrossing;
             if (riverLocation == null)
-                throw new InvalidCastException("Unable to cast location as river crossing even though it returns as one!");
+                throw new InvalidCastException(
+                    "Unable to cast location as river crossing even though it returns as one!");
 
             // Re-create the mappings and text information on post create each time.
             _riverOptionsCount = 0;
@@ -117,7 +118,7 @@ namespace TrailSimulation.Game
                     // Indian wants sets of clothes in exchange for helping float.
                     PopulateRiverMappings(riverChoice);
                 }
-                else if (riverLocation.RiverCrossOption == RiverOption.FloatAndFord ||
+                else if (riverLocation.RiverCrossOption == RiverOption.FloatAndFord &&
                          (riverChoice == RiverCrossChoice.Float || riverChoice == RiverCrossChoice.Ford))
                 {
                     // Default float and ford choices that exist on every river.
