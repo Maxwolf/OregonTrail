@@ -2,20 +2,16 @@
 // <copyright file="StuckInMud.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Vehicle gets stuck in the mud, wasting the entire day.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Event
 {
-    using System.Diagnostics.CodeAnalysis;
+    using System;
     using Game;
 
     /// <summary>
     ///     Vehicle gets stuck in the mud, wasting the entire day.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class StuckInMud : EventLoseTime
     {
         /// <summary>
@@ -34,11 +30,11 @@ namespace TrailSimulation.Event
         ///     because of.
         /// </summary>
         /// <returns>
-        ///     The <see cref="string" />.
+        ///     The reason days were skipped.<see cref="string" />.
         /// </returns>
         protected override string OnLostTimeReason()
         {
-            return "You become stuck in the mud.";
+            return $"You become stuck in the mud{Environment.NewLine}making you lose a day.";
         }
     }
 }

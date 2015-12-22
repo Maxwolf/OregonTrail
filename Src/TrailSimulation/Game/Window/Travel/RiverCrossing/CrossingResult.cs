@@ -56,9 +56,12 @@ namespace TrailSimulation.Game
                     }
                     else
                     {
-                        // Triggers event for muddy shore that makes player lose a day.
-                        GameSimulationApp.Instance.EventDirector.TriggerEvent(null, typeof (StuckInMud));
+                        // Triggers event for muddy shore that makes player lose a day, forces end of crossing also.
+                        FinishCrossing();
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle, 
+                            typeof (StuckInMud));
                     }
+
                     break;
                 case RiverCrossChoice.Float:
                     if (UserData.River.DisasterHappened)
@@ -73,6 +76,7 @@ namespace TrailSimulation.Game
                         _crossingResult.AppendLine("floating the wagon");
                         _crossingResult.AppendLine($"across.{Environment.NewLine}");
                     }
+
                     break;
                 case RiverCrossChoice.Ferry:
                     if (UserData.River.DisasterHappened)
@@ -86,6 +90,7 @@ namespace TrailSimulation.Game
                         _crossingResult.AppendLine($"{Environment.NewLine}The ferry got your party");
                         _crossingResult.AppendLine($"and wagon safely across.{Environment.NewLine}");
                     }
+
                     break;
                 case RiverCrossChoice.Indian:
                     if (UserData.River.DisasterHappened)
@@ -99,6 +104,7 @@ namespace TrailSimulation.Game
                         _crossingResult.AppendLine($"{Environment.NewLine}The Indian helped your");
                         _crossingResult.AppendLine($"wagon safely across.{Environment.NewLine}");
                     }
+
                     break;
                 case RiverCrossChoice.None:
                 case RiverCrossChoice.WaitForWeather:
@@ -117,6 +123,14 @@ namespace TrailSimulation.Game
         ///     common to attach another state, or remove the current state based on the response.</summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
+        {
+            FinishCrossing();
+        }
+
+        /// <summary>
+        ///     Cleans up any remaining data about this river the player just crossed.
+        /// </summary>
+        private void FinishCrossing()
         {
             // Destroy the river data now that we are done with it.
             UserData.DestroyRiver();

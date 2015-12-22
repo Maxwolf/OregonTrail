@@ -50,7 +50,7 @@ namespace TrailSimulation.Event
         ///     because of.
         /// </summary>
         /// <returns>
-        ///     The <see cref="string" />.
+        ///     The reason days were skipped.<see cref="string" />.
         /// </returns>
         protected abstract string OnLostTimeReason();
     }
