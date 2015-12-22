@@ -2,12 +2,6 @@
 // <copyright file="CrossingResult.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Displays the final crossing result for the river crossing location. No matter what choice the player made, what
-//   events happen along the way, this final screen will be shown to let the user know how the last leg of the journey
-//   went. It is possible to get stuck in the mud, however most of the messages are safe and just let the user know they
-//   finally made it across.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {
@@ -26,7 +20,7 @@ namespace TrailSimulation.Game
     public sealed class CrossingResult : InputForm<TravelInfo>
     {
         /// <summary>
-        ///     The _crossing result.
+        ///     The crossing result.
         /// </summary>
         private StringBuilder _crossingResult;
 
@@ -42,7 +36,7 @@ namespace TrailSimulation.Game
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         /// <returns>
-        ///     The <see cref="string" />.
+        ///     The text user interface.<see cref="string" />.
         /// </returns>
         protected override string OnDialogPrompt()
         {
@@ -53,13 +47,10 @@ namespace TrailSimulation.Game
             switch (UserData.River.CrossingType)
             {
                 case RiverCrossChoice.Ford:
-
-
-// Roll the dice and see if end of river ford is muddy.
                     if (GameSimulationApp.Instance.Random.NextBool())
                     {
                         // No loss in time, but warning to let the player know it's dangerous.
-                        _crossingResult.AppendLine("It was a muddy crossing,");
+                        _crossingResult.AppendLine($"{Environment.NewLine}It was a muddy crossing,");
                         _crossingResult.AppendLine("but you did not get");
                         _crossingResult.AppendLine("stuck.");
                     }
@@ -68,20 +59,19 @@ namespace TrailSimulation.Game
                         // Triggers event for muddy shore that makes player lose a day.
                         GameSimulationApp.Instance.EventDirector.TriggerEvent(null, typeof (StuckInMud));
                     }
-
                     break;
                 case RiverCrossChoice.Float:
-                    _crossingResult.AppendLine("You had no trouble");
+                    _crossingResult.AppendLine($"{Environment.NewLine}You had no trouble");
                     _crossingResult.AppendLine("floating the wagon");
-                    _crossingResult.AppendLine("across.");
+                    _crossingResult.AppendLine($"across.{Environment.NewLine}");
                     break;
                 case RiverCrossChoice.Ferry:
-                    _crossingResult.AppendLine("The ferry got your party");
-                    _crossingResult.AppendLine("and wagon safely across.");
+                    _crossingResult.AppendLine($"{Environment.NewLine}The ferry got your party");
+                    _crossingResult.AppendLine($"and wagon safely across.{Environment.NewLine}");
                     break;
                 case RiverCrossChoice.Indian:
-                    _crossingResult.AppendLine("The Indian helped your");
-                    _crossingResult.AppendLine("wagon safely across.");
+                    _crossingResult.AppendLine($"{Environment.NewLine}The Indian helped your");
+                    _crossingResult.AppendLine($"wagon safely across.{Environment.NewLine}");
                     break;
                 case RiverCrossChoice.None:
                 case RiverCrossChoice.WaitForWeather:
