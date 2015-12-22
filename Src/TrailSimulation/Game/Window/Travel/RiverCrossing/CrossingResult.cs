@@ -52,7 +52,7 @@ namespace TrailSimulation.Game
                         // No loss in time, but warning to let the player know it's dangerous.
                         _crossingResult.AppendLine($"{Environment.NewLine}It was a muddy crossing,");
                         _crossingResult.AppendLine("but you did not get");
-                        _crossingResult.AppendLine("stuck.");
+                        _crossingResult.AppendLine($"stuck.{Environment.NewLine}");
                     }
                     else
                     {
