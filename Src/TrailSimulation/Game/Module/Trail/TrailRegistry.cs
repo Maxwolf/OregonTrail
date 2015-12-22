@@ -2,9 +2,6 @@
 // <copyright file="TrailRegistry.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Complete trails the player can travel on using the simulation. Some are remakes and others new.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {
@@ -90,7 +87,11 @@ namespace TrailSimulation.Game
                             new Location("Inserted Landmark", 
                                 LocationCategory.Landmark, Climate.Tropical)
                         }), 
-                    new Location("River Crossing", 
+                    new Location("River Crossing (with ferry)", 
+                        LocationCategory.RiverCrossing, Climate.Continental, null, RiverOption.FerryOperator), 
+                    new Location("River Crossing (with Indian)", 
+                        LocationCategory.RiverCrossing, Climate.Continental, null, RiverOption.IndianGuide), 
+                    new Location("River Crossing (default)", 
                         LocationCategory.RiverCrossing, Climate.Continental), 
                     new Location("End Settlement", 
                         LocationCategory.Settlement, Climate.Moderate)
