@@ -2,10 +2,6 @@
 // <copyright file="CrossingTick.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Runs the player over the river based on the crossing information. Depending on what happens a message will be
-//   printed to the screen explaining what happened before defaulting back to travel game Windows.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {
@@ -107,6 +103,16 @@ namespace TrailSimulation.Game
 
                 // Clear out the cost for the ferry since it has been paid for now.
                 UserData.River.FerryCost = 0;
+            }
+
+            // Check if the Indian guide wants his clothes for the trip that you agreed to.
+            if (UserData.River.IndianCost > 0 &&
+                game.Vehicle.Inventory[Entities.Clothes].Quantity > UserData.River.IndianCost)
+            {
+                game.Vehicle.Inventory[Entities.Clothes].ReduceQuantity(UserData.River.IndianCost);
+
+                // Clear out the cost for the ferry since it has been paid for now.
+                UserData.River.IndianCost = 0;
             }
         }
 
