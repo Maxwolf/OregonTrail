@@ -13,6 +13,6 @@ namespace TrailSimulation.Game
     /// </summary>
     public sealed class GameOverInfo : WindowData
     {
-
+        // Nothing to see here, move along...
     }
 }

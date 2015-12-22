@@ -15,8 +15,8 @@ namespace TrailSimulation.Game
     /// <summary>
     ///     Attached when the party leader dies, or the vehicle reaches the end of the trail.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
-    public sealed class GameWin : InputForm<TravelInfo>
+    [ParentWindow(GameWindow.GameOver)]
+    public sealed class GameWin : InputForm<GameOverInfo>
     {
         /// <summary>
         ///     Holds reference to end game text that will be shown to the user.
@@ -35,7 +35,7 @@ namespace TrailSimulation.Game
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         /// <returns>
-        ///     The <see cref="string" />.
+        ///     The dialog prompt text.<see cref="string" />.
         /// </returns>
         protected override string OnDialogPrompt()
         {

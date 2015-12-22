@@ -81,7 +81,7 @@ namespace TrailSimulation.Game
                 var crewNumber = 1;
 
                 // Loop through every player and print their name.
-                for (var index = 0; index < GameSimulationApp.MAX_PLAYERS; index++)
+                for (var index = 0; index < GameSimulationApp.MAXPLAYERS; index++)
                 {
                     var name = string.Empty;
                     if (index < UserData.PlayerNames.Count)
@@ -120,7 +120,7 @@ namespace TrailSimulation.Game
             if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
             {
                 // Only fill out names for slots that are empty.
-                for (var i = 0; i < (GameSimulationApp.MAX_PLAYERS - UserData.PlayerNameIndex); i++)
+                for (var i = 0; i < (GameSimulationApp.MAXPLAYERS - UserData.PlayerNameIndex); i++)
                 {
                     UserData.PlayerNames.Insert(UserData.PlayerNameIndex, GetPlayerName());
                 }
@@ -135,7 +135,7 @@ namespace TrailSimulation.Game
             UserData.PlayerNameIndex++;
 
             // Change the state to either confirm or input the next name based on index of name we are entering.
-            SetForm(UserData.PlayerNameIndex < GameSimulationApp.MAX_PLAYERS
+            SetForm(UserData.PlayerNameIndex < GameSimulationApp.MAXPLAYERS
                 ? typeof (InputPlayerNames)
                 : typeof (ConfirmPlayerNames));
         }

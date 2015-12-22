@@ -2,10 +2,6 @@
 // <copyright file="Travel.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Primary game Windows of the simulation, used to show simulation advancing through linear time. Shows all major
-//   stats of party and vehicle, plus climate and other things like distance traveled and distance to next point.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {
@@ -74,21 +70,12 @@ namespace TrailSimulation.Game
             {
                 case LocationCategory.Landmark:
                 case LocationCategory.Settlement:
-
-
-// Player is going to continue driving down the trail now.
                     SetForm(typeof (LocationDepart));
                     break;
                 case LocationCategory.RiverCrossing:
-
-
-// Player needs to decide how to cross a river.
                     SetForm(typeof (RiverCrossHelp));
                     break;
                 case LocationCategory.ForkInRoad:
-
-
-// Player needs to decide on which location when road splits.
                     SetForm(typeof (LocationFork));
                     break;
                 default:
@@ -182,14 +169,8 @@ namespace TrailSimulation.Game
             switch (location.Status)
             {
                 case LocationStatus.Unreached:
-
-
-// Setup phase of the game before you are placed on the first location.
                     break;
                 case LocationStatus.Arrived:
-
-
-// Can always attempt to trade, probability is good ones is way less outside settlements.
                     AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
 
                     // Some commands are optional and change depending on location category.
@@ -200,9 +181,6 @@ namespace TrailSimulation.Game
                         AddCommand(BuySupplies, TravelCommands.BuySupplies);
                     break;
                 case LocationStatus.Departed:
-
-
-// Some commands can only be done when between locations.
                     AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
                     AddCommand(HuntForFood, TravelCommands.HuntForFood);
                     break;
@@ -265,19 +243,12 @@ namespace TrailSimulation.Game
             if (GameOver)
                 return;
 
-            // Check if the player made it all the way to the end of the trail.
-            if (game.Trail.CurrentLocation.IsLast)
+            // Check if passengers in the vehicle are dead, or player reached end of the trail.
+            if (game.Trail.CurrentLocation.IsLast ||
+                game.Vehicle.PassengersDead)
             {
                 GameOver = true;
-                SetForm(typeof (GameWin));
-                return;
-            }
-
-            // Determines if all the passengers in the vehicle are dead, this does not apply to first location.
-            if (game.Vehicle.PassengersDead)
-            {
-                GameOver = true;
-                SetForm(typeof (GameFail));
+                game.WindowManager.Add(GameWindow.GameOver);
                 return;
             }
 

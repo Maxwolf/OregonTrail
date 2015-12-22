@@ -19,8 +19,8 @@ namespace TrailSimulation.Game
     ///     epitaph, process that decision, confirm it, and finally show the viewer that will also show the reason why the
     ///     player died using description attribute from an enumeration value that determines how they died.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
-    public sealed class GameFail : Form<TravelInfo>
+    [ParentWindow(GameWindow.GameOver)]
+    public sealed class GameFail : Form<GameOverInfo>
     {
         /// <summary>Initializes a new instance of the <see cref="GameFail"/> class.
         ///     This constructor will be used by the other one</summary>

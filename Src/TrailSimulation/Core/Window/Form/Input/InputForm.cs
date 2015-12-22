@@ -94,7 +94,7 @@ namespace TrailSimulation.Core
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         /// <returns>
-        ///     The <see cref="string" />.
+        ///     The dialog prompt text.<see cref="string" />.
         /// </returns>
         protected abstract string OnDialogPrompt();
 

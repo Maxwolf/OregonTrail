@@ -29,7 +29,22 @@ namespace TrailSimulation.Game
         {
             base.OnWindowPostCreate();
 
+            // Check if passengers in the vehicle are dead.
+            if (GameSimulationApp.Instance.Trail.CurrentLocation.IsLast)
+            {
+                SetForm(typeof (GameWin));
+                return;
+            }
 
+            // Check if player reached end of the trail.
+            if (GameSimulationApp.Instance.Vehicle.PassengersDead)
+            {
+                SetForm(typeof (GameFail));
+                return;
+            }
+
+            // Nothing took above we are going to detach this window.
+            RemoveWindowNextTick();
         }
     }
 }

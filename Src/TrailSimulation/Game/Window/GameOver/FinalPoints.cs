@@ -2,18 +2,12 @@
 // <copyright file="FinalPoints.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Shows point tabulation based on current simulation statistics. This way if the player dies or finishes the game we
-//   just attach this state to the travel mode and it will show the final score and reset the game and return to main
-//   menu when the player is done.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using System.Text;
     using Core;
     using Entity;
@@ -23,8 +17,8 @@ namespace TrailSimulation.Game
     ///     just attach this state to the travel mode and it will show the final score and reset the game and return to main
     ///     menu when the player is done.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
-    public sealed class FinalPoints : InputForm<TravelInfo>
+    [ParentWindow(GameWindow.GameOver)]
+    public sealed class FinalPoints : InputForm<GameOverInfo>
     {
         /// <summary>
         ///     Holds the final point tabulation for the player to see.
@@ -85,48 +79,27 @@ namespace TrailSimulation.Game
             {
                 // HealthLevel of vehicle passengers that are still alive.
                 new Tuple<int, string, int>(
-                    game.Vehicle.Passengers.Count(), 
+                    game.Vehicle.Passengers.Count, 
                     $"people in {avgHealth.ToDescriptionAttribute().ToLowerInvariant()} health", 
                     game.Vehicle.PassengerLivingCount*(int) avgHealth), 
-
-
-// Vehicle existence counts for some points.
                 new Tuple<int, string, int>(1, "wagon", Resources.Vehicle.Points), 
-
-
-// Number of oxen still alive pulling vehicle.
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Animal].Quantity, 
                     "oxen", 
                     game.Vehicle.Inventory[Entities.Animal].Points), 
-
-
-// Spare vehicle parts.
-                spareParts, 
-
-
-// Clothing
+                    spareParts, 
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Clothes].Quantity, 
                     "sets of clothing", 
                     game.Vehicle.Inventory[Entities.Clothes].Points), 
-
-
-// Bullets
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Ammo].Quantity, 
                     "bullets", 
                     game.Vehicle.Inventory[Entities.Ammo].Points), 
-
-
-// Food
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Food].Quantity, 
                     "pounds of food", 
                     game.Vehicle.Inventory[Entities.Food].Points), 
-
-
-// Cash
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Cash].Quantity, 
                     "cash", 
@@ -157,9 +130,6 @@ namespace TrailSimulation.Game
             switch (leaderPerson.Profession)
             {
                 case Profession.Banker:
-
-
-// Banker doesn't get this print out since he gets no bonus.
                     break;
                 case Profession.Carpenter:
                     _pointsPrompt.AppendLine($"Bonus Total: {totalPointsWithBonus}");

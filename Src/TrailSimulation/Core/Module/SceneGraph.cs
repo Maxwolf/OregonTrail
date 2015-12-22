@@ -93,13 +93,12 @@ namespace TrailSimulation.Core
         {
             // Spinning ticker that shows activity, lets us know if application hangs or freezes.
             var tui = new StringBuilder();
-            var windowMan = GameSimulationApp.Instance.WindowManager;
             tui.Append($"[ {GameSimulationApp.Instance.TickPhase} ] - ");
 
             // Keeps track of active Windows name and active Windows current state name for debugging purposes.
-            tui.Append(windowMan.FocusedWindow?.CurrentForm != null
-                ? $"Window({windowMan.Windows.Count}): {windowMan.FocusedWindow}({windowMan.FocusedWindow.CurrentForm}) - "
-                : $"Window({windowMan.Windows.Count}): {windowMan.FocusedWindow}() - ");
+            tui.Append(WindowManager.FocusedWindow?.CurrentForm != null
+                ? $"Window({WindowManager.Count}): {WindowManager.FocusedWindow}({WindowManager.FocusedWindow.CurrentForm}) - "
+                : $"Window({WindowManager.Count}): {WindowManager.FocusedWindow}() - ");
 
             // Total number of turns that have passed in the simulation.
             tui.AppendLine($"Turns: {GameSimulationApp.Instance.TotalTurns.ToString("D4")}");
@@ -109,9 +108,9 @@ namespace TrailSimulation.Core
                 $"Vehicle: {GameSimulationApp.Instance.Vehicle?.Status} - Location:{GameSimulationApp.Instance.Trail?.CurrentLocation?.Status}");
 
             // Prints game Windows specific text and options. This typically is menus from commands, or states showing some information.
-            tui.Append($"{RenderMode(windowMan)}{Environment.NewLine}");
+            tui.Append($"{RenderMode()}{Environment.NewLine}");
 
-            if (GameSimulationApp.Instance.WindowManager.AcceptingInput)
+            if (WindowManager.AcceptingInput)
             {
                 // Allow user to see their input from buffer.
                 tui.Append($"What is your choice? {GameSimulationApp.Instance.InputManager.InputBuffer}");
@@ -122,18 +121,16 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>Prints game Windows specific text and options.</summary>
-        /// <param name="windowManager">Instance of the window manager so we don't have to get it ourselves and just use the same one
-        ///     renderer is using.</param>
         /// <returns>The <see cref="string"/>.</returns>
-        private string RenderMode(WindowManager windowManager)
+        private string RenderMode()
         {
             // If TUI for active game Windows is not null or empty then use it.
-            var activeModeTUI = windowManager.FocusedWindow?.OnRenderMode();
+            var activeModeTUI = WindowManager.FocusedWindow?.OnRenderMode();
             if (!string.IsNullOrEmpty(activeModeTUI))
                 return activeModeTUI;
 
             // Otherwise, display default message if null for Windows.
-            return windowManager.FocusedWindow == null ? GAMEMODE_EMPTY_TUI : GAMEMODE_DEFAULT_TUI;
+            return WindowManager.FocusedWindow == null ? GAMEMODE_EMPTY_TUI : GAMEMODE_DEFAULT_TUI;
         }
 
         /// <summary>

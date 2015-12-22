@@ -23,7 +23,7 @@ namespace TrailSimulation.Game
         ///     Defines the limit on the number of players for the vehicle that will be allowed. This also determines how many
         ///     names are asked for in new game Windows.
         /// </summary>
-        public const int MAX_PLAYERS = 4;
+        public const int MAXPLAYERS = 4;
 
         /// <summary>
         ///     Keeps track of all the points of interest we want to visit from beginning to end that makeup the entire journey.
@@ -97,8 +97,8 @@ namespace TrailSimulation.Game
             foreach (var name in startingInfo.PlayerNames)
             {
                 // First name in list is always the leader.
-                var isLeader = startingInfo.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
-                Vehicle.AddPerson(new Person(startingInfo.PlayerProfession, name, isLeader));
+                var personLeader = startingInfo.PlayerNames.IndexOf(name) == 0 && crewNumber == 1;
+                Vehicle.AddPerson(new Person(startingInfo.PlayerProfession, name, personLeader));
                 crewNumber++;
             }
 

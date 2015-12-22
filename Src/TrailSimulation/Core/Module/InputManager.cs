@@ -75,7 +75,7 @@ namespace TrailSimulation.Core
                 return;
 
             // Dequeue the next command to send and pass along to currently active game Windows if it exists.
-            GameSimulationApp.Instance.WindowManager.FocusedWindow?.SendCommand(_commandQueue.Dequeue());
+            WindowManager.FocusedWindow?.SendCommand(_commandQueue.Dequeue());
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace TrailSimulation.Core
             var lineBufferTrimmed = InputBuffer.Trim();
 
             // Destroy the input buffer if we are not accepting commands but return is pressed anyway.
-            if (!GameSimulationApp.Instance.WindowManager.AcceptingInput)
+            if (!WindowManager.AcceptingInput)
                 InputBuffer = string.Empty;
 
             // Send trimmed line buffer to game simulation, if not accepting input we just pass along empty string.
@@ -104,7 +104,7 @@ namespace TrailSimulation.Core
         private void OnCharacterAddedToInputBuffer(string addedKeyString)
         {
             // Disable passing along input buffer if the simulation is not currently accepting input from the user.
-            if (!GameSimulationApp.Instance.WindowManager.AcceptingInput)
+            if (!WindowManager.AcceptingInput)
                 return;
 
             // Add the character to the end of the input buffer.
