@@ -25,7 +25,7 @@ namespace TrailSimulation.Game
             foreach (var passenger in GameSimulationApp.Instance.Vehicle.Passengers)
             {
                 // Skip if not the leader.
-                if (!passenger.IsLeader)
+                if (!passenger.Leader)
                     continue;
 
                 // Add the leaders name to the Tombstone header.

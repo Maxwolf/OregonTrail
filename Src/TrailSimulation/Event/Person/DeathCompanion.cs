@@ -51,7 +51,7 @@ namespace TrailSimulation.Event
                     "Could not cast source entity as passenger of vehicle.");
 
             // Check to make sure this player is not the leader (aka the player).
-            if (sourcePerson.IsLeader)
+            if (sourcePerson.Leader)
                 throw new ArgumentException("Cannot kill this person because it is the player!");
 
             _passengerDeath.AppendLine($"{sourcePerson.Name} has died.");

@@ -48,7 +48,7 @@ namespace TrailSimulation.Event
                 throw new ArgumentNullException(nameof(userData), "Could not cast source entity as player.");
 
             // Check to make sure this player is the leader (aka the player).
-            if (!sourcePerson.IsLeader)
+            if (!sourcePerson.Leader)
                 throw new ArgumentException("Cannot kill this person because it is not the player!");
 
             _leaderDeath.AppendLine($"{sourcePerson.Name} has died.");

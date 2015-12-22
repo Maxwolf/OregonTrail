@@ -212,7 +212,7 @@ namespace TrailSimulation.Entity
                 foreach (var person in Passengers)
                 {
                     // Add leader position when we come by it.
-                    if (person.IsLeader)
+                    if (person.Leader)
                         leaderPerson = person;
                 }
 
