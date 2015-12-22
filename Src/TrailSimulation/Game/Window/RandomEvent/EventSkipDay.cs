@@ -2,6 +2,10 @@
 // <copyright file="EventSkipDay.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Skips over a set amount of time that an event would like to move past. The days will be ticked normally, and not
+//   forced like a river crossing does so days won't go by while crossing a single river.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {
@@ -72,17 +76,14 @@ namespace TrailSimulation.Game
             if (!string.IsNullOrEmpty(UserData.EventText))
                 _skipMessage.AppendLine($"{Environment.NewLine}{UserData.EventText}");
 
-            // Show the losing day text until we are done doing that, then only show event text and wait for user input.
-            if (UserData.DaysToSkip > 0)
+            // Determine if we have skipped a single day, or multiple days.
+            _skipMessage.AppendLine(UserData.DaysToSkip > 1
+                ? $"Lose {UserData.DaysToSkip} days."
+                : "Lose 1 day.");
+
+            // Only show the press enter when they can actually leave.
+            if (UserData.DaysToSkip <= 0)
             {
-                // Determine if we have skipped a single day, or multiple days.
-                _skipMessage.AppendLine(UserData.DaysToSkip > 1
-                    ? $"Lose {UserData.DaysToSkip} days."
-                    : "Lose 1 day.");
-            }
-            else
-            {
-                // Allow the user to stop resting, this will break the cycle and reset days to rest to zero.
                 _skipMessage.AppendLine($"{Environment.NewLine}{InputManager.PRESS_ENTER}{Environment.NewLine}");
             }
         }
