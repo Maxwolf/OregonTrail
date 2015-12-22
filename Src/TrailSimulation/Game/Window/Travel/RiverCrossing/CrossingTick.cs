@@ -49,11 +49,6 @@ namespace TrailSimulation.Game
         /// </summary>
         private string _swayBarText;
 
-        /// <summary>
-        ///     Determines if we have force triggered an event to destroy items in the vehicle.
-        /// </summary>
-        private bool hasForcedEvent;
-
         /// <summary>Initializes a new instance of the <see cref="CrossingTick"/> class.
         ///     This constructor will be used by the other one</summary>
         /// <param name="window">The window.</param>
@@ -199,13 +194,10 @@ namespace TrailSimulation.Game
             switch (UserData.River.CrossingType)
             {
                 case RiverCrossChoice.Ford:
-
-
-// If river is deeper than a few feet and you ford it you will get flooded at least once.
-                    if (UserData.River.RiverDepth > 3 && !hasForcedEvent &&
+                    if (UserData.River.RiverDepth > 3 && !UserData.River.DisasterHappened &&
                         _riverCrossingOfTotalWidth >= (UserData.River.RiverWidth/2))
                     {
-                        hasForcedEvent = true;
+                        UserData.River.DisasterHappened = true;
                         game.EventDirector.TriggerEvent(game.Vehicle, typeof (VehicleWashOut));
                     }
                     else
@@ -216,11 +208,11 @@ namespace TrailSimulation.Game
 
                     break;
                 case RiverCrossChoice.Float:
-                    if (UserData.River.RiverDepth > 5 && !hasForcedEvent &&
+                    if (UserData.River.RiverDepth > 5 && !UserData.River.DisasterHappened &&
                         _riverCrossingOfTotalWidth >= (UserData.River.RiverWidth/2) &&
                         game.Random.NextBool())
                     {
-                        hasForcedEvent = true;
+                        UserData.River.DisasterHappened = true;
                         game.EventDirector.TriggerEvent(game.Vehicle, typeof (VehicleFloods));
                     }
                     else
@@ -232,9 +224,6 @@ namespace TrailSimulation.Game
                     break;
                 case RiverCrossChoice.Ferry:
                 case RiverCrossChoice.Indian:
-
-
-// Ferry, Indian, and floating over river both have the same risks.
                     game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
                     break;
                 case RiverCrossChoice.None:

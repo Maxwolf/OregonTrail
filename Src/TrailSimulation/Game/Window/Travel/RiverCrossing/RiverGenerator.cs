@@ -55,6 +55,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Determines if we have force triggered an event to destroy items in the vehicle.
+        /// </summary>
+        public bool DisasterHappened { get; set; }
+
+        /// <summary>
         ///     Determines how the vehicle and party members would like to cross the river.
         /// </summary>
         public RiverCrossChoice CrossingType { get; set; }
