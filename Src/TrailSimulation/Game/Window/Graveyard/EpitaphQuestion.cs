@@ -17,7 +17,7 @@ namespace TrailSimulation.Game
     ///     Asks the user if they would like to write a custom message on their Tombstone for other users to see when the
     ///     come across this part of the trail in the future.
     /// </summary>
-    [ParentWindow(GameWindow.Tombstone)]
+    [ParentWindow(GameWindow.Graveyard)]
     public sealed class EpitaphQuestion : InputForm<TombstoneInfo>
     {
         /// <summary>Initializes a new instance of the <see cref="EpitaphQuestion"/> class.
@@ -72,7 +72,7 @@ namespace TrailSimulation.Game
 
 
 // Add the Tombstone as is to the Tombstone manager for future players to see.
-                    GameSimulationApp.Instance.Graveyard.Add(UserData.Tombstone);
+                    GameSimulationApp.Instance.Tombstone.Add(UserData.Tombstone);
                     SetForm(typeof (TombstoneView));
                     break;
                 default:

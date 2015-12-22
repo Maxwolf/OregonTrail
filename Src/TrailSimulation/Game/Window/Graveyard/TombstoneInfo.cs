@@ -21,14 +21,14 @@ namespace TrailSimulation.Game
         ///     Tombstone for the player (or another dead player) that will be either viewed or shown to user so they can
         ///     confirm their graves details.
         /// </summary>
-        private Tombstone _tempTombstone;
+        private Tombstone tempTombstone;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="TombstoneInfo" /> class.
         /// </summary>
         public TombstoneInfo()
         {
-            _tempTombstone = null;
+            tempTombstone = null;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace TrailSimulation.Game
             get
             {
                 // Create a tombstone if one does not exist, otherwise reference existing one.
-                return _tempTombstone ?? (_tempTombstone = new Tombstone());
+                return tempTombstone ?? (tempTombstone = new Tombstone());
             }
         }
 
@@ -49,7 +49,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public void ClearTombstone()
         {
-            _tempTombstone = null;
+            tempTombstone = null;
         }
     }
 }

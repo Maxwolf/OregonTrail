@@ -71,7 +71,7 @@ namespace TrailSimulation.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // Actually erase Tombstone messages.
-            GameSimulationApp.Instance.Graveyard.Reset();
+            GameSimulationApp.Instance.Tombstone.Reset();
 
             SetForm(typeof (ManagementOptions));
         }

@@ -19,7 +19,7 @@ namespace TrailSimulation.Game
     ///     Will
     ///     limit the input of the epitaph also and do basic whitespace checks and trimming.
     /// </summary>
-    [ParentWindow(GameWindow.Tombstone)]
+    [ParentWindow(GameWindow.Graveyard)]
     public sealed class EpitaphEditor : Form<TombstoneInfo>
     {
         /// <summary>

@@ -57,7 +57,7 @@ namespace TrailSimulation.Game
         public override string OnRenderForm()
         {
             // Jump right to tombstone game window, it will reset the game.
-            GameSimulationApp.Instance.WindowManager.Add(GameWindow.Tombstone);
+            GameSimulationApp.Instance.WindowManager.Add(GameWindow.Graveyard);
             return string.Empty;
         }
 

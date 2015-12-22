@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GraveyardModule.cs" company="Ron 'Maxwolf' McDowell">
+// <copyright file="TombstoneModule.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
 // <summary>
@@ -18,13 +18,13 @@ namespace TrailSimulation.Game
     ///     using JSON. Finally it also has all the needed methods to check for a Tombstone at a particular spot on the
     ///     trail.
     /// </summary>
-    public sealed class GraveyardModule : Module
+    public sealed class TombstoneModule : Module
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="GraveyardModule" /> class.
+        ///     Initializes a new instance of the <see cref="TombstoneModule" /> class.
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.TombstoneManager" /> class.
         /// </summary>
-        public GraveyardModule()
+        public TombstoneModule()
         {
             Tombstones = new Dictionary<int, Tombstone>();
 

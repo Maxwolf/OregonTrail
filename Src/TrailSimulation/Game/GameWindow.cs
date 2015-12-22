@@ -2,11 +2,6 @@
 // <copyright file="GameWindow.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Since the forms for game windows are separated from the actual logic being performed we need a logical way to know
-//   what form to attach on the window. This enum serves that purpose, it is required to add any new game modes the
-//   simulation needs to know about to this file.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {
@@ -42,7 +37,15 @@ namespace TrailSimulation.Game
         ///     Displays the name of a previous player whom traveled the trail and died at a given mile marker. There is also an
         ///     optional epitaph that can be displayed. These tombstones are saved per trail, and can be reset from main menu.
         /// </summary>
-        [Window(typeof (TombstoneWindow))]
-        Tombstone
+        [Window(typeof (Graveyard))]
+        Graveyard, 
+
+        /// <summary>
+        ///     Controls the process of ending the current game simulation depending on if the player won or lost. This window can
+        ///     be attached at any point by any other window, or form in order to facilitate the game being able to trigger a game
+        ///     over scenario no matter what is happening.
+        /// </summary>
+        [Window(typeof (GameOver))]
+        GameOver
     }
 }

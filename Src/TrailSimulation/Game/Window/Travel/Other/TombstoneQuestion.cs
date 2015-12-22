@@ -71,7 +71,7 @@ namespace TrailSimulation.Game
 
 
 // Show the tombstone to the player.
-                    GameSimulationApp.Instance.WindowManager.Add(GameWindow.Tombstone);
+                    GameSimulationApp.Instance.WindowManager.Add(GameWindow.Graveyard);
 
                     // Goes back to continue on trail form below us.
                     ClearForm();

@@ -68,7 +68,7 @@ namespace TrailSimulation.Game
         ///     References all of the tombstones that this trail might have associated with it, also allows adding of tombstones to
         ///     this trail so other players can encounter them in the future.
         /// </summary>
-        public GraveyardModule Graveyard { get; private set; }
+        public TombstoneModule Tombstone { get; private set; }
 
         /// <summary>Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
         ///     capacity or want to do so in this turn.</summary>
@@ -128,7 +128,7 @@ namespace TrailSimulation.Game
             Scoring = new ScoringModule();
 
             // Allows for other players to see deaths of previous players on the trail.
-            Graveyard = new GraveyardModule();
+            Tombstone = new TombstoneModule();
         }
 
         /// <summary>
@@ -138,14 +138,14 @@ namespace TrailSimulation.Game
         {
             // Notify modules of impending doom allowing them to save data.
             Scoring.Destroy();
-            Graveyard.Destroy();
+            Tombstone.Destroy();
             Time.Destroy();
             EventDirector.Destroy();
             Trail.Destroy();
 
             // Null the destroyed instances.
             Scoring = null;
-            Graveyard = null;
+            Tombstone = null;
             Time = null;
             EventDirector = null;
             Trail = null;

@@ -149,7 +149,7 @@ namespace TrailSimulation.Game
                     _swayBarText = _marqueeBar.Step();
 
                     // Check if there is a tombstone here, if so we attach question form that asks if we stop or not.
-                    if (game.Graveyard.ContainsTombstone(game.Vehicle.Odometer))
+                    if (game.Tombstone.ContainsTombstone(game.Vehicle.Odometer))
                     {
                         SetForm(typeof (TombstoneQuestion));
                         return;
