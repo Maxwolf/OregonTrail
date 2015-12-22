@@ -83,7 +83,7 @@ namespace TrailSimulation.Game
             {
                 // Player has enough clothing to satisfy the Indians cost.
                 _prompt.AppendLine("Will you accept this");
-                _prompt.AppendLine($"offer? Y/N{Environment.NewLine}");
+                _prompt.Append("offer? Y/N");
             }
             else
             {
@@ -108,17 +108,11 @@ namespace TrailSimulation.Game
                 switch (reponse)
                 {
                     case DialogResponse.Yes:
-
-
-// Player has enough clothing to satisfy the Indians cost, will be subtracted in confirmation.
                         UserData.River.CrossingType = RiverCrossChoice.Indian;
                         SetForm(typeof (UseIndianConfirm));
                         break;
                     case DialogResponse.No:
                     case DialogResponse.Custom:
-
-
-// Returns back to the river cross choice menu.
                         CancelIndianCrossing();
                         break;
                     default:

@@ -50,7 +50,7 @@ namespace TrailSimulation.Entity
             LocationCategory category, 
             Climate climateType, 
             IEnumerable<Location> skipChoices = null, 
-            RiverOption riverOption = RiverOption.ForkAndFord)
+            RiverOption riverOption = RiverOption.FloatAndFord)
         {
             // Determines if this location will have fresh water.
             FreshWater = GameSimulationApp.Instance.Random.NextBool();

@@ -39,7 +39,7 @@ namespace TrailSimulation.Game
         {
             var _prompt = new StringBuilder();
             _prompt.AppendLine($"{Environment.NewLine}The Shoshoni guide will help");
-            _prompt.AppendLine("you float your wagon across.");
+            _prompt.AppendLine($"you float your wagon across.{Environment.NewLine}");
             return _prompt.ToString();
         }
 

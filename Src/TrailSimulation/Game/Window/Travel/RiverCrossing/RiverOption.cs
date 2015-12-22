@@ -28,7 +28,7 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     No special assistance with crossing river, player must ford into it or caulk and float their vehicle across it.
         /// </summary>
-        ForkAndFord = 1, 
+        FloatAndFord = 1, 
 
         /// <summary>
         ///     Provides access to a ferry alongside the fork and ferry abilities, cost the player monies and time to use it. Ferry

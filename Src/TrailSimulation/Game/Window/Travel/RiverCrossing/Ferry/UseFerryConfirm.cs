@@ -43,7 +43,7 @@ namespace TrailSimulation.Game
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
         /// <returns>
-        ///     The <see cref="string" />.
+        ///     The text user interface. <see cref="string" />.
         /// </returns>
         protected override string OnDialogPrompt()
         {
@@ -64,9 +64,6 @@ namespace TrailSimulation.Game
             switch (reponse)
             {
                 case DialogResponse.Yes:
-
-
-// Check if you have enough monies to use the ferry.
                     if (UserData.River.FerryCost >=
                         GameSimulationApp.Instance.Vehicle.Inventory[Entities.Cash].TotalValue)
                     {

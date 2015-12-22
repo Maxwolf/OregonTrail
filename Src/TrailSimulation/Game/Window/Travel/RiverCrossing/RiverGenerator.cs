@@ -35,7 +35,7 @@ namespace TrailSimulation.Game
                     FerryCost = GameSimulationApp.Instance.Random.Next(3, 8);
                     FerryDelayInDays = GameSimulationApp.Instance.Random.Next(1, 10);
                     break;
-                case RiverOption.ForkAndFord:
+                case RiverOption.FloatAndFord:
                     IndianCost = 0;
                     FerryCost = 0;
                     FerryDelayInDays = 0;

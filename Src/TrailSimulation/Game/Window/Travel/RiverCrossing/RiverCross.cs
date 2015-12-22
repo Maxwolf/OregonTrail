@@ -34,10 +34,20 @@ namespace TrailSimulation.Game
         private Dictionary<RiverCrossChoice, Action> _riverActions;
 
         /// <summary>
+        ///     Defines enumeration values in list format so they can easily be iterated over.
+        /// </summary>
+        private List<RiverCrossChoice> _riverChoices;
+
+        /// <summary>
         ///     Holds all the information about the river and crossing decisions so it only needs to be constructed once at
         ///     startup.
         /// </summary>
         private StringBuilder _riverInfo;
+
+        /// <summary>
+        ///     Keeps track of the total number of river options that have been configured to display for this crossing.
+        /// </summary>
+        private int _riverOptionsCount;
 
         /// <summary>Initializes a new instance of the <see cref="RiverCross"/> class.
         ///     This constructor will be used by the other one</summary>
@@ -58,6 +68,9 @@ namespace TrailSimulation.Game
             var game = GameSimulationApp.Instance;
 
             // Re-create the mappings and text information on post create each time.
+            _riverOptionsCount = 0;
+            _riverChoices =
+                new List<RiverCrossChoice>(Enum.GetValues(typeof (RiverCrossChoice)).Cast<RiverCrossChoice>());
             _choiceMappings = new Dictionary<string, RiverCrossChoice>();
             _riverActions = new Dictionary<RiverCrossChoice, Action>();
             _riverInfo = new StringBuilder();
@@ -75,83 +88,119 @@ namespace TrailSimulation.Game
             _riverInfo.AppendLine($"You may:{Environment.NewLine}");
 
             // Loop through all the river choice commands and print them out for the state.
-            var choices = new List<RiverCrossChoice>(Enum.GetValues(typeof (RiverCrossChoice)).Cast<RiverCrossChoice>());
-            for (var index = 1; index < choices.Count; index++)
+            for (var index = 1; index < _riverChoices.Count; index++)
             {
                 // Get the current river choice enumeration value we casted into list.
-                var riverChoice = choices[index];
+                var riverChoice = _riverChoices[index];
 
-                // Add the mapping for text user interface mapping to enumeration value for action invoking below.
-                _choiceMappings.Add(index.ToString(), riverChoice);
+                // Figure out what kind of river options this location is configured for.
+                if (game.Trail.CurrentLocation.RiverCrossOption == RiverOption.FerryOperator &&
+                    riverChoice == RiverCrossChoice.Ferry)
+                {
+                    // Ferry operator costs money.
+                    PopulateRiverMappings(riverChoice);
+                }
+                else if (game.Trail.CurrentLocation.RiverCrossOption == RiverOption.IndianGuide &&
+                         riverChoice == RiverCrossChoice.Indian)
+                {
+                    // Indian wants sets of clothes in exchange for helping float.
+                    PopulateRiverMappings(riverChoice);
+                }
+                else if (game.Trail.CurrentLocation.RiverCrossOption == RiverOption.FloatAndFord ||
+                         (riverChoice == RiverCrossChoice.Float || riverChoice == RiverCrossChoice.Ford))
+                {
+                    // Default float and ford choices that exist on every river.
+                    PopulateRiverMappings(riverChoice);
+                }
+                else if (riverChoice == RiverCrossChoice.GetMoreInformation ||
+                         riverChoice == RiverCrossChoice.WaitForWeather)
+                {
+                    // Allows player to try and wait out bad weather.
+                    PopulateRiverMappings(riverChoice);
+                }
+            }
+        }
 
-                // Last line should not print new line.
-                if (index == (choices.Count - 1))
-                {
-                    _riverInfo.Append(index + ". " + riverChoice.ToDescriptionAttribute());
-                }
-                else
-                {
-                    _riverInfo.AppendLine(index + ". " + riverChoice.ToDescriptionAttribute());
-                }
+        /// <summary>Used to add the correct action mapping to correct enumeration value. The reason for all this overhead is because
+        ///     the river crossing options can change and when they do it affects the types of choices the player can make when
+        ///     crossing the river.</summary>
+        /// <param name="riverChoice">Current river crossing choice that would like to be added to list, this method decides if it
+        ///     makes the cut.</param>
+        private void PopulateRiverMappings(RiverCrossChoice riverChoice)
+        {
+            // Increment the total number of river option mappings we have created.
+            _riverOptionsCount++;
 
-                // Depending on selection made we will decide on what to do.
-                switch (riverChoice)
-                {
-                    case RiverCrossChoice.Ford:
-                        _riverActions.Add(riverChoice, delegate
-                        {
-                            // Driving straight into the river and hoping you don't drown.
-                            UserData.River.CrossingType = RiverCrossChoice.Ford;
-                            SetForm(typeof (CrossingTick));
-                        });
-                        break;
-                    case RiverCrossChoice.Float:
-                        _riverActions.Add(riverChoice, delegate
-                        {
-                            // Floating wagon manually without any help.
-                            UserData.River.CrossingType = RiverCrossChoice.Float;
-                            SetForm(typeof (CrossingTick));
-                        });
-                        break;
-                    case RiverCrossChoice.Ferry:
-                        _riverActions.Add(riverChoice, delegate
-                        {
-                            // Ferry operator charges money and time before player can cross.
-                            UserData.River.CrossingType = RiverCrossChoice.Ferry;
-                            SetForm(typeof (UseFerryConfirm));
-                        });
-                        break;
-                    case RiverCrossChoice.Indian:
-                        _riverActions.Add(riverChoice, delegate
-                        {
-                            // Indian guide helps float wagon across river for sets of clothing.
-                            UserData.River.CrossingType = RiverCrossChoice.Indian;
-                            SetForm(typeof (IndianGuidePrompt));
-                        });
-                        break;
-                    case RiverCrossChoice.WaitForWeather:
-                        _riverActions.Add(riverChoice, delegate
-                        {
-                            // Resting by a river only increments a single day at a time.
-                            UserData.DaysToRest = 1;
-                            UserData.River.CrossingType = RiverCrossChoice.WaitForWeather;
-                            SetForm(typeof (Resting));
-                        });
-                        break;
-                    case RiverCrossChoice.GetMoreInformation:
-                        _riverActions.Add(riverChoice, delegate
-                        {
-                            UserData.River.CrossingType = RiverCrossChoice.GetMoreInformation;
-                            SetForm(typeof (FordRiverHelp));
-                        });
-                        break;
-                    case RiverCrossChoice.None:
-                        throw new ArgumentException(
-                            "Unable to use river cross choice NONE as a selection since it is only intended for initialization.");
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(riverChoice), 
-                            "Unable to cast river cross choice into a valid selection for river crossing.");
-                }
+            // Add the mapping for text user interface mapping to enumeration value for action invoking below.
+            _choiceMappings.Add(_riverOptionsCount.ToString(), riverChoice);
+
+            // Last line should not print new line.
+            if (_riverOptionsCount == (_riverChoices.Count - 1))
+            {
+                _riverInfo.Append(_riverOptionsCount + ". " + riverChoice.ToDescriptionAttribute());
+            }
+            else
+            {
+                _riverInfo.AppendLine(_riverOptionsCount + ". " + riverChoice.ToDescriptionAttribute());
+            }
+
+            // Depending on selection made we will decide on what to do.
+            switch (riverChoice)
+            {
+                case RiverCrossChoice.Ford:
+                    _riverActions.Add(riverChoice, delegate
+                    {
+                        // Driving straight into the river and hoping you don't drown.
+                        UserData.River.CrossingType = RiverCrossChoice.Ford;
+                        SetForm(typeof (CrossingTick));
+                    });
+                    break;
+                case RiverCrossChoice.Float:
+                    _riverActions.Add(riverChoice, delegate
+                    {
+                        // Floating wagon manually without any help.
+                        UserData.River.CrossingType = RiverCrossChoice.Float;
+                        SetForm(typeof (CrossingTick));
+                    });
+                    break;
+                case RiverCrossChoice.Ferry:
+                    _riverActions.Add(riverChoice, delegate
+                    {
+                        // Ferry operator charges money and time before player can cross.
+                        UserData.River.CrossingType = RiverCrossChoice.Ferry;
+                        SetForm(typeof (UseFerryConfirm));
+                    });
+                    break;
+                case RiverCrossChoice.Indian:
+                    _riverActions.Add(riverChoice, delegate
+                    {
+                        // Indian guide helps float wagon across river for sets of clothing.
+                        UserData.River.CrossingType = RiverCrossChoice.Indian;
+                        SetForm(typeof (IndianGuidePrompt));
+                    });
+                    break;
+                case RiverCrossChoice.WaitForWeather:
+                    _riverActions.Add(riverChoice, delegate
+                    {
+                        // Resting by a river only increments a single day at a time.
+                        UserData.DaysToRest = 1;
+                        UserData.River.CrossingType = RiverCrossChoice.WaitForWeather;
+                        SetForm(typeof (Resting));
+                    });
+                    break;
+                case RiverCrossChoice.GetMoreInformation:
+                    _riverActions.Add(riverChoice, delegate
+                    {
+                        UserData.River.CrossingType = RiverCrossChoice.GetMoreInformation;
+                        SetForm(typeof (FordRiverHelp));
+                    });
+                    break;
+                case RiverCrossChoice.None:
+                    throw new ArgumentException(
+                        "Unable to use river cross choice NONE as a selection since it is only intended for initialization.");
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(riverChoice), 
+                        "Unable to cast river cross choice into a valid selection for river crossing.");
             }
         }
 
