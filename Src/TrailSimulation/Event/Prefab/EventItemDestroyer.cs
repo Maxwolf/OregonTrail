@@ -2,11 +2,6 @@
 // <copyright file="EventItemDestroyer.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Prefab class that is used to destroy some items at random from the vehicle inventory. Will return a list of items
-//   and print them to the screen and allow for a custom prompt message to be displayed so it can be different for each
-//   implementation that wants to use it.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Event
 {
@@ -56,10 +51,17 @@ namespace TrailSimulation.Event
             var drownedPassengers = GameSimulationApp.Instance.Vehicle.Passengers.TryKill();
 
             // If the killed passenger list contains any entries we print them out.
-            foreach (var person in drownedPassengers)
+            var passengers = drownedPassengers as IList<Person> ?? drownedPassengers.ToList();
+            foreach (var person in passengers)
             {
                 // Only proceed if person is actually dead.
-                if (person.HealthValue == HealthLevel.Dead)
+                if (person.HealthValue != HealthLevel.Dead)
+                    continue;
+
+                // Last person killed will not add a new line.
+                if (passengers.Last() == person)
+                    postDestroy.Append($"{person.Name} ({killVerb})");
+                else
                     postDestroy.AppendLine($"{person.Name} ({killVerb})");
             }
 
