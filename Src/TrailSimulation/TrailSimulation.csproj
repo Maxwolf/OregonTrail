@@ -39,7 +39,7 @@
     <Compile Include="Core\Module.cs" />
     <Compile Include="Core\Utility\ArrayExtensions.cs" />
     <Compile Include="Core\Utility\StringExtensions.cs" />
-    <Compile Include="Entity\Location\ClimateRegistry.cs" />
+    <Compile Include="Entity\Location\Weather\ClimateRegistry.cs" />
     <Compile Include="Entity\Location\ILocation.cs" />
     <Compile Include="Entity\Location\LocationWarning.cs" />
     <Compile Include="Entity\Location\Point\ForkInRoad.cs" />
@@ -220,14 +220,14 @@
     <Compile Include="Game\Window\Travel\TravelInfo.cs" />
     <Compile Include="Game\Window\Travel\Travel.cs" />
     <Compile Include="Game\GameSimulationApp.cs" />
-    <Compile Include="Entity\Location\Climate.cs" />
-    <Compile Include="Entity\Location\ClimateData.cs" />
-    <Compile Include="Entity\Location\Weather.cs" />
+    <Compile Include="Entity\Location\Weather\Climate.cs" />
+    <Compile Include="Entity\Location\Weather\ClimateData.cs" />
+    <Compile Include="Entity\Location\Weather\Weather.cs" />
     <Compile Include="Game\Module\Director\EventDirectorModule.cs" />
     <Compile Include="Game\Module\Time\Date.cs" />
     <Compile Include="Game\Module\Time\Month.cs" />
     <Compile Include="Game\Module\Trail\TrailRegistry.cs" />
-    <Compile Include="Entity\Location\LocationWeather.cs" />
+    <Compile Include="Entity\Location\Weather\LocationWeather.cs" />
     <Compile Include="Core\SimulationApp.cs" />
     <Compile Include="Game\Module\Time\TimeModule.cs" />
     <Compile Include="Game\Module\Trail\TrailModule.cs" />
