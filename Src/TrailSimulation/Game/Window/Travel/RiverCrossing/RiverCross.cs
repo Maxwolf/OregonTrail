@@ -135,7 +135,7 @@ namespace TrailSimulation.Game
             _choiceMappings.Add(_riverOptionsCount.ToString(), riverChoice);
 
             // Last line should not print new line.
-            if (_riverOptionsCount == (_riverChoices.Count - 1))
+            if (_riverChoices.Last() == riverChoice)
             {
                 _riverInfo.Append(_riverOptionsCount + ". " + riverChoice.ToDescriptionAttribute());
             }
