@@ -2,6 +2,10 @@
 // <copyright file="Resting.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Keeps track of a set number of days and every time the game Windows is ticked a day is simulated and days to rest
+//   subtracted until we are at zero, then the player can close the window but until then input will not be accepted.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {

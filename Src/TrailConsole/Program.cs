@@ -2,6 +2,9 @@
 // <copyright file="Program.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Trail Simulation Game - Console Edition
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailConsole
 {

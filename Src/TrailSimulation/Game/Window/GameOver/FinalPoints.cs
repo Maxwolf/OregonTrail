@@ -2,6 +2,11 @@
 // <copyright file="FinalPoints.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Shows point tabulation based on current simulation statistics. This way if the player dies or finishes the game we
+//   just attach this state to the travel mode and it will show the final score and reset the game and return to main
+//   menu when the player is done.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {
@@ -87,7 +92,7 @@ namespace TrailSimulation.Game
                     game.Vehicle.Inventory[Entities.Animal].Quantity, 
                     "oxen", 
                     game.Vehicle.Inventory[Entities.Animal].Points), 
-                    spareParts, 
+                spareParts, 
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Clothes].Quantity, 
                     "sets of clothing", 

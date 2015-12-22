@@ -2,6 +2,12 @@
 // <copyright file="CrossingResult.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Displays the final crossing result for the river crossing location. No matter what choice the player made, what
+//   events happen along the way, this final screen will be shown to let the user know how the last leg of the journey
+//   went. It is possible to get stuck in the mud, however most of the messages are safe and just let the user know they
+//   finally made it across.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {

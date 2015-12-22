@@ -2,6 +2,10 @@
 // <copyright file="WindowManager.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Builds up a list of game modes and their states using reflection and attributes. Contains methods to add game modes
+//   to running simulation. Can also remove modes and modify them further with states.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Core
 {
@@ -204,6 +208,7 @@ namespace TrailSimulation.Core
                         loadedMode.Value.OnWindowAdded();
                     }
                 }
+
                 tempWindowList.Clear();
             }
         }

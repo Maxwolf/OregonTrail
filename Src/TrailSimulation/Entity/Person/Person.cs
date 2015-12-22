@@ -2,6 +2,10 @@
 // <copyright file="Person.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Represents a human-being. Gender is not tracked, we only care about them as an entity that consumes food and their
+//   health.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Entity
 {

@@ -2,6 +2,10 @@
 // <copyright file="HeavyFog.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Reduces the total capacity for the vehicle to move in a given trip segment by a random amount calculated at the
+//   time of event execution.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Event
 {

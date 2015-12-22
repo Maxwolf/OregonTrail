@@ -2,6 +2,11 @@
 // <copyright file="EventItemDestroyer.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Prefab class that is used to destroy some items at random from the vehicle inventory. Will return a list of items
+//   and print them to the screen and allow for a custom prompt message to be displayed so it can be different for each
+//   implementation that wants to use it.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Event
 {

@@ -2,6 +2,9 @@
 // <copyright file="StuckInMud.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Vehicle gets stuck in the mud, wasting the entire day.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Event
 {

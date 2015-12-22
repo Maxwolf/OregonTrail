@@ -121,7 +121,7 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>Prints game Windows specific text and options.</summary>
-        /// <returns>The <see cref="string"/>.</returns>
+        /// <returns>The <see cref="string" />.</returns>
         private string RenderMode()
         {
             // If TUI for active game Windows is not null or empty then use it.

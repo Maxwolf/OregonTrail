@@ -2,6 +2,10 @@
 // <copyright file="Tombstone.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Base tombstone interaction window, this is used to edit and confirm epitaphs for tombstones. Spawns forms that deal
+//   with showing and editing tombstone object data.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {

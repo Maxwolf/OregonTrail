@@ -285,11 +285,6 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        ///     Name of the entity as it should be known in the simulation.
-        /// </summary>
-        public string Name { get; }
-
-        /// <summary>
         ///     Defines what type of entity this will take the role of in the simulation. Depending on this value the simulation
         ///     will affect how it is treated, points tabulated, and interactions governed.
         /// </summary>
@@ -297,6 +292,11 @@ namespace TrailSimulation.Entity
         {
             get { return Entities.Vehicle; }
         }
+
+        /// <summary>
+        ///     Name of the entity as it should be known in the simulation.
+        /// </summary>
+        public string Name { get; }
 
         /// <summary>The compare.</summary>
         /// <param name="x">The x.</param>
