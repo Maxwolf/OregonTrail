@@ -22,11 +22,5 @@ namespace TrailSimulation.Entity
         ///     Name of the entity as it should be known in the simulation.
         /// </summary>
         string Name { get; }
-
-        /// <summary>
-        ///     Defines what type of entity this will take the role of in the simulation. Depending on this value the simulation
-        ///     will affect how it is treated, points tabulated, and interactions governed.
-        /// </summary>
-        Entities Category { get; }
     }
 }

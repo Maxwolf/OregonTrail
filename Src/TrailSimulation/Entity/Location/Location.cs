@@ -181,15 +181,6 @@ namespace TrailSimulation.Entity
         /// </summary>
         public string Name { get; }
 
-        /// <summary>
-        ///     Defines what type of entity this will take the role of in the simulation. Depending on this value the simulation
-        ///     will affect how it is treated, points tabulated, and interactions governed.
-        /// </summary>
-        Entities IEntity.Category
-        {
-            get { return Entities.Location; }
-        }
-
         /// <summary>Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the
         ///     other.</summary>
         /// <param name="x">The x.</param>
@@ -268,7 +259,6 @@ namespace TrailSimulation.Entity
         {
             var hash = 23;
             hash = (hash*31) + Name.GetHashCode();
-            hash = (hash*31) + Category.GetHashCode();
             return hash;
         }
 
