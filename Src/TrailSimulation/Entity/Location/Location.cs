@@ -25,19 +25,19 @@ namespace TrailSimulation.Entity
         ///     List of possible alternate locations the player might have to choose from if this list is not null and greater than
         ///     one. Game simulation will ask using modes and states what choice player would like.
         /// </summary>
-        private List<Location> _skipChoices;
+        private List<Location> skipChoices;
 
         /// <summary>
         ///     References all of the possible trades this location will be able to offer the player. If the list is empty that
         ///     means nobody wants to trade with the player at this time.
         /// </summary>
-        private List<SimItem> _trades;
+        private List<SimItem> trades;
 
         /// <summary>
         ///     Deals with the weather simulation for this location, each location on the trail is capable of simulating it's own
         ///     type of weather for the purposes of keeping them unique.
         /// </summary>
-        private LocationWeather _weather;
+        private LocationWeather weather;
 
         /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Entity.Location"/> class.</summary>
         /// <param name="name">The name.</param>
@@ -56,14 +56,14 @@ namespace TrailSimulation.Entity
             FreshWater = GameSimulationApp.Instance.Random.NextBool();
 
             // Creates a new system to deal with the management of the weather for this given location.
-            _weather = new LocationWeather(climateType);
+            weather = new LocationWeather(climateType);
 
             // Trades are randomly generated when ticking the location.
-            _trades = new List<SimItem>();
+            trades = new List<SimItem>();
 
             // Offers up a decision when traveling on the trail, there are normally one of many possible outcomes.
             if (skipChoices != null)
-                _skipChoices = new List<Location>(skipChoices);
+                this.skipChoices = new List<Location>(skipChoices);
 
             // Throws an exception if the river option is set to none and not a usable option.
             if (riverOption == RiverOption.None && category == LocationCategory.RiverCrossing)
@@ -113,7 +113,7 @@ namespace TrailSimulation.Entity
         /// </summary>
         public Weather Weather
         {
-            get { return _weather.Condition; }
+            get { return weather.Condition; }
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace TrailSimulation.Entity
         /// </summary>
         public ReadOnlyCollection<Location> SkipChoices
         {
-            get { return _skipChoices.AsReadOnly(); }
+            get { return skipChoices.AsReadOnly(); }
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace TrailSimulation.Entity
         /// </summary>
         public ReadOnlyCollection<SimItem> Trades
         {
-            get { return _trades.AsReadOnly(); }
+            get { return trades.AsReadOnly(); }
         }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace TrailSimulation.Entity
 
             // Weather will only be ticked when not skipping a day.
             if (!skipDay)
-                _weather.Tick();
+                weather.Tick();
 
             // TODO: Trades are randomly generated when ticking the location every day.
         }
