@@ -112,7 +112,8 @@ namespace TrailSimulation.Game
                     // Cast the location as a fork in the road.
                     var forkInRoad = location as ForkInRoad;
                     if (forkInRoad == null)
-                        throw new InvalidCastException("Unable to cast location to a fork in the road even though it returns as one!");
+                        throw new InvalidCastException(
+                            "Unable to cast location to a fork in the road even though it returns as one!");
 
                     // Loop through all the skip choices unique to forks.
                     foreach (var skipChoice in forkInRoad.SkipChoices)

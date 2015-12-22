@@ -2,6 +2,9 @@
 // <copyright file="TrailRegistry.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Complete trails the player can travel on using the simulation. Some are remakes and others new.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {

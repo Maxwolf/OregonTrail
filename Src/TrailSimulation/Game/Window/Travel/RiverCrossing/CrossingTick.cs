@@ -2,6 +2,10 @@
 // <copyright file="CrossingTick.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Runs the player over the river based on the crossing information. Depending on what happens a message will be
+//   printed to the screen explaining what happened before defaulting back to travel game Windows.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {

@@ -2,11 +2,14 @@
 // <copyright file="RiverCrossing.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Defines a river that the vehicle must cross when it encounters it. There are several options that can be used that
+//   are specific to a river and allow it to be configured to have different types of crossings such as with a ferry
+//   operator, and Indian guide, or neither and only supporting fording into the river and caulking and floating across.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Entity
 {
-    using System;
-    using System.Collections.Generic;
     using Game;
 
     /// <summary>
@@ -20,7 +23,8 @@ namespace TrailSimulation.Entity
         /// <param name="name">The name.</param>
         /// <param name="climateType">The climate Type.</param>
         /// <param name="riverOption">The river Option.</param>
-        public RiverCrossing(string name, Climate climateType, RiverOption riverOption = RiverOption.FloatAndFord) : base(name, climateType)
+        public RiverCrossing(string name, Climate climateType, RiverOption riverOption = RiverOption.FloatAndFord)
+            : base(name, climateType)
         {
             // Set the river option into the location itself.
             RiverCrossOption = riverOption;
@@ -47,7 +51,7 @@ namespace TrailSimulation.Entity
         /// </summary>
         public override LocationCategory Category
         {
-            get {return LocationCategory.RiverCrossing; }
+            get { return LocationCategory.RiverCrossing; }
         }
 
         /// <summary>

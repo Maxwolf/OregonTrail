@@ -2,6 +2,10 @@
 // <copyright file="Location.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Defines a location in the game that is added to a list of points that make up the entire trail which the player and
+//   his vehicle travel upon.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Entity
 {

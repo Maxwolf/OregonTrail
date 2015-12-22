@@ -29,7 +29,8 @@ namespace TrailSimulation.Game
             // Cast the current location as river crossing.
             var riverLocation = game.Trail.CurrentLocation as RiverCrossing;
             if (riverLocation == null)
-                throw new InvalidCastException("Unable to cast location as river crossing even though it returns as one!");
+                throw new InvalidCastException(
+                    "Unable to cast location as river crossing even though it returns as one!");
 
             // Randomly generates statistics about the river each time you cross it.
             RiverDepth = game.Random.Next(1, 20);

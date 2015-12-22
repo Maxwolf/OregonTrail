@@ -2,6 +2,10 @@
 // <copyright file="LocationWarning.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Defines all of the possible warnings that we would want to inform the user about while they are traveling on the
+//   trail.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Entity
 {

@@ -2,6 +2,11 @@
 // <copyright file="ILocation.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Base interface used for all locations on the trail, the purpose of which is to abstract the functionality of the
+//   location so we can create many different concrete implementations and then cast to the appropriate type in game
+//   window.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Entity
 {

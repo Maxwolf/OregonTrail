@@ -2,6 +2,9 @@
 // <copyright file="Settlement.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Civilized area where many other people from different vehicles congregate together and share resources.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Entity
 {
