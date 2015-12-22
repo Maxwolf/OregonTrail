@@ -23,6 +23,7 @@ namespace TrailSimulation.Event
         ///     what entity the event is for. Will require casting to correct instance type from interface instance.</param>
         public override void Execute(RandomEventInfo userData)
         {
+            // TODO: All the event warnings are not actually events.. they are location info that can be shown on travel info.
             throw new NotImplementedException();
         }
 
