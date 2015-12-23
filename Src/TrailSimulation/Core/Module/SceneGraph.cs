@@ -87,9 +87,9 @@ namespace TrailSimulation.Core
         ///     Prints game Windows specific text and options.
         /// </summary>
         /// <returns>
-        ///     The <see cref="string" />.
+        ///     The text user interface that is the game simulation.<see cref="string" />.
         /// </returns>
-        private string OnRender()
+        private static string OnRender()
         {
             // Spinning ticker that shows activity, lets us know if application hangs or freezes.
             var tui = new StringBuilder();
@@ -108,7 +108,7 @@ namespace TrailSimulation.Core
                 $"Vehicle: {GameSimulationApp.Instance.Vehicle?.Status} - Location:{GameSimulationApp.Instance.Trail?.CurrentLocation?.Status}");
 
             // Prints game Windows specific text and options. This typically is menus from commands, or states showing some information.
-            tui.Append($"{RenderMode()}{Environment.NewLine}");
+            tui.Append($"{RenderWindow()}{Environment.NewLine}");
 
             if (WindowManager.AcceptingInput)
             {
@@ -121,13 +121,13 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>Prints game Windows specific text and options.</summary>
-        /// <returns>The <see cref="string" />.</returns>
-        private string RenderMode()
+        /// <returns>The current window text to be rendered out.<see cref="string" />.</returns>
+        private static string RenderWindow()
         {
             // If TUI for active game Windows is not null or empty then use it.
-            var activeModeTUI = WindowManager.FocusedWindow?.OnRenderMode();
-            if (!string.IsNullOrEmpty(activeModeTUI))
-                return activeModeTUI;
+            var activeWindowText = WindowManager.FocusedWindow?.OnRenderMode();
+            if (!string.IsNullOrEmpty(activeWindowText))
+                return activeWindowText.WordWrap();
 
             // Otherwise, display default message if null for Windows.
             return WindowManager.FocusedWindow == null ? GAMEMODE_EMPTY_TUI : GAMEMODE_DEFAULT_TUI;
