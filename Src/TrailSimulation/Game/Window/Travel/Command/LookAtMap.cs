@@ -62,7 +62,7 @@ namespace TrailSimulation.Game
         protected override void OnDialogResponse(DialogResponse reponse)
         {
             // Check if current location is a fork in the road, if so we will return to that form.
-            if (GameSimulationApp.Instance.Trail.CurrentLocation.Category == LocationCategory.ForkInRoad)
+            if (GameSimulationApp.Instance.Trail.CurrentLocation is ForkInRoad)
             {
                 SetForm(typeof (LocationFork));
                 return;

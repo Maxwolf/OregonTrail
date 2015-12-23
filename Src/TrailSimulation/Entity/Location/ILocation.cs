@@ -36,12 +36,6 @@ namespace TrailSimulation.Entity
         bool ChattingAllowed { get; }
 
         /// <summary>
-        ///     Defines the type of location this is, the game simulation will trigger and load different states depending on this
-        ///     value. Defaults to default value which is a normal location with nothing special happening.
-        /// </summary>
-        LocationCategory Category { get; }
-
-        /// <summary>
         ///     Determines if this location has a store which the player can buy items from using their monies.
         /// </summary>
         bool ShoppingAllowed { get; }

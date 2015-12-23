@@ -72,7 +72,7 @@ namespace TrailSimulation.Game
             // Check if we are at a river crossing and need to subtract from ferry days also.
             if (UserData.River != null &&
                 UserData.River.FerryDelayInDays > 0 &&
-                GameSimulationApp.Instance.Trail.CurrentLocation.Category == LocationCategory.RiverCrossing)
+                GameSimulationApp.Instance.Trail.CurrentLocation is RiverCrossing)
                 UserData.River.FerryDelayInDays--;
 
             // Decrease number of days needed to rest, increment number of days rested.
@@ -111,42 +111,35 @@ namespace TrailSimulation.Game
             _restMessage.Clear();
 
             // Change up resting prompt depending on location category to give it some context.
-            switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
+            if (GameSimulationApp.Instance.Trail.CurrentLocation is ForkInRoad)
             {
-                case LocationCategory.RiverCrossing:
-                    if (_daysRested > 1)
-                    {
-                        _restMessage.AppendLine($"{Environment.NewLine}You camp near the river for {_daysRested} days.");
-                    }
-                    else if (_daysRested == 1)
-                    {
-                        _restMessage.AppendLine($"{Environment.NewLine}You camp near the river for a day.");
-                    }
-                    else if (_daysRested <= 0)
-                    {
-                        _restMessage.AppendLine($"{Environment.NewLine}Preparing to camp near the river...");
-                    }
-
-                    break;
-                case LocationCategory.Landmark:
-                case LocationCategory.Settlement:
-                case LocationCategory.ForkInRoad:
-                    if (_daysRested > 1)
-                    {
-                        _restMessage.AppendLine($"{Environment.NewLine}You rest for {_daysRested} days");
-                    }
-                    else if (_daysRested == 1)
-                    {
-                        _restMessage.AppendLine($"{Environment.NewLine}You rest for a day.");
-                    }
-                    else if (_daysRested <= 0)
-                    {
-                        _restMessage.AppendLine($"{Environment.NewLine}Preparing to rest...");
-                    }
-
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                if (_daysRested > 1)
+                {
+                    _restMessage.AppendLine($"{Environment.NewLine}You camp near the river for {_daysRested} days.");
+                }
+                else if (_daysRested == 1)
+                {
+                    _restMessage.AppendLine($"{Environment.NewLine}You camp near the river for a day.");
+                }
+                else if (_daysRested <= 0)
+                {
+                    _restMessage.AppendLine($"{Environment.NewLine}Preparing to camp near the river...");
+                }
+            }
+            else
+            {
+                if (_daysRested > 1)
+                {
+                    _restMessage.AppendLine($"{Environment.NewLine}You rest for {_daysRested} days");
+                }
+                else if (_daysRested == 1)
+                {
+                    _restMessage.AppendLine($"{Environment.NewLine}You rest for a day.");
+                }
+                else if (_daysRested <= 0)
+                {
+                    _restMessage.AppendLine($"{Environment.NewLine}Preparing to rest...");
+                }
             }
 
             // Allow the user to stop resting, this will break the cycle and reset days to rest to zero.
@@ -187,36 +180,33 @@ namespace TrailSimulation.Game
             }
 
             // Locations can return to a special state if required based on the category of the location.
-            switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
+            if (GameSimulationApp.Instance.Trail.CurrentLocation is Landmark ||
+                GameSimulationApp.Instance.Trail.CurrentLocation is Settlement)
             {
-                case LocationCategory.Landmark:
-                case LocationCategory.Settlement:
-                    ClearForm();
-                    break;
-                case LocationCategory.RiverCrossing:
-                    UserData.DaysToRest = 0;
+                ClearForm();
+            }
+            else if (GameSimulationApp.Instance.Trail.CurrentLocation is RiverCrossing)
+            {
+                UserData.DaysToRest = 0;
 
-                    // Player might be crossing a river, so we check if they made a decision and are waiting for ferry operator.
-                    if (UserData.River != null &&
-                        UserData.River.CrossingType == RiverCrossChoice.Ferry &&
-                        UserData.River.FerryDelayInDays <= 0 &&
-                        UserData.River.FerryCost >= 0)
-                    {
-                        // If player was waiting for ferry operator to let them cross we will jump right to that.
-                        SetForm(typeof (CrossingTick));
-                    }
-                    else
-                    {
-                        // Alternative is player just was waiting for weather.
-                        SetForm(typeof (RiverCross));
-                    }
-
-                    break;
-                case LocationCategory.ForkInRoad:
-                    SetForm(typeof (LocationFork));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                // Player might be crossing a river, so we check if they made a decision and are waiting for ferry operator.
+                if (UserData.River != null &&
+                    UserData.River.CrossingType == RiverCrossChoice.Ferry &&
+                    UserData.River.FerryDelayInDays <= 0 &&
+                    UserData.River.FerryCost >= 0)
+                {
+                    // If player was waiting for ferry operator to let them cross we will jump right to that.
+                    SetForm(typeof (CrossingTick));
+                }
+                else
+                {
+                    // Alternative is player just was waiting for weather.
+                    SetForm(typeof (RiverCross));
+                }
+            }
+            else if (GameSimulationApp.Instance.Trail.CurrentLocation is ForkInRoad)
+            {
+                SetForm(typeof (LocationFork));
             }
         }
     }

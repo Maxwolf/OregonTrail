@@ -32,15 +32,6 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        ///     Defines the type of location this is, the game simulation will trigger and load different states depending on this
-        ///     value. Defaults to default value which is a normal location with nothing special happening.
-        /// </summary>
-        public override LocationCategory Category
-        {
-            get { return LocationCategory.Landmark; }
-        }
-
-        /// <summary>
         ///     Determines if this location has a store which the player can buy items from using their monies.
         /// </summary>
         public override bool ShoppingAllowed

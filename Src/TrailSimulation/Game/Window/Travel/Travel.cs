@@ -69,21 +69,19 @@ namespace TrailSimulation.Game
                 return;
             }
 
-            // If we have not departed the current location yet there are several things we could need to do in order to depart.
-            switch (GameSimulationApp.Instance.Trail.CurrentLocation.Category)
+            // Check departed status the current location yet there are several things we could need to do in order to depart.
+            if (GameSimulationApp.Instance.Trail.CurrentLocation is Landmark ||
+                GameSimulationApp.Instance.Trail.CurrentLocation is Settlement)
             {
-                case LocationCategory.Landmark:
-                case LocationCategory.Settlement:
-                    SetForm(typeof (LocationDepart));
-                    break;
-                case LocationCategory.RiverCrossing:
-                    SetForm(typeof (RiverCrossHelp));
-                    break;
-                case LocationCategory.ForkInRoad:
-                    SetForm(typeof (LocationFork));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                SetForm(typeof (LocationDepart));
+            }
+            else if (GameSimulationApp.Instance.Trail.CurrentLocation is RiverCrossing)
+            {
+                SetForm(typeof (RiverCrossHelp));
+            }
+            else if (GameSimulationApp.Instance.Trail.CurrentLocation is ForkInRoad)
+            {
+                SetForm(typeof (LocationFork));
             }
         }
 

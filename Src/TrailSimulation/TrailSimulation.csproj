@@ -159,7 +159,6 @@
     <Compile Include="Game\Window\Travel\RiverCrossing\Help\RiverCrossHelp.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Ferry\UseFerryConfirm.cs" />
     <Compile Include="Core\Window\WindowFactory.cs" />
-    <Compile Include="Entity\Location\LocationCategory.cs" />
     <Compile Include="Entity\Location\LocationStatus.cs" />
     <Compile Include="Game\Module\Trail\Trail.cs" />
     <Compile Include="Game\Module\Scoring\Highscore.cs" />
