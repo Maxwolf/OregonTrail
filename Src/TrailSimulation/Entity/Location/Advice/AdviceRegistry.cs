@@ -14,6 +14,11 @@ namespace TrailSimulation.Entity
     public static class AdviceRegistry
     {
         /// <summary>
+        /// Defines the default advice that will be shown on the talk to people form if no advice is loaded.
+        /// </summary>
+        public const string DEFAULTADVICE = "[DEFAULT ADVICE]";
+
+        /// <summary>
         ///     Advice intended for new players that are starting out on the trail, normally this advice is used on the first
         ///     location.
         /// </summary>
@@ -150,7 +155,7 @@ namespace TrailSimulation.Entity
         ///     Advice that is generally used on locations that are inserted into the trail from forks in the road. The people in
         ///     these comments mostly show anger about toll roads and difficulty with getting over the mountains.
         /// </summary>
-        public static Advice[] SkipChoice
+        public static Advice[] Mountain
         {
             get
             {
@@ -177,7 +182,7 @@ namespace TrailSimulation.Entity
         ///     Advice from travelers that have been along most of the trail and are now deciding about which trail would be a
         ///     better risk for their vehicle party and offer up advice about their past decisions for replay value.
         /// </summary>
-        public static Advice[] ForkInRoad
+        public static Advice[] Ending
         {
             get
             {

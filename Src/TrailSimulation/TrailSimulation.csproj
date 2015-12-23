@@ -38,6 +38,7 @@
     <Compile Include="Core\ITick.cs" />
     <Compile Include="Core\Module.cs" />
     <Compile Include="Core\Utility\ArrayExtensions.cs" />
+    <Compile Include="Core\Utility\EnumerableExtensions.cs" />
     <Compile Include="Core\Utility\StringExtensions.cs" />
     <Compile Include="Entity\Location\Advice\Advice.cs" />
     <Compile Include="Entity\Location\Point\TollRoad.cs" />

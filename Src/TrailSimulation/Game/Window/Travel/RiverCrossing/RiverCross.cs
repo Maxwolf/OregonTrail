@@ -106,30 +106,35 @@ namespace TrailSimulation.Game
                 var riverChoice = _riverChoices[index];
 
                 // Figure out what kind of river options this location is configured for.
+                var allow = false;
                 if (riverLocation.RiverCrossOption == RiverOption.FerryOperator &&
                     riverChoice == RiverCrossChoice.Ferry)
                 {
                     // Ferry operator costs money.
-                    PopulateRiverMappings(riverChoice);
+                    allow = true;
                 }
                 else if (riverLocation.RiverCrossOption == RiverOption.IndianGuide &&
                          riverChoice == RiverCrossChoice.Indian)
                 {
                     // Indian wants sets of clothes in exchange for helping float.
-                    PopulateRiverMappings(riverChoice);
+                    allow = true;
                 }
                 else if (riverLocation.RiverCrossOption == RiverOption.FloatAndFord &&
                          (riverChoice == RiverCrossChoice.Float || riverChoice == RiverCrossChoice.Ford))
                 {
                     // Default float and ford choices that exist on every river.
-                    PopulateRiverMappings(riverChoice);
+                    allow = true;
                 }
                 else if (riverChoice == RiverCrossChoice.GetMoreInformation ||
                          riverChoice == RiverCrossChoice.WaitForWeather)
                 {
                     // Allows player to try and wait out bad weather.
-                    PopulateRiverMappings(riverChoice);
+                    allow = true;
                 }
+
+                // Only add the river choice if the logic above allows it.
+                if (allow)
+                    AddRiverChoice(riverChoice);
             }
         }
 
@@ -138,7 +143,7 @@ namespace TrailSimulation.Game
         ///     crossing the river.</summary>
         /// <param name="riverChoice">Current river crossing choice that would like to be added to list, this method decides if it
         ///     makes the cut.</param>
-        private void PopulateRiverMappings(RiverCrossChoice riverChoice)
+        private void AddRiverChoice(RiverCrossChoice riverChoice)
         {
             // Increment the total number of river option mappings we have created.
             _riverOptionsCount++;

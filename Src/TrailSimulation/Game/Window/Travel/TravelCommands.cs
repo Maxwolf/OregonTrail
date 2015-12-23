@@ -82,7 +82,7 @@ namespace TrailSimulation.Game
         BuySupplies = 9, 
 
         /// <summary>
-        ///     using "Talk," you can talk to fellow travelers to further the story or for advice.  If you don't know what to do,
+        ///     Using "Talk," you can talk to fellow travelers to further the story or for advice.  If you don't know what to do,
         ///     talk to someone or consult the Guide.
         /// </summary>
         [Description("Talk to people")]
