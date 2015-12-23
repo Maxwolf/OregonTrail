@@ -16,3 +16,10 @@ vehicle.Passengers.Damage(GameSimulationApp.Instance.Random.Next()*68 - 3);
 // Reduce the total possible mileage of the vehicle this turn.
 vehicle.ReduceMileage(15);
 
+In addition, the type and abundance of animals relates to the terrain.
+Small game spawn rates change depending on whether the terrain is prairie, plains, desert, or mountains.
+
+For diversion, or out of necessity, a party can rest from one to nine days.
+
+simulation takes at least twenty-five minutes
+
