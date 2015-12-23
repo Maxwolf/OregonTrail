@@ -2,6 +2,10 @@
 // <copyright file="Travel.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Primary game Windows of the simulation, used to show simulation advancing through linear time. Shows all major
+//   stats of party and vehicle, plus climate and other things like distance traveled and distance to next point.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {
@@ -83,7 +87,7 @@ namespace TrailSimulation.Game
             }
             else if (GameSimulationApp.Instance.Trail.CurrentLocation is TollRoad)
             {
-                //SetForm(typeof());
+                // SetForm(typeof());
             }
         }
 

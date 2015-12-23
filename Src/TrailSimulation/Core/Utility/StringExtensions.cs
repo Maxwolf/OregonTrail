@@ -2,6 +2,10 @@
 // <copyright file="StringExtensions.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Utility class that contains useful extension methods that make working with strings a little easier and less
+//   repetitive.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Core
 {

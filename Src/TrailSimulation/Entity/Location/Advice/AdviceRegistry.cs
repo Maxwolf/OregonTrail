@@ -2,6 +2,12 @@
 // <copyright file="AdviceRegistry.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   References all the advice that people will offer up to the player when they talk to people. The difference pieces
+//   of advice are broken up into chunks based the type of location and status on the trail they might represent. These
+//   are suggestions and definitely not guidelines the text could say anything, all I did was want to re-create it
+//   faithfully as it existed before.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Entity
 {
@@ -14,7 +20,7 @@ namespace TrailSimulation.Entity
     public static class AdviceRegistry
     {
         /// <summary>
-        /// Defines the default advice that will be shown on the talk to people form if no advice is loaded.
+        ///     Defines the default advice that will be shown on the talk to people form if no advice is loaded.
         /// </summary>
         public const string DEFAULTADVICE = "[DEFAULT ADVICE]";
 

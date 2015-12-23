@@ -2,6 +2,11 @@
 // <copyright file="Window.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Facilitates the ability to control the entire simulation with the passes interface reference. Server simulation
+//   keeps track of all currently loaded game modes and will only tick the top-most one so they can be stacked and clear
+//   out until there are none.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Core
 {
@@ -27,6 +32,11 @@ namespace TrailSimulation.Core
         where TData : WindowData, new()
     {
         /// <summary>
+        ///     Reference for mappings to go from enumeration value to action.
+        /// </summary>
+        private Dictionary<TCommands, Action> _menuActions;
+
+        /// <summary>
         ///     Keeps track of the total number of menu choices that are currently available to this window.
         /// </summary>
         private int _menuChoiceCount;
@@ -48,14 +58,9 @@ namespace TrailSimulation.Core
         private string _menuHeader;
 
         /// <summary>
-        /// Reference for mappings to go from string data into a valid loaded input enumeration value.
+        ///     Reference for mappings to go from string data into a valid loaded input enumeration value.
         /// </summary>
         private Dictionary<string, TCommands> _menuMappings;
-
-        /// <summary>
-        /// Reference for mappings to go from enumeration value to action.
-        /// </summary>
-        private Dictionary<TCommands, Action> _menuActions;
 
         /// <summary>
         ///     Holds the text user interface data that we are going to eventually render out to the user.

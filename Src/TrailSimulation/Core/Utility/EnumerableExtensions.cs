@@ -2,6 +2,9 @@
 // <copyright file="EnumerableExtensions.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Collection of extension methods used for manipulating a enumerable collection of objects.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Core
 {

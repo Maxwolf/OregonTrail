@@ -2,6 +2,11 @@
 // <copyright file="TalkToPeople.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Attaches a game state that will loop through random advice that is associated with the given point of interest.
+//   This is not a huge list and players will eventually see the same advice if they keep coming back, only one piece of
+//   advice should be shown and one day will advance in the simulation to prevent the player from just spamming it.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {

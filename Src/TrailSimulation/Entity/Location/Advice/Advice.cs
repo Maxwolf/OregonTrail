@@ -2,6 +2,11 @@
 // <copyright file="Advice.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Holds a single piece of advice for the trail. The purpose of this class is to clearly define what the advice is and
+//   how it works, and finally what type of advice it is intended for as some are better suited for river crossings,
+//   start of game, middle, and near the end of the game.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Entity
 {

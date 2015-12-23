@@ -2,6 +2,11 @@
 // <copyright file="TollRoad.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
+// <summary>
+//   Defines a location on the trail where the player is required to pay monies in order to use it. Typically this is
+//   inserted as a skip location for a fork in the road, however it could be used as a normal location on the trail but
+//   if the player did not have enough money they would be unable to continue down the trail.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Entity
 {
