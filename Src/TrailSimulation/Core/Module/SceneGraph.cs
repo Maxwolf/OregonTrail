@@ -125,7 +125,7 @@ namespace TrailSimulation.Core
         private static string RenderWindow()
         {
             // If TUI for active game Windows is not null or empty then use it.
-            var activeWindowText = WindowManager.FocusedWindow?.OnRenderMode();
+            var activeWindowText = WindowManager.FocusedWindow?.OnRenderWindow();
             if (!string.IsNullOrEmpty(activeWindowText) && !string.IsNullOrWhiteSpace(activeWindowText))
                 return activeWindowText;
 

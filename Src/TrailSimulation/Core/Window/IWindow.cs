@@ -74,13 +74,13 @@ namespace TrailSimulation.Core
         /// <returns>
         ///     The <see cref="string" />.
         /// </returns>
-        string OnRenderMode();
+        string OnRenderWindow();
 
         /// <summary>Intended to be used by base simulation to pass along the input buffer after the user has typed several characters
         ///     into the input buffer. This is used when allowing the user to input custom strings like names for their party
         ///     members.</summary>
-        /// <param name="command">The command.</param>
-        void SendCommand(string command);
+        /// <param name="input">The input.</param>
+        void SendCommand(string input);
 
         /// <summary>
         ///     Called after the Windows has been added to list of modes and made active.

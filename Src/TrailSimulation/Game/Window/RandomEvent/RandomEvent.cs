@@ -69,10 +69,9 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>Fired when this game Windows is removed from the list of available and ticked modes in the simulation.</summary>
-        /// <param name="windows">The windows.</param>
-        protected override void OnModeRemoved(GameWindow windows)
+        protected override void OnModeRemoved()
         {
-            base.OnModeRemoved(windows);
+            base.OnModeRemoved();
 
             // Event director has event for when he triggers events.
             if (GameSimulationApp.Instance.EventDirector != null)
