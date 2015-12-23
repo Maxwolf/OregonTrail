@@ -41,12 +41,11 @@ namespace TrailSimulation.Game
         {
             // Create text we will display to user about the store before they actually load that game Windows.
             var _storeHelp = new StringBuilder();
-            _storeHelp.Append($"{Environment.NewLine}Before leaving Independence you{Environment.NewLine}");
-            _storeHelp.Append($"should buy equipment and{Environment.NewLine}");
-            _storeHelp.Append(
-                $"supplies. You have {UserData.StartingMonies.ToString("C2")} in{Environment.NewLine}{Environment.NewLine}");
-            _storeHelp.Append($"cash, but you don't have to{Environment.NewLine}");
-            _storeHelp.Append($"spend it all now.{Environment.NewLine}{Environment.NewLine}");
+            _storeHelp.AppendLine($"{Environment.NewLine}Before leaving Independence you");
+            _storeHelp.AppendLine("should buy equipment and");
+            _storeHelp.AppendLine($"supplies. You have {UserData.StartingMonies.ToString("C2")} in");
+            _storeHelp.AppendLine("cash, but you don't have to");
+            _storeHelp.AppendLine($"spend it all now.{Environment.NewLine}");
             return _storeHelp.ToString();
         }
 
