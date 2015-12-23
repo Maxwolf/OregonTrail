@@ -126,8 +126,8 @@ namespace TrailSimulation.Core
         {
             // If TUI for active game Windows is not null or empty then use it.
             var activeWindowText = WindowManager.FocusedWindow?.OnRenderMode();
-            if (!string.IsNullOrEmpty(activeWindowText))
-                return activeWindowText.WordWrap();
+            if (!string.IsNullOrEmpty(activeWindowText) && !string.IsNullOrWhiteSpace(activeWindowText))
+                return activeWindowText;
 
             // Otherwise, display default message if null for Windows.
             return WindowManager.FocusedWindow == null ? GAMEMODE_EMPTY_TUI : GAMEMODE_DEFAULT_TUI;

@@ -31,7 +31,7 @@ namespace TrailSimulation.Core
         /// <param name="width">Width, in characters, to which the text
         ///     should be word wrapped</param>
         /// <returns>The modified text</returns>
-        public static string WordWrap(this string text, int width = 80)
+        public static string WordWrap(this string text, int width = 32)
         {
             int pos, next;
             var sb = new StringBuilder();
