@@ -39,6 +39,7 @@
     <Compile Include="Core\Module.cs" />
     <Compile Include="Core\Utility\ArrayExtensions.cs" />
     <Compile Include="Core\Utility\StringExtensions.cs" />
+    <Compile Include="Entity\Location\Point\TollRoad.cs" />
     <Compile Include="Entity\Location\Weather\ClimateRegistry.cs" />
     <Compile Include="Entity\Location\ILocation.cs" />
     <Compile Include="Entity\Location\LocationWarning.cs" />

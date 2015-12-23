@@ -2,10 +2,6 @@
 // <copyright file="Travel.cs" company="Ron 'Maxwolf' McDowell">
 //   ron.mcdowell@gmail.com
 // </copyright>
-// <summary>
-//   Primary game Windows of the simulation, used to show simulation advancing through linear time. Shows all major
-//   stats of party and vehicle, plus climate and other things like distance traveled and distance to next point.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace TrailSimulation.Game
 {
@@ -62,6 +58,8 @@ namespace TrailSimulation.Game
                 return;
             }
 
+            // TODO: Broken vehicle parts will make the vehicle stuck unable to continue.
+
             // Check if player has already departed and we are just moving along again.
             if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Departed)
             {
@@ -69,7 +67,7 @@ namespace TrailSimulation.Game
                 return;
             }
 
-            // Check departed status the current location yet there are several things we could need to do in order to depart.
+            // Depending on what kind of location we are heading towards we will invoke different forms.
             if (GameSimulationApp.Instance.Trail.CurrentLocation is Landmark ||
                 GameSimulationApp.Instance.Trail.CurrentLocation is Settlement)
             {
@@ -82,6 +80,10 @@ namespace TrailSimulation.Game
             else if (GameSimulationApp.Instance.Trail.CurrentLocation is ForkInRoad)
             {
                 SetForm(typeof (LocationFork));
+            }
+            else if (GameSimulationApp.Instance.Trail.CurrentLocation is TollRoad)
+            {
+                
             }
         }
 

@@ -107,9 +107,6 @@ namespace TrailSimulation.Game
             {
                 case DialogResponse.Custom:
                 case DialogResponse.No:
-
-
-// Cast the parent game Windows as travel Windows.
                     var travelMode = ParentWindow as Travel;
                     if (travelMode == null)
                         throw new InvalidCastException(
@@ -119,9 +116,6 @@ namespace TrailSimulation.Game
                     travelMode.ContinueOnTrail();
                     break;
                 case DialogResponse.Yes:
-
-
-// Clearing this state will drop back to travel Windows with options for the player to choose from.
                     ClearForm();
                     break;
                 default:

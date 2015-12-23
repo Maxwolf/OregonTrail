@@ -63,7 +63,8 @@ namespace TrailSimulation.Game
             {
                 var testTrail = new Location[]
                 {
-                    new Settlement("Start Settlement", Climate.Moderate), 
+                    new Settlement("Start Settlement", Climate.Moderate),
+                    new TollRoad("Barlow Toll Road", Climate.Moderate),  
                     new Landmark("Landmark", Climate.Dry), 
                     new ForkInRoad("Fork In Road", Climate.Continental, new List<Location>
                     {
