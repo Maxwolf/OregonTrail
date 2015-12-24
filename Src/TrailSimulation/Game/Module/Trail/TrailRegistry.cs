@@ -25,28 +25,33 @@ namespace TrailSimulation.Game
             {
                 var oregonTrail = new Location[]
                 {
-                    new Settlement("Independence", Climate.Moderate), 
-                    new RiverCrossing("Kansas River Crossing", Climate.Continental, RiverOption.FerryOperator), 
-                    new RiverCrossing("Big Blue River Crossing", Climate.Continental), 
-                    new Settlement("Fort Kearney", Climate.Continental), 
-                    new Landmark("Chimney Rock", Climate.Moderate), 
-                    new Settlement("Fort Laramie", Climate.Moderate), 
-                    new Landmark("Independence Rock", Climate.Moderate), 
+                    new Settlement("Independence", Climate.Moderate),
+                    new RiverCrossing("Kansas River Crossing", Climate.Continental, RiverOption.FerryOperator),
+                    new RiverCrossing("Big Blue River Crossing", Climate.Continental),
+                    new Settlement("Fort Kearney", Climate.Continental),
+                    new Landmark("Chimney Rock", Climate.Moderate),
+                    new Settlement("Fort Laramie", Climate.Moderate),
+                    new Landmark("Independence Rock", Climate.Moderate),
                     new ForkInRoad("South Pass", Climate.Dry, new List<Location>
                     {
-                        new Settlement("Fort Bridger", Climate.Dry), 
+                        new Settlement("Fort Bridger", Climate.Dry),
                         new Landmark("Green River Shortcut", Climate.Dry)
-                    }), 
-                    new RiverCrossing("Green River Crossing", Climate.Dry), 
-                    new Landmark("Soda Springs", Climate.Dry), 
-                    new Settlement("Fort Hall", Climate.Moderate), 
-                    new RiverCrossing("Snake River Crossing", Climate.Moderate, RiverOption.IndianGuide), 
-                    new Settlement("Fort Boise", Climate.Polar), 
+                    }),
+                    new RiverCrossing("Green River Crossing", Climate.Dry),
+                    new Landmark("Soda Springs", Climate.Dry),
+                    new Settlement("Fort Hall", Climate.Moderate),
+                    new RiverCrossing("Snake River Crossing", Climate.Moderate, RiverOption.IndianGuide),
+                    new Settlement("Fort Boise", Climate.Polar),
                     new ForkInRoad("Blue Mountains", Climate.Polar, new List<Location>
                     {
-                        new Settlement("Fort Walla Walla", Climate.Polar), 
-                        new Landmark("The Dalles", Climate.Polar)
-                    }), 
+                        new Settlement("Fort Walla Walla", Climate.Polar),
+                        new ForkInRoad("The Dalles", Climate.Polar, new List<Location>
+                        {
+                            new RiverCrossing("Columbia River", Climate.Moderate),
+                            new TollRoad("Barlow Toll Road", Climate.Moderate)
+                        })
+                    }),
+
                     new Settlement("Oregon City", Climate.Moderate)
                 };
 
@@ -63,17 +68,19 @@ namespace TrailSimulation.Game
             {
                 var testTrail = new Location[]
                 {
-                    new Settlement("Start Settlement", Climate.Moderate), 
-                    new TollRoad("Barlow Toll Road", Climate.Moderate), 
-                    new Landmark("Landmark", Climate.Dry), 
-                    new ForkInRoad("Fork In Road", Climate.Continental, new List<Location>
+                    new Settlement("Start Settlement", Climate.Moderate),
+                    new Landmark("Landmark", Climate.Dry),
+                    new ForkInRoad("Fork In Road", Climate.Polar, new List<Location>
                     {
-                        new Settlement("Inserted Settlement", Climate.Polar), 
-                        new Landmark("Inserted Landmark", Climate.Tropical)
-                    }), 
-                    new RiverCrossing("River Crossing (with ferry)", Climate.Continental, RiverOption.FerryOperator), 
-                    new RiverCrossing("River Crossing (with Indian)", Climate.Continental, RiverOption.IndianGuide), 
-                    new RiverCrossing("River Crossing (default)", Climate.Continental), 
+                        new Settlement("Inserted Settlement", Climate.Polar),
+                        new ForkInRoad("Inserted Fork In Road", Climate.Polar, new List<Location>
+                        {
+                            new RiverCrossing("Inserted River Crossing (default)", Climate.Moderate),
+                            new TollRoad("Inserted Toll Road", Climate.Moderate)
+                        })
+                    }),
+                    new RiverCrossing("River Crossing (with ferry)", Climate.Continental, RiverOption.FerryOperator),
+                    new RiverCrossing("River Crossing (with Indian)", Climate.Continental, RiverOption.IndianGuide),
                     new Settlement("End Settlement", Climate.Moderate)
                 };
 
