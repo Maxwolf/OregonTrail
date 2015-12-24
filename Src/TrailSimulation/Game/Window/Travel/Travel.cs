@@ -87,7 +87,7 @@ namespace TrailSimulation.Game
             }
             else if (GameSimulationApp.Instance.Trail.CurrentLocation is TollRoad)
             {
-                // SetForm(typeof());
+                SetForm(typeof (TollRoadQuestion));
             }
         }
 

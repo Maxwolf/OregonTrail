@@ -117,6 +117,7 @@
     <Compile Include="Game\Window\Graveyard\TombstoneCommands.cs" />
     <Compile Include="Game\Window\Graveyard\TombstoneInfo.cs" />
     <Compile Include="Game\Window\Graveyard\TombstoneView.cs" />
+    <Compile Include="Game\Window\Travel\Other\TollRoadQuestion.cs" />
     <Compile Include="Game\Window\Travel\Other\TombstoneQuestion.cs" />
     <Compile Include="Game\Window\Travel\Other\UnableToContinue.cs" />
     <Compile Include="Game\Window\Travel\Other\VehicleStuck.cs" />
