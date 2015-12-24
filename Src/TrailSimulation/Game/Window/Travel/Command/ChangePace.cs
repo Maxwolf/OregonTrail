@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ChangePace.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Allows the player to alter how many 'miles' their vehicle will attempt to travel in a given day, this also changes
-//   the rate at which random events that are considered bad will occur along with other factors in the simulation such
-//   as making players more susceptible to disease and also making them hungry more often.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@8:12 PM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -28,8 +21,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder _pace;
 
-        /// <summary>Initializes a new instance of the <see cref="ChangePace"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ChangePace" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public ChangePace(IWindow window) : base(window)
         {

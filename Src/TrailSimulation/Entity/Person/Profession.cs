@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Profession.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   The profession.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:12 AM
+
 namespace TrailSimulation.Entity
 {
     using System.ComponentModel;
@@ -19,13 +14,13 @@ namespace TrailSimulation.Entity
         ///     The banker.
         /// </summary>
         [Description("Be a banker from Boston")]
-        Banker = 1, 
+        Banker = 1,
 
         /// <summary>
         ///     The carpenter.
         /// </summary>
         [Description("Be a carpenter from Ohio")]
-        Carpenter = 2, 
+        Carpenter = 2,
 
         /// <summary>
         ///     The farmer.

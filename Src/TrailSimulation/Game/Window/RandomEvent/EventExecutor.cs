@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EventExecutor.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Used when the event director fires event that game simulation subscribes to which passes along events that should
-//   be triggered when they occur so this state can be attached to the travel Windows and also have the event data
-//   passed into it so it may be executed and data shown in text user interface for this state.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@3:29 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -27,8 +20,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private bool _eventPlayerAcknowledge;
 
-        /// <summary>Initializes a new instance of the <see cref="EventExecutor"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EventExecutor" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public EventExecutor(IWindow window) : base(window)
         {
@@ -71,8 +66,10 @@ namespace TrailSimulation.Game
             return _randomEventText.ToString();
         }
 
-        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {

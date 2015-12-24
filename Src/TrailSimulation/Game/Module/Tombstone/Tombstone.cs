@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Tombstone.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Facilitates a tombstone base class that supports shallow copies of itself to be created.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/18/2015@6:11 AM
+
 namespace TrailSimulation.Game
 {
     using System;

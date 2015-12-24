@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RiverGenerator.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Special data class that is used to generate river data in the travel info as requested. Creation of this object
-//   will automatically create a new river with random width and depth.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@2:30 AM
+
 namespace TrailSimulation.Game
 {
     using System;

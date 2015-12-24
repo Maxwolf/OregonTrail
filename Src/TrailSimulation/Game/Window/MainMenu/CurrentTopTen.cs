@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CurrentTopTen.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   References the top ten players in regards to final score they earned at the end of the game, this list is by
-//   default hard-coded by players have the chance to save their own scores to the list if they beat the default values.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@3:29 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -20,8 +14,10 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.MainMenu)]
     public sealed class CurrentTopTen : InputForm<NewGameInfo>
     {
-        /// <summary>Initializes a new instance of the <see cref="CurrentTopTen"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CurrentTopTen" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public CurrentTopTen(IWindow window) : base(window)
         {
@@ -51,8 +47,8 @@ namespace TrailSimulation.Game
 
             // Create text table representation of default high score list.
             var table = GameSimulationApp.Instance.Scoring.TopTen.ToStringTable(
-                u => u.Name, 
-                u => u.Points, 
+                u => u.Name,
+                u => u.Points,
                 u => u.Rating);
             currentTopTen.AppendLine(table);
 
@@ -62,8 +58,10 @@ namespace TrailSimulation.Game
             return currentTopTen.ToString();
         }
 
-        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {

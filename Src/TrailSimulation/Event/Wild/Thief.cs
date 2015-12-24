@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Thief.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Robber who can come in the middle of the night and steal things from the vehicle inventory. He is also very
-//   dangerous and will do whatever it takes to get what he wants, so there is a chance some of your party members may
-//   get murdered.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/12/2015@6:43 AM
+
 namespace TrailSimulation.Event
 {
     using System.Collections.Generic;
@@ -27,7 +20,7 @@ namespace TrailSimulation.Event
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
-        /// <returns>The <see cref="string"/>.</returns>
+        /// <returns>The <see cref="string" />.</returns>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
             // Change event text depending on if items were destroyed or not.

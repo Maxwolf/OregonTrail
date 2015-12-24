@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EnumerableExtensions.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Collection of extension methods used for manipulating a enumerable collection of objects.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/23/2015@2:19 AM
+
 namespace TrailSimulation.Core
 {
     using System;
@@ -21,7 +16,7 @@ namespace TrailSimulation.Core
         /// <summary>Picks a random element from the list.</summary>
         /// <typeparam name="T">Type of list.</typeparam>
         /// <param name="source">Source collection.</param>
-        /// <returns>Random element from list<see cref="T"/>.</returns>
+        /// <returns>Random element from list<see cref="T" />.</returns>
         public static T PickRandom<T>(this IEnumerable<T> source)
         {
             return source.PickRandom(1).Single();
@@ -31,7 +26,7 @@ namespace TrailSimulation.Core
         /// <typeparam name="T">Type of list.</typeparam>
         /// <param name="source">Source collection.</param>
         /// <param name="count">Total number of elements in the collection.</param>
-        /// <returns>Shuffled list of elements<see cref="IEnumerable"/>.</returns>
+        /// <returns>Shuffled list of elements<see cref="IEnumerable" />.</returns>
         public static IEnumerable<T> PickRandom<T>(this IEnumerable<T> source, int count)
         {
             return source.Shuffle().Take(count);
@@ -40,7 +35,7 @@ namespace TrailSimulation.Core
         /// <summary>Bubble sorts all the elements in the collection.</summary>
         /// <typeparam name="T">Type of list.</typeparam>
         /// <param name="source">Source collection.</param>
-        /// <returns>Shuffled list of collection elements<see cref="IEnumerable"/>.</returns>
+        /// <returns>Shuffled list of collection elements<see cref="IEnumerable" />.</returns>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
         {
             return source.OrderBy(x => Guid.NewGuid());

@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Program.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Trail Simulation Game - Console Edition
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:12 AM
+
 namespace TrailConsole
 {
     using System;
@@ -82,9 +77,11 @@ namespace TrailConsole
             Console.Write("{0}", tuiContent);
         }
 
-        /// <summary>Fired when the user presses CTRL-C on their keyboard, this is only relevant to operating system tick and this view
+        /// <summary>
+        ///     Fired when the user presses CTRL-C on their keyboard, this is only relevant to operating system tick and this view
         ///     of simulation. If moved into another framework like game engine this statement would be removed and just destroy
-        ///     the simulation when the engine is destroyed using its overrides.</summary>
+        ///     the simulation when the engine is destroyed using its overrides.
+        /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
         private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)

@@ -1,14 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ForkInRoad.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Offers the vehicle multiple different choices about where it would like to split off and begin traveling to.
-//   Depending on the choice the player makes the selected skip choice will be inserted into the trail as the next
-//   location. After this happens the trail module will automatically re-calculate all the total distances and other
-//   needed variables to make sure the map stays in sync.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/22/2015@3:48 AM
+
 namespace TrailSimulation.Entity
 {
     using System.Collections.Generic;
@@ -28,7 +20,10 @@ namespace TrailSimulation.Entity
         /// </summary>
         private List<Location> skipChoices;
 
-        /// <summary>Initializes a new instance of the <see cref="ForkInRoad"/> class. Initializes a new instance of the<see cref="T:TrailSimulation.Entity.Location"/> class.</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ForkInRoad" /> class. Initializes a new instance of the
+        ///     <see cref="T:TrailSimulation.Entity.Location" /> class.
+        /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="climateType">The climate Type.</param>
         /// <param name="skipChoices">The skip Choices.</param>

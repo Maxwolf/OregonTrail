@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ProfessionSelector.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Facilitates the ability for a user to select a given profession for the party leader. This will determine the
-//   starting amount of money their party has access to when purchasing starting items for the journey on the trail path
-//   simulation.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@3:29 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -30,8 +23,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder _professionChooser;
 
-        /// <summary>Initializes a new instance of the <see cref="ProfessionSelector"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ProfessionSelector" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public ProfessionSelector(IWindow window) : base(window)
         {

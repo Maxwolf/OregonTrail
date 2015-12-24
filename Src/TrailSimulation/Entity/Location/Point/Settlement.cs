@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Settlement.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Civilized area where many other people from different vehicles congregate together and share resources.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/22/2015@3:54 AM
+
 namespace TrailSimulation.Entity
 {
     /// <summary>
@@ -13,7 +8,10 @@ namespace TrailSimulation.Entity
     /// </summary>
     public sealed class Settlement : Location
     {
-        /// <summary>Initializes a new instance of the <see cref="Settlement"/> class. Initializes a new instance of the<see cref="T:TrailSimulation.Entity.Location"/> class.</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Settlement" /> class. Initializes a new instance of the
+        ///     <see cref="T:TrailSimulation.Entity.Location" /> class.
+        /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="climateType">The climate Type.</param>
         public Settlement(string name, Climate climateType) : base(name, climateType)

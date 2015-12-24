@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GameSimulationApp.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Primary game simulation singleton. Purpose of this class is to control game specific modules that are independent
-//   of the simulations ability to manage itself, process ticks, and input.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/23/2015@4:34 PM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -70,8 +64,10 @@ namespace TrailSimulation.Game
         /// </summary>
         public TombstoneModule Tombstone { get; private set; }
 
-        /// <summary>Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
-        ///     capacity or want to do so in this turn.</summary>
+        /// <summary>
+        ///     Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
+        ///     capacity or want to do so in this turn.
+        /// </summary>
         /// <param name="skipDay">The skip Day.</param>
         public void TakeTurn(bool skipDay)
         {
@@ -83,10 +79,14 @@ namespace TrailSimulation.Game
             Time.TickTime(skipDay);
         }
 
-        /// <summary>Attaches the traveling Windows and removes the new game Windows if it exists, this begins the simulation down the
-        ///     trail path and all the points of interest on it.</summary>
-        /// <param name="startingInfo">User data object that was passed around the new game Windows and populated by user
-        ///     selections.</param>
+        /// <summary>
+        ///     Attaches the traveling Windows and removes the new game Windows if it exists, this begins the simulation down the
+        ///     trail path and all the points of interest on it.
+        /// </summary>
+        /// <param name="startingInfo">
+        ///     User data object that was passed around the new game Windows and populated by user
+        ///     selections.
+        /// </param>
         internal void SetStartInfo(NewGameInfo startingInfo)
         {
             // Clear out any data amount items, monies, people that might have been in the vehicle.

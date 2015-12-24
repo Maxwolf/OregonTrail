@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RiverCrossHelp.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Shown to the user the first time they cross a river, this way it can be explained to them they must cross it in
-//   order to continue and there is no going around. We tell them how deep the water is and how many feed across the
-//   river is they will need to travel.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@2:30 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -22,8 +15,10 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.Travel)]
     public sealed class RiverCrossHelp : InputForm<TravelInfo>
     {
-        /// <summary>Initializes a new instance of the <see cref="RiverCrossHelp"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RiverCrossHelp" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public RiverCrossHelp(IWindow window) : base(window)
         {
@@ -50,8 +45,10 @@ namespace TrailSimulation.Game
             return riverPrompt.ToString();
         }
 
-        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {

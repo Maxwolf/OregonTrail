@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Month.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Defines all of the months in a given year.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:41 AM
+
 namespace TrailSimulation.Game
 {
     /// <summary>
@@ -16,57 +11,57 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     The january.
         /// </summary>
-        January = 1, 
+        January = 1,
 
         /// <summary>
         ///     The february.
         /// </summary>
-        February = 2, 
+        February = 2,
 
         /// <summary>
         ///     The march.
         /// </summary>
-        March = 3, 
+        March = 3,
 
         /// <summary>
         ///     The april.
         /// </summary>
-        April = 4, 
+        April = 4,
 
         /// <summary>
         ///     The may.
         /// </summary>
-        May = 5, 
+        May = 5,
 
         /// <summary>
         ///     The june.
         /// </summary>
-        June = 6, 
+        June = 6,
 
         /// <summary>
         ///     The july.
         /// </summary>
-        July = 7, 
+        July = 7,
 
         /// <summary>
         ///     The august.
         /// </summary>
-        August = 8, 
+        August = 8,
 
         /// <summary>
         ///     The september.
         /// </summary>
-        September = 9, 
+        September = 9,
 
         /// <summary>
         ///     The october.
         /// </summary>
-        October = 10, 
+        October = 10,
 
         /// <summary>
         ///     The november.
         /// </summary>
-        November = 11, 
+        November = 11,
 
         /// <summary>
         ///     The december.

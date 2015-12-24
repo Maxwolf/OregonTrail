@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UseIndianConfirm.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Confirms with the player the decision they made about crossing the riving using the Indian guide in exchange for a
-//   set amount of clothing. This form we will actually process that transaction and then let the Indian take the player
-//   across the river like he promised.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/21/2015@3:25 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -22,8 +15,10 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.Travel)]
     public sealed class UseIndianConfirm : InputForm<TravelInfo>
     {
-        /// <summary>Initializes a new instance of the <see cref="UseIndianConfirm"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="UseIndianConfirm" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public UseIndianConfirm(IWindow window) : base(window)
         {
@@ -43,8 +38,10 @@ namespace TrailSimulation.Game
             return _prompt.ToString();
         }
 
-        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {

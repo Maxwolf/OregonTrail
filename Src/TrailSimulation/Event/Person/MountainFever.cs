@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MountainFever.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Rocky Mountain spotted fever (RMSF), also known as blue disease, is the most lethal and most frequently reported
-//   rickettsial illness in the United States.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/12/2015@6:36 AM
+
 namespace TrailSimulation.Event
 {
     using System.Diagnostics.CodeAnalysis;

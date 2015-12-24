@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Animals.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Defines a bunch of predefined animal items that can be hunted for food using bullets by the player.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/19/2015@6:48 PM
+
 namespace TrailSimulation.Entity
 {
     using Game;
@@ -30,7 +25,7 @@ namespace TrailSimulation.Entity
         {
             get
             {
-                return new SimItem(Entities.Food, "Buffalo", "pounds", "pound", 2000, 0, 
+                return new SimItem(Entities.Food, "Buffalo", "pounds", "pound", 2000, 0,
                     GameSimulationApp.Instance.Random.Next(350, 500));
             }
         }
@@ -42,7 +37,7 @@ namespace TrailSimulation.Entity
         {
             get
             {
-                return new SimItem(Entities.Food, "Caribou", "pounds", "pound", 2000, 0, 
+                return new SimItem(Entities.Food, "Caribou", "pounds", "pound", 2000, 0,
                     GameSimulationApp.Instance.Random.Next(300, 350));
             }
         }

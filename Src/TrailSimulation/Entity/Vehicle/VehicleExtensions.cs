@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="VehicleExtensions.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Utility methods used by vehicle entity to make working with passengers and inventory easier on the eyes when used
-//   one after the other. Typically these methods will be used by random events triggered by the game simulation.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/16/2015@11:35 AM
+
 namespace TrailSimulation.Entity
 {
     using System.Collections.Generic;
@@ -18,8 +12,10 @@ namespace TrailSimulation.Entity
     /// </summary>
     public static class VehicleExtensions
     {
-        /// <summary>Loops through all the currently living passengers and rolls the dice to see if they should be killed. This method
-        ///     is very powerful and can end the game quickly if used excessively.</summary>
+        /// <summary>
+        ///     Loops through all the currently living passengers and rolls the dice to see if they should be killed. This method
+        ///     is very powerful and can end the game quickly if used excessively.
+        /// </summary>
         /// <param name="passengers">List of passengers from the vehicle.</param>
         /// <returns>List of people the method killed, empty list means nobody was killed.</returns>
         public static IEnumerable<Person> TryKill(this IEnumerable<Person> passengers)
@@ -42,8 +38,10 @@ namespace TrailSimulation.Entity
             return peopleKilled;
         }
 
-        /// <summary>Damages all of the players using the total amount given as a guideline for total amount of damage to be spread out
-        ///     amongst the living players. It will be divided by the number of living and spread that way.</summary>
+        /// <summary>
+        ///     Damages all of the players using the total amount given as a guideline for total amount of damage to be spread out
+        ///     amongst the living players. It will be divided by the number of living and spread that way.
+        /// </summary>
         /// <param name="passengers">List of passengers from the vehicle.</param>
         /// <param name="amount">Amount of health we should remove from the living passengers.</param>
         public static void Damage(this IList<Person> passengers, int amount)

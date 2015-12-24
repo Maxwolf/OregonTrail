@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EpitaphEditor.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Allows for the message on the Tombstone to be edited or added, either way this window will get the job done.
-//   Will
-//   limit the input of the epitaph also and do basic whitespace checks and trimming.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/19/2015@2:50 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -33,8 +26,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder _epitaphPrompt;
 
-        /// <summary>Initializes a new instance of the <see cref="EpitaphEditor"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EpitaphEditor" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public EpitaphEditor(IWindow window) : base(window)
         {

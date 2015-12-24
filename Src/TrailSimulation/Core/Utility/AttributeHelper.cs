@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AttributeHelper.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Meant for dealing with attributes and grabbing all the available classes of a given type with specified attribute
-//   using generics.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@3:40 AM
+
 namespace TrailSimulation.Core
 {
     using System;
@@ -21,11 +15,13 @@ namespace TrailSimulation.Core
     /// </summary>
     public static class AttributeHelper
     {
-        /// <summary>Find all the classes which have a custom attribute I've defined on them, and I want to be able to find them
-        ///     on-the-fly when an application is using my library.</summary>
+        /// <summary>
+        ///     Find all the classes which have a custom attribute I've defined on them, and I want to be able to find them
+        ///     on-the-fly when an application is using my library.
+        /// </summary>
         /// <param name="inherit">The inherit.</param>
         /// <remarks>http://stackoverflow.com/a/720171</remarks>
-        /// <returns>The <see cref="IEnumerable"/>.</returns>
+        /// <returns>The <see cref="IEnumerable" />.</returns>
         public static IEnumerable<Type> GetTypesWith<TAttribute>(bool inherit)
             where TAttribute : Attribute
         {
@@ -39,7 +35,7 @@ namespace TrailSimulation.Core
         /// <param name="baseType">The base Type.</param>
         /// <param name="interfaceType">The interface Type.</param>
         /// <remarks>http://stackoverflow.com/a/503359</remarks>
-        /// <returns>The <see cref="bool"/>.</returns>
+        /// <returns>The <see cref="bool" />.</returns>
         public static bool IsImplementationOf(this Type baseType, Type interfaceType)
         {
             return baseType.GetInterfaces().Any(interfaceType.Equals);
@@ -48,7 +44,7 @@ namespace TrailSimulation.Core
         /// <summary>Find the fields in an enum that have a specific attribute with a specific value.</summary>
         /// <param name="source">The source.</param>
         /// <param name="inherit">The inherit.</param>
-        /// <returns>The <see cref="IEnumerable"/>.</returns>
+        /// <returns>The <see cref="IEnumerable" />.</returns>
         public static IEnumerable<T> GetAttributes<T>(this ICustomAttributeProvider source, bool inherit)
             where T : Attribute
         {
@@ -58,7 +54,7 @@ namespace TrailSimulation.Core
 
         /// <summary>Extension method for enum's that helps with getting custom attributes off of enum values</summary>
         /// <param name="enumValue">The enum Value.</param>
-        /// <returns>The <see cref="T"/>.</returns>
+        /// <returns>The <see cref="T" />.</returns>
         public static T GetEnumAttribute<T>(this Enum enumValue)
             where T : Attribute
         {

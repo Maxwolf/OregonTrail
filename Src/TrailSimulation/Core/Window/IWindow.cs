@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IWindow.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Underlying game Windows interface, used by base simulation to keep track of what data should currently have control
-//   over the simulation details. Only top most game Windows will ever be ticked.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/19/2015@6:59 PM
+
 namespace TrailSimulation.Core
 {
     using System;
@@ -18,8 +12,8 @@ namespace TrailSimulation.Core
     ///     over the simulation details. Only top most game Windows will ever be ticked.
     /// </summary>
     public interface IWindow :
-        IComparer<IWindow>, 
-        IComparable<IWindow>, 
+        IComparer<IWindow>,
+        IComparable<IWindow>,
         ITick
     {
         /// <summary>
@@ -76,9 +70,11 @@ namespace TrailSimulation.Core
         /// </returns>
         string OnRenderWindow();
 
-        /// <summary>Intended to be used by base simulation to pass along the input buffer after the user has typed several characters
+        /// <summary>
+        ///     Intended to be used by base simulation to pass along the input buffer after the user has typed several characters
         ///     into the input buffer. This is used when allowing the user to input custom strings like names for their party
-        ///     members.</summary>
+        ///     members.
+        /// </summary>
         /// <param name="input">The input.</param>
         void SendCommand(string input);
 

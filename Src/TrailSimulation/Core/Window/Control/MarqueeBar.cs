@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MarqueeBar.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Progress bar that is drawn in characters and is a ping-pong marquee action bouncing back and fourth.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@3:38 AM
+
 namespace TrailSimulation.Core
 {
     using System;
@@ -117,7 +112,7 @@ namespace TrailSimulation.Core
             /// <summary>
             ///     The right.
             /// </summary>
-            Right, 
+            Right,
 
             /// <summary>
             ///     The left.

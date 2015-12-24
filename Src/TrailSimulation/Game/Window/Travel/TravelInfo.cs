@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TravelInfo.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Holds all the information about traveling that we want to know, such as how long we need to go until next point,
-//   what our current Windows is like moving, paused, etc.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:51 AM
+
 namespace TrailSimulation.Game
 {
     using System.Text;

@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WindowFactory.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Factory pattern for creating game modes on the fly during runtime based on enumeration input parameter.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/19/2015@6:59 PM
+
 namespace TrailSimulation.Core
 {
     using System;
@@ -57,9 +52,11 @@ namespace TrailSimulation.Core
         /// </summary>
         public Dictionary<GameWindow, int> AttachCount { get; }
 
-        /// <summary>Change to new view Windows when told that internal logic wants to display view options to player for a specific set
+        /// <summary>
+        ///     Change to new view Windows when told that internal logic wants to display view options to player for a specific set
         ///     of
-        ///     data in the simulation.</summary>
+        ///     data in the simulation.
+        /// </summary>
         /// <param name="windows">The windows.</param>
         /// <returns>New game Windows instance based on the Windows input parameter.</returns>
         public IWindow CreateWindow(GameWindow windows)

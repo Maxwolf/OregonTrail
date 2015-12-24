@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ClimateData.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Defines all the data for a given climate simulation for a location.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/22/2015@4:44 AM
+
 namespace TrailSimulation.Entity
 {
     using Game;
@@ -15,8 +10,10 @@ namespace TrailSimulation.Entity
     /// </summary>
     public class ClimateData
     {
-        /// <summary>Initializes a new instance of the <see cref="ClimateData"/> class.
-        ///     Creates a new bit of climate data.</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ClimateData" /> class.
+        ///     Creates a new bit of climate data.
+        /// </summary>
         /// <param name="month">Month this data is representative of.</param>
         /// <param name="averageTemp">Average set of temperatures for this month.</param>
         /// <param name="tempMax">Maximum temperature this month can have.</param>
@@ -24,11 +21,11 @@ namespace TrailSimulation.Entity
         /// <param name="rainfall">Average rainfall for this month.</param>
         /// <param name="avgHumidity">Daily humidity for this month.</param>
         public ClimateData(
-            Month month, 
-            float averageTemp, 
-            float tempMax, 
-            float tempMin, 
-            float rainfall, 
+            Month month,
+            float averageTemp,
+            float tempMax,
+            float tempMin,
+            float rainfall,
             int avgHumidity)
         {
             Month = month;

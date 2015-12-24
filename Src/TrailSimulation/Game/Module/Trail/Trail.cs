@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Trail.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Wrapper object for the trail, defines all the locations and total trail length. The purpose of this class is to
-//   support serialization and abstraction of the trail creation process so it can be loaded from files or downloaded as
-//   JSON from a server.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/27/2015@3:23 PM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -28,9 +21,11 @@ namespace TrailSimulation.Game
         /// </summary>
         private List<Location> _locations;
 
-        /// <summary>Initializes a new instance of the <see cref="Trail"/> class.
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Trail" /> class.
         ///     Creates a new trail the simulation can let a vehicle travel on. Requires a list of locations and total length in
-        ///     miles.</summary>
+        ///     miles.
+        /// </summary>
         /// <param name="locations">List of locations indexed in the order they should be visited in simulation.</param>
         /// <param name="lengthMin">Minimum length of any given trail segment.</param>
         /// <param name="lengthMax">Maximum length of any given trail segment.</param>

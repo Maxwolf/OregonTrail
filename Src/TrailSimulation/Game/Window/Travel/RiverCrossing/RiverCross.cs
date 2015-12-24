@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RiverCross.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Manages a boolean event where the player needs to make a choice before they can move onto the next location on the
-//   trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how
-//   bad it is.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@2:30 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -55,8 +48,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private int _riverOptionsCount;
 
-        /// <summary>Initializes a new instance of the <see cref="RiverCross"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RiverCross" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public RiverCross(IWindow window) : base(window)
         {
@@ -138,11 +133,15 @@ namespace TrailSimulation.Game
             }
         }
 
-        /// <summary>Used to add the correct action mapping to correct enumeration value. The reason for all this overhead is because
+        /// <summary>
+        ///     Used to add the correct action mapping to correct enumeration value. The reason for all this overhead is because
         ///     the river crossing options can change and when they do it affects the types of choices the player can make when
-        ///     crossing the river.</summary>
-        /// <param name="riverChoice">Current river crossing choice that would like to be added to list, this method decides if it
-        ///     makes the cut.</param>
+        ///     crossing the river.
+        /// </summary>
+        /// <param name="riverChoice">
+        ///     Current river crossing choice that would like to be added to list, this method decides if it
+        ///     makes the cut.
+        /// </param>
         private void AddRiverChoice(RiverCrossChoice riverChoice)
         {
             // Increment the total number of river option mappings we have created.
@@ -216,7 +215,7 @@ namespace TrailSimulation.Game
                     throw new ArgumentException(
                         "Unable to use river cross choice NONE as a selection since it is only intended for initialization.");
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(riverChoice), 
+                    throw new ArgumentOutOfRangeException(nameof(riverChoice),
                         "Unable to cast river cross choice into a valid selection for river crossing.");
             }
         }

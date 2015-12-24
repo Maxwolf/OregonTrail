@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EventCategory.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Defines the different kinds of events the simulation supports, used for sorting and easy grabbing of events by type
-//   for dice rolling purposes when picking random events.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/02/2015@9:37 PM
+
 namespace TrailSimulation.Event
 {
     /// <summary>
@@ -18,27 +12,27 @@ namespace TrailSimulation.Event
         /// <summary>
         ///     When something bad happens to vehicle.
         /// </summary>
-        Vehicle, 
+        Vehicle,
 
         /// <summary>
         ///     Something bad happens to oxen pulling the vehicle.
         /// </summary>
-        Animal, 
+        Animal,
 
         /// <summary>
         ///     Something bad happens to party member such as disease or injury.
         /// </summary>
-        Person, 
+        Person,
 
         /// <summary>
         ///     Used for displaying information about severe weather like blizzards and storms.
         /// </summary>
-        Weather, 
+        Weather,
 
         /// <summary>
         ///     Wild animals, Indians, wolves, riders, and various other critters and strangers that you can encounter.
         /// </summary>
-        Wild, 
+        Wild,
 
         /// <summary>
         ///     Crossing a river has many dangers regardless of transport mode. Flooding, capsizing, hitting rocks, etc.

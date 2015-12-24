@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Cholera.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Cholera is an infection of the small intestine by some strains of the bacterium Vibrio cholerae. Symptoms may range
-//   from none, to mild, to severe.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/12/2015@6:36 AM
+
 namespace TrailSimulation.Event
 {
     using System.Diagnostics.CodeAnalysis;

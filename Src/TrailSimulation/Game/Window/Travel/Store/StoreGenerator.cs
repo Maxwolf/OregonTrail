@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StoreGenerator.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Before any items are removed, or added to the store all the interactions are stored in receipt info object. When
-//   the game mode for the store is removed all the transactions will be completed and the players vehicle updated and
-//   the store items removed, and balances of both updated respectfully.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/09/2015@4:26 AM
+
 namespace TrailSimulation.Game
 {
     using System;

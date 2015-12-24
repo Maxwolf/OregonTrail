@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TippedVehicle.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Vehicle was going around a bend, hit a bump, rough trail, or any of the following it now tipped over and supplies
-//   could be destroyed and passengers can be crushed to death.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/12/2015@6:09 AM
+
 namespace TrailSimulation.Event
 {
     using System.Collections.Generic;
@@ -25,7 +19,7 @@ namespace TrailSimulation.Event
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
-        /// <returns>The <see cref="string"/>.</returns>
+        /// <returns>The <see cref="string" />.</returns>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
             // Change event text depending on if items were destroyed or not.

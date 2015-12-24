@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="VehicleFloods.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   When crossing a river there is a chance that your wagon will flood if you choose to caulk and float across the
-//   river.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/02/2015@9:40 PM
+
 namespace TrailSimulation.Event
 {
     using System.Collections.Generic;
@@ -24,7 +18,7 @@ namespace TrailSimulation.Event
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
-        /// <returns>The <see cref="string"/>.</returns>
+        /// <returns>The <see cref="string" />.</returns>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
             return destroyedItems.Count > 0
@@ -32,10 +26,14 @@ namespace TrailSimulation.Event
                 : "no loss of items.";
         }
 
-        /// <summary>Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
-        ///     left completely up to handler.</summary>
-        /// <param name="userData">Entities which the event is going to directly affect. This way there is no confusion about
-        ///     what entity the event is for. Will require casting to correct instance type from interface instance.</param>
+        /// <summary>
+        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
+        ///     left completely up to handler.
+        /// </summary>
+        /// <param name="userData">
+        ///     Entities which the event is going to directly affect. This way there is no confusion about
+        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
+        /// </param>
         public override void Execute(RandomEventInfo userData)
         {
             base.Execute(userData);

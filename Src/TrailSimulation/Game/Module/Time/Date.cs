@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Date.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   The date.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:41 AM
+
 namespace TrailSimulation.Game
 {
     /// <summary>
@@ -18,7 +13,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public const int NumberOfDaysInMonth = 30;
 
-        /// <summary>Initializes a new instance of the <see cref="Date"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="Date" /> class.</summary>
         /// <param name="dueYear">The due year.</param>
         /// <param name="dueMonth">The due month.</param>
         /// <param name="dueDay">The due day.</param>

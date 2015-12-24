@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SufferingExhaustion.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   A person with weakness or fatigue lacks energy, feels weary, and is constantly tired.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/12/2015@6:36 AM
+
 namespace TrailSimulation.Event
 {
     using System.Diagnostics.CodeAnalysis;

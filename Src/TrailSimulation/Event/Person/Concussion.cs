@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Concussion.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Temporary unconsciousness caused by a blow to the head. The term is also used loosely of the aftereffects such as
-//   confusion or temporary incapacity.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/12/2015@6:36 AM
+
 namespace TrailSimulation.Event
 {
     using System.Diagnostics.CodeAnalysis;

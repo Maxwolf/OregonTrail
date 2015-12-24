@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RandomEvent.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Attached by the event director when it wants to execute an event against the simulation. It will attach this
-//   Windows, which then hooks the event delegate it will trigger right after this class finishes initializing.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:51 AM
+
 namespace TrailSimulation.Game
 {
     using Core;
@@ -56,8 +50,10 @@ namespace TrailSimulation.Game
             // Nothing to see here, move along...
         }
 
-        /// <summary>Fired when the event director triggers an event because it rolled the dice and hit it or it was forcefully
-        ///     triggered by some method under a defined condition.</summary>
+        /// <summary>
+        ///     Fired when the event director triggers an event because it rolled the dice and hit it or it was forcefully
+        ///     triggered by some method under a defined condition.
+        /// </summary>
         /// <param name="simEntity">The sim Entity.</param>
         /// <param name="directorEvent">The director Event.</param>
         private void Director_OnEventTriggered(IEntity simEntity, EventProduct directorEvent)

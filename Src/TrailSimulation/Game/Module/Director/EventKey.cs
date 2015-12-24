@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EventKey.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Acts like a unique identifier for each event that is to be registered in the system and defines several special
-//   things about that we want in a key such as category, name, and if it should be random or not.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/12/2015@5:36 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -18,10 +12,10 @@ namespace TrailSimulation.Game
     ///     Acts like a unique identifier for each event that is to be registered in the system and defines several special
     ///     things about that we want in a key such as category, name, and if it should be random or not.
     /// </summary>
-    public sealed class EventKey : IComparer<EventKey>, IComparable<EventKey>, IEquatable<EventKey>, 
+    public sealed class EventKey : IComparer<EventKey>, IComparable<EventKey>, IEquatable<EventKey>,
         IEqualityComparer<EventKey>
     {
-        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Game.EventKey"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Game.EventKey" /> class.</summary>
         /// <param name="category">The category.</param>
         /// <param name="name">The name.</param>
         /// <param name="executionType">The execution Type.</param>
@@ -49,9 +43,12 @@ namespace TrailSimulation.Game
         public EventExecution ExecutionType { get; }
 
         /// <summary>Compares the current object with another object of the same type.</summary>
-        /// <returns>A value that indicates the relative order of the objects being compared. The return value has the following
-        ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other"/> parameter.Zero This
-        ///     object is equal to <paramref name="other"/>. Greater than zero This object is greater than<paramref name="other"/>.</returns>
+        /// <returns>
+        ///     A value that indicates the relative order of the objects being compared. The return value has the following
+        ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This
+        ///     object is equal to <paramref name="other" />. Greater than zero This object is greater than
+        ///     <paramref name="other" />.
+        /// </returns>
         /// <param name="other">An object to compare with this object.</param>
         public int CompareTo(EventKey other)
         {
@@ -63,10 +60,16 @@ namespace TrailSimulation.Game
             return result;
         }
 
-        /// <summary>Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the
-        ///     other.</summary>
-        /// <returns>A signed integer that indicates the relative values of <paramref name="x"/> and <paramref name="y"/>, as shown in
-        ///     the following table.Value Meaning Less than zero<paramref name="x"/> is less than <paramref name="y"/>.Zero<paramref name="x"/> equals <paramref name="y"/>.Greater than zero<paramref name="x"/> is greater than<paramref name="y"/>.</returns>
+        /// <summary>
+        ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the
+        ///     other.
+        /// </summary>
+        /// <returns>
+        ///     A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />, as shown in
+        ///     the following table.Value Meaning Less than zero<paramref name="x" /> is less than <paramref name="y" />.Zero
+        ///     <paramref name="x" /> equals <paramref name="y" />.Greater than zero<paramref name="x" /> is greater than
+        ///     <paramref name="y" />.
+        /// </returns>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
         public int Compare(EventKey x, EventKey y)
@@ -91,8 +94,11 @@ namespace TrailSimulation.Game
 
         /// <summary>Returns a hash code for the specified object.</summary>
         /// <returns>A hash code for the specified object.</returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> for which a hash code is to be returned.</param>
-        /// <exception cref="T:System.ArgumentNullException">The type of <paramref name="obj"/> is a reference type and<paramref name="obj"/> is null.</exception>
+        /// <param name="obj">The <see cref="T:System.Object" /> for which a hash code is to be returned.</param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     The type of <paramref name="obj" /> is a reference type and
+        ///     <paramref name="obj" /> is null.
+        /// </exception>
         public int GetHashCode(EventKey obj)
         {
             var hash = 23;
@@ -101,7 +107,7 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>Indicates whether the current object is equal to another object of the same type.</summary>
-        /// <returns>true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.</returns>
+        /// <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(EventKey other)
         {

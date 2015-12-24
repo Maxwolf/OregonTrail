@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FormFactory.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Keeps track of all the possible states a given game Windows can have by using attributes and reflection to keep
-//   track
-//   of which user data object gets mapped to which particular state.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/19/2015@7:03 PM
+
 namespace TrailSimulation.Core
 {
     using System;
@@ -68,14 +61,14 @@ namespace TrailSimulation.Core
 
             // Create the state, it will have constructor with one parameter.
             var stateInstance = Activator.CreateInstance(
-                stateType, 
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, 
-                null, 
+                stateType,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+                null,
                 new object[]
                 {
                     // Grab the user data object from active Windows
                     activeMode
-                }, 
+                },
                 CultureInfo.InvariantCulture);
 
             // Pass the created state back to caller.

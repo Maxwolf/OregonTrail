@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StartingMonth.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Special enumeration used for defining the starting month of the game simulation. Since we want to user to select
-//   one through five from March to July we need a special way to keep track of what months are valid for starting and
-//   have them in selectable order that makes sense to the user.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@3:29 AM
+
 namespace TrailSimulation.Game
 {
     /// <summary>
@@ -20,22 +13,22 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     The march.
         /// </summary>
-        March = 1, 
+        March = 1,
 
         /// <summary>
         ///     The april.
         /// </summary>
-        April = 2, 
+        April = 2,
 
         /// <summary>
         ///     The may.
         /// </summary>
-        May = 3, 
+        May = 3,
 
         /// <summary>
         ///     The june.
         /// </summary>
-        June = 4, 
+        June = 4,
 
         /// <summary>
         ///     The july.

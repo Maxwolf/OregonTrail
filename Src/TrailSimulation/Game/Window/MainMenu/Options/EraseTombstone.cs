@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EraseTombstone.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Erases all the saved JSON Tombstone epitaphs on the disk so other players will not encounter them, new ones can
-//   be
-//   created then.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@4:26 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -22,8 +15,10 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.MainMenu)]
     public sealed class EraseTombstone : InputForm<NewGameInfo>
     {
-        /// <summary>Initializes a new instance of the <see cref="EraseTombstone"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EraseTombstone" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public EraseTombstone(IWindow window) : base(window)
         {
@@ -65,8 +60,10 @@ namespace TrailSimulation.Game
             return eraseEpitaphs.ToString();
         }
 
-        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {

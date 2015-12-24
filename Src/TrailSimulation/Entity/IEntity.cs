@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IEntity.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Base interface for all entities in the simulation, this is used as a constraint for generics in event system.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:12 AM
+
 namespace TrailSimulation.Entity
 {
     using System;
@@ -15,7 +10,7 @@ namespace TrailSimulation.Entity
     /// <summary>
     ///     Base interface for all entities in the simulation, this is used as a constraint for generics in event system.
     /// </summary>
-    public interface IEntity : IComparer<IEntity>, IComparable<IEntity>, IEquatable<IEntity>, IEqualityComparer<IEntity>, 
+    public interface IEntity : IComparer<IEntity>, IComparable<IEntity>, IEquatable<IEntity>, IEqualityComparer<IEntity>,
         ITick
     {
         /// <summary>

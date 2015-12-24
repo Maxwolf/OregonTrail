@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TrailRegistry.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Complete trails the player can travel on using the simulation. Some are remakes and others new.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:41 AM
+
 namespace TrailSimulation.Game
 {
     using System.Collections.Generic;
@@ -51,7 +46,6 @@ namespace TrailSimulation.Game
                             new TollRoad("Barlow Toll Road", Climate.Moderate)
                         })
                     }),
-
                     new Settlement("Oregon City", Climate.Moderate)
                 };
 
@@ -97,7 +91,7 @@ namespace TrailSimulation.Game
             {
                 var testPoints = new Location[]
                 {
-                    new Settlement("Start Of Test", Climate.Moderate), 
+                    new Settlement("Start Of Test", Climate.Moderate),
                     new Settlement("End Of Test", Climate.Dry)
                 };
 
@@ -114,12 +108,12 @@ namespace TrailSimulation.Game
             {
                 var testFail = new Location[]
                 {
-                    new Settlement("Start Of Test", Climate.Moderate), 
-                    new RiverCrossing("Wolf River Crossing", Climate.Continental, RiverOption.IndianGuide), 
-                    new RiverCrossing("Fox River Crossing", Climate.Moderate, RiverOption.IndianGuide), 
-                    new RiverCrossing("Otter River Crossing", Climate.Tropical, RiverOption.FerryOperator), 
-                    new RiverCrossing("Coyote River Crossing", Climate.Polar), 
-                    new RiverCrossing("Deer River Crossing", Climate.Continental), 
+                    new Settlement("Start Of Test", Climate.Moderate),
+                    new RiverCrossing("Wolf River Crossing", Climate.Continental, RiverOption.IndianGuide),
+                    new RiverCrossing("Fox River Crossing", Climate.Moderate, RiverOption.IndianGuide),
+                    new RiverCrossing("Otter River Crossing", Climate.Tropical, RiverOption.FerryOperator),
+                    new RiverCrossing("Coyote River Crossing", Climate.Polar),
+                    new RiverCrossing("Deer River Crossing", Climate.Continental),
                     new RiverCrossing("End Of Test", Climate.Dry)
                 };
 

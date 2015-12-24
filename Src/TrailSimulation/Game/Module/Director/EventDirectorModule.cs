@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EventDirectorModule.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
-//   game simulation normally.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:41 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -54,8 +48,10 @@ namespace TrailSimulation.Game
         /// </summary>
         public event EventTriggered OnEventTriggered;
 
-        /// <summary>Gathers all of the events by specified type and then rolls the virtual dice to determine if any of the events in
-        ///     the enumeration should trigger.</summary>
+        /// <summary>
+        ///     Gathers all of the events by specified type and then rolls the virtual dice to determine if any of the events in
+        ///     the enumeration should trigger.
+        /// </summary>
         /// <param name="sourceEntity">Entities which will be affected by event if triggered.</param>
         /// <param name="eventCategory">Event type the dice will be rolled against and attempted to trigger.</param>
         public void TriggerEventByType(IEntity sourceEntity, EventCategory eventCategory)
@@ -76,8 +72,10 @@ namespace TrailSimulation.Game
             ExecuteEvent(sourceEntity, randomEventProduct);
         }
 
-        /// <summary>Triggers an event directly by type of reference. Event must have [EventDirector] attribute to be
-        ///     registered in the factory correctly.</summary>
+        /// <summary>
+        ///     Triggers an event directly by type of reference. Event must have [EventDirector] attribute to be
+        ///     registered in the factory correctly.
+        /// </summary>
         /// <param name="sourceEntity">Entities which will be affected by event if triggered.</param>
         /// <param name="eventType">System type that represents the type of event to trigger.</param>
         public void TriggerEvent(IEntity sourceEntity, Type eventType)
@@ -87,10 +85,12 @@ namespace TrailSimulation.Game
             ExecuteEvent(sourceEntity, eventProduct);
         }
 
-        /// <summary>Primary worker for the event factory, pulled into it's own method here so all the trigger event types can call it.
+        /// <summary>
+        ///     Primary worker for the event factory, pulled into it's own method here so all the trigger event types can call it.
         ///     This will attach the random event game Windows and then fire an event to trigger the event execution in that
         ///     Windows
-        ///     then it will be able to display any relevant data about what happened.</summary>
+        ///     then it will be able to display any relevant data about what happened.
+        /// </summary>
         /// <param name="sourceEntity">Entities which will be affected by event if triggered.</param>
         /// <param name="directorEvent">Created instance of event that will be executed on simulation in random game Windows.</param>
         private void ExecuteEvent(IEntity sourceEntity, EventProduct directorEvent)

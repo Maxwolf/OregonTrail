@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GameOver.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Represents all of the needed forms and dialogs to end the game and restart it without any problems. This window
-//   will be able to deal with both the win and fail state and route to the correct system depending on ending.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/21/2015@11:31 PM
+
 namespace TrailSimulation.Game
 {
     using Core;

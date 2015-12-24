@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PointsDistributionHelp.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   First panel on point information, shows how health of party members contributes to final score.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@3:29 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -20,8 +15,10 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.MainMenu)]
     public sealed class PointsDistributionHelp : InputForm<NewGameInfo>
     {
-        /// <summary>Initializes a new instance of the <see cref="PointsDistributionHelp"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="PointsDistributionHelp" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public PointsDistributionHelp(IWindow window) : base(window)
         {
@@ -54,8 +51,8 @@ namespace TrailSimulation.Game
 
             // Build a text table from people point distribution with custom headers.
             var partyTextTable = _repairLevels.Values.ToStringTable(
-                new[] {"HealthLevel of Party", "Points per Person"}, 
-                u => Enum.Parse(typeof (HealthLevel), u.ToString()).ToDescriptionAttribute(), 
+                new[] {"HealthLevel of Party", "Points per Person"},
+                u => Enum.Parse(typeof (HealthLevel), u.ToString()).ToDescriptionAttribute(),
                 u => u);
 
             // Print the table to the screen buffer.
@@ -63,8 +60,10 @@ namespace TrailSimulation.Game
             return _pointsHealth.ToString();
         }
 
-        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {

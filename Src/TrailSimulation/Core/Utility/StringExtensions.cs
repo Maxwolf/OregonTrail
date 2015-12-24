@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StringExtensions.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Utility class that contains useful extension methods that make working with strings a little easier and less
-//   repetitive.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@3:03 PM
+
 namespace TrailSimulation.Core
 {
     using System;
@@ -18,8 +12,10 @@ namespace TrailSimulation.Core
     /// </summary>
     public static class StringExtensions
     {
-        /// <summary>Cuts off a string given a certain input amount, useful for ensuring the user never enters more than possible into a
-        ///     given field.</summary>
+        /// <summary>
+        ///     Cuts off a string given a certain input amount, useful for ensuring the user never enters more than possible into a
+        ///     given field.
+        /// </summary>
         /// <param name="value">String that needs to be truncated to max length.</param>
         /// <param name="maxLength">Negative values will cause exception.</param>
         /// <returns>Truncated string.</returns>
@@ -32,8 +28,10 @@ namespace TrailSimulation.Core
         /// <summary>Word wraps the given text to fit within the specified width.</summary>
         /// <remarks>http://www.codeproject.com/Articles/51488/Implementing-Word-Wrap-in-C</remarks>
         /// <param name="text">Text to be word wrapped</param>
-        /// <param name="width">Width, in characters, to which the text
-        ///     should be word wrapped</param>
+        /// <param name="width">
+        ///     Width, in characters, to which the text
+        ///     should be word wrapped
+        /// </param>
         /// <returns>The modified text</returns>
         public static string WordWrap(this string text, int width = 32)
         {
@@ -78,8 +76,10 @@ namespace TrailSimulation.Core
             return sb.ToString();
         }
 
-        /// <summary>Locates position to break the given line so as to avoid
-        ///     breaking words.</summary>
+        /// <summary>
+        ///     Locates position to break the given line so as to avoid
+        ///     breaking words.
+        /// </summary>
         /// <param name="text">String that contains line of text</param>
         /// <param name="pos">Index where line of text starts</param>
         /// <param name="max">Maximum line length</param>

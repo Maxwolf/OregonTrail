@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SprainedShoulder.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   If you have sprained your acromioclavicular joint (the joint at the top of your shoulder), you may be advised to
-//   avoid activities that involve moving your arm.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/12/2015@6:35 AM
+
 namespace TrailSimulation.Event
 {
     using System.Diagnostics.CodeAnalysis;

@@ -1,14 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CrossingResult.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Displays the final crossing result for the river crossing location. No matter what choice the player made, what
-//   events happen along the way, this final screen will be shown to let the user know how the last leg of the journey
-//   went. It is possible to get stuck in the mud, however most of the messages are safe and just let the user know they
-//   finally made it across.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/20/2015@10:00 PM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -30,8 +22,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder _crossingResult;
 
-        /// <summary>Initializes a new instance of the <see cref="CrossingResult"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CrossingResult" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public CrossingResult(IWindow window) : base(window)
         {
@@ -64,7 +58,7 @@ namespace TrailSimulation.Game
                     {
                         // Triggers event for muddy shore that makes player lose a day, forces end of crossing also.
                         FinishCrossing();
-                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle, 
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
                             typeof (StuckInMud));
                     }
 
@@ -125,8 +119,10 @@ namespace TrailSimulation.Game
             return _crossingResult.ToString();
         }
 
-        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {

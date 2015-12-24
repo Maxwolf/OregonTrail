@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EventItemDestroyer.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Prefab class that is used to destroy some items at random from the vehicle inventory. Will return a list of items
-//   and print them to the screen and allow for a custom prompt message to be displayed so it can be different for each
-//   implementation that wants to use it.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/03/2015@2:27 AM
+
 namespace TrailSimulation.Event
 {
     using System;
@@ -42,8 +35,10 @@ namespace TrailSimulation.Event
             _eventText = new StringBuilder();
         }
 
-        /// <summary>Rolls the dice and attempts to kill the passengers of the vehicle. If that happens then the killing verb will be
-        ///     applied next to their name.</summary>
+        /// <summary>
+        ///     Rolls the dice and attempts to kill the passengers of the vehicle. If that happens then the killing verb will be
+        ///     applied next to their name.
+        /// </summary>
         /// <param name="killVerb">Action verb that describes how the person died such as burned, frozen, drowned, etc.</param>
         /// <returns>Formatted string that can be displayed on render for event item destruction.</returns>
         internal static string TryKillPassengers(string killVerb)
@@ -74,10 +69,14 @@ namespace TrailSimulation.Event
             return postDestroy.ToString();
         }
 
-        /// <summary>Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
-        ///     left completely up to handler.</summary>
-        /// <param name="userData">Entities which the event is going to directly affect. This way there is no confusion about
-        ///     what entity the event is for. Will require casting to correct instance type from interface instance.</param>
+        /// <summary>
+        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
+        ///     left completely up to handler.
+        /// </summary>
+        /// <param name="userData">
+        ///     Entities which the event is going to directly affect. This way there is no confusion about
+        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
+        /// </param>
         public override void Execute(RandomEventInfo userData)
         {
             // Clear out the text from the string builder.
@@ -117,7 +116,7 @@ namespace TrailSimulation.Event
 
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
-        /// <returns>The <see cref="string"/>.</returns>
+        /// <returns>The <see cref="string" />.</returns>
         protected abstract string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems);
 
         /// <summary>
@@ -128,8 +127,10 @@ namespace TrailSimulation.Event
         /// </returns>
         protected abstract string OnPreDestroyItems();
 
-        /// <summary>Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
-        ///     change depending on requirements of the implementation.</summary>
+        /// <summary>
+        ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
+        ///     change depending on requirements of the implementation.
+        /// </summary>
         /// <param name="userData"></param>
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(RandomEventInfo userData)

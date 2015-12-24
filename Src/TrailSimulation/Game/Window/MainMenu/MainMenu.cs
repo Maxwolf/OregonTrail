@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainMenu.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Allows the user to completely configure the simulation before they start off on the trail path. It will offer up
-//   ability to choose names, professions, buy initial items, and starting month. The final thing it offers is ability
-//   to change any of these values before actually starting the game as a final confirmation.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:50 AM
+
 namespace TrailSimulation.Game
 {
     using System;

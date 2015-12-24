@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Hunting.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Used to allow the players party to hunt for wild animals, shooting bullet items into the animals will successfully
-//   kill them and when the round is over the amount of meat is determined by what animals are killed. The player party
-//   can only take back up to one hundred pounds of whatever the value was back to the wagon regardless of what it was.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/09/2015@5:52 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -21,8 +14,10 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.Travel)]
     public sealed class Hunting : Form<TravelInfo>
     {
-        /// <summary>Initializes a new instance of the <see cref="Hunting"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Hunting" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public Hunting(IWindow window) : base(window)
         {

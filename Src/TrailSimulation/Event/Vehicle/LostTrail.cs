@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LostTrail.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Vehicle has lost the trail and ended up in the deep woods, now they need to find their way back onto the trail.
-//   Hopefully there are some tracks you can follow!
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/12/2015@6:09 AM
+
 namespace TrailSimulation.Event
 {
     using Game;

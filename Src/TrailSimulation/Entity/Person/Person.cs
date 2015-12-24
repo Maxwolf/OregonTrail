@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Person.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Represents a human-being. Gender is not tracked, we only care about them as an entity that consumes food and their
-//   health.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:12 AM
+
 namespace TrailSimulation.Entity
 {
     using System;
@@ -38,7 +32,7 @@ namespace TrailSimulation.Entity
         /// </summary>
         private bool nearDeathExperience;
 
-        /// <summary>Initializes a new instance of the <see cref="T:TrailEntities.Entities.Person"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="T:TrailEntities.Entities.Person" /> class.</summary>
         /// <param name="profession">The profession.</param>
         /// <param name="name">The name.</param>
         /// <param name="leader">The is Leader.</param>
@@ -166,7 +160,7 @@ namespace TrailSimulation.Entity
         /// <summary>The compare.</summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
-        /// <returns>The <see cref="int"/>.</returns>
+        /// <returns>The <see cref="int" />.</returns>
         public int Compare(IEntity x, IEntity y)
         {
             Debug.Assert(x != null, "x != null");
@@ -180,7 +174,7 @@ namespace TrailSimulation.Entity
 
         /// <summary>The compare to.</summary>
         /// <param name="other">The other.</param>
-        /// <returns>The <see cref="int"/>.</returns>
+        /// <returns>The <see cref="int" />.</returns>
         public int CompareTo(IEntity other)
         {
             Debug.Assert(other != null, "other != null");
@@ -191,7 +185,7 @@ namespace TrailSimulation.Entity
 
         /// <summary>The equals.</summary>
         /// <param name="other">The other.</param>
-        /// <returns>The <see cref="bool"/>.</returns>
+        /// <returns>The <see cref="bool" />.</returns>
         public bool Equals(IEntity other)
         {
             // Reference equality check
@@ -221,7 +215,7 @@ namespace TrailSimulation.Entity
         /// <summary>The equals.</summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
-        /// <returns>The <see cref="bool"/>.</returns>
+        /// <returns>The <see cref="bool" />.</returns>
         public bool Equals(IEntity x, IEntity y)
         {
             return x.Equals(y);
@@ -229,7 +223,7 @@ namespace TrailSimulation.Entity
 
         /// <summary>The get hash code.</summary>
         /// <param name="obj">The obj.</param>
-        /// <returns>The <see cref="int"/>.</returns>
+        /// <returns>The <see cref="int" />.</returns>
         public int GetHashCode(IEntity obj)
         {
             var hash = 23;
@@ -237,14 +231,20 @@ namespace TrailSimulation.Entity
             return hash;
         }
 
-        /// <summary>Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        /// <summary>
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
-        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.</summary>
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
+        /// </summary>
         /// <remarks>Default is one second or 1000ms.</remarks>
-        /// <param name="systemTick">TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
-        ///     pulsed by game simulation at fixed interval.</param>
-        /// <param name="skipDay">Determines if the simulation has force ticked without advancing time or down the trail. Used by
-        ///     special events that want to simulate passage of time without actually any actual time moving by.</param>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        /// <param name="skipDay">
+        ///     Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        ///     special events that want to simulate passage of time without actually any actual time moving by.
+        /// </param>
         public void OnTick(bool systemTick, bool skipDay)
         {
             // Only tick person with simulation.
@@ -448,8 +448,10 @@ namespace TrailSimulation.Entity
             }
         }
 
-        /// <summary>Reduces the persons health by a random amount from minimum health value to highest. If this reduces the players
-        ///     health below zero the person will be considered dead.</summary>
+        /// <summary>
+        ///     Reduces the persons health by a random amount from minimum health value to highest. If this reduces the players
+        ///     health below zero the person will be considered dead.
+        /// </summary>
         /// <param name="minAmount">Minimum amount of damage that should be randomly generated.</param>
         /// <param name="maxAmount">Maximum amount of damage that should be randomly generated.</param>
         private void Damage(int minAmount, int maxAmount)
@@ -482,8 +484,10 @@ namespace TrailSimulation.Entity
             game.EventDirector.TriggerEvent(this, Leader ? typeof (DeathPlayer) : typeof (DeathCompanion));
         }
 
-        /// <summary>Reduces the persons health by set amount, will check to make sure the amount is not higher than ceiling or lower
-        ///     than floor.</summary>
+        /// <summary>
+        ///     Reduces the persons health by set amount, will check to make sure the amount is not higher than ceiling or lower
+        ///     than floor.
+        /// </summary>
         /// <param name="amount">Total amount of damage that should be removed from the person.</param>
         public void Damage(int amount)
         {

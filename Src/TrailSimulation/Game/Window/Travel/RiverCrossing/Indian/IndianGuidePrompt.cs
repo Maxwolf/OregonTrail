@@ -1,15 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IndianGuidePrompt.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Prompts the player with a yes or no question regarding if they would like to use the services offered by the Indian
-//   guide. However, he requires sets of clothing and not money like the ferry operator. If they player does not have
-//   enough clothing in their inventory then the message will say so here since there is no opportunity to trade once
-//   you are actually at the river crossing. The amount of clothing he asks for will also change based on the amount of
-//   animals killed while hunting.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/21/2015@2:44 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -27,8 +18,10 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.Travel)]
     public sealed class IndianGuidePrompt : InputForm<TravelInfo>
     {
-        /// <summary>Initializes a new instance of the <see cref="IndianGuidePrompt"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="IndianGuidePrompt" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public IndianGuidePrompt(IWindow window) : base(window)
         {
@@ -96,8 +89,10 @@ namespace TrailSimulation.Game
             return _prompt.ToString();
         }
 
-        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {

@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Climate.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   The climate.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/22/2015@4:44 AM
+
 namespace TrailSimulation.Entity
 {
     /// <summary>
@@ -16,22 +11,22 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     The tropical.
         /// </summary>
-        Tropical, 
+        Tropical,
 
         /// <summary>
         ///     The dry.
         /// </summary>
-        Dry, 
+        Dry,
 
         /// <summary>
         ///     The moderate.
         /// </summary>
-        Moderate, 
+        Moderate,
 
         /// <summary>
         ///     The continental.
         /// </summary>
-        Continental, 
+        Continental,
 
         /// <summary>
         ///     The polar.

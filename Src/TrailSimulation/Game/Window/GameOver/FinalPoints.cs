@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FinalPoints.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Shows point tabulation based on current simulation statistics. This way if the player dies or finishes the game we
-//   just attach this state to the travel mode and it will show the final score and reset the game and return to main
-//   menu when the player is done.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/21/2015@11:24 PM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -30,8 +23,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder _pointsPrompt;
 
-        /// <summary>Initializes a new instance of the <see cref="FinalPoints"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="FinalPoints" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public FinalPoints(IWindow window) : base(window)
         {
@@ -54,23 +49,23 @@ namespace TrailSimulation.Game
 
             // Calculate the total points of all spare parts for the tuple list below ahead of time.
             var spareAxles = new Tuple<int, string, int>(
-                game.Vehicle.Inventory[Entities.Axle].Quantity, 
-                game.Vehicle.Inventory[Entities.Axle].PluralForm, 
+                game.Vehicle.Inventory[Entities.Axle].Quantity,
+                game.Vehicle.Inventory[Entities.Axle].PluralForm,
                 game.Vehicle.Inventory[Entities.Axle].Points);
 
             var spareTongues = new Tuple<int, string, int>(
-                game.Vehicle.Inventory[Entities.Tongue].Quantity, 
-                game.Vehicle.Inventory[Entities.Tongue].PluralForm, 
+                game.Vehicle.Inventory[Entities.Tongue].Quantity,
+                game.Vehicle.Inventory[Entities.Tongue].PluralForm,
                 game.Vehicle.Inventory[Entities.Tongue].Points);
 
             var spareWheels = new Tuple<int, string, int>(
-                game.Vehicle.Inventory[Entities.Wheel].Quantity, 
-                game.Vehicle.Inventory[Entities.Wheel].PluralForm, 
+                game.Vehicle.Inventory[Entities.Wheel].Quantity,
+                game.Vehicle.Inventory[Entities.Wheel].PluralForm,
                 game.Vehicle.Inventory[Entities.Wheel].Points);
 
             var spareParts = new Tuple<int, string, int>(
-                spareAxles.Item1 + spareTongues.Item1 + spareWheels.Item1, 
-                "spare wagon parts", 
+                spareAxles.Item1 + spareTongues.Item1 + spareWheels.Item1,
+                "spare wagon parts",
                 spareAxles.Item3 + spareTongues.Item3 + spareWheels.Item3);
 
             // Calculates the average health just once because we need it many times.
@@ -84,38 +79,38 @@ namespace TrailSimulation.Game
             {
                 // HealthLevel of vehicle passengers that are still alive.
                 new Tuple<int, string, int>(
-                    game.Vehicle.Passengers.Count, 
-                    $"people in {avgHealth.ToDescriptionAttribute().ToLowerInvariant()} health", 
-                    game.Vehicle.PassengerLivingCount*(int) avgHealth), 
-                new Tuple<int, string, int>(1, "wagon", Resources.Vehicle.Points), 
+                    game.Vehicle.Passengers.Count,
+                    $"people in {avgHealth.ToDescriptionAttribute().ToLowerInvariant()} health",
+                    game.Vehicle.PassengerLivingCount*(int) avgHealth),
+                new Tuple<int, string, int>(1, "wagon", Resources.Vehicle.Points),
                 new Tuple<int, string, int>(
-                    game.Vehicle.Inventory[Entities.Animal].Quantity, 
-                    "oxen", 
-                    game.Vehicle.Inventory[Entities.Animal].Points), 
-                spareParts, 
+                    game.Vehicle.Inventory[Entities.Animal].Quantity,
+                    "oxen",
+                    game.Vehicle.Inventory[Entities.Animal].Points),
+                spareParts,
                 new Tuple<int, string, int>(
-                    game.Vehicle.Inventory[Entities.Clothes].Quantity, 
-                    "sets of clothing", 
-                    game.Vehicle.Inventory[Entities.Clothes].Points), 
+                    game.Vehicle.Inventory[Entities.Clothes].Quantity,
+                    "sets of clothing",
+                    game.Vehicle.Inventory[Entities.Clothes].Points),
                 new Tuple<int, string, int>(
-                    game.Vehicle.Inventory[Entities.Ammo].Quantity, 
-                    "bullets", 
-                    game.Vehicle.Inventory[Entities.Ammo].Points), 
+                    game.Vehicle.Inventory[Entities.Ammo].Quantity,
+                    "bullets",
+                    game.Vehicle.Inventory[Entities.Ammo].Points),
                 new Tuple<int, string, int>(
-                    game.Vehicle.Inventory[Entities.Food].Quantity, 
-                    "pounds of food", 
-                    game.Vehicle.Inventory[Entities.Food].Points), 
+                    game.Vehicle.Inventory[Entities.Food].Quantity,
+                    "pounds of food",
+                    game.Vehicle.Inventory[Entities.Food].Points),
                 new Tuple<int, string, int>(
-                    game.Vehicle.Inventory[Entities.Cash].Quantity, 
-                    "cash", 
+                    game.Vehicle.Inventory[Entities.Cash].Quantity,
+                    "cash",
                     game.Vehicle.Inventory[Entities.Cash].Points)
             };
 
             // Create the actual points table from the tuple list data we created above from game simulation state.
             var locationTable = tuplePoints.ToStringTable(
-                new[] {"Quantity", "Description", "Points"}, 
-                u => u.Item1, 
-                u => u.Item2, 
+                new[] {"Quantity", "Description", "Points"},
+                u => u.Item1,
+                u => u.Item2,
                 u => u.Item3
                 );
             _pointsPrompt.AppendLine(locationTable);
@@ -170,8 +165,10 @@ namespace TrailSimulation.Game
             return _pointsPrompt.ToString();
         }
 
-        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {

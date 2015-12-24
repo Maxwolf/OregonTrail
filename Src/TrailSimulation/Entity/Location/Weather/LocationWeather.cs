@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LocationWeather.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Controls the weather, temperature, environment for getting food, illness probability, and various other factors
-//   related to the players current location in the game world.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/22/2015@4:44 AM
+
 namespace TrailSimulation.Entity
 {
     using System;
@@ -40,8 +34,10 @@ namespace TrailSimulation.Entity
         /// </summary>
         private double _nextWeatherChance;
 
-        /// <summary>Initializes a new instance of the <see cref="LocationWeather"/> class.
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct"/> class.</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="LocationWeather" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Core.ModuleProduct" /> class.
+        /// </summary>
         /// <param name="climateType">The climate Type.</param>
         public LocationWeather(Climate climateType)
         {
@@ -119,7 +115,7 @@ namespace TrailSimulation.Entity
             }
 
             var possibleClimate = GetTemperatureByMonth(game.Time.CurrentMonth);
-            var possibleTemperature = game.Random.Next((int) possibleClimate.TemperatureMin, 
+            var possibleTemperature = game.Random.Next((int) possibleClimate.TemperatureMin,
                 (int) possibleClimate.TemperatureMax);
 
             // Make it so climate doesn't change every single day (ex. 4 days of clear skies, 2 of rain).
@@ -272,7 +268,7 @@ namespace TrailSimulation.Entity
                     _nextWeatherChance = 0.95d;
                     if (GameSimulationApp.Instance.Random.NextBool())
                     {
-                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle, 
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
                             typeof (HailStorm));
                     }
 
@@ -284,7 +280,7 @@ namespace TrailSimulation.Entity
 
                     if (GameSimulationApp.Instance.Random.NextBool())
                     {
-                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle, 
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
                             typeof (SevereWeather));
                     }
 
@@ -310,7 +306,7 @@ namespace TrailSimulation.Entity
 
                     if (GameSimulationApp.Instance.Random.NextBool())
                     {
-                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle, 
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
                             typeof (SevereWeather));
                     }
 
@@ -331,7 +327,7 @@ namespace TrailSimulation.Entity
 
                     if (GameSimulationApp.Instance.Random.NextBool())
                     {
-                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle, 
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
                             typeof (SevereWeather));
                     }
 
@@ -346,7 +342,7 @@ namespace TrailSimulation.Entity
 
                     if (GameSimulationApp.Instance.Random.NextBool())
                     {
-                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle, 
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
                             typeof (HeavyFog));
                     }
 
@@ -452,7 +448,7 @@ namespace TrailSimulation.Entity
 
         /// <summary>Returns average temperature for given climate classification and month.</summary>
         /// <param name="whichMonth">The which Month.</param>
-        /// <returns>The <see cref="ClimateData"/>.</returns>
+        /// <returns>The <see cref="ClimateData" />.</returns>
         private ClimateData GetTemperatureByMonth(Month whichMonth)
         {
             foreach (var data in _averageTemperatures)

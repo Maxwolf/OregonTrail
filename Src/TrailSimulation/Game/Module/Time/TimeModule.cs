@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TimeModule.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
-//   simulation by one day. There are also other options and events for checking state, and changing state.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:41 AM
+
 namespace TrailSimulation.Game
 {
     using Core;
@@ -96,8 +90,10 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>Advances the tick of the game forward firing off events for new eras, years, months and days.</summary>
-        /// <param name="skipDay">Determines if the time module should fire off event for a day but not actually advance time
-        ///     itself.</param>
+        /// <param name="skipDay">
+        ///     Determines if the time module should fire off event for a day but not actually advance time
+        ///     itself.
+        /// </param>
         public void TickTime(bool skipDay)
         {
             // Check if we should skip date calculations and just fire off day.

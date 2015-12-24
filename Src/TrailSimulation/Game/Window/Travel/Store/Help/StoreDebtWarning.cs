@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StoreDebtWarning.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   If the player cannot afford to leave the store because they have attempted to purchase more items than they are
-//   capable of carrying and or purchasing this will be displayed to inform the user they need to pay up.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@2:30 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -25,8 +19,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder storeDebt;
 
-        /// <summary>Initializes a new instance of the <see cref="StoreDebtWarning"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="StoreDebtWarning" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public StoreDebtWarning(IWindow window) : base(window)
         {
@@ -50,8 +46,10 @@ namespace TrailSimulation.Game
             return storeDebt.ToString();
         }
 
-        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {

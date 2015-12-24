@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TombstoneModule.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Keeps track of all the tombstones in a nice collection and also supports saving them to disk and loading them again
-//   using JSON. Finally it also has all the needed methods to check for a Tombstone at a particular spot on the
-//   trail.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/18/2015@6:11 AM
+
 namespace TrailSimulation.Game
 {
     using System.Collections.Generic;
@@ -34,10 +27,13 @@ namespace TrailSimulation.Game
         /// <summary>Gets or sets the element with the specified key.</summary>
         /// <returns>The element with the specified key.</returns>
         /// <param name="key">The key of the element to get or set.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is null.</exception>
-        /// <exception cref="T:System.NotSupportedException">The property is set and the<see cref="T:System.Collections.IDictionary"/> object is read-only.-or- The property is
-        ///     set,<paramref name="key"/> does not exist in the collection, and the<see cref="T:System.Collections.IDictionary"/>
-        ///     has a fixed size.</exception>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="key" /> is null.</exception>
+        /// <exception cref="T:System.NotSupportedException">
+        ///     The property is set and the<see cref="T:System.Collections.IDictionary" /> object is read-only.-or- The property is
+        ///     set,<paramref name="key" /> does not exist in the collection, and the
+        ///     <see cref="T:System.Collections.IDictionary" />
+        ///     has a fixed size.
+        /// </exception>
         public Tombstone this[int key]
         {
             get { return Tombstones[key]; }
@@ -49,8 +45,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private Dictionary<int, Tombstone> Tombstones { get; }
 
-        /// <summary>Creates a shallow copy of the tombstone item and adds it to the list of tombstones. Does not check if it already
-        ///     exists. Only safety is that multiple tombstones cannot be placed at the same mile marker.</summary>
+        /// <summary>
+        ///     Creates a shallow copy of the tombstone item and adds it to the list of tombstones. Does not check if it already
+        ///     exists. Only safety is that multiple tombstones cannot be placed at the same mile marker.
+        /// </summary>
         /// <param name="tombstoneItem">The tombstone Item.</param>
         public void Add(Tombstone tombstoneItem)
         {

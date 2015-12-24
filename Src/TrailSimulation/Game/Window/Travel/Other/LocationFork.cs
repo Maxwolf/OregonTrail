@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LocationFork.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Defines a location that has the player make a choice about the next location they want to travel to, it is not a
-//   linear choice and depends on the player telling the simulation which way to fork down the path. The decisions are
-//   pear shaped in the sense any fork will eventually lead back to the same path.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/10/2015@3:40 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -36,8 +29,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private Dictionary<int, Location> _skipChoices;
 
-        /// <summary>Initializes a new instance of the <see cref="LocationFork"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="LocationFork" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public LocationFork(IWindow window) : base(window)
         {

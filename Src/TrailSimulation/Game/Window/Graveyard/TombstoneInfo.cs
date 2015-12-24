@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TombstoneInfo.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Holds intermediate information about tombstone for editing purposes. Eventually the data edited here will be passed
-//   off to the graveyard module which handles the archiving of tombstones.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/19/2015@3:02 AM
+
 namespace TrailSimulation.Game
 {
     using Core;

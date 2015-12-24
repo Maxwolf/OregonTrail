@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Travel.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Primary game Windows of the simulation, used to show simulation advancing through linear time. Shows all major
-//   stats of party and vehicle, plus climate and other things like distance traveled and distance to next point.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:51 AM
+
 namespace TrailSimulation.Game
 {
     using System;

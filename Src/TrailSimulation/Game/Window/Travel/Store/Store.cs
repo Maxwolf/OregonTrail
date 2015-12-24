@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Store.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Manages a general store where the player can buy food, clothes, bullets, and parts for their vehicle.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@2:30 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -26,8 +21,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder _storePrompt;
 
-        /// <summary>Initializes a new instance of the <see cref="Store"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Store" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public Store(IWindow window) : base(window)
         {
@@ -152,7 +149,7 @@ namespace TrailSimulation.Game
 
                 // Creates a store price tag that shows the user how much the item is and or how much the store has.
                 var storeTag = storeItem.ToDescriptionAttribute()
-                    .Replace("@AMT@", 
+                    .Replace("@AMT@",
                         UserData.Store.Transactions[storeItem].ToString(
                             GameSimulationApp.Instance.Trail.IsFirstLocation &&
                             GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached));

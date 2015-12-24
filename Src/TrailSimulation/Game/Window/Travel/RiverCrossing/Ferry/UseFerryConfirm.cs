@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UseFerryConfirm.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Explains to the user how many monies and days they will be charged to cross the river using the ferry and to
-//   confirm by saying yes. At this point the simulation will check if they have enough money or not and jump to the
-//   next state accordingly.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/21/2015@2:42 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -23,8 +16,10 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.Travel)]
     public sealed class UseFerryConfirm : InputForm<TravelInfo>
     {
-        /// <summary>Initializes a new instance of the <see cref="UseFerryConfirm"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="UseFerryConfirm" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public UseFerryConfirm(IWindow window) : base(window)
         {
@@ -55,8 +50,10 @@ namespace TrailSimulation.Game
             return _prompt.ToString();
         }
 
-        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {

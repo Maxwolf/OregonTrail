@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EventFactory.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Factory pattern for creating director event items from type references.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:41 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -48,7 +43,7 @@ namespace TrailSimulation.Game
                         continue;
 
                     // Create key for the event execution counter.
-                    var eventKey = new EventKey((EventCategory) modeType, eventObject.Name, 
+                    var eventKey = new EventKey((EventCategory) modeType, eventObject.Name,
                         eventAttribute.EventExecutionType);
 
                     // Reference type for creating instances.

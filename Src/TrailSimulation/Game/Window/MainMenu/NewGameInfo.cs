@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NewGameInfo.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Holds all of the information required to kick-start a running game simulation onto a trail path with people,
-//   professions, vehicle, starting items, and all stats related to luck and repair skill.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@3:50 AM
+
 namespace TrailSimulation.Game
 {
     using System.Collections.Generic;

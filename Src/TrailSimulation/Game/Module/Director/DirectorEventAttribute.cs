@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DirectorEventAttribute.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Used to tag the base event item class so we can grab all inheriting types that use it.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/14/2015@4:36 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -17,13 +12,15 @@ namespace TrailSimulation.Game
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public sealed class DirectorEventAttribute : Attribute
     {
-        /// <summary>Initializes a new instance of the <see cref="DirectorEventAttribute"/> class.
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DirectorEventAttribute" /> class.
         ///     Defines what type of event this will be recognized as in the director when it tells the factory to create a list of
-        ///     all known events it can call and sort by.</summary>
+        ///     all known events it can call and sort by.
+        /// </summary>
         /// <param name="eventCategory">The event Category.</param>
         /// <param name="eventExecutionType">The event Execution Type.</param>
         public DirectorEventAttribute(
-            EventCategory eventCategory, 
+            EventCategory eventCategory,
             EventExecution eventExecutionType = EventExecution.RandomOrManual)
         {
             EventCategory = eventCategory;

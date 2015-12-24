@@ -1,19 +1,15 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="InputForm.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Represents a dialog box that acts like a pop-up where it displays some piece of data, accepts any key for input and
-//   then closes.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/19/2015@7:03 PM
+
 namespace TrailSimulation.Core
 {
     using System;
     using System.Text;
 
-    /// <summary>Represents a dialog box that acts like a pop-up where it displays some piece of data, accepts any key for input and
-    ///     then closes.</summary>
+    /// <summary>
+    ///     Represents a dialog box that acts like a pop-up where it displays some piece of data, accepts any key for input and
+    ///     then closes.
+    /// </summary>
     /// <typeparam name="T">Windows information object that will be applied to this state on when constructor is called.</typeparam>
     public abstract class InputForm<T> : Form<T> where T : WindowData, new()
     {
@@ -27,8 +23,10 @@ namespace TrailSimulation.Core
         /// </summary>
         private bool _seenPrompt;
 
-        /// <summary>Initializes a new instance of the <see cref="InputForm{T}"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="InputForm{T}" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         protected InputForm(IWindow window) : base(window)
         {
@@ -138,8 +136,10 @@ namespace TrailSimulation.Core
             }
         }
 
-        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected abstract void OnDialogResponse(DialogResponse reponse);
     }

@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ManagementOptions.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Glorified options menu for the game that allows player to remove top ten high scores, remove saved games, erase
-//   Tombstone messages, etc.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@4:26 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -26,8 +20,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder _optionsPrompt;
 
-        /// <summary>Initializes a new instance of the <see cref="ManagementOptions"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ManagementOptions" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public ManagementOptions(IWindow window) : base(window)
         {

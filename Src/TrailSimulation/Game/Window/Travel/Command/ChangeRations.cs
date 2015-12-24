@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ChangeRations.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Allows the player to change the amount of food their party members will have access to in a given day, the purpose
-//   of which is to limit the amount they take in to slow the loss of food per pound. This has many affects on the
-//   simulation such as disease, chance for breaking body parts, and or complete death from starvation.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@2:30 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -28,8 +21,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder _ration;
 
-        /// <summary>Initializes a new instance of the <see cref="ChangeRations"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ChangeRations" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public ChangeRations(IWindow window) : base(window)
         {

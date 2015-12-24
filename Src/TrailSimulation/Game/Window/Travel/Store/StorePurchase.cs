@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StorePurchase.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Allows the player to purchase a number of oxen to pull their vehicle.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/09/2015@4:26 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -38,8 +33,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private int _purchaseLimit;
 
-        /// <summary>Initializes a new instance of the <see cref="StorePurchase"/> class.
-        ///     Attaches a state that will allow the player to purchase a certain number of a particular SimItem.</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="StorePurchase" /> class.
+        ///     Attaches a state that will allow the player to purchase a certain number of a particular SimItem.
+        /// </summary>
         /// <param name="window">Current game Windows that requested this.</param>
         public StorePurchase(IWindow window) : base(window)
         {
@@ -70,7 +67,7 @@ namespace TrailSimulation.Game
             _itemBuyText = new StringBuilder();
 
             // Change up question asked if plural window matches the name of the SimItem.
-            var pluralMatchesName = UserData.Store.SelectedItem.PluralForm.Equals(UserData.Store.SelectedItem.Name, 
+            var pluralMatchesName = UserData.Store.SelectedItem.PluralForm.Equals(UserData.Store.SelectedItem.Name,
                 StringComparison.InvariantCultureIgnoreCase);
 
             // Print text about purchasing the selected item.

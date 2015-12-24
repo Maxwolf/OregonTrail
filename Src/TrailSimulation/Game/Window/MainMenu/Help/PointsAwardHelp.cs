@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PointsAwardHelp.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Second panel on point information, shows how the number of resources you end the game with contribute to your final
-//   score.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@3:29 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -22,8 +16,10 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.MainMenu)]
     public sealed class PointsAwardHelp : InputForm<NewGameInfo>
     {
-        /// <summary>Initializes a new instance of the <see cref="PointsAwardHelp"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="PointsAwardHelp" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public PointsAwardHelp(IWindow window) : base(window)
         {
@@ -38,15 +34,15 @@ namespace TrailSimulation.Game
             {
                 return new List<Points>
                 {
-                    new Points(Resources.Person), 
-                    new Points(Resources.Vehicle), 
-                    new Points(Parts.Oxen), 
-                    new Points(Parts.Wheel), 
-                    new Points(Parts.Axle), 
-                    new Points(Parts.Tongue), 
-                    new Points(Resources.Clothing), 
-                    new Points(Resources.Bullets), 
-                    new Points(Resources.Food), 
+                    new Points(Resources.Person),
+                    new Points(Resources.Vehicle),
+                    new Points(Parts.Oxen),
+                    new Points(Parts.Wheel),
+                    new Points(Parts.Axle),
+                    new Points(Parts.Tongue),
+                    new Points(Resources.Clothing),
+                    new Points(Resources.Bullets),
+                    new Points(Resources.Food),
                     new Points(Resources.Cash)
                 };
             }
@@ -69,8 +65,8 @@ namespace TrailSimulation.Game
 
             // Build up the table of resource points and how they work for player.
             var partyTable = ResourcePoints.ToStringTable(
-                new[] {"Resources of Party", "Points per Item"}, 
-                u => u.ToString(), 
+                new[] {"Resources of Party", "Points per Item"},
+                u => u.ToString(),
                 u => u.PointsAwarded
                 );
 
@@ -79,8 +75,10 @@ namespace TrailSimulation.Game
             return _pointsItems.ToString();
         }
 
-        /// <summary>Fired when the dialog receives favorable input and determines a response based on this. From this method it is
-        ///     common to attach another state, or remove the current state based on the response.</summary>
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
+        ///     common to attach another state, or remove the current state based on the response.
+        /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {

@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CrossingTick.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Runs the player over the river based on the crossing information. Depending on what happens a message will be
-//   printed to the screen explaining what happened before defaulting back to travel game Windows.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/09/2015@4:37 PM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -49,8 +43,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private string _swayBarText;
 
-        /// <summary>Initializes a new instance of the <see cref="CrossingTick"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CrossingTick" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public CrossingTick(IWindow window) : base(window)
         {
@@ -165,14 +161,20 @@ namespace TrailSimulation.Game
             return _crossingPrompt.ToString();
         }
 
-        /// <summary>Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        /// <summary>
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
-        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.</summary>
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
+        /// </summary>
         /// <remarks>Default is one second or 1000ms.</remarks>
-        /// <param name="systemTick">TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
-        ///     pulsed by game simulation at fixed interval.</param>
-        /// <param name="skipDay">Determines if the simulation has force ticked without advancing time or down the trail. Used by
-        ///     special events that want to simulate passage of time without actually any actual time moving by.</param>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        /// <param name="skipDay">
+        ///     Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        ///     special events that want to simulate passage of time without actually any actual time moving by.
+        /// </param>
         public override void OnTick(bool systemTick, bool skipDay)
         {
             base.OnTick(systemTick, skipDay);

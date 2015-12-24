@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EventPersonInfect.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Intended to be used to make adding the infected flag to people easier. If an event wants to act as some sort of
-//   biological agent then it can use this prefab and just worry about the message it prints and the action of infecting
-//   the player will be done by this class.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/18/2015@2:36 AM
+
 namespace TrailSimulation.Event
 {
     using System.Diagnostics;
@@ -21,10 +14,14 @@ namespace TrailSimulation.Event
     /// </summary>
     public abstract class EventPersonInfect : EventProduct
     {
-        /// <summary>Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
-        ///     left completely up to handler.</summary>
-        /// <param name="userData">Entities which the event is going to directly affect. This way there is no confusion about
-        ///     what entity the event is for. Will require casting to correct instance type from interface instance.</param>
+        /// <summary>
+        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
+        ///     left completely up to handler.
+        /// </summary>
+        /// <param name="userData">
+        ///     Entities which the event is going to directly affect. This way there is no confusion about
+        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
+        /// </param>
         public override void Execute(RandomEventInfo userData)
         {
             // Cast the source entity as person.
@@ -35,8 +32,10 @@ namespace TrailSimulation.Event
             person.Infect();
         }
 
-        /// <summary>Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
-        ///     change depending on requirements of the implementation.</summary>
+        /// <summary>
+        ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
+        ///     change depending on requirements of the implementation.
+        /// </summary>
         /// <param name="userData"></param>
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(RandomEventInfo userData)

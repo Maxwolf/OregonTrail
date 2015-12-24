@@ -1,14 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GameFail.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Fired when the simulation has determined the player has died. It specifically only attaches at this time. The flow
-//   for death like this is to first show the player the failure state like this, then ask if they want to leave an
-//   epitaph, process that decision, confirm it, and finally show the viewer that will also show the reason why the
-//   player died using description attribute from an enumeration value that determines how they died.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/21/2015@11:24 PM
+
 namespace TrailSimulation.Game
 {
     using Core;
@@ -22,8 +14,10 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.GameOver)]
     public sealed class GameFail : Form<GameOverInfo>
     {
-        /// <summary>Initializes a new instance of the <see cref="GameFail"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="GameFail" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public GameFail(IWindow window) : base(window)
         {

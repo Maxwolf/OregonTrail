@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Form.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Forms are attached to windows.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 11/19/2015@7:03 PM
+
 namespace TrailSimulation.Core
 {
     using System;
@@ -15,15 +10,17 @@ namespace TrailSimulation.Core
     /// <summary>Forms are attached to windows.</summary>
     /// <typeparam name="TData">UserData type.</typeparam>
     public abstract class Form<TData> :
-        Comparer<Form<TData>>, 
-        IComparable<Form<TData>>, 
-        IEquatable<Form<TData>>, 
-        IEqualityComparer<Form<TData>>, 
+        Comparer<Form<TData>>,
+        IComparable<Form<TData>>,
+        IEquatable<Form<TData>>,
+        IEqualityComparer<Form<TData>>,
         IForm
         where TData : WindowData, new()
     {
-        /// <summary>Initializes a new instance of the <see cref="Form{TData}"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Form{TData}" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         protected Form(IWindow window)
         {
@@ -45,9 +42,12 @@ namespace TrailSimulation.Core
         protected IWindow ParentWindow { get; }
 
         /// <summary>Compares the current object with another object of the same type.</summary>
-        /// <returns>A value that indicates the relative order of the objects being compared. The return value has the following
-        ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other"/> parameter.Zero This
-        ///     object is equal to <paramref name="other"/>. Greater than zero This object is greater than<paramref name="other"/>.</returns>
+        /// <returns>
+        ///     A value that indicates the relative order of the objects being compared. The return value has the following
+        ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This
+        ///     object is equal to <paramref name="other" />. Greater than zero This object is greater than
+        ///     <paramref name="other" />.
+        /// </returns>
         /// <param name="other">An object to compare with this object.</param>
         public int CompareTo(Form<TData> other)
         {
@@ -65,15 +65,18 @@ namespace TrailSimulation.Core
 
         /// <summary>Returns a hash code for the specified object.</summary>
         /// <returns>A hash code for the specified object.</returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> for which a hash code is to be returned.</param>
-        /// <exception cref="T:System.ArgumentNullException">The type of <paramref name="obj"/> is a reference type and<paramref name="obj"/> is null.</exception>
+        /// <param name="obj">The <see cref="T:System.Object" /> for which a hash code is to be returned.</param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     The type of <paramref name="obj" /> is a reference type and
+        ///     <paramref name="obj" /> is null.
+        /// </exception>
         public int GetHashCode(Form<TData> obj)
         {
             return obj.GetHashCode();
         }
 
         /// <summary>Indicates whether the current object is equal to another object of the same type.</summary>
-        /// <returns>true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.</returns>
+        /// <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(Form<TData> other)
         {
@@ -168,10 +171,16 @@ namespace TrailSimulation.Core
             // Nothing to see here, move along...
         }
 
-        /// <summary>Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the
-        ///     other.</summary>
-        /// <returns>A signed integer that indicates the relative values of <paramref name="x"/> and <paramref name="y"/>, as shown in
-        ///     the following table.Value Meaning Less than zero<paramref name="x"/> is less than <paramref name="y"/>.Zero<paramref name="x"/> equals <paramref name="y"/>.Greater than zero<paramref name="x"/> is greater than<paramref name="y"/>.</returns>
+        /// <summary>
+        ///     Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the
+        ///     other.
+        /// </summary>
+        /// <returns>
+        ///     A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />, as shown in
+        ///     the following table.Value Meaning Less than zero<paramref name="x" /> is less than <paramref name="y" />.Zero
+        ///     <paramref name="x" /> equals <paramref name="y" />.Greater than zero<paramref name="x" /> is greater than
+        ///     <paramref name="y" />.
+        /// </returns>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
         public int Compare(IForm x, IForm y)
@@ -184,23 +193,32 @@ namespace TrailSimulation.Core
         }
 
         /// <summary>Compares the current object with another object of the same type.</summary>
-        /// <returns>A value that indicates the relative order of the objects being compared. The return value has the following
-        ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other"/> parameter.Zero This
-        ///     object is equal to <paramref name="other"/>. Greater than zero This object is greater than<paramref name="other"/>.</returns>
+        /// <returns>
+        ///     A value that indicates the relative order of the objects being compared. The return value has the following
+        ///     meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This
+        ///     object is equal to <paramref name="other" />. Greater than zero This object is greater than
+        ///     <paramref name="other" />.
+        /// </returns>
         /// <param name="other">An object to compare with this object.</param>
         public int CompareTo(IForm other)
         {
             return string.Compare(other.GetType().Name, GetType().Name, StringComparison.Ordinal);
         }
 
-        /// <summary>Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
+        /// <summary>
+        ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
-        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.</summary>
+        ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
+        /// </summary>
         /// <remarks>Default is one second or 1000ms.</remarks>
-        /// <param name="systemTick">TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
-        ///     pulsed by game simulation at fixed interval.</param>
-        /// <param name="skipDay">Determines if the simulation has force ticked without advancing time or down the trail. Used by
-        ///     special events that want to simulate passage of time without actually any actual time moving by.</param>
+        /// <param name="systemTick">
+        ///     TRUE if ticked unpredictably by underlying operating system, game engine, or potato. FALSE if
+        ///     pulsed by game simulation at fixed interval.
+        /// </param>
+        /// <param name="skipDay">
+        ///     Determines if the simulation has force ticked without advancing time or down the trail. Used by
+        ///     special events that want to simulate passage of time without actually any actual time moving by.
+        /// </param>
         public virtual void OnTick(bool systemTick, bool skipDay)
         {
             // Nothing to see here, move along...
@@ -217,10 +235,16 @@ namespace TrailSimulation.Core
             return GetType().Name;
         }
 
-        /// <summary>When overridden in a derived class, performs a comparison of two objects of the same type and returns a value
-        ///     indicating whether one object is less than, equal to, or greater than the other.</summary>
-        /// <returns>A signed integer that indicates the relative values of <paramref name="x"/> and <paramref name="y"/>, as shown in
-        ///     the following table.Value Meaning Less than zero <paramref name="x"/> is less than <paramref name="y"/>.Zero<paramref name="x"/> equals <paramref name="y"/>.Greater than zero <paramref name="x"/> is greater than<paramref name="y"/>.</returns>
+        /// <summary>
+        ///     When overridden in a derived class, performs a comparison of two objects of the same type and returns a value
+        ///     indicating whether one object is less than, equal to, or greater than the other.
+        /// </summary>
+        /// <returns>
+        ///     A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />, as shown in
+        ///     the following table.Value Meaning Less than zero <paramref name="x" /> is less than <paramref name="y" />.Zero
+        ///     <paramref name="x" /> equals <paramref name="y" />.Greater than zero <paramref name="x" /> is greater than
+        ///     <paramref name="y" />.
+        /// </returns>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
         public override int Compare(Form<TData> x, Form<TData> y)

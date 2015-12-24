@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="InputPlayerNames.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Gets the name of a player for a particular index in the player name user data object. This will also offer the user
-//   a chance to confirm their selection in another state, reset if they don't like it, and also generate a random user
-//   name if they just press enter at the prompt for a name.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@3:29 AM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -28,8 +21,10 @@ namespace TrailSimulation.Game
         /// </summary>
         private StringBuilder _inputNamesHelp;
 
-        /// <summary>Initializes a new instance of the <see cref="InputPlayerNames"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="InputPlayerNames" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public InputPlayerNames(IWindow window) : base(window)
         {
@@ -150,8 +145,8 @@ namespace TrailSimulation.Game
         {
             string[] names =
             {
-                "Bob", "Joe", "Sally", "Tim", "Steve", "Zeke", "Suzan", "Rebekah", "Young", "Marquitta", 
-                "Kristy", "Sharice", "Joanna", "Chrystal", "Genevie", "Angela", "Ruthann", "Viva", "Iris", "Anderson", 
+                "Bob", "Joe", "Sally", "Tim", "Steve", "Zeke", "Suzan", "Rebekah", "Young", "Marquitta",
+                "Kristy", "Sharice", "Joanna", "Chrystal", "Genevie", "Angela", "Ruthann", "Viva", "Iris", "Anderson",
                 "Siobhan", "Karey", "Jolie", "Carlene", "Lekisha", "Buck"
             };
             return names[GameSimulationApp.Instance.Random.Next(names.Length)];

@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TollRoad.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Defines a location on the trail where the player is required to pay monies in order to use it. Typically this is
-//   inserted as a skip location for a fork in the road, however it could be used as a normal location on the trail but
-//   if the player did not have enough money they would be unable to continue down the trail.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/22/2015@6:14 PM
+
 namespace TrailSimulation.Entity
 {
     using Game;
@@ -19,7 +12,10 @@ namespace TrailSimulation.Entity
     /// </summary>
     public sealed class TollRoad : Location
     {
-        /// <summary>Initializes a new instance of the <see cref="TollRoad"/> class. Initializes a new instance of the<see cref="T:TrailSimulation.Entity.Location"/> class.</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="TollRoad" /> class. Initializes a new instance of the
+        ///     <see cref="T:TrailSimulation.Entity.Location" /> class.
+        /// </summary>
         /// <param name="name">Display name of the location as it should be known to the player.</param>
         /// <param name="climateType">Defines the type of weather the location will have overall.</param>
         public TollRoad(string name, Climate climateType) : base(name, climateType)

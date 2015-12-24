@@ -1,11 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HealthScoring.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Little class that will help me build a nice looking table in the scoring help states in the management options.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/11/2015@8:33 PM
+
 namespace TrailSimulation.Game
 {
     using Entity;
@@ -15,7 +10,7 @@ namespace TrailSimulation.Game
     /// </summary>
     public sealed class HealthScoring
     {
-        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Game.HealthScoring"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Game.HealthScoring" /> class.</summary>
         /// <param name="partyHealthLevel">The party Health Level.</param>
         /// <param name="pointsPerPerson">The points Per Person.</param>
         public HealthScoring(HealthLevel partyHealthLevel, int pointsPerPerson)

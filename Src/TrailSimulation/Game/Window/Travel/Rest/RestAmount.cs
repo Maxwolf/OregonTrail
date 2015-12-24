@@ -1,13 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RestAmount.cs" company="Ron 'Maxwolf' McDowell">
-//   ron.mcdowell@gmail.com
-// </copyright>
-// <summary>
-//   Attaches a state that will ask the player how long they would like to rest in the number of days, zero is a valid
-//   response and will not do anything. If greater than zero we will attach another state to tick that many days by in
-//   the simulation.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Timestamp 12/07/2015@10:44 PM
+
 namespace TrailSimulation.Game
 {
     using System;
@@ -21,8 +14,10 @@ namespace TrailSimulation.Game
     [ParentWindow(GameWindow.Travel)]
     public sealed class RestAmount : Form<TravelInfo>
     {
-        /// <summary>Initializes a new instance of the <see cref="RestAmount"/> class.
-        ///     This constructor will be used by the other one</summary>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RestAmount" /> class.
+        ///     This constructor will be used by the other one
+        /// </summary>
         /// <param name="window">The window.</param>
         public RestAmount(IWindow window) : base(window)
         {
