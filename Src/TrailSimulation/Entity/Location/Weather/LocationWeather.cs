@@ -107,7 +107,7 @@ namespace TrailSimulation.Entity
                 // Only trigger weather events if the vehicle is moving and we are on the trail.
                 if (game.Vehicle.Status == VehicleStatus.Moving &&
                     game.Trail.CurrentLocation.Status == LocationStatus.Departed)
-                    game.EventDirector.TriggerEventByType(game.Trail.CurrentLocation, EventCategory.Weather);
+                    game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.Weather);
 
                 // Resets the disaster chance after firing event for it.
                 _disasterChance = 0;
