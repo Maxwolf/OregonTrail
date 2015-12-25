@@ -97,12 +97,12 @@ namespace TrailSimulation.Game
             if (game.Vehicle.Inventory[Entities.Cash].TotalValue >= UserData.Toll.Cost)
             {
                 tollPrompt.AppendLine($"{Environment.NewLine}Are you willing");
-                tollPrompt.AppendLine($"to do this? Y/N{Environment.NewLine}");
+                tollPrompt.Append("to do this? Y/N");
             }
             else
             {
                 tollPrompt.AppendLine($"{Environment.NewLine}You don't have enough");
-                tollPrompt.AppendLine($"cash for the toll road.{Environment.NewLine}");
+                tollPrompt.Append($"cash for the toll road.");
             }
 
             return tollPrompt.ToString();
@@ -144,13 +144,14 @@ namespace TrailSimulation.Game
                     break;
                 case DialogResponse.No:
                 case DialogResponse.Custom:
-                    var travelMode = ParentWindow as Travel;
-                    if (travelMode == null)
-                        throw new InvalidCastException(
-                            "Unable to cast parent game Windows into travel game Windows when it should be that!");
-
-                    // Call the continue on trail method command inside that game Windows, it will trigger the next action accordingly.
-                    travelMode.ContinueOnTrail();
+                    if (GameSimulationApp.Instance.Trail.CurrentLocation is ForkInRoad)
+                    {
+                        SetForm(typeof(LocationFork));
+                    }
+                    else
+                    {
+                        ClearForm();
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);
