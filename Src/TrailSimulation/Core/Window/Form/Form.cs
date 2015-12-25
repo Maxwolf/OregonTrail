@@ -5,7 +5,7 @@ namespace TrailSimulation.Core
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>Forms are attached to windows.</summary>
     /// <typeparam name="TData">UserData type.</typeparam>
@@ -247,10 +247,9 @@ namespace TrailSimulation.Core
         /// </returns>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         public override int Compare(Form<TData> x, Form<TData> y)
         {
-            Debug.Assert(x != null, "x != null");
-            Debug.Assert(y != null, "y != null");
             var result = string.Compare(x.GetType().Name, y.GetType().Name, StringComparison.Ordinal);
             return result;
         }

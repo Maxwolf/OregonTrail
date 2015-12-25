@@ -5,7 +5,6 @@ namespace TrailSimulation.Game
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Text;
     using Core;
     using Entity;
@@ -125,7 +124,6 @@ namespace TrailSimulation.Game
             _pointsPrompt.AppendLine($"Total: {totalPoints}");
 
             // Add the total with the bonus so player can see the difference.
-            Debug.Assert(leaderPerson != null, "leaderPerson != null");
             var totalPointsWithBonus = totalPoints*(int) leaderPerson.Profession;
             switch (leaderPerson.Profession)
             {

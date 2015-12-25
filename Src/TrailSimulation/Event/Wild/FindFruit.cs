@@ -3,7 +3,6 @@
 
 namespace TrailSimulation.Event
 {
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using Entity;
     using Game;
@@ -27,9 +26,8 @@ namespace TrailSimulation.Event
         {
             // Cast the source entity as vehicle.
             var vehicle = userData.SourceEntity as Vehicle;
-            Debug.Assert(vehicle != null, "vehicle != null");
 
-            vehicle.Inventory[Entities.Food].AddQuantity(17);
+            vehicle?.Inventory[Entities.Food].AddQuantity(17);
         }
 
         /// <summary>

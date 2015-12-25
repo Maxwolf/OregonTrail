@@ -3,7 +3,6 @@
 
 namespace TrailSimulation.Event
 {
-    using System.Diagnostics;
     using Entity;
     using Game;
 
@@ -25,10 +24,9 @@ namespace TrailSimulation.Event
         {
             // Cast the source entity as person.
             var person = userData.SourceEntity as Person;
-            Debug.Assert(person != null, "person != null");
 
             // Removes all infections, injuries, and heals the person in full.
-            person.HealEntirely();
+            person?.HealEntirely();
         }
 
         /// <summary>
@@ -40,11 +38,10 @@ namespace TrailSimulation.Event
         protected override string OnRender(RandomEventInfo userData)
         {
             // Cast the source entity as a player.
-            var castedPerson = userData.SourceEntity as Person;
+            var person = userData.SourceEntity as Person;
 
-            // Asset that the casted person is not null.
-            Debug.Assert(castedPerson != null, "castedPerson != null");
-            return $"{castedPerson.Name} is well again.";
+            // Skip if the source entity is not a person.
+            return person == null ? "nobody is well again." : $"{person.Name} is well again.";
         }
     }
 }

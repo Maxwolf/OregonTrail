@@ -3,7 +3,6 @@
 
 namespace TrailSimulation.Event
 {
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using Entity;
     using Game;
@@ -28,7 +27,10 @@ namespace TrailSimulation.Event
         {
             // Cast the source entity as person.
             var person = userData.SourceEntity as Person;
-            Debug.Assert(person != null, "person != null");
+
+            // Skip if the source entity is not a person.
+            if (person == null)
+                return;
 
             // Ammo used to kill the snake.
             GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].ReduceQuantity(10);

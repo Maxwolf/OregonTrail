@@ -4,7 +4,6 @@
 namespace TrailSimulation.Event
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Text;
     using Entity;
     using Game;
@@ -44,10 +43,9 @@ namespace TrailSimulation.Event
 
             // Cast the source entity as vehicle.
             var vehicle = userData.SourceEntity as Vehicle;
-            Debug.Assert(vehicle != null, "vehicle != null");
 
             // Reduce the total possible mileage of the vehicle this turn.
-            vehicle.ReduceMileage(vehicle.Mileage - 5 - GameSimulationApp.Instance.Random.Next()*10);
+            vehicle?.ReduceMileage(vehicle.Mileage - 5 - GameSimulationApp.Instance.Random.Next()*10);
         }
 
         /// <summary>

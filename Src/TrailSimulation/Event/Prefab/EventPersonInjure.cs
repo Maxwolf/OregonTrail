@@ -3,7 +3,6 @@
 
 namespace TrailSimulation.Event
 {
-    using System.Diagnostics;
     using Entity;
     using Game;
 
@@ -26,10 +25,9 @@ namespace TrailSimulation.Event
         {
             // Cast the source entity as person.
             var person = userData.SourceEntity as Person;
-            Debug.Assert(person != null, "person != null");
 
             // Sets flag on person making them more susceptible to further complications.
-            person.Injure();
+            person?.Injure();
         }
 
         /// <summary>
@@ -42,9 +40,9 @@ namespace TrailSimulation.Event
         {
             // Cast the source entity as person.
             var person = userData.SourceEntity as Person;
-            Debug.Assert(person != null, "person != null");
 
-            return OnPostInjury(person);
+            // Skip if the source entity is not a person.
+            return person == null ? string.Empty : OnPostInjury(person);
         }
 
         /// <summary>Fired after the event has executed and the injury flag set on the person.</summary>

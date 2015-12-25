@@ -3,7 +3,6 @@
 
 namespace TrailSimulation.Event
 {
-    using System.Diagnostics;
     using Entity;
     using Game;
 
@@ -26,10 +25,9 @@ namespace TrailSimulation.Event
         {
             // Cast the source entity as person.
             var person = userData.SourceEntity as Person;
-            Debug.Assert(person != null, "person != null");
 
             // We are going to inflict enough damage to probably kill the person.
-            person.Damage(100);
+            person?.Damage(100);
         }
 
         /// <summary>
@@ -42,9 +40,11 @@ namespace TrailSimulation.Event
         {
             // Cast the source entity as person.
             var person = userData.SourceEntity as Person;
-            Debug.Assert(person != null, "person != null");
 
-            return $"{person.Name} has taken a turn for the worse.";
+            // Skip if the source entity is not a person.
+            return person == null
+                ? "Nobody has taken a turn for the worse."
+                : $"{person.Name} has taken a turn for the worse.";
         }
     }
 }

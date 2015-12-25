@@ -3,7 +3,6 @@
 
 namespace TrailSimulation.Event
 {
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using Entity;
     using Game;
@@ -28,7 +27,10 @@ namespace TrailSimulation.Event
         {
             // Cast the source entity as vehicle.
             var vehicle = userData.SourceEntity as Vehicle;
-            Debug.Assert(vehicle != null, "vehicle != null");
+
+            // Skip if the source entity is not a vehicle.
+            if (vehicle == null)
+                return;
 
             // Damages the oxen, could make vehicle stuck.
             vehicle.Inventory[Entities.Animal].ReduceQuantity(1);

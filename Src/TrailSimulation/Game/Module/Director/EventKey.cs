@@ -5,7 +5,6 @@ namespace TrailSimulation.Game
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using Event;
 
     /// <summary>
@@ -52,8 +51,6 @@ namespace TrailSimulation.Game
         /// <param name="other">An object to compare with this object.</param>
         public int CompareTo(EventKey other)
         {
-            Debug.Assert(other != null, "other != null");
-
             var result = string.Compare(other.Name, Name, StringComparison.Ordinal);
             if (result != 0) return result;
 
@@ -74,9 +71,6 @@ namespace TrailSimulation.Game
         /// <param name="y">The second object to compare.</param>
         public int Compare(EventKey x, EventKey y)
         {
-            Debug.Assert(x != null, "x != null");
-            Debug.Assert(y != null, "y != null");
-
             var result = string.Compare(x.Name, y.Name, StringComparison.Ordinal);
             if (result != 0) return result;
 

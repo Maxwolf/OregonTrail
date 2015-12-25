@@ -5,7 +5,7 @@ namespace TrailSimulation.Core
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Text;
     using Game;
@@ -393,11 +393,10 @@ namespace TrailSimulation.Core
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns>The <see cref="int" />.</returns>
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         public override int Compare(IWindow x, IWindow y)
         {
-            Debug.Assert(x != null, "x != null");
-            Debug.Assert(y != null, "y != null");
-
+            // ReSharper disable once PossibleNullReferenceException
             var result = x.WindowCategory.CompareTo(y.WindowCategory);
             if (result != 0) return result;
 
@@ -412,8 +411,6 @@ namespace TrailSimulation.Core
         /// <returns>The <see cref="int" />.</returns>
         public int CompareTo(IWindow other)
         {
-            Debug.Assert(other != null, "other != null");
-
             var result = other.WindowCategory.CompareTo(WindowCategory);
             if (result != 0) return result;
 

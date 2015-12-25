@@ -6,7 +6,6 @@ namespace TrailSimulation.Entity
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
     using System.Linq;
     using Core;
     using Event;
@@ -298,9 +297,6 @@ namespace TrailSimulation.Entity
         /// <returns>The <see cref="int" />.</returns>
         public int Compare(IEntity x, IEntity y)
         {
-            Debug.Assert(x != null, "x != null");
-            Debug.Assert(y != null, "y != null");
-
             var result = string.Compare(x.Name, y.Name, StringComparison.Ordinal);
             if (result != 0) return result;
 
@@ -312,8 +308,6 @@ namespace TrailSimulation.Entity
         /// <returns>The <see cref="int" />.</returns>
         public int CompareTo(IEntity other)
         {
-            Debug.Assert(other != null, "other != null");
-
             var result = string.Compare(other.Name, Name, StringComparison.Ordinal);
             if (result != 0) return result;
 
