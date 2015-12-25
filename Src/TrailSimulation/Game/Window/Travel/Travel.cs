@@ -79,8 +79,11 @@ namespace TrailSimulation.Game
             {
                 SetForm(typeof (LocationFork));
             }
-            else if (GameSimulationApp.Instance.Trail.CurrentLocation is TollRoad)
+            else if (GameSimulationApp.Instance.Trail.CurrentLocation is TollRoad &&
+                     UserData.Toll == null)
             {
+                // Creates a toll and makes toll road null which acts as trigger to jump to next location and not insert one.
+                UserData.GenerateToll(null);
                 SetForm(typeof (TollRoadQuestion));
             }
         }

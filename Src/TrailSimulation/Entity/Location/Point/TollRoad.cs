@@ -3,8 +3,6 @@
 
 namespace TrailSimulation.Entity
 {
-    using Game;
-
     /// <summary>
     ///     Defines a location on the trail where the player is required to pay monies in order to use it. Typically this is
     ///     inserted as a skip location for a fork in the road, however it could be used as a normal location on the trail but
@@ -20,14 +18,7 @@ namespace TrailSimulation.Entity
         /// <param name="climateType">Defines the type of weather the location will have overall.</param>
         public TollRoad(string name, Climate climateType) : base(name, climateType)
         {
-            // Cost of the toll road will be anywhere from one (1) to thirteen (13) monies.
-            Cost = GameSimulationApp.Instance.Random.Next(1, 13);
         }
-
-        /// <summary>
-        ///     Gets the total toll for the cost road the player must pay before they will be allowed on the cost road.
-        /// </summary>
-        public int Cost { get; }
 
         /// <summary>
         ///     Determines if the location allows the player to chat to other NPC's in the area which can offer up advice about the

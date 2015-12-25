@@ -110,11 +110,22 @@ namespace TrailSimulation.Game
             // Dictionary of skip choices must contain key with input number.
             if (_skipChoices.ContainsKey(parsedInputNumber))
             {
-                // Insert the skip location into location list after current location.
-                GameSimulationApp.Instance.Trail.InsertLocation(_skipChoices[parsedInputNumber]);
+                // Check if the selected fork is a toll road (that changes things).
+                var tollRoad = _skipChoices[parsedInputNumber] as TollRoad;
+                if (tollRoad != null && UserData.Toll == null)
+                {
+                    // Creates a toll and adds location we would like to fork to.
+                    UserData.GenerateToll(tollRoad);
+                    SetForm(typeof (TollRoadQuestion));
+                }
+                else
+                {
+                    // Insert the skip location into location list after current location.
+                    GameSimulationApp.Instance.Trail.InsertLocation(_skipChoices[parsedInputNumber]);
 
-                // Start going there...
-                SetForm(typeof (LocationDepart));
+                    // Start going there...
+                    SetForm(typeof (LocationDepart));
+                }
             }
             else
             {

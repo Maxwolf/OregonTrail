@@ -35,6 +35,12 @@ namespace TrailSimulation.Game
         public StoreGenerator Store { get; }
 
         /// <summary>
+        ///     Gets the current cost of the toll road that would like to be inserted into the trail, normally this is done from a
+        ///     fork in the road however it could be on a linear path without any decision making.
+        /// </summary>
+        public TollGenerator Toll { get; private set; }
+
+        /// <summary>
         ///     Used when the player is traveling on the trail between locations. Also known as drive state in travel game Windows.
         /// </summary>
         public static string DriveStatus
@@ -105,6 +111,31 @@ namespace TrailSimulation.Game
             }
         }
 
+        /// <summary>
+        ///     Creates a new toll cost for the given location that is inputted. If the player has enough monies and says YES the
+        ///     location will be inserted into the trail, otherwise all the data will be destroyed and prompt returned to the fork
+        ///     in the road where the toll probably came from.
+        /// </summary>
+        /// <param name="tollRoad">Location that is going to cost the player money in order to use the path to travel to it.</param>
+        public void GenerateToll(TollRoad tollRoad)
+        {
+            if (Toll != null)
+                return;
+
+            Toll = new TollGenerator(tollRoad);
+        }
+
+        /// <summary>
+        ///     Destroys all the associated data related to keeping track of a toll road and the cost for crossing it. If the
+        ///     player encounters another toll toad this information will be re-generated.
+        /// </summary>
+        public void DestroyToll()
+        {
+            if (Toll == null)
+                return;
+
+            Toll = null;
+        }
 
         /// <summary>
         ///     Creates a new river that can be accessed as a property from the travel game window.
