@@ -19,7 +19,7 @@ namespace TrailSimulation.Game
         public TrailModule()
         {
             // Load a trail from file or prefab.
-            Trail = TrailRegistry.TestTrail;
+            Trail = TrailRegistry.OregonTrail;
 
             // Startup location on the trail and distance to next point so it triggers immediately when we tick the first day.
             LocationIndex = 0;

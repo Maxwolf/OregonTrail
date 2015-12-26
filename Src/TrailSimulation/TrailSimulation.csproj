@@ -119,9 +119,9 @@
     <Compile Include="Game\Window\Graveyard\TombstoneView.cs" />
     <Compile Include="Game\Window\Travel\Toll\TollGenerator.cs" />
     <Compile Include="Game\Window\Travel\Toll\TollRoadQuestion.cs" />
-    <Compile Include="Game\Window\Travel\Other\TombstoneQuestion.cs" />
-    <Compile Include="Game\Window\Travel\Other\UnableToContinue.cs" />
-    <Compile Include="Game\Window\Travel\Other\VehicleStuck.cs" />
+    <Compile Include="Game\Window\Travel\Dialog\TombstoneQuestion.cs" />
+    <Compile Include="Game\Window\Travel\Dialog\UnableToContinue.cs" />
+    <Compile Include="Game\Window\Travel\Dialog\VehicleStuck.cs" />
     <Compile Include="Game\Window\Graveyard\EpitaphConfirm.cs" />
     <Compile Include="Game\Window\Graveyard\EpitaphEditor.cs" />
     <Compile Include="Game\Window\Graveyard\EpitaphQuestion.cs" />
@@ -129,7 +129,7 @@
     <Compile Include="Game\Window\GameOver\GameFail.cs" />
     <Compile Include="Game\Module\Tombstone\TombstoneModule.cs" />
     <Compile Include="Game\Window\Graveyard\Graveyard.cs" />
-    <Compile Include="Game\Window\Travel\Other\LocationFork.cs" />
+    <Compile Include="Game\Window\Travel\Dialog\LocationFork.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\CrossingResult.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Indian\UseIndianConfirm.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\Indian\IndianGuidePrompt.cs" />
@@ -179,7 +179,7 @@
     <Compile Include="Game\Window\MainMenu\Options\OriginalTopTen.cs" />
     <Compile Include="Game\Window\RandomEvent\EventExecutor.cs" />
     <Compile Include="Game\Window\Travel\Command\ContinueOnTrail.cs" />
-    <Compile Include="Game\Window\Travel\Other\PaceHelp.cs" />
+    <Compile Include="Game\Window\Travel\Dialog\PaceHelp.cs" />
     <Compile Include="Game\Window\GameOver\FinalPoints.cs" />
     <Compile Include="Core\Utility\AttributeHelper.cs" />
     <Compile Include="Core\Window\Control\SpinningPixel.cs" />
@@ -215,8 +215,8 @@
     <Compile Include="Game\Window\Travel\Command\ChangeRations.cs" />
     <Compile Include="Game\Window\Travel\Command\ChangePace.cs" />
     <Compile Include="Game\Window\Travel\Command\CheckSupplies.cs" />
-    <Compile Include="Game\Window\Travel\Other\LocationDepart.cs" />
-    <Compile Include="Game\Window\Travel\Other\LocationArrive.cs" />
+    <Compile Include="Game\Window\Travel\Dialog\LocationDepart.cs" />
+    <Compile Include="Game\Window\Travel\Dialog\LocationArrive.cs" />
     <Compile Include="Game\Window\Travel\Command\LookAtMap.cs" />
     <Compile Include="Game\Window\Travel\Rest\Resting.cs" />
     <Compile Include="Game\Window\Travel\Rest\RestAmount.cs" />
@@ -237,10 +237,10 @@
     <Compile Include="Game\Module\Time\TimeModule.cs" />
     <Compile Include="Game\Module\Trail\TrailModule.cs" />
     <Compile Include="Entity\Person\Person.cs" />
-    <Compile Include="Game\Window\Travel\Command\Hunting.cs" />
+    <Compile Include="Game\Window\Travel\Hunt\Hunting.cs" />
     <Compile Include="Game\Window\Travel\RiverCrossing\RiverCross.cs" />
     <Compile Include="Game\Window\Travel\Store\Store.cs" />
-    <Compile Include="Game\Window\Travel\Command\Trading.cs" />
+    <Compile Include="Game\Window\Travel\Trade\Trading.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entity\Vehicle\Vehicle.cs" />
     <Compile Include="Game\Window\MainMenu\MainMenu.cs" />
