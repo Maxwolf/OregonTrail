@@ -40,12 +40,6 @@ namespace TrailSimulation.Entity
         LocationStatus Status { get; set; }
 
         /// <summary>
-        ///     References all of the possible trades this location will be able to offer the player. If the list is empty that
-        ///     means nobody wants to trade with the player at this time.
-        /// </summary>
-        ReadOnlyCollection<SimItem> Trades { get; }
-
-        /// <summary>
         ///     Determines if the look around question has been asked in regards to the player stopping the vehicle to rest or
         ///     change vehicle options. Otherwise they will just continue on the trail, this property prevents the question from
         ///     being asked twice for any one location.

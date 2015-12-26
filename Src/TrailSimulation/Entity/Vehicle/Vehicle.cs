@@ -278,15 +278,6 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
-        ///     Defines what type of entity this will take the role of in the simulation. Depending on this value the simulation
-        ///     will affect how it is treated, points tabulated, and interactions governed.
-        /// </summary>
-        public Entities Category
-        {
-            get { return Entities.Vehicle; }
-        }
-
-        /// <summary>
         ///     Name of the entity as it should be known in the simulation.
         /// </summary>
         public string Name { get; }
@@ -491,11 +482,68 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     Selects a random item from the default inventory layout a vehicle would have. It will also generate a random
+        ///     quantity it desires for the item within the bounds of the minimum and maximum quantities.
+        /// </summary>
+        /// <returns>Returns a randomly created item with random quantity. Returns NULL if anything bad happens.</returns>
+        public static SimItem CreateRandomItem()
+        {
+            // Loop through the inventory and decide which items to give free copies of.
+            foreach (var itemPair in DefaultInventory)
+            {
+                // Determine if we will be making more of this item, if it's the last one then we have to.
+                if (GameSimulationApp.Instance.Random.NextBool())
+                    continue;
+
+                // Skip certain items that cannot be traded.
+                switch (itemPair.Value.Category)
+                {
+                    case Entities.Food:
+                    case Entities.Clothes:
+                    case Entities.Ammo:
+                    case Entities.Wheel:
+                    case Entities.Axle:
+                    case Entities.Tongue:
+                    case Entities.Vehicle:
+                    case Entities.Animal:
+                    case Entities.Person:
+                    {
+                        // Create a random number within the range we need to create an item.
+                        var amountToMake = itemPair.Value.MaxQuantity/4;
+
+                        // Check if created amount goes above ceiling.
+                        if (amountToMake > itemPair.Value.MaxQuantity)
+                            amountToMake = itemPair.Value.MaxQuantity;
+
+                        // Check if created amount goes below floor.
+                        if (amountToMake <= 0)
+                            amountToMake = 1;
+
+                        // Add some random amount of the item from one to total amount.
+                        var createdAmount = GameSimulationApp.Instance.Random.Next(1, amountToMake);
+
+                        // Create a new item with generated quantity.
+                        var createdItem = new SimItem(itemPair.Value, createdAmount);
+                        return createdItem;
+                    }
+                    case Entities.Cash:
+                    case Entities.Location:
+                        continue;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            // Default response is to return a NULL item if something terrible happens.
+            return null;
+        }
+
+        /// <summary>
         ///     Creates some random items that will be given to the player, this is normally used when the player encounters a
         ///     abandoned vehicle.
         /// </summary>
         /// <returns>
-        ///     The <see cref="IDictionary" />.
+        ///     The dictionary of items created and their quantities.
         /// </returns>
         public IDictionary<Entities, int> CreateRandomItems()
         {
@@ -544,7 +592,7 @@ namespace TrailSimulation.Entity
         ///     Destroys some of the inventory items in no particular order and or reason. That is left up the caller to decide.
         /// </summary>
         /// <returns>
-        ///     The <see cref="IDictionary" />.
+        ///     The dictionary of items destroyed and their quantities.
         /// </returns>
         public IDictionary<Entities, int> DestroyRandomItems()
         {
@@ -580,6 +628,26 @@ namespace TrailSimulation.Entity
 
             // Return the destroyed item summary.
             return destroyedItems;
+        }
+
+        /// <summary>
+        ///     Determines if the vehicles inventory contains the inputted item in the specified quantity.
+        /// </summary>
+        /// <param name="wantedItem">Item wanted configured with desired quantity.</param>
+        /// <returns>TRUE if the vehicle has this item, FALSE if it does not have it or does but not enough quantity for trade.</returns>
+        public bool ContainsItem(SimItem wantedItem)
+        {
+            // Loop through vehicle inventory.
+            foreach (var simItem in Inventory)
+            {
+                // Check if category, and name match. Quantity needs to be greater than or equal to wanted amount.
+                if (simItem.Value.Name == wantedItem.Name &&
+                    simItem.Value.Category == wantedItem.Category &&
+                    simItem.Value.Quantity >= wantedItem.Quantity)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

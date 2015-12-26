@@ -4,8 +4,6 @@
 namespace TrailSimulation.Entity
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using Game;
 
     /// <summary>
@@ -14,12 +12,6 @@ namespace TrailSimulation.Entity
     /// </summary>
     public abstract class Location : ILocation
     {
-        /// <summary>
-        ///     References all of the possible trades this location will be able to offer the player. If the list is empty that
-        ///     means nobody wants to trade with the player at this time.
-        /// </summary>
-        private List<SimItem> trades;
-
         /// <summary>
         ///     Deals with the weather simulation for this location, each location on the trail is capable of simulating it's own
         ///     type of weather for the purposes of keeping them unique.
@@ -36,9 +28,6 @@ namespace TrailSimulation.Entity
 
             // Creates a new system to deal with the management of the weather for this given location.
             weather = new LocationWeather(climateType);
-
-            // Trades are randomly generated when ticking the location.
-            trades = new List<SimItem>();
 
             // Name of the point as it should be known to the player.
             Name = name;
@@ -84,15 +73,6 @@ namespace TrailSimulation.Entity
         /// </summary>
         /// <returns>TRUE if location has been passed by, FALSE if location has yet to be reached.</returns>
         public LocationStatus Status { get; set; }
-
-        /// <summary>
-        ///     References all of the possible trades this location will be able to offer the player. If the list is empty that
-        ///     means nobody wants to trade with the player at this time.
-        /// </summary>
-        public ReadOnlyCollection<SimItem> Trades
-        {
-            get { return trades.AsReadOnly(); }
-        }
 
         /// <summary>
         ///     Determines if the look around question has been asked in regards to the player stopping the vehicle to rest or
@@ -229,8 +209,6 @@ namespace TrailSimulation.Entity
             // Weather will only be ticked when not skipping a day.
             if (!skipDay)
                 weather.Tick();
-
-            // TODO: Trades are randomly generated when ticking the location every day.
         }
     }
 }

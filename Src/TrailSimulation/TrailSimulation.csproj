@@ -221,6 +221,7 @@
     <Compile Include="Game\Window\Travel\Rest\Resting.cs" />
     <Compile Include="Game\Window\Travel\Rest\RestAmount.cs" />
     <Compile Include="Game\Window\Travel\TalkToPeople\TalkToPeople.cs" />
+    <Compile Include="Game\Window\Travel\Trade\TradeOffer.cs" />
     <Compile Include="Game\Window\Travel\TravelCommands.cs" />
     <Compile Include="Game\Window\Travel\TravelInfo.cs" />
     <Compile Include="Game\Window\Travel\Travel.cs" />
