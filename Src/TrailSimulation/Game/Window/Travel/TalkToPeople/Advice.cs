@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/23/2015@12:43 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation.Game
 {
     /// <summary>
     ///     Holds a single piece of advice for the trail. The purpose of this class is to clearly define what the advice is and

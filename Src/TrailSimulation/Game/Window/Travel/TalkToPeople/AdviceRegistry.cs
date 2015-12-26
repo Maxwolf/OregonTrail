@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/23/2015@12:43 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation.Game
 {
     /// <summary>
     ///     References all the advice that people will offer up to the player when they talk to people. The difference pieces
