@@ -44,9 +44,9 @@ namespace TrailSimulation.Game
             if (!int.TryParse(input, out parsedInputNumber))
                 return;
 
-            // If player rests for more than one day then set the resting state to that, otherwise just go back to travel menu.
+            // For diversion, or out of necessity, a party can rest from one to nine days.
             UserData.DaysToRest = parsedInputNumber;
-            if (parsedInputNumber > 0)
+            if (parsedInputNumber > 0 && parsedInputNumber <= 9)
                 SetForm(typeof (Resting));
             else
                 ClearForm();
