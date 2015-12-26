@@ -22,6 +22,12 @@ namespace TrailSimulation.Game
         private List<Location> _locations;
 
         /// <summary>
+        ///     Keeps track of the total length of the trail as it will be generated after recursing through every possible
+        ///     location on the trail.
+        /// </summary>
+        private int totalTrailLength;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="Trail" /> class.
         ///     Creates a new trail the simulation can let a vehicle travel on. Requires a list of locations and total length in
         ///     miles.
@@ -81,13 +87,10 @@ namespace TrailSimulation.Game
         ///     Generate random length for tail within range, or use remaining amount when all out of space.
         /// </summary>
         /// <returns>Trail length for this location, distance vehicle will need to travel before arrival at next location.</returns>
-        private int CreateRandomLength
+        private int CreateRandomLength()
         {
-            get
-            {
-                var generatedLength = GameSimulationApp.Instance.Random.Next(LengthMin, LengthMax);
-                return generatedLength;
-            }
+            var generatedLength = GameSimulationApp.Instance.Random.Next(LengthMin, LengthMax);
+            return generatedLength;
         }
 
         /// <summary>
@@ -97,9 +100,28 @@ namespace TrailSimulation.Game
         /// <returns>Total length of the entire trail which will be placed into a property that can be accessed at runtime.</returns>
         private int GenerateDistances()
         {
-            // Grab all of the locations from the trail, including the skip choices from forks in the road.
-            var totalTrailLength = 0;
-            foreach (var location in _locations)
+            // Re-calculation of total trail length begins with zero.
+            totalTrailLength = 0;
+
+            // Begins a recursive loop that goes through every location and any locations they may have inside of them.
+            GenerateDistancesRecursive(_locations);
+
+            // Returns the total length of the entire trail for record keeping purposes.
+            return totalTrailLength;
+        }
+
+        /// <summary>
+        ///     Grabs all of the locations from the trail, including the skip choices from forks in the road.
+        /// </summary>
+        /// <param name="locations">All of the locations on the trail we need to inspect.</param>
+        /// <param name="locationDepth">
+        ///     Level of depth we have gone in regards to locations leading to locations leading to
+        ///     locations.
+        /// </param>
+        private void GenerateDistancesRecursive(IEnumerable<Location> locations, int locationDepth = 0)
+        {
+            // Loop through every location we have been given access to via parameter.
+            foreach (var location in locations)
             {
                 // Check if the location is a fork in the road and has skip choices.
                 if (location is ForkInRoad)
@@ -107,20 +129,17 @@ namespace TrailSimulation.Game
                     // Cast the location as a fork in the road.
                     var forkInRoad = location as ForkInRoad;
 
-                    // Loop through all the skip choices unique to forks.
-                    foreach (var skipChoice in forkInRoad.SkipChoices)
-                    {
-                        skipChoice.TotalDistance = CreateRandomLength;
-                        totalTrailLength += skipChoice.TotalDistance;
-                    }
+                    // increment the level of indentation and call the same method for the children
+                    GenerateDistancesRecursive(forkInRoad.SkipChoices, locationDepth + 1);
                 }
-
-                location.TotalDistance = CreateRandomLength;
-                totalTrailLength += location.TotalDistance;
+                else
+                {
+                    // Work on the current item we have.
+                    location.Depth = locationDepth;
+                    location.TotalDistance = CreateRandomLength();
+                    totalTrailLength += location.TotalDistance;
+                }
             }
-
-            // Returns the total length of the entire trail for record keeping purposes.
-            return totalTrailLength;
         }
 
         /// <summary>
