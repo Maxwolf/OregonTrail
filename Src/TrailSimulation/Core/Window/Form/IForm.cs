@@ -5,6 +5,7 @@ namespace TrailSimulation.Core
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     ///     Defines interface for game mode state which can show data, accept input, add new game modes, set new state, and
@@ -12,12 +13,6 @@ namespace TrailSimulation.Core
     /// </summary>
     public interface IForm : IComparer<IForm>, IComparable<IForm>, ITick
     {
-        /// <summary>
-        ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
-        ///     data for parent game Windows.
-        /// </summary>
-        WindowData UserData { get; }
-
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
@@ -31,11 +26,18 @@ namespace TrailSimulation.Core
         bool AllowInput { get; }
 
         /// <summary>
+        ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
+        ///     data for parent game Windows.
+        /// </summary>
+        [SuppressMessage("ReSharper", "UnusedMember.Global")]
+        WindowData UserData { get; }
+
+        /// <summary>
         ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
         ///     waiting input, etc.
         /// </summary>
         /// <returns>
-        ///     The <see cref="string" />.
+        ///     The text user interface.<see cref="string" />.
         /// </returns>
         string OnRenderForm();
 
@@ -43,19 +45,17 @@ namespace TrailSimulation.Core
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
         void OnInputBufferReturned(string input);
 
-        /// <summary>Creates and adds the specified type of state to currently active game Windows.</summary>
-        /// <param name="stateType">The state Type.</param>
-        void SetForm(Type stateType);
-
-        /// <summary>
-        ///     Removes the current state from the active game Windows.
-        /// </summary>
-        void ClearForm();
-
         /// <summary>
         ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
         ///     data and other properties below it.
         /// </summary>
         void OnFormPostCreate();
+
+        /// <summary>
+        ///     Fired when the window is activated and or refocused after another window was removed from being on-top of it.
+        ///     Useful for re-initializing form data after something like a random event runs which might kill people or alter the
+        ///     vehicle inventory.
+        /// </summary>
+        void OnFormActivate();
     }
 }

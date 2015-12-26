@@ -261,7 +261,7 @@ namespace TrailSimulation.Core
         ///     finished and
         ///     then detach.
         /// </summary>
-        IForm IWindow.CurrentForm
+        public IForm CurrentForm
         {
             get { return Form; }
         }
@@ -371,12 +371,12 @@ namespace TrailSimulation.Core
 
         /// <summary>
         ///     Called when the Windows manager in simulation makes this Windows the currently active game Windows. Depending on
-        ///     order of
-        ///     modes this might not get called until the Windows is actually ticked by the simulation.
+        ///     order of modes this might not get called until the Windows is actually ticked by the simulation.
         /// </summary>
         public virtual void OnWindowActivate()
         {
-            // Nothing to see here, move along...
+            // Activate the current form, if one exists.
+            CurrentForm?.OnFormActivate();
         }
 
         /// <summary>

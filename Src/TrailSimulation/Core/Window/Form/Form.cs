@@ -96,13 +96,8 @@ namespace TrailSimulation.Core
                 return false;
             }
 
-            if (UserData.Equals(other.UserData) &&
-                ParentWindow.Equals(other.ParentWindow))
-            {
-                return true;
-            }
-
-            return false;
+            return UserData.Equals(other.UserData) &&
+                   ParentWindow.Equals(other.ParentWindow);
         }
 
         /// <summary>
@@ -145,28 +140,21 @@ namespace TrailSimulation.Core
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
         public abstract void OnInputBufferReturned(string input);
 
-        /// <summary>Creates and adds the specified type of state to currently active game Windows.</summary>
-        /// <param name="stateType">The state Type.</param>
-        public void SetForm(Type stateType)
-        {
-            // Pass the state wanted to the parent game Windows.
-            ParentWindow.SetForm(stateType);
-        }
-
-        /// <summary>
-        ///     Removes the current state from the active game Windows.
-        /// </summary>
-        public void ClearForm()
-        {
-            // Refers to parent game Windows to actually clear the state.
-            ParentWindow.ClearForm();
-        }
-
         /// <summary>
         ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
         ///     data and other properties below it.
         /// </summary>
         public virtual void OnFormPostCreate()
+        {
+            // Nothing to see here, move along...
+        }
+
+        /// <summary>
+        ///     Fired when the window is activated and or refocused after another window was removed from being on-top of it.
+        ///     Useful for re-initializing form data after something like a random event runs which might kill people or alter the
+        ///     vehicle inventory.
+        /// </summary>
+        public virtual void OnFormActivate()
         {
             // Nothing to see here, move along...
         }
@@ -222,6 +210,23 @@ namespace TrailSimulation.Core
         public virtual void OnTick(bool systemTick, bool skipDay)
         {
             // Nothing to see here, move along...
+        }
+
+        /// <summary>Creates and adds the specified type of state to currently active game Windows.</summary>
+        /// <param name="stateType">The state Type.</param>
+        protected void SetForm(Type stateType)
+        {
+            // Pass the state wanted to the parent game Windows.
+            ParentWindow.SetForm(stateType);
+        }
+
+        /// <summary>
+        ///     Removes the current state from the active game Windows.
+        /// </summary>
+        protected void ClearForm()
+        {
+            // Refers to parent game Windows to actually clear the state.
+            ParentWindow.ClearForm();
         }
 
         /// <summary>
