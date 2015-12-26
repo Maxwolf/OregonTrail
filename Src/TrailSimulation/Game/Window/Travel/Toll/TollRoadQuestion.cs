@@ -146,7 +146,7 @@ namespace TrailSimulation.Game
                 case DialogResponse.Custom:
                     if (GameSimulationApp.Instance.Trail.CurrentLocation is ForkInRoad)
                     {
-                        SetForm(typeof(LocationFork));
+                        SetForm(typeof (LocationFork));
                     }
                     else
                     {

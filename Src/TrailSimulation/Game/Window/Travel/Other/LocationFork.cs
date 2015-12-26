@@ -112,7 +112,7 @@ namespace TrailSimulation.Game
             {
                 // Check if the selected fork is a toll road (that changes things).
                 var tollRoad = _skipChoices[parsedInputNumber] as TollRoad;
-                if (tollRoad != null && UserData.Toll == null)
+                if (tollRoad != null)
                 {
                     // Creates a toll and adds location we would like to fork to.
                     UserData.GenerateToll(tollRoad);
