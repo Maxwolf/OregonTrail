@@ -102,29 +102,32 @@ namespace TrailSimulation.Game
 
                 // Figure out what kind of river options this location is configured for.
                 var allow = false;
-                if (riverLocation.RiverCrossOption == RiverOption.FerryOperator &&
-                    riverChoice == RiverCrossChoice.Ferry)
+                switch (riverChoice)
                 {
-                    // Ferry operator costs money.
-                    allow = true;
-                }
-                else if (riverLocation.RiverCrossOption == RiverOption.IndianGuide &&
-                         riverChoice == RiverCrossChoice.Indian)
-                {
-                    // Indian wants sets of clothes in exchange for helping float.
-                    allow = true;
-                }
-                else if (riverLocation.RiverCrossOption == RiverOption.FloatAndFord &&
-                         (riverChoice == RiverCrossChoice.Float || riverChoice == RiverCrossChoice.Ford))
-                {
-                    // Default float and ford choices that exist on every river.
-                    allow = true;
-                }
-                else if (riverChoice == RiverCrossChoice.GetMoreInformation ||
-                         riverChoice == RiverCrossChoice.WaitForWeather)
-                {
-                    // Allows player to try and wait out bad weather.
-                    allow = true;
+                    case RiverCrossChoice.Float:
+                    case RiverCrossChoice.Ford:
+                        // Default float and ford choices that exist on every river.
+                        allow = true;
+                        break;
+                    case RiverCrossChoice.GetMoreInformation:
+                    case RiverCrossChoice.WaitForWeather:
+                        // Allows player to try and wait out bad weather.
+                        allow = true;
+                        break;
+                    case RiverCrossChoice.None:
+                        break;
+                    case RiverCrossChoice.Ferry:
+                        if (riverLocation.RiverCrossOption == RiverOption.FerryOperator)
+                            // Ferry operator costs money.
+                            allow = true;
+                        break;
+                    case RiverCrossChoice.Indian:
+                        if (riverLocation.RiverCrossOption == RiverOption.IndianGuide)
+                            // Indian wants sets of clothes in exchange for helping float.
+                            allow = true;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
                 // Only add the river choice if the logic above allows it.
