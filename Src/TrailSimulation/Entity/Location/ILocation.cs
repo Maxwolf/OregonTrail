@@ -3,8 +3,6 @@
 
 namespace TrailSimulation.Entity
 {
-    using System.Collections.ObjectModel;
-
     /// <summary>
     ///     Base interface used for all locations on the trail, the purpose of which is to abstract the functionality of the
     ///     location so we can create many different concrete implementations and then cast to the appropriate type in game

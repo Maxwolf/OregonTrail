@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/23/2015@12:43 AM
+// Timestamp 12/25/2015@8:02 PM
 
 namespace TrailSimulation.Game
 {
