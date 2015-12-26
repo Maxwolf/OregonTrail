@@ -63,8 +63,6 @@ namespace TrailSimulation.Game
                 var testTrail = new Location[]
                 {
                     new Settlement("Start Settlement", Climate.Moderate),
-                    new TollRoad("Toll Road", Climate.Moderate),
-                    new Landmark("Landmark", Climate.Dry),
                     new ForkInRoad("Fork In Road", Climate.Polar, new List<Location>
                     {
                         new Settlement("Inserted Settlement", Climate.Polar),
@@ -74,6 +72,8 @@ namespace TrailSimulation.Game
                             new TollRoad("Inserted Toll Road", Climate.Moderate)
                         })
                     }),
+                    new Landmark("Landmark", Climate.Dry),
+                    new TollRoad("Toll Road", Climate.Moderate),
                     new RiverCrossing("River Crossing (with ferry)", Climate.Continental, RiverOption.FerryOperator),
                     new RiverCrossing("River Crossing (with Indian)", Climate.Continental, RiverOption.IndianGuide),
                     new Settlement("End Settlement", Climate.Moderate)

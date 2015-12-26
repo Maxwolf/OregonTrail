@@ -48,6 +48,14 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     Determines the total depth of the location in regards to it's position on the trail. This acts like a weight and
+        ///     determines the probability in which the player will visit the location. Lower numbers mean higher chances, higher
+        ///     numbers mean less of a chance player will visit because they will have to choose it based on a choice and sometimes
+        ///     there are many choices leading up to a given location making it's depth increase.
+        /// </summary>
+        public int Depth { get; set; }
+
+        /// <summary>
         ///     Warnings about low food, medical problems, weather, etc.
         /// </summary>
         public LocationWarning Warning { get; }
