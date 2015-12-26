@@ -142,7 +142,7 @@ namespace TrailSimulation.Game
             UpdateTrade();
 
             // Returns the completed table of supplies and selected trade offer.
-            return supplyPrompt.ToString().WordWrap();
+            return supplyPrompt.ToString();
         }
 
         /// <summary>
@@ -183,14 +183,14 @@ namespace TrailSimulation.Game
             if (trades.Count > 0)
             {
                 // Generates the default prompt for trading that is shown if you have items to trade back or not.
-                supplyPrompt.AppendLine(
+                var wrapText =
                     $"You meet another emigrant who wants {trades[tradeIndex].WantedItem.Quantity.ToString("N0")} {trades[tradeIndex].WantedItem.Name.ToLowerInvariant()}. " +
-                    $"He will trade you {trades[tradeIndex].OfferedItem.Quantity.ToString("N0")} {trades[tradeIndex].OfferedItem.Name.ToLowerInvariant()}.");
+                    $"He will trade you {trades[tradeIndex].OfferedItem.Quantity.ToString("N0")} {trades[tradeIndex].OfferedItem.Name.ToLowerInvariant()}.";
 
                 // Depending if the player has enough of what the trader wants we change up last part of message.
-                supplyPrompt.AppendLine(playerCanTrade
-                    ? $"{Environment.NewLine}Are you willing to trade? Y/N{Environment.NewLine}"
-                    : $"{Environment.NewLine}You don't have this item.{Environment.NewLine}");
+                supplyPrompt.Append(playerCanTrade
+                    ? $"{wrapText.WordWrap()}{Environment.NewLine}Are you willing to trade? Y/N"
+                    : $"{wrapText.WordWrap()}{Environment.NewLine}You don't have this item.{Environment.NewLine}{Environment.NewLine}");
             }
             else
             {
@@ -220,12 +220,17 @@ namespace TrailSimulation.Game
                 trades.Add(new TradeOffer());
             }
 
-            // Remove any trades that are the same item twice.
+            // Cleanup the generated trades.
             var copyTrades = new List<TradeOffer>(trades);
             foreach (var trade in copyTrades)
             {
-                if (trade.WantedItem.Category == trade.OfferedItem.Category)
-                    trades.Remove(trade);
+                // Remove trades that are null on either side.
+                if ((trade.WantedItem != null && trade.OfferedItem != null) &&
+                    trade.WantedItem.Category != trade.OfferedItem.Category)
+                    continue;
+
+                // Remove any trades that are the same item twice.
+                trades.Remove(trade);
             }
         }
 
@@ -243,6 +248,10 @@ namespace TrailSimulation.Game
                     // Remove the quantity of item from the vehicle inventory the trader wants.
                     GameSimulationApp.Instance.Vehicle.Inventory[trades[tradeIndex].WantedItem.Category].ReduceQuantity(
                         trades[tradeIndex].WantedItem.Quantity);
+
+                    // Give the vehicle the item the trade said he would.
+                    GameSimulationApp.Instance.Vehicle.Inventory[trades[tradeIndex].OfferedItem.Category].AddQuantity(
+                        trades[tradeIndex].OfferedItem.Quantity);
 
                     // Return to the travel menu.
                     ClearForm();
