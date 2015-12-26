@@ -123,22 +123,20 @@ namespace TrailSimulation.Game
             // Loop through every location we have been given access to via parameter.
             foreach (var location in locations)
             {
-                // Check if the location is a fork in the road and has skip choices.
-                if (location is ForkInRoad)
-                {
-                    // Cast the location as a fork in the road.
-                    var forkInRoad = location as ForkInRoad;
+                // Work on the current item we have.
+                location.Depth = locationDepth;
+                location.TotalDistance = CreateRandomLength();
+                totalTrailLength += location.TotalDistance;
 
-                    // increment the level of indentation and call the same method for the children
-                    GenerateDistancesRecursive(forkInRoad.SkipChoices, locationDepth + 1);
-                }
-                else
-                {
-                    // Work on the current item we have.
-                    location.Depth = locationDepth;
-                    location.TotalDistance = CreateRandomLength();
-                    totalTrailLength += location.TotalDistance;
-                }
+                // Check if the location is a fork in the road and has skip choices.
+                if (!(location is ForkInRoad))
+                    continue;
+
+                // Cast the location as a fork in the road.
+                var forkInRoad = location as ForkInRoad;
+
+                // increment the level of indentation and call the same method for the children
+                GenerateDistancesRecursive(forkInRoad.SkipChoices, locationDepth + 1);
             }
         }
 
