@@ -220,9 +220,6 @@ namespace TrailSimulation.Game
                 case Entities.Vehicle:
                 case Entities.Person:
                 case Entities.Cash:
-
-
-// The other options we just make them do the same as leaving store.
                     LeaveStore();
                     break;
                 default:
