@@ -145,7 +145,7 @@ namespace TrailSimulation.Game
         {
             // Check if the player even has enough bullets to go hunting.
             SetForm(GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].Quantity > 0
-                ? typeof (Hunting)
+                ? typeof (HuntingPrompt)
                 : typeof (HuntingNoAmmo));
         }
 
