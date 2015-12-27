@@ -1,8 +1,4 @@
 ---------------[HUNTING]---------------
-
-if (shooting_difficulty>5)
-	shooting_difficulty=0
-
 string shootWords = new []{"BANG", "BLAM", "POW", "WHAM"}
 shoot_word=int(rnd(0)*4+1)
 shoot_time=shoot_time-(shooting_difficulty-1)
@@ -11,10 +7,6 @@ if (shoot_time > 0)
 {
 	shoot_time=0
 }
-
-	
-if (cost_ammo>39)
-	"tough---you need more bullets to go hunting"
 	
 if (shoot_time <= 1)
 {

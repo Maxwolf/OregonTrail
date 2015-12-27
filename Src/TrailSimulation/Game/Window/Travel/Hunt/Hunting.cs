@@ -4,7 +4,9 @@
 namespace TrailSimulation.Game
 {
     using System;
+    using System.Collections.Generic;
     using Core;
+    using Entity;
 
     /// <summary>
     ///     Used to allow the players party to hunt for wild animals, shooting bullet items into the animals will successfully
@@ -23,30 +25,36 @@ namespace TrailSimulation.Game
         {
         }
 
-        /// <summary>The use bullets.</summary>
-        /// <param name="amount">The amount.</param>
-        /// <exception cref="NotImplementedException"></exception>
-        public void UseBullets(int amount)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>The add food.</summary>
-        /// <param name="amount">The amount.</param>
-        /// <exception cref="NotImplementedException"></exception>
-        public void AddFood(int amount)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
-        ///     The update vehicle.
+        ///     Reference dictionary for all the animals in the game, used to help hunting mode determine what types of animals
+        ///     will spawn when the player is out looking for them.
         /// </summary>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
-        public void UpdateVehicle()
+        internal static IDictionary<Entities, SimItem> DefaultAnimals
         {
-            throw new NotImplementedException();
+            get
+            {
+                // Create inventory of items with default starting amounts.
+                var defaultAnimals = new Dictionary<Entities, SimItem>
+                {
+                    {Entities.Animal, Animals.Bear},
+                    {Entities.Animal, Animals.Buffalo},
+                    {Entities.Animal, Animals.Caribou},
+                    {Entities.Animal, Animals.Deer},
+                    {Entities.Animal, Animals.Duck},
+                    {Entities.Animal, Animals.Goose},
+                    {Entities.Animal, Animals.Rabbit},
+                    {Entities.Animal, Animals.Squirrel}
+                };
+
+                // Zero out all of the quantities by removing their max quantity.
+                foreach (var animal in defaultAnimals)
+                {
+                    animal.Value.ReduceQuantity(animal.Value.MaxQuantity);
+                }
+
+                // Now we have default inventory of a store with all quantities zeroed out.
+                return defaultAnimals;
+            }
         }
 
         /// <summary>
