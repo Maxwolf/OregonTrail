@@ -10,12 +10,8 @@
    is 250 lbs of food
  * The less buffalo you kill the better deal you shall receive
    from Indian wanting clothes
- * Random chance for Indian Guide to help cross river 
-   for 1-5 sets of clothes
  
 [HUNTING]
-1. Random shooting word selected
-2. Date is taken for hunting start time
 3. Wait for correct shooting word input
 4. Subtract start time from end time
 5. If 2 seconds or less good shot, longer bad
@@ -33,3 +29,5 @@
 [BANDITS]
  1. Similar to riders, except that bandits are always bad
  2. No options are shown, the player is forced to fight
+ 
+ 

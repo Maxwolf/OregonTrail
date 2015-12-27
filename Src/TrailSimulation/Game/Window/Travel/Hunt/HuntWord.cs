@@ -9,9 +9,10 @@ namespace TrailSimulation.Game
     /// </summary>
     public enum HuntWord
     {
-        Bang,
-        Blam,
-        Pow,
-        Wham
+        None = 0,
+        Bang = 1,
+        Blam = 2,
+        Pow = 3,
+        Wham = 4
     }
 }
