@@ -190,7 +190,7 @@ namespace TrailSimulation.Game
                 // Depending if the player has enough of what the trader wants we change up last part of message.
                 supplyPrompt.Append(playerCanTrade
                     ? $"{wrapText.WordWrap()}{Environment.NewLine}Are you willing to trade? Y/N"
-                    : $"{wrapText.WordWrap()}{Environment.NewLine}You don't have this item.{Environment.NewLine}{Environment.NewLine}");
+                    : $"{wrapText.WordWrap()}{Environment.NewLine}You don't have this.{Environment.NewLine}{Environment.NewLine}");
             }
             else
             {
