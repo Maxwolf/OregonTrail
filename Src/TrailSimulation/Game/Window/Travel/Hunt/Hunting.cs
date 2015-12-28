@@ -4,11 +4,8 @@
 namespace TrailSimulation.Game
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Text;
     using Core;
-    using Entity;
 
     /// <summary>
     ///     Used to allow the players party to hunt for wild animals, shooting bullet items into the animals will successfully
@@ -19,39 +16,9 @@ namespace TrailSimulation.Game
     public sealed class Hunting : Form<TravelInfo>
     {
         /// <summary>
-        ///     Default amount of time that every hunt is given, measured in ticks.
-        /// </summary>
-        public const int HUNTINGTIME = 30;
-
-        /// <summary>
-        ///     Determines the maximum number of animals that will be spawned in this area for the player to hunt.
-        /// </summary>
-        private const int MAXPREY = 15;
-
-        /// <summary>
         ///     Representation of hunting form for text user interface.
         /// </summary>
         private StringBuilder _huntPrompt;
-
-        /// <summary>
-        ///     Total number of seconds that the player is allowed to hunt, measured in ticks.
-        /// </summary>
-        private int _secondsRemaining;
-
-        /// <summary>
-        ///     Determines the current hunting word the player needs to type if an animal exists.
-        /// </summary>
-        private HuntWord _shootingWord;
-
-        /// <summary>
-        ///     List of all the shooting words generated from the get values on hunt word enumeration.
-        /// </summary>
-        private List<HuntWord> _shootWords;
-
-        /// <summary>
-        ///     Reference to all of the created prey in the area which the player will be able to hunt and kill with their bullets.
-        /// </summary>
-        private List<PreyItem> _sortedPrey;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Hunting" /> class.
@@ -62,44 +29,6 @@ namespace TrailSimulation.Game
         {
             // Creates the text reference to hold string data.
             _huntPrompt = new StringBuilder();
-
-            // Grab all of the shooting words from enum that holds them.
-            _shootWords = Enum.GetValues(typeof (HuntWord)).Cast<HuntWord>().ToList();
-
-            // Create animals for the player to shoot with their bullets.
-            GeneratePrey();
-        }
-
-        /// <summary>
-        ///     Reference dictionary for all the animals in the game, used to help hunting mode determine what types of animals
-        ///     will spawn when the player is out looking for them.
-        /// </summary>
-        internal static IList<SimItem> DefaultAnimals
-        {
-            get
-            {
-                // Create inventory of items with default starting amounts.
-                var defaultAnimals = new List<SimItem>
-                {
-                    Animals.Bear,
-                    Animals.Buffalo,
-                    Animals.Caribou,
-                    Animals.Deer,
-                    Animals.Duck,
-                    Animals.Goose,
-                    Animals.Rabbit,
-                    Animals.Squirrel
-                };
-
-                // Zero out all of the quantities by removing their max quantity.
-                foreach (var animal in defaultAnimals)
-                {
-                    animal.ReduceQuantity(animal.MaxQuantity);
-                }
-
-                // Now we have default animals for hunting with all quantities zeroed out.
-                return defaultAnimals;
-            }
         }
 
         /// <summary>
@@ -108,7 +37,7 @@ namespace TrailSimulation.Game
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
         public override bool InputFillsBuffer
         {
-            get { return _shootingWord != HuntWord.None; }
+            get { return UserData.Hunt.PreyAvailable; }
         }
 
         /// <summary>
@@ -117,40 +46,7 @@ namespace TrailSimulation.Game
         /// </summary>
         public override bool AllowInput
         {
-            get { return _shootingWord != HuntWord.None; }
-        }
-
-        /// <summary>
-        ///     Generate random number of animals to occupy this area.
-        /// </summary>
-        private void GeneratePrey()
-        {
-            // Check to make sure spawn count is above zero.
-            var preySpawnCount = GameSimulationApp.Instance.Random.Next(MAXPREY);
-            if (preySpawnCount <= 0)
-                return;
-
-            // Create the number of prey required by the dice roll.
-            var unsortedPrey = new List<PreyItem>();
-            for (var i = 0; i < preySpawnCount; i++)
-            {
-                unsortedPrey.Add(new PreyItem());
-            }
-
-            // Sort the list of references in memory without creating duplicate objects.
-            _sortedPrey = unsortedPrey.OrderByDescending(o => o.ShootTimeMax).Distinct().ToList();
-        }
-
-        /// <summary>
-        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
-        ///     data and other properties below it.
-        /// </summary>
-        public override void OnFormPostCreate()
-        {
-            base.OnFormPostCreate();
-
-            // Player has thirty (30) seconds to perform a hunt.
-            _secondsRemaining = HUNTINGTIME;
+            get { return UserData.Hunt.PreyAvailable; }
         }
 
         /// <summary>
@@ -171,28 +67,8 @@ namespace TrailSimulation.Game
         {
             base.OnTick(systemTick, skipDay);
 
-            // No work is done on system ticks.
-            if (systemTick)
-                return;
-
-            // No work is done if force ticked.
-            if (skipDay)
-                return;
-
-            // Check if we are still allowed to hunt.
-            if (_secondsRemaining <= 0)
-                return;
-
-            // Check if there is any prey we are currently hunting.
-            if (_sortedPrey.Count <= 0)
-                return;
-
-            // Randomly select one of the hunting words from the list.
-            _shootingWord = (HuntWord) GameSimulationApp.Instance.Random.Next(_shootWords.Count);
-
-            // Check if the selected value is none.
-            if (_shootingWord == HuntWord.None)
-                return;
+            // Pass the tick to the hunting manager that will control the hunting session for us and keep all data for other forms.
+            UserData.Hunt?.OnTick(systemTick, skipDay);
         }
 
         /// <summary>
@@ -200,28 +76,11 @@ namespace TrailSimulation.Game
         ///     waiting input, etc.
         /// </summary>
         /// <returns>
-        ///     The <see cref="string" />.
+        ///     The text user interface.<see cref="string" />.
         /// </returns>
         public override string OnRenderForm()
         {
-            // Clear any previous hunting text.
-            _huntPrompt.Clear();
-
-            // Display how long the hunt has left, animals in area, 
-            _huntPrompt.AppendLine($"Time Remaining: {_secondsRemaining.ToString("N0")} seconds");
-
-            // Displays the current weather for this area.
-            _huntPrompt.AppendLine(
-                $"Weather: {GameSimulationApp.Instance.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
-
-            // Display current amount of animals in area.
-            _huntPrompt.AppendLine($"Prey: {_sortedPrey.Count.ToString("N0")} animals");
-
-            // Display the current shooting word.
-            _huntPrompt.AppendLine($"Shooting Word: {_shootingWord.ToString().ToUpperInvariant()}");
-
-            // Return the new hunting text data.
-            return _huntPrompt.ToString();
+            return UserData.Hunt.HuntInfo;
         }
 
         /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>
@@ -229,7 +88,7 @@ namespace TrailSimulation.Game
         public override void OnInputBufferReturned(string input)
         {
             // Check if we have a hunting word right now.
-            if (_shootingWord == HuntWord.None)
+            if (UserData.Hunt.ShootingWord == HuntWord.None)
                 return;
 
             // Skip if the input is null or empty.

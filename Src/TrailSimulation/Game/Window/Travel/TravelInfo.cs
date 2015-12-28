@@ -35,6 +35,12 @@ namespace TrailSimulation.Game
         public StoreGenerator Store { get; }
 
         /// <summary>
+        ///     Holds all the important information related to a hunt for animals using bullets. When hunting form is attached this
+        ///     will be used to maintain the state of the hunt and manage all the data related to it and scoring.
+        /// </summary>
+        public HuntManager Hunt { get; private set; }
+
+        /// <summary>
         ///     Gets the current cost of the toll road that would like to be inserted into the trail, normally this is done from a
         ///     fork in the road however it could be on a linear path without any decision making.
         /// </summary>
@@ -109,6 +115,28 @@ namespace TrailSimulation.Game
                 locationStatus.AppendLine("--------------------------------");
                 return locationStatus.ToString();
             }
+        }
+
+        /// <summary>
+        ///     Creates a new hunt with prey for the player to hunt with their ammunition.
+        /// </summary>
+        public void GenerateHunt()
+        {
+            if (Hunt != null)
+                return;
+
+            Hunt = new HuntManager();
+        }
+
+        /// <summary>
+        ///     Destroys all the data about animals the player can hunt.
+        /// </summary>
+        public void DestroyHunt()
+        {
+            if (Hunt == null)
+                return;
+
+            Hunt = null;
         }
 
         /// <summary>

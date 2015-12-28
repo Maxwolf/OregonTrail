@@ -68,6 +68,10 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
+            // Creates a new hunt with animals for the player to kill.
+            UserData.GenerateHunt();
+
+            // Attaches the form that lets us manipulate and view this data.
             SetForm(typeof (Hunting));
         }
     }

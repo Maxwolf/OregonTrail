@@ -21,13 +21,13 @@ namespace TrailSimulation.Game
             ShootTime = 0;
 
             // Randomly generate a shooting time up to total hunting time.
-            ShootTimeMax = GameSimulationApp.Instance.Random.Next(Hunting.HUNTINGTIME);
+            ShootTimeMax = GameSimulationApp.Instance.Random.Next(HuntManager.HUNTINGTIME);
 
             // Randomly select a animal for this prey to be from default animals.
-            var preyIndex = GameSimulationApp.Instance.Random.Next(Hunting.DefaultAnimals.Count);
+            var preyIndex = GameSimulationApp.Instance.Random.Next(HuntManager.DefaultAnimals.Count);
 
             // Select a random animal that we can be from default animals.
-            Animal = new SimItem(Hunting.DefaultAnimals[preyIndex], 1);
+            Animal = new SimItem(HuntManager.DefaultAnimals[preyIndex], 1);
         }
 
         /// <summary>
@@ -45,7 +45,6 @@ namespace TrailSimulation.Game
         ///     Maximum amount of time this animal will be in the list of things that can be killed and are available on the field.
         /// </summary>
         public int ShootTimeMax { get; }
-
 
         /// <summary>
         ///     Determines if the animal is currently on the field and able to be shot by the player.

@@ -42,7 +42,7 @@
     <Compile Include="Core\Utility\StringExtensions.cs" />
     <Compile Include="Game\Window\Travel\Hunt\Help\HuntingNoAmmo.cs" />
     <Compile Include="Game\Window\Travel\Hunt\Help\HuntingPrompt.cs" />
-    <Compile Include="Game\Window\Travel\Hunt\HuntGenerator.cs" />
+    <Compile Include="Game\Window\Travel\Hunt\HuntManager.cs" />
     <Compile Include="Game\Window\Travel\Hunt\HuntingResult.cs" />
     <Compile Include="Game\Window\Travel\Hunt\PreyItem.cs" />
     <Compile Include="Game\Window\Travel\Hunt\HuntWord.cs" />
