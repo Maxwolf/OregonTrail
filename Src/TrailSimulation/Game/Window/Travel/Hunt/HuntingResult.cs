@@ -72,7 +72,7 @@ namespace TrailSimulation.Game
             {
                 // Message to let the player know they killed prey.
                 _huntScore.AppendLine($"{Environment.NewLine}From the animals you shot, you");
-                _huntScore.AppendLine($"got {killWeight} pounds of meat.{Environment.NewLine}");
+                _huntScore.AppendLine($"got {killWeight.ToString("N0")} pounds of meat.{Environment.NewLine}");
 
                 // Adds the killing weight since it is safe at this point.
                 _finalKillWeight = killWeight;
@@ -81,13 +81,13 @@ namespace TrailSimulation.Game
                 if (killWeight <= HuntManager.MAXFOOD)
                     return _huntScore.ToString();
 
-                // Player killed to many animals.
-                _huntScore.AppendLine($"{Environment.NewLine}However, you were only able to");
-                _huntScore.AppendLine($"carry {HuntManager.MAXFOOD} pounds back to the");
-                _huntScore.AppendLine($"wagon.{Environment.NewLine}");
-
                 // Forces the weight of the kill to become
                 _finalKillWeight = HuntManager.MAXFOOD;
+
+                // Player killed to many animals.
+                _huntScore.AppendLine("However, you were only able to");
+                _huntScore.AppendLine($"carry {_finalKillWeight.ToString("N0")} pounds back to the");
+                _huntScore.AppendLine($"wagon.{Environment.NewLine}");
             }
 
             // Return the hunting result to text renderer.
@@ -101,12 +101,9 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            // Only add food if there is some to add.
+            // Transfers the total finalized kill weight we calculated to vehicle inventory as food in pounds.
             if (_finalKillWeight > 0)
-            {
-                // Transfers the total finalized kill weight we calculated.
                 GameSimulationApp.Instance.Vehicle.Inventory[Entities.Food].AddQuantity(_finalKillWeight);
-            }
 
             // Destroys all hunting related data now that we are done with it.
             UserData.DestroyHunt();

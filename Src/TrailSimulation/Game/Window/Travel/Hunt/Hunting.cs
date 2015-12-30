@@ -124,8 +124,6 @@ namespace TrailSimulation.Game
             if (!input.Equals(UserData.Hunt.ShootingWord.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 return;
 
-
-
             // Determine if the player shot an animal or missed their shot.
             SetForm(UserData.Hunt.TryShoot() ? typeof (PreyHit) : typeof (PreyMissed));
         }

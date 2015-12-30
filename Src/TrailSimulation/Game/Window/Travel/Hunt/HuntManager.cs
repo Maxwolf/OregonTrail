@@ -124,8 +124,8 @@ namespace TrailSimulation.Game
 
                 // Title displays some basic info about the area.
                 huntStatus.AppendLine(game.Trail.CurrentLocation.Status != LocationStatus.Departed
-                    ? $"Location: Outside {game.Trail.CurrentLocation.Name}"
-                    : $"Location: Near {game.Trail.NextLocation.Name}");
+                    ? $"Hunting outside {game.Trail.CurrentLocation.Name}"
+                    : $"Hunting near {game.Trail.NextLocation.Name}");
 
                 // Represent seconds remaining as daylight left percentage.
                 var daylightPercentage = _secondsRemaining/(decimal) HUNTINGTIME;
@@ -155,8 +155,8 @@ namespace TrailSimulation.Game
                 // Prompt the player with information about what to do.
                 if (ShootingWord != HuntWord.None)
                 {
-                    huntStatus.AppendLine($"Type the word '{ShootingWord}' to");
-                    huntStatus.AppendLine("take a shot!");
+                    huntStatus.AppendLine($"Type the word '{ShootingWord.ToString().ToLowerInvariant()}' to");
+                    huntStatus.Append("take a shot!");
                 }
                 else
                 {
@@ -399,7 +399,7 @@ namespace TrailSimulation.Game
             if (tempShootWord == HuntWord.None || tempShootWord == ShootingWord)
                 return;
 
-            // Set the shooting word to the one we have now randomly picked and verified. 
+            // Set the shooting word to the one we have now verified. 
             ShootingWord = tempShootWord;
 
             // Randomly select one of the prey from the list.
@@ -457,13 +457,21 @@ namespace TrailSimulation.Game
             // Grab game instance to make check logic legible.
             var game = GameSimulationApp.Instance;
 
-            // Check if the player outright missed their target.
-            if (100*game.Random.Next() < 13*_target.TargetTime)
+            // Check if the player outright missed their target, banker is way worse than farmer.
+            if (100*game.Random.Next() < ((int) game.Vehicle.PassengerLeader.Profession - 13)*_target.TargetTime)
+            {
+                _preyEscaped.Add(_target);
+                ClearTarget();
                 return false;
+            }
 
-            // Check if player fired the gun correctly in less than half the maximum target time for this prey.
+            // Check if player fired in less than half the maximum target time for this prey.
             if (_target.TargetTime > (_target.TargetTimeMax/2))
+            {
+                _preyEscaped.Add(_target);
+                ClearTarget();
                 return false;
+            }
 
             // Calculate the total cost of this shot in bullets.
             var bulletCost = (int) game.Vehicle.Inventory[Entities.Ammo].TotalValue - 10 -
