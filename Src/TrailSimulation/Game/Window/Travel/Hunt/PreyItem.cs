@@ -39,9 +39,11 @@ namespace TrailSimulation.Game
         /// <param name="preyItem">Prey item that should be copied.</param>
         public PreyItem(PreyItem preyItem)
         {
-            // Prey specific settings.
+            // Prey specific settings for how long they live on the field.
             Lifetime = preyItem.Lifetime;
             LifetimeMax = preyItem.LifetimeMax;
+
+            // Prey specific for total length of time they may be targeted.
             TargetTime = preyItem.TargetTime;
             TargetTimeMax = preyItem.TargetTimeMax;
 
@@ -127,6 +129,10 @@ namespace TrailSimulation.Game
         /// </summary>
         public void TickTarget()
         {
+            // Skip if the target has chosen to flee and run away from the hunter.
+            if (ShouldRunAway)
+                return;
+
             // Check if the target time has gone above ceiling.
             if (TargetTime > TargetTimeMax)
             {

@@ -19,6 +19,12 @@ namespace TrailSimulation.Game
     public sealed class HuntManager : ITick
     {
         /// <summary>
+        ///     Used to send data to any hooked objects that request to know when a targeted prey item has sensed danger and fled.
+        /// </summary>
+        /// <param name="target">Prey item which sensed danger and ran away.</param>
+        public delegate void TargetFlee(PreyItem target);
+
+        /// <summary>
         ///     Default amount of time that every hunt is given, measured in ticks.
         /// </summary>
         public const int HUNTINGTIME = 30;
@@ -72,6 +78,7 @@ namespace TrailSimulation.Game
         {
             // Clears out any previous killed prey.
             _killedPrey = new List<PreyItem>();
+            _sortedPrey = new List<PreyItem>();
 
             // Player has set amount of time in seconds to perform a hunt.
             _secondsRemaining = HUNTINGTIME;
@@ -222,8 +229,11 @@ namespace TrailSimulation.Game
             if (_secondsRemaining <= 0)
                 return;
 
-            // Remove one (1) second from the total remaining.
+            // Remove one (1) second from the total remaining hunting time.
             _secondsRemaining--;
+
+            // Increments timer on targets prey increasing the chance they will run away.
+            TickTargetPrey();
 
             // Advances the lifetime of each prey object in the list.
             TickPrey();
@@ -237,10 +247,6 @@ namespace TrailSimulation.Game
         /// </summary>
         private void TickPrey()
         {
-            // Check target ticking if not null and shooting word not none.
-            if (Target != null && ShootingWord != HuntWord.None)
-                Target.TickTarget();
-
             // Loop through every sorted prey and check lifetime.
             var copyPrey = new List<PreyItem>(_sortedPrey);
             foreach (var prey in copyPrey)
@@ -260,22 +266,66 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Ticks the target prey if there is any selected.
+        /// </summary>
+        /// <returns>FALSE if the target prey ran away, TRUE if everything is normal.</returns>
+        private void TickTargetPrey()
+        {
+            // Check if there is a target at all to tick.
+            if (Target == null)
+                return;
+
+            // Check target ticking if not null and shooting word not none.
+            if (Target != null && ShootingWord != HuntWord.None)
+                Target.TickTarget();
+
+            // Check if the target wants to run away from the hunter.
+            if (Target == null || !Target.ShouldRunAway)
+                return;
+
+            ClearTarget();
+        }
+
+        /// <summary>
+        ///     Clears the currently targeted prey item from the hunting form, also clears out associated shooting word used to
+        ///     kill it. Finally it will clear the input buffer.
+        /// </summary>
+        private void ClearTarget()
+        {
+            // Clear the target.
+            Target = null;
+
+            // Set the shooting word back to none.
+            ShootingWord = HuntWord.None;
+
+            // Clear the input buffer.
+            GameSimulationApp.Instance.InputManager.ClearBuffer();
+        }
+
+        /// <summary>
         ///     Selects a random shooting word from the enumeration of values, if the value is not none it will select a random
         ///     animal to be used as prey from the list of prey still on the field. If there are no animals to use for prey, the
         ///     shooting word is just reset to none.
         /// </summary>
         private void TryPickPrey()
         {
+            // Skip if we already have a target.
+            if (Target != null)
+                return;
+
             // Check if there is any prey we are currently hunting.
             if (_sortedPrey.Count <= 0)
                 return;
 
             // Randomly select one of the hunting words from the list.
-            ShootingWord = (HuntWord) GameSimulationApp.Instance.Random.Next(_shootWords.Count);
+            var tempShootWord = (HuntWord) GameSimulationApp.Instance.Random.Next(_shootWords.Count);
 
             // Check if we are already trying to hunt a particular animal.
-            if (ShootingWord == HuntWord.None)
+            if (tempShootWord == HuntWord.None || tempShootWord == ShootingWord)
                 return;
+
+            // Set the shooting word to the one we have now randomly picked and verified. 
+            ShootingWord = tempShootWord;
 
             // Randomly select one of the prey from the list.
             var randomPreyIndex = GameSimulationApp.Instance.Random.Next(_sortedPrey.Count);
@@ -314,6 +364,11 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Called when the target prey item senses danger of the hunter and runs away.
+        /// </summary>
+        public event TargetFlee TargetFledEvent;
+
+        /// <summary>
         ///     Determines if the player was able to successfully shoot an animal. Depending on how long it takes them to type the
         ///     shooting word correctly, and a roll of the dice will determine if they hit their mark or not.
         /// </summary>
@@ -324,8 +379,26 @@ namespace TrailSimulation.Game
             if (Target == null)
                 return false;
 
-            // TODO: Check how long the player took to shoot at the target.
+            // Grab game instance to make check logic legible.
+            var game = GameSimulationApp.Instance;
 
+            // Check if the player outright missed their target.
+            if (100*game.Random.Next() < 13*Target.TargetTime)
+            {
+                TargetFledEvent?.Invoke(Target);
+                return false;
+            }
+
+            // Check if player fired the gun correctly in less than half the maximum target time for this prey.
+            if (Target.TargetTime > (Target.TargetTimeMax/2))
+                return false;
+
+            // Calculate the total cost of this shot in bullets.
+            var bulletCost = (int) game.Vehicle.Inventory[Entities.Ammo].TotalValue - 10 -
+                             game.Random.Next()*4;
+
+            // Remove the amount of bullets from vehicle inventory.
+            game.Vehicle.Inventory[Entities.Ammo].ReduceQuantity(bulletCost);
 
             return true;
         }

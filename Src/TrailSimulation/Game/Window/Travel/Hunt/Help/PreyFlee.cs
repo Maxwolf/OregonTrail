@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/29/2015@7:30 PM
+// Timestamp 12/29/2015@9:55 PM
 
 namespace TrailSimulation.Game
 {
@@ -7,18 +7,18 @@ namespace TrailSimulation.Game
     using Core;
 
     /// <summary>
-    ///     Called when the player successfully hits an animal with the bullet and the animal was added to growing list of
-    ///     animals they have killed this hunting session.
+    ///     Called when the player was targeting a given animal but waited to long or took to long typing in the shooting word
+    ///     and the prey ran away after sensing the players intent to shoot it.
     /// </summary>
     [ParentWindow(GameWindow.Travel)]
-    public sealed class PreyHit : InputForm<TravelInfo>
+    public sealed class PreyFlee : InputForm<TravelInfo>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="InputForm{T}" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
-        public PreyHit(IWindow window) : base(window)
+        public PreyFlee(IWindow window) : base(window)
         {
         }
 
@@ -30,7 +30,8 @@ namespace TrailSimulation.Game
         /// </returns>
         protected override string OnDialogPrompt()
         {
-            return $"{Environment.NewLine}You hit a {UserData.Hunt.Target.Animal.Name}.";
+            return $"{Environment.NewLine}The {UserData.Hunt.Target.Animal.Name} senses danger" +
+                   $"and runs away from you.{Environment.NewLine}";
         }
 
         /// <summary>

@@ -40,6 +40,7 @@
     <Compile Include="Core\Utility\ArrayExtensions.cs" />
     <Compile Include="Core\Utility\EnumerableExtensions.cs" />
     <Compile Include="Core\Utility\StringExtensions.cs" />
+    <Compile Include="Game\Window\Travel\Hunt\Help\PreyFlee.cs" />
     <Compile Include="Game\Window\Travel\Hunt\Help\PreyHit.cs" />
     <Compile Include="Game\Window\Travel\Hunt\Help\NoAmmo.cs" />
     <Compile Include="Game\Window\Travel\Hunt\Help\HuntingPrompt.cs" />

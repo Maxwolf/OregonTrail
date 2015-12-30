@@ -42,6 +42,27 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
+        ///     data and other properties below it.
+        /// </summary>
+        public override void OnFormPostCreate()
+        {
+            base.OnFormPostCreate();
+
+            // Listen to hunting manager for event about targeting prey running away.
+            UserData.Hunt.TargetFledEvent += Hunt_TargetFledEvent;
+        }
+
+        /// <summary>
+        ///     Called when the currently targeted prey decides to run away from the hunter.
+        /// </summary>
+        /// <param name="target">Prey that sensed danger and ran away.</param>
+        private void Hunt_TargetFledEvent(PreyItem target)
+        {
+            SetForm(typeof(PreyFlee));
+        }
+
+        /// <summary>
         ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
         ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
@@ -61,9 +82,18 @@ namespace TrailSimulation.Game
 
             // Depending on the state of the hunt we will keep ticking or show result of players efforts for the session.
             if (UserData.Hunt.ShouldEndHunt)
+            {
+                // Unhook event for when targeted prey flees.
+                UserData.Hunt.TargetFledEvent -= Hunt_TargetFledEvent;
+
+                // Attach the hunting result form.
                 SetForm(typeof (HuntingResult));
+            }
             else
+            {
+                // Tick the hunting session normally.
                 UserData.Hunt?.OnTick(systemTick, skipDay);
+            }
         }
 
         /// <summary>

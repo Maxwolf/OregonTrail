@@ -153,5 +153,13 @@ namespace TrailSimulation.Core
             // Adds the command to queue to be passed to simulation when input manager is ticked.
             _commandQueue.Enqueue(trimmedInput);
         }
+
+        /// <summary>
+        ///     Removes any text data from the input buffer resetting it to an empty string again.
+        /// </summary>
+        public void ClearBuffer()
+        {
+            InputBuffer = string.Empty;
+        }
     }
 }
