@@ -68,7 +68,7 @@ namespace TrailSimulation.Game
         ///     Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
         ///     capacity or want to do so in this turn.
         /// </summary>
-        /// <param name="skipDay">The skip Day.</param>
+        /// <param name="skipDay">Determines if the simulation should tick the day or skip it and not process time and only events.</param>
         public void TakeTurn(bool skipDay)
         {
             // Advance the turn counter if we are not skipping days.

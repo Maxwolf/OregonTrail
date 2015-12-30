@@ -1,25 +1,20 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/26/2015@7:33 PM
+// Timestamp 12/29/2015@7:30 PM
 
 namespace TrailSimulation.Game
 {
     using System;
     using Core;
 
-    /// <summary>
-    ///     Shown when the player does not have enough bullets to go hunting, this prevents them from wasting the time of
-    ///     loading the game mode just so nothing can happen until it times out. Rather than letting the player suffer from
-    ///     that mistake we will just tell them they don't have enough.
-    /// </summary>
     [ParentWindow(GameWindow.Travel)]
-    public sealed class HuntingNoAmmo : InputForm<TravelInfo>
+    public sealed class PreyHit : InputForm<TravelInfo>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="InputForm{T}" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
-        public HuntingNoAmmo(IWindow window) : base(window)
+        public PreyHit(IWindow window) : base(window)
         {
         }
 
@@ -31,8 +26,7 @@ namespace TrailSimulation.Game
         /// </returns>
         protected override string OnDialogPrompt()
         {
-            return $"{Environment.NewLine}You need more bullets{Environment.NewLine}" +
-                   $"to go hunting.{Environment.NewLine}{Environment.NewLine}";
+            return $"{Environment.NewLine}You hit a {UserData.Hunt.Target.Animal.Name}.";
         }
 
         /// <summary>
@@ -42,7 +36,7 @@ namespace TrailSimulation.Game
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            ClearForm();
+            SetForm(typeof (Hunting));
         }
     }
 }

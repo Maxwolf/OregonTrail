@@ -22,4 +22,3 @@ Small game spawn rates change depending on whether the terrain is prairie, plain
 
 
 simulation takes at least twenty-five minutes
-

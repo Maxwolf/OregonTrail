@@ -58,6 +58,7 @@ namespace TrailSimulation.Game
 
             // TODO: Broken vehicle parts will make the vehicle stuck unable to continue.
 
+
             // Check if player has already departed and we are just moving along again.
             if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Departed)
             {
@@ -146,7 +147,7 @@ namespace TrailSimulation.Game
             // Check if the player even has enough bullets to go hunting.
             SetForm(GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].Quantity > 0
                 ? typeof (HuntingPrompt)
-                : typeof (HuntingNoAmmo));
+                : typeof (NoAmmo));
         }
 
         /// <summary>

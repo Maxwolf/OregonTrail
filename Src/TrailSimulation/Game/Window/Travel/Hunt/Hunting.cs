@@ -4,7 +4,6 @@
 namespace TrailSimulation.Game
 {
     using System;
-    using System.Text;
     using Core;
 
     /// <summary>
@@ -16,19 +15,12 @@ namespace TrailSimulation.Game
     public sealed class Hunting : Form<TravelInfo>
     {
         /// <summary>
-        ///     Representation of hunting form for text user interface.
-        /// </summary>
-        private StringBuilder _huntPrompt;
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="Hunting" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
         public Hunting(IWindow window) : base(window)
         {
-            // Creates the text reference to hold string data.
-            _huntPrompt = new StringBuilder();
         }
 
         /// <summary>
@@ -67,8 +59,11 @@ namespace TrailSimulation.Game
         {
             base.OnTick(systemTick, skipDay);
 
-            // Pass the tick to the hunting manager that will control the hunting session for us and keep all data for other forms.
-            UserData.Hunt?.OnTick(systemTick, skipDay);
+            // Depending on the state of the hunt we will keep ticking or show result of players efforts for the session.
+            if (UserData.Hunt.ShouldEndHunt)
+                SetForm(typeof (HuntingResult));
+            else
+                UserData.Hunt?.OnTick(systemTick, skipDay);
         }
 
         /// <summary>
@@ -87,22 +82,20 @@ namespace TrailSimulation.Game
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            // Check if we have a hunting word right now.
-            if (UserData.Hunt.ShootingWord == HuntWord.None)
-                return;
-
             // Skip if the input is null or empty.
             if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
                 return;
 
-            // Attempt to cast string to enum value, can be characters or integer.
-            HuntWord huntWord;
-            Enum.TryParse(input, out huntWord);
+            // Check if we have anything to shoot at right now.
+            if (!UserData.Hunt.PreyAvailable)
+                return;
 
             // Check if the user spelled the shooting word correctly.
-            if (input.Equals(huntWord.ToString(), StringComparison.InvariantCultureIgnoreCase))
-            {
-            }
+            if (!input.Equals(UserData.Hunt.ShootingWord.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                return;
+
+            // Determine if the player shot an animal or missed their shot.
+            SetForm(UserData.Hunt.TryShoot() ? typeof (PreyHit) : typeof (PreyMissed));
         }
     }
 }
