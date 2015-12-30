@@ -57,6 +57,11 @@ namespace TrailSimulation.Game
         private List<PreyItem> _killedPrey;
 
         /// <summary>
+        ///     Defines a rolling list of all the prey that has escaped death from the players bullets.
+        /// </summary>
+        private List<PreyItem> _preyEscaped;
+
+        /// <summary>
         ///     Total number of seconds that the player is allowed to hunt, measured in ticks.
         /// </summary>
         private int _secondsRemaining;
@@ -72,6 +77,11 @@ namespace TrailSimulation.Game
         private List<PreyItem> _sortedPrey;
 
         /// <summary>
+        ///     Sets the target animal which the player has killed if it exists, NULL if no animal has been killed.
+        /// </summary>
+        private PreyItem _target;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.HuntManager" /> class.
         /// </summary>
         public HuntManager()
@@ -79,6 +89,7 @@ namespace TrailSimulation.Game
             // Clears out any previous killed prey.
             _killedPrey = new List<PreyItem>();
             _sortedPrey = new List<PreyItem>();
+            _preyEscaped = new List<PreyItem>();
 
             // Player has set amount of time in seconds to perform a hunt.
             _secondsRemaining = HUNTINGTIME;
@@ -89,11 +100,6 @@ namespace TrailSimulation.Game
             // Create animals for the player to shoot with their bullets.
             GeneratePrey();
         }
-
-        /// <summary>
-        ///     Sets the target animal which the player has killed if it exists, NULL if no animal has been killed.
-        /// </summary>
-        public PreyItem Target { get; private set; }
 
         /// <summary>
         ///     Determines the current hunting word the player needs to type if an animal exists.
@@ -110,12 +116,23 @@ namespace TrailSimulation.Game
                 // Grab instance of game simulation.
                 var game = GameSimulationApp.Instance;
 
-                // Build up the status for the current hunt.
+                // Will hole on the string data representing hunting status.
                 var huntStatus = new StringBuilder();
-                huntStatus.AppendLine("--------------------------------");
-                huntStatus.AppendLine($"Time Remaining: {_secondsRemaining.ToString("N0")} seconds");
+
+                // Build up the status for the current hunt.
+                huntStatus.AppendLine($"{Environment.NewLine}--------------------------------");
+
+                // Title displays some basic info about the area.
+                huntStatus.AppendLine(game.Trail.CurrentLocation.Status != LocationStatus.Departed
+                    ? $"Location: Outside {game.Trail.CurrentLocation.Name}"
+                    : $"Location: Near {game.Trail.NextLocation.Name}");
+
+                // Represent seconds remaining as daylight left percentage.
+                var daylightPercentage = _secondsRemaining/(decimal) HUNTINGTIME;
+                huntStatus.AppendLine($"Daylight Remaining: {(daylightPercentage*100).ToString("N0")}%");
+
+                // Current weather on the planes.
                 huntStatus.AppendLine($"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
-                huntStatus.AppendLine($"Prey: {_sortedPrey.Count.ToString("N0")} animals");
                 huntStatus.AppendLine("--------------------------------");
 
                 // Show the player their current shooting word and target they are aiming at.
@@ -123,9 +140,36 @@ namespace TrailSimulation.Game
                     $"{Environment.NewLine}Shooting Word: {ShootingWord.ToString().ToUpperInvariant()}");
 
                 // Only show the target to shoot at if there is one.
-                huntStatus.AppendLine(Target != null
-                    ? $"Target: {Target.Animal.Name}{Environment.NewLine}"
-                    : "Target: None");
+                huntStatus.AppendLine(_target != null
+                    ? $"Target: {_target.Animal.Name.ToUpperInvariant()}{Environment.NewLine}"
+                    : "Target: NONE");
+
+                // Targeting time is used to determine when animal will get scared and run away.
+                if (_target != null)
+                {
+                    // Represent targeting time as a percentage of total animal awareness of the hunter.
+                    var targetPercentage = _target.TargetTime/(decimal) _target.TargetTimeMax;
+                    huntStatus.AppendLine($"Awareness: {(targetPercentage*100).ToString("N0")}%");
+                }
+
+                // Prompt the player with information about what to do.
+                if (ShootingWord != HuntWord.None)
+                {
+                    huntStatus.AppendLine($"Type the word '{ShootingWord}' to");
+                    huntStatus.AppendLine("take a shot!");
+                }
+                else
+                {
+                    // Depending on number of prey change up the wording slightly.
+                    var animalText = "animals";
+                    if (_sortedPrey.Count == 1)
+                        animalText = "animal";
+
+                    // Prey will read out animals for multiple, and just animal for one (1), animals for zero (0).
+                    huntStatus.AppendLine(
+                        $"{Environment.NewLine}You sense {_sortedPrey.Count.ToString("N0")} {animalText}");
+                    huntStatus.Append("in the area...");
+                }
 
                 return huntStatus.ToString();
             }
@@ -202,6 +246,22 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Gets the last known prey that became aware of the hunter and fled the hunting grounds.
+        /// </summary>
+        public PreyItem LastEscapee
+        {
+            get { return _preyEscaped.LastOrDefault(); }
+        }
+
+        /// <summary>
+        ///     Gets the last known killed prey item from the list of killed prey.
+        /// </summary>
+        public PreyItem LastTarget
+        {
+            get { return _killedPrey.LastOrDefault(); }
+        }
+
+        /// <summary>
         ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system
         ///     ticks is called at unpredictable rates, however if not a system tick that means the simulation has processed enough
         ///     of them to fire off event for fixed interval that is set in the core simulation by constant in milliseconds.
@@ -233,7 +293,7 @@ namespace TrailSimulation.Game
             _secondsRemaining--;
 
             // Increments timer on targets prey increasing the chance they will run away.
-            TickTargetPrey();
+            TickTargetAwareness();
 
             // Advances the lifetime of each prey object in the list.
             TickPrey();
@@ -269,20 +329,31 @@ namespace TrailSimulation.Game
         ///     Ticks the target prey if there is any selected.
         /// </summary>
         /// <returns>FALSE if the target prey ran away, TRUE if everything is normal.</returns>
-        private void TickTargetPrey()
+        private void TickTargetAwareness()
         {
             // Check if there is a target at all to tick.
-            if (Target == null)
+            if (_target == null)
+                return;
+
+            // There is a change we will not tick awareness this time.
+            if (GameSimulationApp.Instance.Random.NextBool())
                 return;
 
             // Check target ticking if not null and shooting word not none.
-            if (Target != null && ShootingWord != HuntWord.None)
-                Target.TickTarget();
+            if (_target != null && ShootingWord != HuntWord.None)
+                _target.TickTarget();
 
             // Check if the target wants to run away from the hunter.
-            if (Target == null || !Target.ShouldRunAway)
+            if (!_target.ShouldRunAway)
                 return;
 
+            // Add the prey to list of things that got away.
+            _preyEscaped.Add(new PreyItem(_target));
+
+            // Fire event that hunting mode will attach form in response to.
+            TargetFledEvent?.Invoke(_target);
+
+            // Reset target and shooting word.
             ClearTarget();
         }
 
@@ -293,7 +364,7 @@ namespace TrailSimulation.Game
         private void ClearTarget()
         {
             // Clear the target.
-            Target = null;
+            _target = null;
 
             // Set the shooting word back to none.
             ShootingWord = HuntWord.None;
@@ -310,11 +381,15 @@ namespace TrailSimulation.Game
         private void TryPickPrey()
         {
             // Skip if we already have a target.
-            if (Target != null)
+            if (_target != null)
                 return;
 
             // Check if there is any prey we are currently hunting.
             if (_sortedPrey.Count <= 0)
+                return;
+
+            // There is a chance that you will not get prey this tick.
+            if (GameSimulationApp.Instance.Random.NextBool())
                 return;
 
             // Randomly select one of the hunting words from the list.
@@ -336,7 +411,7 @@ namespace TrailSimulation.Game
                 return;
 
             // Set the verified prey as hunting target.
-            Target = new PreyItem(randomPrey);
+            _target = new PreyItem(randomPrey);
 
             // Remove the old prey from the list now that it is a target.
             _sortedPrey.Remove(randomPrey);
@@ -376,21 +451,18 @@ namespace TrailSimulation.Game
         public bool TryShoot()
         {
             // Skip there is no valid target to shoot at.
-            if (Target == null)
+            if (_target == null)
                 return false;
 
             // Grab game instance to make check logic legible.
             var game = GameSimulationApp.Instance;
 
             // Check if the player outright missed their target.
-            if (100*game.Random.Next() < 13*Target.TargetTime)
-            {
-                TargetFledEvent?.Invoke(Target);
+            if (100*game.Random.Next() < 13*_target.TargetTime)
                 return false;
-            }
 
             // Check if player fired the gun correctly in less than half the maximum target time for this prey.
-            if (Target.TargetTime > (Target.TargetTimeMax/2))
+            if (_target.TargetTime > (_target.TargetTimeMax/2))
                 return false;
 
             // Calculate the total cost of this shot in bullets.
@@ -400,6 +472,11 @@ namespace TrailSimulation.Game
             // Remove the amount of bullets from vehicle inventory.
             game.Vehicle.Inventory[Entities.Ammo].ReduceQuantity(bulletCost);
 
+            // Add the target to the list of animals that have been killed.
+            _killedPrey.Add(_target);
+
+            // Resets the targeting system now that the animal is bagged and tagged.
+            ClearTarget();
             return true;
         }
     }

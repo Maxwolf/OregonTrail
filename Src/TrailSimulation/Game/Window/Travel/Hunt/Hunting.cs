@@ -59,7 +59,7 @@ namespace TrailSimulation.Game
         /// <param name="target">Prey that sensed danger and ran away.</param>
         private void Hunt_TargetFledEvent(PreyItem target)
         {
-            SetForm(typeof(PreyFlee));
+            SetForm(typeof (PreyFlee));
         }
 
         /// <summary>
@@ -123,6 +123,8 @@ namespace TrailSimulation.Game
             // Check if the user spelled the shooting word correctly.
             if (!input.Equals(UserData.Hunt.ShootingWord.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 return;
+
+
 
             // Determine if the player shot an animal or missed their shot.
             SetForm(UserData.Hunt.TryShoot() ? typeof (PreyHit) : typeof (PreyMissed));

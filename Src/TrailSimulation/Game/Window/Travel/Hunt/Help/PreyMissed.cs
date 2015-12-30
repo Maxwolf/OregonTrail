@@ -29,7 +29,8 @@ namespace TrailSimulation.Game
         /// </returns>
         protected override string OnDialogPrompt()
         {
-            return $"{Environment.NewLine}You missed, and your dinner got away!{Environment.NewLine}";
+            return
+                $"{Environment.NewLine}You missed, and the {UserData.Hunt.LastEscapee.Animal.Name.ToLowerInvariant()} got away!{Environment.NewLine}{Environment.NewLine}";
         }
 
         /// <summary>

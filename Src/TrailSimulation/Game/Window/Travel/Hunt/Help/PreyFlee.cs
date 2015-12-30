@@ -30,8 +30,10 @@ namespace TrailSimulation.Game
         /// </returns>
         protected override string OnDialogPrompt()
         {
-            return $"{Environment.NewLine}The {UserData.Hunt.Target.Animal.Name} senses danger" +
-                   $"and runs away from you.{Environment.NewLine}";
+            // Get the last known escaped prey item.
+            return
+                $"{Environment.NewLine}The {UserData.Hunt.LastEscapee.Animal.Name.ToLowerInvariant()} senses danger " +
+                $"and runs away from you.{Environment.NewLine}{Environment.NewLine}";
         }
 
         /// <summary>

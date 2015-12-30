@@ -108,19 +108,13 @@ namespace TrailSimulation.Game
             if (skipDay)
                 return;
 
+            // Increment the total shot time until maximum.
             if (Lifetime < LifetimeMax)
-            {
-                // Increment the total shot time until maximum.
                 Lifetime++;
-            }
             else if (Lifetime > LifetimeMax)
-            {
                 Lifetime = LifetimeMax;
-            }
             else
-            {
                 Lifetime = LifetimeMax;
-            }
         }
 
         /// <summary>
@@ -134,7 +128,7 @@ namespace TrailSimulation.Game
                 return;
 
             // Check if the target time has gone above ceiling.
-            if (TargetTime > TargetTimeMax)
+            if (TargetTime >= TargetTimeMax)
             {
                 ShouldRunAway = true;
                 TargetTime = TargetTimeMax;

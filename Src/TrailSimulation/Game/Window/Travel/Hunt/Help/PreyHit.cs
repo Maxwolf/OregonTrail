@@ -4,6 +4,7 @@
 namespace TrailSimulation.Game
 {
     using System;
+    using System.Text;
     using Core;
 
     /// <summary>
@@ -14,12 +15,18 @@ namespace TrailSimulation.Game
     public sealed class PreyHit : InputForm<TravelInfo>
     {
         /// <summary>
+        ///     Holds the string data about what we hit with our bullets.
+        /// </summary>
+        private StringBuilder hitPrompt;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="InputForm{T}" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
         public PreyHit(IWindow window) : base(window)
         {
+            hitPrompt = new StringBuilder();
         }
 
         /// <summary>
@@ -30,7 +37,25 @@ namespace TrailSimulation.Game
         /// </returns>
         protected override string OnDialogPrompt()
         {
-            return $"{Environment.NewLine}You hit a {UserData.Hunt.Target.Animal.Name}.";
+            // Get the last known target.
+            var target = UserData.Hunt.LastTarget;
+
+            // Prompt for hitting an animal.
+            if (target.Animal.TotalWeight > 100)
+            {
+                // Compliment the player on killing big game.
+                hitPrompt.AppendLine($"{Environment.NewLine}You shot a giant {target.Animal.Name.ToLowerInvariant()}.");
+                hitPrompt.AppendLine($"Full bellies tonight!{Environment.NewLine}");
+            }
+            else
+            {
+                // Laugh at tiny creatures below one hundred pounds.
+                hitPrompt.AppendLine(
+                    $"{Environment.NewLine}You shot a {target.Animal.Name.ToLowerInvariant()}.{Environment.NewLine}");
+            }
+
+            // Returns the hit message to the text renderer.
+            return hitPrompt.ToString();
         }
 
         /// <summary>

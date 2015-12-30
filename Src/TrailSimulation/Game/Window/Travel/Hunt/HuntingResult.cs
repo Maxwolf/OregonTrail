@@ -44,8 +44,8 @@ namespace TrailSimulation.Game
         {
             base.OnFormPostCreate();
 
-            // After hunting we roll the dice on the party and player.
-            GameSimulationApp.Instance.TakeTurn(true);
+            // After hunting we roll the dice on the party and player and skip a day.
+            GameSimulationApp.Instance.TakeTurn(false);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace TrailSimulation.Game
                 // Player killed to many animals.
                 _huntScore.AppendLine($"{Environment.NewLine}However, you were only able to");
                 _huntScore.AppendLine($"carry {HuntManager.MAXFOOD} pounds back to the");
-                _huntScore.AppendLine("wagon.{Environment.NewLine}");
+                _huntScore.AppendLine($"wagon.{Environment.NewLine}");
 
                 // Forces the weight of the kill to become
                 _finalKillWeight = HuntManager.MAXFOOD;

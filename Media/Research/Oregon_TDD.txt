@@ -23,5 +23,3 @@
 [BANDITS]
  1. Similar to riders, except that bandits are always bad
  2. No options are shown, the player is forced to fight
- 
- 
