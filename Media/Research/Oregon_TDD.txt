@@ -11,12 +11,6 @@
  * The less buffalo you kill the better deal you shall receive
    from Indian wanting clothes
  
-[HUNTING]
-3. Wait for correct shooting word input
-4. Subtract start time from end time
-5. If 2 seconds or less good shot, longer bad
-6. Ammunition consumption calculated from shoot time
-
 [RIDERS]
  1. Determine if attacked by riders from probability of point
  2. Mountain regions have low bandit attack chance
