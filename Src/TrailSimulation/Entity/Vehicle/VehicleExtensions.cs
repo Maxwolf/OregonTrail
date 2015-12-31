@@ -26,7 +26,7 @@ namespace TrailSimulation.Entity
             {
                 // It all comes down to a dice roll if the storm kills you.
                 if (!GameSimulationApp.Instance.Random.NextBool() ||
-                    person.HealthValue == HealthLevel.Dead)
+                    person.HealthStatus == HealthStatus.Dead)
                     continue;
 
                 // Kills the person and adds them to list.
@@ -65,7 +65,7 @@ namespace TrailSimulation.Entity
             foreach (var person in passengers)
             {
                 // Skip if the person is already dead.
-                if (person.HealthValue == HealthLevel.Dead)
+                if (person.HealthStatus == HealthStatus.Dead)
                     continue;
 
                 // Apply damage to the person we calculated above.

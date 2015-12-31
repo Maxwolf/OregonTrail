@@ -144,7 +144,7 @@ namespace TrailSimulation.Game
             _crossingPrompt.AppendLine(
                 $"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
             _crossingPrompt.AppendLine(
-                $"Health: {game.Vehicle.PassengerHealth.ToDescriptionAttribute()}");
+                $"Health: {game.Vehicle.PassengerHealthStatus.ToDescriptionAttribute()}");
             _crossingPrompt.AppendLine(
                 $"Crossing By: {UserData.River.CrossingType}");
             _crossingPrompt.AppendLine(

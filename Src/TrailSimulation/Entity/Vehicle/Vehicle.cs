@@ -23,6 +23,11 @@ namespace TrailSimulation.Entity
         private Dictionary<Entities, SimItem> _inventory;
 
         /// <summary>
+        ///     References all the critical infrastructure that makes up the
+        /// </summary>
+        private List<SimItem> _parts;
+
+        /// <summary>
         ///     References all of the people inside of the vehicle.
         /// </summary>
         private List<Person> _passengers;
@@ -32,7 +37,7 @@ namespace TrailSimulation.Entity
         /// </summary>
         public Vehicle()
         {
-            ResetVehicle(0);
+            ResetVehicle();
             Name = "Vehicle";
             Pace = TravelPace.Steady;
             Mileage = 1;
@@ -55,7 +60,7 @@ namespace TrailSimulation.Entity
                 for (var i = 0; i < Passengers.Count; i++)
                 {
                     var passenger = Passengers[i];
-                    allDead[i] = passenger.HealthValue == HealthLevel.Dead;
+                    allDead[i] = passenger.HealthStatus == HealthStatus.Dead;
                 }
 
                 // Determine if everybody is dead by checking if truths are greater than passenger count.
@@ -134,6 +139,62 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     Defines all the default parts for a vehicle so it can be considered healthy and in a proper working condition. If
+        ///     any of these parts becomes broken or permanently damaged the vehicle will be unable to continue until the player
+        ///     repairs or replaces with a spare part.
+        /// </summary>
+        private static IEnumerable<SimItem> DefaultParts
+        {
+            get
+            {
+                // Create inventory of parts for the vehicle.
+                var defaultParts = new List<SimItem>
+                {
+                    Parts.Wheel,
+                    Parts.Axle,
+                    Parts.Tongue,
+                };
+
+                // Set proper quantities for each entity item type.
+                foreach (var part in defaultParts)
+                {
+                    switch (part.Category)
+                    {
+                        case Entities.Wheel:
+                            // You need four (4) wheels.
+                            part.ReduceQuantity(part.MaxQuantity);
+                            part.AddQuantity(4);
+                            break;
+                        case Entities.Axle:
+                            // You need one (1) axle.
+                            part.ReduceQuantity(part.MaxQuantity);
+                            part.AddQuantity(1);
+                            break;
+                        case Entities.Tongue:
+                            // You need one (1) tongue.
+                            part.ReduceQuantity(part.MaxQuantity);
+                            part.AddQuantity(1);
+                            break;
+                        case Entities.Animal:
+                        case Entities.Food:
+                        case Entities.Clothes:
+                        case Entities.Ammo:
+                        case Entities.Vehicle:
+                        case Entities.Person:
+                        case Entities.Cash:
+                        case Entities.Location:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+
+                // Now we have default inventory of a store with all quantities zeroed out.
+                return defaultParts;
+            }
+        }
+
+        /// <summary>
         ///     Default items every vehicle and store will have, their prices increase with distance from starting point.
         /// </summary>
         internal static IDictionary<Entities, SimItem> DefaultInventory
@@ -185,6 +246,26 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     Locates all of the parts in the vehicle that are no longer operational and require repair or replacement by the
+        ///     player.
+        /// </summary>
+        /// <returns>Broken item part if any found, NULL if no broken parts located in vehicle operation.</returns>
+        public SimItem BrokenPart
+        {
+            get
+            {
+                foreach (var partItem in _parts)
+                {
+                    if (partItem.Broken)
+                        return partItem;
+                }
+
+                // Default response means we found no broken parts.
+                return null;
+            }
+        }
+
+        /// <summary>
         ///     Locates the leader in the passenger manifest and returns the person object that represents them.
         /// </summary>
         public Person PassengerLeader
@@ -217,25 +298,25 @@ namespace TrailSimulation.Entity
         ///     Grabs the averaged health of all the passengers in the vehicle, only adds towards total if they are alive. Will be
         ///     recalculated each time this is called.
         /// </summary>
-        public HealthLevel PassengerHealth
+        public HealthStatus PassengerHealthStatus
         {
             get
             {
                 // Check if passenger manifest exists.
                 if (Passengers == null)
-                    return HealthLevel.Dead;
+                    return HealthStatus.Dead;
 
                 // Check if there are any passengers to work with, return good health if none.
                 if (!Passengers.Any())
-                    return HealthLevel.Dead;
+                    return HealthStatus.Dead;
 
                 // Builds up a list of enumeration health values for living passengers.
-                var livingPassengersHealth = new List<HealthLevel>();
+                var livingPassengersHealth = new List<HealthStatus>();
                 foreach (var person in Passengers)
                 {
                     // Only add the health to average calculation if person is not dead.
-                    if (person.HealthValue != HealthLevel.Dead)
-                        livingPassengersHealth.Add(person.HealthValue);
+                    if (person.HealthStatus != HealthStatus.Dead)
+                        livingPassengersHealth.Add(person.HealthStatus);
                 }
 
                 // Casts all the enumeration health values to integers and averages them.
@@ -244,8 +325,8 @@ namespace TrailSimulation.Entity
                     averageHealthValue = (int) livingPassengersHealth.Cast<int>().Average();
 
                 // Look for the closest health level to the average health level from all living passengers.
-                var closest = Enum.GetValues(typeof (HealthLevel)).Cast<int>().ClosestTo(averageHealthValue);
-                return (HealthLevel) closest;
+                var closest = Enum.GetValues(typeof (HealthStatus)).Cast<int>().ClosestTo(averageHealthValue);
+                return (HealthStatus) closest;
             }
         }
 
@@ -265,12 +346,12 @@ namespace TrailSimulation.Entity
                     return 0;
 
                 // Builds up a list of enumeration health values for living passengers.
-                var alivePersonsHealth = new List<HealthLevel>();
+                var alivePersonsHealth = new List<HealthStatus>();
                 foreach (var person in Passengers)
                 {
                     // Only add the health to average calculation if person is not dead.
-                    if (person.HealthValue != HealthLevel.Dead)
-                        alivePersonsHealth.Add(person.HealthValue);
+                    if (person.HealthStatus != HealthStatus.Dead)
+                        alivePersonsHealth.Add(person.HealthStatus);
                 }
 
                 return alivePersonsHealth.Count;
@@ -400,6 +481,31 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     Goes through all of the vehicle parts and will randomly decide to break one of them. If any of the vehicle parts
+        ///     are already broken this will not run.
+        /// </summary>
+        /// <returns>Read-only collection containing the parts that were broken.</returns>
+        public SimItem BreakRandomPart()
+        {
+            // Get the current broken part if there is one.
+            var previouslyBrokenPart = BrokenPart;
+
+            // Skip if there is already a broken part.
+            if (previouslyBrokenPart != null)
+                return previouslyBrokenPart;
+
+            // Randomly select one of the parts to break in the vehicle.
+            var randomPartIndex = GameSimulationApp.Instance.Random.Next(_parts.Count);
+
+            // Break the part, set the flag for broken part on vehicle.
+            _parts[randomPartIndex].Break();
+            Status = VehicleStatus.Broken;
+
+            // Return the broken part to caller.
+            return _parts[randomPartIndex];
+        }
+
+        /// <summary>
         ///     Reduces the total mileage the vehicle has rolled to move within the next two week block section. Will not allow
         ///     mileage to be reduced below zero.
         /// </summary>
@@ -461,13 +567,27 @@ namespace TrailSimulation.Entity
 
         /// <summary>Resets the vehicle status to the defaults.</summary>
         /// <param name="startingMonies">Amount of money the vehicle should have to work with.</param>
-        public void ResetVehicle(int startingMonies)
+        public void ResetVehicle(int startingMonies = 0)
         {
+            // Parts for the vehicle to keep it in working order and moving.
+            _parts = new List<SimItem>(DefaultParts);
+
+            // Inventory items for the passengers to use like food, clothes, spare parts.
             _inventory = new Dictionary<Entities, SimItem>(DefaultInventory);
-            Balance = startingMonies;
+
+            // Passengers the vehicle will be moving along the trail.
             _passengers = new List<Person>();
+
+            // Money the passengers use collectively to purchase items.
+            Balance = startingMonies;
+
+            // Determines amount of food consumed per day.
             Ration = RationLevel.Filling;
+
+            // Number of miles the vehicle has traveled.
             Odometer = 0;
+
+            // Vehicle is not moving and currently stopped.
             Status = VehicleStatus.Stopped;
         }
 
@@ -641,13 +761,27 @@ namespace TrailSimulation.Entity
             foreach (var simItem in Inventory)
             {
                 // Check if category, and name match. Quantity needs to be greater than or equal to wanted amount.
-                if (simItem.Value.Name == wantedItem.Name &&
-                    simItem.Value.Category == wantedItem.Category &&
+                if (simItem.Value.Name == wantedItem.Name && simItem.Value.Category == wantedItem.Category &&
                     simItem.Value.Quantity >= wantedItem.Quantity)
                     return true;
             }
 
             return false;
+        }
+
+        /// <summary>
+        ///     Repairs any broken parts the vehicle may have and returns them to fully operational condition.
+        /// </summary>
+        public void RepairParts()
+        {
+            // Loop through every part in the vehicle and repair it.
+            foreach (var part in _parts)
+            {
+                part.Repair();
+            }
+
+            // Set the vehicle status to be stopped and no longer broken.
+            Status = VehicleStatus.Stopped;
         }
     }
 }

@@ -11,18 +11,18 @@ namespace TrailSimulation.Game
     public sealed class HealthScoring
     {
         /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Game.HealthScoring" /> class.</summary>
-        /// <param name="partyHealthLevel">The party Health Level.</param>
+        /// <param name="partyHealthStatus">The party Health Level.</param>
         /// <param name="pointsPerPerson">The points Per Person.</param>
-        public HealthScoring(HealthLevel partyHealthLevel, int pointsPerPerson)
+        public HealthScoring(HealthStatus partyHealthStatus, int pointsPerPerson)
         {
-            PartyHealthLevel = partyHealthLevel;
+            PartyHealthStatus = partyHealthStatus;
             PointsPerPerson = pointsPerPerson;
         }
 
         /// <summary>
         ///     Gets the party health level.
         /// </summary>
-        public HealthLevel PartyHealthLevel { get; }
+        public HealthStatus PartyHealthStatus { get; }
 
         /// <summary>
         ///     Gets the points per person.

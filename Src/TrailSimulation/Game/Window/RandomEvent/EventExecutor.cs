@@ -52,13 +52,9 @@ namespace TrailSimulation.Game
             // Add the text to the user data so we can print it on another form if needed.
             UserData.EventText = eventText;
 
-            // Check what we should do with the random event form now that the user is done with this part of it.
-            if (UserData.DaysToSkip <= 0)
-            {
-                // Attaches a new form that will skip over the required number of days we have detected.
-                SetForm(typeof (EventSkipDay));
-                return "Loading Event...";
-            }
+            // Allow the event to do any custom actions requiring the use of event executor form.
+            if (UserData.DirectorEvent.OnPostExecute(this))
+                return "Loading event...";
 
             // Add the text to our output about the random event.
             _randomEventText.AppendLine(
@@ -80,11 +76,11 @@ namespace TrailSimulation.Game
             // Prevent multiple closures of this form, and window.
             _eventPlayerAcknowledge = true;
 
-            // Only remove the entire random event form if we don't have any days to skip.
-            ParentWindow.RemoveWindowNextTick();
-
             // Fires off event so events can do something special when the event closes.
             UserData.DirectorEvent.OnEventClose();
+
+            // Only remove the entire random event form if we don't have any days to skip.
+            ParentWindow.RemoveWindowNextTick();
         }
     }
 }

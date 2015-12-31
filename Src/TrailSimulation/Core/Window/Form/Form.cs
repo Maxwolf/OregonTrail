@@ -31,7 +31,7 @@ namespace TrailSimulation.Core
         ///     Intended to be overridden in abstract class by generics to provide method to return object that contains all the
         ///     data for parent game Windows.
         /// </summary>
-        protected TData UserData
+        protected internal TData UserData
         {
             get { return ParentWindow.UserData as TData; }
         }
@@ -214,7 +214,7 @@ namespace TrailSimulation.Core
 
         /// <summary>Creates and adds the specified type of state to currently active game Windows.</summary>
         /// <param name="stateType">The state Type.</param>
-        protected void SetForm(Type stateType)
+        protected internal void SetForm(Type stateType)
         {
             // Pass the state wanted to the parent game Windows.
             ParentWindow.SetForm(stateType);

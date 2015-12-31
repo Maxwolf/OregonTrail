@@ -133,23 +133,15 @@ namespace TrailSimulation.Game
             switch (game.Vehicle.Status)
             {
                 case VehicleStatus.Stopped:
-
-
-// Do not proceed if the vehicle is stopped.
                     return;
                 case VehicleStatus.Stuck:
-
-
-// Attach form saying the players vehicle is stuck.
+                case VehicleStatus.Broken:
+                    // Stuck or broken vehicles are unable to continue the journey.
                     SetForm(typeof (UnableToContinue));
                     break;
                 case VehicleStatus.Moving:
-
-
-// Advance the progress bar, step it to next phase.
-                    _swayBarText = _marqueeBar.Step();
-
                     // Check if there is a tombstone here, if so we attach question form that asks if we stop or not.
+                    _swayBarText = _marqueeBar.Step();
                     if (game.Tombstone.ContainsTombstone(game.Vehicle.Odometer))
                     {
                         SetForm(typeof (TombstoneQuestion));

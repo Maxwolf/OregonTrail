@@ -23,7 +23,7 @@ namespace TrailSimulation.Entity
         ///     Defines the current health of the person. It will be tracked and kept within bounds of HealthMin and HealthMax
         ///     constants.
         /// </summary>
-        private int health;
+        private int _status;
 
         /// <summary>
         ///     Determines if the persons health was at any time at the very poor level, which means they were close to death. We
@@ -45,7 +45,7 @@ namespace TrailSimulation.Entity
             // Person starts with clean bill of health.
             Infected = false;
             Injured = false;
-            Health = (int) HealthLevel.Good;
+            Status = (int) Entity.HealthStatus.Good;
         }
 
         /// <summary>
@@ -57,43 +57,43 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Current health of this person which is enum that also represents the total points they are currently worth.
         /// </summary>
-        public HealthLevel HealthValue
+        public HealthStatus HealthStatus
         {
             get
             {
                 // Skip if this person is dead, cannot heal them.
                 if (dead)
                 {
-                    health = (int) HealthLevel.Dead;
-                    return HealthLevel.Dead;
+                    _status = (int) HealthStatus.Dead;
+                    return HealthStatus.Dead;
                 }
 
                 // Health is greater than fair so it must be good.
-                if (Health > (int) HealthLevel.Fair)
+                if (Status > (int) HealthStatus.Fair)
                 {
-                    return HealthLevel.Good;
+                    return HealthStatus.Good;
                 }
 
                 // Health is less than good, but greater than poor so it must be fair.
-                if (Health < (int) HealthLevel.Good && Health > (int) HealthLevel.Poor)
+                if (Status < (int) HealthStatus.Good && Status > (int) HealthStatus.Poor)
                 {
-                    return HealthLevel.Fair;
+                    return HealthStatus.Fair;
                 }
 
                 // Health is less than fair, but greater than very poor so it is just poor.
-                if (Health < (int) HealthLevel.Fair && Health > (int) HealthLevel.VeryPoor)
+                if (Status < (int) HealthStatus.Fair && Status > (int) HealthStatus.VeryPoor)
                 {
-                    return HealthLevel.Poor;
+                    return HealthStatus.Poor;
                 }
 
                 // Health is less than poor, but not quite dead yet so it must be very poor.
-                if (Health < (int) HealthLevel.Poor && Health > (int) HealthLevel.Dead)
+                if (Status < (int) HealthStatus.Poor && Status > (int) HealthStatus.Dead)
                 {
-                    return HealthLevel.VeryPoor;
+                    return HealthStatus.VeryPoor;
                 }
 
                 // Default response is to indicate this person is dead.
-                return HealthLevel.Dead;
+                return HealthStatus.Dead;
             }
         }
 
@@ -101,35 +101,35 @@ namespace TrailSimulation.Entity
         ///     Defines the current health of the person. It will be tracked and kept within bounds of HealthMin and HealthMax
         ///     constants.
         /// </summary>
-        private int Health
+        private int Status
         {
-            get { return health; }
+            get { return _status; }
             set
             {
                 // Skip if this person is dead, cannot heal them.
                 if (dead)
                 {
-                    health = (int) HealthLevel.Dead;
+                    _status = (int) HealthStatus.Dead;
                     return;
                 }
 
                 // Check that value is not above max.
-                if (value >= (int) HealthLevel.Good)
+                if (value >= (int) HealthStatus.Good)
                 {
-                    health = (int) HealthLevel.Good;
+                    _status = (int) HealthStatus.Good;
                     return;
                 }
 
                 // Check that value is not below min.
-                if (value <= (int) HealthLevel.Dead)
+                if (value <= (int) HealthStatus.Dead)
                 {
                     dead = true;
-                    health = (int) HealthLevel.Dead;
+                    _status = (int) HealthStatus.Dead;
                     return;
                 }
 
                 // Set health to ceiling corrected value.
-                health = value;
+                _status = value;
             }
         }
 
@@ -246,7 +246,7 @@ namespace TrailSimulation.Entity
                 return;
 
             // Skip if this person is dead, cannot heal them.
-            if (HealthValue == HealthLevel.Dead || dead)
+            if (HealthStatus == HealthStatus.Dead || dead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
@@ -289,7 +289,7 @@ namespace TrailSimulation.Entity
         private void ConsumeFood()
         {
             // Skip if this person is dead, cannot heal them.
-            if (HealthValue == HealthLevel.Dead || dead)
+            if (HealthStatus == HealthStatus.Dead || dead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
@@ -319,11 +319,11 @@ namespace TrailSimulation.Entity
         private void Heal()
         {
             // Skip if this person is dead, cannot heal them.
-            if (HealthValue == HealthLevel.Dead || dead)
+            if (HealthStatus == HealthStatus.Dead || dead)
                 return;
 
             // Skip if already at max health.
-            if (HealthValue == HealthLevel.Good)
+            if (HealthStatus == HealthStatus.Good)
                 return;
 
             // Grab instance of the game simulation to increase readability.
@@ -347,7 +347,7 @@ namespace TrailSimulation.Entity
             else
             {
                 // Increase health by a random amount.
-                Health += game.Random.Next(1, 10);
+                Status += game.Random.Next(1, 10);
             }
         }
 
@@ -356,7 +356,7 @@ namespace TrailSimulation.Entity
         /// </summary>
         public void HealEntirely()
         {
-            Health = (int) HealthLevel.Good;
+            Status = (int) HealthStatus.Good;
             Infected = false;
             Injured = false;
         }
@@ -370,7 +370,7 @@ namespace TrailSimulation.Entity
             var game = GameSimulationApp.Instance;
 
             // Cannot calculate illness for the dead.
-            if (HealthValue == HealthLevel.Dead || dead)
+            if (HealthStatus == HealthStatus.Dead || dead)
                 return;
 
             // Person will not get hurt every single time it is called.
@@ -394,9 +394,9 @@ namespace TrailSimulation.Entity
             }
 
             // Determines if we should roll for infections based on previous complications.
-            switch (HealthValue)
+            switch (HealthStatus)
             {
-                case HealthLevel.Good:
+                case HealthStatus.Good:
                     if ((Infected || Injured) && game.Vehicle.Status != VehicleStatus.Stopped)
                     {
                         game.Vehicle.ReduceMileage(5);
@@ -404,7 +404,7 @@ namespace TrailSimulation.Entity
                     }
 
                     break;
-                case HealthLevel.Fair:
+                case HealthStatus.Fair:
                     if ((Infected || Injured) && game.Vehicle.Status != VehicleStatus.Stopped)
                     {
                         if (game.Random.NextBool())
@@ -421,7 +421,7 @@ namespace TrailSimulation.Entity
                     }
 
                     break;
-                case HealthLevel.Poor:
+                case HealthStatus.Poor:
                     if ((Infected || Injured) && game.Vehicle.Status != VehicleStatus.Stopped)
                     {
                         game.Vehicle.ReduceMileage(10);
@@ -429,12 +429,12 @@ namespace TrailSimulation.Entity
                     }
 
                     break;
-                case HealthLevel.VeryPoor:
+                case HealthStatus.VeryPoor:
                     nearDeathExperience = true;
                     game.Vehicle.ReduceMileage(15);
                     Damage(1, 5);
                     break;
-                case HealthLevel.Dead:
+                case HealthStatus.Dead:
                     dead = true;
                     break;
                 default:
@@ -451,14 +451,14 @@ namespace TrailSimulation.Entity
         private void Damage(int minAmount, int maxAmount)
         {
             // Skip what is already dead, no damage to be applied.
-            if (HealthValue == HealthLevel.Dead)
+            if (HealthStatus == HealthStatus.Dead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
             // Reduce the persons health by random amount from death amount to desired damage level.
-            Health -= game.Random.Next(minAmount, maxAmount);
+            Status -= game.Random.Next(minAmount, maxAmount);
 
             // Chance for broken bones and other ailments related to damage (but not death).
             if (!Infected || !Injured)
@@ -468,11 +468,11 @@ namespace TrailSimulation.Entity
             }
 
             // Check if health dropped to dead levels.
-            if (HealthValue != HealthLevel.Dead)
+            if (HealthStatus != HealthStatus.Dead)
                 return;
 
             // Reduce person's health to dead level.
-            Health = (int) HealthLevel.Dead;
+            Status = (int) HealthStatus.Dead;
 
             // Check if leader died or party member and execute corresponding event.
             game.EventDirector.TriggerEvent(this, Leader ? typeof (DeathPlayer) : typeof (DeathCompanion));
@@ -490,7 +490,7 @@ namespace TrailSimulation.Entity
                 return;
 
             // Remove the health from the person.
-            Health -= amount;
+            Status -= amount;
         }
 
         /// <summary>
@@ -501,11 +501,11 @@ namespace TrailSimulation.Entity
         public void Kill()
         {
             // Skip if the person is already dead.
-            if (HealthValue == HealthLevel.Dead)
+            if (HealthStatus == HealthStatus.Dead)
                 return;
 
             // Ashes to ashes, dust to dust...
-            Health = 0;
+            Status = 0;
         }
 
         /// <summary>

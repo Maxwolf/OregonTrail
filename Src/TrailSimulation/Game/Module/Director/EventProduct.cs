@@ -61,6 +61,16 @@ namespace TrailSimulation.Game
         }
 
         /// <summary>
+        ///     Fired after the event is executed and allows the inheriting event prefab know post event execution.
+        /// </summary>
+        /// <param name="eventExecutor">Form that executed the event from the random event window.</param>
+        internal virtual bool OnPostExecute(EventExecutor eventExecutor)
+        {
+            // Default action is to let the event execute normally.
+            return false;
+        }
+
+        /// <summary>
         ///     Fired when the event is created by the event factory, but before it is executed. Acts as a constructor mostly but
         ///     used in this way so that only the factory will call the method and there is no worry of it accidentally getting
         ///     called by creation.

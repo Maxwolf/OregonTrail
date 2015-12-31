@@ -49,15 +49,23 @@ namespace TrailSimulation.Game
         /// </summary>
         internal void ContinueOnTrail()
         {
-            // Check if the vehicle is stuck and unable to continue.
-            if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Stuck)
+            // 
+            switch (GameSimulationApp.Instance.Vehicle.Status)
             {
-                SetForm(typeof (VehicleStuck));
-                return;
+                case VehicleStatus.Stuck:
+                    // Check if the vehicle is stuck and unable to continue.
+                    SetForm(typeof (VehicleStuck));
+                    return;
+                case VehicleStatus.Broken:
+                    // Broken vehicle parts will make the vehicle stuck unable to continue.
+                    SetForm(typeof(VehicleBroken));
+                    break;
+                case VehicleStatus.Stopped:
+                case VehicleStatus.Moving:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-
-            // TODO: Broken vehicle parts will make the vehicle stuck unable to continue.
-
 
             // Check if player has already departed and we are just moving along again.
             if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Departed)
@@ -67,8 +75,7 @@ namespace TrailSimulation.Game
             }
 
             // Depending on what kind of location we are heading towards we will invoke different forms.
-            if (GameSimulationApp.Instance.Trail.CurrentLocation is Landmark ||
-                GameSimulationApp.Instance.Trail.CurrentLocation is Settlement)
+            if (GameSimulationApp.Instance.Trail.CurrentLocation is Landmark || GameSimulationApp.Instance.Trail.CurrentLocation is Settlement)
             {
                 SetForm(typeof (LocationDepart));
             }
@@ -145,9 +152,7 @@ namespace TrailSimulation.Game
         private void HuntForFood()
         {
             // Check if the player even has enough bullets to go hunting.
-            SetForm(GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].Quantity > 0
-                ? typeof (HuntingPrompt)
-                : typeof (NoAmmo));
+            SetForm(GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].Quantity > 0 ? typeof (HuntingPrompt) : typeof (NoAmmo));
         }
 
         /// <summary>
@@ -218,8 +223,7 @@ namespace TrailSimulation.Game
             UpdateLocation();
 
             // Starting store that is shown after setting up player names, profession, and starting month.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached)
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation && GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached)
             {
                 // Calculate initial distance to next point.
                 SetForm(typeof (StoreWelcome));
@@ -252,8 +256,7 @@ namespace TrailSimulation.Game
                 return;
 
             // Check if passengers in the vehicle are dead, or player reached end of the trail.
-            if (game.Trail.CurrentLocation.LastLocation ||
-                game.Vehicle.PassengersDead)
+            if (game.Trail.CurrentLocation.LastLocation || game.Vehicle.PassengersDead)
             {
                 GameOver = true;
                 game.WindowManager.Add(GameWindow.GameOver);
@@ -261,8 +264,7 @@ namespace TrailSimulation.Game
             }
 
             // Check if player is just arriving at a new location.
-            if (game.Trail.CurrentLocation.Status == LocationStatus.Arrived &&
-                !game.Trail.CurrentLocation.ArrivalFlag && !GameOver)
+            if (game.Trail.CurrentLocation.Status == LocationStatus.Arrived && !game.Trail.CurrentLocation.ArrivalFlag && !GameOver)
             {
                 game.Trail.CurrentLocation.ArrivalFlag = true;
                 SetForm(typeof (LocationArrive));

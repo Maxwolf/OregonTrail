@@ -40,6 +40,11 @@
     <Compile Include="Core\Utility\ArrayExtensions.cs" />
     <Compile Include="Core\Utility\EnumerableExtensions.cs" />
     <Compile Include="Core\Utility\StringExtensions.cs" />
+    <Compile Include="Event\Vehicle\BrokenVehiclePart.cs" />
+    <Compile Include="Event\Vehicle\NoRepairVehicle.cs" />
+    <Compile Include="Event\Vehicle\RepairVehiclePart.cs" />
+    <Compile Include="Game\Window\RandomEvent\EventVehicleBroken.cs" />
+    <Compile Include="Game\Window\Travel\Dialog\VehicleBroken.cs" />
     <Compile Include="Game\Window\Travel\Hunt\Help\PreyFlee.cs" />
     <Compile Include="Game\Window\Travel\Hunt\Help\PreyHit.cs" />
     <Compile Include="Game\Window\Travel\Hunt\Help\NoAmmo.cs" />
@@ -88,7 +93,6 @@
     <Compile Include="Event\Prefab\EventItemDestroyer.cs" />
     <Compile Include="Event\River\VehicleFloods.cs" />
     <Compile Include="Event\River\VehicleWashOut.cs" />
-    <Compile Include="Event\Vehicle\BrokenVehiclePart.cs" />
     <Compile Include="Event\Vehicle\ImpassableTrail.cs" />
     <Compile Include="Event\Vehicle\LostTrail.cs" />
     <Compile Include="Event\Vehicle\TippedVehicle.cs" />
@@ -196,7 +200,7 @@
     <Compile Include="Core\Window\Control\TextProgress.cs" />
     <Compile Include="Core\Window\Control\TextTableExtensions.cs" />
     <Compile Include="Entity\Location\Location.cs" />
-    <Compile Include="Entity\Person\HealthLevel.cs" />
+    <Compile Include="Entity\Person\HealthStatus.cs" />
     <Compile Include="Entity\Vehicle\TravelPace.cs" />
     <Compile Include="Core\Window\Window.cs" />
     <Compile Include="Core\Window\IWindow.cs" />

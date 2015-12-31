@@ -51,6 +51,9 @@ namespace TrailSimulation.Entity
             PointsPerAmount = pointsPerAmount;
             PointsAwarded = pointsAwarded;
 
+            // All items start off as being in full health.
+            Broken = false;
+
             // Ensure the values for points per amount are not zero.
             if (PointsPerAmount <= 0)
                 PointsPerAmount = 1;
@@ -108,6 +111,11 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     Determines if the item is currently disabled and unable to function correctly.
+        /// </summary>
+        public bool Broken { get; private set; }
+
+        /// <summary>
         ///     Calculates the total points that should be given for inputted quantity of the object in question.
         /// </summary>
         /// <returns>Points to be awarded for the given quantity of the item according to scoring rules.</returns>
@@ -154,13 +162,9 @@ namespace TrailSimulation.Entity
         public string DelineatingUnit { get; }
 
         /// <summary>
-        ///     When multiple of this SimItem exist in a stack or need to be referenced, such as "10 pounds of food" the
-        ///     'pounds'
-        ///     is
-        ///     very important to get correct in context. Another example of this property being used is for Oxen SimItem, a
-        ///     single
-        ///     Ox
-        ///     is the delineating and the plural form would be "Oxen".
+        ///     When multiple of this SimItem exist in a stack or need to be referenced, such as "10 pounds of food" the 'pounds'
+        ///     is very important to get correct in context. Another example of this property being used is for Oxen SimItem, a
+        ///     single Ox is the delineating and the plural form would be "Oxen".
         /// </summary>
         public string PluralForm { get; }
 
@@ -327,6 +331,14 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     Disables the item so it can no longer be used normally. If this item is a part it will cease to function correctly.
+        /// </summary>
+        public void Break()
+        {
+            Broken = true;
+        }
+
+        /// <summary>
         ///     Forcefully resets the quantity to whatever the starting quantity was configured to be when the SimItem was
         ///     created.
         /// </summary>
@@ -412,6 +424,14 @@ namespace TrailSimulation.Entity
 
             // Set the quantity to desired amount.
             Quantity = simulatedAddition;
+        }
+
+        /// <summary>
+        ///     Repairs the item in full and restores it to working condition.
+        /// </summary>
+        public void Repair()
+        {
+            Broken = false;
         }
     }
 }

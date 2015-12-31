@@ -26,6 +26,23 @@ namespace TrailSimulation.Event
         }
 
         /// <summary>
+        ///     Fired after the event is executed and allows the inheriting event prefab know post event execution.
+        /// </summary>
+        /// <param name="eventExecutor">Form that executed the event from the random event window.</param>
+        internal override bool OnPostExecute(EventExecutor eventExecutor)
+        {
+            base.OnPostExecute(eventExecutor);
+
+            // Check what we should do with the random event form now that the user is done with this part of it.
+            if (eventExecutor.UserData.DaysToSkip > 0)
+                return false;
+
+            // Attaches a new form that will skip over the required number of days we have detected.
+            eventExecutor.SetForm(typeof(EventSkipDay));
+            return true;
+        }
+
+        /// <summary>
         ///     Grabs the correct number of days that should be skipped by the lose time event. The event skip day form that
         ///     follows will count down the number of days to zero before letting the player continue.
         /// </summary>

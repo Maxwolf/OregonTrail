@@ -55,7 +55,7 @@ namespace TrailSimulation.Event
             foreach (var person in passengers)
             {
                 // Only proceed if person is actually dead.
-                if (person.HealthValue != HealthLevel.Dead)
+                if (person.HealthStatus != HealthStatus.Dead)
                     continue;
 
                 // Last person killed will not add a new line.
