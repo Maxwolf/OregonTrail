@@ -36,7 +36,15 @@ namespace TrailSimulation.Event
             GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].ReduceQuantity(10);
 
             // Damage the person that was bit by the snake, it might be a little or a huge poisonousness bite.
-            person.Damage(GameSimulationApp.Instance.Random.NextBool() ? 5 : 256);
+            if (GameSimulationApp.Instance.Random.NextBool())
+            {
+                person.Infect();
+                person.Damage(256);
+            }
+            else
+            {
+                person.Damage(5);
+            }
         }
 
         /// <summary>
@@ -47,7 +55,7 @@ namespace TrailSimulation.Event
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(RandomEventInfo userData)
         {
-            return "you killed a poisonous snake after it bit you";
+            return "You killed a poisonous snake, after it bit you.";
         }
     }
 }

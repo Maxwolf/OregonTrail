@@ -10,7 +10,7 @@ namespace TrailSimulation.Event
     ///     Vehicle gets stuck in the mud, wasting the entire day.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
-    public sealed class StuckInMud : EventLoseTime
+    public sealed class StuckInMud : LoseTime
     {
         /// <summary>
         ///     Grabs the correct number of days that should be skipped by the lose time event. The event skip day form that

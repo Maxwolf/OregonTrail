@@ -14,7 +14,7 @@ namespace TrailSimulation.Event
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public sealed class VehicleFire : EventItemDestroyer
+    public sealed class VehicleFire : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
@@ -37,8 +37,8 @@ namespace TrailSimulation.Event
         {
             var firePrompt = new StringBuilder();
             firePrompt.Clear();
-            firePrompt.AppendLine("Fire in the wagon");
-            firePrompt.Append("resulting in ");
+            firePrompt.AppendLine("Fire in the wagon!");
+            firePrompt.Append("Resulting in ");
             return firePrompt.ToString();
         }
     }

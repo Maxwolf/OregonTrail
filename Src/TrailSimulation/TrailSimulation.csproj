@@ -40,7 +40,8 @@
     <Compile Include="Core\Utility\ArrayExtensions.cs" />
     <Compile Include="Core\Utility\EnumerableExtensions.cs" />
     <Compile Include="Core\Utility\StringExtensions.cs" />
-    <Compile Include="Event\Prefab\EventVehicleRepair.cs" />
+    <Compile Include="Event\Prefab\FoodDestroyer.cs" />
+    <Compile Include="Event\Prefab\VehicleRepair.cs" />
     <Compile Include="Event\Vehicle\BrokenVehiclePart.cs" />
     <Compile Include="Event\Vehicle\NoRepairVehicle.cs" />
     <Compile Include="Event\Vehicle\NoSparePart.cs" />
@@ -69,11 +70,10 @@
     <Compile Include="Entity\Vehicle\VehicleExtensions.cs" />
     <Compile Include="Entity\Vehicle\VehicleStatus.cs" />
     <Compile Include="Event\Animal\BuffaloStampede.cs" />
-    <Compile Include="Event\Animal\Locusts.cs" />
     <Compile Include="Event\Animal\WolfAttack.cs" />
-    <Compile Include="Event\Prefab\EventLoseTime.cs" />
-    <Compile Include="Event\Prefab\EventPersonInfect.cs" />
-    <Compile Include="Event\Prefab\EventPersonInjure.cs" />
+    <Compile Include="Event\Prefab\LoseTime.cs" />
+    <Compile Include="Event\Prefab\PersonInfect.cs" />
+    <Compile Include="Event\Prefab\PersonInjure.cs" />
     <Compile Include="Event\River\SuppliesWet.cs" />
     <Compile Include="Event\Vehicle\OxenDied.cs" />
     <Compile Include="Event\Vehicle\OxenWanderOff.cs" />
@@ -92,8 +92,8 @@
     <Compile Include="Event\Person\TurnForWorse.cs" />
     <Compile Include="Event\Person\TyphoidFever.cs" />
     <Compile Include="Event\Person\WellAgain.cs" />
-    <Compile Include="Event\Prefab\EventItemCreator.cs" />
-    <Compile Include="Event\Prefab\EventItemDestroyer.cs" />
+    <Compile Include="Event\Prefab\ItemCreator.cs" />
+    <Compile Include="Event\Prefab\ItemDestroyer.cs" />
     <Compile Include="Event\River\VehicleFloods.cs" />
     <Compile Include="Event\River\VehicleWashOut.cs" />
     <Compile Include="Event\Vehicle\ImpassableTrail.cs" />
@@ -110,7 +110,7 @@
     <Compile Include="Event\Wild\FindFruit.cs" />
     <Compile Include="Event\Wild\FoodSpoilage.cs" />
     <Compile Include="Event\Wild\IndiansHelp.cs" />
-    <Compile Include="Event\Wild\StrangersApproach.cs" />
+    <Compile Include="Event\Wild\BanditsAttack.cs" />
     <Compile Include="Event\Wild\Thief.cs" />
     <Compile Include="Game\Module\Director\EventKey.cs" />
     <Compile Include="Game\Module\Director\EventExecution.cs" />

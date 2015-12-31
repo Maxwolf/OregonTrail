@@ -12,7 +12,7 @@ namespace TrailSimulation.Event
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public sealed class ImpassableTrail : EventLoseTime
+    public sealed class ImpassableTrail : LoseTime
     {
         /// <summary>
         ///     Grabs the correct number of days that should be skipped by the lose time event. The event skip day form that

@@ -13,7 +13,7 @@ namespace TrailSimulation.Event
     ///     it or they are going to be stranded in a broken vehicle unable to continue their journey.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle, EventExecution.ManualOnly)]
-    public sealed class RepairVehiclePart : EventVehicleRepair
+    public sealed class RepairVehiclePart : VehicleRepair
     {
         /// <summary>
         ///     Called by the vehicle repair prefab so implementations can return the reason why the vehicle was repaired for the

@@ -12,7 +12,7 @@ namespace TrailSimulation.Event
     ///     Severe weather will cause destruction of items and waste your time, but nobody will get killed.
     /// </summary>
     [DirectorEvent(EventCategory.Weather, EventExecution.ManualOnly)]
-    public sealed class SevereWeather : EventItemDestroyer
+    public sealed class SevereWeather : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>

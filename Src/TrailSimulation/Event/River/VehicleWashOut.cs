@@ -12,7 +12,7 @@ namespace TrailSimulation.Event
     ///     Player forded the river and it was to deep, they have been washed out by the current and some items destroyed.
     /// </summary>
     [DirectorEvent(EventCategory.RiverCross, EventExecution.ManualOnly)]
-    public sealed class VehicleWashOut : EventItemDestroyer
+    public sealed class VehicleWashOut : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>

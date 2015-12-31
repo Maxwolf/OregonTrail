@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/12/2015@6:30 AM
+// Timestamp 12/12/2015@6:43 AM
 
 namespace TrailSimulation.Event
 {
@@ -10,21 +10,27 @@ namespace TrailSimulation.Event
     using Game;
 
     /// <summary>
-    ///     The buffalo stampede by the vehicle and can destroy items and trample people to death.
+    ///     Deals with a random event that involves strangers approaching your vehicle. Once they do this the player is given
+    ///     several choices about what they would like to do, they can attack them, try to outrun them, or circle the vehicle
+    ///     around them to try and get them to leave.
     /// </summary>
-    [DirectorEvent(EventCategory.Animal)]
+    [DirectorEvent(EventCategory.Wild)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public sealed class BuffaloStampede : ItemDestroyer
+    public sealed class BanditsAttack : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
         /// <returns>The <see cref="string" />.</returns>
         protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
+            // Ammo used to kill the bandits is randomly generated.
+            GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].ReduceQuantity(
+                GameSimulationApp.Instance.Random.Next(3, 15));
+
             // Change event text depending on if items were destroyed or not.
             return destroyedItems.Count > 0
-                ? TryKillPassengers("trampled")
-                : "no loss of items.";
+                ? TryKillPassengers("murdered")
+                : "no loss of items. You drove them off!";
         }
 
         /// <summary>
@@ -37,7 +43,7 @@ namespace TrailSimulation.Event
         {
             var firePrompt = new StringBuilder();
             firePrompt.Clear();
-            firePrompt.AppendLine("Buffalo stampede!");
+            firePrompt.AppendLine("Bandits attack!");
             firePrompt.Append("Resulting in ");
             return firePrompt.ToString();
         }

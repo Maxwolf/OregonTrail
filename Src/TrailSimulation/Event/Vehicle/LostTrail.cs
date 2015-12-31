@@ -10,7 +10,7 @@ namespace TrailSimulation.Event
     ///     Hopefully there are some tracks you can follow!
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
-    public sealed class LostTrail : EventLoseTime
+    public sealed class LostTrail : LoseTime
     {
         /// <summary>
         ///     Grabs the correct number of days that should be skipped by the lose time event. The event skip day form that

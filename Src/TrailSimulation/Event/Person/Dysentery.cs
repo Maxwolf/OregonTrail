@@ -12,7 +12,7 @@ namespace TrailSimulation.Event
     /// </summary>
     [DirectorEvent(EventCategory.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public sealed class Dysentery : EventPersonInfect
+    public sealed class Dysentery : PersonInfect
     {
         /// <summary>Fired after the event has executed and the infection flag set on the person.</summary>
         /// <param name="person">Person whom is now infected by whatever you say they are here.</param>

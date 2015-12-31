@@ -14,7 +14,7 @@ namespace TrailSimulation.Event
     ///     and print them to the screen and allow for a custom prompt message to be displayed so it can be different for each
     ///     implementation that wants to use it.
     /// </summary>
-    public abstract class EventItemCreator : EventProduct
+    public abstract class ItemCreator : EventProduct
     {
         /// <summary>
         ///     String builder that will hold all the data from event execution.

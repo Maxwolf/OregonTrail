@@ -12,7 +12,7 @@ namespace TrailSimulation.Event
     ///     user that they repair has taken place and the item removed from vehicle inventory.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle, EventExecution.ManualOnly)]
-    public sealed class UseSparePart : EventVehicleRepair
+    public sealed class UseSparePart : VehicleRepair
     {
         /// <summary>
         ///     Called by the vehicle repair prefab so implementations can return the reason why the vehicle was repaired for the

@@ -4,7 +4,10 @@
 namespace TrailSimulation.Event
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Text;
+    using Entity;
     using Game;
 
     /// <summary>
@@ -13,30 +16,32 @@ namespace TrailSimulation.Event
     /// </summary>
     [DirectorEvent(EventCategory.Animal)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public sealed class WolfAttack : EventProduct
+    public sealed class WolfAttack : ItemDestroyer
     {
-        /// <summary>
-        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
-        ///     left completely up to handler.
-        /// </summary>
-        /// <param name="userData">
-        ///     Entities which the event is going to directly affect. This way there is no confusion about
-        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
-        /// </param>
-        public override void Execute(RandomEventInfo userData)
+        /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
+        /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
+        /// <returns>The <see cref="string" />.</returns>
+        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
         {
-            throw new NotImplementedException();
+            // Change event text depending on if items were destroyed or not.
+            return destroyedItems.Count > 0
+                ? TryKillPassengers("mauled")
+                : "no loss of items.";
         }
 
         /// <summary>
-        ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
-        ///     change depending on requirements of the implementation.
+        ///     Fired by the item destroyer event prefab after items are destroyed.
         /// </summary>
-        /// <param name="userData"></param>
-        /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
-        protected override string OnRender(RandomEventInfo userData)
+        /// <returns>
+        ///     The <see cref="string" />.
+        /// </returns>
+        protected override string OnPreDestroyItems()
         {
-            throw new NotImplementedException();
+            var firePrompt = new StringBuilder();
+            firePrompt.Clear();
+            firePrompt.AppendLine("A pack of wolves attack you in the night!");
+            firePrompt.Append("Resulting in ");
+            return firePrompt.ToString();
         }
     }
 }

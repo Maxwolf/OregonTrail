@@ -11,7 +11,7 @@ namespace TrailSimulation.Event
     ///     this separates it from the infection flag since being injured means your physical capacity for work has been
     ///     diminished greatly. An example of this type of event would be the player breaking their arm.
     /// </summary>
-    public abstract class EventPersonInjure : EventProduct
+    public abstract class PersonInjure : EventProduct
     {
         /// <summary>
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is

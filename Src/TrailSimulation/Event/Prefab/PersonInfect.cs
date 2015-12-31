@@ -1,20 +1,17 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/12/2015@6:43 AM
+// Timestamp 12/18/2015@2:36 AM
 
 namespace TrailSimulation.Event
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
+    using Entity;
     using Game;
 
     /// <summary>
-    ///     Deals with a random event that involves strangers approaching your vehicle. Once they do this the player is given
-    ///     several choices about what they would like to do, they can attack them, try to outrun them, or circle the vehicle
-    ///     around them to try and get them to leave.
+    ///     Intended to be used to make adding the infected flag to people easier. If an event wants to act as some sort of
+    ///     biological agent then it can use this prefab and just worry about the message it prints and the action of infecting
+    ///     the player will be done by this class.
     /// </summary>
-    [DirectorEvent(EventCategory.Wild)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public sealed class StrangersApproach : EventProduct
+    public abstract class PersonInfect : EventProduct
     {
         /// <summary>
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
@@ -26,8 +23,11 @@ namespace TrailSimulation.Event
         /// </param>
         public override void Execute(RandomEventInfo userData)
         {
-            // TODO: Need to code riders/stranger encounter and process the events that take place from that using user data.
-            throw new NotImplementedException();
+            // Cast the source entity as person.
+            var person = userData.SourceEntity as Person;
+
+            // Sets flag on person making them more susceptible to further complications.
+            person?.Infect();
         }
 
         /// <summary>
@@ -38,7 +38,16 @@ namespace TrailSimulation.Event
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(RandomEventInfo userData)
         {
-            throw new NotImplementedException();
+            // Cast the source entity as person.
+            var person = userData.SourceEntity as Person;
+
+            // Skip if the source entity is not a person.
+            return person == null ? string.Empty : OnPostInfection(person);
         }
+
+        /// <summary>Fired after the event has executed and the infection flag set on the person.</summary>
+        /// <param name="person">Person whom is now infected by whatever you say they are here.</param>
+        /// <returns>Name or type of infection the person is currently affected with.</returns>
+        protected abstract string OnPostInfection(Person person);
     }
 }

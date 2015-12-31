@@ -12,7 +12,7 @@ namespace TrailSimulation.Event
     /// </summary>
     [DirectorEvent(EventCategory.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public sealed class BrokenArm : EventPersonInjure
+    public sealed class BrokenArm : PersonInjure
     {
         /// <summary>Fired after the event has executed and the injury flag set on the person.</summary>
         /// <param name="person">Person whom is now injured by whatever you say they are here.</param>

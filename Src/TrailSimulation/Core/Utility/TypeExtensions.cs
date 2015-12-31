@@ -16,7 +16,7 @@ namespace TrailSimulation.Core
     public static class TypeExtensions
     {
         /// <summary>
-        ///     Note that (T)FormatterServices.GetUninitializedObject(t) will fail for string. Hence special handling for string is
+        ///     FormatterServices.GetUninitializedObject(t) will fail for string. Hence special handling for string is
         ///     in place to return empty string.
         /// </summary>
         /// <param name="t">The t.</param>

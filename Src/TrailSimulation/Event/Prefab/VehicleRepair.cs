@@ -11,7 +11,7 @@ namespace TrailSimulation.Event
     ///     from the vehicles inventory but it could also be called by anything since it actually performs the work of
     ///     repairing the vehicle.
     /// </summary>
-    public abstract class EventVehicleRepair : EventProduct
+    public abstract class VehicleRepair : EventProduct
     {
         /// <summary>
         ///     Defines the name of the broken part that was on the vehicle before the player magically repaired it.

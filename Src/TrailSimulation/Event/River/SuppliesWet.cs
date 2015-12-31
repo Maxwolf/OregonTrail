@@ -11,7 +11,7 @@ namespace TrailSimulation.Event
     /// </summary>
     [DirectorEvent(EventCategory.RiverCross)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public sealed class SuppliesWet : EventLoseTime
+    public sealed class SuppliesWet : LoseTime
     {
         /// <summary>
         ///     Grabs the correct number of days that should be skipped by the lose time event. The event skip day form that

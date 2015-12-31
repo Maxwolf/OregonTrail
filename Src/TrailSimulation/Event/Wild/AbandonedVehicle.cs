@@ -16,7 +16,7 @@ namespace TrailSimulation.Event
     /// </summary>
     [DirectorEvent(EventCategory.Wild)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public sealed class AbandonedVehicle : EventItemCreator
+    public sealed class AbandonedVehicle : ItemCreator
     {
         /// <summary>Fired by the event prefab after the event has executed.</summary>
         /// <param name="createdItems"></param>

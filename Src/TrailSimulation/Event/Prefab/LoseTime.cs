@@ -9,7 +9,7 @@ namespace TrailSimulation.Event
     ///     Forces the player to advance time in the date, this will make it so they will have to face harsher weather
     ///     conditions and also other random events can fire from this one.
     /// </summary>
-    public abstract class EventLoseTime : EventProduct
+    public abstract class LoseTime : EventProduct
     {
         /// <summary>
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is

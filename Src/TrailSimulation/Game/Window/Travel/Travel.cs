@@ -49,7 +49,7 @@ namespace TrailSimulation.Game
         /// </summary>
         internal void ContinueOnTrail()
         {
-            // Depending on vehicle status you may or may not be able to continue travling along the trail.
+            // Depending on vehicle status you may or may not be able to continue traveling along the trail.
             switch (GameSimulationApp.Instance.Vehicle.Status)
             {
                 case VehicleStatus.Stuck:

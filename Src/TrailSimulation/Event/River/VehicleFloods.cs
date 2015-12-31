@@ -13,7 +13,7 @@ namespace TrailSimulation.Event
     ///     river.
     /// </summary>
     [DirectorEvent(EventCategory.RiverCross, EventExecution.ManualOnly)]
-    public sealed class VehicleFloods : EventItemDestroyer
+    public sealed class VehicleFloods : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>

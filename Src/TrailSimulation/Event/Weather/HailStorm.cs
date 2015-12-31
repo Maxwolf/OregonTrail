@@ -12,7 +12,7 @@ namespace TrailSimulation.Event
     ///     Bad hail storm damages supplies, this uses the item destroyer prefab like the river crossings do.
     /// </summary>
     [DirectorEvent(EventCategory.Weather, EventExecution.ManualOnly)]
-    public sealed class HailStorm : EventItemDestroyer
+    public sealed class HailStorm : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems"></param>
