@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/12/2015@4:46 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     using System.ComponentModel;
 

@@ -1,10 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/18/2015@5:27 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
-    using Game;
-
     /// <summary>
     ///     Forces the player to advance time in the date, this will make it so they will have to face harsher weather
     ///     conditions and also other random events can fire from this one.

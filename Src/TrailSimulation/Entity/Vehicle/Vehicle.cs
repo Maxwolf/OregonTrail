@@ -1,15 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 11/14/2015@3:12 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using Core;
-    using Event;
-    using Game;
+    using SimUnit;
 
     /// <summary>
     ///     Vessel that holds all the players, their inventory, money, and keeps track of total miles traveled in the form of

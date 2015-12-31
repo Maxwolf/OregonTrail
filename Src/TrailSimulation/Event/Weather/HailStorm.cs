@@ -1,12 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/17/2015@2:59 PM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System.Collections.Generic;
     using System.Text;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     Bad hail storm damages supplies, this uses the item destroyer prefab like the river crossings do.

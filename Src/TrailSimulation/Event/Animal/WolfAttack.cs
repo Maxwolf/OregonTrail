@@ -1,14 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/12/2015@6:30 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     A pack of wolves is attacking the vehicle party! If there are not enough bullets to stop them then they will

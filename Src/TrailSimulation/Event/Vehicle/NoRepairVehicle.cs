@@ -1,11 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/31/2015@2:37 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System.Text;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     Manually triggered event for when the player decides to not and repair their vehicle and instead opts to use spare

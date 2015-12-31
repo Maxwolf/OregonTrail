@@ -1,10 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/22/2015@4:44 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
-    using Game;
-
     /// <summary>
     ///     Defines all the data for a given climate simulation for a location.
     /// </summary>

@@ -1,11 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/17/2015@2:02 PM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System.Diagnostics.CodeAnalysis;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     Indians help you find some free food, this event will be called manually more often if you are low on food to

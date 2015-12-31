@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/22/2015@4:44 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     /// <summary>
     ///     The climate.

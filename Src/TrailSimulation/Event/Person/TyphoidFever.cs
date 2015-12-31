@@ -1,11 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/12/2015@6:35 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System.Diagnostics.CodeAnalysis;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     An infectious bacterial fever with an eruption of red spots on the chest and abdomen and severe intestinal

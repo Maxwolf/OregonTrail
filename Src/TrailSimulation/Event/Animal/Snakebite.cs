@@ -1,11 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/12/2015@6:29 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System.Diagnostics.CodeAnalysis;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     Processes an attack of snake biting one of the passengers in the vehicle at random. Depending on the outcome of the

@@ -1,12 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/22/2015@4:44 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     using System;
     using System.Collections.Generic;
-    using Event;
-    using Game;
 
     /// <summary>
     ///     Controls the weather, temperature, environment for getting food, illness probability, and various other factors

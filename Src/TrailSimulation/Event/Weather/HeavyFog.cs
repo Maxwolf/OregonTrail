@@ -1,11 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/12/2015@5:56 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
-    using Entity;
-    using Game;
-
     /// <summary>
     ///     Reduces the total capacity for the vehicle to move in a given trip segment by a random amount calculated at the
     ///     time of event execution.

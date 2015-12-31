@@ -1,10 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/12/2015@6:43 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System.Diagnostics.CodeAnalysis;
-    using Game;
 
     /// <summary>
     ///     Causes some of the vehicle food stores to be lost due to spoilage or improper storage. The amount taken will be

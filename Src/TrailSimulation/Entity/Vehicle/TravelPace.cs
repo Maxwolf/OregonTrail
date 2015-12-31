@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 11/14/2015@3:12 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     /// <summary>
     ///     The pace at which you travel can change.

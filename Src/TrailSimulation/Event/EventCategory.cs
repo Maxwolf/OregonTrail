@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/02/2015@9:37 PM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     /// <summary>
     ///     Defines the different kinds of events the simulation supports, used for sorting and easy grabbing of events by type

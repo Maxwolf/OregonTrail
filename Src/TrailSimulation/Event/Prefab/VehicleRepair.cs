@@ -1,11 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/31/2015@3:04 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
-    using Entity;
-    using Game;
-
     /// <summary>
     ///     Used by events that would like to magically repair the vehicle, typically this is called after removing spare parts
     ///     from the vehicles inventory but it could also be called by anything since it actually performs the work of

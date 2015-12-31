@@ -1,10 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/11/2015@8:45 PM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     using System;
-    using Game;
 
     /// <summary>
     ///     Defines a location in the game that is added to a list of points that make up the entire trail which the player and
@@ -18,7 +17,7 @@ namespace TrailSimulation.Entity
         /// </summary>
         private LocationWeather weather;
 
-        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Entity.Location" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Location" /> class.</summary>
         /// <param name="name">Display name of the location as it should be known to the player.</param>
         /// <param name="climateType">Defines the type of weather the location will have overall.</param>
         protected Location(string name, Climate climateType)

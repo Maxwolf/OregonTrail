@@ -1,10 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/16/2015@11:35 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     using System.Collections.Generic;
-    using Game;
 
     /// <summary>
     ///     Utility methods used by vehicle entity to make working with passengers and inventory easier on the eyes when used

@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/22/2015@3:48 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -22,7 +22,7 @@ namespace TrailSimulation.Entity
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ForkInRoad" /> class. Initializes a new instance of the
-        ///     <see cref="T:TrailSimulation.Entity.Location" /> class.
+        ///     <see cref="T:TrailSimulation.Location" /> class.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="climateType">The climate Type.</param>

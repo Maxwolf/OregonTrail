@@ -1,12 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 11/23/2015@5:00 PM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System;
     using System.Text;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     Called when one of your party members dies that is not the leader of the group, the game will still be able to

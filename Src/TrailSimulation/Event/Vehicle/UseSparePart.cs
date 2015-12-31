@@ -1,10 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/31/2015@3:02 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System;
-    using Game;
 
     /// <summary>
     ///     Called by the simulation when the player uses a spare part to repair their vehicle. This event will not actually

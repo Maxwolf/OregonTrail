@@ -5,7 +5,7 @@ namespace TrailConsole
 {
     using System;
     using System.Threading;
-    using TrailSimulation.Game;
+    using TrailSimulation;
 
     /// <summary>
     ///     Trail Simulation Game - Console Edition

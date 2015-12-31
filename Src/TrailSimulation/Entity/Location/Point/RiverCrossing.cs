@@ -1,10 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/22/2015@3:46 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
-    using Game;
-
     /// <summary>
     ///     Defines a river that the vehicle must cross when it encounters it. There are several options that can be used that
     ///     are specific to a river and allow it to be configured to have different types of crossings such as with a ferry
@@ -14,7 +12,7 @@ namespace TrailSimulation.Entity
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RiverCrossing" /> class. Initializes a new instance of the
-        ///     <see cref="T:TrailSimulation.Entity.Location" /> class.
+        ///     <see cref="T:TrailSimulation.Location" /> class.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="climateType">The climate Type.</param>

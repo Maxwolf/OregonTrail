@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 11/19/2015@6:48 PM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     using System;
 

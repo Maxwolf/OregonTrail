@@ -1,12 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/12/2015@6:18 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System.Collections.Generic;
     using System.Text;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     Player forded the river and it was to deep, they have been washed out by the current and some items destroyed.

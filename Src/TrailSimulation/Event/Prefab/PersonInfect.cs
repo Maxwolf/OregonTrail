@@ -1,11 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/18/2015@2:36 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
-    using Entity;
-    using Game;
-
     /// <summary>
     ///     Intended to be used to make adding the infected flag to people easier. If an event wants to act as some sort of
     ///     biological agent then it can use this prefab and just worry about the message it prints and the action of infecting

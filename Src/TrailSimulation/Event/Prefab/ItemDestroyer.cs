@@ -1,14 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/03/2015@2:27 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     Prefab class that is used to destroy some items at random from the vehicle inventory. Will return a list of items

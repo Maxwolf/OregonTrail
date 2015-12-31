@@ -1,12 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/02/2015@9:40 PM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System.Collections.Generic;
     using System.Text;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     When crossing a river there is a chance that your wagon will flood if you choose to caulk and float across the

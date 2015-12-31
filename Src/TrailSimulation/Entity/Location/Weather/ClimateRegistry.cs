@@ -1,10 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/22/2015@4:44 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     using System.Collections.Generic;
-    using Game;
 
     /// <summary>
     ///     Holds a bunch of static data about various climate types that is used in the location weather simulation.

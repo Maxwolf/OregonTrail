@@ -1,12 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 11/23/2015@5:00 PM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System;
     using System.Text;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     Party leader has died! This will end the entire simulation since the others cannot go on without the leader.

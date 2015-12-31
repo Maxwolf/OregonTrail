@@ -1,12 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/12/2015@5:55 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System;
     using System.Collections.Generic;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     Severe weather will cause destruction of items and waste your time, but nobody will get killed.

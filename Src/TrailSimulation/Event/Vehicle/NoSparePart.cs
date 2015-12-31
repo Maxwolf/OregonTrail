@@ -1,10 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/31/2015@2:58 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System;
-    using Game;
 
     /// <summary>
     ///     Called by the vehicle broken event when it is closing out from user interaction. If it detects that vehicle

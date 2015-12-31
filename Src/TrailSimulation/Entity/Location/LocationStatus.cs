@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/11/2015@8:45 PM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     /// <summary>
     ///     Determines the status of the location as it is known to the vehicle and persons inside of it. Used to keep track of

@@ -1,11 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 11/14/2015@3:12 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     using System;
     using System.Collections.Generic;
-    using Core;
+    using SimUnit;
 
     /// <summary>
     ///     Base interface for all entities in the simulation, this is used as a constraint for generics in event system.

@@ -1,11 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/31/2015@4:05 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
-    using Entity;
-    using Game;
-
     /// <summary>
     ///     Destroys a random amount of food from the vehicles inventory, the amount of food destroyed typically will be about
     ///     one-third (1/3) of the entire food quantity the player has as their food storage.

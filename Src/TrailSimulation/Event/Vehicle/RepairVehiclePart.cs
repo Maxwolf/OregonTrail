@@ -1,10 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/31/2015@2:14 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System;
-    using Game;
 
     /// <summary>
     ///     Manually triggered when random event system damages or makes equipment on the vehicle malfunction. This gives the

@@ -1,13 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/12/2015@6:43 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     Robber who can come in the middle of the night and steal things from the vehicle inventory. He is also very

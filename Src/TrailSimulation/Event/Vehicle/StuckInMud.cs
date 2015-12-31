@@ -1,10 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/12/2015@6:10 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System;
-    using Game;
 
     /// <summary>
     ///     Vehicle gets stuck in the mud, wasting the entire day.

@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/22/2015@6:14 PM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     /// <summary>
     ///     Defines a location on the trail where the player is required to pay monies in order to use it. Typically this is
@@ -12,7 +12,7 @@ namespace TrailSimulation.Entity
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="TollRoad" /> class. Initializes a new instance of the
-        ///     <see cref="T:TrailSimulation.Entity.Location" /> class.
+        ///     <see cref="T:TrailSimulation.Location" /> class.
         /// </summary>
         /// <param name="name">Display name of the location as it should be known to the player.</param>
         /// <param name="climateType">Defines the type of weather the location will have overall.</param>

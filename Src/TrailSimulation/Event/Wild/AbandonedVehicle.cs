@@ -1,14 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/12/2015@6:43 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     Discover a vehicle on the side of the road that might have some items inside of it that will be added to the

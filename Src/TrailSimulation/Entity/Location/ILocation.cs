@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/22/2015@3:40 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     /// <summary>
     ///     Base interface used for all locations on the trail, the purpose of which is to abstract the functionality of the

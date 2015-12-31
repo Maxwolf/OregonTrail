@@ -1,13 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/12/2015@6:43 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     Deals with a random event that involves strangers approaching your vehicle. Once they do this the player is given

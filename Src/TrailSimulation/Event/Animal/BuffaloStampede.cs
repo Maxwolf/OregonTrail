@@ -1,13 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/12/2015@6:30 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
-    using Entity;
-    using Game;
 
     /// <summary>
     ///     The buffalo stampede by the vehicle and can destroy items and trample people to death.

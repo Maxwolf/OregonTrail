@@ -1,11 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 12/18/2015@2:45 AM
 
-namespace TrailSimulation.Event
+namespace TrailSimulation
 {
-    using Entity;
-    using Game;
-
     /// <summary>
     ///     Event prefab that is intended to be used to indicate physical harm has come to a person in the vehicle. As such
     ///     this separates it from the infection flag since being injured means your physical capacity for work has been

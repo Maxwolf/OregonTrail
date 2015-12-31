@@ -1,11 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 11/14/2015@3:12 AM
 
-namespace TrailSimulation.Entity
+namespace TrailSimulation
 {
     using System;
-    using Event;
-    using Game;
 
     /// <summary>
     ///     Represents a human-being. Gender is not tracked, we only care about them as an entity that consumes food and their
