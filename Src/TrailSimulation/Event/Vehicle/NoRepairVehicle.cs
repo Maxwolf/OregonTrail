@@ -4,6 +4,7 @@
 namespace TrailSimulation.Event
 {
     using System.Text;
+    using Entity;
     using Game;
 
     /// <summary>
@@ -40,8 +41,33 @@ namespace TrailSimulation.Event
             var repairPrompt = new StringBuilder();
             repairPrompt.AppendLine("You did not repair the broken vehicle");
             repairPrompt.AppendLine($"{userData.BrokenPart.Name.ToLowerInvariant()}. You must replace it with a");
-            repairPrompt.Append("space part.");
+            repairPrompt.Append("spare part.");
             return repairPrompt.ToString();
+        }
+
+        /// <summary>
+        ///     Fired when the event is closed by the user or system after being executed and rendered out on text user interface.
+        /// </summary>
+        /// <param name="userData">
+        ///     Random event information such as source entity and the actual event itself and any custom data
+        ///     required to check state.
+        /// </param>
+        public override void OnEventClose(RandomEventInfo userData)
+        {
+            base.OnEventClose(userData);
+
+            // Cast the source entity as vehicle.
+            var vehicle = userData.SourceEntity as Vehicle;
+
+            // Skip if there is no vehicle to affect.
+            if (vehicle == null)
+                return;
+
+            // Check if the vehicle inventory has the required spare part.
+            GameSimulationApp.Instance.EventDirector.TriggerEvent(vehicle,
+                vehicle.TryUseSparePart()
+                    ? typeof (UseSparePart)
+                    : typeof (NoSparePart));
         }
     }
 }

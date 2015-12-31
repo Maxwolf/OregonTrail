@@ -55,7 +55,11 @@ namespace TrailSimulation.Game
         /// <summary>
         ///     Fired when the event is closed by the user or system after being executed and rendered out on text user interface.
         /// </summary>
-        public virtual void OnEventClose()
+        /// <param name="userData">
+        ///     Random event information such as source entity and the actual event itself and any custom data
+        ///     required to check state.
+        /// </param>
+        public virtual void OnEventClose(RandomEventInfo userData)
         {
             // Nothing to see here, move along...
         }

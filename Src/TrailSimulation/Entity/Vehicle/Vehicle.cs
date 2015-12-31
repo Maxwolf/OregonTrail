@@ -481,6 +481,30 @@ namespace TrailSimulation.Entity
         }
 
         /// <summary>
+        ///     Removes a spare part from the vehicles inventory of the same type of the broken part in order to repair it.
+        /// </summary>
+        /// <returns>TRUE if the spare part existed and vehicle was repaired, FALSE if no spare exists and vehicle still broken.</returns>
+        public bool TryUseSparePart()
+        {
+            // Skip if the vehicle is not broken.
+            if (Status != VehicleStatus.Broken)
+                return false;
+
+            // Skip if the vehicle does not contain part to fix vehicle.
+            if (!ContainsItem(BrokenPart))
+                return false;
+
+            // Remove one (1) of the spare parts of the broken part category.
+            Inventory[BrokenPart.Category].ReduceQuantity(1);
+
+            // Repair the vehicle.
+            RepairAllParts();
+
+            // Returns true so the calling method knows the vehicle is now repaired.
+            return true;
+        }
+
+        /// <summary>
         ///     Goes through all of the vehicle parts and will randomly decide to break one of them. If any of the vehicle parts
         ///     are already broken this will not run.
         /// </summary>
@@ -772,7 +796,7 @@ namespace TrailSimulation.Entity
         /// <summary>
         ///     Repairs any broken parts the vehicle may have and returns them to fully operational condition.
         /// </summary>
-        public void RepairParts()
+        public void RepairAllParts()
         {
             // Loop through every part in the vehicle and repair it.
             foreach (var part in _parts)

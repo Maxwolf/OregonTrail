@@ -40,9 +40,12 @@
     <Compile Include="Core\Utility\ArrayExtensions.cs" />
     <Compile Include="Core\Utility\EnumerableExtensions.cs" />
     <Compile Include="Core\Utility\StringExtensions.cs" />
+    <Compile Include="Event\Prefab\EventVehicleRepair.cs" />
     <Compile Include="Event\Vehicle\BrokenVehiclePart.cs" />
     <Compile Include="Event\Vehicle\NoRepairVehicle.cs" />
+    <Compile Include="Event\Vehicle\NoSparePart.cs" />
     <Compile Include="Event\Vehicle\RepairVehiclePart.cs" />
+    <Compile Include="Event\Vehicle\UseSparePart.cs" />
     <Compile Include="Game\Window\RandomEvent\EventVehicleBroken.cs" />
     <Compile Include="Game\Window\Travel\Dialog\VehicleBroken.cs" />
     <Compile Include="Game\Window\Travel\Hunt\Help\PreyFlee.cs" />

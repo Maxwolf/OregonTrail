@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@2:14 AM
+// Timestamp 12/31/2015@3:02 AM
 
 namespace TrailSimulation.Event
 {
@@ -7,13 +7,12 @@ namespace TrailSimulation.Event
     using Game;
 
     /// <summary>
-    ///     Manually triggered when random event system damages or makes equipment on the vehicle malfunction. This gives the
-    ///     player a chance to magically fix the vehicle part when they attempt to fix it. If the player tries to repair it
-    ///     this form is shown if the dice roll went in their favor, otherwise they better hope they have a spare part to fix
-    ///     it or they are going to be stranded in a broken vehicle unable to continue their journey.
+    ///     Called by the simulation when the player uses a spare part to repair their vehicle. This event will not actually
+    ///     remove the item it should be done before this is attached, the event serves as more of a dialog box to inform the
+    ///     user that they repair has taken place and the item removed from vehicle inventory.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle, EventExecution.ManualOnly)]
-    public sealed class RepairVehiclePart : EventVehicleRepair
+    public sealed class UseSparePart : EventVehicleRepair
     {
         /// <summary>
         ///     Called by the vehicle repair prefab so implementations can return the reason why the vehicle was repaired for the
@@ -24,7 +23,7 @@ namespace TrailSimulation.Event
         protected override string OnVehicleRepairReason(string partName)
         {
             return $"{Environment.NewLine}You were able to repair the vehicle" +
-                   $"{partName}.{Environment.NewLine}";
+                   $"{partName} using your spare.{Environment.NewLine}";
         }
     }
 }

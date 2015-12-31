@@ -77,7 +77,7 @@ namespace TrailSimulation.Game
             _eventPlayerAcknowledge = true;
 
             // Fires off event so events can do something special when the event closes.
-            UserData.DirectorEvent.OnEventClose();
+            UserData.DirectorEvent.OnEventClose(UserData);
 
             // Only remove the entire random event form if we don't have any days to skip.
             ParentWindow.RemoveWindowNextTick();
