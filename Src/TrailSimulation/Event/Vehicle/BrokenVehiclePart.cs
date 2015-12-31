@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/30/2015@10:54 PM
+// Timestamp 12/12/2015@6:09 AM
 
 namespace TrailSimulation.Event
 {

@@ -14,16 +14,16 @@ namespace TrailSimulation.Entity
     public sealed class Person : IEntity
     {
         /// <summary>
-        ///     Determines if this person has reached the point of no return and has died. There is no coming back from this and
-        ///     this flag will be used to prevent any further operations or resources being performed by this person.
-        /// </summary>
-        private bool dead;
-
-        /// <summary>
         ///     Defines the current health of the person. It will be tracked and kept within bounds of HealthMin and HealthMax
         ///     constants.
         /// </summary>
         private int _status;
+
+        /// <summary>
+        ///     Determines if this person has reached the point of no return and has died. There is no coming back from this and
+        ///     this flag will be used to prevent any further operations or resources being performed by this person.
+        /// </summary>
+        private bool dead;
 
         /// <summary>
         ///     Determines if the persons health was at any time at the very poor level, which means they were close to death. We
@@ -45,7 +45,7 @@ namespace TrailSimulation.Entity
             // Person starts with clean bill of health.
             Infected = false;
             Injured = false;
-            Status = (int) Entity.HealthStatus.Good;
+            Status = (int) HealthStatus.Good;
         }
 
         /// <summary>

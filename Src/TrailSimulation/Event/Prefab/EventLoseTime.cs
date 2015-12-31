@@ -38,7 +38,7 @@ namespace TrailSimulation.Event
                 return false;
 
             // Attaches a new form that will skip over the required number of days we have detected.
-            eventExecutor.SetForm(typeof(EventSkipDay));
+            eventExecutor.SetForm(typeof (EventSkipDay));
             return true;
         }
 
