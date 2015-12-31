@@ -49,7 +49,7 @@ namespace TrailSimulation.Game
         /// </summary>
         internal void ContinueOnTrail()
         {
-            // 
+            // Depending on vehicle status you may or may not be able to continue travling along the trail.
             switch (GameSimulationApp.Instance.Vehicle.Status)
             {
                 case VehicleStatus.Stuck:
@@ -57,8 +57,13 @@ namespace TrailSimulation.Game
                     SetForm(typeof (VehicleStuck));
                     return;
                 case VehicleStatus.Broken:
-                    // Broken vehicle parts will make the vehicle stuck unable to continue.
-                    SetForm(typeof(VehicleBroken));
+                    // Check if vehicle was able to obtain spare parts for repairs.
+                    if (!GameSimulationApp.Instance.Vehicle.TryUseSparePart())
+                    {
+                        // Broken vehicle parts will make the vehicle stuck unable to continue.
+                        SetForm(typeof (VehicleBroken));
+                        return;
+                    }
                     break;
                 case VehicleStatus.Stopped:
                 case VehicleStatus.Moving:
@@ -75,7 +80,8 @@ namespace TrailSimulation.Game
             }
 
             // Depending on what kind of location we are heading towards we will invoke different forms.
-            if (GameSimulationApp.Instance.Trail.CurrentLocation is Landmark || GameSimulationApp.Instance.Trail.CurrentLocation is Settlement)
+            if (GameSimulationApp.Instance.Trail.CurrentLocation is Landmark ||
+                GameSimulationApp.Instance.Trail.CurrentLocation is Settlement)
             {
                 SetForm(typeof (LocationDepart));
             }
@@ -152,7 +158,9 @@ namespace TrailSimulation.Game
         private void HuntForFood()
         {
             // Check if the player even has enough bullets to go hunting.
-            SetForm(GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].Quantity > 0 ? typeof (HuntingPrompt) : typeof (NoAmmo));
+            SetForm(GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].Quantity > 0
+                ? typeof (HuntingPrompt)
+                : typeof (NoAmmo));
         }
 
         /// <summary>
@@ -223,7 +231,8 @@ namespace TrailSimulation.Game
             UpdateLocation();
 
             // Starting store that is shown after setting up player names, profession, and starting month.
-            if (GameSimulationApp.Instance.Trail.IsFirstLocation && GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached)
+            if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
+                GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached)
             {
                 // Calculate initial distance to next point.
                 SetForm(typeof (StoreWelcome));
@@ -264,7 +273,8 @@ namespace TrailSimulation.Game
             }
 
             // Check if player is just arriving at a new location.
-            if (game.Trail.CurrentLocation.Status == LocationStatus.Arrived && !game.Trail.CurrentLocation.ArrivalFlag && !GameOver)
+            if (game.Trail.CurrentLocation.Status == LocationStatus.Arrived && !game.Trail.CurrentLocation.ArrivalFlag &&
+                !GameOver)
             {
                 game.Trail.CurrentLocation.ArrivalFlag = true;
                 SetForm(typeof (LocationArrive));
