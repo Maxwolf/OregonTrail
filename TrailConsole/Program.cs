@@ -5,17 +5,16 @@ namespace TrailConsole
 {
     using System;
     using System.Threading;
-    using TrailSimulation;
 
     /// <summary>
     ///     Trail Simulation Game - Console Edition
     /// </summary>
-    internal static class Program
+    public class Program
     {
         /// <summary>
         ///     Example console app for game simulation entry point.
         /// </summary>
-        private static void Main()
+        public static void Main(string[] args)
         {
             // Create console with title, no cursor, make CTRL-C act as input.
             Console.Title = "Oregon Trail Clone";

@@ -2,6 +2,19 @@
   "locked": false,
   "version": 2,
   "targets": {
+    "DNX,Version=v4.5.1": {
+      "TrailSimulation/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.1",
+        "dependencies": {
+          "WolfCurses": "1.0.0"
+        }
+      },
+      "WolfCurses/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.1"
+      }
+    },
     "DNXCore,Version=v5.0": {
       "Microsoft.CSharp/4.0.1-beta-23516": {
         "type": "package",
@@ -294,7 +307,19 @@
       },
       "TrailSimulation/1.0.0": {
         "type": "project",
-        "framework": "DNXCore,Version=v5.0",
+        "framework": ".NETPlatform,Version=v5.4",
+        "dependencies": {
+          "Microsoft.CSharp": "4.0.1-beta-23516",
+          "System.Collections": "4.0.11-beta-23516",
+          "System.Linq": "4.0.1-beta-23516",
+          "System.Runtime": "4.0.21-beta-23516",
+          "System.Threading": "4.0.11-beta-23516",
+          "WolfCurses": "1.0.0"
+        }
+      },
+      "WolfCurses/1.0.0": {
+        "type": "project",
+        "framework": ".NETPlatform,Version=v5.4",
         "dependencies": {
           "Microsoft.CSharp": "4.0.1-beta-23516",
           "System.Collections": "4.0.11-beta-23516",
@@ -302,6 +327,32 @@
           "System.Runtime": "4.0.21-beta-23516",
           "System.Threading": "4.0.11-beta-23516"
         }
+      }
+    },
+    "DNX,Version=v4.5.1/win7-x86": {
+      "TrailSimulation/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.1",
+        "dependencies": {
+          "WolfCurses": "1.0.0"
+        }
+      },
+      "WolfCurses/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.1"
+      }
+    },
+    "DNX,Version=v4.5.1/win7-x64": {
+      "TrailSimulation/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.1",
+        "dependencies": {
+          "WolfCurses": "1.0.0"
+        }
+      },
+      "WolfCurses/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.1"
       }
     },
     "DNXCore,Version=v5.0/win7-x86": {
@@ -665,7 +716,19 @@
       },
       "TrailSimulation/1.0.0": {
         "type": "project",
-        "framework": "DNXCore,Version=v5.0",
+        "framework": ".NETPlatform,Version=v5.4",
+        "dependencies": {
+          "Microsoft.CSharp": "4.0.1-beta-23516",
+          "System.Collections": "4.0.11-beta-23516",
+          "System.Linq": "4.0.1-beta-23516",
+          "System.Runtime": "4.0.21-beta-23516",
+          "System.Threading": "4.0.11-beta-23516",
+          "WolfCurses": "1.0.0"
+        }
+      },
+      "WolfCurses/1.0.0": {
+        "type": "project",
+        "framework": ".NETPlatform,Version=v5.4",
         "dependencies": {
           "Microsoft.CSharp": "4.0.1-beta-23516",
           "System.Collections": "4.0.11-beta-23516",
@@ -1036,7 +1099,19 @@
       },
       "TrailSimulation/1.0.0": {
         "type": "project",
-        "framework": "DNXCore,Version=v5.0",
+        "framework": ".NETPlatform,Version=v5.4",
+        "dependencies": {
+          "Microsoft.CSharp": "4.0.1-beta-23516",
+          "System.Collections": "4.0.11-beta-23516",
+          "System.Linq": "4.0.1-beta-23516",
+          "System.Runtime": "4.0.21-beta-23516",
+          "System.Threading": "4.0.11-beta-23516",
+          "WolfCurses": "1.0.0"
+        }
+      },
+      "WolfCurses/1.0.0": {
+        "type": "project",
+        "framework": ".NETPlatform,Version=v5.4",
         "dependencies": {
           "Microsoft.CSharp": "4.0.1-beta-23516",
           "System.Collections": "4.0.11-beta-23516",
@@ -1051,6 +1126,10 @@
     "TrailSimulation/1.0.0": {
       "type": "project",
       "path": "../TrailSimulation/project.json"
+    },
+    "WolfCurses/1.0.0": {
+      "type": "project",
+      "path": "../WolfCurses/WolfCurses/project.json"
     },
     "Microsoft.CSharp/4.0.1-beta-23516": {
       "type": "package",
@@ -2171,6 +2250,7 @@
     "": [
       "TrailSimulation >= 1.0.0-*"
     ],
+    "DNX,Version=v4.5.1": [],
     "DNXCore,Version=v5.0": [
       "Microsoft.CSharp >= 4.0.1-beta-23516",
       "System.Collections >= 4.0.11-beta-23516",
