@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/07/2015@4:26 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     Glorified options menu for the game that allows player to remove top ten high scores, remove saved games, erase
     ///     Tombstone messages, etc.
     /// </summary>
-    [ParentWindow(typeof(MainMenu))]
+    [ParentWindow(typeof (MainMenu))]
     public sealed class ManagementOptions : Form<NewGameInfo>
     {
         /// <summary>

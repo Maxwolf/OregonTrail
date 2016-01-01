@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/14/2015@4:54 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -14,7 +14,7 @@ namespace TrailSimulation
     ///     bar moving back and fourth which lets the player know they are moving. Stats are also shown from the travel info
     ///     object, if any random events occur they will be selected from this state.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class ContinueOnTrail : Form<TravelInfo>
     {
         /// <summary>

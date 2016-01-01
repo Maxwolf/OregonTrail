@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/07/2015@3:29 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -14,7 +14,7 @@ namespace TrailSimulation
     ///     be triggered when they occur so this state can be attached to the travel Windows and also have the event data
     ///     passed into it so it may be executed and data shown in text user interface for this state.
     /// </summary>
-    [ParentWindow(typeof(RandomEvent))]
+    [ParentWindow(typeof (RandomEvent))]
     public sealed class EventExecutor : InputForm<RandomEventInfo>
     {
         /// <summary>

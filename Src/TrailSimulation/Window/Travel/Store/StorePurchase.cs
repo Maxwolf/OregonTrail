@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/09/2015@4:26 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -11,7 +11,7 @@ namespace TrailSimulation
     /// <summary>
     ///     Allows the player to purchase a number of oxen to pull their vehicle.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class StorePurchase : Form<TravelInfo>
     {
         /// <summary>

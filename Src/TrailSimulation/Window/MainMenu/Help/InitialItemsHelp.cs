@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/07/2015@5:01 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -14,7 +14,7 @@ namespace TrailSimulation
     ///     we
     ///     can move from here to next state.
     /// </summary>
-    [ParentWindow(typeof(MainMenu))]
+    [ParentWindow(typeof (MainMenu))]
     public sealed class InitialItemsHelp : InputForm<NewGameInfo>
     {
         /// <summary>

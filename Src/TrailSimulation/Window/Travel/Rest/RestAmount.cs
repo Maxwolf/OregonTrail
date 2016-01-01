@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/07/2015@10:44 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -12,7 +12,7 @@ namespace TrailSimulation
     ///     response and will not do anything. If greater than zero we will attach another state to tick that many days by in
     ///     the simulation.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class RestAmount : Form<TravelInfo>
     {
         /// <summary>

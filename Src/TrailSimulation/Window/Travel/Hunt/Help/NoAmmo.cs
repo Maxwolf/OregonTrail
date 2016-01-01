@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/26/2015@7:33 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     loading the game mode just so nothing can happen until it times out. Rather than letting the player suffer from
     ///     that mistake we will just tell them they don't have enough.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class NoAmmo : InputForm<TravelInfo>
     {
         /// <summary>

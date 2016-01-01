@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/10/2015@3:40 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -15,7 +15,7 @@ namespace TrailSimulation
     ///     linear choice and depends on the player telling the simulation which way to fork down the path. The decisions are
     ///     pear shaped in the sense any fork will eventually lead back to the same path.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class LocationFork : Form<TravelInfo>
     {
         /// <summary>

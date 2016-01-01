@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/21/2015@11:24 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -12,7 +12,7 @@ namespace TrailSimulation
     ///     epitaph, process that decision, confirm it, and finally show the viewer that will also show the reason why the
     ///     player died using description attribute from an enumeration value that determines how they died.
     /// </summary>
-    [ParentWindow(typeof(GameOver))]
+    [ParentWindow(typeof (GameOver))]
     public sealed class GameFail : Form<GameOverInfo>
     {
         /// <summary>
@@ -52,7 +52,7 @@ namespace TrailSimulation
         public override string OnRenderForm()
         {
             // Jump right to tombstone game window, it will reset the game.
-            GameSimulationApp.Instance.WindowManager.Add(typeof(Graveyard));
+            GameSimulationApp.Instance.WindowManager.Add(typeof (Graveyard));
             return string.Empty;
         }
 

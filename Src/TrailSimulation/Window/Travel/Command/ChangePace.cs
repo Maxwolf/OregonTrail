@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/07/2015@8:12 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     the rate at which random events that are considered bad will occur along with other factors in the simulation such
     ///     as making players more susceptible to disease and also making them hungry more often.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class ChangePace : Form<TravelInfo>
     {
         /// <summary>

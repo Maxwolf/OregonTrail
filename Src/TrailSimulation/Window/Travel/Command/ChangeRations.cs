@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/07/2015@2:30 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     of which is to limit the amount they take in to slow the loss of food per pound. This has many affects on the
     ///     simulation such as disease, chance for breaking body parts, and or complete death from starvation.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class ChangeRations : Form<TravelInfo>
     {
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/19/2015@10:12 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -12,7 +12,7 @@ namespace TrailSimulation
     /// <summary>
     ///     Asks the player if they would like to stop and check out a tombstone that is on this particular mile marker.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class TombstoneQuestion : InputForm<TravelInfo>
     {
         /// <summary>
@@ -66,7 +66,7 @@ namespace TrailSimulation
                     break;
                 case DialogResponse.Yes:
                 case DialogResponse.Custom:
-                    GameSimulationApp.Instance.WindowManager.Add(typeof(Graveyard));
+                    GameSimulationApp.Instance.WindowManager.Add(typeof (Graveyard));
 
                     // Goes back to continue on trail form below us.
                     ClearForm();

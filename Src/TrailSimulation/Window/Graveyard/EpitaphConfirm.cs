@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/19/2015@2:50 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     Confirms with the user if there is any changes they would like to make to their Tombstone before it gets saved
     ///     for other travelers on this section of the trail to see.
     /// </summary>
-    [ParentWindow(typeof(Graveyard))]
+    [ParentWindow(typeof (Graveyard))]
     public sealed class EpitaphConfirm : InputForm<TombstoneInfo>
     {
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/19/2015@2:50 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     Asks the user if they would like to write a custom message on their Tombstone for other users to see when the
     ///     come across this part of the trail in the future.
     /// </summary>
-    [ParentWindow(typeof(Graveyard))]
+    [ParentWindow(typeof (Graveyard))]
     public sealed class EpitaphQuestion : InputForm<TombstoneInfo>
     {
         /// <summary>

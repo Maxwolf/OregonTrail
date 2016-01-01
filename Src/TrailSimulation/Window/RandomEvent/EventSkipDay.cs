@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/18/2015@11:53 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -12,7 +12,7 @@ namespace TrailSimulation
     ///     Skips over a set amount of time that an event would like to move past. The days will be ticked normally, and not
     ///     forced like a river crossing does so days won't go by while crossing a single river.
     /// </summary>
-    [ParentWindow(typeof(RandomEvent))]
+    [ParentWindow(typeof (RandomEvent))]
     public sealed class EventSkipDay : Form<RandomEventInfo>
     {
         /// <summary>

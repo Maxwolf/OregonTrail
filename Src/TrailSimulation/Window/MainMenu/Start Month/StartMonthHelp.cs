@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/07/2015@3:29 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -12,7 +12,7 @@ namespace TrailSimulation
     /// <summary>
     ///     Shows the player information about what the various starting months mean.
     /// </summary>
-    [ParentWindow(typeof(MainMenu))]
+    [ParentWindow(typeof (MainMenu))]
     public sealed class StartMonthHelp : InputForm<NewGameInfo>
     {
         /// <summary>Initializes a new instance of the <see cref="StartMonthHelp" /> class.</summary>

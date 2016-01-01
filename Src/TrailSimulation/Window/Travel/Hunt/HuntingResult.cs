@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/26/2015@7:11 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -14,7 +14,7 @@ namespace TrailSimulation
     ///     animals they killed, if any will be calculated in weight. Players can only ever take 100 pounds of meat back to
     ///     the vehicle so this discourages mass killing.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class HuntingResult : InputForm<TravelInfo>
     {
         /// <summary>

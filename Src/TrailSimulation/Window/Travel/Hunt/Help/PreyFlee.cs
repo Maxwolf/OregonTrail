@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/29/2015@9:55 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -12,7 +12,7 @@ namespace TrailSimulation
     ///     Called when the player was targeting a given animal but waited to long or took to long typing in the shooting word
     ///     and the prey ran away after sensing the players intent to shoot it.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class PreyFlee : InputForm<TravelInfo>
     {
         /// <summary>

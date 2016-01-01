@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/07/2015@3:29 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -14,7 +14,7 @@ namespace TrailSimulation
     ///     would indeed like to use all the entered names they have provided or had randomly generated for them by just
     ///     pressing enter.
     /// </summary>
-    [ParentWindow(typeof(MainMenu))]
+    [ParentWindow(typeof (MainMenu))]
     public sealed class ConfirmPlayerNames : InputForm<NewGameInfo>
     {
         /// <summary>

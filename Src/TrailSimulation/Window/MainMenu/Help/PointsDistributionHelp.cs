@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/07/2015@3:29 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -14,7 +14,7 @@ namespace TrailSimulation
     /// <summary>
     ///     First panel on point information, shows how health of party members contributes to final score.
     /// </summary>
-    [ParentWindow(typeof(MainMenu))]
+    [ParentWindow(typeof (MainMenu))]
     public sealed class PointsDistributionHelp : InputForm<NewGameInfo>
     {
         /// <summary>

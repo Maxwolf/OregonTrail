@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/07/2015@3:29 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -15,7 +15,7 @@ namespace TrailSimulation
     ///     Second panel on point information, shows how the number of resources you end the game with contribute to your final
     ///     score.
     /// </summary>
-    [ParentWindow(typeof(MainMenu))]
+    [ParentWindow(typeof (MainMenu))]
     public sealed class PointsAwardHelp : InputForm<NewGameInfo>
     {
         /// <summary>

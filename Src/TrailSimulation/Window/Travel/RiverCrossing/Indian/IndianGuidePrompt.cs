@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/21/2015@2:44 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -16,7 +16,7 @@ namespace TrailSimulation
     ///     you are actually at the river crossing. The amount of clothing he asks for will also change based on the amount of
     ///     animals killed while hunting.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class IndianGuidePrompt : InputForm<TravelInfo>
     {
         /// <summary>

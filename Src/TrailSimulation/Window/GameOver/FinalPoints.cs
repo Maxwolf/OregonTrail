@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/21/2015@11:24 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -16,7 +16,7 @@ namespace TrailSimulation
     ///     just attach this state to the travel mode and it will show the final score and reset the game and return to main
     ///     menu when the player is done.
     /// </summary>
-    [ParentWindow(typeof(GameOver))]
+    [ParentWindow(typeof (GameOver))]
     public sealed class FinalPoints : InputForm<GameOverInfo>
     {
         /// <summary>

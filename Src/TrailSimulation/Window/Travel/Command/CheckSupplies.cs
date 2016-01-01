@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/07/2015@2:30 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -16,7 +16,7 @@ namespace TrailSimulation
     ///     they have. This screen is not for looking at group stats, only items which are normally not shown unlike the travel
     ///     menu that shows basic party stats at all times.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class CheckSupplies : InputForm<TravelInfo>
     {
         /// <summary>

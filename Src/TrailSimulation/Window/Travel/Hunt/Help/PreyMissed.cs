@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/27/2015@8:50 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -11,7 +11,7 @@ namespace TrailSimulation
     /// <summary>
     ///     Called when the player fires a shot and it misses the intended target.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class PreyMissed : InputForm<TravelInfo>
     {
         /// <summary>

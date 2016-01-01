@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/26/2015@7:09 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     Prompt that proceeds the hunting mode when accessed from the travel menu. Explains to the player how the controls
     ///     work and what is expected of them in regards to how the game mode operates.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class HuntingPrompt : InputForm<TravelInfo>
     {
         /// <summary>

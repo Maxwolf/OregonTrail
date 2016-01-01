@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/25/2015@8:02 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -15,7 +15,7 @@ namespace TrailSimulation
     ///     This is not a huge list and players will eventually see the same advice if they keep coming back, only one piece of
     ///     advice should be shown and one day will advance in the simulation to prevent the player from just spamming it.
     /// </summary>
-    [ParentWindow(typeof(Travel))]
+    [ParentWindow(typeof (Travel))]
     public sealed class TalkToPeople : InputForm<TravelInfo>
     {
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/21/2015@11:31 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -12,6 +12,14 @@ namespace TrailSimulation
     /// </summary>
     public sealed class GameOver : Window<GameOverCommands, GameOverInfo>
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.
+        /// </summary>
+        /// <param name="simUnit">Core simulation which is controlling the form factory.</param>
+        public GameOver(SimulationApp simUnit) : base(simUnit)
+        {
+        }
+
         /// <summary>
         ///     Called after the window has been added to list of modes and made active.
         /// </summary>
@@ -35,14 +43,6 @@ namespace TrailSimulation
 
             // Nothing took above we are going to detach this window.
             RemoveWindowNextTick();
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.
-        /// </summary>
-        /// <param name="simUnit">Core simulation which is controlling the form factory.</param>
-        public GameOver(SimulationApp simUnit) : base(simUnit)
-        {
         }
     }
 }

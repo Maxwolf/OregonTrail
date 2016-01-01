@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@1:11 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     Called by the event system when one of the events damages the vehicle in a permanent way that requires the player
     ///     to repair or replace the broken part which has been selected prior to this.
     /// </summary>
-    [ParentWindow(typeof(RandomEvent))]
+    [ParentWindow(typeof (RandomEvent))]
     public sealed class EventVehicleBroken : InputForm<RandomEventInfo>
     {
         /// <summary>

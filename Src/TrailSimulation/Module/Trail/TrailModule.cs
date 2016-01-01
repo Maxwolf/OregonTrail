@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 11/14/2015@3:41 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -175,7 +175,7 @@ namespace TrailSimulation
             CurrentLocation.Status = LocationStatus.Arrived;
 
             // Check for end of game if we are at the end of the trail.
-            GameSimulationApp.Instance.WindowManager.Add(typeof(Travel));
+            GameSimulationApp.Instance.WindowManager.Add(typeof (Travel));
         }
 
         /// <summary>Forcefully inserts skip location into location list after current location.</summary>
