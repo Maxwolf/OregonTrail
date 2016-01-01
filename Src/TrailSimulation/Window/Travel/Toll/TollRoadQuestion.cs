@@ -16,7 +16,7 @@ namespace TrailSimulation
     ///     they would like to proceed, if YES then they will have the monies subtracted from their vehicle inventory and
     ///     proceed to toll road location.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class TollRoadQuestion : InputForm<TravelInfo>
     {
         /// <summary>

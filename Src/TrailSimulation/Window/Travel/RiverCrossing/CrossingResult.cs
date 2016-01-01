@@ -15,7 +15,7 @@ namespace TrailSimulation
     ///     went. It is possible to get stuck in the mud, however most of the messages are safe and just let the user know they
     ///     finally made it across.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class CrossingResult : InputForm<TravelInfo>
     {
         /// <summary>

@@ -12,7 +12,7 @@ namespace TrailSimulation
     ///     epitaph, process that decision, confirm it, and finally show the viewer that will also show the reason why the
     ///     player died using description attribute from an enumeration value that determines how they died.
     /// </summary>
-    [ParentWindow(GameWindow.GameOver)]
+    [ParentWindow(typeof(GameOver))]
     public sealed class GameFail : Form<GameOverInfo>
     {
         /// <summary>
@@ -52,7 +52,7 @@ namespace TrailSimulation
         public override string OnRenderForm()
         {
             // Jump right to tombstone game window, it will reset the game.
-            GameSimulationApp.Instance.WindowManager.Add(GameWindow.Graveyard);
+            GameSimulationApp.Instance.WindowManager.Add(typeof(Graveyard));
             return string.Empty;
         }
 

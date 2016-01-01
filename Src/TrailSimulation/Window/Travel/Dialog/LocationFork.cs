@@ -15,7 +15,7 @@ namespace TrailSimulation
     ///     linear choice and depends on the player telling the simulation which way to fork down the path. The decisions are
     ///     pear shaped in the sense any fork will eventually lead back to the same path.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class LocationFork : Form<TravelInfo>
     {
         /// <summary>

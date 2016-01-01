@@ -12,7 +12,7 @@ namespace TrailSimulation
     /// <summary>
     ///     Shows basic information about how the game works, how traveling works, rules for winning and losing.
     /// </summary>
-    [ParentWindow(GameWindow.MainMenu)]
+    [ParentWindow(typeof(MainMenu))]
     public sealed class RulesHelp : InputForm<NewGameInfo>
     {
         /// <summary>

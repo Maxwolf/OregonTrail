@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/07/2015@4:26 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -11,10 +11,9 @@ namespace TrailSimulation
 
     /// <summary>
     ///     Erases all the saved JSON Tombstone epitaphs on the disk so other players will not encounter them, new ones can
-    ///     be
-    ///     created then.
+    ///     be created then.
     /// </summary>
-    [ParentWindow(GameWindow.MainMenu)]
+    [ParentWindow(typeof (MainMenu))]
     public sealed class EraseTombstone : InputForm<NewGameInfo>
     {
         /// <summary>

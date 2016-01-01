@@ -15,7 +15,7 @@ namespace TrailSimulation
     ///     Handles the interaction of the player party and another AI controlled party that offers up items for trading which
     ///     the player can choose to accept or not.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class Trading : InputForm<TravelInfo>
     {
         /// <summary>
@@ -257,7 +257,6 @@ namespace TrailSimulation
 
                     // Return to the travel menu.
                     ClearForm();
-
                     return;
                 }
                 case DialogResponse.Custom:

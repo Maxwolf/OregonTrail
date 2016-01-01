@@ -12,7 +12,7 @@ namespace TrailSimulation
     /// <summary>
     ///     The caulk river help.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class CaulkRiverHelp : InputForm<TravelInfo>
     {
         /// <summary>

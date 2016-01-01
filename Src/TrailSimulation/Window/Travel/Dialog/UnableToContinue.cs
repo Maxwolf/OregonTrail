@@ -15,7 +15,7 @@ namespace TrailSimulation
     ///     user shown the travel menu where they can wait, trade, if they try to continue again and problem is not fixed this
     ///     form will be shown again.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class UnableToContinue : InputForm<TravelInfo>
     {
         /// <summary>

@@ -6,20 +6,12 @@ namespace TrailSimulation
     using SimUnit;
 
     /// <summary>
-    ///     Represents all of the needed forms and dialogs to end the game and restart it without any problems. This window
-    ///     will be able to deal with both the win and fail state and route to the correct system depending on ending.
+    ///     Controls the process of ending the current game simulation depending on if the player won or lost. This window can
+    ///     be attached at any point by any other window, or form in order to facilitate the game being able to trigger a game
+    ///     over scenario no matter what is happening.
     /// </summary>
     public sealed class GameOver : Window<GameOverCommands, GameOverInfo>
     {
-        /// <summary>
-        ///     Defines the current game Windows the inheriting class is going to take responsibility for when attached to the
-        ///     simulation.
-        /// </summary>
-        public override GameWindow WindowCategory
-        {
-            get { return GameWindow.GameOver; }
-        }
-
         /// <summary>
         ///     Called after the window has been added to list of modes and made active.
         /// </summary>
@@ -43,6 +35,14 @@ namespace TrailSimulation
 
             // Nothing took above we are going to detach this window.
             RemoveWindowNextTick();
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.
+        /// </summary>
+        /// <param name="simUnit">Core simulation which is controlling the form factory.</param>
+        public GameOver(SimulationApp simUnit) : base(simUnit)
+        {
         }
     }
 }

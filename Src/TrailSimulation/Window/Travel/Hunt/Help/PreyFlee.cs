@@ -12,7 +12,7 @@ namespace TrailSimulation
     ///     Called when the player was targeting a given animal but waited to long or took to long typing in the shooting word
     ///     and the prey ran away after sensing the players intent to shoot it.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class PreyFlee : InputForm<TravelInfo>
     {
         /// <summary>

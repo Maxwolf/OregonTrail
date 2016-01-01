@@ -23,7 +23,7 @@ namespace TrailSimulation
             EventReference = new Dictionary<EventKey, Type>();
 
             // Collect all of the event types with the attribute decorated on them.
-            var randomEvents = AttributeHelper.GetTypesWith<DirectorEventAttribute>(true);
+            var randomEvents = AttributeExtensions.GetTypesWith<DirectorEventAttribute>(true);
             foreach (var eventObject in randomEvents)
             {
                 // Check if the class is abstract base class, we don't want to add that.

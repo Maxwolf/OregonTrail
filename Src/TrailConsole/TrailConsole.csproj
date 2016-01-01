@@ -40,6 +40,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\SimUnit\Src\SimUnit\SimUnit.csproj">
+      <Project>{dad43fa9-4823-4c23-a9b0-edb0fa036db4}</Project>
+      <Name>SimUnit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TrailSimulation\TrailSimulation.csproj">
       <Project>{8DFA19AE-2E70-4DCA-A734-DD2CBE3E21ED}</Project>
       <Name>TrailSimulation</Name>

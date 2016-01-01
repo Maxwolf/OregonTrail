@@ -94,7 +94,7 @@ namespace TrailSimulation
         private void ExecuteEvent(IEntity sourceEntity, EventProduct directorEvent)
         {
             // Attach random event game Windows before triggering event since it will listen for it using event delegate.
-            GameSimulationApp.Instance.WindowManager.Add(GameWindow.RandomEvent);
+            GameSimulationApp.Instance.WindowManager.Add(typeof(RandomEvent));
 
             // Fire off event so primary game simulation knows we executed an event with an event.
             OnEventTriggered?.Invoke(sourceEntity, directorEvent);

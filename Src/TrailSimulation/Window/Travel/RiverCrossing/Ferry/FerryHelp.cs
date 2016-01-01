@@ -12,7 +12,7 @@ namespace TrailSimulation
     /// <summary>
     ///     The ferry help.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class FerryHelp : InputForm<TravelInfo>
     {
         /// <summary>

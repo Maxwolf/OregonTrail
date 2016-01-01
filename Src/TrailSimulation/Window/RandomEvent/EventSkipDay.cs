@@ -12,7 +12,7 @@ namespace TrailSimulation
     ///     Skips over a set amount of time that an event would like to move past. The days will be ticked normally, and not
     ///     forced like a river crossing does so days won't go by while crossing a single river.
     /// </summary>
-    [ParentWindow(GameWindow.RandomEvent)]
+    [ParentWindow(typeof(RandomEvent))]
     public sealed class EventSkipDay : Form<RandomEventInfo>
     {
         /// <summary>
@@ -80,7 +80,7 @@ namespace TrailSimulation
             // Only show the press enter when they can actually leave.
             if (UserData.DaysToSkip <= 0)
             {
-                _skipMessage.AppendLine($"{Environment.NewLine}{InputManager.PRESS_ENTER}{Environment.NewLine}");
+                _skipMessage.AppendLine($"{Environment.NewLine}{InputManager.PRESSENTER}{Environment.NewLine}");
             }
         }
 

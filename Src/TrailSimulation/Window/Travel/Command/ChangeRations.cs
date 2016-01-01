@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     of which is to limit the amount they take in to slow the loss of food per pound. This has many affects on the
     ///     simulation such as disease, chance for breaking body parts, and or complete death from starvation.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class ChangeRations : Form<TravelInfo>
     {
         /// <summary>

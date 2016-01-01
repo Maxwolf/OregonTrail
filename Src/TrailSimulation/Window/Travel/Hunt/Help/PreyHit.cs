@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     Called when the player successfully hits an animal with the bullet and the animal was added to growing list of
     ///     animals they have killed this hunting session.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class PreyHit : InputForm<TravelInfo>
     {
         /// <summary>

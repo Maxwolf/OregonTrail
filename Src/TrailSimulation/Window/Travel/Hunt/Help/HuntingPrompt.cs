@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     Prompt that proceeds the hunting mode when accessed from the travel menu. Explains to the player how the controls
     ///     work and what is expected of them in regards to how the game mode operates.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class HuntingPrompt : InputForm<TravelInfo>
     {
         /// <summary>

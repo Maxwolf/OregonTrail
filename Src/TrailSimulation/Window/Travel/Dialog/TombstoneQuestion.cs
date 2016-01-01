@@ -12,7 +12,7 @@ namespace TrailSimulation
     /// <summary>
     ///     Asks the player if they would like to stop and check out a tombstone that is on this particular mile marker.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class TombstoneQuestion : InputForm<TravelInfo>
     {
         /// <summary>
@@ -62,17 +62,11 @@ namespace TrailSimulation
             switch (reponse)
             {
                 case DialogResponse.No:
-
-
-// Resumes our trajectory on the trail.
                     SetForm(typeof (ContinueOnTrail));
                     break;
                 case DialogResponse.Yes:
                 case DialogResponse.Custom:
-
-
-// Show the tombstone to the player.
-                    GameSimulationApp.Instance.WindowManager.Add(GameWindow.Graveyard);
+                    GameSimulationApp.Instance.WindowManager.Add(typeof(Graveyard));
 
                     // Goes back to continue on trail form below us.
                     ClearForm();

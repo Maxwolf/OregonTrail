@@ -12,7 +12,7 @@ namespace TrailSimulation
     ///     response and will not do anything. If greater than zero we will attach another state to tick that many days by in
     ///     the simulation.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class RestAmount : Form<TravelInfo>
     {
         /// <summary>

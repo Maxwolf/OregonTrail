@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     Confirm the player wishes to the destroy the current top ten list and reset it back to the hard-coded default
     ///     values.
     /// </summary>
-    [ParentWindow(GameWindow.MainMenu)]
+    [ParentWindow(typeof(MainMenu))]
     public sealed class EraseCurrentTopTen : InputForm<NewGameInfo>
     {
         /// <summary>

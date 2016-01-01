@@ -15,7 +15,7 @@ namespace TrailSimulation
     ///     Second panel on point information, shows how the number of resources you end the game with contribute to your final
     ///     score.
     /// </summary>
-    [ParentWindow(GameWindow.MainMenu)]
+    [ParentWindow(typeof(MainMenu))]
     public sealed class PointsAwardHelp : InputForm<NewGameInfo>
     {
         /// <summary>

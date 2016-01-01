@@ -14,7 +14,7 @@ namespace TrailSimulation
     ///     set amount of clothing. This form we will actually process that transaction and then let the Indian take the player
     ///     across the river like he promised.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class UseIndianConfirm : InputForm<TravelInfo>
     {
         /// <summary>

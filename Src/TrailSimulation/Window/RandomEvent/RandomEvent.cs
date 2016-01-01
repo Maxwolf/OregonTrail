@@ -1,23 +1,22 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 11/14/2015@3:51 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
     using SimUnit;
 
     /// <summary>
-    ///     Attached by the event director when it wants to execute an event against the simulation. It will attach this
-    ///     Windows, which then hooks the event delegate it will trigger right after this class finishes initializing.
+    ///     Random event window is attached by the event director which then listens for the event it will throw at it over
+    ///     event delegate the random event window will subscribe to.
     /// </summary>
     public sealed class RandomEvent : Window<RandomEventCommands, RandomEventInfo>
     {
         /// <summary>
-        ///     Defines the current game Windows the inheriting class is going to take responsibility for when attached to the
-        ///     simulation.
+        ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.
         /// </summary>
-        public override GameWindow WindowCategory
+        /// <param name="simUnit">Core simulation which is controlling the form factory.</param>
+        public RandomEvent(SimulationApp simUnit) : base(simUnit)
         {
-            get { return GameWindow.RandomEvent; }
         }
 
         /// <summary>

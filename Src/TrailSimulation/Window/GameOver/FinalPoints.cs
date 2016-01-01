@@ -16,7 +16,7 @@ namespace TrailSimulation
     ///     just attach this state to the travel mode and it will show the final score and reset the game and return to main
     ///     menu when the player is done.
     /// </summary>
-    [ParentWindow(GameWindow.GameOver)]
+    [ParentWindow(typeof(GameOver))]
     public sealed class FinalPoints : InputForm<GameOverInfo>
     {
         /// <summary>

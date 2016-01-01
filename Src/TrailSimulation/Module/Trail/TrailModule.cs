@@ -175,7 +175,7 @@ namespace TrailSimulation
             CurrentLocation.Status = LocationStatus.Arrived;
 
             // Check for end of game if we are at the end of the trail.
-            GameSimulationApp.Instance.WindowManager.Add(GameWindow.Travel);
+            GameSimulationApp.Instance.WindowManager.Add(typeof(Travel));
         }
 
         /// <summary>Forcefully inserts skip location into location list after current location.</summary>

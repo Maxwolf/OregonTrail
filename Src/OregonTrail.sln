@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailSimulation", "TrailSim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrailConsole", "TrailConsole\TrailConsole.csproj", "{DD3975F5-C52D-4F39-AE21-D9F5148F9D65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimUnit", "..\..\SimUnit\Src\SimUnit\SimUnit.csproj", "{DAD43FA9-4823-4C23-A9B0-EDB0FA036DB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DD3975F5-C52D-4F39-AE21-D9F5148F9D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD3975F5-C52D-4F39-AE21-D9F5148F9D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD3975F5-C52D-4F39-AE21-D9F5148F9D65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAD43FA9-4823-4C23-A9B0-EDB0FA036DB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAD43FA9-4823-4C23-A9B0-EDB0FA036DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAD43FA9-4823-4C23-A9B0-EDB0FA036DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAD43FA9-4823-4C23-A9B0-EDB0FA036DB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

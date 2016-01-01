@@ -6,13 +6,14 @@ namespace TrailSimulation
     using System;
     using System.Text;
     using SimUnit;
+    using SimUnit.Control;
     using SimUnit.Form;
 
     /// <summary>
     ///     Runs the player over the river based on the crossing information. Depending on what happens a message will be
     ///     printed to the screen explaining what happened before defaulting back to travel game Windows.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class CrossingTick : Form<TravelInfo>
     {
         /// <summary>
@@ -155,7 +156,7 @@ namespace TrailSimulation
 
             // Wait for user input...
             if (_finishedCrossingRiver)
-                _crossingPrompt.AppendLine(InputManager.PRESS_ENTER);
+                _crossingPrompt.AppendLine(InputManager.PRESSENTER);
 
             return _crossingPrompt.ToString();
         }

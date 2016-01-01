@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 11/14/2015@3:50 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -8,9 +8,7 @@ namespace TrailSimulation
     using SimUnit;
 
     /// <summary>
-    ///     Allows the user to completely configure the simulation before they start off on the trail path. It will offer up
-    ///     ability to choose names, professions, buy initial items, and starting month. The final thing it offers is ability
-    ///     to change any of these values before actually starting the game as a final confirmation.
+    ///     Allows the configuration of party names, player profession, and purchasing initial items for trip.
     /// </summary>
     public sealed class MainMenu : Window<MainMenuCommands, NewGameInfo>
     {
@@ -26,12 +24,11 @@ namespace TrailSimulation
             $"What are the first names of the{Environment.NewLine}three other members in your party?";
 
         /// <summary>
-        ///     Defines the current game Windows the inheriting class is going to take responsibility for when attached to the
-        ///     simulation.
+        ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.
         /// </summary>
-        public override GameWindow WindowCategory
+        /// <param name="simUnit">Core simulation which is controlling the form factory.</param>
+        public MainMenu(SimulationApp simUnit) : base(simUnit)
         {
-            get { return GameWindow.MainMenu; }
         }
 
         /// <summary>

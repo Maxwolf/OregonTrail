@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     loading the game mode just so nothing can happen until it times out. Rather than letting the player suffer from
     ///     that mistake we will just tell them they don't have enough.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class NoAmmo : InputForm<TravelInfo>
     {
         /// <summary>

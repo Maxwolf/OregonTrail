@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 11/14/2015@3:51 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
@@ -8,18 +8,16 @@ namespace TrailSimulation
     using SimUnit;
 
     /// <summary>
-    ///     Primary game Windows of the simulation, used to show simulation advancing through linear time. Shows all major
-    ///     stats of party and vehicle, plus climate and other things like distance traveled and distance to next point.
+    ///     Primary game Windows used for advancing simulation down the trail.
     /// </summary>
     public sealed class Travel : Window<TravelCommands, TravelInfo>
     {
         /// <summary>
-        ///     Defines the current game Windows the inheriting class is going to take responsibility for when attached to the
-        ///     simulation.
+        ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.
         /// </summary>
-        public override GameWindow WindowCategory
+        /// <param name="simUnit">Core simulation which is controlling the form factory.</param>
+        public Travel(SimulationApp simUnit) : base(simUnit)
         {
-            get { return GameWindow.Travel; }
         }
 
         /// <summary>
@@ -267,7 +265,7 @@ namespace TrailSimulation
             if (game.Trail.CurrentLocation.LastLocation || game.Vehicle.PassengersDead)
             {
                 GameOver = true;
-                game.WindowManager.Add(GameWindow.GameOver);
+                game.WindowManager.Add(typeof (GameOver));
                 return;
             }
 

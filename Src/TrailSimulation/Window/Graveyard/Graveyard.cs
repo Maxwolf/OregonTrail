@@ -1,23 +1,22 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/19/2015@2:50 AM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
     using SimUnit;
 
     /// <summary>
-    ///     Base tombstone interaction window, this is used to edit and confirm epitaphs for tombstones. Spawns forms that deal
-    ///     with showing and editing tombstone object data.
+    ///     Displays the name of a previous player whom traveled the trail and died at a given mile marker. There is also an
+    ///     optional epitaph that can be displayed. These tombstones are saved per trail, and can be reset from main menu.
     /// </summary>
     public sealed class Graveyard : Window<TombstoneCommands, TombstoneInfo>
     {
         /// <summary>
-        ///     Defines the current game Windows the inheriting class is going to take responsibility for when attached to the
-        ///     simulation.
+        ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.
         /// </summary>
-        public override GameWindow WindowCategory
+        /// <param name="simUnit">Core simulation which is controlling the form factory.</param>
+        public Graveyard(SimulationApp simUnit) : base(simUnit)
         {
-            get { return GameWindow.Graveyard; }
         }
 
         /// <summary>

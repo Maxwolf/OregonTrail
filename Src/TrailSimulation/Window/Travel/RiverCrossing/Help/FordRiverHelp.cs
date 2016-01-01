@@ -12,7 +12,7 @@ namespace TrailSimulation
     /// <summary>
     ///     Information about what fording a river means and how it works for the player vehicle and their party members.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class FordRiverHelp : InputForm<TravelInfo>
     {
         /// <summary>

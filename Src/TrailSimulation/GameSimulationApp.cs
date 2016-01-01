@@ -1,9 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 11/23/2015@4:34 PM
+// Timestamp 12/31/2015@4:38 AM
 
 namespace TrailSimulation
 {
     using System;
+    using System.Collections.Generic;
+    using System.Text;
     using SimUnit;
 
     /// <summary>
@@ -62,6 +64,26 @@ namespace TrailSimulation
         ///     this trail so other players can encounter them in the future.
         /// </summary>
         public TombstoneModule Tombstone { get; private set; }
+
+        /// <summary>
+        ///     Determines what windows the simulation will be capable of using and creating using the window managers factory.
+        /// </summary>
+        public override IEnumerable<Type> AllowedWindows
+        {
+            get
+            {
+                var windowList = new List<Type>
+                {
+                    typeof (Travel),
+                    typeof (MainMenu),
+                    typeof (RandomEvent),
+                    typeof (Graveyard),
+                    typeof (GameOver)
+                };
+
+                return windowList;
+            }
+        }
 
         /// <summary>
         ///     Advances the linear progression of time in the simulation, attempting to move the vehicle forward if it has the
@@ -133,7 +155,7 @@ namespace TrailSimulation
         /// <summary>
         ///     Called when simulation is about to destroy itself, but right before it actually does it.
         /// </summary>
-        protected override void OnBeforeDestroy()
+        protected override void OnPreDestroy()
         {
             // Notify modules of impending doom allowing them to save data.
             Scoring.Destroy();
@@ -156,6 +178,21 @@ namespace TrailSimulation
         }
 
         /// <summary>
+        ///     Called by the text user interface scene graph renderer before it asks the active window to render itself out for
+        ///     display.
+        /// </summary>
+        public override string OnPreRender()
+        {
+            // Total number of turns that have passed in the simulation.
+            var tui = new StringBuilder();
+            tui.AppendLine($"Turns: {TotalTurns.ToString("D4")}");
+
+            // Vehicle and location status.
+            tui.AppendLine($"Vehicle: {Vehicle?.Status} - Location:{Trail?.CurrentLocation?.Status}");
+            return tui.ToString();
+        }
+
+        /// <summary>
         ///     Fired when the simulation is loaded and makes it very first tick using the internal timer mechanism keeping track
         ///     of ticks to keep track of seconds.
         /// </summary>
@@ -168,7 +205,7 @@ namespace TrailSimulation
         ///     Creates and or clears data sets required for game simulation and attaches the travel menu and the main menu to make
         ///     the program completely restarted as if fresh.
         /// </summary>
-        public void Restart()
+        public override void Restart()
         {
             // Reset turn counter back to zero.
             TotalTurns = 0;
@@ -181,14 +218,14 @@ namespace TrailSimulation
             Trail = new TrailModule();
             Vehicle = new Vehicle();
 
-            // Resets the window manager and clears out all windows and forms from previous session.
-            WindowManager.Clear();
+            // Resets the window manager in the base simulation.
+            base.Restart();
 
             // Attach traveling Windows since that is the default and bottom most game Windows.
-            WindowManager.Add(GameWindow.Travel);
+            WindowManager.Add(typeof (Travel));
 
             // Add the new game configuration screen that asks for names, profession, and lets user buy initial items.
-            WindowManager.Add(GameWindow.MainMenu);
+            WindowManager.Add(typeof (MainMenu));
         }
     }
 }

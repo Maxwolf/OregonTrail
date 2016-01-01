@@ -14,7 +14,7 @@ namespace TrailSimulation
     ///     would indeed like to use all the entered names they have provided or had randomly generated for them by just
     ///     pressing enter.
     /// </summary>
-    [ParentWindow(GameWindow.MainMenu)]
+    [ParentWindow(typeof(MainMenu))]
     public sealed class ConfirmPlayerNames : InputForm<NewGameInfo>
     {
         /// <summary>
@@ -90,9 +90,6 @@ namespace TrailSimulation
                     RestartNameInput();
                     break;
                 case DialogResponse.Yes:
-
-
-// Move along to confirming profession for party leader if user is happy with names.
                     UserData.PlayerNameIndex = 0;
                     SetForm(typeof (SelectStartingMonthState));
                     break;

@@ -15,7 +15,7 @@ namespace TrailSimulation
     ///     in
     ///     order to start the simulation.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class RequiredItem : InputForm<TravelInfo>
     {
         /// <summary>

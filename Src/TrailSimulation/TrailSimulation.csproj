@@ -41,7 +41,6 @@
     <Compile Include="Event\Vehicle\NoSparePart.cs" />
     <Compile Include="Event\Vehicle\RepairVehiclePart.cs" />
     <Compile Include="Event\Vehicle\UseSparePart.cs" />
-    <Compile Include="GameWindow.cs" />
     <Compile Include="Window\RandomEvent\EventVehicleBroken.cs" />
     <Compile Include="Window\Travel\Dialog\VehicleBroken.cs" />
     <Compile Include="Window\Travel\Hunt\Help\PreyFlee.cs" />
@@ -232,6 +231,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entity\Vehicle\Vehicle.cs" />
     <Compile Include="Window\MainMenu\MainMenu.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\SimUnit\Src\SimUnit\SimUnit.csproj">
+      <Project>{dad43fa9-4823-4c23-a9b0-edb0fa036db4}</Project>
+      <Name>SimUnit</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

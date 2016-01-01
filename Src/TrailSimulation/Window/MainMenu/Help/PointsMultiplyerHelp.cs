@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     Third and final panel on point information, explains how players profession selection affects final scoring as a
     ///     multiplier since starting as a banker is a handicap.
     /// </summary>
-    [ParentWindow(GameWindow.MainMenu)]
+    [ParentWindow(typeof(MainMenu))]
     public sealed class PointsMultiplyerHelp : InputForm<NewGameInfo>
     {
         /// <summary>

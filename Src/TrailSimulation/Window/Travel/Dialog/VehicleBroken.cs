@@ -14,7 +14,7 @@ namespace TrailSimulation
     ///     become damaged or malfunctioned meaning the vehicle cannot continue down the trail until they are repaired or
     ///     replaced.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class VehicleBroken : InputForm<TravelInfo>
     {
         /// <summary>

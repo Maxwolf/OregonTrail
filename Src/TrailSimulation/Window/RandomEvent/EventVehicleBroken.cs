@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     Called by the event system when one of the events damages the vehicle in a permanent way that requires the player
     ///     to repair or replace the broken part which has been selected prior to this.
     /// </summary>
-    [ParentWindow(GameWindow.RandomEvent)]
+    [ParentWindow(typeof(RandomEvent))]
     public sealed class EventVehicleBroken : InputForm<RandomEventInfo>
     {
         /// <summary>

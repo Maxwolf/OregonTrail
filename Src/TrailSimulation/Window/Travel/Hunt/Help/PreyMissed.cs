@@ -11,7 +11,7 @@ namespace TrailSimulation
     /// <summary>
     ///     Called when the player fires a shot and it misses the intended target.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class PreyMissed : InputForm<TravelInfo>
     {
         /// <summary>

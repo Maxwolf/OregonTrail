@@ -14,7 +14,7 @@ namespace TrailSimulation
     ///     we
     ///     can move from here to next state.
     /// </summary>
-    [ParentWindow(GameWindow.MainMenu)]
+    [ParentWindow(typeof(MainMenu))]
     public sealed class InitialItemsHelp : InputForm<NewGameInfo>
     {
         /// <summary>

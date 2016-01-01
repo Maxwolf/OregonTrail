@@ -14,7 +14,7 @@ namespace TrailSimulation
     ///     Offers the player the ability to change the starting month of the simulation, this affects how many resources will
     ///     be available to them and the severity of the random events they encounter along the trail.
     /// </summary>
-    [ParentWindow(GameWindow.MainMenu)]
+    [ParentWindow(typeof(MainMenu))]
     public sealed class SelectStartingMonthState : Form<NewGameInfo>
     {
         /// <summary>

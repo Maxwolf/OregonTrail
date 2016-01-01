@@ -14,7 +14,7 @@ namespace TrailSimulation
     ///     animals they killed, if any will be calculated in weight. Players can only ever take 100 pounds of meat back to
     ///     the vehicle so this discourages mass killing.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class HuntingResult : InputForm<TravelInfo>
     {
         /// <summary>

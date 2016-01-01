@@ -6,6 +6,7 @@ namespace TrailSimulation
     using System;
     using System.Text;
     using SimUnit;
+    using SimUnit.Control;
     using SimUnit.Form;
 
     /// <summary>
@@ -13,7 +14,7 @@ namespace TrailSimulation
     ///     bar moving back and fourth which lets the player know they are moving. Stats are also shown from the travel info
     ///     object, if any random events occur they will be selected from this state.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class ContinueOnTrail : Form<TravelInfo>
     {
         /// <summary>

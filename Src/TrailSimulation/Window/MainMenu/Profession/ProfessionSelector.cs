@@ -15,7 +15,7 @@ namespace TrailSimulation
     ///     starting amount of money their party has access to when purchasing starting items for the journey on the trail path
     ///     simulation.
     /// </summary>
-    [ParentWindow(GameWindow.MainMenu)]
+    [ParentWindow(typeof(MainMenu))]
     public sealed class ProfessionSelector : Form<NewGameInfo>
     {
         /// <summary>

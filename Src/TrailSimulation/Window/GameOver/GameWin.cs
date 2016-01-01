@@ -12,7 +12,7 @@ namespace TrailSimulation
     /// <summary>
     ///     Attached when the party leader dies, or the vehicle reaches the end of the trail.
     /// </summary>
-    [ParentWindow(GameWindow.GameOver)]
+    [ParentWindow(typeof(GameOver))]
     public sealed class GameWin : InputForm<GameOverInfo>
     {
         /// <summary>

@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     a chance to confirm their selection in another state, reset if they don't like it, and also generate a random user
     ///     name if they just press enter at the prompt for a name.
     /// </summary>
-    [ParentWindow(GameWindow.MainMenu)]
+    [ParentWindow(typeof(MainMenu))]
     public sealed class InputPlayerNames : Form<NewGameInfo>
     {
         /// <summary>

@@ -15,7 +15,7 @@ namespace TrailSimulation
     ///     trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how
     ///     bad it is.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class RiverCross : Form<TravelInfo>
     {
         /// <summary>

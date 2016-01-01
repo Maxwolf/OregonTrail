@@ -13,7 +13,7 @@ namespace TrailSimulation
     ///     Confirms with the user if there is any changes they would like to make to their Tombstone before it gets saved
     ///     for other travelers on this section of the trail to see.
     /// </summary>
-    [ParentWindow(GameWindow.Graveyard)]
+    [ParentWindow(typeof(Graveyard))]
     public sealed class EpitaphConfirm : InputForm<TombstoneInfo>
     {
         /// <summary>
@@ -72,16 +72,10 @@ namespace TrailSimulation
             {
                 case DialogResponse.Custom:
                 case DialogResponse.No:
-
-
-// Add the tombstone instance to manager for future players.
                     GameSimulationApp.Instance.Tombstone.Add(UserData.Tombstone.Clone() as Tombstone);
                     SetForm(typeof (TombstoneView));
                     break;
                 case DialogResponse.Yes:
-
-
-// Clears whatever was entered for epitaph before and restarts the entry process for that.
                     UserData.Tombstone.Epitaph = string.Empty;
                     SetForm(typeof (EpitaphEditor));
                     break;

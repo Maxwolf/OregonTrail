@@ -12,7 +12,7 @@ namespace TrailSimulation
     ///     Offers up some free information about what items are important to the player and what they mean for the during the
     ///     course of the simulation.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class StoreWelcome : Form<TravelInfo>
     {
         /// <summary>
@@ -96,7 +96,7 @@ namespace TrailSimulation
             }
 
             // Wait for user input...
-            _storeHelp.Append(InputManager.PRESS_ENTER);
+            _storeHelp.Append(InputManager.PRESSENTER);
         }
 
         /// <summary>

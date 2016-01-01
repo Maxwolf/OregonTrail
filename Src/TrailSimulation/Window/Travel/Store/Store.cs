@@ -13,7 +13,7 @@ namespace TrailSimulation
     /// <summary>
     ///     Manages a general store where the player can buy food, clothes, bullets, and parts for their vehicle.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class Store : Form<TravelInfo>
     {
         /// <summary>

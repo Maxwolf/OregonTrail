@@ -16,7 +16,7 @@ namespace TrailSimulation
     ///     you are actually at the river crossing. The amount of clothing he asks for will also change based on the amount of
     ///     animals killed while hunting.
     /// </summary>
-    [ParentWindow(GameWindow.Travel)]
+    [ParentWindow(typeof(Travel))]
     public sealed class IndianGuidePrompt : InputForm<TravelInfo>
     {
         /// <summary>

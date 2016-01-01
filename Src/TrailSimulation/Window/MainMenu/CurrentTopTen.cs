@@ -14,7 +14,7 @@ namespace TrailSimulation
     ///     References the top ten players in regards to final score they earned at the end of the game, this list is by
     ///     default hard-coded by players have the chance to save their own scores to the list if they beat the default values.
     /// </summary>
-    [ParentWindow(GameWindow.MainMenu)]
+    [ParentWindow(typeof(MainMenu))]
     public sealed class CurrentTopTen : InputForm<NewGameInfo>
     {
         /// <summary>
@@ -74,9 +74,6 @@ namespace TrailSimulation
                     ClearForm();
                     break;
                 case DialogResponse.Yes:
-
-
-// Show the user information about point distribution.
                     SetForm(typeof (PointsDistributionHelp));
                     break;
                 case DialogResponse.Custom:
