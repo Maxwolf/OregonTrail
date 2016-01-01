@@ -1,0 +1,3 @@
+[submodule "WolfCurses"]
+	path = WolfCurses
+	url = https://github.com/Maxwolf/WolfCurses.git
