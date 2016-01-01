@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.RiverCrossing
 {
@@ -9,6 +9,11 @@ namespace TrailSimulation.Window.Travel.RiverCrossing
     using Entity.Vehicle;
     using Event;
     using Event.River;
+    using WolfCurses.Core;
+    using WolfCurses.Utility;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Control;
+    using WolfCurses.Window.Form;
 
     /// <summary>
     ///     Runs the player over the river based on the crossing information. Depending on what happens a message will be

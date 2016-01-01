@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.MainMenu.Start_Month
 {
@@ -9,6 +9,8 @@ namespace TrailSimulation.Window.MainMenu.Start_Month
     using System.Text;
     using Help;
     using Module.Time;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
 
     /// <summary>
     ///     Offers the player the ability to change the starting month of the simulation, this affects how many resources will

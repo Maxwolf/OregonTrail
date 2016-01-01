@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 11/14/2015@3:12 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Entity.Vehicle
 {
@@ -10,6 +10,7 @@ namespace TrailSimulation.Entity.Vehicle
     using Event;
     using Item;
     using Person;
+    using WolfCurses.Utility;
 
     /// <summary>
     ///     Vessel that holds all the players, their inventory, money, and keeps track of total miles traveled in the form of

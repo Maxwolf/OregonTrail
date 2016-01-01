@@ -1,11 +1,14 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Graveyard
 {
     using System;
     using System.Text;
     using Module.Tombstone;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
+    using WolfCurses.Window.Form.Input;
 
     /// <summary>
     ///     Form that is used to show data about a tombstone. It will look for a tombstone at the current vehicle odometer, if

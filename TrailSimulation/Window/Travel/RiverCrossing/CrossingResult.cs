@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.RiverCrossing
 {
@@ -7,6 +7,9 @@ namespace TrailSimulation.Window.Travel.RiverCrossing
     using System.Text;
     using Dialog;
     using Event.Vehicle;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
+    using WolfCurses.Window.Form.Input;
 
     /// <summary>
     ///     Displays the final crossing result for the river crossing location. No matter what choice the player made, what

@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.GameOver
 {
@@ -10,6 +10,11 @@ namespace TrailSimulation.Window.GameOver
     using Entity.Item;
     using Entity.Person;
     using Module.Scoring;
+    using WolfCurses.Utility;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Control;
+    using WolfCurses.Window.Form;
+    using WolfCurses.Window.Form.Input;
 
     /// <summary>
     ///     Shows point tabulation based on current simulation statistics. This way if the player dies or finishes the game we

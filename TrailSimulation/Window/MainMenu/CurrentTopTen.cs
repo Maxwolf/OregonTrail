@@ -1,11 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.MainMenu
 {
     using System;
     using System.Text;
     using Help;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Control;
+    using WolfCurses.Window.Form;
+    using WolfCurses.Window.Form.Input;
 
     /// <summary>
     ///     References the top ten players in regards to final score they earned at the end of the game, this list is by

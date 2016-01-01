@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.Store
 {
@@ -12,6 +12,9 @@ namespace TrailSimulation.Window.Travel.Store
     using Entity.Item;
     using Entity.Location;
     using Help;
+    using WolfCurses.Utility;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
 
     /// <summary>
     ///     Manages a general store where the player can buy food, clothes, bullets, and parts for their vehicle.

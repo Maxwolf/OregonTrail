@@ -1,9 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/17/2015@1:55 PM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Vehicle
 {
-    using System.Diagnostics.CodeAnalysis;
     using Entity.Vehicle;
     using Module.Director;
     using Window.RandomEvent;
@@ -12,7 +11,6 @@ namespace TrailSimulation.Event.Vehicle
     ///     The oxen wander off.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class OxenWanderOff : EventProduct
     {
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.RiverCrossing
 {
@@ -12,6 +12,9 @@ namespace TrailSimulation.Window.Travel.RiverCrossing
     using Help;
     using Indian;
     using Rest;
+    using WolfCurses.Utility;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
 
     /// <summary>
     ///     Manages a boolean event where the player needs to make a choice before they can move onto the next location on the

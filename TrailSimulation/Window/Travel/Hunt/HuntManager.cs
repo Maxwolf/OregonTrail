@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.Hunt
 {
@@ -10,6 +10,8 @@ namespace TrailSimulation.Window.Travel.Hunt
     using Entity;
     using Entity.Item;
     using Entity.Location;
+    using WolfCurses;
+    using WolfCurses.Utility;
 
     /// <summary>
     ///     Represents all of the data related to a hunt where the player wants to kill the prey with bullets and then collect

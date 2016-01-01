@@ -1,9 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/12/2015@6:09 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Vehicle
 {
-    using System.Diagnostics.CodeAnalysis;
     using Module.Director;
     using Prefab;
 
@@ -12,7 +11,6 @@ namespace TrailSimulation.Event.Vehicle
     ///     and or man made obstruction.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class ImpassableTrail : LoseTime
     {
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/22/2015@6:14 PM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Entity.Location.Point
 {

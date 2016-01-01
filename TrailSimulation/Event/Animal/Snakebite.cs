@@ -1,9 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/12/2015@6:29 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Animal
 {
-    using System.Diagnostics.CodeAnalysis;
     using Entity;
     using Entity.Person;
     using Module.Director;
@@ -14,7 +13,6 @@ namespace TrailSimulation.Event.Animal
     ///     event we might kill the player if they actually get bit, otherwise the event will say they killed it.
     /// </summary>
     [DirectorEvent(EventCategory.Animal)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Snakebite : EventProduct
     {
         /// <summary>

@@ -1,9 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/12/2015@6:43 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Wild
 {
-    using System.Diagnostics.CodeAnalysis;
     using Entity;
     using Entity.Vehicle;
     using Module.Director;
@@ -13,7 +12,6 @@ namespace TrailSimulation.Event.Wild
     ///     Vehicle comes across some wild berries which the party picks up to eat.
     /// </summary>
     [DirectorEvent(EventCategory.Wild)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class FindBerries : EventProduct
     {
         /// <summary>

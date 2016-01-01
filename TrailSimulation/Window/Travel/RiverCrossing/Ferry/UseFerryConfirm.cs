@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.RiverCrossing.Ferry
 {
@@ -8,6 +8,9 @@ namespace TrailSimulation.Window.Travel.RiverCrossing.Ferry
     using Entity;
     using Entity.Vehicle;
     using Rest;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
+    using WolfCurses.Window.Form.Input;
 
     /// <summary>
     ///     Explains to the user how many monies and days they will be charged to cross the river using the ferry and to

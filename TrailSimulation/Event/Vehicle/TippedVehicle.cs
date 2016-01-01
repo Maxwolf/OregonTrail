@@ -1,10 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/12/2015@6:09 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Vehicle
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Text;
     using Entity;
     using Module.Director;
@@ -15,7 +14,6 @@ namespace TrailSimulation.Event.Vehicle
     ///     could be destroyed and passengers can be crushed to death.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class TippedVehicle : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>

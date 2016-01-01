@@ -1,10 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.Hunt
 {
     using System;
     using Help;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
 
     /// <summary>
     ///     Used to allow the players party to hunt for wild animals, shooting bullet items into the animals will successfully

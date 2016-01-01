@@ -1,10 +1,14 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.Hunt.Help
 {
     using System;
     using System.Text;
+    using WolfCurses.Utility;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
+    using WolfCurses.Window.Form.Input;
 
     /// <summary>
     ///     Prompt that proceeds the hunting mode when accessed from the travel menu. Explains to the player how the controls

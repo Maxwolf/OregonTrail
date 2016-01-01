@@ -1,10 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Module.Scoring
 {
     using System.Collections.Generic;
     using System.Linq;
+    using WolfCurses.Module;
 
     /// <summary>
     ///     Keeps track of all the high scores, loads them from a default set that can always be reset to. If there are no

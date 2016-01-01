@@ -1,11 +1,14 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.MainMenu.Names
 {
     using System;
     using System.Text;
     using Start_Month;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
+    using WolfCurses.Window.Form.Input;
 
     /// <summary>
     ///     Prints out every entered player name in the user data for simulation initialization. Confirms with the player they

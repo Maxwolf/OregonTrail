@@ -1,9 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.Rest
 {
     using System;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
 
     /// <summary>
     ///     Attaches a state that will ask the player how long they would like to rest in the number of days, zero is a valid

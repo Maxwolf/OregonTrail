@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.Command
 {
@@ -8,6 +8,10 @@ namespace TrailSimulation.Window.Travel.Command
     using Dialog;
     using Entity.Location;
     using Entity.Location.Point;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Control;
+    using WolfCurses.Window.Form;
+    using WolfCurses.Window.Form.Input;
 
     /// <summary>
     ///     Shows the player their vehicle and list of all the points in the trail they could possibly travel to. It marks the

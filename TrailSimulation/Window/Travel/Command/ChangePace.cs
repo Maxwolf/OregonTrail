@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.Command
 {
@@ -7,6 +7,8 @@ namespace TrailSimulation.Window.Travel.Command
     using System.Text;
     using Dialog;
     using Entity.Vehicle;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
 
     /// <summary>
     ///     Allows the player to alter how many 'miles' their vehicle will attempt to travel in a given day, this also changes

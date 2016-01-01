@@ -1,9 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Graveyard
 {
     using Module.Tombstone;
+    using WolfCurses.Window;
 
     /// <summary>
     ///     Holds intermediate information about tombstone for editing purposes. Eventually the data edited here will be passed

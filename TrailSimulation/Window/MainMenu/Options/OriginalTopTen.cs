@@ -1,11 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.MainMenu.Options
 {
     using System;
     using System.Text;
     using Module.Scoring;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Control;
+    using WolfCurses.Window.Form;
+    using WolfCurses.Window.Form.Input;
 
     /// <summary>
     ///     Shows the player hard-coded top ten list as it is known internally in static list.

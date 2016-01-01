@@ -1,10 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.Store.Help
 {
     using System;
     using System.Text;
+    using WolfCurses.Core;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
 
     /// <summary>
     ///     Offers up some free information about what items are important to the player and what they mean for the during the

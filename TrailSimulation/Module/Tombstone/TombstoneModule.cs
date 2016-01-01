@@ -1,9 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Module.Tombstone
 {
     using System.Collections.Generic;
+    using WolfCurses.Module;
 
     /// <summary>
     ///     Keeps track of all the tombstones in a nice collection and also supports saving them to disk and loading them again

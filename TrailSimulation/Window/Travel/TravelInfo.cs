@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel
 {
@@ -11,6 +11,8 @@ namespace TrailSimulation.Window.Travel
     using RiverCrossing;
     using Store;
     using Toll;
+    using WolfCurses.Utility;
+    using WolfCurses.Window;
 
     /// <summary>
     ///     Holds all the information about traveling that we want to know, such as how long we need to go until next point,

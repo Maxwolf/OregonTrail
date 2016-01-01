@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.Rest
 {
@@ -10,6 +10,8 @@ namespace TrailSimulation.Window.Travel.Rest
     using Entity.Location.Point;
     using Entity.Vehicle;
     using RiverCrossing;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
 
     /// <summary>
     ///     Keeps track of a set number of days and every time the game Windows is ticked a day is simulated and days to rest

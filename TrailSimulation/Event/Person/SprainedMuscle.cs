@@ -1,9 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/12/2015@6:35 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Person
 {
-    using System.Diagnostics.CodeAnalysis;
     using Entity.Person;
     using Module.Director;
     using Prefab;
@@ -12,7 +11,6 @@ namespace TrailSimulation.Event.Person
     ///     The most common soft tissues injured are muscles, tendons, and ligaments.
     /// </summary>
     [DirectorEvent(EventCategory.Person)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class SprainedMuscle : PersonInjure
     {
         /// <summary>Fired after the event has executed and the injury flag set on the person.</summary>

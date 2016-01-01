@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/18/2015@2:45 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Prefab
 {

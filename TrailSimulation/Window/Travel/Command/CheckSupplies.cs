@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.Command
 {
@@ -7,6 +7,10 @@ namespace TrailSimulation.Window.Travel.Command
     using System.Collections.Generic;
     using System.Text;
     using Entity;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Control;
+    using WolfCurses.Window.Form;
+    using WolfCurses.Window.Form.Input;
 
     /// <summary>
     ///     Shows all the players supplies that they currently have in their vehicle inventory, along with the amount of money

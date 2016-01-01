@@ -1,9 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/18/2015@4:37 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.River
 {
-    using System.Diagnostics.CodeAnalysis;
     using Module.Director;
     using Prefab;
 
@@ -11,7 +10,6 @@ namespace TrailSimulation.Event.River
     ///     Does not destroy items or drown people but will make you lose time gathering your things and drying them out.
     /// </summary>
     [DirectorEvent(EventCategory.RiverCross)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class SuppliesWet : LoseTime
     {
         /// <summary>

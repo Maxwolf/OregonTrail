@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.RiverCrossing
 {
@@ -13,7 +13,8 @@ namespace TrailSimulation.Window.Travel.RiverCrossing
     public sealed class RiverGenerator
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Window.Travel.RiverCrossing.RiverGenerator" /> class.
+        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Window.Travel.RiverCrossing.RiverGenerator" />
+        ///     class.
         /// </summary>
         public RiverGenerator()
         {

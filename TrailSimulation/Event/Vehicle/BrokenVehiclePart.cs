@@ -1,9 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/12/2015@6:09 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Vehicle
 {
-    using System.Diagnostics.CodeAnalysis;
     using Entity.Vehicle;
     using Module.Director;
     using Window.RandomEvent;
@@ -13,7 +12,6 @@ namespace TrailSimulation.Event.Vehicle
     ///     the journey until the player decides to either repair or replace the part in question.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class BrokenVehiclePart : EventProduct
     {
         /// <summary>

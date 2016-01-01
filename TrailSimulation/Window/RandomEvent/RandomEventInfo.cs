@@ -1,11 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.RandomEvent
 {
     using Entity;
     using Entity.Item;
     using Module.Director;
+    using WolfCurses.Window;
 
     /// <summary>
     ///     Random event Windows does not have any special information to carry around between states since it's sole purpose

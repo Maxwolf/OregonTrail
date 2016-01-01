@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Module.Trail
 {
@@ -7,6 +7,7 @@ namespace TrailSimulation.Module.Trail
     using Entity.Location;
     using Entity.Vehicle;
     using Window.Travel;
+    using WolfCurses.Module;
 
     /// <summary>
     ///     Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps

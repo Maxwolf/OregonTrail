@@ -1,10 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/12/2015@6:30 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Animal
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Text;
     using Entity;
     using Module.Director;
@@ -14,7 +13,6 @@ namespace TrailSimulation.Event.Animal
     ///     The buffalo stampede by the vehicle and can destroy items and trample people to death.
     /// </summary>
     [DirectorEvent(EventCategory.Animal)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class BuffaloStampede : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>

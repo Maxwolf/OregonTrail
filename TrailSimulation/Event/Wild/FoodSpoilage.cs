@@ -1,9 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/12/2015@6:43 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Wild
 {
-    using System.Diagnostics.CodeAnalysis;
     using Module.Director;
     using Prefab;
 
@@ -12,7 +11,6 @@ namespace TrailSimulation.Event.Wild
     ///     randomly generated but never go above quarter of the total food reserves.
     /// </summary>
     [DirectorEvent(EventCategory.Wild)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class FoodSpoilage : FoodDestroyer
     {
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@2:58 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Vehicle
 {

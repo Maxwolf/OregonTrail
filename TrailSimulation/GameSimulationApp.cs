@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation
 {
@@ -13,12 +13,12 @@ namespace TrailSimulation
     using Module.Time;
     using Module.Tombstone;
     using Module.Trail;
-    using SimUnit;
     using Window.GameOver;
     using Window.Graveyard;
     using Window.MainMenu;
     using Window.RandomEvent;
     using Window.Travel;
+    using WolfCurses;
 
     /// <summary>
     ///     Primary game simulation singleton. Purpose of this class is to control game specific modules that are independent

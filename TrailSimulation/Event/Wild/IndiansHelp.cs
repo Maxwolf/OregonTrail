@@ -1,9 +1,8 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/17/2015@2:02 PM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Wild
 {
-    using System.Diagnostics.CodeAnalysis;
     using Entity;
     using Entity.Vehicle;
     using Module.Director;
@@ -14,7 +13,6 @@ namespace TrailSimulation.Event.Wild
     ///     simulate the effect of them noticing you need help.
     /// </summary>
     [DirectorEvent(EventCategory.Wild)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class IndiansHelp : EventProduct
     {
         /// <summary>

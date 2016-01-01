@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.MainMenu.Profession
 {
@@ -9,6 +9,9 @@ namespace TrailSimulation.Window.MainMenu.Profession
     using System.Text;
     using Entity.Person;
     using Names;
+    using WolfCurses.Utility;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
 
     /// <summary>
     ///     Facilitates the ability for a user to select a given profession for the party leader. This will determine the

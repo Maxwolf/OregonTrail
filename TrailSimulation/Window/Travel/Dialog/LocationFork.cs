@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.Dialog
 {
@@ -11,6 +11,8 @@ namespace TrailSimulation.Window.Travel.Dialog
     using Entity.Location;
     using Entity.Location.Point;
     using Toll;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
 
     /// <summary>
     ///     Defines a location that has the player make a choice about the next location they want to travel to, it is not a

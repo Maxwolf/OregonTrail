@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Module.Director
 {
@@ -7,6 +7,7 @@ namespace TrailSimulation.Module.Director
     using Entity;
     using Event;
     using Window.RandomEvent;
+    using WolfCurses.Module;
 
     /// <summary>
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the

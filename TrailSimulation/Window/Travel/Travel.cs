@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel
 {
@@ -18,6 +18,8 @@ namespace TrailSimulation.Window.Travel
     using Store.Help;
     using Toll;
     using Trade;
+    using WolfCurses;
+    using WolfCurses.Window;
 
     /// <summary>
     ///     Primary game Windows used for advancing simulation down the trail.

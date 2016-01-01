@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Module.Director
 {
@@ -8,6 +8,7 @@ namespace TrailSimulation.Module.Director
     using System.Linq;
     using System.Runtime.Serialization;
     using Event;
+    using WolfCurses.Utility;
 
     /// <summary>
     ///     Factory pattern for creating director event items from type references.

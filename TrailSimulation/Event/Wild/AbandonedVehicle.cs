@@ -1,11 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/12/2015@6:43 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Wild
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Text;
     using Entity;
     using Module.Director;
@@ -16,7 +15,6 @@ namespace TrailSimulation.Event.Wild
     ///     players inventory.
     /// </summary>
     [DirectorEvent(EventCategory.Wild)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class AbandonedVehicle : ItemCreator
     {
         /// <summary>Fired by the event prefab after the event has executed.</summary>

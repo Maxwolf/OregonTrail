@@ -1,11 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.MainMenu.Options
 {
     using System;
     using System.Reflection;
     using System.Text;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Form;
 
     /// <summary>
     ///     Glorified options menu for the game that allows player to remove top ten high scores, remove saved games, erase

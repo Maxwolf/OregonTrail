@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.MainMenu
 {
@@ -8,6 +8,8 @@ namespace TrailSimulation.Window.MainMenu
     using Help;
     using Options;
     using Profession;
+    using WolfCurses;
+    using WolfCurses.Window;
 
     /// <summary>
     ///     Allows the configuration of party names, player profession, and purchasing initial items for trip.

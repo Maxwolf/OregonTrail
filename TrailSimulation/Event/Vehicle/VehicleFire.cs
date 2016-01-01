@@ -1,10 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/12/2015@6:09 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Event.Vehicle
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Text;
     using Entity;
     using Module.Director;
@@ -14,7 +13,6 @@ namespace TrailSimulation.Event.Vehicle
     ///     Fire in the vehicle occurs, there is a chance that some of the inventory items or people were burned to death.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class VehicleFire : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>

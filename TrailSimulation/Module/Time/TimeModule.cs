@@ -1,8 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Module.Time
 {
+    using WolfCurses.Module;
+
     /// <summary>
     ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
     ///     simulation by one day. There are also other options and events for checking state, and changing state.

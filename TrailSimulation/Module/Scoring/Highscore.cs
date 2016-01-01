@@ -1,8 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Module.Scoring
 {
+    using WolfCurses.Utility;
+
     /// <summary>
     ///     Defines an object that keeps track of a particular high score of a given simulation round. This includes the name
     ///     of the person for bragging rights, points they earned in total at the end of the trip, and the overall rating this

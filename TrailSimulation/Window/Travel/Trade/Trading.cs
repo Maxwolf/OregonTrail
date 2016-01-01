@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@3:27 AM
 
 namespace TrailSimulation.Window.Travel.Trade
 {
@@ -7,6 +7,11 @@ namespace TrailSimulation.Window.Travel.Trade
     using System.Collections.Generic;
     using System.Text;
     using Entity;
+    using WolfCurses.Utility;
+    using WolfCurses.Window;
+    using WolfCurses.Window.Control;
+    using WolfCurses.Window.Form;
+    using WolfCurses.Window.Form.Input;
 
     /// <summary>
     ///     Handles the interaction of the player party and another AI controlled party that offers up items for trading which
