@@ -232,6 +232,12 @@
     <Compile Include="Entity\Vehicle\Vehicle.cs" />
     <Compile Include="Window\MainMenu\MainMenu.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\lib\WolfCurses\src\WolfCurses\WolfCurses.csproj">
+      <Project>{dad43fa9-4823-4c23-a9b0-edb0fa036db4}</Project>
+      <Name>WolfCurses</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
