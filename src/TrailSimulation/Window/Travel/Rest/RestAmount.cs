@@ -1,11 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
     using System;
-    using SimUnit;
-    using SimUnit.Form;
+    using WolfCurses;
+    using WolfCurses.Form;
 
     /// <summary>
     ///     Attaches a state that will ask the player how long they would like to rest in the number of days, zero is a valid

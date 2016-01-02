@@ -1,9 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
-    using SimUnit;
+    using WolfCurses;
 
     /// <summary>
     ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time

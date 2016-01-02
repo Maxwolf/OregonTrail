@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
@@ -7,7 +7,7 @@ namespace TrailSimulation
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.Serialization;
-    using SimUnit;
+    using WolfCurses;
 
     /// <summary>
     ///     Factory pattern for creating director event items from type references.

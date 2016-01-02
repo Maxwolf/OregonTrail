@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 11/14/2015@3:12 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
@@ -7,7 +7,7 @@ namespace TrailSimulation
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using SimUnit;
+    using WolfCurses;
 
     /// <summary>
     ///     Vessel that holds all the players, their inventory, money, and keeps track of total miles traveled in the form of

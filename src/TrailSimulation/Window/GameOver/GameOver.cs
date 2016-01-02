@@ -1,9 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
-    using SimUnit;
+    using WolfCurses;
 
     /// <summary>
     ///     Controls the process of ending the current game simulation depending on if the player won or lost. This window can

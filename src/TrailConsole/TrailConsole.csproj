@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Bin\</OutputPath>
+    <OutputPath>..\..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -40,13 +40,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\WolfCurses\src\WolfCurses\WolfCurses.csproj">
-      <Project>{dad43fa9-4823-4c23-a9b0-edb0fa036db4}</Project>
-      <Name>WolfCurses</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TrailSimulation\TrailSimulation.csproj">
       <Project>{8DFA19AE-2E70-4DCA-A734-DD2CBE3E21ED}</Project>
       <Name>TrailSimulation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WolfCurses\src\WolfCurses\WolfCurses.csproj">
+      <Project>{dad43fa9-4823-4c23-a9b0-edb0fa036db4}</Project>
+      <Name>WolfCurses</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,12 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using SimUnit;
+    using WolfCurses;
 
     /// <summary>
     ///     Primary game simulation singleton. Purpose of this class is to control game specific modules that are independent

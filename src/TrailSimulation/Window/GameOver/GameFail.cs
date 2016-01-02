@@ -1,10 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
-    using SimUnit;
-    using SimUnit.Form;
+    using WolfCurses;
+    using WolfCurses.Form;
 
     /// <summary>
     ///     Fired when the simulation has determined the player has died. It specifically only attaches at this time. The flow

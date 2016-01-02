@@ -1,13 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
     using System;
     using System.Text;
-    using SimUnit;
-    using SimUnit.Form;
-    using SimUnit.Form.Input;
+    using WolfCurses;
+    using WolfCurses.Form;
+    using WolfCurses.Form.Input;
 
     /// <summary>
     ///     Prompts the player with a yes or no question regarding if they would like to use the services offered by the Indian

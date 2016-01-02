@@ -1,12 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
     using System;
     using System.Text;
-    using SimUnit;
-    using SimUnit.Form;
+    using WolfCurses;
+    using WolfCurses.Form;
 
     /// <summary>
     ///     Skips over a set amount of time that an event would like to move past. The days will be ticked normally, and not

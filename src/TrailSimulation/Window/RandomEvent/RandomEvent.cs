@@ -1,9 +1,9 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
-    using SimUnit;
+    using WolfCurses;
 
     /// <summary>
     ///     Random event window is attached by the event director which then listens for the event it will throw at it over

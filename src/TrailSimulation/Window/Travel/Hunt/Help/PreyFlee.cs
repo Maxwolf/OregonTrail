@@ -1,12 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
     using System;
-    using SimUnit;
-    using SimUnit.Form;
-    using SimUnit.Form.Input;
+    using WolfCurses;
+    using WolfCurses.Form;
+    using WolfCurses.Form.Input;
 
     /// <summary>
     ///     Called when the player was targeting a given animal but waited to long or took to long typing in the shooting word

@@ -1,15 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using SimUnit;
-    using SimUnit.Control;
-    using SimUnit.Form;
-    using SimUnit.Form.Input;
+    using WolfCurses;
+    using WolfCurses.Control;
+    using WolfCurses.Form;
+    using WolfCurses.Form.Input;
 
     /// <summary>
     ///     Second panel on point information, shows how the number of resources you end the game with contribute to your final

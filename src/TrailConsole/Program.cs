@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 11/14/2015@3:12 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailConsole
 {

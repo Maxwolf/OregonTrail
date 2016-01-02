@@ -1,14 +1,14 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using SimUnit;
-    using SimUnit.Form;
-    using SimUnit.Form.Input;
+    using WolfCurses;
+    using WolfCurses.Form;
+    using WolfCurses.Form.Input;
 
     /// <summary>
     ///     Attaches a game state that will loop through random advice that is associated with the given point of interest.

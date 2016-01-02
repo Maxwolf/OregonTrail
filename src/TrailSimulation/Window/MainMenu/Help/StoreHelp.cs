@@ -1,13 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
     using System;
     using System.Text;
-    using SimUnit;
-    using SimUnit.Form;
-    using SimUnit.Form.Input;
+    using WolfCurses;
+    using WolfCurses.Form;
+    using WolfCurses.Form.Input;
 
     /// <summary>
     ///     Introduces the player to the concept of a store as being run by a person by the name of Matt.

@@ -1,12 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 12/31/2015@4:38 AM
+// Timestamp 01/01/2016@7:40 PM
 
 namespace TrailSimulation
 {
     using System;
     using System.Text;
-    using SimUnit;
-    using SimUnit.Form;
+    using WolfCurses;
+    using WolfCurses.Form;
 
     /// <summary>
     ///     Keeps track of a set number of days and every time the game Windows is ticked a day is simulated and days to rest
