@@ -10,7 +10,7 @@ var configuration = Argument("configuration", "Release");
 //////////////////////////////////////////////////////////////////////
 
 // Define directories.
-var buildDir = Directory("./src/Example/bin") + Directory(configuration);
+var buildDir = Directory("./bin");
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -26,7 +26,7 @@ Task("Restore-NuGet-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    NuGetRestore("./src/Example.sln");
+    NuGetRestore("./src/OregonTrail.sln");
 });
 
 Task("Build")
@@ -36,13 +36,13 @@ Task("Build")
     if(IsRunningOnWindows())
     {
       // Use MSBuild
-      MSBuild("./src/Example.sln", settings =>
+      MSBuild("./src/OregonTrail.sln", settings =>
         settings.SetConfiguration(configuration));
     }
     else
     {
       // Use XBuild
-      XBuild("./src/Example.sln");
+      XBuild("./src/OregonTrail.sln");
     }
 });
 
