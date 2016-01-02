@@ -64,11 +64,17 @@ Task("Build")
     foreach(var solution in solutions)
     {
         Information("Building {0}", solution);
-        MSBuild(solution, settings => 
-            settings.SetPlatformTarget(PlatformTarget.MSIL)
-                .WithProperty("TreatWarningsAsErrors","true")
-                .WithTarget("Build")
-                .SetConfiguration(configuration));
+        if(IsRunningOnWindows())
+        {
+            // Use MSBuild
+            MSBuild(solution, settings =>
+            settings.SetConfiguration(configuration));
+        }
+        else
+        {
+            // Use XBuild
+            XBuild(solution);
+        }
     }
 });
 
