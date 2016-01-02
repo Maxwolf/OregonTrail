@@ -2,7 +2,37 @@
 
 Clone of popular 90's computer game for C#.
 
-## Features ##
+## Compilation Instructions ##
+
+You *should* be able to run the Cake build script by invoking the bootstrapper.
+
+### Windows ###
+
+```powershell
+./build.ps1
+```
+
+If script execution fail due to the execution policy, you might have to
+tell PowerShell to allow running scripts. You do this by
+[changing the execution policy](https://technet.microsoft.com/en-us/library/ee176961.aspx).
+
+### Linux/OS X ###
+
+To be able to execute the bash script on Linux or OS X you should
+give the owner of the script permission to execute it.
+
+```bash
+chmod +x build.sh
+```
+
+When this have been done, you should be able to run your Cake script
+by invoking the bootstrapper.
+
+```bash
+./build.sh
+```
+
+## Simulation Features ##
 
 ### Travel ###
  * Iterates through 2-week trip segments
