@@ -1,0 +1,23 @@
+[TRAVEL]
+ * Stopping at a fort for supplies dramatically reduces 
+   the miles you can cover in a single turn
+ * Clothes and wagon parts increase 2.5 dollars
+ * Food increases .10 dollars and bullets increase 2.5 dollars
+ * Oxen go up 5 dollars at each fort
+ * When you rest at a land mark people often heal quicker
+   than on the trail
+ * The less buffalo you kill the better deal you shall receive
+   from Indian wanting clothes
+ 
+[RIDERS]
+ 1. Determine if attacked by riders from probability of point
+ 2. Mountain regions have low bandit attack chance
+ 3. 20% at 0 miles, to max of 50% a 500 miles, then decreases rest of way
+ 4. If riders approach four options: run, attack, ignore, circle wagons
+ 5. Each strategy has cost in miles, supplies, and if riders are friendly
+ 6. Attack goes to hunting routine, chance to incur flesh wounds (injury)
+ 7. Flesh wounds are serious illness and require medical attention
+
+[BANDITS]
+ 1. Similar to riders, except that bandits are always bad
+ 2. No options are shown, the player is forced to fight
