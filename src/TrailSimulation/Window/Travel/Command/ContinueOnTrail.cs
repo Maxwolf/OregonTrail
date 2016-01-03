@@ -150,7 +150,6 @@ namespace TrailSimulation
                     }
 
                     // Processes the next turn in the game simulation.
-                    game.Vehicle.Status = VehicleStatus.Moving;
                     game.TakeTurn(false);
                     break;
                 default:

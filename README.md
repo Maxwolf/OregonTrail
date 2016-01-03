@@ -2,6 +2,14 @@
 
 Clone of popular 90's computer game for C#.
 
+## Cloning Instructions ##
+
+```cmd
+git clone --recursive https://github.com/Maxwolf/OregonTrail.git
+```
+
+Make sure your git client recursively grabs all the sub-modules for the repo. Most Git GUI's (e.g, SourceTree, SmartGit, GitEye) will all do this automatically for you. 
+
 ## Compilation Instructions ##
 
 You *should* be able to run the Cake build script by invoking the bootstrapper with a script tailored to the target platform.
