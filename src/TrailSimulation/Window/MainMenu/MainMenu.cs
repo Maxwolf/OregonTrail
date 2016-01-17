@@ -69,7 +69,6 @@ namespace TrailSimulation
         /// </summary>
         private void SeeTopTen()
         {
-            // State = new CurrentTopTen(this, NewGameInfo);
             SetForm(typeof (CurrentTopTen));
         }
 
@@ -78,7 +77,6 @@ namespace TrailSimulation
         /// </summary>
         private void LearnAboutTrail()
         {
-            // State = new RulesHelp(this, NewGameInfo);
             SetForm(typeof (RulesHelp));
         }
 
@@ -87,7 +85,6 @@ namespace TrailSimulation
         /// </summary>
         private void TravelTheTrail()
         {
-            // State = new ProfessionSelector(this, NewGameInfo);
             SetForm(typeof (ProfessionSelector));
         }
     }
