@@ -509,12 +509,9 @@ namespace TrailSimulation
         /// <returns>Read-only collection containing the parts that were broken.</returns>
         public SimItem BreakRandomPart()
         {
-            // Get the current broken part if there is one.
-            var previouslyBrokenPart = BrokenPart;
-
             // Skip if there is already a broken part.
-            if (previouslyBrokenPart != null)
-                return previouslyBrokenPart;
+            if (BrokenPart != null)
+                return BrokenPart;
 
             // Randomly select one of the parts to break in the vehicle.
             var randomPartIndex = GameSimulationApp.Instance.Random.Next(_parts.Count);

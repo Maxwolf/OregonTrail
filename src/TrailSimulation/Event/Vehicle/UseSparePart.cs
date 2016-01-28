@@ -8,7 +8,7 @@ namespace TrailSimulation
     /// <summary>
     ///     Called by the simulation when the player uses a spare part to repair their vehicle. This event will not actually
     ///     remove the item it should be done before this is attached, the event serves as more of a dialog box to inform the
-    ///     user that they repair has taken place and the item removed from vehicle inventory.
+    ///     user that the repair has taken place and the item removed from vehicle inventory.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle, EventExecution.ManualOnly)]
     public sealed class UseSparePart : VehicleRepair

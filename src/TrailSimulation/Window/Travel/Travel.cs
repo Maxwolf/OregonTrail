@@ -46,6 +46,12 @@ namespace TrailSimulation
         /// </summary>
         internal void ContinueOnTrail()
         {
+            // Checks if the player has animals to pull their vehicle.
+            GameSimulationApp.Instance.Vehicle.Status =
+                GameSimulationApp.Instance.Vehicle.Inventory[Entities.Animal].Quantity <= 0
+                    ? VehicleStatus.Stuck
+                    : VehicleStatus.Moving;
+
             // Depending on vehicle status you may or may not be able to continue traveling along the trail.
             switch (GameSimulationApp.Instance.Vehicle.Status)
             {
@@ -78,7 +84,8 @@ namespace TrailSimulation
 
             // Depending on what kind of location we are heading towards we will invoke different forms.
             if (GameSimulationApp.Instance.Trail.CurrentLocation is Landmark ||
-                GameSimulationApp.Instance.Trail.CurrentLocation is Settlement)
+                GameSimulationApp.Instance.Trail.CurrentLocation is Settlement || 
+                GameSimulationApp.Instance.Trail.CurrentLocation is TollRoad)
             {
                 SetForm(typeof (LocationDepart));
             }
@@ -89,12 +96,6 @@ namespace TrailSimulation
             else if (GameSimulationApp.Instance.Trail.CurrentLocation is ForkInRoad)
             {
                 SetForm(typeof (LocationFork));
-            }
-            else if (GameSimulationApp.Instance.Trail.CurrentLocation is TollRoad)
-            {
-                // Creates a toll and makes toll road null which acts as trigger to jump to next location and not insert one.
-                UserData.GenerateToll(null);
-                SetForm(typeof (TollRoadQuestion));
             }
         }
 

@@ -134,7 +134,7 @@ namespace TrailSimulation
                 // Cast the location as a fork in the road.
                 var forkInRoad = location as ForkInRoad;
 
-                // increment the level of indentation and call the same method for the children
+                // Increment the level of indentation and call the same method for the children
                 GenerateDistancesRecursive(forkInRoad.SkipChoices, locationDepth + 1);
             }
         }
