@@ -11,18 +11,34 @@ namespace TrailSimulation
     ///     user that the repair has taken place and the item removed from vehicle inventory.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle, EventExecution.ManualOnly)]
-    public sealed class UseSparePart : VehicleRepair
+    public sealed class UseSparePart : EventProduct
     {
         /// <summary>
-        ///     Called by the vehicle repair prefab so implementations can return the reason why the vehicle was repaired for the
-        ///     player so they know why it happened.
+        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
+        ///     left completely up to handler.
         /// </summary>
-        /// <param name="partName">Name of the part that was repaired on the vehicle.</param>
-        /// <returns>Formatted string that contains the reason why the vehicle was repaired.</returns>
-        protected override string OnVehicleRepairReason(string partName)
+        /// <param name="userData">
+        ///     Entities which the event is going to directly affect. This way there is no confusion about
+        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
+        /// </param>
+        public override void Execute(RandomEventInfo userData)
         {
-            return $"{Environment.NewLine}You were able to repair the vehicle" +
-                   $"{partName} using your spare.{Environment.NewLine}";
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
+        ///     change depending on requirements of the implementation.
+        /// </summary>
+        /// <param name="userData">
+        ///     Entities which the event is going to directly affect. This way there is no confusion about
+        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
+        /// </param>
+        /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
+        protected override string OnRender(RandomEventInfo userData)
+        {
+            return $"{Environment.NewLine}You were able to repair the " +
+                               $"{GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()} using your spare.{Environment.NewLine}";
         }
     }
 }

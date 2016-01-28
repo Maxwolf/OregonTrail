@@ -248,20 +248,7 @@ namespace TrailSimulation
         ///     player.
         /// </summary>
         /// <returns>Broken item part if any found, NULL if no broken parts located in vehicle operation.</returns>
-        public SimItem BrokenPart
-        {
-            get
-            {
-                foreach (var partItem in _parts)
-                {
-                    if (partItem.Broken)
-                        return partItem;
-                }
-
-                // Default response means we found no broken parts.
-                return null;
-            }
-        }
+        public SimItem BrokenPart { get; private set; }
 
         /// <summary>
         ///     Locates the leader in the passenger manifest and returns the person object that represents them.
@@ -507,11 +494,11 @@ namespace TrailSimulation
         ///     are already broken this will not run.
         /// </summary>
         /// <returns>Read-only collection containing the parts that were broken.</returns>
-        public SimItem BreakRandomPart()
+        public void BreakRandomPart()
         {
             // Skip if there is already a broken part.
             if (BrokenPart != null)
-                return BrokenPart;
+                return;
 
             // Randomly select one of the parts to break in the vehicle.
             var randomPartIndex = GameSimulationApp.Instance.Random.Next(_parts.Count);
@@ -520,8 +507,8 @@ namespace TrailSimulation
             _parts[randomPartIndex].Break();
             Status = VehicleStatus.Broken;
 
-            // Return the broken part to caller.
-            return _parts[randomPartIndex];
+            // Sets the broken part for other processes to deal with.
+            BrokenPart = _parts[randomPartIndex];
         }
 
         /// <summary>

@@ -31,7 +31,7 @@ namespace TrailSimulation
                 return;
 
             // Break some random part on the vehicle.
-            userData.BrokenPart = vehicle.BreakRandomPart();
+            vehicle.BreakRandomPart();
 
             // Set vehicle broken status.
             vehicle.Status = VehicleStatus.Broken;
@@ -71,7 +71,7 @@ namespace TrailSimulation
         {
             // Cast the source entity as vehicle.
             var vehicle = userData.SourceEntity as Vehicle;
-            return $"Broken vehicle {vehicle?.BrokenPart.Name.ToLowerInvariant()}.";
+            return $"Broken {vehicle?.BrokenPart.Name.ToLowerInvariant()}.";
         }
     }
 }

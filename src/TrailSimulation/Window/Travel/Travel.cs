@@ -87,6 +87,7 @@ namespace TrailSimulation
                 GameSimulationApp.Instance.Trail.CurrentLocation is Settlement || 
                 GameSimulationApp.Instance.Trail.CurrentLocation is TollRoad)
             {
+                // Toll road logic is done from fork in the road, good game design dictates we only offer this as a choice, never forced.
                 SetForm(typeof (LocationDepart));
             }
             else if (GameSimulationApp.Instance.Trail.CurrentLocation is RiverCrossing)

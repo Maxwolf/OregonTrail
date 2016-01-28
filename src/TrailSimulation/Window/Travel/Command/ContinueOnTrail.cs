@@ -125,11 +125,6 @@ namespace TrailSimulation
             // Get instance of game simulation for easy reading.
             var game = GameSimulationApp.Instance;
 
-            // Checks if the player has animals to pull their vehicle.
-            game.Vehicle.Status = game.Vehicle.Inventory[Entities.Animal].Quantity <= 0
-                ? VehicleStatus.Stuck
-                : VehicleStatus.Moving;
-
             // Determine if we should continue down the trail based on current vehicle status.
             switch (game.Vehicle.Status)
             {
@@ -141,6 +136,10 @@ namespace TrailSimulation
                     SetForm(typeof (UnableToContinue));
                     break;
                 case VehicleStatus.Moving:
+                    // BUG: Trigger broken vehicle part every time.
+                    if (game.Random.NextBool() && game.Vehicle.BrokenPart == null)
+                        game.EventDirector.TriggerEvent(game.Vehicle, typeof(BrokenVehiclePart));
+
                     // Check if there is a tombstone here, if so we attach question form that asks if we stop or not.
                     _swayBarText = _marqueeBar.Step();
                     if (game.Tombstone.ContainsTombstone(game.Vehicle.Odometer) && !game.Trail.CurrentLocation.ArrivalFlag)

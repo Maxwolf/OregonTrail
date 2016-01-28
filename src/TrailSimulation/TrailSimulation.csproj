@@ -35,7 +35,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Event\Prefab\FoodDestroyer.cs" />
-    <Compile Include="Event\Prefab\VehicleRepair.cs" />
     <Compile Include="Event\Vehicle\BrokenVehiclePart.cs" />
     <Compile Include="Event\Vehicle\NoRepairVehicle.cs" />
     <Compile Include="Event\Vehicle\NoSparePart.cs" />

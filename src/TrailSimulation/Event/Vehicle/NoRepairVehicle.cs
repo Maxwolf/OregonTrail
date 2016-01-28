@@ -37,7 +37,7 @@ namespace TrailSimulation
         protected override string OnRender(RandomEventInfo userData)
         {
             var repairPrompt = new StringBuilder();
-            repairPrompt.AppendLine("You did not repair the broken vehicle");
+            repairPrompt.AppendLine("You did not repair the broken ");
             repairPrompt.AppendLine($"{userData.BrokenPart.Name.ToLowerInvariant()}. You must replace it with a ");
             repairPrompt.Append("spare part.");
             return repairPrompt.ToString();

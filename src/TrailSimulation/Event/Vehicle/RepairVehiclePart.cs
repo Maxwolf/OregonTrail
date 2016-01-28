@@ -12,18 +12,34 @@ namespace TrailSimulation
     ///     it or they are going to be stranded in a broken vehicle unable to continue their journey.
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle, EventExecution.ManualOnly)]
-    public sealed class RepairVehiclePart : VehicleRepair
+    public sealed class RepairVehiclePart : EventProduct
     {
         /// <summary>
-        ///     Called by the vehicle repair prefab so implementations can return the reason why the vehicle was repaired for the
-        ///     player so they know why it happened.
+        ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
+        ///     left completely up to handler.
         /// </summary>
-        /// <param name="partName">Name of the part that was repaired on the vehicle.</param>
-        /// <returns>Formatted string that contains the reason why the vehicle was repaired.</returns>
-        protected override string OnVehicleRepairReason(string partName)
+        /// <param name="userData">
+        ///     Entities which the event is going to directly affect. This way there is no confusion about
+        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
+        /// </param>
+        public override void Execute(RandomEventInfo userData)
         {
-            return $"{Environment.NewLine}You were able to repair the vehicle" +
-                   $"{partName}.{Environment.NewLine}";
+            
+        }
+
+        /// <summary>
+        ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could
+        ///     change depending on requirements of the implementation.
+        /// </summary>
+        /// <param name="userData">
+        ///     Entities which the event is going to directly affect. This way there is no confusion about
+        ///     what entity the event is for. Will require casting to correct instance type from interface instance.
+        /// </param>
+        /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
+        protected override string OnRender(RandomEventInfo userData)
+        {
+            return $"{Environment.NewLine}You were able to repair the " +
+                               $"{GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}.{Environment.NewLine}";
         }
     }
 }

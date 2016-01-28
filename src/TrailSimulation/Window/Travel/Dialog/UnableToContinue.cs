@@ -45,9 +45,23 @@ namespace TrailSimulation
         protected override string OnDialogPrompt()
         {
             var stuckPrompt = new StringBuilder();
-            stuckPrompt.AppendLine($"{Environment.NewLine}You are unable to continue");
-            stuckPrompt.AppendLine("your journey. You have no");
-            stuckPrompt.AppendLine($"oxen to pull your wagon.{Environment.NewLine}");
+
+            // Check if we are dealing with lack of oxen to pull or broken vehicle parts.
+            var brokenVehicle = GameSimulationApp.Instance.Vehicle.BrokenPart != null;
+
+            if (brokenVehicle)
+            {
+                stuckPrompt.AppendLine($"{Environment.NewLine}You are unable to continue");
+                stuckPrompt.AppendLine($"your journey. You're {GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}");
+                stuckPrompt.AppendLine($"is broken.{Environment.NewLine}");
+            }
+            else
+            {
+                stuckPrompt.AppendLine($"{Environment.NewLine}You are unable to continue");
+                stuckPrompt.AppendLine("your journey. You have no");
+                stuckPrompt.AppendLine($"oxen to pull your wagon.{Environment.NewLine}");
+            }
+
             return stuckPrompt.ToString();
         }
 
