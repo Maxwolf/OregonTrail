@@ -34,7 +34,7 @@ namespace TrailSimulation
             vehicle.BreakRandomPart();
 
             // Set vehicle broken status.
-            vehicle.Status = VehicleStatus.Broken;
+            vehicle.Status = VehicleStatus.Disabled;
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace TrailSimulation
             // Check to make sure we should load the broken vehicle form.
             if (eventExecutor.UserData.BrokenPart == null ||
                 vehicle.BrokenPart == null ||
-                vehicle.Status != VehicleStatus.Broken)
+                vehicle.Status != VehicleStatus.Disabled)
                 return false;
 
             // Loads form for random event system that deals with broken vehicle parts.

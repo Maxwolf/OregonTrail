@@ -256,9 +256,10 @@ namespace TrailSimulation
                         trades[tradeIndex].OfferedItem.Quantity);
 
                     // Checks if the player has animals to pull their vehicle.
-                    GameSimulationApp.Instance.Vehicle.Status = GameSimulationApp.Instance.Vehicle.Inventory[Entities.Animal].Quantity <= 0
-                    ? VehicleStatus.Stuck
-                    : VehicleStatus.Moving;
+                    GameSimulationApp.Instance.Vehicle.Status =
+                        GameSimulationApp.Instance.Vehicle.Inventory[Entities.Animal].Quantity <= 0
+                            ? VehicleStatus.Disabled
+                            : VehicleStatus.Moving;
 
                     // Return to the travel menu.
                     ClearForm();

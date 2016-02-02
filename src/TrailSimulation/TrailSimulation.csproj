@@ -41,7 +41,6 @@
     <Compile Include="Event\Vehicle\RepairVehiclePart.cs" />
     <Compile Include="Event\Vehicle\UseSparePart.cs" />
     <Compile Include="Window\RandomEvent\EventVehicleBroken.cs" />
-    <Compile Include="Window\Travel\Dialog\VehicleBroken.cs" />
     <Compile Include="Window\Travel\Hunt\Help\PreyFlee.cs" />
     <Compile Include="Window\Travel\Hunt\Help\PreyHit.cs" />
     <Compile Include="Window\Travel\Hunt\Help\NoAmmo.cs" />
@@ -121,7 +120,6 @@
     <Compile Include="Window\Travel\Toll\TollRoadQuestion.cs" />
     <Compile Include="Window\Travel\Dialog\TombstoneQuestion.cs" />
     <Compile Include="Window\Travel\Dialog\UnableToContinue.cs" />
-    <Compile Include="Window\Travel\Dialog\VehicleStuck.cs" />
     <Compile Include="Window\Graveyard\EpitaphConfirm.cs" />
     <Compile Include="Window\Graveyard\EpitaphEditor.cs" />
     <Compile Include="Window\Graveyard\EpitaphQuestion.cs" />

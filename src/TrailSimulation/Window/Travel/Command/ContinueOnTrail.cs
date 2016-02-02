@@ -125,21 +125,20 @@ namespace TrailSimulation
             // Get instance of game simulation for easy reading.
             var game = GameSimulationApp.Instance;
 
+            // Checks if the vehicle is stuck or broken, if not it is set to moving state.
+            game.Vehicle.CheckStatus();
+
             // Determine if we should continue down the trail based on current vehicle status.
             switch (game.Vehicle.Status)
             {
                 case VehicleStatus.Stopped:
                     return;
-                case VehicleStatus.Stuck:
-                case VehicleStatus.Broken:
-                    // Stuck or broken vehicles are unable to continue the journey.
-                    SetForm(typeof (UnableToContinue));
+                case VehicleStatus.Disabled:
+                    // Check if vehicle was able to obtain spare parts for repairs.
+                    if (!game.Vehicle.TryUseSparePart())
+                        SetForm(typeof (UnableToContinue));
                     break;
                 case VehicleStatus.Moving:
-                    // BUG: Trigger broken vehicle part every time.
-                    if (game.Random.NextBool() && game.Vehicle.BrokenPart == null)
-                        game.EventDirector.TriggerEvent(game.Vehicle, typeof(BrokenVehiclePart));
-
                     // Check if there is a tombstone here, if so we attach question form that asks if we stop or not.
                     _swayBarText = _marqueeBar.Step();
                     if (game.Tombstone.ContainsTombstone(game.Vehicle.Odometer) && !game.Trail.CurrentLocation.ArrivalFlag)

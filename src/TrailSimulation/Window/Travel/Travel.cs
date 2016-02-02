@@ -46,35 +46,6 @@ namespace TrailSimulation
         /// </summary>
         internal void ContinueOnTrail()
         {
-            // Checks if the player has animals to pull their vehicle.
-            GameSimulationApp.Instance.Vehicle.Status =
-                GameSimulationApp.Instance.Vehicle.Inventory[Entities.Animal].Quantity <= 0
-                    ? VehicleStatus.Stuck
-                    : VehicleStatus.Moving;
-
-            // Depending on vehicle status you may or may not be able to continue traveling along the trail.
-            switch (GameSimulationApp.Instance.Vehicle.Status)
-            {
-                case VehicleStatus.Stuck:
-                    // Check if the vehicle is stuck and unable to continue.
-                    SetForm(typeof (VehicleStuck));
-                    return;
-                case VehicleStatus.Broken:
-                    // Check if vehicle was able to obtain spare parts for repairs.
-                    if (!GameSimulationApp.Instance.Vehicle.TryUseSparePart())
-                    {
-                        // Broken vehicle parts will make the vehicle stuck unable to continue.
-                        SetForm(typeof (VehicleBroken));
-                        return;
-                    }
-                    break;
-                case VehicleStatus.Stopped:
-                case VehicleStatus.Moving:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
             // Check if player has already departed and we are just moving along again.
             if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Departed)
             {

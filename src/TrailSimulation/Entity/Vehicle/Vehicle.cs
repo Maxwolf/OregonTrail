@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 01/01/2016@7:40 PM
+// Timestamp 01/03/2016@1:50 AM
 
 namespace TrailSimulation
 {
@@ -472,7 +472,7 @@ namespace TrailSimulation
         public bool TryUseSparePart()
         {
             // Skip if the vehicle is not broken.
-            if (Status != VehicleStatus.Broken)
+            if (Status != VehicleStatus.Disabled)
                 return false;
 
             // Skip if the vehicle does not contain part to fix vehicle.
@@ -505,7 +505,7 @@ namespace TrailSimulation
 
             // Break the part, set the flag for broken part on vehicle.
             _parts[randomPartIndex].Break();
-            Status = VehicleStatus.Broken;
+            Status = VehicleStatus.Disabled;
 
             // Sets the broken part for other processes to deal with.
             BrokenPart = _parts[randomPartIndex];
@@ -778,7 +778,7 @@ namespace TrailSimulation
         /// <summary>
         ///     Repairs any broken parts the vehicle may have and returns them to fully operational condition.
         /// </summary>
-        public void RepairAllParts()
+        private void RepairAllParts()
         {
             // Loop through every part in the vehicle and repair it.
             foreach (var part in _parts)
@@ -788,6 +788,31 @@ namespace TrailSimulation
 
             // Set the vehicle status to be stopped and no longer broken.
             Status = VehicleStatus.Stopped;
+        }
+
+        /// <summary>
+        ///     Runs logic to check and see if the vehicle is currently stuck and unable to move. This could be because there are
+        ///     not enough oxen to pull it, or it could mean some of the parts on the wagon are broken and need to be replaced.
+        /// </summary>
+        public void CheckStatus()
+        {
+            // Checks if the player has animals to pull their vehicle.
+            if (Inventory[Entities.Animal].Quantity <= 0)
+            {
+                Status = VehicleStatus.Disabled;
+                return;
+            }
+
+            // DEBUG: Trigger broken vehicle part every time.
+            if (GameSimulationApp.Instance.Random.NextBool() && BrokenPart == null)
+            {
+                Status = VehicleStatus.Disabled;
+                GameSimulationApp.Instance.EventDirector.TriggerEvent(this, typeof (BrokenVehiclePart));
+                return;
+            }
+
+            // Default response it to allow the vehicle to move.
+            Status = VehicleStatus.Moving;
         }
     }
 }

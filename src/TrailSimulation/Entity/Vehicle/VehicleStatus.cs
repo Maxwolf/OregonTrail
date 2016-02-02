@@ -21,13 +21,8 @@ namespace TrailSimulation
         Moving = 1,
 
         /// <summary>
-        ///     Vehicle cannot move anymore because it has no animals or engine to pull it forward.
+        ///     Vehicle cannot move anymore because it has no animals or engine to pull it forward, or some critical piece of infrastructure has been destroyed.
         /// </summary>
-        Stuck = 2,
-
-        /// <summary>
-        ///     Vehicle cannot move anymore because some of the parts that make up it's infrastructure have been damaged.
-        /// </summary>
-        Broken = 3,
+        Disabled = 2
     }
 }
