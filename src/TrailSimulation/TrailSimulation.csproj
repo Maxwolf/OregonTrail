@@ -37,10 +37,10 @@
     <Compile Include="Event\Prefab\FoodDestroyer.cs" />
     <Compile Include="Event\Vehicle\BrokenVehiclePart.cs" />
     <Compile Include="Event\Vehicle\NoRepairVehicle.cs" />
-    <Compile Include="Event\Vehicle\NoSparePart.cs" />
     <Compile Include="Event\Vehicle\RepairVehiclePart.cs" />
-    <Compile Include="Event\Vehicle\UseSparePart.cs" />
-    <Compile Include="Window\RandomEvent\EventVehicleBroken.cs" />
+    <Compile Include="Window\RandomEvent\VehicleBrokenPrompt.cs" />
+    <Compile Include="Window\RandomEvent\VehicleNoSparePart.cs" />
+    <Compile Include="Window\RandomEvent\VehicleUseSparePart.cs" />
     <Compile Include="Window\Travel\Hunt\Help\PreyFlee.cs" />
     <Compile Include="Window\Travel\Hunt\Help\PreyHit.cs" />
     <Compile Include="Window\Travel\Hunt\Help\NoAmmo.cs" />

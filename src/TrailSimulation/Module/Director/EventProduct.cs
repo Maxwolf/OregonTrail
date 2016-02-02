@@ -21,11 +21,11 @@ namespace TrailSimulation
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.
         /// </summary>
-        /// <param name="userData">
+        /// <param name="eventExecutor">
         ///     Entities which the event is going to directly affect. This way there is no confusion about
         ///     what entity the event is for. Will require casting to correct instance type from interface instance.
         /// </param>
-        public abstract void Execute(RandomEventInfo userData);
+        public abstract void Execute(RandomEventInfo eventExecutor);
 
         /// <summary>
         ///     Fired when the simulation would like to render the event, typically this is done AFTER executing it but this could

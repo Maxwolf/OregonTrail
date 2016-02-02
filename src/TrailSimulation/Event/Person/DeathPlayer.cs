@@ -33,16 +33,16 @@ namespace TrailSimulation
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.
         /// </summary>
-        /// <param name="userData">
+        /// <param name="eventExecutor">
         ///     Entities which the event is going to directly affect. This way there is no confusion about
         ///     what entity the event is for. Will require casting to correct instance type from interface instance.
         /// </param>
-        public override void Execute(RandomEventInfo userData)
+        public override void Execute(RandomEventInfo eventExecutor)
         {
             // Cast the source entity as a player.
-            var sourcePerson = userData.SourceEntity as Person;
+            var sourcePerson = eventExecutor.SourceEntity as Person;
             if (sourcePerson == null)
-                throw new ArgumentNullException(nameof(userData), "Could not cast source entity as player.");
+                throw new ArgumentNullException(nameof(eventExecutor), "Could not cast source entity as player.");
 
             // Check to make sure this player is the leader (aka the player).
             if (!sourcePerson.Leader)

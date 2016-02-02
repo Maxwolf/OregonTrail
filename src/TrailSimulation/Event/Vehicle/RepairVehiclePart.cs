@@ -24,7 +24,23 @@ namespace TrailSimulation
         /// </param>
         public override void Execute(RandomEventInfo userData)
         {
-            
+            // Nothing to see here, move along...
+        }
+
+        /// <summary>
+        ///     Fired after the event is executed and allows the inheriting event prefab know post event execution.
+        /// </summary>
+        /// <param name="eventExecutor">Form that executed the event from the random event window.</param>
+        internal override bool OnPostExecute(EventExecutor eventExecutor)
+        {
+            // Check to make sure the source entity is a vehicle.
+            var vehicle = eventExecutor.UserData.SourceEntity as Vehicle;
+            if (vehicle == null)
+                return true;
+
+            // Ensures the vehicle will be able to continue down the trail.
+            vehicle.Status = VehicleStatus.Stopped;
+            return false;
         }
 
         /// <summary>

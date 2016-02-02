@@ -54,7 +54,7 @@ namespace TrailSimulation
                 return false;
 
             // Loads form for random event system that deals with broken vehicle parts.
-            eventExecutor.SetForm(typeof (EventVehicleBroken));
+            eventExecutor.SetForm(typeof (VehicleBrokenPrompt));
             return true;
         }
 

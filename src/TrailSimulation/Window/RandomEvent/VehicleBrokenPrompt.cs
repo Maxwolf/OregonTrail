@@ -14,14 +14,14 @@ namespace TrailSimulation
     ///     to repair or replace the broken part which has been selected prior to this.
     /// </summary>
     [ParentWindow(typeof (RandomEvent))]
-    public sealed class EventVehicleBroken : InputForm<RandomEventInfo>
+    public sealed class VehicleBrokenPrompt : InputForm<RandomEventInfo>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="InputForm{T}" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
-        public EventVehicleBroken(IWindow window) : base(window)
+        public VehicleBrokenPrompt(IWindow window) : base(window)
         {
         }
 
@@ -44,7 +44,7 @@ namespace TrailSimulation
         {
             var brokenPrompt = new StringBuilder();
             brokenPrompt.AppendLine(
-                $"{Environment.NewLine}Broken vehicle {GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}. Would you");
+                $"{Environment.NewLine}Broken {GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}. Would you");
             brokenPrompt.Append("like to try and repair it? Y/N");
             return brokenPrompt.ToString();
         }

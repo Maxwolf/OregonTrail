@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 01/01/2016@7:40 PM
+// Timestamp 01/03/2016@1:50 AM
 
 namespace TrailSimulation
 {
@@ -16,11 +16,11 @@ namespace TrailSimulation
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is
         ///     left completely up to handler.
         /// </summary>
-        /// <param name="userData">
+        /// <param name="eventExecutor">
         ///     Entities which the event is going to directly affect. This way there is no confusion about
         ///     what entity the event is for. Will require casting to correct instance type from interface instance.
         /// </param>
-        public override void Execute(RandomEventInfo userData)
+        public override void Execute(RandomEventInfo eventExecutor)
         {
             // Nothing to see here, move along...
         }
@@ -38,34 +38,32 @@ namespace TrailSimulation
         {
             var repairPrompt = new StringBuilder();
             repairPrompt.AppendLine("You did not repair the broken ");
-            repairPrompt.AppendLine($"{GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}. You must replace it with a ");
+            repairPrompt.AppendLine(
+                $"{GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}. You must replace it with a ");
             repairPrompt.Append("spare part.");
             return repairPrompt.ToString();
         }
 
         /// <summary>
-        ///     Fired when the event is closed by the user or system after being executed and rendered out on text user interface.
+        ///     Fired after the event is executed and allows the inheriting event prefab know post event execution.
         /// </summary>
-        /// <param name="userData">
-        ///     Random event information such as source entity and the actual event itself and any custom data
-        ///     required to check state.
-        /// </param>
-        public override void OnEventClose(RandomEventInfo userData)
+        /// <param name="eventExecutor">Form that executed the event from the random event window.</param>
+        internal override bool OnPostExecute(EventExecutor eventExecutor)
         {
-            base.OnEventClose(userData);
+            // Check to make sure the source entity is a vehicle.
+            var vehicle = eventExecutor.UserData.SourceEntity as Vehicle;
 
-            // Cast the source entity as vehicle.
-            var vehicle = userData.SourceEntity as Vehicle;
-
-            // Skip if there is no vehicle to affect.
+            // Skip if the vehicle is null.
             if (vehicle == null)
-                return;
+                return false;
 
-            // Check if the vehicle inventory has the required spare part.
-            GameSimulationApp.Instance.EventDirector.TriggerEvent(vehicle,
-                vehicle.TryUseSparePart()
-                    ? typeof (UseSparePart)
-                    : typeof (NoSparePart));
+            // Check to ensure 
+            eventExecutor.SetForm(vehicle.TryUseSparePart()
+                ? typeof(VehicleUseSparePart)
+                : typeof(VehicleNoSparePart));
+
+            // Default response allows event to execute normally.
+            return false;
         }
     }
 }

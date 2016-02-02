@@ -248,7 +248,7 @@ namespace TrailSimulation
         ///     player.
         /// </summary>
         /// <returns>Broken item part if any found, NULL if no broken parts located in vehicle operation.</returns>
-        public SimItem BrokenPart { get; private set; }
+        public SimItem BrokenPart { get; internal set; }
 
         /// <summary>
         ///     Locates the leader in the passenger manifest and returns the person object that represents them.
@@ -768,7 +768,7 @@ namespace TrailSimulation
             {
                 // Check if category, and name match. Quantity needs to be greater than or equal to wanted amount.
                 if (simItem.Value.Name == wantedItem.Name && simItem.Value.Category == wantedItem.Category &&
-                    simItem.Value.Quantity >= wantedItem.Quantity)
+                    simItem.Value.Quantity >= wantedItem.MinQuantity)
                     return true;
             }
 
@@ -786,7 +786,7 @@ namespace TrailSimulation
                 part.Repair();
             }
 
-            // Set the vehicle status to be stopped and no longer broken.
+            // Set the vehicle status to be stopped.
             Status = VehicleStatus.Stopped;
         }
 
@@ -806,7 +806,7 @@ namespace TrailSimulation
             // DEBUG: Trigger broken vehicle part every time.
             if (GameSimulationApp.Instance.Random.NextBool() && BrokenPart == null)
             {
-                Status = VehicleStatus.Disabled;
+                //Status = VehicleStatus.Disabled;
                 GameSimulationApp.Instance.EventDirector.TriggerEvent(this, typeof (BrokenVehiclePart));
                 return;
             }
