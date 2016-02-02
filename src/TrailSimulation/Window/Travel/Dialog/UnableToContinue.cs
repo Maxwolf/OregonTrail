@@ -51,9 +51,17 @@ namespace TrailSimulation
 
             if (brokenVehicle)
             {
-                stuckPrompt.AppendLine($"{Environment.NewLine}You are unable to continue");
-                stuckPrompt.AppendLine($"your journey. You're {GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}");
-                stuckPrompt.AppendLine($"is broken.{Environment.NewLine}");
+                if (GameSimulationApp.Instance.Vehicle.TryUseSparePart())
+                {
+                    stuckPrompt.AppendLine($"{Environment.NewLine}You are unable to continue");
+                    stuckPrompt.AppendLine(
+                        $"your journey. You're {GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}");
+                    stuckPrompt.AppendLine($"is broken.{Environment.NewLine}");
+                }
+                else
+                {
+                    
+                }
             }
             else
             {

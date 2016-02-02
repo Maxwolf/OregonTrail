@@ -52,7 +52,7 @@ namespace TrailSimulation
                 SetForm(typeof (ContinueOnTrail));
                 return;
             }
-
+            
             // Depending on what kind of location we are heading towards we will invoke different forms.
             if (GameSimulationApp.Instance.Trail.CurrentLocation is Landmark ||
                 GameSimulationApp.Instance.Trail.CurrentLocation is Settlement || 

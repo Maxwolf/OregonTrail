@@ -33,10 +33,5 @@ namespace TrailSimulation
         ///     another form in the random event window.
         /// </summary>
         public string EventText { get; set; }
-
-        /// <summary>
-        ///     Defines an item that has been broken on the vehicle due to an event triggering the vehicle to break itself.
-        /// </summary>
-        public SimItem BrokenPart { get; internal set; }
     }
 }

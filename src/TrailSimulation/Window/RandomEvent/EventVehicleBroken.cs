@@ -44,7 +44,7 @@ namespace TrailSimulation
         {
             var brokenPrompt = new StringBuilder();
             brokenPrompt.AppendLine(
-                $"{Environment.NewLine}Broken vehicle {UserData.BrokenPart.Name.ToLowerInvariant()}. Would you");
+                $"{Environment.NewLine}Broken vehicle {GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}. Would you");
             brokenPrompt.Append("like to try and repair it? Y/N");
             return brokenPrompt.ToString();
         }

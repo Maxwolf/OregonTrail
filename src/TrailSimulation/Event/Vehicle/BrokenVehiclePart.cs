@@ -47,12 +47,9 @@ namespace TrailSimulation
 
             // Check to make sure the source entity is a vehicle.
             var vehicle = eventExecutor.UserData.SourceEntity as Vehicle;
-            if (vehicle == null)
-                return false;
 
             // Check to make sure we should load the broken vehicle form.
-            if (eventExecutor.UserData.BrokenPart == null ||
-                vehicle.BrokenPart == null ||
+            if (vehicle?.BrokenPart == null ||
                 vehicle.Status != VehicleStatus.Disabled)
                 return false;
 

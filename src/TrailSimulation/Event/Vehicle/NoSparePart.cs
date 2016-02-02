@@ -38,7 +38,7 @@ namespace TrailSimulation
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(RandomEventInfo userData)
         {
-            return $"{Environment.NewLine}Since you don't have a spare {userData.BrokenPart.Name.ToLowerInvariant()}" +
+            return $"{Environment.NewLine}Since you don't have a spare {GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}" +
                    $"you must trade for one.{Environment.NewLine}";
         }
     }

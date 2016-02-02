@@ -135,13 +135,13 @@ namespace TrailSimulation
                     return;
                 case VehicleStatus.Disabled:
                     // Check if vehicle was able to obtain spare parts for repairs.
-                    if (!game.Vehicle.TryUseSparePart())
-                        SetForm(typeof (UnableToContinue));
+                    SetForm(typeof (UnableToContinue));
                     break;
                 case VehicleStatus.Moving:
                     // Check if there is a tombstone here, if so we attach question form that asks if we stop or not.
                     _swayBarText = _marqueeBar.Step();
-                    if (game.Tombstone.ContainsTombstone(game.Vehicle.Odometer) && !game.Trail.CurrentLocation.ArrivalFlag)
+                    if (game.Tombstone.ContainsTombstone(game.Vehicle.Odometer) &&
+                        !game.Trail.CurrentLocation.ArrivalFlag)
                     {
                         SetForm(typeof (TombstoneQuestion));
                         return;
@@ -164,7 +164,10 @@ namespace TrailSimulation
                 return;
 
             // Stop ticks and close this state.
-            GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
+            if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Moving)
+                GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
+
+            // Remove the this form.
             ClearForm();
         }
     }
