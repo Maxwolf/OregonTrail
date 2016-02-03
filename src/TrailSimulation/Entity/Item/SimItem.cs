@@ -113,7 +113,7 @@ namespace TrailSimulation
         /// <summary>
         ///     Determines if the item is currently disabled and unable to function correctly.
         /// </summary>
-        public bool Broken { get; private set; }
+        private bool Broken { get; set; }
 
         /// <summary>
         ///     Calculates the total points that should be given for inputted quantity of the object in question.
