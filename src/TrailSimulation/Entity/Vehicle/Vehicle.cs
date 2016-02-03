@@ -499,9 +499,6 @@ namespace TrailSimulation
             // Randomly select one of the parts to break in the vehicle.
             var randomPartIndex = GameSimulationApp.Instance.Random.Next(_parts.Count);
 
-            // Break the part, set the flag for broken part on vehicle.
-            _parts[randomPartIndex].Break();
-
             // Sets the broken part for other processes to deal with.
             BrokenPart = _parts[randomPartIndex];
         }

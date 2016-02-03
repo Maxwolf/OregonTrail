@@ -323,13 +323,6 @@ namespace TrailSimulation
         }
 
         /// <summary>
-        ///     Disables the item so it can no longer be used normally. If this item is a part it will cease to function correctly.
-        /// </summary>
-        public void Break()
-        {
-        }
-
-        /// <summary>
         ///     Forcefully resets the quantity to whatever the starting quantity was configured to be when the SimItem was
         ///     created.
         /// </summary>
