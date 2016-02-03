@@ -52,7 +52,7 @@ namespace TrailSimulation
         {
             return
                 $"{Environment.NewLine}Since you don't have a spare {GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}" +
-                $"you must trade for one.{Environment.NewLine}{Environment.NewLine}";
+                $" you must trade for one.{Environment.NewLine}{Environment.NewLine}";
         }
 
         /// <summary>
