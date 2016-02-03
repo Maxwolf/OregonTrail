@@ -26,15 +26,8 @@ namespace TrailSimulation
             // Cast the source entity as vehicle.
             var vehicle = userData.SourceEntity as Vehicle;
 
-            // Skip if there is no vehicle to affect.
-            if (vehicle == null)
-                return;
-
             // Break some random part on the vehicle.
-            vehicle.BreakRandomPart();
-
-            // Set vehicle broken status.
-            vehicle.Status = VehicleStatus.Disabled;
+            vehicle?.BreakRandomPart();
         }
 
         /// <summary>
@@ -49,8 +42,7 @@ namespace TrailSimulation
             var vehicle = eventExecutor.UserData.SourceEntity as Vehicle;
 
             // Check to make sure we should load the broken vehicle form.
-            if (vehicle?.BrokenPart == null ||
-                vehicle.Status != VehicleStatus.Disabled)
+            if (vehicle?.BrokenPart == null)
                 return false;
 
             // Loads form for random event system that deals with broken vehicle parts.
