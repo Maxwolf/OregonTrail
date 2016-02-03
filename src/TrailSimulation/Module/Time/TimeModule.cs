@@ -129,9 +129,6 @@ namespace TrailSimulation
                     // End of month
                     CurrentMonth++;
                     TotalMonths++;
-
-                    // Fire month end event
-                    OnMonthEnd();
                 }
                 else
                 {
@@ -141,30 +138,8 @@ namespace TrailSimulation
                     CurrentMonth = Month.January;
                     TotalMonths++;
                     TotalYears++;
-
-                    // Fire month end event
-                    OnMonthEnd();
-
-                    // Fire year end event
-                    OnYearEnd();
                 }
             }
-        }
-
-        /// <summary>
-        ///     Fired after each year in the simulation.
-        /// </summary>
-        private void OnYearEnd()
-        {
-            // TODO: Use time module year end or remove it!
-        }
-
-        /// <summary>
-        ///     Fired after each month in the simulation.
-        /// </summary>
-        private void OnMonthEnd()
-        {
-            // TODO: Use time module month end or remove it!
         }
 
         /// <summary>Fired after each day in the simulation.</summary>
