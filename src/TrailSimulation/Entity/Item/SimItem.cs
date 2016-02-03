@@ -52,7 +52,6 @@ namespace TrailSimulation
             PointsAwarded = pointsAwarded;
 
             // All items start off as being in full health.
-            Broken = false;
 
             // Ensure the values for points per amount are not zero.
             if (PointsPerAmount <= 0)
@@ -111,11 +110,14 @@ namespace TrailSimulation
         }
 
         /// <summary>
+<<<<<<< HEAD
         ///     Determines if the item is currently disabled and unable to function correctly.
         /// </summary>
         private bool Broken { get; set; }
 
         /// <summary>
+=======
+>>>>>>> Remove broken flag from sim item since it is never used. We directly tell vehicle what the broken item is rather than keeping some lookup of parts that are broken. This made the checks much easier.
         ///     Calculates the total points that should be given for inputted quantity of the object in question.
         /// </summary>
         /// <returns>Points to be awarded for the given quantity of the item according to scoring rules.</returns>
@@ -335,7 +337,6 @@ namespace TrailSimulation
         /// </summary>
         public void Break()
         {
-            Broken = true;
         }
 
         /// <summary>
@@ -431,7 +432,6 @@ namespace TrailSimulation
         /// </summary>
         public void Repair()
         {
-            Broken = false;
         }
     }
 }
