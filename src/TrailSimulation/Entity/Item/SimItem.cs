@@ -109,17 +109,7 @@ namespace TrailSimulation
             Weight = oldItem.Weight;
         }
 
-        /// <summary>
-<<<<<<< HEAD
-        ///     Determines if the item is currently disabled and unable to function correctly.
-        /// </summary>
-        private bool Broken { get; set; }
-
-        /// <summary>
-=======
->>>>>>> Remove broken flag from sim item since it is never used. We directly tell vehicle what the broken item is rather than keeping some lookup of parts that are broken. This made the checks much easier.
-        ///     Calculates the total points that should be given for inputted quantity of the object in question.
-        /// </summary>
+        /// <summary>Calculates the total points that should be given for inputted quantity of the object in question.</summary>
         /// <returns>Points to be awarded for the given quantity of the item according to scoring rules.</returns>
         public int Points
         {
