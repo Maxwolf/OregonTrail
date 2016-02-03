@@ -471,10 +471,6 @@ namespace TrailSimulation
         /// <returns>TRUE if the spare part existed and vehicle was repaired, FALSE if no spare exists and vehicle still broken.</returns>
         public bool TryUseSparePart()
         {
-            // Skip if the vehicle is not broken.
-            if (Status != VehicleStatus.Disabled)
-                return false;
-
             // Skip if the vehicle does not contain part to fix vehicle.
             if (!ContainsItem(BrokenPart))
                 return false;
@@ -505,7 +501,6 @@ namespace TrailSimulation
 
             // Break the part, set the flag for broken part on vehicle.
             _parts[randomPartIndex].Break();
-            Status = VehicleStatus.Disabled;
 
             // Sets the broken part for other processes to deal with.
             BrokenPart = _parts[randomPartIndex];
@@ -803,13 +798,9 @@ namespace TrailSimulation
                 return;
             }
 
-            // DEBUG: Trigger broken vehicle part every time.
-            if (GameSimulationApp.Instance.Random.NextBool() && BrokenPart == null)
-            {
-                //Status = VehicleStatus.Disabled;
-                GameSimulationApp.Instance.EventDirector.TriggerEvent(this, typeof (BrokenVehiclePart));
+            // Don't change the state from disabled to moving.
+            if (Status == VehicleStatus.Disabled)
                 return;
-            }
 
             // Default response it to allow the vehicle to move.
             Status = VehicleStatus.Moving;
