@@ -70,19 +70,6 @@ bash build.sh
 ### Eating ###
  1. Food consumption in pounds calculated from ration level per day
 
-### Riders ###
- 1. Determine if attacked by riders from probability of point
- 2. Mountain regions have low bandit attack chance
- 3. 20% at 0 miles, to max of 50% a 500 miles, then decreases rest of way
- 4. If riders approach four options: run, attack, ignore, circle wagons
- 5. Each strategy has cost in miles, supplies, and if riders are friendly
- 6. Attack goes to hunting routine, chance to incur flesh wounds (injury)
- 7. Flesh wounds are serious illness and require medical attention
-
-### Bandits ###
- 1. Similar to riders, except that bandits are always bad
- 2. No options are shown, the player is forced to fight
-
 ### Random Events ###
  1. Select random number from 0 to 100 that will be dice roll
  2. Probability determined by sucessive numbers in array
