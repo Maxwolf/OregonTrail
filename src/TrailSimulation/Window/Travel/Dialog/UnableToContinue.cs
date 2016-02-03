@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 01/01/2016@7:40 PM
+// Timestamp 01/03/2016@1:50 AM
 
 namespace TrailSimulation
 {
@@ -52,7 +52,8 @@ namespace TrailSimulation
             if (brokenVehicle)
             {
                 stuckPrompt.AppendLine($"{Environment.NewLine}You are unable to continue");
-                stuckPrompt.AppendLine($"your journey. You're {GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}");
+                stuckPrompt.AppendLine(
+                    $"your journey. You're {GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}");
                 stuckPrompt.AppendLine($"is broken.{Environment.NewLine}");
             }
             else

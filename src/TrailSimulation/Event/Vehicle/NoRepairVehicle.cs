@@ -59,8 +59,8 @@ namespace TrailSimulation
 
             // Check to ensure 
             eventExecutor.SetForm(vehicle.TryUseSparePart()
-                ? typeof(VehicleUseSparePart)
-                : typeof(VehicleNoSparePart));
+                ? typeof (VehicleUseSparePart)
+                : typeof (VehicleNoSparePart));
 
             // Default response allows event to execute normally.
             return false;

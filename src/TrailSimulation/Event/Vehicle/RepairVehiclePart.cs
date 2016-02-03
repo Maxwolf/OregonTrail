@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 01/01/2016@7:40 PM
+// Timestamp 01/03/2016@1:50 AM
 
 namespace TrailSimulation
 {
@@ -55,7 +55,7 @@ namespace TrailSimulation
         protected override string OnRender(RandomEventInfo userData)
         {
             return $"{Environment.NewLine}You were able to repair the " +
-                               $"{GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}.{Environment.NewLine}";
+                   $"{GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}.{Environment.NewLine}";
         }
     }
 }

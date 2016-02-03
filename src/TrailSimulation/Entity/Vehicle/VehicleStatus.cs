@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 01/01/2016@7:40 PM
+// Timestamp 01/03/2016@1:50 AM
 
 namespace TrailSimulation
 {
@@ -21,7 +21,8 @@ namespace TrailSimulation
         Moving = 1,
 
         /// <summary>
-        ///     Vehicle cannot move anymore because it has no animals or engine to pull it forward, or some critical piece of infrastructure has been destroyed.
+        ///     Vehicle cannot move anymore because it has no animals or engine to pull it forward, or some critical piece of
+        ///     infrastructure has been destroyed.
         /// </summary>
         Disabled = 2
     }

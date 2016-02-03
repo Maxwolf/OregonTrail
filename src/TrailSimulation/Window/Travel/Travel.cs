@@ -1,5 +1,5 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
-// Timestamp 01/01/2016@7:40 PM
+// Timestamp 01/03/2016@1:50 AM
 
 namespace TrailSimulation
 {
@@ -52,10 +52,10 @@ namespace TrailSimulation
                 SetForm(typeof (ContinueOnTrail));
                 return;
             }
-            
+
             // Depending on what kind of location we are heading towards we will invoke different forms.
             if (GameSimulationApp.Instance.Trail.CurrentLocation is Landmark ||
-                GameSimulationApp.Instance.Trail.CurrentLocation is Settlement || 
+                GameSimulationApp.Instance.Trail.CurrentLocation is Settlement ||
                 GameSimulationApp.Instance.Trail.CurrentLocation is TollRoad)
             {
                 // Toll road logic is done from fork in the road, good game design dictates we only offer this as a choice, never forced.
