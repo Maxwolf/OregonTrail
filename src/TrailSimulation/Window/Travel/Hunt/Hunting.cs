@@ -1,12 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using WolfCurses;
-    using WolfCurses.Form;
+using System;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Hunt.Help;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Hunt
+{
     /// <summary>
     ///     Used to allow the players party to hunt for wild animals, shooting bullet items into the animals will successfully
     ///     kill them and when the round is over the amount of meat is determined by what animals are killed. The player party
@@ -122,7 +123,7 @@ namespace TrailSimulation
                 return;
 
             // Check if the user spelled the shooting word correctly.
-            if (!input.Equals(UserData.Hunt.ShootingWord.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            if (!input.Equals(UserData.Hunt.ShootingWord.ToString(), StringComparison.OrdinalIgnoreCase))
                 return;
 
             // Determine if the player shot an animal or missed their shot.

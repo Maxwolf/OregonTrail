@@ -1,10 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using WolfCurses;
+using OregonTrailDotNet.TrailSimulation.Entity.Item;
+using OregonTrailDotNet.WolfCurses;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Hunt
+{
     /// <summary>
     ///     Defines a given animal the player can shoot and kill for it's meat. Depending on weather and current conditions the
     ///     type of animal created may vary.
@@ -12,7 +13,7 @@ namespace TrailSimulation
     public sealed class PreyItem : ITick
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.PreyItem" /> class.
+        ///     Initializes a new instance of the <see cref="T:OregonTrailDotNet.TrailSimulation.Window.Travel.Hunt.PreyItem" /> class.
         /// </summary>
         public PreyItem()
         {

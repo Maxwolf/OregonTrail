@@ -1,11 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using OregonTrailDotNet.TrailSimulation.Event;
 
+namespace OregonTrailDotNet.TrailSimulation.Module.Director
+{
     /// <summary>
     ///     Acts like a unique identifier for each event that is to be registered in the system and defines several special
     ///     things about that we want in a key such as category, name, and if it should be random or not.
@@ -13,7 +14,7 @@ namespace TrailSimulation
     public sealed class EventKey : IComparer<EventKey>, IComparable<EventKey>, IEquatable<EventKey>,
         IEqualityComparer<EventKey>
     {
-        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.EventKey" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="T:OregonTrailDotNet.TrailSimulation.Module.Director.EventKey" /> class.</summary>
         /// <param name="category">The category.</param>
         /// <param name="name">The name.</param>
         /// <param name="executionType">The execution Type.</param>

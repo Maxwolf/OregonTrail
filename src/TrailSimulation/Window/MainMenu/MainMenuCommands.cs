@@ -1,10 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.ComponentModel;
+using OregonTrailDotNet.WolfCurses.Utility;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.MainMenu
+{
     /// <summary>
     ///     List of all the commands for starting a new game, this is basically the main menu of the simulation.
     /// </summary>

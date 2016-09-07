@@ -1,14 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
-    using WolfCurses.Form.Input;
+using System;
+using System.Text;
+using OregonTrailDotNet.WolfCurses.Utility;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
+using OregonTrailDotNet.WolfCurses.Window.Form.Input;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Hunt.Help
+{
     /// <summary>
     ///     Prompt that proceeds the hunting mode when accessed from the travel menu. Explains to the player how the controls
     ///     work and what is expected of them in regards to how the game mode operates.

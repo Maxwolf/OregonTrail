@@ -1,7 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
+
+namespace OregonTrailDotNet.TrailSimulation.Event.Prefab
 {
     /// <summary>
     ///     Event prefab that is intended to be used to indicate physical harm has come to a person in the vehicle. As such
@@ -21,7 +24,7 @@ namespace TrailSimulation
         public override void Execute(RandomEventInfo eventExecutor)
         {
             // Cast the source entity as person.
-            var person = eventExecutor.SourceEntity as Person;
+            var person = eventExecutor.SourceEntity as Entity.Person.Person;
 
             // Sets flag on person making them more susceptible to further complications.
             person?.Injure();
@@ -36,7 +39,7 @@ namespace TrailSimulation
         protected override string OnRender(RandomEventInfo userData)
         {
             // Cast the source entity as person.
-            var person = userData.SourceEntity as Person;
+            var person = userData.SourceEntity as Entity.Person.Person;
 
             // Skip if the source entity is not a person.
             return person == null ? string.Empty : OnPostInjury(person);
@@ -45,6 +48,6 @@ namespace TrailSimulation
         /// <summary>Fired after the event has executed and the injury flag set on the person.</summary>
         /// <param name="person">Person whom is now injured by whatever you say they are here.</param>
         /// <returns>Describes what type of physical injury has come to the person.</returns>
-        protected abstract string OnPostInjury(Person person);
+        protected abstract string OnPostInjury(Entity.Person.Person person);
     }
 }

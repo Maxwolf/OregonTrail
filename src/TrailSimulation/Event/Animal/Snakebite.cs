@@ -1,10 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.Animal
+{
     /// <summary>
     ///     Processes an attack of snake biting one of the passengers in the vehicle at random. Depending on the outcome of the
     ///     event we might kill the player if they actually get bit, otherwise the event will say they killed it.
@@ -24,7 +27,7 @@ namespace TrailSimulation
         public override void Execute(RandomEventInfo eventExecutor)
         {
             // Cast the source entity as person.
-            var person = eventExecutor.SourceEntity as Person;
+            var person = eventExecutor.SourceEntity as Entity.Person.Person;
 
             // Skip if the source entity is not a person.
             if (person == null)

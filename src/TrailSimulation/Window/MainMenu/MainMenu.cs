@@ -1,12 +1,16 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
+using System;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Window.MainMenu.Help;
+using OregonTrailDotNet.TrailSimulation.Window.MainMenu.Options;
+using OregonTrailDotNet.TrailSimulation.Window.MainMenu.Profession;
+using OregonTrailDotNet.WolfCurses;
+using OregonTrailDotNet.WolfCurses.Window;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.MainMenu
+{
     /// <summary>
     ///     Allows the configuration of party names, player profession, and purchasing initial items for trip.
     /// </summary>

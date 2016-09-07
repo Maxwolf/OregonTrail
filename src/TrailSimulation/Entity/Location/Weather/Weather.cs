@@ -1,10 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.ComponentModel;
+using OregonTrailDotNet.WolfCurses.Utility;
 
+namespace OregonTrailDotNet.TrailSimulation.Entity.Location.Weather
+{
     /// <summary>
     ///     Determines what the environment is like and goes into helping calculate roll chance. For example, experiencing
     ///     stormy weather will mean there is a higher chance of a travel event being triggered.

@@ -1,13 +1,14 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
+using System;
+using System.Text;
+using OregonTrailDotNet.WolfCurses.Core;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Store.Help
+{
     /// <summary>
     ///     Offers up some free information about what items are important to the player and what they mean for the during the
     ///     course of the simulation.

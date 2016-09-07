@@ -1,10 +1,14 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Collections.Generic;
+using System.Collections.Generic;
+using OregonTrailDotNet.TrailSimulation.Entity.Location;
+using OregonTrailDotNet.TrailSimulation.Entity.Location.Point;
+using OregonTrailDotNet.TrailSimulation.Entity.Location.Weather;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing;
 
+namespace OregonTrailDotNet.TrailSimulation.Module.Trail
+{
     /// <summary>
     ///     Complete trails the player can travel on using the simulation. Some are remakes and others new.
     /// </summary>

@@ -1,15 +1,16 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Control;
-    using WolfCurses.Form;
-    using WolfCurses.Form.Input;
+using System;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Window.MainMenu.Help;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Control;
+using OregonTrailDotNet.WolfCurses.Window.Form;
+using OregonTrailDotNet.WolfCurses.Window.Form.Input;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.MainMenu
+{
     /// <summary>
     ///     References the top ten players in regards to final score they earned at the end of the game, this list is by
     ///     default hard-coded by players have the chance to save their own scores to the list if they beat the default values.

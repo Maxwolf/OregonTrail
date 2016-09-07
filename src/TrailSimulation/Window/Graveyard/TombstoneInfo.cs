@@ -1,10 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using WolfCurses;
+using OregonTrailDotNet.TrailSimulation.Module.Tombstone;
+using OregonTrailDotNet.WolfCurses.Window;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Graveyard
+{
     /// <summary>
     ///     Holds intermediate information about tombstone for editing purposes. Eventually the data edited here will be passed
     ///     off to the graveyard module which handles the archiving of tombstones.

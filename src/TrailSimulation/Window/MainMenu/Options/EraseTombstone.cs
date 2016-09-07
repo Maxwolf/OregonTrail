@@ -1,14 +1,14 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
-    using WolfCurses.Form.Input;
+using System;
+using System.Text;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
+using OregonTrailDotNet.WolfCurses.Window.Form.Input;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.MainMenu.Options
+{
     /// <summary>
     ///     Erases all the saved JSON Tombstone epitaphs on the disk so other players will not encounter them, new ones can
     ///     be created then.

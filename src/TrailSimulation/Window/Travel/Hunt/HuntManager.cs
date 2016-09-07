@@ -1,14 +1,18 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using WolfCurses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Entity.Item;
+using OregonTrailDotNet.TrailSimulation.Entity.Location;
+using OregonTrailDotNet.WolfCurses;
+using OregonTrailDotNet.WolfCurses.Utility;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Hunt
+{
     /// <summary>
     ///     Represents all of the data related to a hunt where the player wants to kill the prey with bullets and then collect
     ///     their bodies for food. This class manages the generation of prey and sorts them based on how long they should
@@ -81,7 +85,7 @@ namespace TrailSimulation
         private PreyItem _target;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.HuntManager" /> class.
+        ///     Initializes a new instance of the <see cref="T:OregonTrailDotNet.TrailSimulation.Window.Travel.Hunt.HuntManager" /> class.
         /// </summary>
         public HuntManager()
         {

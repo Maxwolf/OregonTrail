@@ -1,11 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using OregonTrailDotNet.TrailSimulation.Entity.Vehicle;
+using OregonTrailDotNet.TrailSimulation.Event;
+using OregonTrailDotNet.TrailSimulation.Event.Weather;
+using OregonTrailDotNet.TrailSimulation.Module.Time;
 
+namespace OregonTrailDotNet.TrailSimulation.Entity.Location.Weather
+{
     /// <summary>
     ///     Controls the weather, temperature, environment for getting food, illness probability, and various other factors
     ///     related to the players current location in the game world.

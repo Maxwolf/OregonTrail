@@ -1,13 +1,18 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
+using System;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity.Location;
+using OregonTrailDotNet.TrailSimulation.Entity.Location.Point;
+using OregonTrailDotNet.TrailSimulation.Entity.Vehicle;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Dialog;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Rest
+{
     /// <summary>
     ///     Keeps track of a set number of days and every time the game Windows is ticked a day is simulated and days to rest
     ///     subtracted until we are at zero, then the player can close the window but until then input will not be accepted.
@@ -74,7 +79,7 @@ namespace TrailSimulation
             // Check if we are at a river crossing and need to subtract from ferry days also.
             if (UserData.River != null &&
                 UserData.River.FerryDelayInDays > 0 &&
-                GameSimulationApp.Instance.Trail.CurrentLocation is RiverCrossing)
+                GameSimulationApp.Instance.Trail.CurrentLocation is Entity.Location.Point.RiverCrossing)
                 UserData.River.FerryDelayInDays--;
 
             // Decrease number of days needed to rest, increment number of days rested.
@@ -187,7 +192,7 @@ namespace TrailSimulation
             {
                 ClearForm();
             }
-            else if (GameSimulationApp.Instance.Trail.CurrentLocation is RiverCrossing)
+            else if (GameSimulationApp.Instance.Trail.CurrentLocation is Entity.Location.Point.RiverCrossing)
             {
                 UserData.DaysToRest = 0;
 

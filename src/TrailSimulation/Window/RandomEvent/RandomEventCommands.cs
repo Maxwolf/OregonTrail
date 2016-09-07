@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+namespace OregonTrailDotNet.TrailSimulation.Window.RandomEvent
 {
     /// <summary>
     ///     Random events don't have any commands since they only execute some event that was passed to it and prints out

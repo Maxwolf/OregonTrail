@@ -1,10 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
+using OregonTrailDotNet.TrailSimulation.Event.Prefab;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.River
+{
     /// <summary>
     ///     Does not destroy items or drown people but will make you lose time gathering your things and drying them out.
     /// </summary>

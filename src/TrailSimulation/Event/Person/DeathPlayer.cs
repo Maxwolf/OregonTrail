@@ -1,11 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
+using System;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.Person
+{
     /// <summary>
     ///     Party leader has died! This will end the entire simulation since the others cannot go on without the leader.
     /// </summary>
@@ -40,7 +42,7 @@ namespace TrailSimulation
         public override void Execute(RandomEventInfo eventExecutor)
         {
             // Cast the source entity as a player.
-            var sourcePerson = eventExecutor.SourceEntity as Person;
+            var sourcePerson = eventExecutor.SourceEntity as Entity.Person.Person;
             if (sourcePerson == null)
                 throw new ArgumentNullException(nameof(eventExecutor), "Could not cast source entity as player.");
 

@@ -1,13 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
+using System;
+using System.Text;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.MainMenu.Names
+{
     /// <summary>
     ///     Gets the name of a player for a particular index in the player name user data object. This will also offer the user
     ///     a chance to confirm their selection in another state, reset if they don't like it, and also generate a random user

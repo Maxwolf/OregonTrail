@@ -1,14 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
-    using WolfCurses.Form.Input;
+using System;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
+using OregonTrailDotNet.WolfCurses.Window.Form.Input;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing.Indian
+{
     /// <summary>
     ///     Prompts the player with a yes or no question regarding if they would like to use the services offered by the Indian
     ///     guide. However, he requires sets of clothing and not money like the ferry operator. If they player does not have

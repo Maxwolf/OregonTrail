@@ -1,13 +1,14 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 02/01/2016@11:23 PM
 
-namespace TrailSimulation
-{
-    using System;
-    using WolfCurses;
-    using WolfCurses.Form;
-    using WolfCurses.Form.Input;
+using System;
+using OregonTrailDotNet.TrailSimulation.Entity.Vehicle;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
+using OregonTrailDotNet.WolfCurses.Window.Form.Input;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.RandomEvent
+{
     /// <summary>
     ///     Special form to communicate to the player the vehicle has no spare parts in the inventory which can be used to
     ///     repair. This means the vehicle is stuck and unable to continue down the trail.

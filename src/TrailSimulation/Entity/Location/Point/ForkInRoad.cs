@@ -1,11 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using OregonTrailDotNet.TrailSimulation.Entity.Location.Weather;
 
+namespace OregonTrailDotNet.TrailSimulation.Entity.Location.Point
+{
     /// <summary>
     ///     Offers the vehicle multiple different choices about where it would like to split off and begin traveling to.
     ///     Depending on the choice the player makes the selected skip choice will be inserted into the trail as the next
@@ -22,7 +23,7 @@ namespace TrailSimulation
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ForkInRoad" /> class. Initializes a new instance of the
-        ///     <see cref="T:TrailSimulation.Location" /> class.
+        ///     <see cref="T:OregonTrailDotNet.TrailSimulation.Entity.Location.Location" /> class.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="climateType">The climate Type.</param>

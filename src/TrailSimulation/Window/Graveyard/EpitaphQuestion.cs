@@ -1,14 +1,14 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
-    using WolfCurses.Form.Input;
+using System;
+using System.Text;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
+using OregonTrailDotNet.WolfCurses.Window.Form.Input;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Graveyard
+{
     /// <summary>
     ///     Asks the user if they would like to write a custom message on their Tombstone for other users to see when the
     ///     come across this part of the trail in the future.

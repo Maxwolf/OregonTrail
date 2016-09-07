@@ -1,10 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Text;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.Vehicle
+{
     /// <summary>
     ///     Manually triggered event for when the player decides to not and repair their vehicle and instead opts to use spare
     ///     parts and or willingly want to be stranded unable to continue their journey.
@@ -51,7 +53,7 @@ namespace TrailSimulation
         internal override bool OnPostExecute(EventExecutor eventExecutor)
         {
             // Check to make sure the source entity is a vehicle.
-            var vehicle = eventExecutor.UserData.SourceEntity as Vehicle;
+            var vehicle = eventExecutor.UserData.SourceEntity as Entity.Vehicle.Vehicle;
 
             // Skip if the vehicle is null.
             if (vehicle == null)

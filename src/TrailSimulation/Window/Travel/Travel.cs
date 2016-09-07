@@ -1,12 +1,23 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
+using System;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Entity.Location;
+using OregonTrailDotNet.TrailSimulation.Entity.Location.Point;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Command;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Dialog;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Hunt.Help;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Rest;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing.Help;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Store.Help;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Trade;
+using OregonTrailDotNet.WolfCurses;
+using OregonTrailDotNet.WolfCurses.Window;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel
+{
     /// <summary>
     ///     Primary game Windows used for advancing simulation down the trail.
     /// </summary>
@@ -30,7 +41,7 @@ namespace TrailSimulation
         /// </summary>
         private void TalkToPeople()
         {
-            SetForm(typeof (TalkToPeople));
+            SetForm(typeof (TalkToPeople.TalkToPeople));
         }
 
         /// <summary>
@@ -38,7 +49,7 @@ namespace TrailSimulation
         /// </summary>
         private void BuySupplies()
         {
-            SetForm(typeof (Store));
+            SetForm(typeof (Store.Store));
         }
 
         /// <summary>
@@ -61,7 +72,7 @@ namespace TrailSimulation
                 // Toll road logic is done from fork in the road, good game design dictates we only offer this as a choice, never forced.
                 SetForm(typeof (LocationDepart));
             }
-            else if (GameSimulationApp.Instance.Trail.CurrentLocation is RiverCrossing)
+            else if (GameSimulationApp.Instance.Trail.CurrentLocation is Entity.Location.Point.RiverCrossing)
             {
                 SetForm(typeof (RiverCrossHelp));
             }
@@ -238,7 +249,7 @@ namespace TrailSimulation
             if (game.Trail.CurrentLocation.LastLocation || game.Vehicle.PassengersDead)
             {
                 GameOver = true;
-                game.WindowManager.Add(typeof (GameOver));
+                game.WindowManager.Add(typeof (GameOver.GameOver));
                 return;
             }
 
@@ -261,6 +272,10 @@ namespace TrailSimulation
         /// </summary>
         public override void OnWindowAdded()
         {
+            // Skip if the player has already arrived at this location.
+            if (!GameSimulationApp.Instance.Trail.CurrentLocation.ArrivalFlag)
+                return;
+
             ArriveAtLocation();
         }
     }

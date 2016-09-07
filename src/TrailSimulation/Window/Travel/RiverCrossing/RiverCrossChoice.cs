@@ -1,10 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.ComponentModel;
+using OregonTrailDotNet.WolfCurses.Utility;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing
+{
     /// <summary>
     ///     Determines what kind of river crossing the player would like to perform the time comes to dice roll the probability
     ///     of failure and what will happen.

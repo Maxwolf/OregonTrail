@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+namespace OregonTrailDotNet.TrailSimulation.Entity.Location
 {
     /// <summary>
     ///     Base interface used for all locations on the trail, the purpose of which is to abstract the functionality of the
@@ -18,7 +18,7 @@ namespace TrailSimulation
         /// <summary>
         ///     Current weather condition this location is experiencing.
         /// </summary>
-        Weather Weather { get; }
+        Weather.Weather Weather { get; }
 
         /// <summary>
         ///     Determines if the location allows the player to chat to other NPC's in the area which can offer up advice about the

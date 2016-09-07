@@ -1,10 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
+using System;
+using OregonTrailDotNet.TrailSimulation.Entity.Location.Weather;
 
+namespace OregonTrailDotNet.TrailSimulation.Entity.Location
+{
     /// <summary>
     ///     Defines a location in the game that is added to a list of points that make up the entire trail which the player and
     ///     his vehicle travel upon.
@@ -17,7 +18,7 @@ namespace TrailSimulation
         /// </summary>
         private LocationWeather weather;
 
-        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Location" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="T:OregonTrailDotNet.TrailSimulation.Entity.Location.Location" /> class.</summary>
         /// <param name="name">Display name of the location as it should be known to the player.</param>
         /// <param name="climateType">Defines the type of weather the location will have overall.</param>
         protected Location(string name, Climate climateType)
@@ -51,7 +52,7 @@ namespace TrailSimulation
         /// <summary>
         ///     Current weather condition this location is experiencing.
         /// </summary>
-        public Weather Weather
+        public Weather.Weather Weather
         {
             get { return weather.Condition; }
         }

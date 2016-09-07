@@ -1,10 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.ComponentModel;
+using OregonTrailDotNet.WolfCurses.Utility;
 
+namespace OregonTrailDotNet.TrailSimulation.Entity
+{
     /// <summary>
     ///     Defines all the possible types of items, used for sorting and quickly being able to determine type when iterating
     ///     over them in a list.

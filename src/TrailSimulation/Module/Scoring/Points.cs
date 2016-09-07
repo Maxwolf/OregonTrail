@@ -1,10 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
+using System;
+using OregonTrailDotNet.TrailSimulation.Entity.Item;
 
+namespace OregonTrailDotNet.TrailSimulation.Module.Scoring
+{
     /// <summary>
     ///     Represents a given type of point that can take in a object of a given type in the concrete handler and we will
     ///     process and calculate total points for this item and display the information in a to string override so it is easy
@@ -29,7 +30,7 @@ namespace TrailSimulation
         /// </summary>
         private readonly int _perAmount;
 
-        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Points" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="T:OregonTrailDotNet.TrailSimulation.Module.Scoring.Points" /> class.</summary>
         /// <param name="resource">The resource.</param>
         /// <param name="optionalDisplayName">The optional Display Name.</param>
         public Points(SimItem resource, string optionalDisplayName = DEFAULT_DISPLAY_NAME)

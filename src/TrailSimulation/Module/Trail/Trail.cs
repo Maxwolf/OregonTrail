@@ -1,13 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using OregonTrailDotNet.TrailSimulation.Entity.Location;
+using OregonTrailDotNet.TrailSimulation.Entity.Location.Point;
 
+namespace OregonTrailDotNet.TrailSimulation.Module.Trail
+{
     /// <summary>
     ///     Wrapper object for the trail, defines all the locations and total trail length. The purpose of this class is to
     ///     support serialization and abstraction of the trail creation process so it can be loaded from files or downloaded as

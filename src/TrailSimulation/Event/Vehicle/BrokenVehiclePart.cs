@@ -1,10 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.Vehicle
+{
     /// <summary>
     ///     Used when we want to trigger special event that will damage one of the vehicles parts making it unable to continue
     ///     the journey until the player decides to either repair or replace the part in question.
@@ -24,7 +26,7 @@ namespace TrailSimulation
         public override void Execute(RandomEventInfo userData)
         {
             // Cast the source entity as vehicle.
-            var vehicle = userData.SourceEntity as Vehicle;
+            var vehicle = userData.SourceEntity as Entity.Vehicle.Vehicle;
 
             // Break some random part on the vehicle.
             vehicle?.BreakRandomPart();
@@ -39,7 +41,7 @@ namespace TrailSimulation
             base.OnPostExecute(eventExecutor);
 
             // Check to make sure the source entity is a vehicle.
-            var vehicle = eventExecutor.UserData.SourceEntity as Vehicle;
+            var vehicle = eventExecutor.UserData.SourceEntity as Entity.Vehicle.Vehicle;
 
             // Check to make sure we should load the broken vehicle form.
             if (vehicle?.BrokenPart == null)
@@ -59,7 +61,7 @@ namespace TrailSimulation
         protected override string OnRender(RandomEventInfo userData)
         {
             // Cast the source entity as vehicle.
-            var vehicle = userData.SourceEntity as Vehicle;
+            var vehicle = userData.SourceEntity as Entity.Vehicle.Vehicle;
             return $"Broken {vehicle?.BrokenPart.Name.ToLowerInvariant()}.";
         }
     }

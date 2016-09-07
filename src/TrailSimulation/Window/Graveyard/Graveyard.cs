@@ -1,10 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using WolfCurses;
+using OregonTrailDotNet.WolfCurses;
+using OregonTrailDotNet.WolfCurses.Window;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Graveyard
+{
     /// <summary>
     ///     Displays the name of a previous player whom traveled the trail and died at a given mile marker. There is also an
     ///     optional epitaph that can be displayed. These tombstones are saved per trail, and can be reset from main menu.

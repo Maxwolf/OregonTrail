@@ -1,11 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
+using System;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.Person
+{
     /// <summary>
     ///     Called when one of your party members dies that is not the leader of the group, the game will still be able to
     ///     continue without this person.
@@ -41,7 +43,7 @@ namespace TrailSimulation
         public override void Execute(RandomEventInfo eventExecutor)
         {
             // Cast the source entity as a passenger from vehicle.
-            var sourcePerson = eventExecutor.SourceEntity as Person;
+            var sourcePerson = eventExecutor.SourceEntity as Entity.Person.Person;
             if (sourcePerson == null)
                 throw new ArgumentNullException(nameof(eventExecutor),
                     "Could not cast source entity as passenger of vehicle.");

@@ -1,10 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
+using System;
+using OregonTrailDotNet.TrailSimulation.Entity.Vehicle;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.Vehicle
+{
     /// <summary>
     ///     Manually triggered when random event system damages or makes equipment on the vehicle malfunction. This gives the
     ///     player a chance to magically fix the vehicle part when they attempt to fix it. If the player tries to repair it
@@ -34,7 +37,7 @@ namespace TrailSimulation
         internal override bool OnPostExecute(EventExecutor eventExecutor)
         {
             // Check to make sure the source entity is a vehicle.
-            var vehicle = eventExecutor.UserData.SourceEntity as Vehicle;
+            var vehicle = eventExecutor.UserData.SourceEntity as Entity.Vehicle.Vehicle;
             if (vehicle == null)
                 return true;
 

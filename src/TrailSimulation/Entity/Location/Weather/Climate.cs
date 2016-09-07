@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+namespace OregonTrailDotNet.TrailSimulation.Entity.Location.Weather
 {
     /// <summary>
     ///     The climate.

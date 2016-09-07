@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+namespace OregonTrailDotNet.TrailSimulation.Entity.Vehicle
 {
     /// <summary>
     ///     Determines the current travel status of the vehicle, this is important because it could mean the difference between

@@ -1,13 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
+using System;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity.Vehicle;
+using OregonTrailDotNet.WolfCurses.Core;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.RandomEvent
+{
     /// <summary>
     ///     Skips over a set amount of time that an event would like to move past. The days will be ticked normally, and not
     ///     forced like a river crossing does so days won't go by while crossing a single river.

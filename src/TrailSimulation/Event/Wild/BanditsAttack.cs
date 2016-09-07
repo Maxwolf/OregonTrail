@@ -1,12 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Text;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Event.Prefab;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.Wild
+{
     /// <summary>
     ///     Deals with a random event that involves strangers approaching your vehicle. Once they do this the player is given
     ///     several choices about what they would like to do, they can attack them, try to outrun them, or circle the vehicle

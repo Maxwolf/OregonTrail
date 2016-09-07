@@ -1,13 +1,25 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using WolfCurses;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity.Person;
+using OregonTrailDotNet.TrailSimulation.Entity.Vehicle;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Module.Scoring;
+using OregonTrailDotNet.TrailSimulation.Module.Time;
+using OregonTrailDotNet.TrailSimulation.Module.Tombstone;
+using OregonTrailDotNet.TrailSimulation.Module.Trail;
+using OregonTrailDotNet.TrailSimulation.Window.GameOver;
+using OregonTrailDotNet.TrailSimulation.Window.Graveyard;
+using OregonTrailDotNet.TrailSimulation.Window.MainMenu;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
+using OregonTrailDotNet.TrailSimulation.Window.Travel;
+using OregonTrailDotNet.WolfCurses;
 
+namespace OregonTrailDotNet.TrailSimulation
+{
     /// <summary>
     ///     Primary game simulation singleton. Purpose of this class is to control game specific modules that are independent
     ///     of the simulations ability to manage itself, process ticks, and input.

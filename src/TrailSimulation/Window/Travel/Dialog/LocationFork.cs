@@ -1,15 +1,19 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity.Location;
+using OregonTrailDotNet.TrailSimulation.Entity.Location.Point;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Command;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Toll;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Dialog
+{
     /// <summary>
     ///     Defines a location that has the player make a choice about the next location they want to travel to, it is not a
     ///     linear choice and depends on the player telling the simulation which way to fork down the path. The decisions are

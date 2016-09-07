@@ -1,13 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
+using System;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity.Person;
+using OregonTrailDotNet.WolfCurses.Utility;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Command
+{
     /// <summary>
     ///     Allows the player to change the amount of food their party members will have access to in a given day, the purpose
     ///     of which is to limit the amount they take in to slow the loss of food per pound. This has many affects on the

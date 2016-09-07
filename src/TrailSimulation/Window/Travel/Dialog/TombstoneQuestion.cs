@@ -1,14 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
-    using WolfCurses.Form.Input;
+using System;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Command;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
+using OregonTrailDotNet.WolfCurses.Window.Form.Input;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Dialog
+{
     /// <summary>
     ///     Asks the player if they would like to stop and check out a tombstone that is on this particular mile marker.
     /// </summary>
@@ -66,7 +67,7 @@ namespace TrailSimulation
                     break;
                 case DialogResponse.Yes:
                 case DialogResponse.Custom:
-                    GameSimulationApp.Instance.WindowManager.Add(typeof (Graveyard));
+                    GameSimulationApp.Instance.WindowManager.Add(typeof (Graveyard.Graveyard));
 
                     // Goes back to continue on trail form below us.
                     ClearForm();

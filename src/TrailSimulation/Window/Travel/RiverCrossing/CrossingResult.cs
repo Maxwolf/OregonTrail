@@ -1,14 +1,16 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
-    using WolfCurses.Form.Input;
+using System;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Event.Vehicle;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Dialog;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
+using OregonTrailDotNet.WolfCurses.Window.Form.Input;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing
+{
     /// <summary>
     ///     Displays the final crossing result for the river crossing location. No matter what choice the player made, what
     ///     events happen along the way, this final screen will be shown to let the user know how the last leg of the journey

@@ -1,12 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using WolfCurses;
-    using WolfCurses.Form;
+using System;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Rest
+{
     /// <summary>
     ///     Attaches a state that will ask the player how long they would like to rest in the number of days, zero is a valid
     ///     response and will not do anything. If greater than zero we will attach another state to tick that many days by in

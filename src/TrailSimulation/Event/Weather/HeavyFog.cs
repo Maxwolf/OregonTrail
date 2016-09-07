@@ -1,7 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
+
+namespace OregonTrailDotNet.TrailSimulation.Event.Weather
 {
     /// <summary>
     ///     Reduces the total capacity for the vehicle to move in a given trip segment by a random amount calculated at the
@@ -21,7 +24,7 @@ namespace TrailSimulation
         public override void Execute(RandomEventInfo eventExecutor)
         {
             // Cast the source entity as vehicle.
-            var vehicle = eventExecutor.SourceEntity as Vehicle;
+            var vehicle = eventExecutor.SourceEntity as Entity.Vehicle.Vehicle;
 
             // Reduce the total possible mileage of the vehicle this turn.
             vehicle?.ReduceMileage(vehicle.Mileage - 10 - 5*GameSimulationApp.Instance.Random.Next());

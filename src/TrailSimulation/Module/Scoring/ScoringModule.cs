@@ -1,19 +1,18 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using WolfCurses;
+using System.Collections.Generic;
+using System.Linq;
 
+namespace OregonTrailDotNet.TrailSimulation.Module.Scoring
+{
     /// <summary>
     ///     Keeps track of all the high scores, loads them from a default set that can always be reset to. If there are no
     ///     custom scores to be loaded then the defaults will be used, the high-score should not be reset when the simulation
     ///     is reset instead only when manually reset from he manager module for it which can be accessed by the main menu
     ///     under options.
     /// </summary>
-    public sealed class ScoringModule : Module
+    public sealed class ScoringModule : WolfCurses.Module.Module
     {
         /// <summary>
         ///     Keeps track of the total number of points the player has earned through the course of the game.

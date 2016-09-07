@@ -1,10 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using WolfCurses;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.WolfCurses;
+using OregonTrailDotNet.WolfCurses.Window;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.RandomEvent
+{
     /// <summary>
     ///     Random event window is attached by the event director which then listens for the event it will throw at it over
     ///     event delegate the random event window will subscribe to.

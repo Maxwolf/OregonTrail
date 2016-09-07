@@ -1,14 +1,17 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    using WolfCurses;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using OregonTrailDotNet.TrailSimulation.Entity.Item;
+using OregonTrailDotNet.TrailSimulation.Entity.Person;
+using OregonTrailDotNet.TrailSimulation.Event;
+using OregonTrailDotNet.WolfCurses.Utility;
 
+namespace OregonTrailDotNet.TrailSimulation.Entity.Vehicle
+{
     /// <summary>
     ///     Vessel that holds all the players, their inventory, money, and keeps track of total miles traveled in the form of
     ///     an odometer.
@@ -28,7 +31,7 @@ namespace TrailSimulation
         /// <summary>
         ///     References all of the people inside of the vehicle.
         /// </summary>
-        private List<Person> _passengers;
+        private List<Person.Person> _passengers;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:TrailEntities.Entities.Vehicle" /> class.
@@ -77,7 +80,7 @@ namespace TrailSimulation
         /// <summary>
         ///     References all of the people inside of the vehicle.
         /// </summary>
-        public ReadOnlyCollection<Person> Passengers
+        public ReadOnlyCollection<Person.Person> Passengers
         {
             get { return _passengers.AsReadOnly(); }
         }
@@ -253,12 +256,12 @@ namespace TrailSimulation
         /// <summary>
         ///     Locates the leader in the passenger manifest and returns the person object that represents them.
         /// </summary>
-        public Person PassengerLeader
+        public Person.Person PassengerLeader
         {
             get
             {
                 // Leaders profession, used to determine points multiplier at end.
-                Person leaderPerson = null;
+                Person.Person leaderPerson = null;
 
                 // Check if passenger manifest exists.
                 if (Passengers == null)
@@ -543,7 +546,7 @@ namespace TrailSimulation
 
         /// <summary>Adds a new person object to the list of vehicle passengers.</summary>
         /// <param name="person">Person that wishes to become a vehicle passenger.</param>
-        public void AddPerson(Person person)
+        public void AddPerson(Person.Person person)
         {
             _passengers.Add(person);
         }
@@ -574,7 +577,7 @@ namespace TrailSimulation
             _inventory = new Dictionary<Entities, SimItem>(DefaultInventory);
 
             // Passengers the vehicle will be moving along the trail.
-            _passengers = new List<Person>();
+            _passengers = new List<Person.Person>();
 
             // Money the passengers use collectively to purchase items.
             Balance = startingMonies;

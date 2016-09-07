@@ -1,12 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Text;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Event.Prefab;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.Animal
+{
     /// <summary>
     ///     A pack of wolves is attacking the vehicle party! If there are not enough bullets to stop them then they will
     ///     overwhelm the people and kill them!

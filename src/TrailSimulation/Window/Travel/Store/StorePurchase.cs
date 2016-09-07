@@ -1,13 +1,16 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
+using System;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity.Item;
+using OregonTrailDotNet.TrailSimulation.Entity.Location;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Store.Help;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Store
+{
     /// <summary>
     ///     Allows the player to purchase a number of oxen to pull their vehicle.
     /// </summary>
@@ -68,7 +71,7 @@ namespace TrailSimulation
 
             // Change up question asked if plural window matches the name of the SimItem.
             var pluralMatchesName = UserData.Store.SelectedItem.PluralForm.Equals(UserData.Store.SelectedItem.Name,
-                StringComparison.InvariantCultureIgnoreCase);
+                StringComparison.OrdinalIgnoreCase);
 
             // Print text about purchasing the selected item.
             _itemBuyText.AppendLine(pluralMatchesName

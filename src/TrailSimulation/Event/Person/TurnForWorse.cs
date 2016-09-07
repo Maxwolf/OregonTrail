@@ -1,7 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
+
+namespace OregonTrailDotNet.TrailSimulation.Event.Person
 {
     /// <summary>
     ///     To start to get worse. It appeared that person was going to get well; then, unfortunately, they took a turn for the
@@ -21,7 +24,7 @@ namespace TrailSimulation
         public override void Execute(RandomEventInfo eventExecutor)
         {
             // Cast the source entity as person.
-            var person = eventExecutor.SourceEntity as Person;
+            var person = eventExecutor.SourceEntity as Entity.Person.Person;
 
             // We are going to inflict enough damage to probably kill the person.
             person?.Damage(100);
@@ -36,7 +39,7 @@ namespace TrailSimulation
         protected override string OnRender(RandomEventInfo userData)
         {
             // Cast the source entity as person.
-            var person = userData.SourceEntity as Person;
+            var person = userData.SourceEntity as Entity.Person.Person;
 
             // Skip if the source entity is not a person.
             return person == null

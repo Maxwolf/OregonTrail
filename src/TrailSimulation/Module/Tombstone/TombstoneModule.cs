@@ -1,17 +1,16 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Collections.Generic;
-    using WolfCurses;
+using System.Collections.Generic;
 
+namespace OregonTrailDotNet.TrailSimulation.Module.Tombstone
+{
     /// <summary>
     ///     Keeps track of all the tombstones in a nice collection and also supports saving them to disk and loading them again
     ///     using JSON. Finally it also has all the needed methods to check for a Tombstone at a particular spot on the
     ///     trail.
     /// </summary>
-    public sealed class TombstoneModule : Module
+    public sealed class TombstoneModule : WolfCurses.Module.Module
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="TombstoneModule" /> class.

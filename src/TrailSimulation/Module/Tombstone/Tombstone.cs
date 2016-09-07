@@ -1,14 +1,14 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
+using System;
 
+namespace OregonTrailDotNet.TrailSimulation.Module.Tombstone
+{
     /// <summary>
     ///     Facilitates a tombstone base class that supports shallow copies of itself to be created.
     /// </summary>
-    public sealed class Tombstone : ICloneable
+    public sealed class Tombstone
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Tombstone" /> class.

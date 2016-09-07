@@ -1,10 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Collections.Generic;
+using System.Collections.Generic;
+using OregonTrailDotNet.TrailSimulation.Entity.Person;
 
+namespace OregonTrailDotNet.TrailSimulation.Entity.Vehicle
+{
     /// <summary>
     ///     Utility methods used by vehicle entity to make working with passengers and inventory easier on the eyes when used
     ///     one after the other. Typically these methods will be used by random events triggered by the game simulation.
@@ -17,10 +18,10 @@ namespace TrailSimulation
         /// </summary>
         /// <param name="passengers">List of passengers from the vehicle.</param>
         /// <returns>List of people the method killed, empty list means nobody was killed.</returns>
-        public static IEnumerable<Person> TryKill(this IEnumerable<Person> passengers)
+        public static IEnumerable<Person.Person> TryKill(this IEnumerable<Person.Person> passengers)
         {
             // Determine if we lost any people, this is separate from items in vehicle.
-            var peopleKilled = new List<Person>();
+            var peopleKilled = new List<Person.Person>();
             foreach (var person in passengers)
             {
                 // It all comes down to a dice roll if the storm kills you.
@@ -43,7 +44,7 @@ namespace TrailSimulation
         /// </summary>
         /// <param name="passengers">List of passengers from the vehicle.</param>
         /// <param name="amount">Amount of health we should remove from the living passengers.</param>
-        public static void Damage(this IList<Person> passengers, int amount)
+        public static void Damage(this IList<Person.Person> passengers, int amount)
         {
             // Check if there are people to damage.
             if (passengers.Count <= 0)

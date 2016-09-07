@@ -1,12 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
-    using WolfCurses;
+using System;
+using System.Collections.Generic;
+using OregonTrailDotNet.WolfCurses;
 
+namespace OregonTrailDotNet.TrailSimulation.Entity
+{
     /// <summary>
     ///     Base interface for all entities in the simulation, this is used as a constraint for generics in event system.
     /// </summary>

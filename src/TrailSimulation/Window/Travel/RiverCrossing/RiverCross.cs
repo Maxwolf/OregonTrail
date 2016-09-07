@@ -1,15 +1,20 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Rest;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing.Ferry;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing.Help;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing.Indian;
+using OregonTrailDotNet.WolfCurses.Utility;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing
+{
     /// <summary>
     ///     Manages a boolean event where the player needs to make a choice before they can move onto the next location on the
     ///     trail. Depending on the outcome of this event the player party may lose items, people, or parts depending on how
@@ -69,7 +74,7 @@ namespace TrailSimulation
             var game = GameSimulationApp.Instance;
 
             // Cast the current location as river crossing.
-            var riverLocation = game.Trail.CurrentLocation as RiverCrossing;
+            var riverLocation = game.Trail.CurrentLocation as Entity.Location.Point.RiverCrossing;
             if (riverLocation == null)
                 throw new InvalidCastException(
                     "Unable to cast location as river crossing even though it returns as one!");

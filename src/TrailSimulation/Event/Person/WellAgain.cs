@@ -1,7 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
+
+namespace OregonTrailDotNet.TrailSimulation.Event.Person
 {
     /// <summary>
     ///     Makes the person whom the event was fired on no loner afflicted by any illness.
@@ -20,7 +23,7 @@ namespace TrailSimulation
         public override void Execute(RandomEventInfo eventExecutor)
         {
             // Cast the source entity as person.
-            var person = eventExecutor.SourceEntity as Person;
+            var person = eventExecutor.SourceEntity as Entity.Person.Person;
 
             // Removes all infections, injuries, and heals the person in full.
             person?.HealEntirely();
@@ -35,7 +38,7 @@ namespace TrailSimulation
         protected override string OnRender(RandomEventInfo userData)
         {
             // Cast the source entity as a player.
-            var person = userData.SourceEntity as Person;
+            var person = userData.SourceEntity as Entity.Person.Person;
 
             // Skip if the source entity is not a person.
             return person == null ? "nobody is well again." : $"{person.Name} is well again.";

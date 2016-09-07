@@ -1,13 +1,18 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Entity.Person;
+using OregonTrailDotNet.TrailSimulation.Entity.Vehicle;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.Prefab
+{
     /// <summary>
     ///     Prefab class that is used to destroy some items at random from the vehicle inventory. Will return a list of items
     ///     and print them to the screen and allow for a custom prompt message to be displayed so it can be different for each
@@ -49,7 +54,7 @@ namespace TrailSimulation
             var drownedPassengers = GameSimulationApp.Instance.Vehicle.Passengers.TryKill();
 
             // If the killed passenger list contains any entries we print them out.
-            var passengers = drownedPassengers as IList<Person> ?? drownedPassengers.ToList();
+            var passengers = drownedPassengers as IList<Entity.Person.Person> ?? drownedPassengers.ToList();
             foreach (var person in passengers)
             {
                 // Only proceed if person is actually dead.

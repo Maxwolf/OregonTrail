@@ -1,11 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Collections.Generic;
-    using WolfCurses;
+using System.Collections.Generic;
+using OregonTrailDotNet.TrailSimulation.Entity.Item;
+using OregonTrailDotNet.TrailSimulation.Module.Time;
+using OregonTrailDotNet.WolfCurses.Window;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.MainMenu
+{
     /// <summary>
     ///     Holds all of the information required to kick-start a running game simulation onto a trail path with people,
     ///     professions, vehicle, starting items, and all stats related to luck and repair skill.
@@ -20,7 +22,7 @@ namespace TrailSimulation
         /// <summary>
         ///     The _player profession.
         /// </summary>
-        private Profession _playerProfession;
+        private Entity.Person.Profession _playerProfession;
 
         /// <summary>
         ///     The _starting inventory.
@@ -38,13 +40,13 @@ namespace TrailSimulation
         private Month _startingMonth;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.NewGameInfo" /> class.
+        ///     Initializes a new instance of the <see cref="T:OregonTrailDotNet.TrailSimulation.Window.MainMenu.NewGameInfo" /> class.
         /// </summary>
         public NewGameInfo()
         {
             PlayerNameIndex = 0;
             _playerNames = new List<string>();
-            _playerProfession = Profession.Banker;
+            _playerProfession = Entity.Person.Profession.Banker;
             _startingInventory = new List<SimItem>();
             _startingMonies = 0;
             _startingMonth = Month.March;
@@ -74,7 +76,7 @@ namespace TrailSimulation
         ///     Determines what profession the player character is, this information is applied to the entire party as the group
         ///     leader affects every players stats.
         /// </summary>
-        public Profession PlayerProfession
+        public Entity.Person.Profession PlayerProfession
         {
             get { return _playerProfession; }
             set

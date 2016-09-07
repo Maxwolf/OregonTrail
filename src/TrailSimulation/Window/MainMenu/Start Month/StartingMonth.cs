@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+namespace OregonTrailDotNet.TrailSimulation.Window.MainMenu.Start_Month
 {
     /// <summary>
     ///     Special enumeration used for defining the starting month of the game simulation. Since we want to user to select

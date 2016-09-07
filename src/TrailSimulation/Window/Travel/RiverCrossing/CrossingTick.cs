@@ -1,14 +1,20 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Control;
-    using WolfCurses.Form;
+using System;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Entity.Vehicle;
+using OregonTrailDotNet.TrailSimulation.Event;
+using OregonTrailDotNet.TrailSimulation.Event.River;
+using OregonTrailDotNet.WolfCurses.Core;
+using OregonTrailDotNet.WolfCurses.Utility;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Control;
+using OregonTrailDotNet.WolfCurses.Window.Form;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing
+{
     /// <summary>
     ///     Runs the player over the river based on the crossing information. Depending on what happens a message will be
     ///     printed to the screen explaining what happened before defaulting back to travel game Windows.

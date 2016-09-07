@@ -1,12 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Text;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Event.Prefab;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.Animal
+{
     /// <summary>
     ///     The buffalo stampede by the vehicle and can destroy items and trample people to death.
     /// </summary>

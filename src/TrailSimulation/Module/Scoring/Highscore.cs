@@ -1,10 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using WolfCurses;
+using OregonTrailDotNet.WolfCurses.Utility;
 
+namespace OregonTrailDotNet.TrailSimulation.Module.Scoring
+{
     /// <summary>
     ///     Defines an object that keeps track of a particular high score of a given simulation round. This includes the name
     ///     of the person for bragging rights, points they earned in total at the end of the trip, and the overall rating this
@@ -18,7 +18,7 @@ namespace TrailSimulation
         /// </summary>
         private readonly Performance _rating;
 
-        /// <summary>Initializes a new instance of the <see cref="T:TrailSimulation.Highscore" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="T:OregonTrailDotNet.TrailSimulation.Module.Scoring.Highscore" /> class.</summary>
         /// <param name="name">The name.</param>
         /// <param name="points">The points.</param>
         public Highscore(string name, int points)

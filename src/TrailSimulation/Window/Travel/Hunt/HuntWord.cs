@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Hunt
 {
     /// <summary>
     ///     Defines all the shooting words that are used to determine how quickly the player responded while hunting. Used to

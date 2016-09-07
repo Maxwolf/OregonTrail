@@ -1,16 +1,17 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Control;
-    using WolfCurses.Form;
-    using WolfCurses.Form.Input;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Control;
+using OregonTrailDotNet.WolfCurses.Window.Form;
+using OregonTrailDotNet.WolfCurses.Window.Form.Input;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Command
+{
     /// <summary>
     ///     Shows all the players supplies that they currently have in their vehicle inventory, along with the amount of money
     ///     they have. This screen is not for looking at group stats, only items which are normally not shown unlike the travel

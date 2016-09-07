@@ -1,7 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
+
+namespace OregonTrailDotNet.TrailSimulation.Event.Prefab
 {
     /// <summary>
     ///     Forces the player to advance time in the date, this will make it so they will have to face harsher weather

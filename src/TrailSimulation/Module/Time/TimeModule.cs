@@ -1,15 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+namespace OregonTrailDotNet.TrailSimulation.Module.Time
 {
-    using WolfCurses;
-
     /// <summary>
     ///     Simulates the linear progression of time from one fixed date to another, requires being ticked to advance the time
     ///     simulation by one day. There are also other options and events for checking state, and changing state.
     /// </summary>
-    public sealed class TimeModule : Module
+    public sealed class TimeModule : WolfCurses.Module.Module
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="TimeModule" /> class.

@@ -1,10 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
+using System;
+using OregonTrailDotNet.TrailSimulation.Event;
 
+namespace OregonTrailDotNet.TrailSimulation.Module.Director
+{
     /// <summary>
     ///     Used to tag the base event item class so we can grab all inheriting types that use it.
     /// </summary>

@@ -1,21 +1,22 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Runtime.Serialization;
-    using WolfCurses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using OregonTrailDotNet.TrailSimulation.Event;
+using OregonTrailDotNet.WolfCurses.Utility;
 
+namespace OregonTrailDotNet.TrailSimulation.Module.Director
+{
     /// <summary>
     ///     Factory pattern for creating director event items from type references.
     /// </summary>
     public sealed class EventFactory
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.EventFactory" /> class.
+        ///     Initializes a new instance of the <see cref="T:OregonTrailDotNet.TrailSimulation.Module.Director.EventFactory" /> class.
         /// </summary>
         public EventFactory()
         {
@@ -27,11 +28,11 @@ namespace TrailSimulation
             foreach (var eventObject in randomEvents)
             {
                 // Check if the class is abstract base class, we don't want to add that.
-                if (eventObject.IsAbstract)
+                if (eventObject.GetTypeInfo().IsAbstract)
                     continue;
 
                 // Check the attribute itself from the event we are working on, which gives us the event type enum.
-                var eventAttribute = eventObject.GetAttributes<DirectorEventAttribute>(true).First();
+                var eventAttribute = eventObject.GetTypeInfo().GetAttributes<DirectorEventAttribute>(true).First();
                 var eventType = eventAttribute.EventCategory;
 
                 // Initialize the execution history dictionary with every event type.
@@ -72,12 +73,12 @@ namespace TrailSimulation
             var directorEventKeyValuePair = EventReference.FirstOrDefault(x => (x.Value == eventType));
 
             // Check if the class is abstract base class, we don't want to add that.
-            if (directorEventKeyValuePair.Value.IsAbstract)
+            if (directorEventKeyValuePair.Value.GetTypeInfo().IsAbstract)
                 return null;
 
             // Create the event product, but don't call any constructor.
             var eventInstance =
-                FormatterServices.GetUninitializedObject(directorEventKeyValuePair.Value) as EventProduct;
+                FactoryExtensions.New<EventProduct>.GetUninitializedObject(directorEventKeyValuePair.Value) as EventProduct;
 
             // If the event instance is null then complain.
             if (eventInstance == null)

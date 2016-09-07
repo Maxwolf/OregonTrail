@@ -1,11 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using WolfCurses;
-    using WolfCurses.Form;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.GameOver
+{
     /// <summary>
     ///     Fired when the simulation has determined the player has died. It specifically only attaches at this time. The flow
     ///     for death like this is to first show the player the failure state like this, then ask if they want to leave an
@@ -52,7 +52,7 @@ namespace TrailSimulation
         public override string OnRenderForm()
         {
             // Jump right to tombstone game window, it will reset the game.
-            GameSimulationApp.Instance.WindowManager.Add(typeof (Graveyard));
+            GameSimulationApp.Instance.WindowManager.Add(typeof (Graveyard.Graveyard));
             return string.Empty;
         }
 

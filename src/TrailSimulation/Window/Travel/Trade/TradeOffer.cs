@@ -1,7 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+using OregonTrailDotNet.TrailSimulation.Entity.Item;
+using OregonTrailDotNet.TrailSimulation.Entity.Vehicle;
+
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Trade
 {
     /// <summary>
     ///     Represents an offer that automatically generates itself when constructor is called. Randomly selects a want, and
@@ -11,7 +14,7 @@ namespace TrailSimulation
     public sealed class TradeOffer
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.TradeOffer" /> class.
+        ///     Initializes a new instance of the <see cref="T:OregonTrailDotNet.TrailSimulation.Window.Travel.Trade.TradeOffer" /> class.
         /// </summary>
         public TradeOffer()
         {

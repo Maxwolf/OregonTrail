@@ -1,15 +1,17 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using WolfCurses;
-    using WolfCurses.Form;
-    using WolfCurses.Form.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using OregonTrailDotNet.TrailSimulation.Entity.Location.Point;
+using OregonTrailDotNet.WolfCurses.Utility;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
+using OregonTrailDotNet.WolfCurses.Window.Form.Input;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.TalkToPeople
+{
     /// <summary>
     ///     Attaches a game state that will loop through random advice that is associated with the given point of interest.
     ///     This is not a huge list and players will eventually see the same advice if they keep coming back, only one piece of
@@ -60,7 +62,7 @@ namespace TrailSimulation
                 // Settlements have shops, more people, and lots of people scared about stories they hear.
                 advice = new List<Advice>(AdviceRegistry.Settlement);
             }
-            else if (game.Trail.CurrentLocation is RiverCrossing)
+            else if (game.Trail.CurrentLocation is Entity.Location.Point.RiverCrossing)
             {
                 // Can talk to people working near the river as operators or as people about to cross.
                 advice = new List<Advice>(AdviceRegistry.River);

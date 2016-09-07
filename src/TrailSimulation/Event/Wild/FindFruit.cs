@@ -1,10 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.Wild
+{
     /// <summary>
     ///     Similar to wild berries, but with fruit there will be more to go around.
     /// </summary>
@@ -23,7 +26,7 @@ namespace TrailSimulation
         public override void Execute(RandomEventInfo eventExecutor)
         {
             // Cast the source entity as vehicle.
-            var vehicle = eventExecutor.SourceEntity as Vehicle;
+            var vehicle = eventExecutor.SourceEntity as Entity.Vehicle.Vehicle;
 
             vehicle?.Inventory[Entities.Food].AddQuantity(17);
         }

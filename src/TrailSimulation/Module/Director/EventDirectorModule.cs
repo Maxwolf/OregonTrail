@@ -1,16 +1,18 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using WolfCurses;
+using System;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Event;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
 
+namespace OregonTrailDotNet.TrailSimulation.Module.Director
+{
     /// <summary>
     ///     Numbers events and allows them to propagate through it and to other parts of the simulation. Lives inside of the
     ///     game simulation normally.
     /// </summary>
-    public sealed class EventDirectorModule : Module
+    public sealed class EventDirectorModule : WolfCurses.Module.Module
     {
         /// <summary>
         ///     Fired when an event has been triggered by the director.

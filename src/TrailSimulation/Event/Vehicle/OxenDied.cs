@@ -1,10 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.Vehicle
+{
     /// <summary>
     ///     Oxen is damaged, which decreases the ability for the vehicle to be pulled forward. It is possible for this event to
     ///     make the vehicle stuck, unable to continue until the player acquires another oxen via trading.
@@ -24,7 +27,7 @@ namespace TrailSimulation
         public override void Execute(RandomEventInfo eventExecutor)
         {
             // Cast the source entity as vehicle.
-            var vehicle = eventExecutor.SourceEntity as Vehicle;
+            var vehicle = eventExecutor.SourceEntity as Entity.Vehicle.Vehicle;
 
             // Skip if the source entity is not a vehicle.
             if (vehicle == null)

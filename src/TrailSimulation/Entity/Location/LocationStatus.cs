@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+namespace OregonTrailDotNet.TrailSimulation.Entity.Location
 {
     /// <summary>
     ///     Determines the status of the location as it is known to the vehicle and persons inside of it. Used to keep track of

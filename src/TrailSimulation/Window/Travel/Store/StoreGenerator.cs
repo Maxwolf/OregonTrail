@@ -1,11 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Entity.Item;
+using OregonTrailDotNet.TrailSimulation.Entity.Location;
+using OregonTrailDotNet.TrailSimulation.Entity.Vehicle;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.Store
+{
     /// <summary>
     ///     Before any items are removed, or added to the store all the interactions are stored in receipt info object. When
     ///     the game mode for the store is removed all the transactions will be completed and the players vehicle updated and

@@ -1,12 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/01/2016@7:40 PM
 
-namespace TrailConsole
-{
-    using System;
-    using System.Threading;
-    using TrailSimulation;
+using System;
+using System.Threading;
+using OregonTrailDotNet.TrailSimulation;
 
+namespace OregonTrailDotNet
+{
     /// <summary>
     ///     Trail Simulation Game - Console Edition
     /// </summary>
@@ -15,13 +15,16 @@ namespace TrailConsole
         /// <summary>
         ///     Example console app for game simulation entry point.
         /// </summary>
-        private static void Main()
+        public static int Main()
         {
             // Create console with title, no cursor, make CTRL-C act as input.
             Console.Title = "Oregon Trail Clone";
             Console.WriteLine("Starting...");
             Console.CursorVisible = false;
             Console.CancelKeyPress += Console_CancelKeyPress;
+
+            // Because I want things to look correct like progress bars.
+            Console.OutputEncoding = System.Text.Encoding.Unicode;
 
             // Create game simulation singleton instance, and start it.
             GameSimulationApp.Create();
@@ -66,6 +69,7 @@ namespace TrailConsole
             Console.WriteLine("Goodbye!");
             Console.WriteLine("Press ANY KEY to close this window...");
             Console.ReadKey();
+            return 0;
         }
 
         /// <summary>Write all text from objects to screen.</summary>

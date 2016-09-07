@@ -1,11 +1,15 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Collections.Generic;
-    using System.Text;
+using System.Collections.Generic;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Event.Prefab;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
+using OregonTrailDotNet.TrailSimulation.Window.RandomEvent;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.River
+{
     /// <summary>
     ///     When crossing a river there is a chance that your wagon will flood if you choose to caulk and float across the
     ///     river.
@@ -36,7 +40,7 @@ namespace TrailSimulation
             base.Execute(eventExecutor);
 
             // Cast the source entity as vehicle.
-            var vehicle = eventExecutor.SourceEntity as Vehicle;
+            var vehicle = eventExecutor.SourceEntity as Entity.Vehicle.Vehicle;
 
             // Reduce the total possible mileage of the vehicle this turn.
             vehicle?.ReduceMileage(20 - 20*GameSimulationApp.Instance.Random.Next());

@@ -1,16 +1,18 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Collections.ObjectModel;
-    using WolfCurses;
+using System.Collections.ObjectModel;
+using OregonTrailDotNet.TrailSimulation.Entity.Location;
+using OregonTrailDotNet.TrailSimulation.Entity.Vehicle;
+using OregonTrailDotNet.TrailSimulation.Window.Travel;
 
+namespace OregonTrailDotNet.TrailSimulation.Module.Trail
+{
     /// <summary>
     ///     Holds all the points of interest that make up the entire trail the players vehicle will be traveling along. Keeps
     ///     track of the vehicles current position on the trail and provides helper methods to quickly access it.
     /// </summary>
-    public sealed class TrailModule : Module
+    public sealed class TrailModule : WolfCurses.Module.Module
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="TrailModule" /> class.

@@ -1,10 +1,10 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
+using System;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing
+{
     /// <summary>
     ///     Special data class that is used to generate river data in the travel info as requested. Creation of this object
     ///     will automatically create a new river with random width and depth.
@@ -12,7 +12,7 @@ namespace TrailSimulation
     public sealed class RiverGenerator
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.RiverGenerator" /> class.
+        ///     Initializes a new instance of the <see cref="T:OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing.RiverGenerator" /> class.
         /// </summary>
         public RiverGenerator()
         {
@@ -20,7 +20,7 @@ namespace TrailSimulation
             var game = GameSimulationApp.Instance;
 
             // Cast the current location as river crossing.
-            var riverLocation = game.Trail.CurrentLocation as RiverCrossing;
+            var riverLocation = game.Trail.CurrentLocation as Entity.Location.Point.RiverCrossing;
             if (riverLocation == null)
                 throw new InvalidCastException(
                     "Unable to cast location as river crossing even though it returns as one!");

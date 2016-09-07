@@ -1,14 +1,14 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Reflection;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Form;
+using System;
+using System.Reflection;
+using System.Text;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Form;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.MainMenu.Options
+{
     /// <summary>
     ///     Glorified options menu for the game that allows player to remove top ten high scores, remove saved games, erase
     ///     Tombstone messages, etc.
@@ -41,7 +41,7 @@ namespace TrailSimulation
 
             _optionsPrompt.AppendLine($"{Environment.NewLine}The Oregon Trail");
             _optionsPrompt.AppendLine(
-                $"Version: {Assembly.GetExecutingAssembly().GetName().Version}{Environment.NewLine}");
+                $"Version: {Assembly.GetEntryAssembly().GetName().Version}{Environment.NewLine}");
             _optionsPrompt.AppendLine($"Management Options{Environment.NewLine}");
             _optionsPrompt.AppendLine("You may:");
             _optionsPrompt.AppendLine("1. See the original Top Ten list");

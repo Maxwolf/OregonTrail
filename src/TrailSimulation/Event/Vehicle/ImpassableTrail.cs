@@ -1,10 +1,12 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
+using OregonTrailDotNet.TrailSimulation.Event.Prefab;
+using OregonTrailDotNet.TrailSimulation.Module.Director;
 
+namespace OregonTrailDotNet.TrailSimulation.Event.Vehicle
+{
     /// <summary>
     ///     Wastes the players time by forcing them to go around a section of the trail that has been blocked by some natural
     ///     and or man made obstruction.

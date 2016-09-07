@@ -1,16 +1,21 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using WolfCurses;
-    using WolfCurses.Control;
-    using WolfCurses.Form;
-    using WolfCurses.Form.Input;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Entity.Item;
+using OregonTrailDotNet.TrailSimulation.Entity.Person;
+using OregonTrailDotNet.TrailSimulation.Module.Scoring;
+using OregonTrailDotNet.WolfCurses.Utility;
+using OregonTrailDotNet.WolfCurses.Window;
+using OregonTrailDotNet.WolfCurses.Window.Control;
+using OregonTrailDotNet.WolfCurses.Window.Form;
+using OregonTrailDotNet.WolfCurses.Window.Form.Input;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.GameOver
+{
     /// <summary>
     ///     Shows point tabulation based on current simulation statistics. This way if the player dies or finishes the game we
     ///     just attach this state to the travel mode and it will show the final score and reset the game and return to main
@@ -80,7 +85,7 @@ namespace TrailSimulation
             {
                 // HealthStatus of vehicle passengers that are still alive.
                 new Tuple<int, string, int>(
-                    game.Vehicle.Passengers.Count,
+                    game.Vehicle.PassengerLivingCount,
                     $"people in {avgHealth.ToDescriptionAttribute().ToLowerInvariant()} health",
                     game.Vehicle.PassengerLivingCount*(int) avgHealth),
                 new Tuple<int, string, int>(1, "wagon", Resources.Vehicle.Points),

@@ -1,11 +1,19 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System.Text;
-    using WolfCurses;
+using System.Text;
+using OregonTrailDotNet.TrailSimulation.Entity;
+using OregonTrailDotNet.TrailSimulation.Entity.Location;
+using OregonTrailDotNet.TrailSimulation.Entity.Location.Point;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Hunt;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.RiverCrossing;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Store;
+using OregonTrailDotNet.TrailSimulation.Window.Travel.Toll;
+using OregonTrailDotNet.WolfCurses.Utility;
+using OregonTrailDotNet.WolfCurses.Window;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel
+{
     /// <summary>
     ///     Holds all the information about traveling that we want to know, such as how long we need to go until next point,
     ///     what our current Windows is like moving, paused, etc.

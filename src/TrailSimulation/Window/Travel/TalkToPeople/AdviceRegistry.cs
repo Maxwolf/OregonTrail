@@ -1,7 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
+namespace OregonTrailDotNet.TrailSimulation.Window.Travel.TalkToPeople
 {
     /// <summary>
     ///     References all the advice that people will offer up to the player when they talk to people. The difference pieces

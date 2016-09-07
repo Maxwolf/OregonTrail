@@ -1,10 +1,11 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using WolfCurses;
+using OregonTrailDotNet.WolfCurses;
+using OregonTrailDotNet.WolfCurses.Window;
 
+namespace OregonTrailDotNet.TrailSimulation.Window.GameOver
+{
     /// <summary>
     ///     Controls the process of ending the current game simulation depending on if the player won or lost. This window can
     ///     be attached at any point by any other window, or form in order to facilitate the game being able to trigger a game

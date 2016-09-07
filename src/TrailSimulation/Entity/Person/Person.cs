@@ -1,10 +1,13 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-namespace TrailSimulation
-{
-    using System;
+using System;
+using OregonTrailDotNet.TrailSimulation.Entity.Vehicle;
+using OregonTrailDotNet.TrailSimulation.Event;
+using OregonTrailDotNet.TrailSimulation.Event.Person;
 
+namespace OregonTrailDotNet.TrailSimulation.Entity.Person
+{
     /// <summary>
     ///     Represents a human-being. Gender is not tracked, we only care about them as an entity that consumes food and their
     ///     health.
