@@ -76,9 +76,22 @@ namespace OregonTrailDotNet
         /// <param name="tuiContent">The text user interface content.</param>
         private static void Simulation_ScreenBufferDirtyEvent(string tuiContent)
         {
-            Console.Clear();
-            Console.SetCursorPosition(0, 0);
-            Console.Write("{0}", tuiContent);
+            var tuiContentSplit = tuiContent.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+
+            for (var index = 0; index < Console.WindowHeight - 1; index++)
+            {
+                Console.CursorLeft = 0;
+                Console.SetCursorPosition(0, index);
+
+                var emptyStringData = new string(' ', Console.WindowWidth);
+
+                if (tuiContentSplit.Length > index)
+                {
+                    emptyStringData = tuiContentSplit[index].PadRight(Console.WindowWidth);
+                }
+
+                Console.Write(emptyStringData);
+            }
         }
 
         /// <summary>
