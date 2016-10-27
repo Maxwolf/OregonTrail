@@ -1,71 +1,29 @@
-#tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
-//////////////////////////////////////////////////////////////////////
-// ARGUMENTS
-//////////////////////////////////////////////////////////////////////
+var json = "./project.json";
+var target = Argument ("target", "Default");
 
-var target = Argument("target", "Default");
-var configuration = Argument("configuration", "Release");
+Task ("Default").IsDependentOn ("build");
 
-//////////////////////////////////////////////////////////////////////
-// PREPARATION
-//////////////////////////////////////////////////////////////////////
-
-// Define directories.
-var buildDir = Directory("./src/Example/bin") + Directory(configuration);
-
-//////////////////////////////////////////////////////////////////////
-// TASKS
-//////////////////////////////////////////////////////////////////////
-
-Task("Clean")
-    .Does(() =>
+Task ("build").IsDependentOn ("clean").Does (() => 
 {
-    CleanDirectory(buildDir);
+	DotNetCoreRestore();
+	
+	// Always use Jenkins configuration never Debug or Release they will bump version numbers.
+	var buildSettings = new DotNetCoreBuildSettings {
+		Configuration = "Jenkins"
+	};
+	
+	DotNetCoreBuild(json, buildSettings);
 });
 
-Task("Restore-NuGet-Packages")
-    .IsDependentOn("Clean")
-    .Does(() =>
+Task ("clean").Does (() => 
 {
-    NuGetRestore("./src/Example.sln");
+	CleanDirectories ("./**/bin");
+	CleanDirectories ("./**/obj");
+
+	CleanDirectories ("./**/Components");
+	//CleanDirectories ("./**/tools");
+
+	DeleteFiles ("./**/*.apk");
 });
 
-Task("Build")
-    .IsDependentOn("Restore-NuGet-Packages")
-    .Does(() =>
-{
-    if(IsRunningOnWindows())
-    {
-      // Use MSBuild
-      MSBuild("./src/Example.sln", settings =>
-        settings.SetConfiguration(configuration));
-    }
-    else
-    {
-      // Use XBuild
-      XBuild("./src/Example.sln", settings =>
-        settings.SetConfiguration(configuration));
-    }
-});
-
-Task("Run-Unit-Tests")
-    .IsDependentOn("Build")
-    .Does(() =>
-{
-    NUnit3("./src/**/bin/" + configuration + "/*.Tests.dll", new NUnit3Settings {
-        NoResults = true
-        });
-});
-
-//////////////////////////////////////////////////////////////////////
-// TASK TARGETS
-//////////////////////////////////////////////////////////////////////
-
-Task("Default")
-    .IsDependentOn("Run-Unit-Tests");
-
-//////////////////////////////////////////////////////////////////////
-// EXECUTION
-//////////////////////////////////////////////////////////////////////
-
-RunTarget(target);
+RunTarget (target);
