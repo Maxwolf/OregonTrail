@@ -3,7 +3,7 @@
   "copyright": "Maxwolf",
   "description": "Clone of popular 90's computer game for C#",
   "language": "en-US",
-  "version": "1.0.0.9",
+  "version": "1.0.0.10",
   "buildOptions": {
     "debugType": "portable",
     "emitEntryPoint": true,
