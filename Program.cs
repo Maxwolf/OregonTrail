@@ -3,7 +3,6 @@
 
 using System;
 using System.Threading;
-using OregonTrailDotNet.TrailSimulation;
 
 namespace OregonTrailDotNet
 {

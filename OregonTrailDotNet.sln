@@ -8,11 +8,14 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Jenkins|Any CPU = Jenkins|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{06255C1F-6F35-468C-B162-16F90E70211A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{06255C1F-6F35-468C-B162-16F90E70211A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06255C1F-6F35-468C-B162-16F90E70211A}.Jenkins|Any CPU.ActiveCfg = Release|Any CPU
+		{06255C1F-6F35-468C-B162-16F90E70211A}.Jenkins|Any CPU.Build.0 = Release|Any CPU
 		{06255C1F-6F35-468C-B162-16F90E70211A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06255C1F-6F35-468C-B162-16F90E70211A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

@@ -2,26 +2,35 @@
   "title": "Oregon Trail",
   "copyright": "Maxwolf",
   "description": "Clone of popular 90's computer game for C#",
-  "version": "1.0.0-*",
+  "language": "en-US",
+  "version": "1.0.0.9",
   "buildOptions": {
     "debugType": "portable",
     "emitEntryPoint": true,
-    "optimize": true
+    "optimize": true,
+    "xmlDoc": true
   },
   "dependencies": {
-    "Microsoft.NETCore.App": "1.0.*"
+    "Cake.Core": "0.16.2",
+    "Microsoft.NETCore.App": "1.0.*",
+    "WolfCurses": "2.1.0.11"
   },
-
   "frameworks": {
-    "netcoreapp1.0": {
-    }
+    "netcoreapp1.0": {}
   },
-
-  "configurations": {
+  "tools": {
+    "dotnet-bump": "1.0.1"
   },
-
+  "scripts": {
+    "postcompile": [
+      "dotnet bump revision -t Debug -c %compile:Configuration%",
+      "dotnet bump revision -t Release -c %compile:Configuration%"
+    ]
+  },
+  "configurations": {},
   "runtimes": {
-    "win7-x64": {}
+    "win7-x64": {},
+    "osx.10.10-x64": {},
+    "ubuntu.14.04-x64": {}
   }
-
 }
