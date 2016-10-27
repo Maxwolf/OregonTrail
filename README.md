@@ -31,41 +31,41 @@ bash build.sh
 ## Simulation Features ##
 
 ### Travel ###
- * Iterates through 2-week trip segments
- * Play then proceeds through a series of up to 18 turns 
+ 1. Iterates through 2-week trip segments
+ 2. Play then proceeds through a series of up to 18 turns 
    (each representing two weeks)
- * 20+ weeks (246 days) will trigger end game routine
- * Expected mileage for next two-weeks calculated with current stats
- * Mileage figure is ideal, problems subtract from this figure
- * Mileage printed at start of next trip segment
- * Average mileage is about 75 miles a week
- * The going gets slower and harder later in the trip
- * Weather changes, requiring more clothing
- * Stopping at a fort for supplies dramatically reduces 
+ 3. 20+ weeks (246 days) will trigger end game routine
+ 4. Expected mileage for next two-weeks calculated with current stats
+ 5. Mileage figure is ideal, problems subtract from this figure
+ 6. Mileage printed at start of next trip segment
+ 7. Average mileage is about 75 miles a week
+ 8. The going gets slower and harder later in the trip
+ 9. Weather changes, requiring more clothing
+ 10. Stopping at a fort for supplies dramatically reduces 
    the miles you can cover in a single turn
- * Bad weather occurs 20% of the time
- * Injuries 5% of the time
- * Detects where the player is on the trail and adjust random events
- * Snows in the mountains and river disasters occur on the plains
- * Clothes and wagon parts increase 2.5 dollars
- * Food increases .10 dollars and bullets increase 2.5 dollars
- * Oxen go up 5 dollars at each fort
- * When you rest at a land mark people often heal quicker than on the trail
- * Locations have fresh water flag if enabled doubles change for dysentery
+ 11. Bad weather occurs 20% of the time
+ 12. Injuries 5% of the time
+ 13. Detects where the player is on the trail and adjust random events
+ 14. Snows in the mountains and river disasters occur on the plains
+ 15. Clothes and wagon parts increase 2.5 dollars
+ 16. Food increases .10 dollars and bullets increase 2.5 dollars
+ 17. Oxen go up 5 dollars at each fort
+ 18. When you rest at a land mark people often heal quicker than on the trail
+ 19. Locations have fresh water flag if enabled doubles change for dysentery
    and cholera
- * Maximum amount of weight that can be carried back after a hunt
+ 20. Maximum amount of weight that can be carried back after a hunt
    is 250 lbs of food
- * The less buffalo you kill the better deal you shall receive
+ 21. The less buffalo you kill the better deal you shall receive
    from Indian wanting clothes
- * Random chance for Indian Guide to help cross river for 1-5 sets of clothes
+ 22. Random chance for Indian Guide to help cross river for 1-5 sets of clothes
  
 ### Hunting ###
-1. Random shooting word selected
-2. Date is taken for hunting start time
-3. Wait for correct shooting word input
-4. Subtract start time from end time
-5. If 2 seconds or less good shot, longer bad
-6. Ammunition consumption calculated from shoot time
+ 1. Random shooting word selected
+ 2. Date is taken for hunting start time
+ 3. Wait for correct shooting word input
+ 4. Subtract start time from end time
+ 5. If 2 seconds or less good shot, longer bad
+ 6. Ammunition consumption calculated from shoot time
 
 ### Eating ###
  1. Food consumption in pounds calculated from ration level per day
