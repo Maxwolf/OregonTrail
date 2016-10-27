@@ -2,6 +2,8 @@
 
 Clone of popular 90's computer game for C#.
 
+![Oregon Trail Main Menu](https://raw.githubusercontent.com/Maxwolf/OregonTrail/master/media/TitleScreen.jpg)
+
 ## Cloning Instructions ##
 
 ```cmd
