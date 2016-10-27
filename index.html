@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Oregon Trail by Maxwolf</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/Maxwolf/OregonTrail">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/Maxwolf/OregonTrail/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/Maxwolf/OregonTrail/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Oregon Trail</h1>
+          <p>Clone of popular 90&#39;s computer game for C#.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/Maxwolf">Maxwolf</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a id="oregon-trail-clone" class="anchor" href="#oregon-trail-clone" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Oregon Trail Clone</h1>
+
+<p>Clone of popular 90's computer game for C#.</p>
+
+<h2>
+<a id="cloning-instructions" class="anchor" href="#cloning-instructions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Cloning Instructions</h2>
+
+<div class="highlight highlight-source-batchfile"><pre>git clone --recursive https://github.com/Maxwolf/OregonTrail.git</pre></div>
+
+<p>Make sure your git client recursively grabs all the sub-modules for the repo. Most Git GUI's (e.g, SourceTree, SmartGit, GitEye) will all do this automatically for you. </p>
+
+<h2>
+<a id="compilation-instructions" class="anchor" href="#compilation-instructions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compilation Instructions</h2>
+
+<p>You <em>should</em> be able to run the Cake build script by invoking the bootstrapper with a script tailored to the target platform.</p>
+
+<h3>
+<a id="windows" class="anchor" href="#windows" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Windows</h3>
+
+<div class="highlight highlight-source-batchfile"><pre>build.bat</pre></div>
+
+<p>If script execution fail due to the execution policy, you might have to tell PowerShell to allow running scripts. You do this by <a href="https://technet.microsoft.com/en-us/library/ee176961.aspx">changing the execution policy</a>.</p>
+
+<h3>
+<a id="linuxos-x" class="anchor" href="#linuxos-x" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Linux/OS X</h3>
+
+<div class="highlight highlight-source-shell"><pre>bash build.sh</pre></div>
+
+<h2>
+<a id="simulation-features" class="anchor" href="#simulation-features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simulation Features</h2>
+
+<h3>
+<a id="travel" class="anchor" href="#travel" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Travel</h3>
+
+<ol>
+<li>Iterates through 2-week trip segments</li>
+<li>Play then proceeds through a series of up to 18 turns 
+(each representing two weeks)</li>
+<li>20+ weeks (246 days) will trigger end game routine</li>
+<li>Expected mileage for next two-weeks calculated with current stats</li>
+<li>Mileage figure is ideal, problems subtract from this figure</li>
+<li>Mileage printed at start of next trip segment</li>
+<li>Average mileage is about 75 miles a week</li>
+<li>The going gets slower and harder later in the trip</li>
+<li>Weather changes, requiring more clothing</li>
+<li>Stopping at a fort for supplies dramatically reduces 
+the miles you can cover in a single turn</li>
+<li>Bad weather occurs 20% of the time</li>
+<li>Injuries 5% of the time</li>
+<li>Detects where the player is on the trail and adjust random events</li>
+<li>Snows in the mountains and river disasters occur on the plains</li>
+<li>Clothes and wagon parts increase 2.5 dollars</li>
+<li>Food increases .10 dollars and bullets increase 2.5 dollars</li>
+<li>Oxen go up 5 dollars at each fort</li>
+<li>When you rest at a land mark people often heal quicker than on the trail</li>
+<li>Locations have fresh water flag if enabled doubles change for dysentery
+and cholera</li>
+<li>Maximum amount of weight that can be carried back after a hunt
+is 250 lbs of food</li>
+<li>The less buffalo you kill the better deal you shall receive
+from Indian wanting clothes</li>
+<li>Random chance for Indian Guide to help cross river for 1-5 sets of clothes</li>
+</ol>
+
+<h3>
+<a id="hunting" class="anchor" href="#hunting" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hunting</h3>
+
+<ol>
+<li>Random shooting word selected</li>
+<li>Date is taken for hunting start time</li>
+<li>Wait for correct shooting word input</li>
+<li>Subtract start time from end time</li>
+<li>If 2 seconds or less good shot, longer bad</li>
+<li>Ammunition consumption calculated from shoot time</li>
+</ol>
+
+<h3>
+<a id="eating" class="anchor" href="#eating" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Eating</h3>
+
+<ol>
+<li>Food consumption in pounds calculated from ration level per day</li>
+</ol>
+
+<h3>
+<a id="random-events" class="anchor" href="#random-events" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Random Events</h3>
+
+<ol>
+<li>Select random number from 0 to 100 that will be dice roll</li>
+<li>Probability determined by sucessive numbers in array</li>
+<li>0-6=event1, 6-11=event2, 11-13=event3, and so on...</li>
+<li>Event typically prints message, subtracts mileage, and supplies</li>
+<li>Events cold weather, bandits, wild-animal attack, illness
+are more complicated</li>
+</ol>
+
+<h3>
+<a id="climate" class="anchor" href="#climate" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Climate</h3>
+
+<ol>
+<li>Check if set of clothing for every member in party</li>
+<li>If not enough clothes illness routine is called</li>
+<li>Illness routine can also be called if starvation flag is set</li>
+</ol>
+
+<h3>
+<a id="illness" class="anchor" href="#illness" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Illness</h3>
+
+<ol>
+<li>Check how well the player has been eating</li>
+<li>If bad chance to contract mild, bad, or very serious illness</li>
+<li>Mild and serious can be ignored, the others medical services</li>
+</ol>
+
+<h3>
+<a id="mountains" class="anchor" href="#mountains" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mountains</h3>
+
+<ol>
+<li>Higher elevations risk cave-ins, losing your way, and slow going</li>
+<li>80% chance of getting stuck in South Pass</li>
+<li>70% chance of getting stuck in Blue Mountains</li>
+<li>Will never be stuck for more than 10 days</li>
+<li>90% chance for blizzard at high elevations</li>
+</ol>
+
+<h3>
+<a id="death" class="anchor" href="#death" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Death</h3>
+
+<ol>
+<li>Not enough food, clothing, ammunition, or medical supplies</li>
+<li>Short message is displayed telling you what happened</li>
+<li>How far you traveled is shown, remaining supplies</li>
+<li>Assumed less than 50% made it, realistic 20%</li>
+</ol>
+
+<h3>
+<a id="winning" class="anchor" href="#winning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Winning</h3>
+
+<ol>
+<li>Display total time of journey</li>
+<li>Remaining supplies shown, if any</li>
+</ol>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
