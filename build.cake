@@ -15,14 +15,13 @@ Task ("build").Does (() =>
 	
 	DotNetCoreBuild(json, buildSettings);
 	
-	var buildSettings = new DotNetCorePublishSettings {
+	var publishSettings = new DotNetCorePublishSettings {
 		Verbose = true,
 		Configuration = "Jenkins",
-		NoBuild = true,
-		
+		NoBuild = true
 	};
 	
-	DotNetCorePublish(json);
+	DotNetCorePublish(json, publishSettings);
 });
 
 RunTarget (target);
