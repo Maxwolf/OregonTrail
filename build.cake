@@ -10,7 +10,8 @@ Task ("build").Does (() =>
 	// Always use Jenkins configuration never Debug or Release they will bump version numbers.
 	var buildSettings = new DotNetCoreBuildSettings {
 		Verbose = true,
-		Configuration = "Jenkins"
+		Configuration = "Jenkins",
+		Runtime = "win7-x64"
 	};
 	
 	DotNetCoreBuild(json, buildSettings);
