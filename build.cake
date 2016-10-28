@@ -18,7 +18,8 @@ Task ("build").Does (() =>
 	var publishSettings = new DotNetCorePublishSettings {
 		Verbose = true,
 		Configuration = "Jenkins",
-		NoBuild = true
+		NoBuild = true,
+		Runtime = "win7-x64"
 	};
 	
 	DotNetCorePublish(json, publishSettings);
