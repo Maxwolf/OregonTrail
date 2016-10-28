@@ -3,7 +3,7 @@ var target = Argument ("target", "Default");
 
 Task ("Default").IsDependentOn ("build");
 
-Task ("build").IsDependentOn ("clean").Does (() => 
+Task ("build").Does (() => 
 {
 	DotNetCoreRestore();
 	
@@ -13,17 +13,8 @@ Task ("build").IsDependentOn ("clean").Does (() =>
 	};
 	
 	DotNetCoreBuild(json, buildSettings);
-});
-
-Task ("clean").Does (() => 
-{
-	CleanDirectories ("./**/bin");
-	CleanDirectories ("./**/obj");
-
-	CleanDirectories ("./**/Components");
-	//CleanDirectories ("./**/tools");
-
-	DeleteFiles ("./**/*.apk");
+	
+	DotNetCorePublish(json);
 });
 
 RunTarget (target);
