@@ -14,10 +14,7 @@ namespace OregonTrailDotNet.Module.Director
         ///     Grabs the current name of the event as it should be known by the simulation. Generally this is the friendly class
         ///     name.
         /// </summary>
-        public string Name
-        {
-            get { return GetType().Name; }
-        }
+        public string Name => GetType().Name;
 
         /// <summary>
         ///     Fired when the event handler associated with this enum type triggers action on target entity. Implementation is

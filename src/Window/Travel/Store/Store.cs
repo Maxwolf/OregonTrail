@@ -182,9 +182,9 @@ namespace OregonTrailDotNet.Window.Travel.Store
             // If at first location we show the total cost of the bill so far the player has racked up.
             _storePrompt.Append(GameSimulationApp.Instance.Trail.IsFirstLocation &&
                                 (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached)
-                ? $"Total bill:            {totalBill.ToString("C2")}" +
-                  $"{Environment.NewLine}Amount you have:       {amountPlayerHas.ToString("C2")}"
-                : $"You have {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")} to spend.");
+                ? $"Total bill:            {totalBill:C2}" +
+                  $"{Environment.NewLine}Amount you have:       {amountPlayerHas:C2}"
+                : $"You have {GameSimulationApp.Instance.Vehicle.Balance:C2} to spend.");
         }
 
         /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>
@@ -196,8 +196,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
                 return;
 
             // Attempt to cast string to enum value, can be characters or integer.
-            Entities selectedItem;
-            Enum.TryParse(input, out selectedItem);
+            Enum.TryParse(input, out Entities selectedItem);
 
             // Figure out what to do based on selection.
             switch (selectedItem)

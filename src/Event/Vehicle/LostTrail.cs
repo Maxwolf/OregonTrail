@@ -11,6 +11,7 @@ namespace OregonTrailDotNet.Event.Vehicle
     ///     Hopefully there are some tracks you can follow!
     /// </summary>
     [DirectorEvent(EventCategory.Vehicle)]
+    // ReSharper disable once UnusedMember.Global
     public sealed class LostTrail : LoseTime
     {
         /// <summary>

@@ -16,35 +16,29 @@ namespace OregonTrailDotNet.Window.Graveyard
         ///     Tombstone for the player (or another dead player) that will be either viewed or shown to user so they can
         ///     confirm their graves details.
         /// </summary>
-        private Tombstone tempTombstone;
+        private Tombstone _tempTombstone;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="TombstoneInfo" /> class.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         public TombstoneInfo()
         {
-            tempTombstone = null;
+            _tempTombstone = null;
         }
 
         /// <summary>
         ///     Creates a new internally workable tombstone that can be accessed by the running window and form logic. Intended to
         ///     be used to create a tombstone for a player that has failed to reach the end of the trail.
         /// </summary>
-        public Tombstone Tombstone
-        {
-            get
-            {
-                // Create a tombstone if one does not exist, otherwise reference existing one.
-                return tempTombstone ?? (tempTombstone = new Tombstone());
-            }
-        }
+        public Tombstone Tombstone => _tempTombstone ?? (_tempTombstone = new Tombstone());
 
         /// <summary>
         ///     Destroys any currently existing temporary tombstone.
         /// </summary>
         public void ClearTombstone()
         {
-            tempTombstone = null;
+            _tempTombstone = null;
         }
     }
 }

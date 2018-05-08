@@ -20,13 +20,14 @@ namespace OregonTrailDotNet.Window.RandomEvent
         /// <summary>
         ///     Holds the message that will be constructed on behalf of the form and then rendered out to the user after execution.
         /// </summary>
-        private StringBuilder _skipMessage;
+        private readonly StringBuilder _skipMessage;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="EventSkipDay" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public EventSkipDay(IWindow window) : base(window)
         {
             _skipMessage = new StringBuilder();
@@ -36,19 +37,13 @@ namespace OregonTrailDotNet.Window.RandomEvent
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool InputFillsBuffer
-        {
-            get { return false; }
-        }
+        public override bool InputFillsBuffer => false;
 
         /// <summary>
         ///     Determines if this dialog state is allowed to receive any input at all, even empty line returns. This is useful for
         ///     preventing the player from leaving a particular dialog until you are ready or finished processing some data.
         /// </summary>
-        public override bool AllowInput
-        {
-            get { return UserData.DaysToSkip <= 0; }
-        }
+        public override bool AllowInput => UserData.DaysToSkip <= 0;
 
         /// <summary>
         ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question

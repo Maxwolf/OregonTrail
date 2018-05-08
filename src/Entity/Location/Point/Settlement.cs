@@ -24,17 +24,11 @@ namespace OregonTrailDotNet.Entity.Location.Point
         ///     Determines if the location allows the player to chat to other NPC's in the area which can offer up advice about the
         ///     trail ahead.
         /// </summary>
-        public override bool ChattingAllowed
-        {
-            get { return true; }
-        }
+        public override bool ChattingAllowed => true;
 
         /// <summary>
         ///     Determines if this location has a store which the player can buy items from using their monies.
         /// </summary>
-        public override bool ShoppingAllowed
-        {
-            get { return true; }
-        }
+        public override bool ShoppingAllowed => true;
     }
 }

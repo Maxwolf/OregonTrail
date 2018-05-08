@@ -26,6 +26,7 @@ namespace OregonTrailDotNet.Window.Travel.Command
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public LookAtMap(IWindow window) : base(window)
         {
         }
@@ -39,9 +40,9 @@ namespace OregonTrailDotNet.Window.Travel.Command
         protected override string OnDialogPrompt()
         {
             // Create visual progress representation of the trail.
-            var _map = new StringBuilder();
-            _map.AppendLine($"{Environment.NewLine}Trail progress{Environment.NewLine}");
-            _map.AppendLine(TextProgress.DrawProgressBar(
+            var map = new StringBuilder();
+            map.AppendLine($"{Environment.NewLine}Trail progress{Environment.NewLine}");
+            map.AppendLine(TextProgress.DrawProgressBar(
                                 GameSimulationApp.Instance.Trail.LocationIndex + 1,
                                 GameSimulationApp.Instance.Trail.Locations.Count, 32) + Environment.NewLine);
 
@@ -51,9 +52,9 @@ namespace OregonTrailDotNet.Window.Travel.Command
                 u => u.Status >= LocationStatus.Arrived,
                 u => u.Name
             );
-            _map.AppendLine(locationTable);
+            map.AppendLine(locationTable);
 
-            return _map.ToString();
+            return map.ToString();
         }
 
         /// <summary>

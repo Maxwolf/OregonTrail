@@ -20,6 +20,7 @@ namespace OregonTrailDotNet.Window.GameOver
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public GameFail(IWindow window) : base(window)
         {
         }
@@ -28,19 +29,13 @@ namespace OregonTrailDotNet.Window.GameOver
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool InputFillsBuffer
-        {
-            get { return false; }
-        }
+        public override bool InputFillsBuffer => false;
 
         /// <summary>
         ///     Determines if this dialog state is allowed to receive any input at all, even empty line returns. This is useful for
         ///     preventing the player from leaving a particular dialog until you are ready or finished processing some data.
         /// </summary>
-        public override bool AllowInput
-        {
-            get { return false; }
-        }
+        public override bool AllowInput => false;
 
         /// <summary>
         ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question

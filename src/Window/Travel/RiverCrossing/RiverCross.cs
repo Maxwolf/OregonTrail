@@ -58,6 +58,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public RiverCross(IWindow window) : base(window)
         {
         }

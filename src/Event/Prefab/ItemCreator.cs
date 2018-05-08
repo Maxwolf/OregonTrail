@@ -68,9 +68,9 @@ namespace OregonTrailDotNet.Event.Prefab
             // Loop through all of the created items and add them to string builder.
             foreach (var createdItem in createdItems)
                 if (createdItems.Last().Equals(createdItem))
-                    _eventText.Append($"{createdItem.Value.ToString("N0")} {createdItem.Key}");
+                    _eventText.Append($"{createdItem.Value:N0} {createdItem.Key}");
                 else
-                    _eventText.AppendLine($"{createdItem.Value.ToString("N0")} {createdItem.Key}");
+                    _eventText.AppendLine($"{createdItem.Value:N0} {createdItem.Key}");
         }
 
         /// <summary>Fired by the event prefab after the event has executed.</summary>

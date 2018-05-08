@@ -35,9 +35,9 @@ namespace OregonTrailDotNet.Event.Wild
         /// </returns>
         protected override string OnPreCreateItems()
         {
-            var _eventText = new StringBuilder();
-            _eventText.AppendLine("You find an abandoned wagon,");
-            return _eventText.ToString();
+            var eventText = new StringBuilder();
+            eventText.AppendLine("You find an abandoned wagon,");
+            return eventText.ToString();
         }
     }
 }

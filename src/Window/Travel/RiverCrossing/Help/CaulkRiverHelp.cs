@@ -21,6 +21,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Help
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public CaulkRiverHelp(IWindow window) : base(window)
         {
         }
@@ -33,13 +34,13 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Help
         /// </returns>
         protected override string OnDialogPrompt()
         {
-            var _caulkWagon = new StringBuilder();
-            _caulkWagon.AppendLine($"{Environment.NewLine}To caulk the wagon means to");
-            _caulkWagon.AppendLine("seal it so that no water can");
-            _caulkWagon.AppendLine("get in. The wagon can then");
-            _caulkWagon.AppendLine("be floated across like a");
-            _caulkWagon.AppendLine($"boat{Environment.NewLine}");
-            return _caulkWagon.ToString();
+            var caulkWagon = new StringBuilder();
+            caulkWagon.AppendLine($"{Environment.NewLine}To caulk the wagon means to");
+            caulkWagon.AppendLine("seal it so that no water can");
+            caulkWagon.AppendLine("get in. The wagon can then");
+            caulkWagon.AppendLine("be floated across like a");
+            caulkWagon.AppendLine($"boat{Environment.NewLine}");
+            return caulkWagon.ToString();
         }
 
         /// <summary>

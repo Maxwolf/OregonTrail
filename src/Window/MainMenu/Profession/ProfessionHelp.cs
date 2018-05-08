@@ -18,6 +18,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Profession
     {
         /// <summary>Initializes a new instance of the <see cref="ProfessionHelp" /> class.</summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public ProfessionHelp(IWindow window) : base(window)
         {
         }
@@ -31,19 +32,19 @@ namespace OregonTrailDotNet.Window.MainMenu.Profession
         protected override string OnDialogPrompt()
         {
             // Information about professions and how they work.
-            var _job = new StringBuilder();
-            _job.Append($"{Environment.NewLine}Traveling to Oregon isn't easy!{Environment.NewLine}");
-            _job.Append($"But if you're a banker, you'll{Environment.NewLine}");
-            _job.Append($"have more money for supplies{Environment.NewLine}");
-            _job.Append($"and services than a carpenter{Environment.NewLine}");
-            _job.Append($"or a farmer.{Environment.NewLine}{Environment.NewLine}");
-            _job.Append($"However, the harder you have{Environment.NewLine}");
-            _job.Append($"to try, the more points you{Environment.NewLine}");
-            _job.Append($"deserve! Therefore, the{Environment.NewLine}");
-            _job.Append($"farmer earns the greatest{Environment.NewLine}");
-            _job.Append($"number of points and the{Environment.NewLine}");
-            _job.Append($"banker earns the least.{Environment.NewLine}{Environment.NewLine}");
-            return _job.ToString();
+            var job = new StringBuilder();
+            job.Append($"{Environment.NewLine}Traveling to Oregon isn't easy!{Environment.NewLine}");
+            job.Append($"But if you're a banker, you'll{Environment.NewLine}");
+            job.Append($"have more money for supplies{Environment.NewLine}");
+            job.Append($"and services than a carpenter{Environment.NewLine}");
+            job.Append($"or a farmer.{Environment.NewLine}{Environment.NewLine}");
+            job.Append($"However, the harder you have{Environment.NewLine}");
+            job.Append($"to try, the more points you{Environment.NewLine}");
+            job.Append($"deserve! Therefore, the{Environment.NewLine}");
+            job.Append($"farmer earns the greatest{Environment.NewLine}");
+            job.Append($"number of points and the{Environment.NewLine}");
+            job.Append($"banker earns the least.{Environment.NewLine}{Environment.NewLine}");
+            return job.ToString();
         }
 
         /// <summary>

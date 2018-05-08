@@ -24,6 +24,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public PointsDistributionHelp(IWindow window) : base(window)
         {
         }
@@ -37,29 +38,29 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
         protected override string OnDialogPrompt()
         {
             // Build up string of help about points for people.
-            var _pointsHealth = new StringBuilder();
-            _pointsHealth.AppendLine($"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}");
-            _pointsHealth.AppendLine("Your most important resource is the");
-            _pointsHealth.AppendLine("people you have with you. You");
-            _pointsHealth.AppendLine("receive points for each member of");
-            _pointsHealth.AppendLine("your party who arrives safely; you");
-            _pointsHealth.AppendLine("receive more points if they arrive");
-            _pointsHealth.AppendLine($"in good health!{Environment.NewLine}");
+            var pointsHealth = new StringBuilder();
+            pointsHealth.AppendLine($"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}");
+            pointsHealth.AppendLine("Your most important resource is the");
+            pointsHealth.AppendLine("people you have with you. You");
+            pointsHealth.AppendLine("receive points for each member of");
+            pointsHealth.AppendLine("your party who arrives safely; you");
+            pointsHealth.AppendLine("receive more points if they arrive");
+            pointsHealth.AppendLine($"in good health!{Environment.NewLine}");
 
             // Repair status reference dictionary.
-            var _repairLevels = new Dictionary<string, int>();
+            var repairLevels = new Dictionary<string, int>();
             foreach (var repairStat in Enum.GetNames(typeof(HealthStatus)))
-                _repairLevels.Add(repairStat, (int) Enum.Parse(typeof(HealthStatus), repairStat));
+                repairLevels.Add(repairStat, (int) Enum.Parse(typeof(HealthStatus), repairStat));
 
             // Build a text table from people point distribution with custom headers.
-            var partyTextTable = _repairLevels.Values.ToStringTable(
+            var partyTextTable = repairLevels.Values.ToStringTable(
                 new[] {"HealthStatus of Party", "Points per Person"},
                 u => Enum.Parse(typeof(HealthStatus), u.ToString()).ToDescriptionAttribute(),
                 u => u);
 
             // Print the table to the screen buffer.
-            _pointsHealth.AppendLine(partyTextTable);
-            return _pointsHealth.ToString();
+            pointsHealth.AppendLine(partyTextTable);
+            return pointsHealth.ToString();
         }
 
         /// <summary>

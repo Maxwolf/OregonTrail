@@ -65,10 +65,7 @@ namespace OregonTrailDotNet.Module.Time
         /// <summary>
         ///     Assembles the current date of the simulation by creating date object from current year, month, and day.
         /// </summary>
-        public Date Date
-        {
-            get { return new Date(CurrentYear, CurrentMonth, CurrentDay); }
-        }
+        public Date Date => new Date(CurrentYear, CurrentMonth, CurrentDay);
 
         /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can

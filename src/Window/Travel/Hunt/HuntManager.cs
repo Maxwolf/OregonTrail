@@ -30,39 +30,44 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         /// <summary>
         ///     Default amount of time that every hunt is given, measured in ticks.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public const int HUNTINGTIME = 30;
 
         /// <summary>
         ///     Determines the maximum number of animals that will be spawned in this area for the player to hunt.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         private const int MAXPREY = 15;
 
         /// <summary>
         ///     Determines the total weight of all the food the player is allowed to take away from a given hunting session.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public const int MAXFOOD = 100;
 
         /// <summary>
         ///     Determines the total number of seconds a given prey item is allowed to be a target by the player, if this value is
         ///     exceeded the animal will sense the player and run away.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public const int MAXTARGETINGTIME = 10;
 
         /// <summary>
         ///     Minimum amount of time that a prey item will be available to shoot by the player if it is selected as a valid
         ///     target.e
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public const int MINTARGETINGTIME = 3;
 
         /// <summary>
         ///     Reference list for all of the prey that was killed by the player using their bullets.
         /// </summary>
-        private List<PreyItem> _killedPrey;
+        private readonly List<PreyItem> _killedPrey;
 
         /// <summary>
         ///     Defines a rolling list of all the prey that has escaped death from the players bullets.
         /// </summary>
-        private List<PreyItem> _preyEscaped;
+        private readonly List<PreyItem> _preyEscaped;
 
         /// <summary>
         ///     Total number of seconds that the player is allowed to hunt, measured in ticks.
@@ -72,7 +77,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         /// <summary>
         ///     List of all the shooting words generated from the get values on hunt word enumeration.
         /// </summary>
-        private List<HuntWord> _shootWords;
+        private readonly List<HuntWord> _shootWords;
 
         /// <summary>
         ///     Reference to all of the created prey in the area which the player will be able to hunt and kill with their bullets.
@@ -170,7 +175,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
 
                     // Prey will read out animals for multiple, and just animal for one (1), animals for zero (0).
                     huntStatus.AppendLine(
-                        $"{Environment.NewLine}You sense {_sortedPrey.Count.ToString("N0")} {animalText}");
+                        $"{Environment.NewLine}You sense {_sortedPrey.Count:N0} {animalText}");
                     huntStatus.Append("in the area...");
                 }
 
@@ -211,18 +216,12 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         /// <summary>
         ///     Determines if the hunt currently has a animal prey on the field available for the player to kill.
         /// </summary>
-        public bool PreyAvailable
-        {
-            get { return ShootingWord != HuntWord.None; }
-        }
+        public bool PreyAvailable => ShootingWord != HuntWord.None;
 
         /// <summary>
         ///     Determines if the hunting session is over and the results form should be displayed.
         /// </summary>
-        public bool ShouldEndHunt
-        {
-            get { return _secondsRemaining <= 0; }
-        }
+        public bool ShouldEndHunt => _secondsRemaining <= 0;
 
         /// <summary>
         ///     Calculates the total weight of all the killed prey targets.
@@ -247,18 +246,12 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         /// <summary>
         ///     Gets the last known prey that became aware of the hunter and fled the hunting grounds.
         /// </summary>
-        public PreyItem LastEscapee
-        {
-            get { return _preyEscaped.LastOrDefault(); }
-        }
+        public PreyItem LastEscapee => _preyEscaped.LastOrDefault();
 
         /// <summary>
         ///     Gets the last known killed prey item from the list of killed prey.
         /// </summary>
-        public PreyItem LastTarget
-        {
-            get { return _killedPrey.LastOrDefault(); }
-        }
+        public PreyItem LastTarget => _killedPrey.LastOrDefault();
 
         /// <summary>
         ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system

@@ -21,18 +21,20 @@ namespace OregonTrailDotNet.Window.Graveyard
         ///     Defines how long a epitaph on a tombstone can be in characters which will make up the entire string (spaces
         ///     included).
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         private const int EPITAPH_MAXLENGTH = 38;
 
         /// <summary>
         ///     String builder that will hold representation of the tombstone for the player to see.
         /// </summary>
-        private StringBuilder _epitaphPrompt;
+        private readonly StringBuilder _epitaphPrompt;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="EpitaphEditor" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public EpitaphEditor(IWindow window) : base(window)
         {
             _epitaphPrompt = new StringBuilder();
@@ -42,10 +44,7 @@ namespace OregonTrailDotNet.Window.Graveyard
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool InputFillsBuffer
-        {
-            get { return GameSimulationApp.Instance.InputManager.InputBuffer.Length <= EPITAPH_MAXLENGTH; }
-        }
+        public override bool InputFillsBuffer => GameSimulationApp.Instance.InputManager.InputBuffer.Length <= EPITAPH_MAXLENGTH;
 
         /// <summary>
         ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question

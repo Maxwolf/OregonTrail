@@ -25,7 +25,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
         /// <summary>
         ///     Holds representation of the fork in the road as a decision for the player to make.
         /// </summary>
-        private StringBuilder _forkPrompt;
+        private readonly StringBuilder _forkPrompt;
 
         /// <summary>
         ///     Defines the skip choices as they will be selected from the fork form. The purpose for this is because we want the
@@ -38,6 +38,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public LocationFork(IWindow window) : base(window)
         {
             _forkPrompt = new StringBuilder();
@@ -100,8 +101,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
         public override void OnInputBufferReturned(string input)
         {
             // Parse the user input buffer as integer.
-            int parsedInputNumber;
-            if (!int.TryParse(input, out parsedInputNumber))
+            if (!int.TryParse(input, out var parsedInputNumber))
                 return;
 
             // Number must be greater than zero.
@@ -112,8 +112,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
             if (_skipChoices.ContainsKey(parsedInputNumber))
             {
                 // Check if the selected fork is a toll road (that changes things).
-                var tollRoad = _skipChoices[parsedInputNumber] as TollRoad;
-                if (tollRoad != null)
+                if (_skipChoices[parsedInputNumber] is TollRoad tollRoad)
                 {
                     // Creates a toll and adds location we would like to fork to.
                     UserData.GenerateToll(tollRoad);

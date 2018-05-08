@@ -24,6 +24,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public LocationDepart(IWindow window) : base(window)
         {
         }

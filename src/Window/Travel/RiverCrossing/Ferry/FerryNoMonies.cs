@@ -22,6 +22,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Ferry
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public FerryNoMonies(IWindow window) : base(window)
         {
         }
@@ -34,11 +35,11 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Ferry
         /// </returns>
         protected override string OnDialogPrompt()
         {
-            var _prompt = new StringBuilder();
-            _prompt.AppendLine($"{Environment.NewLine}You do not have enough");
-            _prompt.AppendLine("monies to take the");
-            _prompt.AppendLine($"ferry.{Environment.NewLine}");
-            return _prompt.ToString();
+            var prompt = new StringBuilder();
+            prompt.AppendLine($"{Environment.NewLine}You do not have enough");
+            prompt.AppendLine("monies to take the");
+            prompt.AppendLine($"ferry.{Environment.NewLine}");
+            return prompt.ToString();
         }
 
         /// <summary>

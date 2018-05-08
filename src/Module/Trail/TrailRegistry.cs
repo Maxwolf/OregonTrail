@@ -57,36 +57,6 @@ namespace OregonTrailDotNet.Module.Trail
         }
 
         /// <summary>
-        ///     Debugging and testing trail that is used to quickly iterate over the different location types.
-        /// </summary>
-        public static Trail TestTrail
-        {
-            get
-            {
-                var testTrail = new Location[]
-                {
-                    new Settlement("Start Settlement", Climate.Moderate),
-                    new ForkInRoad("Fork In Road", Climate.Polar, new List<Location>
-                    {
-                        new Settlement("Inserted Settlement", Climate.Polar),
-                        new ForkInRoad("Inserted Fork In Road", Climate.Polar, new List<Location>
-                        {
-                            new RiverCrossing("Inserted River Crossing (default)", Climate.Moderate),
-                            new TollRoad("Inserted Toll Road", Climate.Moderate)
-                        })
-                    }),
-                    new Landmark("Landmark", Climate.Dry),
-                    new TollRoad("Toll Road", Climate.Moderate),
-                    new RiverCrossing("River Crossing (with ferry)", Climate.Continental, RiverOption.FerryOperator),
-                    new RiverCrossing("River Crossing (with Indian)", Climate.Continental, RiverOption.IndianGuide),
-                    new Settlement("End Settlement", Climate.Moderate)
-                };
-
-                return new Trail(testTrail, 50, 100);
-            }
-        }
-
-        /// <summary>
         ///     Debugging trail for quickly getting to the end of the game for points tabulation and high-score tests.
         /// </summary>
         public static Trail WinTrail
@@ -100,28 +70,6 @@ namespace OregonTrailDotNet.Module.Trail
                 };
 
                 return new Trail(testPoints, 50, 100);
-            }
-        }
-
-        /// <summary>
-        ///     Debugging trail for quickly drowning the player and killing them off so tombstones and epitaphs can be tested.
-        /// </summary>
-        public static Trail FailTrail
-        {
-            get
-            {
-                var testFail = new Location[]
-                {
-                    new Settlement("Start Of Test", Climate.Moderate),
-                    new RiverCrossing("Wolf River Crossing", Climate.Continental, RiverOption.IndianGuide),
-                    new RiverCrossing("Fox River Crossing", Climate.Moderate, RiverOption.IndianGuide),
-                    new RiverCrossing("Otter River Crossing", Climate.Tropical, RiverOption.FerryOperator),
-                    new RiverCrossing("Coyote River Crossing", Climate.Polar),
-                    new RiverCrossing("Deer River Crossing", Climate.Continental),
-                    new RiverCrossing("End Of Test", Climate.Dry)
-                };
-
-                return new Trail(testFail, 50, 100);
             }
         }
     }

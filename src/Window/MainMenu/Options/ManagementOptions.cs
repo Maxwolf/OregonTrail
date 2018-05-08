@@ -19,13 +19,14 @@ namespace OregonTrailDotNet.Window.MainMenu.Options
         /// <summary>
         ///     Holds options menu so it will only be created once and then rendered out.
         /// </summary>
-        private StringBuilder _optionsPrompt;
+        private readonly StringBuilder _optionsPrompt;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ManagementOptions" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public ManagementOptions(IWindow window) : base(window)
         {
             _optionsPrompt = new StringBuilder();
@@ -67,8 +68,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Options
         public override void OnInputBufferReturned(string input)
         {
             // Convert input into a number, otherwise just return.
-            int inputNumber;
-            if (!int.TryParse(input, out inputNumber))
+            if (!int.TryParse(input, out var inputNumber))
                 return;
 
             // Depending on what number we got we might do something.

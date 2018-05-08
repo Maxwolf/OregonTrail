@@ -41,6 +41,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
         ///     Attaches a state that will allow the player to purchase a certain number of a particular SimItem.
         /// </summary>
         /// <param name="window">Current game Windows that requested this.</param>
+        // ReSharper disable once UnusedMember.Global
         public StorePurchase(IWindow window) : base(window)
         {
         }
@@ -54,9 +55,9 @@ namespace OregonTrailDotNet.Window.Travel.Store
             base.OnFormPostCreate();
 
             // Figure out what we owe already from other store items, then how many of the SimItem we can afford.
-            var _currentBalance =
+            var currentBalance =
                 (int) (GameSimulationApp.Instance.Vehicle.Balance - UserData.Store.TotalTransactionCost);
-            _purchaseLimit = (int) (_currentBalance/UserData.Store.SelectedItem.Cost);
+            _purchaseLimit = (int) (currentBalance/UserData.Store.SelectedItem.Cost);
 
             // Prevent negative numbers and set credit limit to zero if it drops below that.
             if (_purchaseLimit < 0)
@@ -102,8 +103,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
         public override void OnInputBufferReturned(string input)
         {
             // Parse the user input buffer as a unsigned int.
-            int parsedInputNumber;
-            if (!int.TryParse(input, out parsedInputNumber))
+            if (!int.TryParse(input, out var parsedInputNumber))
                 return;
 
             // If the number is zero remove the purchase state for this SimItem and back to store menu.

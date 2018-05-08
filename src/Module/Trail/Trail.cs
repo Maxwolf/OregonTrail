@@ -20,13 +20,13 @@ namespace OregonTrailDotNet.Module.Trail
         /// <summary>
         ///     Reference to all locations in this trail, indexed in the order they should be visited by vehicle.
         /// </summary>
-        private List<Location> _locations;
+        private readonly List<Location> _locations;
 
         /// <summary>
         ///     Keeps track of the total length of the trail as it will be generated after recursing through every possible
         ///     location on the trail.
         /// </summary>
-        private int totalTrailLength;
+        private int _totalTrailLength;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Trail" /> class.
@@ -74,10 +74,7 @@ namespace OregonTrailDotNet.Module.Trail
         /// <summary>
         ///     Reference to all locations in this trail, indexed in the order they should be visited by vehicle.
         /// </summary>
-        public ReadOnlyCollection<Location> Locations
-        {
-            get { return _locations.AsReadOnly(); }
-        }
+        public ReadOnlyCollection<Location> Locations => _locations.AsReadOnly();
 
         /// <summary>
         ///     Minimum length of any given trail segment.
@@ -102,13 +99,13 @@ namespace OregonTrailDotNet.Module.Trail
         private int GenerateDistances()
         {
             // Re-calculation of total trail length begins with zero.
-            totalTrailLength = 0;
+            _totalTrailLength = 0;
 
             // Begins a recursive loop that goes through every location and any locations they may have inside of them.
             GenerateDistancesRecursive(_locations);
 
             // Returns the total length of the entire trail for record keeping purposes.
-            return totalTrailLength;
+            return _totalTrailLength;
         }
 
         /// <summary>
@@ -127,7 +124,7 @@ namespace OregonTrailDotNet.Module.Trail
                 // Work on the current item we have.
                 location.Depth = locationDepth;
                 location.TotalDistance = CreateRandomLength();
-                totalTrailLength += location.TotalDistance;
+                _totalTrailLength += location.TotalDistance;
 
                 // Check if the location is a fork in the road and has skip choices.
                 if (!(location is ForkInRoad))

@@ -11,73 +11,43 @@ namespace OregonTrailDotNet.Entity.Item
         /// <summary>
         ///     Gets the bear.
         /// </summary>
-        public static SimItem Bear
-        {
-            get { return new SimItem(Entities.Food, "Bear", "pounds", "pound", 2000, 0); }
-        }
+        public static SimItem Bear => new SimItem(Entities.Food, "Bear", "pounds", "pound", 2000, 0);
 
         /// <summary>
         ///     You must use *all* the buffalo...
         /// </summary>
-        public static SimItem Buffalo
-        {
-            get
-            {
-                return new SimItem(Entities.Food, "Buffalo", "pounds", "pound", 2000, 0,
-                    GameSimulationApp.Instance.Random.Next(350, 500));
-            }
-        }
+        public static SimItem Buffalo => new SimItem(Entities.Food, "Buffalo", "pounds", "pound", 2000, 0,
+            GameSimulationApp.Instance.Random.Next(350, 500));
 
         /// <summary>
         ///     Gets the caribou.
         /// </summary>
-        public static SimItem Caribou
-        {
-            get
-            {
-                return new SimItem(Entities.Food, "Caribou", "pounds", "pound", 2000, 0,
-                    GameSimulationApp.Instance.Random.Next(300, 350));
-            }
-        }
+        public static SimItem Caribou => new SimItem(Entities.Food, "Caribou", "pounds", "pound", 2000, 0,
+            GameSimulationApp.Instance.Random.Next(300, 350));
 
         /// <summary>
         ///     Gets the deer.
         /// </summary>
-        public static SimItem Deer
-        {
-            get { return new SimItem(Entities.Food, "Deer", "pounds", "pound", 2000, 0, 50); }
-        }
+        public static SimItem Deer => new SimItem(Entities.Food, "Deer", "pounds", "pound", 2000, 0, 50);
 
         /// <summary>
         ///     Gets the duck.
         /// </summary>
-        public static SimItem Duck
-        {
-            get { return new SimItem(Entities.Food, "Duck", "pounds", "pound", 2000, 0); }
-        }
+        public static SimItem Duck => new SimItem(Entities.Food, "Duck", "pounds", "pound", 2000, 0);
 
         /// <summary>
         ///     Gets the goose.
         /// </summary>
-        public static SimItem Goose
-        {
-            get { return new SimItem(Entities.Food, "Goose", "pounds", "pound", 2000, 0, 2); }
-        }
+        public static SimItem Goose => new SimItem(Entities.Food, "Goose", "pounds", "pound", 2000, 0, 2);
 
         /// <summary>
         ///     Gets the rabbit.
         /// </summary>
-        public static SimItem Rabbit
-        {
-            get { return new SimItem(Entities.Food, "Rabbit", "pounds", "pound", 2000, 0, 2); }
-        }
+        public static SimItem Rabbit => new SimItem(Entities.Food, "Rabbit", "pounds", "pound", 2000, 0, 2);
 
         /// <summary>
         ///     Gets the squirrel.
         /// </summary>
-        public static SimItem Squirrel
-        {
-            get { return new SimItem(Entities.Food, "Squirrel", "pounds", "pound", 2000, 0); }
-        }
+        public static SimItem Squirrel => new SimItem(Entities.Food, "Squirrel", "pounds", "pound", 2000, 0);
     }
 }

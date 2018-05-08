@@ -24,6 +24,7 @@ namespace OregonTrailDotNet.Window.Travel
         ///     Initializes a new instance of the <see cref="TravelInfo" /> class.
         ///     Creates default store implementation.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         public TravelInfo()
         {
             // Store so player can buy food, clothes, ammo, etc.

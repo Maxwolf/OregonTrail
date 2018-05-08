@@ -51,9 +51,6 @@ namespace OregonTrailDotNet.Module.Scoring
         ///     Stores an enumeration as read only inside high score object, returns a string for the rating using extension method
         ///     to get description attribute so it looks correct when rendered and shown to users.
         /// </summary>
-        public string Rating
-        {
-            get { return _rating.ToDescriptionAttribute(); }
-        }
+        public string Rating => _rating.ToDescriptionAttribute();
     }
 }

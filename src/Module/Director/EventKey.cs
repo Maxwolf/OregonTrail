@@ -71,7 +71,7 @@ namespace OregonTrailDotNet.Module.Director
         /// <param name="y">The second object to compare.</param>
         public int Compare(EventKey x, EventKey y)
         {
-            var result = string.Compare(x.Name, y.Name, StringComparison.Ordinal);
+            var result = string.Compare(x?.Name, y?.Name, StringComparison.Ordinal);
             if (result != 0) return result;
 
             return result;

@@ -12,11 +12,6 @@ namespace OregonTrailDotNet.Window.Travel.TalkToPeople
     public static class AdviceRegistry
     {
         /// <summary>
-        ///     Defines the default advice that will be shown on the talk to people form if no advice is loaded.
-        /// </summary>
-        public const string DEFAULTADVICE = "[DEFAULT ADVICE]";
-
-        /// <summary>
         ///     Advice intended for new players that are starting out on the trail, normally this advice is used on the first
         ///     location.
         /// </summary>

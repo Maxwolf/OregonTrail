@@ -8,7 +8,6 @@ using System.Linq;
 using OregonTrailDotNet.Entity.Item;
 using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Event;
-using WolfCurses.Utility;
 
 namespace OregonTrailDotNet.Entity.Vehicle
 {
@@ -65,25 +64,31 @@ namespace OregonTrailDotNet.Entity.Vehicle
                 }
 
                 // Determine if everybody is dead by checking if truths are greater than passenger count.
-                return allDead.TrueCount() >= Passengers.Count;
+                return TrueCount(allDead) >= Passengers.Count;
             }
+        }
+
+        /// <summary>
+        ///     Determines the count of boolean values in an array that are true. Intended to be used in conjunction with count to
+        ///     determine if all are true for a entire sequence.
+        /// </summary>
+        /// <param name="booleans">Array of bool.</param>
+        /// <returns>Number of bool values in array that were true.</returns>
+        /// <remarks>http://stackoverflow.com/a/378282</remarks>
+        private static int TrueCount(IEnumerable<bool> booleans)
+        {
+            return booleans.Count(b => b);
         }
 
         /// <summary>
         ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
         /// </summary>
-        public IDictionary<Entities, SimItem> Inventory
-        {
-            get { return _inventory; }
-        }
+        public IDictionary<Entities, SimItem> Inventory => _inventory;
 
         /// <summary>
         ///     References all of the people inside of the vehicle.
         /// </summary>
-        public ReadOnlyCollection<Person.Person> Passengers
-        {
-            get { return _passengers.AsReadOnly(); }
-        }
+        public ReadOnlyCollection<Person.Person> Passengers => _passengers.AsReadOnly();
 
         /// <summary>
         ///     Current ration level, determines the amount food that will be consumed each day of the simulation.
@@ -119,7 +124,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
         /// </summary>
         public float Balance
         {
-            get { return _inventory[Entities.Cash].TotalValue; }
+            get => _inventory[Entities.Cash].TotalValue;
             private set
             {
                 // Skip if the quantity already matches the value we are going to set it to.
@@ -229,12 +234,12 @@ namespace OregonTrailDotNet.Entity.Vehicle
             get
             {
                 // Total amount of monies the player has spent on animals to pull their vehicle.
-                var cost_animals = Inventory[Entities.Animal].TotalValue;
+                var costAnimals = Inventory[Entities.Animal].TotalValue;
 
                 // Variables that will hold the distance we should travel in the next day.
-                var total_miles = Mileage + (cost_animals - 110)/2.5 + 10*GameSimulationApp.Instance.Random.NextDouble();
+                var totalMiles = Mileage + (costAnimals - 110)/2.5 + 10*GameSimulationApp.Instance.Random.NextDouble();
 
-                return (int) Math.Abs(total_miles);
+                return (int) Math.Abs(totalMiles);
             }
         }
 
@@ -299,9 +304,34 @@ namespace OregonTrailDotNet.Entity.Vehicle
                     averageHealthValue = (int) livingPassengersHealth.Cast<int>().Average();
 
                 // Look for the closest health level to the average health level from all living passengers.
-                var closest = Enum.GetValues(typeof(HealthStatus)).Cast<int>().ClosestTo(averageHealthValue);
+                var closest = ClosestTo(Enum.GetValues(typeof(HealthStatus)).Cast<int>(), averageHealthValue);
                 return (HealthStatus) closest;
             }
+        }
+
+        /// <summary>
+        ///     NB Method will return int. MaxValue for a sequence containing no elements. Intended to be used to match int value
+        ///     to enumeration but without directly casting it, instead looking for closest match to target value.
+        /// </summary>
+        /// <param name="collection">Enumerable collection of integers that make up our collection.</param>
+        /// <param name="target">Target value which needs to be compared against collection values.</param>
+        /// <returns>Int closest matching in collection to target value.</returns>
+        /// <remarks>http://stackoverflow.com/a/10120982</remarks>
+        public static int ClosestTo(IEnumerable<int> collection, int target)
+        {
+            var closest = int.MaxValue;
+            var minDifference = int.MaxValue;
+            foreach (var element in collection)
+            {
+                var difference = Math.Abs((long)element - target);
+                if (minDifference <= difference)
+                    continue;
+
+                minDifference = (int)difference;
+                closest = element;
+            }
+
+            return closest;
         }
 
         /// <summary>
@@ -340,7 +370,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
         /// <returns>The <see cref="int" />.</returns>
         public int Compare(IEntity x, IEntity y)
         {
-            var result = string.Compare(x.Name, y.Name, StringComparison.Ordinal);
+            var result = string.Compare(x?.Name, y?.Name, StringComparison.Ordinal);
             if (result != 0) return result;
 
             return result;

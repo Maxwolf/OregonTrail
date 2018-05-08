@@ -27,13 +27,14 @@ namespace OregonTrailDotNet.Window.GameOver
         /// <summary>
         ///     Holds the final point tabulation for the player to see.
         /// </summary>
-        private StringBuilder _pointsPrompt;
+        private readonly StringBuilder _pointsPrompt;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="FinalPoints" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public FinalPoints(IWindow window) : base(window)
         {
             _pointsPrompt = new StringBuilder();

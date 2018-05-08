@@ -29,7 +29,7 @@ namespace OregonTrailDotNet.Window.Travel.Rest
         /// <summary>
         ///     Holds the message that is printed to the text renderer for debugging about the number of days rested.
         /// </summary>
-        private StringBuilder _restMessage;
+        private readonly StringBuilder _restMessage;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Resting" /> class.
@@ -45,10 +45,7 @@ namespace OregonTrailDotNet.Window.Travel.Rest
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool InputFillsBuffer
-        {
-            get { return false; }
-        }
+        public override bool InputFillsBuffer => false;
 
         /// <summary>
         ///     Called when the simulation is ticked by underlying operating system, game engine, or potato. Each of these system

@@ -8,11 +8,13 @@ namespace OregonTrailDotNet.Module.Scoring
     /// <summary>
     ///     Little class that will help me build a nice looking table in the scoring help states in the management options.
     /// </summary>
+    // ReSharper disable once UnusedMember.Global
     public sealed class HealthScoring
     {
         /// <summary>Initializes a new instance of the <see cref="T:OregonTrailDotNet.Module.Scoring.HealthScoring" /> class.</summary>
         /// <param name="partyHealthStatus">The party Health Level.</param>
         /// <param name="pointsPerPerson">The points Per Person.</param>
+        // ReSharper disable once UnusedMember.Global
         public HealthScoring(HealthStatus partyHealthStatus, int pointsPerPerson)
         {
             PartyHealthStatus = partyHealthStatus;

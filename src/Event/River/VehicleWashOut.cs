@@ -53,11 +53,11 @@ namespace OregonTrailDotNet.Event.River
         /// </returns>
         protected override string OnPreDestroyItems()
         {
-            var _eventText = new StringBuilder();
-            _eventText.AppendLine("Vehicle was washed");
-            _eventText.AppendLine("out when attempting to");
-            _eventText.Append("ford the river results");
-            return _eventText.ToString();
+            var eventText = new StringBuilder();
+            eventText.AppendLine("Vehicle was washed");
+            eventText.AppendLine("out when attempting to");
+            eventText.Append("ford the river results");
+            return eventText.ToString();
         }
     }
 }

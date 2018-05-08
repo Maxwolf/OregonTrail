@@ -25,6 +25,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public PointsAwardHelp(IWindow window) : base(window)
         {
         }
@@ -32,25 +33,19 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
         /// <summary>
         ///     Reference to points that will be given for entities of given matching types in this list.
         /// </summary>
-        private static IEnumerable<Points> ResourcePoints
+        private static IEnumerable<Points> ResourcePoints => new List<Points>
         {
-            get
-            {
-                return new List<Points>
-                {
-                    new Points(Resources.Person),
-                    new Points(Resources.Vehicle),
-                    new Points(Parts.Oxen),
-                    new Points(Parts.Wheel),
-                    new Points(Parts.Axle),
-                    new Points(Parts.Tongue),
-                    new Points(Resources.Clothing),
-                    new Points(Resources.Bullets),
-                    new Points(Resources.Food),
-                    new Points(Resources.Cash)
-                };
-            }
-        }
+            new Points(Resources.Person),
+            new Points(Resources.Vehicle),
+            new Points(Parts.Oxen),
+            new Points(Parts.Wheel),
+            new Points(Parts.Axle),
+            new Points(Parts.Tongue),
+            new Points(Resources.Clothing),
+            new Points(Resources.Bullets),
+            new Points(Resources.Food),
+            new Points(Resources.Cash)
+        };
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
@@ -60,12 +55,12 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
         /// </returns>
         protected override string OnDialogPrompt()
         {
-            var _pointsItems = new StringBuilder();
-            _pointsItems.Append($"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");
-            _pointsItems.Append($"The resources you arrive with will{Environment.NewLine}");
-            _pointsItems.Append($"help you get started in the new{Environment.NewLine}");
-            _pointsItems.Append($"land. You receive points for each{Environment.NewLine}");
-            _pointsItems.Append($"item you bring safely to Oregon.{Environment.NewLine}{Environment.NewLine}");
+            var pointsItems = new StringBuilder();
+            pointsItems.Append($"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");
+            pointsItems.Append($"The resources you arrive with will{Environment.NewLine}");
+            pointsItems.Append($"help you get started in the new{Environment.NewLine}");
+            pointsItems.Append($"land. You receive points for each{Environment.NewLine}");
+            pointsItems.Append($"item you bring safely to Oregon.{Environment.NewLine}{Environment.NewLine}");
 
             // Build up the table of resource points and how they work for player.
             var partyTable = ResourcePoints.ToStringTable(
@@ -75,8 +70,8 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
             );
 
             // Print the table of how resources earn points.
-            _pointsItems.AppendLine(partyTable);
-            return _pointsItems.ToString();
+            pointsItems.AppendLine(partyTable);
+            return pointsItems.ToString();
         }
 
         /// <summary>

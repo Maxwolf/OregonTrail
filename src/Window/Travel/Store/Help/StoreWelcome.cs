@@ -29,7 +29,7 @@ namespace OregonTrailDotNet.Window.Travel.Store.Help
         /// <summary>
         ///     Determines which panel of information we have shown to the user, pressing return will cycle through them.
         /// </summary>
-        private int adviceCount;
+        private int _adviceCount;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="StoreWelcome" /> class.
@@ -37,6 +37,7 @@ namespace OregonTrailDotNet.Window.Travel.Store.Help
         ///     course of the simulation.
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public StoreWelcome(IWindow window) : base(window)
         {
         }
@@ -45,10 +46,7 @@ namespace OregonTrailDotNet.Window.Travel.Store.Help
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool InputFillsBuffer
-        {
-            get { return false; }
-        }
+        public override bool InputFillsBuffer => false;
 
         /// <summary>
         ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
@@ -76,7 +74,7 @@ namespace OregonTrailDotNet.Window.Travel.Store.Help
             _storeHelp.Append($"to Oregon! I can fix you up with{Environment.NewLine}");
             _storeHelp.Append($"what you need:{Environment.NewLine}{Environment.NewLine}");
 
-            if (adviceCount <= 0)
+            if (_adviceCount <= 0)
             {
                 _storeHelp.Append($" - a team of oxen to pull{Environment.NewLine}");
                 _storeHelp.Append($" your vehicle{Environment.NewLine}{Environment.NewLine}");
@@ -84,7 +82,7 @@ namespace OregonTrailDotNet.Window.Travel.Store.Help
                 _storeHelp.Append($" - clothing for both{Environment.NewLine}");
                 _storeHelp.Append($" summer and winter{Environment.NewLine}{Environment.NewLine}");
             }
-            else if (adviceCount == 1)
+            else if (_adviceCount == 1)
             {
                 _storeHelp.Append($" - plenty of food for the{Environment.NewLine}");
                 _storeHelp.Append($" trip{Environment.NewLine}{Environment.NewLine}");
@@ -124,15 +122,15 @@ namespace OregonTrailDotNet.Window.Travel.Store.Help
             }
 
             // Tick the advice to next panel when we get input.
-            if (adviceCount <= 0)
+            if (_adviceCount <= 0)
             {
-                adviceCount++;
+                _adviceCount++;
                 UpdateAdvice();
                 return;
             }
 
             // Make sure we don't run final logic to show actual store until we show all advice to player.
-            if (adviceCount < 1)
+            if (_adviceCount < 1)
                 return;
 
             _hasReadAdvice = true;

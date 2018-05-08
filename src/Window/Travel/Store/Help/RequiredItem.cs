@@ -23,6 +23,7 @@ namespace OregonTrailDotNet.Window.Travel.Store.Help
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public RequiredItem(IWindow window) : base(window)
         {
         }

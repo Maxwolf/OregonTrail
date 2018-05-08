@@ -27,6 +27,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public InputPlayerNames(IWindow window) : base(window)
         {
         }

@@ -22,6 +22,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public PaceHelp(IWindow window) : base(window)
         {
         }
@@ -35,28 +36,28 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
         protected override string OnDialogPrompt()
         {
             // Steady
-            var _paceHelp = new StringBuilder();
-            _paceHelp.Append($"{Environment.NewLine}steady - You travel about 8 hours a{Environment.NewLine}");
-            _paceHelp.Append($"day, taking frequent rests. You take{Environment.NewLine}");
-            _paceHelp.Append($"care not to get too tired.{Environment.NewLine}{Environment.NewLine}");
+            var paceHelp = new StringBuilder();
+            paceHelp.Append($"{Environment.NewLine}steady - You travel about 8 hours a{Environment.NewLine}");
+            paceHelp.Append($"day, taking frequent rests. You take{Environment.NewLine}");
+            paceHelp.Append($"care not to get too tired.{Environment.NewLine}{Environment.NewLine}");
 
             // Strenuous
-            _paceHelp.Append($"strenuous - You travel about 12 hours{Environment.NewLine}");
-            _paceHelp.Append($"a day, starting just after sunrise{Environment.NewLine}");
-            _paceHelp.Append($"and stopping shortly before sunset.{Environment.NewLine}");
-            _paceHelp.Append($"You stop to rest only when necessary.{Environment.NewLine}");
-            _paceHelp.Append($"You finish each day feeling very{Environment.NewLine}");
-            _paceHelp.Append($"tired.{Environment.NewLine}{Environment.NewLine}");
+            paceHelp.Append($"strenuous - You travel about 12 hours{Environment.NewLine}");
+            paceHelp.Append($"a day, starting just after sunrise{Environment.NewLine}");
+            paceHelp.Append($"and stopping shortly before sunset.{Environment.NewLine}");
+            paceHelp.Append($"You stop to rest only when necessary.{Environment.NewLine}");
+            paceHelp.Append($"You finish each day feeling very{Environment.NewLine}");
+            paceHelp.Append($"tired.{Environment.NewLine}{Environment.NewLine}");
 
             // Grueling
-            _paceHelp.Append($"grueling - You travel about 16 hours{Environment.NewLine}");
-            _paceHelp.Append($"a day, starting before sunrise and{Environment.NewLine}");
-            _paceHelp.Append($"continuing until dark. You almost{Environment.NewLine}");
-            _paceHelp.Append($"never stop to rest. You do not get{Environment.NewLine}");
-            _paceHelp.Append($"enough sleep at night. You finish{Environment.NewLine}");
-            _paceHelp.Append($"each day feeling absolutely{Environment.NewLine}");
-            _paceHelp.Append($"exhausted, and your health suffers.{Environment.NewLine}{Environment.NewLine}");
-            return _paceHelp.ToString();
+            paceHelp.Append($"grueling - You travel about 16 hours{Environment.NewLine}");
+            paceHelp.Append($"a day, starting before sunrise and{Environment.NewLine}");
+            paceHelp.Append($"continuing until dark. You almost{Environment.NewLine}");
+            paceHelp.Append($"never stop to rest. You do not get{Environment.NewLine}");
+            paceHelp.Append($"enough sleep at night. You finish{Environment.NewLine}");
+            paceHelp.Append($"each day feeling absolutely{Environment.NewLine}");
+            paceHelp.Append($"exhausted, and your health suffers.{Environment.NewLine}{Environment.NewLine}");
+            return paceHelp.ToString();
         }
 
         /// <summary>

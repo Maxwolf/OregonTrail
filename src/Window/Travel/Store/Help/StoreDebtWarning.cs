@@ -19,16 +19,17 @@ namespace OregonTrailDotNet.Window.Travel.Store.Help
         /// <summary>
         ///     The store debt.
         /// </summary>
-        private StringBuilder storeDebt;
+        private readonly StringBuilder _storeDebt;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="StoreDebtWarning" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public StoreDebtWarning(IWindow window) : base(window)
         {
-            storeDebt = new StringBuilder();
+            _storeDebt = new StringBuilder();
         }
 
         /// <summary>
@@ -39,13 +40,13 @@ namespace OregonTrailDotNet.Window.Travel.Store.Help
         /// </returns>
         protected override string OnDialogPrompt()
         {
-            storeDebt.Clear();
-            storeDebt.AppendLine($"{Environment.NewLine}Whoa there partner!");
-            storeDebt.AppendLine(
-                $"I see you got {UserData.Store.Transactions.Count} items worth {UserData.Store.TotalTransactionCost.ToString("C2")}.");
-            storeDebt.AppendLine($"You only got {GameSimulationApp.Instance.Vehicle.Balance.ToString("C2")}!");
-            storeDebt.AppendLine($"Put some items back in order to leave the store...{Environment.NewLine}");
-            return storeDebt.ToString();
+            _storeDebt.Clear();
+            _storeDebt.AppendLine($"{Environment.NewLine}Whoa there partner!");
+            _storeDebt.AppendLine(
+                $"I see you got {UserData.Store.Transactions.Count} items worth {UserData.Store.TotalTransactionCost:C2}.");
+            _storeDebt.AppendLine($"You only got {GameSimulationApp.Instance.Vehicle.Balance:C2}!");
+            _storeDebt.AppendLine($"Put some items back in order to leave the store...{Environment.NewLine}");
+            return _storeDebt.ToString();
         }
 
         /// <summary>

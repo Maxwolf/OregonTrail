@@ -54,12 +54,12 @@ namespace OregonTrailDotNet.Event.River
         /// </returns>
         protected override string OnPreDestroyItems()
         {
-            var _floodPrompt = new StringBuilder();
-            _floodPrompt.Clear();
-            _floodPrompt.AppendLine("Vehicle floods");
-            _floodPrompt.AppendLine("while crossing the");
-            _floodPrompt.Append("river results in");
-            return _floodPrompt.ToString();
+            var floodPrompt = new StringBuilder();
+            floodPrompt.Clear();
+            floodPrompt.AppendLine("Vehicle floods");
+            floodPrompt.AppendLine("while crossing the");
+            floodPrompt.Append("river results in");
+            return floodPrompt.ToString();
         }
     }
 }

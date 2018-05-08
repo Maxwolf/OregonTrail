@@ -20,6 +20,7 @@ namespace OregonTrailDotNet.Window.Travel.Rest
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public RestAmount(IWindow window) : base(window)
         {
         }
@@ -41,8 +42,7 @@ namespace OregonTrailDotNet.Window.Travel.Rest
         public override void OnInputBufferReturned(string input)
         {
             // Parse the user input buffer as a unsigned int.
-            int parsedInputNumber;
-            if (!int.TryParse(input, out parsedInputNumber))
+            if (!int.TryParse(input, out var parsedInputNumber))
                 return;
 
             // For diversion, or out of necessity, a party can rest from one to nine days.

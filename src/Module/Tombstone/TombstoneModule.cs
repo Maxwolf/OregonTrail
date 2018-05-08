@@ -35,8 +35,8 @@ namespace OregonTrailDotNet.Module.Tombstone
         /// </exception>
         public Tombstone this[int key]
         {
-            get { return Tombstones[key]; }
-            set { Tombstones[key] = value; }
+            get => Tombstones[key];
+            set => Tombstones[key] = value;
         }
 
         /// <summary>

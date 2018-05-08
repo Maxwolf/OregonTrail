@@ -58,11 +58,11 @@ namespace OregonTrailDotNet.Event.Weather
         /// </returns>
         protected override string OnPreDestroyItems()
         {
-            var _floodPrompt = new StringBuilder();
-            _floodPrompt.Clear();
-            _floodPrompt.AppendLine("Severe hail storm");
-            _floodPrompt.Append("results in");
-            return _floodPrompt.ToString();
+            var floodPrompt = new StringBuilder();
+            floodPrompt.Clear();
+            floodPrompt.AppendLine("Severe hail storm");
+            floodPrompt.Append("results in");
+            return floodPrompt.ToString();
         }
     }
 }

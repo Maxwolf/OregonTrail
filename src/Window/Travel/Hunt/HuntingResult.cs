@@ -26,13 +26,14 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         /// <summary>
         ///     Holds all of the data for our final hunting result before rendering out to player.
         /// </summary>
-        private StringBuilder _huntScore;
+        private readonly StringBuilder _huntScore;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="InputForm{T}" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public HuntingResult(IWindow window) : base(window)
         {
             _huntScore = new StringBuilder();
@@ -74,7 +75,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             {
                 // Message to let the player know they killed prey.
                 _huntScore.AppendLine($"{Environment.NewLine}From the animals you shot, you");
-                _huntScore.AppendLine($"got {killWeight.ToString("N0")} pounds of meat.{Environment.NewLine}");
+                _huntScore.AppendLine($"got {killWeight:N0} pounds of meat.{Environment.NewLine}");
 
                 // Adds the killing weight since it is safe at this point.
                 _finalKillWeight = killWeight;
@@ -88,7 +89,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
 
                 // Player killed to many animals.
                 _huntScore.AppendLine("However, you were only able to");
-                _huntScore.AppendLine($"carry {_finalKillWeight.ToString("N0")} pounds back to the");
+                _huntScore.AppendLine($"carry {_finalKillWeight:N0} pounds back to the");
                 _huntScore.AppendLine($"wagon.{Environment.NewLine}");
             }
 

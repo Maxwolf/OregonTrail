@@ -27,6 +27,7 @@ namespace OregonTrailDotNet.Window.RandomEvent
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public EventExecutor(IWindow window) : base(window)
         {
         }
@@ -40,7 +41,7 @@ namespace OregonTrailDotNet.Window.RandomEvent
         protected override string OnDialogPrompt()
         {
             // Create new string builder that will hold event execution data.
-            var _randomEventText = new StringBuilder();
+            var randomEventText = new StringBuilder();
 
             // Execute the event which should return us some text to display to user about what it did to running simulation.
             UserData.DirectorEvent.Execute(UserData);
@@ -59,9 +60,9 @@ namespace OregonTrailDotNet.Window.RandomEvent
                 return "Loading event...";
 
             // Add the text to our output about the random event.
-            _randomEventText.AppendLine(
+            randomEventText.AppendLine(
                 $"{Environment.NewLine}{eventText}{Environment.NewLine}");
-            return _randomEventText.ToString();
+            return randomEventText.ToString();
         }
 
         /// <summary>

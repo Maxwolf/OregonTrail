@@ -17,6 +17,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Start_Month
     {
         /// <summary>Initializes a new instance of the <see cref="StartMonthHelp" /> class.</summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public StartMonthHelp(IWindow window) : base(window)
         {
         }
@@ -30,19 +31,19 @@ namespace OregonTrailDotNet.Window.MainMenu.Start_Month
         protected override string OnDialogPrompt()
         {
             // Inform the user about a decision they need to make.
-            var _startMonthHelp = new StringBuilder();
-            _startMonthHelp.Append($"{Environment.NewLine}You attend a public meeting held{Environment.NewLine}");
-            _startMonthHelp.Append($"for \"folks with the California -{Environment.NewLine}");
-            _startMonthHelp.Append($"Oregon fever.\" You're told:{Environment.NewLine}{Environment.NewLine}");
-            _startMonthHelp.Append($"If you leave too early, there{Environment.NewLine}");
-            _startMonthHelp.Append($"won't be any grass for your{Environment.NewLine}");
-            _startMonthHelp.Append($"oxen to eat. If you leave too{Environment.NewLine}");
-            _startMonthHelp.Append($"late, you may not get to Oregon{Environment.NewLine}");
-            _startMonthHelp.Append($"before winter comes. If you{Environment.NewLine}");
-            _startMonthHelp.Append($"leave at just the right time,{Environment.NewLine}");
-            _startMonthHelp.Append($"there will be green grass and{Environment.NewLine}");
-            _startMonthHelp.Append($"the weather will still be cool.{Environment.NewLine}{Environment.NewLine}");
-            return _startMonthHelp.ToString();
+            var startMonthHelp = new StringBuilder();
+            startMonthHelp.Append($"{Environment.NewLine}You attend a public meeting held{Environment.NewLine}");
+            startMonthHelp.Append($"for \"folks with the California -{Environment.NewLine}");
+            startMonthHelp.Append($"Oregon fever.\" You're told:{Environment.NewLine}{Environment.NewLine}");
+            startMonthHelp.Append($"If you leave too early, there{Environment.NewLine}");
+            startMonthHelp.Append($"won't be any grass for your{Environment.NewLine}");
+            startMonthHelp.Append($"oxen to eat. If you leave too{Environment.NewLine}");
+            startMonthHelp.Append($"late, you may not get to Oregon{Environment.NewLine}");
+            startMonthHelp.Append($"before winter comes. If you{Environment.NewLine}");
+            startMonthHelp.Append($"leave at just the right time,{Environment.NewLine}");
+            startMonthHelp.Append($"there will be green grass and{Environment.NewLine}");
+            startMonthHelp.Append($"the weather will still be cool.{Environment.NewLine}{Environment.NewLine}");
+            return startMonthHelp.ToString();
         }
 
         /// <summary>

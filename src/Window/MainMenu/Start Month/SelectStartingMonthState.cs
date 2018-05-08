@@ -30,6 +30,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Start_Month
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public SelectStartingMonthState(IWindow window) : base(window)
         {
         }
@@ -38,10 +39,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Start_Month
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool InputFillsBuffer
-        {
-            get { return true; }
-        }
+        public override bool InputFillsBuffer => true;
 
         /// <summary>
         ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
@@ -102,8 +100,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Start_Month
                 return;
 
             // Attempt to cast string to enum value, can be characters or integer.
-            StartingMonth startMonth;
-            Enum.TryParse(input, out startMonth);
+            Enum.TryParse(input, out StartingMonth startMonth);
 
             // Depending on what was selected we will set starting month to correct one in full listing, or show advice to player.
             switch (startMonth)

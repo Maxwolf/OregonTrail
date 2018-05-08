@@ -33,9 +33,6 @@ namespace OregonTrailDotNet.Module.Tombstone
 
             // Epitaph is left empty by default and ready to be filled in.
             Epitaph = string.Empty;
-
-            // Create a new ID, even though it is clone of existing tombstone it is a different instance.
-            TombstoneID = Guid.NewGuid().ToString("N");
         }
 
         /// <summary>
@@ -44,17 +41,10 @@ namespace OregonTrailDotNet.Module.Tombstone
         public string PlayerName { get; }
 
         /// <summary>
-        ///     Determines the unique and randomly generated tombstone identification string. This is created once for every
-        ///     tombstone and should be unique to each one, used to check if the tombstone is the same as the one for player who
-        ///     recently died so we know if they should be offered a chance to edit it.
-        /// </summary>
-        private string TombstoneID { get; }
-
-        /// <summary>
         ///     Defines where on the trail in regards to length in miles traveled. The purpose of this is so we can check for this
         ///     Tombstone in the exact same spot where the player actually died on the trail.
         /// </summary>
-        public int MileMarker { get; private set; }
+        public int MileMarker { get; }
 
         /// <summary>
         ///     Message that can be included on the Tombstone below the players name. It can only be a few characters long but

@@ -18,13 +18,14 @@ namespace OregonTrailDotNet.Window.GameOver
         /// <summary>
         ///     Holds reference to end game text that will be shown to the user.
         /// </summary>
-        private StringBuilder _gameOver;
+        private readonly StringBuilder _gameOver;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameWin" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public GameWin(IWindow window) : base(window)
         {
             _gameOver = new StringBuilder();

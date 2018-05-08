@@ -24,6 +24,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public LocationArrive(IWindow window) : base(window)
         {
         }
@@ -32,16 +33,9 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType
-        {
-            get
-            {
-                // First location we only tell the user they are going back in time and arrived at first location on trail.
-                return GameSimulationApp.Instance.Trail.IsFirstLocation
-                    ? DialogType.Prompt
-                    : DialogType.YesNo;
-            }
-        }
+        protected override DialogType DialogType => GameSimulationApp.Instance.Trail.IsFirstLocation
+            ? DialogType.Prompt
+            : DialogType.YesNo;
 
         /// <summary>
         ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user

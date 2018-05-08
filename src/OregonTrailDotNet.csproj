@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WolfCurses" Version="3.0.0" />
+    <PackageReference Include="WolfCurses" Version="2018.5.8.1" />
   </ItemGroup>
 
 </Project>

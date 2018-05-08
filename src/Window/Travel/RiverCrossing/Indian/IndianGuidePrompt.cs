@@ -25,6 +25,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Indian
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public IndianGuidePrompt(IWindow window) : base(window)
         {
         }
@@ -32,31 +33,19 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Indian
         /// <summary>
         ///     Changes up the behavior of the input dialog based on if the player has enough clothes to trade the Indian guide.
         /// </summary>
-        protected override DialogType DialogType
-        {
-            get { return HasEnoughClothingToTrade ? DialogType.YesNo : DialogType.Prompt; }
-        }
+        protected override DialogType DialogType => HasEnoughClothingToTrade ? DialogType.YesNo : DialogType.Prompt;
 
         /// <summary>
         ///     Determines if the player has enough clothing to trade the Indian guide for his services in crossing the river.
         /// </summary>
-        private bool HasEnoughClothingToTrade
-        {
-            get
-            {
-                return GameSimulationApp.Instance.Vehicle.Inventory[Entities.Clothes].Quantity >=
-                       UserData.River.IndianCost;
-            }
-        }
+        private bool HasEnoughClothingToTrade => GameSimulationApp.Instance.Vehicle.Inventory[Entities.Clothes].Quantity >=
+                                                 UserData.River.IndianCost;
 
         /// <summary>
         ///     Only allows input from the player if they have enough clothing to trade with the Indian guide, otherwise we will
         ///     treat this as a prompt only and no input.
         /// </summary>
-        public override bool InputFillsBuffer
-        {
-            get { return HasEnoughClothingToTrade; }
-        }
+        public override bool InputFillsBuffer => HasEnoughClothingToTrade;
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
@@ -67,28 +56,28 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Indian
         protected override string OnDialogPrompt()
         {
             // Builds up the first part about the Indian guide for river crossing.
-            var _prompt = new StringBuilder();
-            _prompt.AppendLine($"{Environment.NewLine}A Shoshoni guide says that he");
-            _prompt.AppendLine("will take your wagon across");
-            _prompt.AppendLine($"the river in exchange for {UserData.River.IndianCost.ToString("N0")}");
-            _prompt.AppendLine($"sets of clothing.{Environment.NewLine}");
+            var prompt = new StringBuilder();
+            prompt.AppendLine($"{Environment.NewLine}A Shoshoni guide says that he");
+            prompt.AppendLine("will take your wagon across");
+            prompt.AppendLine($"the river in exchange for {UserData.River.IndianCost:N0}");
+            prompt.AppendLine($"sets of clothing.{Environment.NewLine}");
 
             // Change up the message based on if the player has enough clothing, they won't be able to get more if they don't here.
             if (HasEnoughClothingToTrade)
             {
                 // Player has enough clothing to satisfy the Indians cost.
-                _prompt.AppendLine("Will you accept this");
-                _prompt.Append("offer? Y/N");
+                prompt.AppendLine("Will you accept this");
+                prompt.Append("offer? Y/N");
             }
             else
             {
                 // Player does not have enough clothing to satisfy the Indian cost.
-                _prompt.AppendLine($"You don't have {UserData.River.IndianCost.ToString("N0")} sets of");
-                _prompt.AppendLine($"clothing.{Environment.NewLine}");
+                prompt.AppendLine($"You don't have {UserData.River.IndianCost:N0} sets of");
+                prompt.AppendLine($"clothing.{Environment.NewLine}");
             }
 
             // Renders out the Indian guide river crossing confirmation and or denial.
-            return _prompt.ToString();
+            return prompt.ToString();
         }
 
         /// <summary>

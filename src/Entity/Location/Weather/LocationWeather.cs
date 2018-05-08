@@ -24,7 +24,7 @@ namespace OregonTrailDotNet.Entity.Location.Weather
         /// <summary>
         ///     Contains of all the average temperatures that we loaded from the static climate registry.
         /// </summary>
-        private List<ClimateData> _averageTemperatures;
+        private readonly List<ClimateData> _averageTemperatures;
 
         /// <summary>
         ///     Chance that a weather event will occur such as storm, tornado, blizzard, etc.

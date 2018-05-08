@@ -28,6 +28,7 @@ namespace OregonTrailDotNet.Window.Travel.Command
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public ChangePace(IWindow window) : base(window)
         {
         }
@@ -50,7 +51,7 @@ namespace OregonTrailDotNet.Window.Travel.Command
             _pace.Append($"2. a strenuous pace{Environment.NewLine}");
             _pace.Append($"3. a grueling pace{Environment.NewLine}");
             _pace.Append($"4. find out what these{Environment.NewLine}");
-            _pace.Append($"   different paces mean");
+            _pace.Append("   different paces mean");
         }
 
         /// <summary>

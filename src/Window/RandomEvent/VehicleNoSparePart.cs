@@ -21,6 +21,7 @@ namespace OregonTrailDotNet.Window.RandomEvent
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public VehicleNoSparePart(IWindow window) : base(window)
         {
         }
@@ -29,19 +30,13 @@ namespace OregonTrailDotNet.Window.RandomEvent
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType
-        {
-            get { return DialogType.Prompt; }
-        }
+        protected override DialogType DialogType => DialogType.Prompt;
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool InputFillsBuffer
-        {
-            get { return false; }
-        }
+        public override bool InputFillsBuffer => false;
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.

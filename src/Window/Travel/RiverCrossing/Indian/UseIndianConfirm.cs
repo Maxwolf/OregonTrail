@@ -22,6 +22,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Indian
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public UseIndianConfirm(IWindow window) : base(window)
         {
         }
@@ -34,10 +35,10 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Indian
         /// </returns>
         protected override string OnDialogPrompt()
         {
-            var _prompt = new StringBuilder();
-            _prompt.AppendLine($"{Environment.NewLine}The Shoshoni guide will help");
-            _prompt.AppendLine($"you float your wagon across.{Environment.NewLine}");
-            return _prompt.ToString();
+            var prompt = new StringBuilder();
+            prompt.AppendLine($"{Environment.NewLine}The Shoshoni guide will help");
+            prompt.AppendLine($"you float your wagon across.{Environment.NewLine}");
+            return prompt.ToString();
         }
 
         /// <summary>

@@ -91,23 +91,23 @@ namespace OregonTrailDotNet.Event.Prefab
                 _eventText.AppendLine(preDestoyPrompt);
 
             // Destroy some items at random and get a list back of what and how much.
-            var _destroyedItems = GameSimulationApp.Instance.Vehicle.DestroyRandomItems();
+            var destroyedItems = GameSimulationApp.Instance.Vehicle.DestroyRandomItems();
 
             // Show the post item destruction text if it exists.
-            var postDestroyPrompt = OnPostDestroyItems(_destroyedItems);
+            var postDestroyPrompt = OnPostDestroyItems(destroyedItems);
             if (!string.IsNullOrEmpty(postDestroyPrompt))
                 _eventText.AppendLine(postDestroyPrompt);
 
             // Skip if destroyed items count is zero.
-            if (!(_destroyedItems?.Count > 0))
+            if (!(destroyedItems?.Count > 0))
                 return;
 
             // Loop through all of the destroyed items and add them to string builder.
-            foreach (var destroyedItem in _destroyedItems)
-                if (_destroyedItems.Last().Equals(destroyedItem))
-                    _eventText.Append($"{destroyedItem.Value.ToString("N0")} {destroyedItem.Key}");
+            foreach (var destroyedItem in destroyedItems)
+                if (destroyedItems.Last().Equals(destroyedItem))
+                    _eventText.Append($"{destroyedItem.Value:N0} {destroyedItem.Key}");
                 else
-                    _eventText.AppendLine($"{destroyedItem.Value.ToString("N0")} {destroyedItem.Key}");
+                    _eventText.AppendLine($"{destroyedItem.Value:N0} {destroyedItem.Key}");
         }
 
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>

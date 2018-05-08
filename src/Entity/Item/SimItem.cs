@@ -184,18 +184,12 @@ namespace OregonTrailDotNet.Entity.Item
         /// <summary>
         ///     Total weight of all food items this represents multiplied by base minimum weight.
         /// </summary>
-        public int TotalWeight
-        {
-            get { return Weight*Quantity; }
-        }
+        public int TotalWeight => Weight*Quantity;
 
         /// <summary>
         ///     Returns the total value of the SimItem which is it's quantity multiplied by it's base cost value.
         /// </summary>
-        public float TotalValue
-        {
-            get { return Cost*Quantity; }
-        }
+        public float TotalValue => Cost*Quantity;
 
         /// <summary>
         ///     Limit on the number of items that are possible to have of this particular type.
@@ -229,7 +223,7 @@ namespace OregonTrailDotNet.Entity.Item
         /// <param name="y">The second object to compare.</param>
         public int Compare(IEntity x, IEntity y)
         {
-            var result = string.Compare(x.Name, y.Name, StringComparison.Ordinal);
+            var result = string.Compare(x?.Name, y?.Name, StringComparison.Ordinal);
             if (result != 0) return result;
 
             return result;
@@ -331,7 +325,7 @@ namespace OregonTrailDotNet.Entity.Item
         public string ToString(bool storeMode)
         {
             return !storeMode
-                ? $"{Cost.ToString("F2")} per {DelineatingUnit}"
+                ? $"{Cost:F2} per {DelineatingUnit}"
                 : (Quantity*Cost).ToString("C2");
         }
 

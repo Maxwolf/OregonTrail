@@ -25,6 +25,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Ferry
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public UseFerryConfirm(IWindow window) : base(window)
         {
         }
@@ -33,10 +34,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Ferry
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType
-        {
-            get { return DialogType.YesNo; }
-        }
+        protected override DialogType DialogType => DialogType.YesNo;
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
@@ -46,12 +44,12 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Ferry
         /// </returns>
         protected override string OnDialogPrompt()
         {
-            var _prompt = new StringBuilder();
-            _prompt.AppendLine($"{Environment.NewLine}The ferry operator says that");
-            _prompt.AppendLine($"he will charge you {UserData.River.FerryCost.ToString("C2")} and");
-            _prompt.AppendLine($"that you will have to wait {UserData.River.FerryDelayInDays}");
-            _prompt.Append("days. Are you willing to do this?");
-            return _prompt.ToString();
+            var prompt = new StringBuilder();
+            prompt.AppendLine($"{Environment.NewLine}The ferry operator says that");
+            prompt.AppendLine($"he will charge you {UserData.River.FerryCost:C2} and");
+            prompt.AppendLine($"that you will have to wait {UserData.River.FerryDelayInDays}");
+            prompt.Append("days. Are you willing to do this?");
+            return prompt.ToString();
         }
 
         /// <summary>

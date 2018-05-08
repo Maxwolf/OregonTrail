@@ -3,7 +3,6 @@
 
 using System;
 using System.Text;
-using OregonTrailDotNet.Module.Tombstone;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
 using WolfCurses.Window.Form.Input;
@@ -22,6 +21,7 @@ namespace OregonTrailDotNet.Window.Graveyard
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public TombstoneView(IWindow window) : base(window)
         {
         }
@@ -35,31 +35,30 @@ namespace OregonTrailDotNet.Window.Graveyard
         protected override string OnDialogPrompt()
         {
             // Check if the tombstone manager returned anything, if not then check for user data it's player death then.
-            var _tombstone = new StringBuilder();
+            var tombstone = new StringBuilder();
 
             // Finding a tombstone at the current vehicle odometer means we use that reference.
             if (GameSimulationApp.Instance.Vehicle.PassengerLivingCount > 0)
             {
                 // Grab the current Tombstone based on players progress on the trail so far.
-                Tombstone foundTombstone;
                 GameSimulationApp.Instance.Tombstone.FindTombstone(
                     GameSimulationApp.Instance.Vehicle.Odometer,
-                    out foundTombstone);
+                    out var foundTombstone);
 
-                _tombstone.AppendLine($"{Environment.NewLine}{foundTombstone}");
+                tombstone.AppendLine($"{Environment.NewLine}{foundTombstone}");
             }
             else
             {
-                _tombstone.AppendLine($"{Environment.NewLine}{UserData.Tombstone}");
+                tombstone.AppendLine($"{Environment.NewLine}{UserData.Tombstone}");
 
                 // Adds the underlying reason for the games failure if it was not obvious to the player by now.
-                _tombstone.AppendLine("All the members of");
-                _tombstone.AppendLine("your party have");
-                _tombstone.AppendLine($"died.{Environment.NewLine}");
+                tombstone.AppendLine("All the members of");
+                tombstone.AppendLine("your party have");
+                tombstone.AppendLine($"died.{Environment.NewLine}");
             }
 
             // Write out the tombstone text and epitaph message to the game window.
-            return _tombstone.ToString();
+            return tombstone.ToString();
         }
 
         /// <summary>

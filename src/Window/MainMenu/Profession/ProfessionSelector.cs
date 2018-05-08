@@ -30,6 +30,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Profession
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public ProfessionSelector(IWindow window) : base(window)
         {
         }
@@ -38,10 +39,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Profession
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool InputFillsBuffer
-        {
-            get { return true; }
-        }
+        public override bool InputFillsBuffer => true;
 
         /// <summary>
         ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
@@ -110,8 +108,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Profession
                 return;
 
             // Attempt to cast string to enum value, can be characters or integer.
-            Entity.Person.Profession professionChoice;
-            Enum.TryParse(input, out professionChoice);
+            Enum.TryParse(input, out Entity.Person.Profession professionChoice);
 
             // Once a profession is selected, we need to confirm that is what the user wanted.
             switch (professionChoice)

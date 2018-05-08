@@ -25,7 +25,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         /// <summary>
         ///     String builder that will hold all the data about our river crossing as it occurs.
         /// </summary>
-        private StringBuilder _crossingPrompt;
+        private readonly StringBuilder _crossingPrompt;
 
         /// <summary>
         ///     Determines if this state has performed it's duties and helped get the players and their vehicle across the river.
@@ -36,7 +36,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         ///     Animated sway bar that prints out as text, ping-pongs back and fourth between left and right side, moved by
         ///     stepping it with tick.
         /// </summary>
-        private MarqueeBar _marqueeBar;
+        private readonly MarqueeBar _marqueeBar;
 
         /// <summary>
         ///     Defines the current amount of feet we have crossed of the river, this will tick up to the total length of the
@@ -54,6 +54,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public CrossingTick(IWindow window) : base(window)
         {
             // Create the string builder for holding all our text about river crossing as it happens.
@@ -72,20 +73,13 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
         /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool InputFillsBuffer
-        {
-            // Input buffer is never filled because player cannot make choices here.
-            get { return false; }
-        }
+        public override bool InputFillsBuffer => false;
 
         /// <summary>
         ///     Determines if this dialog state is allowed to receive any input at all, even empty line returns. This is useful for
         ///     preventing the player from leaving a particular dialog until you are ready or finished processing some data.
         /// </summary>
-        public override bool AllowInput
-        {
-            get { return _finishedCrossingRiver; }
-        }
+        public override bool AllowInput => _finishedCrossingRiver;
 
         /// <summary>
         ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user

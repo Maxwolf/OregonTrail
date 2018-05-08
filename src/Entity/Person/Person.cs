@@ -24,13 +24,13 @@ namespace OregonTrailDotNet.Entity.Person
         ///     Determines if this person has reached the point of no return and has died. There is no coming back from this and
         ///     this flag will be used to prevent any further operations or resources being performed by this person.
         /// </summary>
-        private bool dead;
+        private bool _dead;
 
         /// <summary>
         ///     Determines if the persons health was at any time at the very poor level, which means they were close to death. We
         ///     can keep track of this and if they recover to full health we will make note about this for the player to see.
         /// </summary>
-        private bool nearDeathExperience;
+        private bool _nearDeathExperience;
 
         /// <summary>Initializes a new instance of the <see cref="T:TrailEntities.Entities.Person" /> class.</summary>
         /// <param name="profession">The profession.</param>
@@ -63,7 +63,7 @@ namespace OregonTrailDotNet.Entity.Person
             get
             {
                 // Skip if this person is dead, cannot heal them.
-                if (dead)
+                if (_dead)
                 {
                     _status = (int) HealthStatus.Dead;
                     return HealthStatus.Dead;
@@ -96,11 +96,11 @@ namespace OregonTrailDotNet.Entity.Person
         /// </summary>
         private int Status
         {
-            get { return _status; }
+            get => _status;
             set
             {
                 // Skip if this person is dead, cannot heal them.
-                if (dead)
+                if (_dead)
                 {
                     _status = (int) HealthStatus.Dead;
                     return;
@@ -116,7 +116,7 @@ namespace OregonTrailDotNet.Entity.Person
                 // Check that value is not below min.
                 if (value <= (int) HealthStatus.Dead)
                 {
-                    dead = true;
+                    _dead = true;
                     _status = (int) HealthStatus.Dead;
                     return;
                 }
@@ -155,7 +155,7 @@ namespace OregonTrailDotNet.Entity.Person
         /// <returns>The <see cref="int" />.</returns>
         public int Compare(IEntity x, IEntity y)
         {
-            var result = string.Compare(x.Name, y.Name, StringComparison.Ordinal);
+            var result = string.Compare(x?.Name, y?.Name, StringComparison.Ordinal);
             if (result != 0) return result;
 
             return result;
@@ -231,7 +231,7 @@ namespace OregonTrailDotNet.Entity.Person
                 return;
 
             // Skip if this person is dead, cannot heal them.
-            if ((HealthStatus == HealthStatus.Dead) || dead)
+            if ((HealthStatus == HealthStatus.Dead) || _dead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
@@ -245,8 +245,8 @@ namespace OregonTrailDotNet.Entity.Person
                 CheckIllness();
 
             // More change for illness if you have no clothes.
-            var cost_clothes = game.Vehicle.Inventory[Entities.Clothes].TotalValue;
-            if (cost_clothes > 22 + 4*game.Random.Next())
+            var costClothes = game.Vehicle.Inventory[Entities.Clothes].TotalValue;
+            if (costClothes > 22 + 4*game.Random.Next())
             {
                 CheckIllness();
             }
@@ -268,7 +268,7 @@ namespace OregonTrailDotNet.Entity.Person
         private void ConsumeFood()
         {
             // Skip if this person is dead, cannot heal them.
-            if ((HealthStatus == HealthStatus.Dead) || dead)
+            if ((HealthStatus == HealthStatus.Dead) || _dead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
@@ -298,7 +298,7 @@ namespace OregonTrailDotNet.Entity.Person
         private void Heal()
         {
             // Skip if this person is dead, cannot heal them.
-            if ((HealthStatus == HealthStatus.Dead) || dead)
+            if ((HealthStatus == HealthStatus.Dead) || _dead)
                 return;
 
             // Skip if already at max health.
@@ -313,10 +313,10 @@ namespace OregonTrailDotNet.Entity.Person
                 return;
 
             // Check if the player has made a recovery from near death.
-            if (nearDeathExperience && (Infected || Injured))
+            if (_nearDeathExperience && (Infected || Injured))
             {
                 // We only want to show the well again event if the player made a massive recovery.
-                nearDeathExperience = false;
+                _nearDeathExperience = false;
 
                 // Roll the dice, person can get better or way worse here.
                 game.EventDirector.TriggerEvent(this, game.Random.NextBool()
@@ -349,7 +349,7 @@ namespace OregonTrailDotNet.Entity.Person
             var game = GameSimulationApp.Instance;
 
             // Cannot calculate illness for the dead.
-            if ((HealthStatus == HealthStatus.Dead) || dead)
+            if ((HealthStatus == HealthStatus.Dead) || _dead)
                 return;
 
             // Person will not get hurt every single time it is called.
@@ -407,12 +407,12 @@ namespace OregonTrailDotNet.Entity.Person
 
                     break;
                 case HealthStatus.VeryPoor:
-                    nearDeathExperience = true;
+                    _nearDeathExperience = true;
                     game.Vehicle.ReduceMileage(15);
                     Damage(1, 5);
                     break;
                 case HealthStatus.Dead:
-                    dead = true;
+                    _dead = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

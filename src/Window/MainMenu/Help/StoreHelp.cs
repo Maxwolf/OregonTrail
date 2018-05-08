@@ -20,6 +20,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public StoreHelp(IWindow window) : base(window)
         {
         }
@@ -32,10 +33,10 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
         /// </returns>
         protected override string OnDialogPrompt()
         {
-            var _storeHelp = new StringBuilder();
-            _storeHelp.Append($"{Environment.NewLine}You can buy whatever you need at{Environment.NewLine}");
-            _storeHelp.Append($"Matt's General Store.{Environment.NewLine}{Environment.NewLine}");
-            return _storeHelp.ToString();
+            var storeHelp = new StringBuilder();
+            storeHelp.Append($"{Environment.NewLine}You can buy whatever you need at{Environment.NewLine}");
+            storeHelp.Append($"Matt's General Store.{Environment.NewLine}{Environment.NewLine}");
+            return storeHelp.ToString();
         }
 
         /// <summary>

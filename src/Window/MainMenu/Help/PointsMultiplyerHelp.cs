@@ -21,6 +21,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public PointsMultiplyerHelp(IWindow window) : base(window)
         {
         }
@@ -33,18 +34,18 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
         /// </returns>
         protected override string OnDialogPrompt()
         {
-            var _pointsProfession = new StringBuilder();
-            _pointsProfession.Append(
+            var pointsProfession = new StringBuilder();
+            pointsProfession.Append(
                 $"{Environment.NewLine}On Arriving in Oregon{Environment.NewLine}{Environment.NewLine}");
-            _pointsProfession.AppendLine("You receive points for your");
-            _pointsProfession.AppendLine("occupation in the new land.");
-            _pointsProfession.AppendLine("Because more farmers and");
-            _pointsProfession.AppendLine("carpenters were needed than");
-            _pointsProfession.AppendLine("bankers, you receive double");
-            _pointsProfession.AppendLine("points upon arriving in Oregon");
-            _pointsProfession.AppendLine("as a carpenter, and triple");
-            _pointsProfession.AppendLine($"points for arriving as a farmer.{Environment.NewLine}");
-            return _pointsProfession.ToString();
+            pointsProfession.AppendLine("You receive points for your");
+            pointsProfession.AppendLine("occupation in the new land.");
+            pointsProfession.AppendLine("Because more farmers and");
+            pointsProfession.AppendLine("carpenters were needed than");
+            pointsProfession.AppendLine("bankers, you receive double");
+            pointsProfession.AppendLine("points upon arriving in Oregon");
+            pointsProfession.AppendLine("as a carpenter, and triple");
+            pointsProfession.AppendLine($"points for arriving as a farmer.{Environment.NewLine}");
+            return pointsProfession.ToString();
         }
 
         /// <summary>

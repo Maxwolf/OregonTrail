@@ -19,16 +19,17 @@ namespace OregonTrailDotNet.Window.Travel.Hunt.Help
         /// <summary>
         ///     Holds the string data about what we hit with our bullets.
         /// </summary>
-        private StringBuilder hitPrompt;
+        private readonly StringBuilder _hitPrompt;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="InputForm{T}" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public PreyHit(IWindow window) : base(window)
         {
-            hitPrompt = new StringBuilder();
+            _hitPrompt = new StringBuilder();
         }
 
         /// <summary>
@@ -46,18 +47,18 @@ namespace OregonTrailDotNet.Window.Travel.Hunt.Help
             if (target.Animal.TotalWeight > 100)
             {
                 // Compliment the player on killing big game.
-                hitPrompt.AppendLine($"{Environment.NewLine}You shot a giant {target.Animal.Name.ToLowerInvariant()}.");
-                hitPrompt.AppendLine($"Full bellies tonight!{Environment.NewLine}");
+                _hitPrompt.AppendLine($"{Environment.NewLine}You shot a giant {target.Animal.Name.ToLowerInvariant()}.");
+                _hitPrompt.AppendLine($"Full bellies tonight!{Environment.NewLine}");
             }
             else
             {
                 // Laugh at tiny creatures below one hundred pounds.
-                hitPrompt.AppendLine(
+                _hitPrompt.AppendLine(
                     $"{Environment.NewLine}You shot a {target.Animal.Name.ToLowerInvariant()}.{Environment.NewLine}");
             }
 
             // Returns the hit message to the text renderer.
-            return hitPrompt.ToString();
+            return _hitPrompt.ToString();
         }
 
         /// <summary>

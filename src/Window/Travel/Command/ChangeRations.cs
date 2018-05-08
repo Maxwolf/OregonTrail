@@ -28,6 +28,7 @@ namespace OregonTrailDotNet.Window.Travel.Command
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public ChangeRations(IWindow window) : base(window)
         {
         }
@@ -44,15 +45,15 @@ namespace OregonTrailDotNet.Window.Travel.Command
             _ration.AppendLine($"{Environment.NewLine}Change food rations");
             _ration.AppendLine(
                 $"(currently \"{GameSimulationApp.Instance.Vehicle.Ration.ToDescriptionAttribute()}\"){Environment.NewLine}");
-            _ration.AppendLine($"The amount of food the people in");
-            _ration.AppendLine($"your party eat each day can");
+            _ration.AppendLine("The amount of food the people in");
+            _ration.AppendLine("your party eat each day can");
             _ration.AppendLine($"change. These amounts are:{Environment.NewLine}");
-            _ration.AppendLine($"1. filling - meals are large and");
+            _ration.AppendLine("1. filling - meals are large and");
             _ration.AppendLine($"   generous.{Environment.NewLine}");
-            _ration.AppendLine($"2. meager - meals are small, but");
+            _ration.AppendLine("2. meager - meals are small, but");
             _ration.AppendLine($"   adequate.{Environment.NewLine}");
-            _ration.AppendLine($"3. bare bones - meals are very");
-            _ration.Append($"   small, everyone stays hungry.");
+            _ration.AppendLine("3. bare bones - meals are very");
+            _ration.Append("   small, everyone stays hungry.");
         }
 
         /// <summary>

@@ -17,6 +17,7 @@ namespace OregonTrailDotNet.Window.GameOver
         ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.
         /// </summary>
         /// <param name="simUnit">Core simulation which is controlling the form factory.</param>
+        // ReSharper disable once UnusedMember.Global
         public GameOver(SimulationApp simUnit) : base(simUnit)
         {
         }

@@ -22,6 +22,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public InitialItemsHelp(IWindow window) : base(window)
         {
             // Pass the game data to the simulation for each new game Windows state.
@@ -37,13 +38,13 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
         protected override string OnDialogPrompt()
         {
             // Create text we will display to user about the store before they actually load that game Windows.
-            var _storeHelp = new StringBuilder();
-            _storeHelp.AppendLine($"{Environment.NewLine}Before leaving Independence you");
-            _storeHelp.AppendLine("should buy equipment and");
-            _storeHelp.AppendLine($"supplies. You have {UserData.StartingMonies.ToString("C2")} in");
-            _storeHelp.AppendLine("cash, but you don't have to");
-            _storeHelp.AppendLine($"spend it all now.{Environment.NewLine}");
-            return _storeHelp.ToString();
+            var storeHelp = new StringBuilder();
+            storeHelp.AppendLine($"{Environment.NewLine}Before leaving Independence you");
+            storeHelp.AppendLine("should buy equipment and");
+            storeHelp.AppendLine($"supplies. You have {UserData.StartingMonies:C2} in");
+            storeHelp.AppendLine("cash, but you don't have to");
+            storeHelp.AppendLine($"spend it all now.{Environment.NewLine}");
+            return storeHelp.ToString();
         }
 
         /// <summary>

@@ -44,6 +44,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
         /// </summary>
         /// <param name="passengers">List of passengers from the vehicle.</param>
         /// <param name="amount">Amount of health we should remove from the living passengers.</param>
+        // ReSharper disable once UnusedMember.Global
         public static void Damage(this IList<Person.Person> passengers, int amount)
         {
             // Check if there are people to damage.

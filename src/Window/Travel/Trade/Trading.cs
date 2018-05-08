@@ -24,33 +24,34 @@ namespace OregonTrailDotNet.Window.Travel.Trade
         /// <summary>
         ///     Representation of text that shows current supplies and the trade offer if one exists.
         /// </summary>
-        private static StringBuilder supplyPrompt;
+        private static StringBuilder _supplyPrompt;
 
         /// <summary>
         ///     Determines if the player is able to make the current trade offer with the supplies they have available in their
         ///     vehicles inventory.
         /// </summary>
-        private bool playerCanTrade;
+        private bool _playerCanTrade;
 
         /// <summary>
         ///     Index of the item which we are going to use as the trade the player is going to make and be offered, if it exists.
         /// </summary>
-        private int tradeIndex;
+        private int _tradeIndex;
 
         /// <summary>
         ///     References all of the possible trades this location will be able to offer the player. If the list is empty that
         ///     means nobody wants to trade with the player at this time.
         /// </summary>
-        private List<TradeOffer> trades;
+        private List<TradeOffer> _trades;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Trading" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public Trading(IWindow window) : base(window)
         {
-            supplyPrompt = new StringBuilder();
+            _supplyPrompt = new StringBuilder();
         }
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace OregonTrailDotNet.Window.Travel.Trade
             get
             {
                 // Dialog type is determined by players ability to trade against the generated offer.
-                if ((trades != null) && (trades.Count > 0) && playerCanTrade)
+                if ((_trades != null) && (_trades.Count > 0) && _playerCanTrade)
                     return DialogType.YesNo;
 
                 return DialogType.Prompt;
@@ -147,7 +148,7 @@ namespace OregonTrailDotNet.Window.Travel.Trade
             UpdateTrade();
 
             // Returns the completed table of supplies and selected trade offer.
-            return supplyPrompt.ToString();
+            return _supplyPrompt.ToString();
         }
 
         /// <summary>
@@ -171,36 +172,36 @@ namespace OregonTrailDotNet.Window.Travel.Trade
             GameSimulationApp.Instance.TakeTurn(false);
 
             // Grabs all the data for the player current vehicle inventory.
-            supplyPrompt.Clear();
-            supplyPrompt.Append(SupplyTextTable);
+            _supplyPrompt.Clear();
+            _supplyPrompt.Append(SupplyTextTable);
 
             // Trades are randomly generated when ticking the location.
             GenerateTrades();
 
             // Generate a random number based on trade count and what our trade will be.
-            tradeIndex = GameSimulationApp.Instance.Random.Next(trades.Count);
+            _tradeIndex = GameSimulationApp.Instance.Random.Next(_trades.Count);
 
             // Check if the player has the item in question the trader wants.
-            playerCanTrade = (trades.Count > 0) &&
-                             GameSimulationApp.Instance.Vehicle.ContainsItem(trades[tradeIndex].WantedItem);
+            _playerCanTrade = (_trades.Count > 0) &&
+                             GameSimulationApp.Instance.Vehicle.ContainsItem(_trades[_tradeIndex].WantedItem);
 
             // Select one of the trades to use, or say there are none if none generated.
-            if (trades.Count > 0)
+            if (_trades.Count > 0)
             {
                 // Generates the default prompt for trading that is shown if you have items to trade back or not.
                 var wrapText =
-                    $"You meet another emigrant who wants {trades[tradeIndex].WantedItem.Quantity:N0} {trades[tradeIndex].WantedItem.Name.ToLowerInvariant()}. " +
-                    $"He will trade you {trades[tradeIndex].OfferedItem.Quantity:N0} {trades[tradeIndex].OfferedItem.Name.ToLowerInvariant()}.";
+                    $"You meet another emigrant who wants {_trades[_tradeIndex].WantedItem.Quantity:N0} {_trades[_tradeIndex].WantedItem.Name.ToLowerInvariant()}. " +
+                    $"He will trade you {_trades[_tradeIndex].OfferedItem.Quantity:N0} {_trades[_tradeIndex].OfferedItem.Name.ToLowerInvariant()}.";
 
                 // Depending if the player has enough of what the trader wants we change up last part of message.
-                supplyPrompt.Append(playerCanTrade
+                _supplyPrompt.Append(_playerCanTrade
                     ? $"{wrapText.WordWrap()}{Environment.NewLine}Are you willing to trade? Y/N"
                     : $"{wrapText.WordWrap()}{Environment.NewLine}You don't have this.{Environment.NewLine}{Environment.NewLine}");
             }
             else
             {
                 // Prompt is not shown if we have no traders generated.
-                supplyPrompt.AppendLine($"Nobody wants to trade with you.{Environment.NewLine}");
+                _supplyPrompt.AppendLine($"Nobody wants to trade with you.{Environment.NewLine}");
             }
         }
 
@@ -210,7 +211,7 @@ namespace OregonTrailDotNet.Window.Travel.Trade
         private void GenerateTrades()
         {
             // Creates new list of trade offers.
-            trades = new List<TradeOffer>();
+            _trades = new List<TradeOffer>();
 
             // Figure out how many trades, if any we will have this time the player checks.
             var totalTrades = GameSimulationApp.Instance.Random.Next(0, GameSimulationApp.Instance.Random.Next(1, 100));
@@ -221,10 +222,10 @@ namespace OregonTrailDotNet.Window.Travel.Trade
 
             // Creates as many trade offers as generator says we should.
             for (var i = 0; i < totalTrades; i++)
-                trades.Add(new TradeOffer());
+                _trades.Add(new TradeOffer());
 
             // Cleanup the generated trades.
-            var copyTrades = new List<TradeOffer>(trades);
+            var copyTrades = new List<TradeOffer>(_trades);
             foreach (var trade in copyTrades)
             {
                 // Remove trades that are null on either side.
@@ -233,7 +234,7 @@ namespace OregonTrailDotNet.Window.Travel.Trade
                     continue;
 
                 // Remove any trades that are the same item twice.
-                trades.Remove(trade);
+                _trades.Remove(trade);
             }
         }
 
@@ -249,12 +250,12 @@ namespace OregonTrailDotNet.Window.Travel.Trade
                 case DialogResponse.Yes:
                 {
                     // Remove the quantity of item from the vehicle inventory the trader wants.
-                    GameSimulationApp.Instance.Vehicle.Inventory[trades[tradeIndex].WantedItem.Category].ReduceQuantity(
-                        trades[tradeIndex].WantedItem.Quantity);
+                    GameSimulationApp.Instance.Vehicle.Inventory[_trades[_tradeIndex].WantedItem.Category].ReduceQuantity(
+                        _trades[_tradeIndex].WantedItem.Quantity);
 
                     // Give the vehicle the item the trade said he would.
-                    GameSimulationApp.Instance.Vehicle.Inventory[trades[tradeIndex].OfferedItem.Category].AddQuantity(
-                        trades[tradeIndex].OfferedItem.Quantity);
+                    GameSimulationApp.Instance.Vehicle.Inventory[_trades[_tradeIndex].OfferedItem.Category].AddQuantity(
+                        _trades[_tradeIndex].OfferedItem.Quantity);
 
                     // Checks if the player has animals to pull their vehicle.
                     GameSimulationApp.Instance.Vehicle.Status =

@@ -45,28 +45,19 @@ namespace OregonTrailDotNet.Module.Trail
         /// <summary>
         ///     Reference to all locations in this trail, indexed in the order they should be visited by vehicle.
         /// </summary>
-        public ReadOnlyCollection<Location> Locations
-        {
-            get { return Trail.Locations; }
-        }
+        public ReadOnlyCollection<Location> Locations => Trail.Locations;
 
         /// <summary>
         ///     Total length of the entire trail and locations added together. Simulation will decide distance between points
         ///     randomly but keep it within this range.
         /// </summary>
-        public int Length
-        {
-            get { return Trail.Length; }
-        }
+        public int Length => Trail.Length;
 
         /// <summary>
         ///     Returns the current point of interest the players vehicle is on. Lazy initialization of path when accessed by first
         ///     attached Windows getting current point.
         /// </summary>
-        public Location CurrentLocation
-        {
-            get { return Locations[LocationIndex]; }
-        }
+        public Location CurrentLocation => Locations[LocationIndex];
 
         /// <summary>
         ///     Locates the next point of interest if it exists in the list, if this method returns NULL then that means the next
@@ -89,10 +80,7 @@ namespace OregonTrailDotNet.Module.Trail
         ///     states to check this for doing special actions on the first move.
         /// </summary>
         /// <returns>TRUE if first point on trail, FALSE if not.</returns>
-        public bool IsFirstLocation
-        {
-            get { return LocationIndex <= 0; }
-        }
+        public bool IsFirstLocation => LocationIndex <= 0;
 
         /// <summary>
         ///     Fired when the simulation is closing and needs to clear out any data structures that it created so the program can

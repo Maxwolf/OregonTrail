@@ -24,31 +24,37 @@ namespace OregonTrailDotNet.Entity.Location
         /// <summary>
         ///     Vehicle has very little food left.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         [Description("Low Food")] LowFood = 2,
 
         /// <summary>
         ///     Oxen unable to graze and operate at less and peak performance.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         [Description("Low Grass")] LowGrass = 3,
 
         /// <summary>
         ///     Location is very dry and has almost no localized water sources.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         [Description("Low Water")] LowWater = 4,
 
         /// <summary>
         ///     Vehicle is running very low on food for passengers to consume.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         [Description("No Food")] NoFood = 5,
 
         /// <summary>
         ///     Location has no water in the immediate area, performance of oxen and passengers suffer.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         [Description("No Water")] NoWater = 6,
 
         /// <summary>
         ///     Vehicle passengers have gone without food for several days and are now starving to death.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         Starvation = 7
     }
 }

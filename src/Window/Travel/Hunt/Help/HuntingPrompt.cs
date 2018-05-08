@@ -20,16 +20,17 @@ namespace OregonTrailDotNet.Window.Travel.Hunt.Help
         /// <summary>
         ///     References the message we show to the user that explains how hunting works.
         /// </summary>
-        private StringBuilder huntHelp;
+        private readonly StringBuilder _huntHelp;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="InputForm{T}" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public HuntingPrompt(IWindow window) : base(window)
         {
-            huntHelp = new StringBuilder();
+            _huntHelp = new StringBuilder();
         }
 
         /// <summary>
@@ -41,10 +42,10 @@ namespace OregonTrailDotNet.Window.Travel.Hunt.Help
         protected override string OnDialogPrompt()
         {
             // Clear out previous hunting help messages.
-            huntHelp.Clear();
+            _huntHelp.Clear();
 
             // Create the prompt for explaining how hunting works.
-            huntHelp.AppendLine($"{Environment.NewLine}Hunting Instructions{Environment.NewLine}");
+            _huntHelp.AppendLine($"{Environment.NewLine}Hunting Instructions{Environment.NewLine}");
 
             // Explain how timer works, how killing works and animal weight limits.
             const string huntTextTop =
@@ -57,11 +58,11 @@ namespace OregonTrailDotNet.Window.Travel.Hunt.Help
                 "If you don't type fast enough you risk missing your shot and bullet on nothing!";
 
             // Add the top and bottom hunting text on their own lines.
-            huntHelp.AppendLine(huntTextTop.WordWrap());
-            huntHelp.AppendLine(huntTextBottom.WordWrap());
+            _huntHelp.AppendLine(huntTextTop.WordWrap());
+            _huntHelp.AppendLine(huntTextBottom.WordWrap());
 
             // Returns the now processed hunting help prompt to renderer.
-            return huntHelp.ToString();
+            return _huntHelp.ToString();
         }
 
         /// <summary>

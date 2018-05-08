@@ -10,13 +10,13 @@ namespace OregonTrailDotNet.Entity.Location
     ///     Defines a location in the game that is added to a list of points that make up the entire trail which the player and
     ///     his vehicle travel upon.
     /// </summary>
-    public abstract class Location : ILocation
+    public abstract class Location : IEntity
     {
         /// <summary>
         ///     Deals with the weather simulation for this location, each location on the trail is capable of simulating it's own
         ///     type of weather for the purposes of keeping them unique.
         /// </summary>
-        private LocationWeather weather;
+        private readonly LocationWeather _weather;
 
         /// <summary>Initializes a new instance of the <see cref="T:OregonTrailDotNet.Entity.Location.Location" /> class.</summary>
         /// <param name="name">Display name of the location as it should be known to the player.</param>
@@ -27,7 +27,7 @@ namespace OregonTrailDotNet.Entity.Location
             Warning = GameSimulationApp.Instance.Random.NextBool() ? LocationWarning.None : LocationWarning.BadWater;
 
             // Creates a new system to deal with the management of the weather for this given location.
-            weather = new LocationWeather(climateType);
+            _weather = new LocationWeather(climateType);
 
             // Name of the point as it should be known to the player.
             Name = name;
@@ -52,10 +52,7 @@ namespace OregonTrailDotNet.Entity.Location
         /// <summary>
         ///     Current weather condition this location is experiencing.
         /// </summary>
-        public Weather.Weather Weather
-        {
-            get { return weather.Condition; }
-        }
+        public Weather.Weather Weather => _weather.Condition;
 
         /// <summary>
         ///     Determines if the location allows the player to chat to other NPC's in the area which can offer up advice about the
@@ -112,7 +109,7 @@ namespace OregonTrailDotNet.Entity.Location
         /// </returns>
         public int Compare(IEntity x, IEntity y)
         {
-            var result = string.Compare(x.Name, y.Name, StringComparison.Ordinal);
+            var result = string.Compare(x?.Name, y?.Name, StringComparison.Ordinal);
             if (result != 0) return result;
 
             return result;
@@ -200,7 +197,7 @@ namespace OregonTrailDotNet.Entity.Location
 
             // Weather will only be ticked when not skipping a day.
             if (!skipDay)
-                weather.Tick();
+                _weather.Tick();
         }
     }
 }

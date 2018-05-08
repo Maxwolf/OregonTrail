@@ -21,6 +21,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Options
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public EraseTombstone(IWindow window) : base(window)
         {
         }
@@ -29,10 +30,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Options
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType
-        {
-            get { return DialogType.YesNo; }
-        }
+        protected override DialogType DialogType => DialogType.YesNo;
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.

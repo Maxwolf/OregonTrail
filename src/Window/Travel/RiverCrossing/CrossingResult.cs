@@ -23,13 +23,14 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         /// <summary>
         ///     The crossing result.
         /// </summary>
-        private StringBuilder _crossingResult;
+        private readonly StringBuilder _crossingResult;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CrossingResult" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public CrossingResult(IWindow window) : base(window)
         {
             _crossingResult = new StringBuilder();

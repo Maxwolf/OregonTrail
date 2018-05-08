@@ -23,6 +23,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public ConfirmPlayerNames(IWindow window) : base(window)
         {
         }
@@ -31,10 +32,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType
-        {
-            get { return DialogType.Custom; }
-        }
+        protected override DialogType DialogType => DialogType.Custom;
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
@@ -48,8 +46,8 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
             GameSimulationApp.Instance.SetStartInfo(UserData);
 
             // Create string builder, counter, print info about party members.
-            var _confirmPartyText = new StringBuilder();
-            _confirmPartyText.AppendLine(
+            var confirmPartyText = new StringBuilder();
+            confirmPartyText.AppendLine(
                 $"{Environment.NewLine}Are these names correct? Y/N{Environment.NewLine}");
             var crewNumber = 1;
 
@@ -62,16 +60,16 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
 
                 // Only append new line when not printing last line.
                 if (index < UserData.PlayerNames.Count - 1)
-                    _confirmPartyText.AppendLine(isLeader
+                    confirmPartyText.AppendLine(isLeader
                         ? $"  {crewNumber} - {name} (leader)"
                         : $"  {crewNumber} - {name}");
                 else
-                    _confirmPartyText.Append($"  {crewNumber} - {name}");
+                    confirmPartyText.Append($"  {crewNumber} - {name}");
 
                 crewNumber++;
             }
 
-            return _confirmPartyText.ToString();
+            return confirmPartyText.ToString();
         }
 
         /// <summary>

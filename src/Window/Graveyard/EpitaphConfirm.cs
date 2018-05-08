@@ -20,13 +20,14 @@ namespace OregonTrailDotNet.Window.Graveyard
         /// <summary>
         ///     The _confirm prompt.
         /// </summary>
-        private StringBuilder _confirmPrompt;
+        private readonly StringBuilder _confirmPrompt;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="EpitaphConfirm" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
         /// <param name="window">The window.</param>
+        // ReSharper disable once UnusedMember.Global
         public EpitaphConfirm(IWindow window) : base(window)
         {
             _confirmPrompt = new StringBuilder();
@@ -36,10 +37,7 @@ namespace OregonTrailDotNet.Window.Graveyard
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType
-        {
-            get { return DialogType.YesNo; }
-        }
+        protected override DialogType DialogType => DialogType.YesNo;
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game window and would like to have a string returned.

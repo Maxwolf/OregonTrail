@@ -19,11 +19,13 @@ namespace OregonTrailDotNet.Window.MainMenu
         /// <summary>
         ///     Asked for the first party member.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public const string LEADER_QUESTION = "What is the first name of the wagon leader?";
 
         /// <summary>
         ///     Asked for every other party member name we want to collect.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public static readonly string MEMBERS_QUESTION =
             $"What are the first names of the{Environment.NewLine}three other members in your party?";
 
@@ -31,6 +33,7 @@ namespace OregonTrailDotNet.Window.MainMenu
         ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.
         /// </summary>
         /// <param name="simUnit">Core simulation which is controlling the form factory.</param>
+        // ReSharper disable once UnusedMember.Global
         public MainMenu(SimulationApp simUnit) : base(simUnit)
         {
         }

@@ -17,6 +17,7 @@ namespace OregonTrailDotNet.Module.Scoring
         ///     Since the string.empty property is computed and not static we have to make a empty string for a constant for
         ///     default display name.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         private const string DEFAULT_DISPLAY_NAME = "";
 
         /// <summary>
