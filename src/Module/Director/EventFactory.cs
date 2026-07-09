@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using OregonTrailDotNet.Event;
 using WolfCurses.Utility;
 
@@ -76,9 +77,10 @@ namespace OregonTrailDotNet.Module.Director
             if (directorEventKeyValuePair.Value.GetTypeInfo().IsAbstract)
                 return null;
 
-            // Create the event product, but don't call any constructor.
+            // Create the event product, but don't call any constructor. WolfCurses FactoryExtensions
+            // cannot do this on modern .NET since FormatterServices was removed from the runtime.
             var eventInstance =
-                FactoryExtensions.New<EventProduct>.GetUninitializedObject(directorEventKeyValuePair.Value) as
+                RuntimeHelpers.GetUninitializedObject(directorEventKeyValuePair.Value) as
                     EventProduct;
 
             // If the event instance is null then complain.

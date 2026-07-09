@@ -687,8 +687,13 @@ namespace OregonTrailDotNet.Entity.Vehicle
                 if (GameSimulationApp.Instance.Random.NextBool())
                     continue;
 
+                // Determine amount of item to create, never let it fall below one for low maximum quantities.
+                var amountToMake = itemPair.Value.MaxQuantity/4;
+                if (amountToMake <= 0)
+                    amountToMake = 1;
+
                 // Add some random amount of the item from one to total amount.
-                var createdAmount = GameSimulationApp.Instance.Random.Next(1, itemPair.Value.MaxQuantity/4);
+                var createdAmount = GameSimulationApp.Instance.Random.Next(1, amountToMake);
 
                 // Add the amount ahead of time so we can figure out of it is above maximum.
                 var simulatedAmountAdd = itemPair.Value.Quantity + createdAmount;

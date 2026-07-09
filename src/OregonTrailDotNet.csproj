@@ -17,4 +17,8 @@
     <PackageReference Include="WolfCurses" Version="2026.7.9.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="OregonTrailDotNet.Tests" />
+  </ItemGroup>
+
 </Project>
