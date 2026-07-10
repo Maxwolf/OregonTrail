@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using OregonTrailDotNet.Bot.Learning;
 using OregonTrailDotNet.Entity;
+using OregonTrailDotNet.Window.MainMenu;
 using OregonTrailDotNet.Window.Travel;
 
 namespace OregonTrailDotNet.Bot.Game
@@ -48,6 +49,10 @@ namespace OregonTrailDotNet.Bot.Game
         // take the first branch instead.
         private int _forkVisits;
 
+        // Counts the non-leader party members named so far this game, so they get sequential numbers 2, 3, 4 (crew #1 is
+        // always the leader). Reset whenever the leader-name prompt appears, in case the naming flow restarts.
+        private int _partyMembersNamed;
+
         public ScreenRecognizer(IPolicy policy) => _policy = policy;
 
         /// <summary>Form names whose input the recognizer did not recognize, surfaced for developers after a run.</summary>
@@ -94,9 +99,17 @@ namespace OregonTrailDotNet.Bot.Game
                 case "ProfessionSelector":
                     return _policy.Profession.ToString();
                 case "InputPlayerNames":
-                    // Name the leader explicitly (so "(bot)" lands on the scored name); an empty answer for the members
-                    // makes the game auto-fill the remaining slots with random names.
-                    return screen.Contains("leader", StringComparison.OrdinalIgnoreCase) ? _policy.LeaderName : "";
+                    // Crew #1 is always the wagon leader and keeps the policy's "(bot)" name so it brands the in-game
+                    // high-score list. The three other members are numbered 2, 3, 4 so a viewer watching a playthrough can
+                    // tell which party member died. (Match the leader question itself — the member roster below it also
+                    // contains the word "leader", so a bare substring check would misfire.)
+                    if (screen.Contains(MainMenu.LEADER_QUESTION, StringComparison.OrdinalIgnoreCase))
+                    {
+                        _partyMembersNamed = 0;
+                        return _policy.LeaderName;
+                    }
+
+                    return (_partyMembersNamed++ + 2).ToString();
                 case "ConfirmPlayerNames":
                     return "Y";
                 case "SelectStartingMonthState":
