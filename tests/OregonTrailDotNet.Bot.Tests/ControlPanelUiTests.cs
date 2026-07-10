@@ -70,6 +70,28 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
+        public void Blank_Name_Defaults_To_The_Model_Name_And_Stays_Unique()
+        {
+            // Create with no name -> defaults to the chosen model's display name.
+            Send("1"); // create
+            Send("2"); // Genetic Algorithm
+            Assert.Contains("Genetic Algorithm", Screen); // the prompt offers the model name as the default
+            Send(""); // blank name
+
+            Assert.Equal("Genetic Algorithm", BotContext.ActiveProfileName);
+            var first = BotContext.Db!.Profiles.GetByName("Genetic Algorithm")!;
+            Assert.Equal("genetic", first.PolicyKind);
+
+            // A second blank Genetic create gets a distinct, suffixed name rather than re-activating the first.
+            Send("1");
+            Send("2");
+            Send("");
+            Assert.Equal("Genetic Algorithm 2", BotContext.ActiveProfileName);
+            Assert.NotEqual(first.Id, BotContext.ActiveProfileId);
+            Assert.Equal(2, BotContext.Db!.Profiles.All().Count);
+        }
+
+        [Fact]
         public void Leaderboard_And_Stats_And_NoProfile_Guard_Render()
         {
             // Leaderboard is reachable with no profile.
