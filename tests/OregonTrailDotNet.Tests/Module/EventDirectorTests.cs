@@ -5,9 +5,11 @@ using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Event;
 using OregonTrailDotNet.Event.Person;
+using OregonTrailDotNet.Event.Vehicle;
 using OregonTrailDotNet.Module.Director;
 using Xunit;
 using PersonEntity = OregonTrailDotNet.Entity.Person.Person;
+using VehicleEntity = OregonTrailDotNet.Entity.Vehicle.Vehicle;
 
 namespace OregonTrailDotNet.Tests.Module
 {
@@ -96,6 +98,23 @@ namespace OregonTrailDotNet.Tests.Module
             Assert.Same(person, notifiedEntity);
             Assert.IsType<WellAgain>(notifiedEvent);
             Assert.Equal(HealthStatus.Good, person.HealthStatus);
+        }
+
+        [Fact]
+        public void TriggerEvent_BrokenPartOnNonSingletonVehicle_RendersWithoutNullReference()
+        {
+            // A vehicle that is NOT the game singleton's vehicle (as the detached-vehicle unit tests use). The broken-part
+            // prompt must describe the part on the event's source vehicle, not blindly reach for the singleton's — else it
+            // null-references. Executes synchronously through the random event window, so the prompt renders inside here.
+            var vehicle = new VehicleEntity();
+            Assert.NotSame(Game.Vehicle, vehicle);
+
+            Game.EventDirector.TriggerEvent(vehicle, typeof(BrokenVehiclePart));
+
+            Assert.NotNull(vehicle.BrokenPart);
+            var screen = Game.WindowManager.FocusedWindow?.OnRenderWindow() ?? string.Empty;
+            Assert.Contains("repair it", screen);
+            Assert.Contains(vehicle.BrokenPart.Name.ToLowerInvariant(), screen);
         }
 
         [Fact]

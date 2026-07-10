@@ -41,9 +41,13 @@ namespace OregonTrailDotNet.Window.RandomEvent
         /// </returns>
         protected override string OnDialogPrompt()
         {
+            // Describe the part on the vehicle the event actually targeted (the game vehicle during normal play), rather
+            // than assuming the global singleton's vehicle — the two can differ, which would null-reference here.
+            var vehicle = UserData.SourceEntity as Entity.Vehicle.Vehicle ?? GameSimulationApp.Instance.Vehicle;
+
             var brokenPrompt = new StringBuilder();
             brokenPrompt.AppendLine(
-                $"{Environment.NewLine}Broken {GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}. Would you");
+                $"{Environment.NewLine}Broken {vehicle.BrokenPart.Name.ToLowerInvariant()}. Would you");
             brokenPrompt.Append("like to try and repair it? Y/N");
             return brokenPrompt.ToString();
         }
@@ -58,16 +62,19 @@ namespace OregonTrailDotNet.Window.RandomEvent
             // Get game instance to improve readability.
             var game = GameSimulationApp.Instance;
 
+            // Act on the vehicle the event targeted (the game vehicle during normal play), matching OnDialogPrompt.
+            var vehicle = UserData.SourceEntity as Entity.Vehicle.Vehicle ?? game.Vehicle;
+
             switch (reponse)
             {
                 case DialogResponse.No:
                 case DialogResponse.Custom:
                     // Player has chosen to not attempt a repair and opted instead for replacement with spare part.
-                    game.EventDirector.TriggerEvent(game.Vehicle, typeof(NoRepairVehicle));
+                    game.EventDirector.TriggerEvent(vehicle, typeof(NoRepairVehicle));
                     break;
                 case DialogResponse.Yes:
                     // Depending on dice roll player might be able to fix their broken vehicle part.
-                    game.EventDirector.TriggerEvent(game.Vehicle,
+                    game.EventDirector.TriggerEvent(vehicle,
                         game.Random.NextBool() ? typeof(RepairVehiclePart) : typeof(NoRepairVehicle));
                     break;
                 default:
