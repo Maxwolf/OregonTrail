@@ -225,5 +225,22 @@ namespace OregonTrailDotNet.Tests
             Assert.False(string.IsNullOrEmpty(CauseOfDeath.Starvation.ToDescriptionAttribute()));
             Assert.False(string.IsNullOrEmpty(CauseOfDeath.Illness.ToDescriptionAttribute()));
         }
+
+        // ---- Input: spaces are accepted (e.g. tombstone epitaphs) despite the WolfCurses letter/digit filter ----
+
+        [Fact]
+        public void InputBuffer_AcceptsSpaces_SoEpitaphsCanContainThem()
+        {
+            // WolfCurses' AddCharToInputBuffer now accepts any printable character (not just letters/digits), so spaces reach
+            // the input buffer for free-text forms such as the tombstone epitaph editor. Regression guard in case a future
+            // WolfCurses release reintroduces the letter/digit-only filter.
+            Game.InputManager.ClearBuffer();
+            Game.InputManager.AddCharToInputBuffer('H');
+            Game.InputManager.AddCharToInputBuffer('i');
+            Game.InputManager.AddCharToInputBuffer(' ');
+            Game.InputManager.AddCharToInputBuffer('u');
+
+            Assert.Equal("Hi u", Game.InputManager.InputBuffer);
+        }
     }
 }
