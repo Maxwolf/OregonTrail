@@ -1,3 +1,4 @@
+using OregonTrailDotNet.Bot.Game;
 using WolfCurses.Window;
 
 namespace OregonTrailDotNet.Bot.Ui
@@ -39,5 +40,11 @@ namespace OregonTrailDotNet.Bot.Ui
         ///     Number of CEM generations to run in a single training batch.
         /// </summary>
         public int Generations { get; set; } = 5;
+
+        /// <summary>Playback speed selected on the watch-configuration screen.</summary>
+        public WatchSpeed WatchSpeed { get; set; } = WatchSpeed.Medium;
+
+        /// <summary>Whether the watch-configuration screen has looping (replay until Esc) turned on.</summary>
+        public bool WatchLoop { get; set; }
     }
 }

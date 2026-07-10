@@ -2,6 +2,7 @@ using System.Reflection;
 using OregonTrailDotNet;
 using OregonTrailDotNet.Bot;
 using OregonTrailDotNet.Bot.Data;
+using OregonTrailDotNet.Bot.Game;
 using OregonTrailDotNet.Bot.Ui;
 using Xunit;
 
@@ -177,6 +178,38 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.Empty(BotContext.Db!.Profiles.All());
             Assert.Equal(0, BotContext.Db!.Leaderboard.Count());
             Assert.Equal(-1, BotContext.ActiveProfileId);
+        }
+
+        [Fact]
+        public void Watch_Opens_Config_Screen_And_Start_Records_Speed_And_Loop()
+        {
+            Send("1"); Send("1"); Send("Scout"); // create a CEM bot and activate it
+            Assert.True(BotContext.ActiveProfileId > 0);
+
+            // "Watch" now leads to the configuration screen rather than launching immediately.
+            Send("4");
+            Assert.Equal("WatchConfigForm", FormName);
+            Assert.Contains("Medium", Screen); // default speed shown
+            Assert.Contains("single game", Screen); // looping off by default
+
+            // Adjust the settings in place: choose Slow speed and turn looping on.
+            Send("3");
+            Assert.Contains("Slow", Screen);
+            Send("4");
+            Assert.Contains("until you press Esc", Screen);
+            Assert.Equal("WatchConfigForm", FormName); // still configuring, not launched yet
+
+            // ENTER records the watch request with the chosen options and tears the panel down.
+            BotSimulationApp.Instance!.InputManager.SendInputBufferAsCommand();
+            for (var i = 0; i < 2 && BotSimulationApp.Instance != null; i++)
+                BotSimulationApp.Instance.OnTick(false);
+
+            Assert.Null(BotSimulationApp.Instance); // panel torn down to hand off to the watch session
+            var request = BotContext.Request!;
+            Assert.Equal(BotRequestKind.Watch, request.Kind);
+            Assert.Equal(BotContext.ActiveProfileId, request.ProfileId);
+            Assert.Equal(WatchSpeed.Slow, request.WatchSpeed);
+            Assert.True(request.LoopUntilEscape);
         }
 
         [Fact]

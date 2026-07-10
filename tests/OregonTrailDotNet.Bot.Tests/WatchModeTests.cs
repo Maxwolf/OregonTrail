@@ -32,6 +32,22 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
+        public void Speed_Presets_Order_From_Fastest_To_Slowest()
+        {
+            var fast = WatchOptions.ForSpeed(WatchSpeed.Fast);
+            var medium = WatchOptions.ForSpeed(WatchSpeed.Medium);
+            var slow = WatchOptions.ForSpeed(WatchSpeed.Slow);
+
+            // Each slower step waits longer, both per tick and at each decision, so playback is visibly slower.
+            Assert.True(fast.TickDelayMs < medium.TickDelayMs && medium.TickDelayMs < slow.TickDelayMs);
+            Assert.True(fast.DecisionPauseMs < medium.DecisionPauseMs && medium.DecisionPauseMs < slow.DecisionPauseMs);
+
+            // Medium is the established default.
+            Assert.Equal(WatchOptions.Default.TickDelayMs, medium.TickDelayMs);
+            Assert.Equal(WatchOptions.Default.DecisionPauseMs, medium.DecisionPauseMs);
+        }
+
+        [Fact]
         public void Watch_Path_Drives_A_Full_Game()
         {
             // Zero delays keep the test fast; rendering is a no-op under a redirected console. This just proves the extra

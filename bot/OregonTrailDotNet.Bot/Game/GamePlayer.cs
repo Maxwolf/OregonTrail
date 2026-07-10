@@ -39,7 +39,7 @@ namespace OregonTrailDotNet.Bot.Game
 
         /// <summary>Convenience: boot a fresh game, play it with the given policy, and tear it down. Pass
         ///     <paramref name="watch" /> to render and pace it for a human; leave it null for headless training speed.</summary>
-        public static RunResult PlayOnce(IPolicy policy, WatchOptions? watch = null)
+        public static RunResult PlayOnce(IPolicy policy, WatchOptions? watch = null, Func<bool>? shouldAbort = null)
         {
             using var driver = new GameDriver(watch);
             var recognizer = new ScreenRecognizer(policy);
@@ -47,7 +47,7 @@ namespace OregonTrailDotNet.Bot.Game
             {
                 driver.Boot();
                 var player = new GamePlayer(driver, recognizer, policy);
-                return player.Run();
+                return player.Run(shouldAbort: shouldAbort);
             }
             catch (Exception ex)
             {
@@ -71,7 +71,7 @@ namespace OregonTrailDotNet.Bot.Game
         ///     Drives the booted game to completion. Caps guard against infinite loops; the soft-lock detector trips when the
         ///     screen fingerprint stops changing for too long (a screen we don't know how to answer).
         /// </summary>
-        public RunResult Run(int maxCommands = 4000, int maxTicks = 60000, int stallLimit = 400)
+        public RunResult Run(int maxCommands = 4000, int maxTicks = 60000, int stallLimit = 400, Func<bool>? shouldAbort = null)
         {
             var lastFingerprint = string.Empty;
             var stall = 0;
@@ -79,6 +79,10 @@ namespace OregonTrailDotNet.Bot.Game
 
             while (true)
             {
+                // A watching human can bail out (e.g. Esc) between steps; stop the game cleanly when they ask.
+                if (shouldAbort != null && shouldAbort())
+                    return Aborted("viewer stopped the watch");
+
                 if (!_driver.Alive)
                     return Aborted("game instance was destroyed unexpectedly");
 

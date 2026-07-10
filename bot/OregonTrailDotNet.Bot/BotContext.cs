@@ -24,6 +24,12 @@ namespace OregonTrailDotNet.Bot
         public int PopulationSize { get; init; }
         public int GamesPerCandidate { get; init; }
         public int Generations { get; init; }
+
+        /// <summary>Watch mode: playback speed the viewer chose on the watch-config screen.</summary>
+        public Game.WatchSpeed WatchSpeed { get; init; } = Game.WatchSpeed.Medium;
+
+        /// <summary>Watch mode: keep replaying games until the viewer presses Esc.</summary>
+        public bool LoopUntilEscape { get; init; }
     }
 
     /// <summary>

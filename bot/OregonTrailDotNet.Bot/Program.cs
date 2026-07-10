@@ -168,25 +168,98 @@ namespace OregonTrailDotNet.Bot
                 return;
             }
 
-            SafeClear();
-            var result = GamePlayer.PlayOnce(BuildBestPolicy(profile), WatchOptions.Default);
+            var options = WatchOptions.ForSpeed(request.WatchSpeed);
 
-            SafeClear();
-            if (result.Bug != null)
+            while (true)
             {
-                Console.WriteLine(result.Bug.Format());
+                DrainKeys(); // discard any keystrokes queued before this game starts
+                SafeClear();
+
+                // Esc stops the watch: mid-game it aborts the run, and the flag lets us skip the result screen.
+                var stoppedByViewer = false;
+                var result = GamePlayer.PlayOnce(BuildBestPolicy(profile), options, shouldAbort: () =>
+                {
+                    if (!EscPressed())
+                        return false;
+                    stoppedByViewer = true;
+                    return true;
+                });
+
+                SafeClear();
+
+                if (stoppedByViewer)
+                {
+                    Console.WriteLine("Stopped watching.");
+                    Pause();
+                    return;
+                }
+
+                // A crash or detected bug is a developer-stop condition — always surface it and end the session.
+                if (result.Bug != null)
+                {
+                    Console.WriteLine(result.Bug.Format());
+                    Pause();
+                    return;
+                }
+
+                PrintWatchResult(profile, result);
+
+                if (!request.LoopUntilEscape)
+                {
+                    Pause();
+                    return;
+                }
+
+                Console.WriteLine();
+                Console.WriteLine("Starting another game… press Esc to stop looping.");
+                if (WaitOrEsc(2500))
+                {
+                    Console.WriteLine("Stopped watching.");
+                    Pause();
+                    return;
+                }
             }
-            else
+        }
+
+        private static void PrintWatchResult(ProfileRecord profile, RunResult result)
+        {
+            Console.WriteLine($"{profile.Name} finished: {result.Outcome}, score {result.Score}, " +
+                              $"{result.Survivors} survivor(s), {result.Miles} miles in {result.Days} days.");
+            if (!string.IsNullOrEmpty(result.CauseOfDeath))
+                Console.WriteLine($"Cause: {result.CauseOfDeath}");
+            if (result.GameRecordedScore.HasValue)
+                Console.WriteLine($"(recorded to the in-game top ten as '{result.LeaderName}')");
+        }
+
+        /// <summary>Drains pending keystrokes and reports whether Esc was among them (no-op when input is redirected).</summary>
+        private static bool EscPressed()
+        {
+            var esc = false;
+            while (KeyAvailable())
+                if (Console.ReadKey(true).Key == ConsoleKey.Escape)
+                    esc = true;
+            return esc;
+        }
+
+        private static void DrainKeys()
+        {
+            while (KeyAvailable())
+                Console.ReadKey(true);
+        }
+
+        /// <summary>Waits up to <paramref name="milliseconds" />, returning true early if the viewer pressed Esc.</summary>
+        private static bool WaitOrEsc(int milliseconds)
+        {
+            var waited = 0;
+            while (waited < milliseconds)
             {
-                Console.WriteLine($"{profile.Name} finished: {result.Outcome}, score {result.Score}, " +
-                                  $"{result.Survivors} survivor(s), {result.Miles} miles in {result.Days} days.");
-                if (!string.IsNullOrEmpty(result.CauseOfDeath))
-                    Console.WriteLine($"Cause: {result.CauseOfDeath}");
-                if (result.GameRecordedScore.HasValue)
-                    Console.WriteLine($"(recorded to the in-game top ten as '{result.LeaderName}')");
+                if (EscPressed())
+                    return true;
+                Thread.Sleep(50);
+                waited += 50;
             }
 
-            Pause();
+            return false;
         }
 
         /// <summary>Best available strategy for a profile, decoded through the profile's own training model: its best-ever

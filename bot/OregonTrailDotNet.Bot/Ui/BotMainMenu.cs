@@ -53,9 +53,8 @@ namespace OregonTrailDotNet.Bot.Ui
                 return;
             }
 
-            // Hand off to Program to play (and render) one game with the active profile's best strategy.
-            BotContext.Request = new BotRequest { Kind = BotRequestKind.Watch, ProfileId = BotContext.ActiveProfileId };
-            BotSimulationApp.Instance?.Destroy();
+            // Let the viewer configure speed/looping first; that form records the request and tears the panel down.
+            SetForm(typeof(WatchConfigForm));
         }
 
         private void ViewLeaderboard() => SetForm(typeof(LeaderboardForm));
