@@ -28,7 +28,16 @@ namespace OregonTrailDotNet.Bot.Game
         /// <summary>Total party size including the dead.</summary>
         public int PartySize { get; init; }
 
+        /// <summary>Average health across the living party (what the end-of-game score is weighted by).</summary>
         public HealthStatus Health { get; init; }
+
+        /// <summary>
+        ///     Health of the party's weakest living member — the one nearest to dying. The average can stay high while one
+        ///     member is failing, so policies watch this to protect every individual (each death is lost score), not just the
+        ///     party as a whole.
+        /// </summary>
+        public HealthStatus LowestHealth { get; init; }
+
         public int DaysElapsed { get; init; }
         public int DaysRemaining { get; init; }
         public int Miles { get; init; }
@@ -74,6 +83,7 @@ namespace OregonTrailDotNet.Bot.Game
                 LivingCount = v.PassengerLivingCount,
                 PartySize = v.Passengers.Count,
                 Health = v.PassengerHealthStatus,
+                LowestHealth = LowestLivingHealth(v),
                 DaysElapsed = game.Time.TotalDays,
                 DaysRemaining = TimeModule.MaxTravelDays - game.Time.TotalDays,
                 Miles = v.Odometer,
@@ -81,6 +91,22 @@ namespace OregonTrailDotNet.Bot.Game
                 Pace = v.Pace,
                 LocationName = game.Trail.CurrentLocation?.Name ?? ""
             };
+        }
+
+        // The worst health among the still-living party members (Dead excluded). Falls back to the party average only if the
+        // party is empty, which never happens mid-game.
+        private static HealthStatus LowestLivingHealth(Vehicle v)
+        {
+            HealthStatus? lowest = null;
+            foreach (var person in v.Passengers)
+            {
+                if (person.HealthStatus == HealthStatus.Dead)
+                    continue;
+                if (lowest == null || (int) person.HealthStatus < (int) lowest)
+                    lowest = person.HealthStatus;
+            }
+
+            return lowest ?? v.PassengerHealthStatus;
         }
     }
 }

@@ -30,8 +30,10 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public TravelCommands ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommands> available)
         {
+            // Rest for the party's weakest member, not the average: a full, healthy party scores far higher than a lone
+            // survivor, so every member in danger is worth stopping for.
             if (available.Contains(TravelCommands.StopToRest) &&
-                (int) state.Health <= _genome.RestHealthThreshold &&
+                (int) state.LowestHealth <= _genome.RestHealthThreshold &&
                 state.Medicine > 0 && state.DaysRemaining > 40)
                 return TravelCommands.StopToRest;
 

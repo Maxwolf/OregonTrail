@@ -39,9 +39,10 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public TravelCommands ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommands> available)
         {
-            // Recover when the party is sick and there's time to spare and medicine to treat with.
+            // Recover when ANY party member is sick (not just when the average dips) and there's time and medicine — keeping
+            // every member alive and healthy is what maximizes the final score.
             if (available.Contains(TravelCommands.StopToRest) &&
-                (int) state.Health <= (int) HealthStatus.Poor &&
+                (int) state.LowestHealth <= (int) HealthStatus.Poor &&
                 state.Medicine > 0 && state.DaysRemaining > 60)
                 return TravelCommands.StopToRest;
 

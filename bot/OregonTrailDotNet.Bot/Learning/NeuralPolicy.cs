@@ -110,7 +110,7 @@ namespace OregonTrailDotNet.Bot.Learning
             Norm(s.Oxen, 20),
             Norm(s.Clothing, 50),
             Norm(s.Medicine, 99),
-            Norm((int) s.Health, 500),
+            Norm((int) s.LowestHealth, 500), // the weakest member's health — the one at risk of dying next
             Norm(s.DaysElapsed, 246),
             Norm(s.DaysRemaining, 246),
             Norm(s.Miles, 2000),
