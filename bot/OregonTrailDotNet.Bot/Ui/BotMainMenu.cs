@@ -32,7 +32,7 @@ namespace OregonTrailDotNet.Bot.Ui
             AddCommand(Quit, BotMainMenuCommands.Quit);
         }
 
-        private void CreateProfile() => SetForm(typeof(CreateProfileForm));
+        private void CreateProfile() => SetForm(typeof(SelectModelForm));
 
         private void SelectProfile() => SetForm(typeof(SelectProfileForm));
 

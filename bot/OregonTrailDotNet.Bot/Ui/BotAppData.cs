@@ -11,9 +11,9 @@ namespace OregonTrailDotNet.Bot.Ui
     public sealed class BotAppData : WindowData
     {
         /// <summary>
-        ///     Name entered on the create-profile screen, carried into the model-selection screen that finalizes creation.
+        ///     Training-model key chosen on the model-selection screen, carried into the naming screen that finalizes creation.
         /// </summary>
-        public string NewProfileName { get; set; } = string.Empty;
+        public string NewProfileModelKey { get; set; } = string.Empty;
 
         /// <summary>
         ///     Profile the user is currently configuring/selecting. -1 means "none selected yet".

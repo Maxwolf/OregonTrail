@@ -6,36 +6,7 @@ using WolfCurses.Window.Form;
 
 namespace OregonTrailDotNet.Bot.Ui
 {
-    /// <summary>Asks for a profile name, then hands off to the model picker that finalizes creation.</summary>
-    [ParentWindow(typeof(BotMainMenu))]
-    public sealed class CreateProfileForm : Form<BotAppData>
-    {
-        // ReSharper disable once UnusedMember.Global
-        public CreateProfileForm(IWindow window) : base(window)
-        {
-        }
-
-        public override bool InputFillsBuffer => true;
-
-        public override string OnRenderForm() =>
-            $"{Environment.NewLine}Name your new bot profile (this is its save file).{Environment.NewLine}" +
-            "Type a name and press ENTER, or leave blank to cancel:";
-
-        public override void OnInputBufferReturned(string input)
-        {
-            var name = input?.Trim() ?? string.Empty;
-            if (BotContext.Db == null || string.IsNullOrWhiteSpace(name))
-            {
-                ClearForm();
-                return;
-            }
-
-            UserData.NewProfileName = name;
-            SetForm(typeof(SelectModelForm));
-        }
-    }
-
-    /// <summary>Lets the player choose which training model a new profile learns with, then creates and activates it.</summary>
+    /// <summary>First step of creating a profile: choose which training model it learns with, then move on to naming it.</summary>
     [ParentWindow(typeof(BotMainMenu))]
     public sealed class SelectModelForm : Form<BotAppData>
     {
@@ -49,7 +20,7 @@ namespace OregonTrailDotNet.Bot.Ui
         public override string OnRenderForm()
         {
             var sb = new StringBuilder();
-            sb.AppendLine($"{Environment.NewLine}Choose a training model for '{UserData.NewProfileName}':{Environment.NewLine}");
+            sb.AppendLine($"{Environment.NewLine}Choose a training model for your new bot:{Environment.NewLine}");
 
             var models = TrainingModels.All;
             for (var i = 0; i < models.Count; i++)
@@ -70,8 +41,7 @@ namespace OregonTrailDotNet.Bot.Ui
             if (!string.IsNullOrWhiteSpace(input) && int.TryParse(input, out var parsed))
                 choice = parsed;
 
-            var name = UserData.NewProfileName;
-            if (choice == 0 || BotContext.Db == null || string.IsNullOrWhiteSpace(name))
+            if (choice == 0)
             {
                 ClearForm();
                 return;
@@ -80,13 +50,45 @@ namespace OregonTrailDotNet.Bot.Ui
             if (choice < 1 || choice > models.Count)
                 choice = 1;
 
-            var model = models[choice - 1];
+            UserData.NewProfileModelKey = models[choice - 1].Key;
+            SetForm(typeof(CreateProfileForm));
+        }
+    }
+
+    /// <summary>Second step of creating a profile: name it, which creates it with the model chosen previously and activates it.</summary>
+    [ParentWindow(typeof(BotMainMenu))]
+    public sealed class CreateProfileForm : Form<BotAppData>
+    {
+        // ReSharper disable once UnusedMember.Global
+        public CreateProfileForm(IWindow window) : base(window)
+        {
+        }
+
+        public override bool InputFillsBuffer => true;
+
+        public override string OnRenderForm() =>
+            $"{Environment.NewLine}New {TrainingModels.ByKey(UserData.NewProfileModelKey).DisplayName} profile.{Environment.NewLine}" +
+            "Type a name (this is its save file) and press ENTER, or leave blank to cancel:";
+
+        public override void OnInputBufferReturned(string input)
+        {
+            var name = input?.Trim() ?? string.Empty;
+            if (BotContext.Db == null || string.IsNullOrWhiteSpace(name))
+            {
+                ClearForm();
+                return;
+            }
+
+            var key = string.IsNullOrEmpty(UserData.NewProfileModelKey)
+                ? TrainingModels.Default.Key
+                : UserData.NewProfileModelKey;
+
             var existing = BotContext.Db.Profiles.GetByName(name);
-            var id = existing?.Id ?? BotContext.Db.Profiles.Create(name, model.Key);
+            var id = existing?.Id ?? BotContext.Db.Profiles.Create(name, key);
 
             BotContext.ActiveProfileId = id;
             BotContext.ActiveProfileName = name;
-            UserData.NewProfileName = string.Empty;
+            UserData.NewProfileModelKey = string.Empty;
             ClearForm();
         }
     }
