@@ -444,19 +444,18 @@ namespace OregonTrailDotNet.Bot
                     $"BENCHMARK — how long each model takes to reach {report.GoalLabel}",
                     $"elapsed {BenchmarkReport.FormatDuration(elapsed)}   limit {limit}   (press Esc to stop)",
                     "",
-                    $"{"Model",-24}{"Games",8}{"Reached",20}"
+                    $"{"Model",-24}{"Games",7}{"Best",8}{"Reached",20}"
                 };
                 foreach (var r in report.Results)
                 {
                     var status = r.Reached
-                        ? $"{BenchmarkReport.FormatDuration(r.TimeToGoal)} (g{r.GamesToGoal}, {r.ScoreAtGoal})"
+                        ? $"{BenchmarkReport.FormatDuration(r.TimeToGoal)} (g{r.GamesToGoal})"
                         : "— not yet —";
-                    lines.Add($"{Truncate(r.DisplayName, 23),-24}{r.Games,8}{status,20}");
+                    lines.Add($"{Truncate(r.DisplayName, 23),-24}{r.Games,7}{r.BestScore,8}{status,20}");
                 }
                 lines.Add("");
                 lines.Add($"Total games: {report.TotalGames}     Reached: {report.Results.Count(r => r.Reached)}/{report.Results.Count}");
                 lines.Add($"Highest score so far: {report.BestScore}{(string.IsNullOrEmpty(report.BestScoreModel) ? "" : $" ({report.BestScoreModel})")}");
-                lines.Add($"Total score reached so far: {report.TotalScore}");
                 if (report.RecentScores.Count > 0)
                     lines.Add($"Recent scores: {Sparkline.Render(report.RecentScores.Select(s => (double) s))}");
 

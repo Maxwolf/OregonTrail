@@ -104,8 +104,9 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
-        public void Tracks_Total_Score_And_Recent_Scores_Across_All_Games()
+        public void Tracks_Each_Models_Best_Score_And_Recent_Scores()
         {
+            // One game per model this round (models are ordered cem, genetic, hillclimb, random, neuro).
             var scores = new Queue<int>(new[] { 100, 0, 250, 4000, 0 });
             var games = 0;
 
@@ -116,10 +117,15 @@ namespace OregonTrailDotNet.Bot.Tests
             var report = session.Run(keepRunning: () => games < 5, onProgress: _ => games++);
 
             Assert.Equal(5, report.TotalGames);
-            Assert.Equal(4350, report.TotalScore); // 100 + 0 + 250 + 4000 + 0
+
+            // Each model keeps its own highest score...
+            Assert.Equal(100, report.Results.First(r => r.Key == "cem").BestScore);
+            Assert.Equal(250, report.Results.First(r => r.Key == "hillclimb").BestScore);
+            Assert.Equal(4000, report.Results.First(r => r.Key == "random").BestScore);
+
+            // ...and the overall highest and recent-score window are tracked for the live display.
             Assert.Equal(4000, report.BestScore);
             Assert.Equal(new[] { 100, 0, 250, 4000, 0 }, report.RecentScores);
-            Assert.Contains("Total score across all games: 4350", report.Format());
         }
 
         [Fact]
