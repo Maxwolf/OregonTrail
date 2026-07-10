@@ -85,6 +85,14 @@ namespace OregonTrailDotNet.Bot.Data
             cmd.ExecuteNonQuery();
         }
 
+        /// <summary>Removes every profile (and, via ON DELETE CASCADE, all of their runs).</summary>
+        public void DeleteAll()
+        {
+            using var cmd = _connection.CreateCommand();
+            cmd.CommandText = "DELETE FROM profiles;";
+            cmd.ExecuteNonQuery();
+        }
+
         private ProfileRecord? QuerySingle(string sql, string paramName, object value)
         {
             using var cmd = _connection.CreateCommand();

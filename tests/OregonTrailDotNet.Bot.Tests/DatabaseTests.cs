@@ -87,5 +87,33 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.Empty(db.Profiles.All());
             Assert.Equal(0, db.Runs.CountForProfile(id));
         }
+
+        [Fact]
+        public void Delete_And_Clear_Helpers_Wipe_The_Right_Rows()
+        {
+            using var db = new BotDatabase(_dbPath);
+            var a = db.Profiles.Create("A", "cem");
+            var b = db.Profiles.Create("B", "cem");
+            db.Runs.Insert(new RunRecord { ProfileId = a, IterationIndex = 0, GenomeJson = "{}", Outcome = "Win" });
+            db.Runs.Insert(new RunRecord { ProfileId = b, IterationIndex = 0, GenomeJson = "{}", Outcome = "Win" });
+            db.Leaderboard.Insert(new LeaderboardEntry { ProfileId = a, Name = "A", Score = 100, Rating = "Greenhorn" });
+            db.Leaderboard.Insert(new LeaderboardEntry { ProfileId = b, Name = "B", Score = 200, Rating = "Greenhorn" });
+
+            // DeleteForProfile removes only A's leaderboard entry.
+            db.Leaderboard.DeleteForProfile(a);
+            Assert.Equal(1, db.Leaderboard.Count());
+
+            // Deleting profile A cascades its runs but leaves B's.
+            db.Profiles.Delete(a);
+            Assert.Equal(0, db.Runs.CountForProfile(a));
+            Assert.Equal(1, db.Runs.CountForProfile(b));
+
+            // Clear + DeleteAll wipe everything that's left.
+            db.Leaderboard.Clear();
+            db.Profiles.DeleteAll();
+            Assert.Empty(db.Profiles.All());
+            Assert.Equal(0, db.Leaderboard.Count());
+            Assert.Equal(0, db.Runs.CountForProfile(b));
+        }
     }
 }

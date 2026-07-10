@@ -112,6 +112,52 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
+        public void Delete_Active_Bot_Removes_It_Only_After_Confirming()
+        {
+            Send("1"); Send("1"); Send("Doomed"); // create a CEM bot named "Doomed" (model -> name)
+            Assert.True(BotContext.ActiveProfileId > 0);
+
+            // Decline first — nothing is deleted.
+            Send("7"); // Manage data
+            Assert.Equal("ManageDataForm", FormName);
+            Send("1"); // delete the active bot
+            Assert.Equal("DeleteProfileConfirm", FormName);
+            Assert.Contains("cannot be undone", Screen);
+            Send("N");
+            Assert.True(BotContext.Db!.Profiles.NameExists("Doomed"));
+
+            // Confirm — it's gone.
+            Send("7");
+            Send("1");
+            Send("Y");
+            Assert.Equal(-1, BotContext.ActiveProfileId);
+            Assert.False(BotContext.Db!.Profiles.NameExists("Doomed"));
+            Assert.Empty(BotContext.Db!.Profiles.All());
+        }
+
+        [Fact]
+        public void Erase_All_Wipes_Every_Bot_And_The_Leaderboard()
+        {
+            BotContext.Db!.Profiles.Create("Alpha", "cem");
+            var bravoId = BotContext.Db!.Profiles.Create("Bravo", "genetic");
+            BotContext.Db!.Leaderboard.Insert(new LeaderboardEntry
+            {
+                ProfileId = bravoId, Name = "Bravo", Score = 500, Rating = "Greenhorn"
+            });
+            Assert.Equal(2, BotContext.Db!.Profiles.All().Count);
+
+            Send("7"); // Manage data
+            Send("2"); // Erase ALL data
+            Assert.Equal("EraseAllConfirm", FormName);
+            Assert.Contains("cannot be undone", Screen);
+            Send("Y");
+
+            Assert.Empty(BotContext.Db!.Profiles.All());
+            Assert.Equal(0, BotContext.Db!.Leaderboard.Count());
+            Assert.Equal(-1, BotContext.ActiveProfileId);
+        }
+
+        [Fact]
         public void Select_Profile_Lists_And_Activates()
         {
             BotContext.Db!.Profiles.Create("Alpha", "cem");

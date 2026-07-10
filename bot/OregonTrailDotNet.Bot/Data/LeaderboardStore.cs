@@ -48,6 +48,23 @@ namespace OregonTrailDotNet.Bot.Data
             return Convert.ToInt32(cmd.ExecuteScalar());
         }
 
+        /// <summary>Removes all leaderboard entries.</summary>
+        public void Clear()
+        {
+            using var cmd = _connection.CreateCommand();
+            cmd.CommandText = "DELETE FROM leaderboard;";
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>Removes the leaderboard entries belonging to a single profile.</summary>
+        public void DeleteForProfile(long profileId)
+        {
+            using var cmd = _connection.CreateCommand();
+            cmd.CommandText = "DELETE FROM leaderboard WHERE profile_id = $id;";
+            cmd.Parameters.AddWithValue("$id", profileId);
+            cmd.ExecuteNonQuery();
+        }
+
         /// <summary>The score currently sitting in 10th place, or 0 if fewer than 10 entries exist (so anything qualifies).</summary>
         public int TenthPlaceScore()
         {

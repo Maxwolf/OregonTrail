@@ -20,6 +20,8 @@ namespace OregonTrailDotNet.Bot.Ui
 
         [Description("View training stats for the active profile")] ViewStats = 6,
 
-        [Description("Quit")] Quit = 7
+        [Description("Delete a bot or erase all data")] ManageData = 7,
+
+        [Description("Quit")] Quit = 8
     }
 }

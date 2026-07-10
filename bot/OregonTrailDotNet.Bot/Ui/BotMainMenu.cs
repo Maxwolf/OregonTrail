@@ -29,6 +29,7 @@ namespace OregonTrailDotNet.Bot.Ui
             AddCommand(WatchGame, BotMainMenuCommands.WatchGame);
             AddCommand(ViewLeaderboard, BotMainMenuCommands.ViewLeaderboard);
             AddCommand(ViewStats, BotMainMenuCommands.ViewStats);
+            AddCommand(ManageData, BotMainMenuCommands.ManageData);
             AddCommand(Quit, BotMainMenuCommands.Quit);
         }
 
@@ -58,6 +59,8 @@ namespace OregonTrailDotNet.Bot.Ui
         }
 
         private void ViewLeaderboard() => SetForm(typeof(LeaderboardForm));
+
+        private void ManageData() => SetForm(typeof(ManageDataForm));
 
         private void ViewStats()
         {
