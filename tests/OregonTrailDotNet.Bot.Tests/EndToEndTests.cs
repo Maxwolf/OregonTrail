@@ -51,9 +51,10 @@ namespace OregonTrailDotNet.Bot.Tests
             var result = GamePlayer.PlayOnce(policy);
             Assert.True(result.Bug is null || result.Bug.Category == Diagnostics.BugCategory.SoftLock);
 
-            // The IN-GAME high-score list is shared with human players, so there the bot's name keeps its "(bot)" tag.
+            // The party is named "<profile> 1..4", so the leader (crew #1, whose name brands the in-game high-score list)
+            // is "<profile> 1" — the "(bot)" tag passed to the policy is stripped for the shared party base name.
             if (!string.IsNullOrEmpty(result.LeaderName))
-                Assert.EndsWith("(bot)", result.LeaderName);
+                Assert.Equal("Odyssey 1", result.LeaderName);
         }
     }
 }

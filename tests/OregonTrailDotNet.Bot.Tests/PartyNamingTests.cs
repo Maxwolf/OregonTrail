@@ -7,8 +7,8 @@ using Xunit;
 namespace OregonTrailDotNet.Bot.Tests
 {
     /// <summary>
-    ///     Confirms the bot numbers its party so a viewer can tell who died: crew #1 is the leader (keeping its scored
-    ///     "(bot)" name, which brands the in-game high-score list) and the three other members are named 2, 3, 4.
+    ///     Confirms the bot names its party "&lt;bot&gt; 1..4" (e.g. "Trailblazer 1", "Trailblazer 2", ...) so a viewer can
+    ///     tell which member died. Crew #1 is the leader, and its name is what brands the in-game high-score list.
     /// </summary>
     public sealed class PartyNamingTests : IDisposable
     {
@@ -16,9 +16,9 @@ namespace OregonTrailDotNet.Bot.Tests
         public void Dispose() => GameSimulationApp.Instance?.Destroy();
 
         [Fact]
-        public void Leader_Keeps_Its_Name_And_Members_Are_Numbered_2_3_4()
+        public void Party_Members_Are_Named_Base_1_Through_4()
         {
-            var policy = new HeuristicPolicy(); // LeaderName == "Trailblazer (bot)"
+            var policy = new HeuristicPolicy(); // LeaderName == "Trailblazer (bot)" -> base "Trailblazer"
 
             List<string>? names = null;
             bool? firstIsLeader = null;
@@ -38,9 +38,9 @@ namespace OregonTrailDotNet.Bot.Tests
                 return true;
             });
 
-            Assert.Equal(new[] { "Trailblazer (bot)", "2", "3", "4" }, names);
+            Assert.Equal(new[] { "Trailblazer 1", "Trailblazer 2", "Trailblazer 3", "Trailblazer 4" }, names);
             Assert.True(firstIsLeader); // crew #1 is always the leader
-            Assert.Equal("Trailblazer (bot)", leaderName); // the (bot) leader name is what the high-score list will show
+            Assert.Equal("Trailblazer 1", leaderName); // the leader's name is what the high-score list will show
         }
     }
 }
