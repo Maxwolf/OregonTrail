@@ -68,6 +68,12 @@ namespace OregonTrailDotNet.Bot.Testing
         public int TotalGames { get; private set; }
         public string EndReason { get; set; } = "";
 
+        /// <summary>Highest single-game score seen so far across every model — a fun figure to watch climb during a run.</summary>
+        public int BestScore { get; private set; }
+
+        /// <summary>Which model scored <see cref="BestScore" /> (empty until any game scores above zero).</summary>
+        public string BestScoreModel { get; private set; } = "";
+
         public TimeSpan Elapsed => (_finishedAt ?? DateTime.UtcNow) - _startedAt;
 
         /// <summary>True once every model has reached the goal.</summary>
@@ -79,6 +85,12 @@ namespace OregonTrailDotNet.Bot.Testing
             TotalGames++;
             var stats = _byModel[model.Key];
             stats.Games++;
+
+            if (score > BestScore)
+            {
+                BestScore = score;
+                BestScoreModel = model.DisplayName;
+            }
 
             if (!reachedGoal || stats.Reached)
                 return null;
@@ -104,6 +116,7 @@ namespace OregonTrailDotNet.Bot.Testing
             sb.AppendLine($"Ended    : {(string.IsNullOrEmpty(EndReason) ? "(unspecified)" : EndReason)}");
             sb.AppendLine();
             sb.AppendLine($"Games played: {TotalGames}     Models that reached it: {Results.Count(r => r.Reached)}/{Results.Count}");
+            sb.AppendLine($"Highest score seen: {BestScore}{(string.IsNullOrEmpty(BestScoreModel) ? "" : $" ({BestScoreModel})")}");
             sb.AppendLine();
 
             // Winners ranked by how quickly they got there; models that never reached the goal are listed last.
@@ -131,7 +144,13 @@ namespace OregonTrailDotNet.Bot.Testing
             return sb.ToString();
         }
 
-        private static string FormatSpan(TimeSpan span) => $"{(int) span.TotalMinutes}:{span.Seconds:00}";
+        /// <summary>Formats a duration for display: milliseconds under a second (games can win that fast), else m:ss.</summary>
+        public static string FormatDuration(TimeSpan span) =>
+            span.TotalSeconds < 1
+                ? $"{(int) span.TotalMilliseconds}ms"
+                : $"{(int) span.TotalMinutes}:{span.Seconds:00}";
+
+        private static string FormatSpan(TimeSpan span) => FormatDuration(span);
 
         private static string Truncate(string text, int max) => text.Length <= max ? text : text[..max];
     }

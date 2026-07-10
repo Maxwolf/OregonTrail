@@ -96,6 +96,21 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.Equal(8000, cem.ScoreAtGoal);
             Assert.All(report.Results.Where(r => r.Key != "cem"), r => Assert.False(r.Reached));
             Assert.Contains("Stephen Meek's 7650", report.Format());
+
+            // The highest single-game score seen across every model is tracked for the live display.
+            Assert.Equal(8000, report.BestScore);
+            Assert.Equal("Cross-Entropy Method", report.BestScoreModel);
+            Assert.Contains("Highest score seen: 8000", report.Format());
+        }
+
+        [Fact]
+        public void FormatDuration_Shows_Milliseconds_Under_A_Second()
+        {
+            // Games can reach a goal in well under a second, so those times must not collapse to "0:00".
+            Assert.Equal("340ms", BenchmarkReport.FormatDuration(TimeSpan.FromMilliseconds(340)));
+            Assert.Equal("0ms", BenchmarkReport.FormatDuration(TimeSpan.Zero));
+            Assert.Equal("0:03", BenchmarkReport.FormatDuration(TimeSpan.FromSeconds(3)));
+            Assert.Equal("1:05", BenchmarkReport.FormatDuration(TimeSpan.FromSeconds(65)));
         }
     }
 }

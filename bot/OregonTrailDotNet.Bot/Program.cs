@@ -437,24 +437,25 @@ namespace OregonTrailDotNet.Bot
             {
                 var width = Math.Max(1, Console.WindowWidth);
                 var elapsed = DateTime.UtcNow - startedAt;
-                var limit = infinite ? "until all reach it" : $"{(int) (deadline - startedAt).TotalMinutes}:{(deadline - startedAt).Seconds:00}";
+                var limit = infinite ? "until all reach it" : BenchmarkReport.FormatDuration(deadline - startedAt);
 
                 var lines = new List<string>
                 {
                     $"BENCHMARK — how long each model takes to reach {report.GoalLabel}",
-                    $"elapsed {(int) elapsed.TotalMinutes}:{elapsed.Seconds:00}   limit {limit}   (press Esc to stop)",
+                    $"elapsed {BenchmarkReport.FormatDuration(elapsed)}   limit {limit}   (press Esc to stop)",
                     "",
-                    $"{"Model",-24}{"Games",8}{"Reached",18}"
+                    $"{"Model",-24}{"Games",8}{"Reached",20}"
                 };
                 foreach (var r in report.Results)
                 {
                     var status = r.Reached
-                        ? $"{(int) r.TimeToGoal.TotalMinutes}:{r.TimeToGoal.Seconds:00} (g{r.GamesToGoal}, {r.ScoreAtGoal})"
+                        ? $"{BenchmarkReport.FormatDuration(r.TimeToGoal)} (g{r.GamesToGoal}, {r.ScoreAtGoal})"
                         : "— not yet —";
-                    lines.Add($"{Truncate(r.DisplayName, 23),-24}{r.Games,8}{status,18}");
+                    lines.Add($"{Truncate(r.DisplayName, 23),-24}{r.Games,8}{status,20}");
                 }
                 lines.Add("");
                 lines.Add($"Total games: {report.TotalGames}     Reached: {report.Results.Count(r => r.Reached)}/{report.Results.Count}");
+                lines.Add($"Highest score so far: {report.BestScore}{(string.IsNullOrEmpty(report.BestScoreModel) ? "" : $" ({report.BestScoreModel})")}");
 
                 var rows = Math.Max(lines.Count, Math.Max(1, Console.WindowHeight - 1));
                 for (var i = 0; i < rows; i++)
