@@ -1,5 +1,6 @@
 using System.Text;
 using OregonTrailDotNet.Bot.Data;
+using OregonTrailDotNet.Bot.Learning;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
 using WolfCurses.Window.Form.Input;
@@ -31,7 +32,12 @@ namespace OregonTrailDotNet.Bot.Ui
             {
                 var rank = 1;
                 foreach (var e in top)
-                    sb.AppendLine($"  {rank++,2}. {e.Score,6}  {e.Name}  [{e.Rating}]");
+                {
+                    var model = e.ProfileId.HasValue
+                        ? TrainingModels.ByKey(BotContext.Db?.Profiles.GetById(e.ProfileId.Value)?.PolicyKind).DisplayName
+                        : "";
+                    sb.AppendLine($"  {rank++,2}. {e.Score,6}  {e.Name}  [{model}]  [{e.Rating}]");
+                }
             }
 
             return sb.ToString();
@@ -57,7 +63,7 @@ namespace OregonTrailDotNet.Bot.Ui
                 return $"{Environment.NewLine}No profile selected.";
 
             var sb = new StringBuilder();
-            sb.AppendLine($"{Environment.NewLine}=== {profile.Name} ===");
+            sb.AppendLine($"{Environment.NewLine}=== {profile.Name}  [{TrainingModels.ByKey(profile.PolicyKind).DisplayName}] ===");
             sb.AppendLine($"Total games played : {profile.TotalIterations}");
             sb.AppendLine($"Generations trained: {profile.Generations}");
             sb.AppendLine($"Best score ever    : {profile.BestScore}");

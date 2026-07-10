@@ -34,10 +34,11 @@ namespace OregonTrailDotNet.Bot.Tests
             new TrainingSession(db, db.Profiles.GetById(id)!,
                 new TrainingConfig { PopulationSize = 8, GamesPerCandidate = 4, Generations = 3 }).Run();
 
-            // Finishing games should have populated the leaderboard, and every entry carries the "(bot)" suffix.
+            // Finishing games should have populated the bot's own leaderboard, which uses the plain profile name (no "(bot)").
             var top = db.Leaderboard.Top(10);
             Assert.NotEmpty(top);
-            Assert.All(top, e => Assert.EndsWith("(bot)", e.Name));
+            Assert.All(top, e => Assert.Equal("Odyssey", e.Name));
+            Assert.All(top, e => Assert.DoesNotContain("(bot)", e.Name));
             Assert.True(top[0].Score >= top[^1].Score); // ordered best-first
 
             // Best score and genome were persisted for the profile.
@@ -49,6 +50,10 @@ namespace OregonTrailDotNet.Bot.Tests
             var policy = new GenomePolicy(StrategyGenome.FromJson(profile.BestGenomeJson!), $"{profile.Name} (bot)");
             var result = GamePlayer.PlayOnce(policy);
             Assert.True(result.Bug is null || result.Bug.Category == Diagnostics.BugCategory.SoftLock);
+
+            // The IN-GAME high-score list is shared with human players, so there the bot's name keeps its "(bot)" tag.
+            if (!string.IsNullOrEmpty(result.LeaderName))
+                Assert.EndsWith("(bot)", result.LeaderName);
         }
     }
 }

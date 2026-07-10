@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using OregonTrailDotNet.Bot.Data;
 using OregonTrailDotNet.Bot.Diagnostics;
 using OregonTrailDotNet.Bot.Game;
@@ -168,7 +169,7 @@ namespace OregonTrailDotNet.Bot
             }
 
             SafeClear();
-            var result = GamePlayer.PlayOnce(BuildBestPolicy(profile), watch: true, watchDelayMs: 30);
+            var result = GamePlayer.PlayOnce(BuildBestPolicy(profile), WatchOptions.Default);
 
             SafeClear();
             if (result.Bug != null)
@@ -188,19 +189,25 @@ namespace OregonTrailDotNet.Bot
             Pause();
         }
 
-        /// <summary>Best available strategy for a profile: its best-ever genome, else the optimizer mean, else the heuristic.</summary>
+        /// <summary>Best available strategy for a profile, decoded through the profile's own training model: its best-ever
+        ///     vector, else the optimizer's current mean, else the hand-tuned heuristic.</summary>
         private static IPolicy BuildBestPolicy(ProfileRecord profile)
         {
             var leaderName = $"{profile.Name} (bot)";
+            var model = TrainingModels.ByKey(profile.PolicyKind);
 
             if (!string.IsNullOrEmpty(profile.BestGenomeJson))
-                return new GenomePolicy(StrategyGenome.FromJson(profile.BestGenomeJson!), leaderName);
+            {
+                var vector = JsonSerializer.Deserialize<double[]>(profile.BestGenomeJson!);
+                if (vector is { Length: > 0 })
+                    return model.Decode(vector, leaderName);
+            }
 
             if (profile.LearningState != null)
             {
-                var optimizer = new CemOptimizer();
+                var optimizer = model.CreateOptimizer(1);
                 optimizer.Load(profile.LearningState);
-                return new GenomePolicy(optimizer.MeanGenome(), leaderName);
+                return model.Decode(optimizer.MeanVector(), leaderName);
             }
 
             return new HeuristicPolicy();

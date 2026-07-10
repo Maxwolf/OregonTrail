@@ -37,10 +37,11 @@ namespace OregonTrailDotNet.Bot.Game
 
         public IReadOnlyCollection<string> UnknownForms => _recognizer.UnknownForms;
 
-        /// <summary>Convenience: boot a fresh game, play it with the given policy, and tear it down.</summary>
-        public static RunResult PlayOnce(IPolicy policy, bool watch = false, int watchDelayMs = 35)
+        /// <summary>Convenience: boot a fresh game, play it with the given policy, and tear it down. Pass
+        ///     <paramref name="watch" /> to render and pace it for a human; leave it null for headless training speed.</summary>
+        public static RunResult PlayOnce(IPolicy policy, WatchOptions? watch = null)
         {
-            using var driver = new GameDriver(watch, watchDelayMs);
+            using var driver = new GameDriver(watch);
             var recognizer = new ScreenRecognizer(policy);
             try
             {
@@ -106,22 +107,21 @@ namespace OregonTrailDotNet.Bot.Game
 
                 if (_driver.FormIsNull)
                 {
-                    switch (_driver.WindowName)
+                    var input = _driver.WindowName switch
                     {
-                        case "MainMenu":
-                            _driver.Send("1"); // Travel the trail
-                            break;
-                        case "Travel":
-                            _driver.Send(_recognizer.TravelChoice(_driver, state));
-                            break;
-                        default:
-                            _driver.Send("1");
-                            break;
-                    }
+                        "MainMenu" => "1", // Travel the trail
+                        "Travel" => _recognizer.TravelChoice(_driver, state),
+                        _ => "1"
+                    };
+                    NarrateDecision(input, state);
+                    _driver.Send(input);
                 }
                 else if (!_driver.InputFillsBuffer)
                 {
                     // Prompt or self-advancing screen: let it tick; if it made no progress, press ENTER to dismiss/advance it.
+                    if (_driver.Watching)
+                        _driver.StatusLine = WatchNarration.PromptStatus(_driver.FormName);
+
                     var before = Fingerprint();
                     _driver.Tick();
 
@@ -141,6 +141,7 @@ namespace OregonTrailDotNet.Bot.Game
                     if (_recognizer.UnknownForms.Count > unknownBefore)
                         return BugResult(BugCategory.RecognizerGap, $"no input handler for form '{_driver.FormName}'");
 
+                    NarrateDecision(input, state);
                     _driver.Send(input);
                 }
 
@@ -237,6 +238,21 @@ namespace OregonTrailDotNet.Bot.Game
                 Profession = leader != null ? (int) leader.Profession : _policy.Profession,
                 StartMonth = _policy.StartMonth
             };
+        }
+
+        // In watch mode, show what the bot is about to do (and why) and pause so a viewer can follow. No-op when headless.
+        private void NarrateDecision(string input, GameSnapshot state)
+        {
+            if (!_driver.Watching)
+                return;
+
+            if (_driver.Watch!.Narrate)
+                _driver.StatusLine = "  » " + WatchNarration.Describe(_driver.WindowName, _driver.FormName, input, state);
+
+            _driver.Repaint();
+
+            if (_driver.Watch!.DecisionPauseMs > 0)
+                Thread.Sleep(_driver.Watch!.DecisionPauseMs);
         }
 
         private string? CheckInvariants()

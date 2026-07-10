@@ -7,22 +7,21 @@ namespace OregonTrailDotNet.Bot.Game
     ///     Drives the game's <c>GameSimulationApp</c> headlessly and deterministically, reproducing the exact boot and
     ///     command pattern the game's own test harness uses (<c>SimulationTestBase</c>): create the singleton, tick twice to
     ///     build modules and menu mappings, then type-and-submit input followed by two ticks (dispatch, render). Screen text is
-    ///     captured from the <c>ScreenBufferDirtyEvent</c> (the only way to read it — the buffer property is private); nothing
-    ///     is written to the console unless <c>watch</c> is set.
+    ///     captured from the <c>ScreenBufferDirtyEvent</c> (the only way to read it — the buffer property is private).
+    ///     When <see cref="WatchOptions" /> is supplied the frames are drawn to the console and paced for a human to watch;
+    ///     otherwise nothing is rendered and there are no delays (training speed).
     /// </summary>
     public sealed class GameDriver : IDisposable
     {
         private const int InputHistorySize = 20;
 
-        private readonly bool _watch;
-        private readonly int _watchDelayMs;
+        private readonly WatchOptions? _watch;
         private readonly LinkedList<string> _inputHistory = new();
         private bool _subscribed;
 
-        public GameDriver(bool watch = false, int watchDelayMs = 35)
+        public GameDriver(WatchOptions? watch = null)
         {
             _watch = watch;
-            _watchDelayMs = watchDelayMs;
         }
 
         /// <summary>Latest fully composited screen text (header + window body + prompt).</summary>
@@ -43,6 +42,14 @@ namespace OregonTrailDotNet.Bot.Game
 
         /// <summary>Whether the active form takes typed input (Y/N, quantity, text) vs. an ENTER-to-continue prompt.</summary>
         public bool InputFillsBuffer => CurrentForm?.InputFillsBuffer ?? false;
+
+        /// <summary>True when a human is watching (rendered + paced).</summary>
+        public bool Watching => _watch != null;
+
+        public WatchOptions? Watch => _watch;
+
+        /// <summary>A "thinking" line drawn under the game screen in watch mode.</summary>
+        public string? StatusLine { get; set; }
 
         /// <summary>Boots a fresh game and leaves it focused on the main menu.</summary>
         public void Boot()
@@ -78,15 +85,23 @@ namespace OregonTrailDotNet.Bot.Game
         /// <summary>Current window/form body text, computed on demand (side-effect free) for parsing menus and prompts.</summary>
         public string RenderWindowText() => Focused?.OnRenderWindow() ?? "";
 
+        /// <summary>Redraws the current frame immediately (watch mode only) — used to show a "thinking" line before a pause.</summary>
+        public void Repaint()
+        {
+            if (_watch != null)
+                RenderFrame();
+        }
+
         private void RawTick()
         {
             TickCount++;
             GameSimulationApp.Instance!.OnTick(false);
 
-            if (_watch)
+            if (_watch != null)
             {
-                RenderToConsole(LastScreen);
-                Thread.Sleep(_watchDelayMs);
+                RenderFrame();
+                if (_watch.TickDelayMs > 0)
+                    Thread.Sleep(_watch.TickDelayMs);
             }
         }
 
@@ -107,23 +122,33 @@ namespace OregonTrailDotNet.Bot.Game
             GameSimulationApp.Instance?.Destroy();
         }
 
-        private static void RenderToConsole(string content)
+        private void RenderFrame()
         {
             try
             {
-                var lines = content.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                var height = Math.Max(1, Console.WindowHeight - 1);
+                var lines = LastScreen.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 var width = Math.Max(1, Console.WindowWidth);
-                for (var i = 0; i < height; i++)
+                var totalRows = Math.Max(2, Console.WindowHeight - 1);
+                var contentRows = totalRows - 1; // reserve the bottom row for the "thinking" status bar
+
+                for (var i = 0; i < contentRows; i++)
                 {
                     Console.SetCursorPosition(0, i);
                     var row = i < lines.Length ? lines[i] : string.Empty;
                     Console.Write(row.PadRight(width));
                 }
+
+                Console.SetCursorPosition(0, contentRows);
+                var status = string.IsNullOrEmpty(StatusLine) ? string.Empty : StatusLine;
+                Console.Write(status.PadRight(width));
             }
             catch (IOException)
             {
                 // No real console (redirected) — skip rendering.
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // Console was resized very small — skip this frame.
             }
         }
     }

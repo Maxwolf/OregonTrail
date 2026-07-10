@@ -50,17 +50,22 @@ namespace OregonTrailDotNet.Bot.Tests
         private static string Screen => BotSimulationApp.Instance!.WindowManager.FocusedWindow!.OnRenderWindow();
 
         [Fact]
-        public void Create_Profile_Flow_Persists_And_Activates()
+        public void Create_Profile_Flow_Picks_Model_Persists_And_Activates()
         {
             Send("1"); // Create a new bot profile
             Assert.Equal("CreateProfileForm", FormName);
 
             Send("Pioneers"); // profile name (with room for spaces)
+            Assert.Equal("SelectModelForm", FormName); // now choose a training model
+            Assert.Contains("Neuro-Evolution", Screen); // all models are listed
+
+            Send("2"); // pick the 2nd model (Genetic Algorithm)
             Assert.Equal("", FormName); // back at the menu
 
             Assert.True(BotContext.ActiveProfileId > 0);
             Assert.Equal("Pioneers", BotContext.ActiveProfileName);
-            Assert.True(BotContext.Db!.Profiles.NameExists("Pioneers"));
+            var profile = BotContext.Db!.Profiles.GetByName("Pioneers")!;
+            Assert.Equal("genetic", profile.PolicyKind); // the chosen model was stored
         }
 
         [Fact]
@@ -78,9 +83,12 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.Equal("NoProfileForm", FormName);
             Send("");
 
-            // Create a profile, then stats should render for it.
+            // Create a profile (name -> model pick), then stats should render for it.
             Send("1");
             Send("Blazers");
+            Send("1"); // choose the default model (CEM)
+            Assert.Equal("", FormName);
+
             Send("6");
             Assert.Equal("StatsForm", FormName);
             Assert.Contains("Blazers", Screen);
