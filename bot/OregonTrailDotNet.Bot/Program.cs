@@ -59,6 +59,9 @@ namespace OregonTrailDotNet.Bot
                     case BotRequestKind.AutoTest:
                         RunAutoTest(request);
                         break;
+                    case BotRequestKind.Benchmark:
+                        RunBenchmark(request);
+                        break;
                 }
             }
 
@@ -372,6 +375,117 @@ namespace OregonTrailDotNet.Bot
             catch (Exception)
             {
                 // Disk not writable (e.g. read-only deployment) — the report is still shown on screen.
+                return null;
+            }
+        }
+
+        private static void RunBenchmark(BotRequest request)
+        {
+            SafeClear();
+            TrySetCursorVisible(false);
+            DrainKeys();
+
+            var minutes = Math.Max(0, request.BenchmarkMinutes);
+            var infinite = minutes <= 0;
+            var startedAt = DateTime.UtcNow;
+            var deadline = infinite ? DateTime.MaxValue : startedAt.AddMinutes(minutes);
+            var stoppedByEsc = false;
+            var lastRender = DateTime.MinValue;
+
+            var session = new BenchmarkSession(minutes);
+
+            var report = session.Run(
+                keepRunning: () =>
+                {
+                    if (EscPressed())
+                    {
+                        stoppedByEsc = true;
+                        return false;
+                    }
+
+                    return infinite || DateTime.UtcNow < deadline;
+                },
+                onProgress: r =>
+                {
+                    var now = DateTime.UtcNow;
+                    if ((now - lastRender).TotalMilliseconds < 120)
+                        return;
+                    lastRender = now;
+                    RenderBenchmarkDashboard(r, startedAt, deadline, infinite);
+                });
+
+            report.EndReason = report.AllWon ? "Every model scored a win." :
+                stoppedByEsc ? "Stopped by Esc." : "Reached the configured time limit.";
+
+            var savedPath = SaveBenchmarkReport(report);
+
+            SafeClear();
+            TrySetCursorVisible(true);
+            Console.WriteLine(report.Format());
+            Console.WriteLine();
+            Console.WriteLine(savedPath != null
+                ? $"Report saved to: {savedPath}"
+                : "(Could not save the report to disk — it is shown above.)");
+            Pause();
+            TrySetCursorVisible(false);
+        }
+
+        private static void RenderBenchmarkDashboard(BenchmarkReport report, DateTime startedAt, DateTime deadline, bool infinite)
+        {
+            try
+            {
+                var width = Math.Max(1, Console.WindowWidth);
+                var elapsed = DateTime.UtcNow - startedAt;
+                var limit = infinite ? "until all win" : $"{(int) (deadline - startedAt).TotalMinutes}:{(deadline - startedAt).Seconds:00}";
+
+                var lines = new List<string>
+                {
+                    "BENCHMARK — how long each model takes to score its first win",
+                    $"elapsed {(int) elapsed.TotalMinutes}:{elapsed.Seconds:00}   limit {limit}   (press Esc to stop)",
+                    "",
+                    $"{"Model",-24}{"Games",8}{"First win",16}"
+                };
+                foreach (var r in report.Results)
+                {
+                    var status = r.Won
+                        ? $"{(int) r.TimeToFirstWin.TotalMinutes}:{r.TimeToFirstWin.Seconds:00} (g{r.GamesToFirstWin})"
+                        : "— not yet —";
+                    lines.Add($"{Truncate(r.DisplayName, 23),-24}{r.Games,8}{status,16}");
+                }
+                lines.Add("");
+                lines.Add($"Total games: {report.TotalGames}     Won: {report.Results.Count(r => r.Won)}/{report.Results.Count}");
+
+                var rows = Math.Max(lines.Count, Math.Max(1, Console.WindowHeight - 1));
+                for (var i = 0; i < rows; i++)
+                {
+                    Console.SetCursorPosition(0, i);
+                    var row = i < lines.Count ? lines[i] : string.Empty;
+                    if (row.Length > width) row = row[..width];
+                    Console.Write(row.PadRight(width));
+                }
+            }
+            catch (IOException)
+            {
+                // No real console (redirected) — skip rendering.
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // Console resized very small — skip this frame.
+            }
+        }
+
+        private static string? SaveBenchmarkReport(BenchmarkReport report)
+        {
+            try
+            {
+                var dir = Path.Combine(AppContext.BaseDirectory, "test-reports");
+                Directory.CreateDirectory(dir);
+                var file = Path.Combine(dir, $"benchmark-{DateTime.UtcNow:yyyyMMdd-HHmmss}.txt");
+                File.WriteAllText(file, report.Format());
+                return file;
+            }
+            catch (Exception)
+            {
                 return null;
             }
         }

@@ -11,9 +11,6 @@ namespace OregonTrailDotNet.Bot.Testing
     /// </summary>
     public sealed class AutoTestSession
     {
-        // How many varied candidate vectors to draw from a model at a time before drawing another batch.
-        private const int SampleBatch = 16;
-
         private readonly int _configuredMinutes;
         private readonly bool _stopOnProblem;
         private readonly IReadOnlyList<ITrainingModel> _models;
@@ -26,7 +23,7 @@ namespace OregonTrailDotNet.Bot.Testing
             _configuredMinutes = configuredMinutes;
             _stopOnProblem = stopOnProblem;
             _models = models ?? TrainingModels.All;
-            _playGame = playGame ?? BuildFuzzPlayer(_models);
+            _playGame = playGame ?? new FuzzPlayer(_models).Play;
         }
 
         /// <summary>
@@ -64,26 +61,6 @@ namespace OregonTrailDotNet.Bot.Testing
 
             report.MarkFinished();
             return report;
-        }
-
-        // Draws varied policies for each model from a fresh optimizer, so the fuzzing explores many different game states
-        // (rather than replaying one fixed strategy). No learning happens — candidates just keep being sampled.
-        private static Func<ITrainingModel, RunResult> BuildFuzzPlayer(IReadOnlyList<ITrainingModel> models)
-        {
-            var optimizers = models.ToDictionary(m => m.Key, m => m.CreateOptimizer(SampleBatch));
-            var queues = models.ToDictionary(m => m.Key, _ => new Queue<double[]>());
-
-            return model =>
-            {
-                var queue = queues[model.Key];
-                if (queue.Count == 0)
-                    foreach (var vector in optimizers[model.Key].Sample())
-                        queue.Enqueue(vector);
-
-                var candidate = queue.Count > 0 ? queue.Dequeue() : model.InitialMean();
-                var policy = model.Decode(candidate, $"{model.DisplayName} (test)");
-                return GamePlayer.PlayOnce(policy);
-            };
         }
     }
 }

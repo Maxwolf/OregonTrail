@@ -22,8 +22,10 @@ namespace OregonTrailDotNet.Bot.Ui
 
         [Description("Automated testing (find game bugs)")] AutomatedTesting = 7,
 
-        [Description("Delete a bot or erase all data")] ManageData = 8,
+        [Description("Benchmark models (time to first win)")] Benchmark = 8,
 
-        [Description("Quit")] Quit = 9
+        [Description("Delete a bot or erase all data")] ManageData = 9,
+
+        [Description("Quit")] Quit = 10
     }
 }

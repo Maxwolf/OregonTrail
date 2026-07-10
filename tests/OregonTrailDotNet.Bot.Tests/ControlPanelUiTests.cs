@@ -141,7 +141,7 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.True(BotContext.ActiveProfileId > 0);
 
             // Decline first — nothing is deleted.
-            Send("8"); // Manage data
+            Send("9"); // Manage data
             Assert.Equal("ManageDataForm", FormName);
             Send("1"); // delete the active bot
             Assert.Equal("DeleteProfileConfirm", FormName);
@@ -150,7 +150,7 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.True(BotContext.Db!.Profiles.NameExists("Doomed"));
 
             // Confirm — it's gone.
-            Send("8");
+            Send("9");
             Send("1");
             Send("Y");
             Assert.Equal(-1, BotContext.ActiveProfileId);
@@ -169,7 +169,7 @@ namespace OregonTrailDotNet.Bot.Tests
             });
             Assert.Equal(2, BotContext.Db!.Profiles.All().Count);
 
-            Send("8"); // Manage data
+            Send("9"); // Manage data
             Send("2"); // Erase ALL data
             Assert.Equal("EraseAllConfirm", FormName);
             Assert.Contains("cannot be undone", Screen);
@@ -236,6 +236,30 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.Equal(BotRequestKind.AutoTest, request.Kind);
             Assert.Equal(15, request.AutoTestMinutes);
             Assert.False(request.AutoTestStopOnProblem); // toggled off
+        }
+
+        [Fact]
+        public void Benchmark_Config_Records_Time_Limit()
+        {
+            // Reachable with no profile — the benchmark uses its own transient bots.
+            Send("8");
+            Assert.Equal("BenchmarkConfigForm", FormName);
+            Assert.Contains("5 minutes", Screen); // default time limit
+            Assert.Contains("first win", Screen);
+
+            Send("0"); // 0 = run until every model wins
+            Assert.Contains("until every model wins", Screen);
+            Send("12"); // set an explicit limit
+            Assert.Contains("12 minutes", Screen);
+
+            BotSimulationApp.Instance!.InputManager.SendInputBufferAsCommand(); // ENTER starts
+            for (var i = 0; i < 2 && BotSimulationApp.Instance != null; i++)
+                BotSimulationApp.Instance.OnTick(false);
+
+            Assert.Null(BotSimulationApp.Instance);
+            var request = BotContext.Request!;
+            Assert.Equal(BotRequestKind.Benchmark, request.Kind);
+            Assert.Equal(12, request.BenchmarkMinutes);
         }
 
         [Fact]
