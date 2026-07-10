@@ -1,12 +1,13 @@
 using System.Text;
+using OregonTrailDotNet.Bot.Testing;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
 
 namespace OregonTrailDotNet.Bot.Ui
 {
     /// <summary>
-    ///     Configures a benchmark before it starts: the time limit (minutes, 0 = run until every model wins or Esc). ENTER
-    ///     records the request and hands off to Program.
+    ///     Configures a benchmark before it starts: the goal each model races to (a first win, or Stephen Meek's 7650) and the
+    ///     time limit (minutes, 0 = run until every model reaches it or Esc). ENTER records the request and hands off to Program.
     /// </summary>
     [ParentWindow(typeof(BotMainMenu))]
     public sealed class BenchmarkConfigForm : Form<BotAppData>
@@ -21,12 +22,14 @@ namespace OregonTrailDotNet.Bot.Ui
         public override string OnRenderForm()
         {
             var sb = new StringBuilder();
-            sb.AppendLine($"{Environment.NewLine}Benchmark: how long each model takes to score its first win.");
-            sb.AppendLine("Runs one bot of every model until each has won (or time runs out).");
+            sb.AppendLine($"{Environment.NewLine}Benchmark: how long each model takes to reach a goal.");
+            sb.AppendLine("Runs one bot of every model until each reaches it (or time runs out).");
             sb.AppendLine();
+            sb.AppendLine($"  Goal:        {GoalLabel(UserData.BenchmarkGoal)}");
             sb.AppendLine($"  Time limit:  {DurationLabel(UserData.BenchmarkMinutes)}");
             sb.AppendLine();
-            sb.AppendLine("  Type a number to set the minutes (0 = run until every model wins).");
+            sb.AppendLine("  g - switch goal (first win  /  Meek test: 7650)");
+            sb.AppendLine("  Type a number to set the minutes (0 = run until every model reaches it).");
             sb.AppendLine("  ENTER - start benchmark          b - go back");
             sb.Append("  (Press Esc during the run to stop and see the results.)");
             return sb.ToString();
@@ -42,9 +45,18 @@ namespace OregonTrailDotNet.Bot.Ui
                 BotContext.Request = new BotRequest
                 {
                     Kind = BotRequestKind.Benchmark,
-                    BenchmarkMinutes = UserData.BenchmarkMinutes
+                    BenchmarkMinutes = UserData.BenchmarkMinutes,
+                    BenchmarkGoal = UserData.BenchmarkGoal
                 };
                 BotSimulationApp.Instance?.Destroy();
+                return;
+            }
+
+            if (text.Equals("g", StringComparison.OrdinalIgnoreCase))
+            {
+                UserData.BenchmarkGoal = UserData.BenchmarkGoal == BenchmarkGoal.FirstWin
+                    ? BenchmarkGoal.MeekScore
+                    : BenchmarkGoal.FirstWin;
                 return;
             }
 
@@ -59,7 +71,13 @@ namespace OregonTrailDotNet.Bot.Ui
             // Anything else: ignore and leave the form up unchanged.
         }
 
+        private static string GoalLabel(BenchmarkGoal goal) => goal switch
+        {
+            BenchmarkGoal.MeekScore => "Meek test — reach Stephen Meek's 7650 (Trail Guide)",
+            _ => "First win — reach Oregon"
+        };
+
         private static string DurationLabel(int minutes) =>
-            minutes <= 0 ? "Until every model wins (or Esc)" : $"{minutes} minute{(minutes == 1 ? "" : "s")}";
+            minutes <= 0 ? "Until every model reaches it (or Esc)" : $"{minutes} minute{(minutes == 1 ? "" : "s")}";
     }
 }

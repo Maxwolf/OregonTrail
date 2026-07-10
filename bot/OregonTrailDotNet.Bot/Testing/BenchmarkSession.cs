@@ -12,41 +12,45 @@ namespace OregonTrailDotNet.Bot.Testing
     public sealed class BenchmarkSession
     {
         private readonly int _configuredMinutes;
+        private readonly string _goalLabel;
+        private readonly Func<RunResult, bool> _reachedGoal;
         private readonly IReadOnlyList<ITrainingModel> _models;
         private readonly Func<ITrainingModel, RunResult> _playGame;
         private readonly Func<TimeSpan> _elapsed;
 
-        public BenchmarkSession(int configuredMinutes,
+        public BenchmarkSession(int configuredMinutes, string goalLabel, Func<RunResult, bool> reachedGoal,
             IReadOnlyList<ITrainingModel>? models = null,
             Func<ITrainingModel, RunResult>? playGame = null,
             Func<TimeSpan>? elapsed = null)
         {
             _configuredMinutes = configuredMinutes;
+            _goalLabel = goalLabel;
+            _reachedGoal = reachedGoal;
             _models = models ?? TrainingModels.All;
             _playGame = playGame ?? new FuzzPlayer(_models).Play;
             _elapsed = elapsed ?? RealClock();
         }
 
         /// <summary>
-        ///     Plays games — one of every model per round — until every model has won or <paramref name="keepRunning" />
-        ///     returns false. <paramref name="onProgress" /> fires after every game with the live report.
+        ///     Plays games — one of every model per round — until every model has reached the goal or
+        ///     <paramref name="keepRunning" /> returns false. <paramref name="onProgress" /> fires after every game.
         /// </summary>
         public BenchmarkReport Run(Func<bool> keepRunning, Action<BenchmarkReport>? onProgress = null)
         {
-            var report = new BenchmarkReport(_models, _configuredMinutes);
+            var report = new BenchmarkReport(_models, _configuredMinutes, _goalLabel);
 
-            while (!report.AllWon && keepRunning())
+            while (!report.AllReached && keepRunning())
             {
                 foreach (var model in _models)
                 {
-                    if (report.AllWon || !keepRunning())
+                    if (report.AllReached || !keepRunning())
                     {
                         report.MarkFinished();
                         return report;
                     }
 
                     var result = _playGame(model);
-                    report.Record(model, result, _elapsed());
+                    report.Record(model, _reachedGoal(result), result.Score, _elapsed());
                     onProgress?.Invoke(report);
                 }
             }

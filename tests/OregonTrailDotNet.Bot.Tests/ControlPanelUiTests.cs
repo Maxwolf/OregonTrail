@@ -239,16 +239,18 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
-        public void Benchmark_Config_Records_Time_Limit()
+        public void Benchmark_Config_Records_Time_Limit_And_Goal()
         {
             // Reachable with no profile — the benchmark uses its own transient bots.
             Send("8");
             Assert.Equal("BenchmarkConfigForm", FormName);
             Assert.Contains("5 minutes", Screen); // default time limit
-            Assert.Contains("first win", Screen);
+            Assert.Contains("First win", Screen); // default goal
 
-            Send("0"); // 0 = run until every model wins
-            Assert.Contains("until every model wins", Screen);
+            Send("g"); // switch goal to the Meek test
+            Assert.Contains("Meek", Screen);
+            Assert.Contains("7650", Screen);
+
             Send("12"); // set an explicit limit
             Assert.Contains("12 minutes", Screen);
 
@@ -260,6 +262,7 @@ namespace OregonTrailDotNet.Bot.Tests
             var request = BotContext.Request!;
             Assert.Equal(BotRequestKind.Benchmark, request.Kind);
             Assert.Equal(12, request.BenchmarkMinutes);
+            Assert.Equal(OregonTrailDotNet.Bot.Testing.BenchmarkGoal.MeekScore, request.BenchmarkGoal);
         }
 
         [Fact]

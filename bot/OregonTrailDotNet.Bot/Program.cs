@@ -392,7 +392,8 @@ namespace OregonTrailDotNet.Bot
             var stoppedByEsc = false;
             var lastRender = DateTime.MinValue;
 
-            var session = new BenchmarkSession(minutes);
+            var (goalLabel, reachedGoal) = BenchmarkGoalSpec(request.BenchmarkGoal);
+            var session = new BenchmarkSession(minutes, goalLabel, reachedGoal);
 
             var report = session.Run(
                 keepRunning: () =>
@@ -414,7 +415,7 @@ namespace OregonTrailDotNet.Bot
                     RenderBenchmarkDashboard(r, startedAt, deadline, infinite);
                 });
 
-            report.EndReason = report.AllWon ? "Every model scored a win." :
+            report.EndReason = report.AllReached ? "Every model reached the goal." :
                 stoppedByEsc ? "Stopped by Esc." : "Reached the configured time limit.";
 
             var savedPath = SaveBenchmarkReport(report);
@@ -436,24 +437,24 @@ namespace OregonTrailDotNet.Bot
             {
                 var width = Math.Max(1, Console.WindowWidth);
                 var elapsed = DateTime.UtcNow - startedAt;
-                var limit = infinite ? "until all win" : $"{(int) (deadline - startedAt).TotalMinutes}:{(deadline - startedAt).Seconds:00}";
+                var limit = infinite ? "until all reach it" : $"{(int) (deadline - startedAt).TotalMinutes}:{(deadline - startedAt).Seconds:00}";
 
                 var lines = new List<string>
                 {
-                    "BENCHMARK — how long each model takes to score its first win",
+                    $"BENCHMARK — how long each model takes to reach {report.GoalLabel}",
                     $"elapsed {(int) elapsed.TotalMinutes}:{elapsed.Seconds:00}   limit {limit}   (press Esc to stop)",
                     "",
-                    $"{"Model",-24}{"Games",8}{"First win",16}"
+                    $"{"Model",-24}{"Games",8}{"Reached",18}"
                 };
                 foreach (var r in report.Results)
                 {
-                    var status = r.Won
-                        ? $"{(int) r.TimeToFirstWin.TotalMinutes}:{r.TimeToFirstWin.Seconds:00} (g{r.GamesToFirstWin})"
+                    var status = r.Reached
+                        ? $"{(int) r.TimeToGoal.TotalMinutes}:{r.TimeToGoal.Seconds:00} (g{r.GamesToGoal}, {r.ScoreAtGoal})"
                         : "— not yet —";
-                    lines.Add($"{Truncate(r.DisplayName, 23),-24}{r.Games,8}{status,16}");
+                    lines.Add($"{Truncate(r.DisplayName, 23),-24}{r.Games,8}{status,18}");
                 }
                 lines.Add("");
-                lines.Add($"Total games: {report.TotalGames}     Won: {report.Results.Count(r => r.Won)}/{report.Results.Count}");
+                lines.Add($"Total games: {report.TotalGames}     Reached: {report.Results.Count(r => r.Reached)}/{report.Results.Count}");
 
                 var rows = Math.Max(lines.Count, Math.Max(1, Console.WindowHeight - 1));
                 for (var i = 0; i < rows; i++)
@@ -472,6 +473,20 @@ namespace OregonTrailDotNet.Bot
             {
                 // Console resized very small — skip this frame.
             }
+        }
+
+        // Maps a benchmark goal to its display label and the predicate that decides whether a game reached it. The Meek
+        // target is read from the game's own original high-score list so it can never drift out of sync.
+        private static (string Label, Func<RunResult, bool> Reached) BenchmarkGoalSpec(BenchmarkGoal goal)
+        {
+            if (goal == BenchmarkGoal.MeekScore)
+            {
+                var meek = OregonTrailDotNet.Module.Scoring.ScoringModule.DefaultTopTen
+                    .OrderByDescending(h => h.Points).First();
+                return ($"{meek.Name}'s {meek.Points} (Trail Guide)", result => result.Score >= meek.Points);
+            }
+
+            return ("a first win", result => result.Outcome == GameOutcome.Win);
         }
 
         private static string? SaveBenchmarkReport(BenchmarkReport report)

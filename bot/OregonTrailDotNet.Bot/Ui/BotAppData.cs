@@ -53,7 +53,10 @@ namespace OregonTrailDotNet.Bot.Ui
         /// <summary>Whether automated testing stops at the first problem (default) or keeps going and logs them all.</summary>
         public bool AutoTestStopOnProblem { get; set; } = true;
 
-        /// <summary>Benchmark time limit in minutes chosen on its config screen (0 = until every model wins or Esc).</summary>
+        /// <summary>Benchmark time limit in minutes chosen on its config screen (0 = until every model reaches the goal or Esc).</summary>
         public int BenchmarkMinutes { get; set; } = 5;
+
+        /// <summary>Which goal the benchmark races each model to: a first win, or Stephen Meek's 7650.</summary>
+        public Testing.BenchmarkGoal BenchmarkGoal { get; set; } = Testing.BenchmarkGoal.FirstWin;
     }
 }
