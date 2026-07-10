@@ -29,6 +29,7 @@ namespace OregonTrailDotNet.Bot.Ui
             AddCommand(WatchGame, BotMainMenuCommands.WatchGame);
             AddCommand(ViewLeaderboard, BotMainMenuCommands.ViewLeaderboard);
             AddCommand(ViewStats, BotMainMenuCommands.ViewStats);
+            AddCommand(AutomatedTesting, BotMainMenuCommands.AutomatedTesting);
             AddCommand(ManageData, BotMainMenuCommands.ManageData);
             AddCommand(Quit, BotMainMenuCommands.Quit);
         }
@@ -58,6 +59,9 @@ namespace OregonTrailDotNet.Bot.Ui
         }
 
         private void ViewLeaderboard() => SetForm(typeof(LeaderboardForm));
+
+        // Automated testing spins up its own transient bots (one of every model), so it needs no active profile.
+        private void AutomatedTesting() => SetForm(typeof(AutoTestConfigForm));
 
         private void ManageData() => SetForm(typeof(ManageDataForm));
 

@@ -141,7 +141,7 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.True(BotContext.ActiveProfileId > 0);
 
             // Decline first — nothing is deleted.
-            Send("7"); // Manage data
+            Send("8"); // Manage data
             Assert.Equal("ManageDataForm", FormName);
             Send("1"); // delete the active bot
             Assert.Equal("DeleteProfileConfirm", FormName);
@@ -150,7 +150,7 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.True(BotContext.Db!.Profiles.NameExists("Doomed"));
 
             // Confirm — it's gone.
-            Send("7");
+            Send("8");
             Send("1");
             Send("Y");
             Assert.Equal(-1, BotContext.ActiveProfileId);
@@ -169,7 +169,7 @@ namespace OregonTrailDotNet.Bot.Tests
             });
             Assert.Equal(2, BotContext.Db!.Profiles.All().Count);
 
-            Send("7"); // Manage data
+            Send("8"); // Manage data
             Send("2"); // Erase ALL data
             Assert.Equal("EraseAllConfirm", FormName);
             Assert.Contains("cannot be undone", Screen);
@@ -210,6 +210,32 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.Equal(BotContext.ActiveProfileId, request.ProfileId);
             Assert.Equal(WatchSpeed.Slow, request.WatchSpeed);
             Assert.True(request.LoopUntilEscape);
+        }
+
+        [Fact]
+        public void Automated_Testing_Config_Records_Duration_And_Stop_Toggle()
+        {
+            // Reachable with no profile — automated testing uses its own transient bots.
+            Send("7");
+            Assert.Equal("AutoTestConfigForm", FormName);
+            Assert.Contains("5 minutes", Screen); // default duration
+            Assert.Contains("Stop the session", Screen); // default: stop on first problem
+
+            Send("15"); // set the duration
+            Assert.Contains("15 minutes", Screen);
+            Send("s"); // toggle "on problem" to keep going
+            Assert.Contains("Keep going", Screen);
+
+            // ENTER records the request and tears the panel down.
+            BotSimulationApp.Instance!.InputManager.SendInputBufferAsCommand();
+            for (var i = 0; i < 2 && BotSimulationApp.Instance != null; i++)
+                BotSimulationApp.Instance.OnTick(false);
+
+            Assert.Null(BotSimulationApp.Instance);
+            var request = BotContext.Request!;
+            Assert.Equal(BotRequestKind.AutoTest, request.Kind);
+            Assert.Equal(15, request.AutoTestMinutes);
+            Assert.False(request.AutoTestStopOnProblem); // toggled off
         }
 
         [Fact]

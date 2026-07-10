@@ -8,6 +8,7 @@ namespace OregonTrailDotNet.Bot
         None,
         Train,
         Watch,
+        AutoTest,
         Quit
     }
 
@@ -30,6 +31,12 @@ namespace OregonTrailDotNet.Bot
 
         /// <summary>Watch mode: keep replaying games until the viewer presses Esc.</summary>
         public bool LoopUntilEscape { get; init; }
+
+        /// <summary>Automated testing: session length in minutes (0 = run until Esc).</summary>
+        public int AutoTestMinutes { get; init; } = 5;
+
+        /// <summary>Automated testing: stop the session as soon as a problem is found (vs. keep going and log them all).</summary>
+        public bool AutoTestStopOnProblem { get; init; } = true;
     }
 
     /// <summary>

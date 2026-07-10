@@ -5,6 +5,7 @@ using OregonTrailDotNet.Bot.Data;
 using OregonTrailDotNet.Bot.Diagnostics;
 using OregonTrailDotNet.Bot.Game;
 using OregonTrailDotNet.Bot.Learning;
+using OregonTrailDotNet.Bot.Testing;
 using OregonTrailDotNet.Bot.Ui;
 
 namespace OregonTrailDotNet.Bot
@@ -54,6 +55,9 @@ namespace OregonTrailDotNet.Bot
                         break;
                     case BotRequestKind.Watch:
                         RunWatch(request);
+                        break;
+                    case BotRequestKind.AutoTest:
+                        RunAutoTest(request);
                         break;
                 }
             }
@@ -261,6 +265,118 @@ namespace OregonTrailDotNet.Bot
 
             return false;
         }
+
+        private static void RunAutoTest(BotRequest request)
+        {
+            SafeClear();
+            TrySetCursorVisible(false);
+            DrainKeys();
+
+            var minutes = Math.Max(0, request.AutoTestMinutes);
+            var infinite = minutes <= 0;
+            var startedAt = DateTime.UtcNow;
+            var deadline = infinite ? DateTime.MaxValue : startedAt.AddMinutes(minutes);
+            var stoppedByEsc = false;
+            var lastRender = DateTime.MinValue;
+
+            var session = new AutoTestSession(minutes, request.AutoTestStopOnProblem);
+
+            var report = session.Run(
+                keepRunning: () =>
+                {
+                    if (EscPressed())
+                    {
+                        stoppedByEsc = true;
+                        return false;
+                    }
+
+                    return infinite || DateTime.UtcNow < deadline;
+                },
+                onProgress: r =>
+                {
+                    // Throttle the dashboard so redrawing doesn't steal time from actually running games.
+                    var now = DateTime.UtcNow;
+                    if ((now - lastRender).TotalMilliseconds < 120)
+                        return;
+                    lastRender = now;
+                    RenderAutoTestDashboard(r, startedAt, deadline, infinite);
+                });
+
+            if (!report.StoppedOnProblem)
+                report.EndReason = stoppedByEsc ? "Stopped by Esc." :
+                    infinite ? "Session stopped." : "Reached the configured time limit.";
+
+            var savedPath = SaveAutoTestReport(report);
+
+            SafeClear();
+            TrySetCursorVisible(true);
+            Console.WriteLine(report.Format());
+            Console.WriteLine();
+            Console.WriteLine(savedPath != null
+                ? $"Report saved to: {savedPath}"
+                : "(Could not save the report to disk — it is shown above.)");
+            Pause();
+            TrySetCursorVisible(false);
+        }
+
+        private static void RenderAutoTestDashboard(AutoTestReport report, DateTime startedAt, DateTime deadline, bool infinite)
+        {
+            try
+            {
+                var width = Math.Max(1, Console.WindowWidth);
+                var elapsed = DateTime.UtcNow - startedAt;
+                var limit = infinite ? "no limit" : $"{(int) (deadline - startedAt).TotalMinutes}:{(deadline - startedAt).Seconds:00}";
+
+                var lines = new List<string>
+                {
+                    "AUTOMATED TESTING — one bot of every model, hunting game bugs",
+                    $"elapsed {(int) elapsed.TotalMinutes}:{elapsed.Seconds:00}   limit {limit}   (press Esc to stop)",
+                    "",
+                    $"{"Model",-24}{"Games",7}{"Wins",6}{"Deaths",8}{"Timeouts",10}{"Problems",10}"
+                };
+                foreach (var m in report.Models)
+                    lines.Add($"{Truncate(m.DisplayName, 23),-24}{m.Games,7}{m.Wins,6}{m.Deaths,8}{m.Timeouts,10}{m.Problems,10}");
+                lines.Add("");
+                lines.Add($"Total games: {report.TotalGames}     Problems found: {report.Problems.Count}");
+                lines.Add($"On problem: {(report.StopOnProblem ? "stop the session" : "keep going and log it")}");
+
+                var rows = Math.Max(lines.Count, Math.Max(1, Console.WindowHeight - 1));
+                for (var i = 0; i < rows; i++)
+                {
+                    Console.SetCursorPosition(0, i);
+                    var row = i < lines.Count ? lines[i] : string.Empty;
+                    if (row.Length > width) row = row[..width];
+                    Console.Write(row.PadRight(width));
+                }
+            }
+            catch (IOException)
+            {
+                // No real console (redirected) — skip rendering.
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // Console resized very small — skip this frame.
+            }
+        }
+
+        private static string? SaveAutoTestReport(AutoTestReport report)
+        {
+            try
+            {
+                var dir = Path.Combine(AppContext.BaseDirectory, "test-reports");
+                Directory.CreateDirectory(dir);
+                var file = Path.Combine(dir, $"automated-test-{DateTime.UtcNow:yyyyMMdd-HHmmss}.txt");
+                File.WriteAllText(file, report.Format());
+                return file;
+            }
+            catch (Exception)
+            {
+                // Disk not writable (e.g. read-only deployment) — the report is still shown on screen.
+                return null;
+            }
+        }
+
+        private static string Truncate(string text, int max) => text.Length <= max ? text : text[..max];
 
         /// <summary>Best available strategy for a profile, decoded through the profile's own training model: its best-ever
         ///     vector, else the optimizer's current mean, else the hand-tuned heuristic.</summary>

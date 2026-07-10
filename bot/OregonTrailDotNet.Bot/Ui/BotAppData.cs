@@ -46,5 +46,11 @@ namespace OregonTrailDotNet.Bot.Ui
 
         /// <summary>Whether the watch-configuration screen has looping (replay until Esc) turned on.</summary>
         public bool WatchLoop { get; set; }
+
+        /// <summary>Automated-testing session length in minutes chosen on its config screen (0 = run until Esc).</summary>
+        public int AutoTestMinutes { get; set; } = 5;
+
+        /// <summary>Whether automated testing stops at the first problem (default) or keeps going and logs them all.</summary>
+        public bool AutoTestStopOnProblem { get; set; } = true;
     }
 }
