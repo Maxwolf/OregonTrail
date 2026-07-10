@@ -9,19 +9,19 @@ namespace OregonTrailDotNet.Bot.Learning
         public static IReadOnlyList<ITrainingModel> All { get; } = new ITrainingModel[]
         {
             new StrategyModel("cem", "Cross-Entropy Method",
-                "Refits a bell curve to the best strategies each round. Balanced and reliable — the default.",
+                "Balanced and reliable. Refits toward the best strategies each round.",
                 (mean, std, pop) => new CemOptimizer(mean, std, pop)),
 
             new StrategyModel("genetic", "Genetic Algorithm",
-                "Breeds a population: keeps the fittest, mixes them (crossover) and mutates. Explores widely.",
+                "Breeds a population with crossover and mutation. Explores widely.",
                 (mean, std, pop) => new GeneticOptimizer(mean, std, pop)),
 
             new StrategyModel("hillclimb", "Hill Climber",
-                "Greedily mutates the current best and keeps it only if it scores higher. Fast; can get stuck.",
+                "Greedily improves one strategy. Fast, but can get stuck.",
                 (mean, std, pop) => new HillClimberOptimizer(mean, std, pop)),
 
             new StrategyModel("random", "Random Search",
-                "Does not learn — tries random strategies and keeps the best seen. A baseline to compare against.",
+                "No learning — keeps the best of random tries. A baseline.",
                 (mean, std, pop) => new RandomSearchOptimizer(mean, std, pop)),
 
             new NeuralModel()

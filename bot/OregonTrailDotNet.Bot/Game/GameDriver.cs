@@ -135,11 +135,13 @@ namespace OregonTrailDotNet.Bot.Game
                 {
                     Console.SetCursorPosition(0, i);
                     var row = i < lines.Length ? lines[i] : string.Empty;
+                    if (row.Length > width) row = row[..width];
                     Console.Write(row.PadRight(width));
                 }
 
                 Console.SetCursorPosition(0, contentRows);
                 var status = string.IsNullOrEmpty(StatusLine) ? string.Empty : StatusLine;
+                if (status.Length > width) status = status[..width];
                 Console.Write(status.PadRight(width));
             }
             catch (IOException)

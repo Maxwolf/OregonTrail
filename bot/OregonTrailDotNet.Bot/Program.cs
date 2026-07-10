@@ -224,6 +224,7 @@ namespace OregonTrailDotNet.Bot
                 {
                     Console.SetCursorPosition(0, index);
                     var row = index < lines.Length ? lines[index] : string.Empty;
+                    if (row.Length > width) row = row[..width]; // never let a long line wrap and shove content off-screen
                     Console.Write(row.PadRight(width));
                 }
             }

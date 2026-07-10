@@ -10,9 +10,7 @@ namespace OregonTrailDotNet.Bot.Learning
         public string Key => "neuro";
         public string DisplayName => "Neuro-Evolution";
 
-        public string Description =>
-            "Evolves a small neural network that reads the live game state (food, health, days left...) and decides " +
-            "tactics on the fly. The most different, state-adaptive play style.";
+        public string Description => "A small neural net reacts to the live game state. Adaptive and unique.";
 
         public int VectorLength => NeuralPolicy.VectorLength;
 

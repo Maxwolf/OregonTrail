@@ -96,6 +96,22 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
+        public void Model_Picker_Fits_A_Default_80x24_Terminal()
+        {
+            var screen = "";
+            BotSimulationApp.Instance!.SceneGraph.ScreenBufferDirtyEvent += s => screen = s;
+
+            Send("1"); // open the model picker (first step of creating a profile)
+            Assert.Equal("SelectModelForm", FormName);
+
+            var lines = screen.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            Assert.All(lines, line =>
+                Assert.True(line.Length <= 80, $"line exceeds 80 columns ({line.Length}): {line}"));
+            Assert.True(lines.Length <= 23,
+                $"screen is {lines.Length} lines; a default 24-row terminal only shows 23, so it would run off.");
+        }
+
+        [Fact]
         public void Select_Profile_Lists_And_Activates()
         {
             BotContext.Db!.Profiles.Create("Alpha", "cem");
