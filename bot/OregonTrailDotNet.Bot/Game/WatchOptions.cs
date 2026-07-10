@@ -30,7 +30,9 @@ namespace OregonTrailDotNet.Bot.Game
         public static WatchOptions ForSpeed(WatchSpeed speed) => speed switch
         {
             WatchSpeed.Fast => new WatchOptions { TickDelayMs = 20, DecisionPauseMs = 350 },
-            WatchSpeed.Slow => new WatchOptions { TickDelayMs = 130, DecisionPauseMs = 1800 },
+            // Slow is meant to feel like watching a person actually play: travel scrolls gently and every decision holds
+            // on screen long enough to read the bot's reasoning before it acts.
+            WatchSpeed.Slow => new WatchOptions { TickDelayMs = 450, DecisionPauseMs = 4000 },
             _ => new WatchOptions { TickDelayMs = 60, DecisionPauseMs = 900 }
         };
     }

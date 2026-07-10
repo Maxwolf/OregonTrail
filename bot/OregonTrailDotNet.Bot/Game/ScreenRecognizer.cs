@@ -99,17 +99,18 @@ namespace OregonTrailDotNet.Bot.Game
                 case "ProfessionSelector":
                     return _policy.Profession.ToString();
                 case "InputPlayerNames":
-                    // Crew #1 is always the wagon leader and keeps the policy's "(bot)" name so it brands the in-game
-                    // high-score list. The three other members are numbered 2, 3, 4 so a viewer watching a playthrough can
-                    // tell which party member died. (Match the leader question itself — the member roster below it also
-                    // contains the word "leader", so a bare substring check would misfire.)
+                    // Name every crew member "<bot> <n>" — e.g. "Skynet 1", "Skynet 2", ... — so a viewer can tell which
+                    // one died. Crew #1 is the wagon leader (its name is what brands the in-game high-score list). Match the
+                    // leader question itself: the member roster below it also says "(leader)", so a bare substring check
+                    // would misfire.
+                    var partyName = PartyBaseName(_policy.LeaderName);
                     if (screen.Contains(MainMenu.LEADER_QUESTION, StringComparison.OrdinalIgnoreCase))
                     {
                         _partyMembersNamed = 0;
-                        return _policy.LeaderName;
+                        return $"{partyName} 1";
                     }
 
-                    return (_partyMembersNamed++ + 2).ToString();
+                    return $"{partyName} {_partyMembersNamed++ + 2}";
                 case "ConfirmPlayerNames":
                     return "Y";
                 case "SelectStartingMonthState":
@@ -145,6 +146,16 @@ namespace OregonTrailDotNet.Bot.Game
                     UnknownForms.Add(form);
                     return string.Empty;
             }
+        }
+
+        // The bot's leader name is the profile name with a " (bot)" tag; the party shares the plain base name plus a crew
+        // number ("Skynet 1", "Skynet 2", ...), so strip that tag to get e.g. "Skynet" from "Skynet (bot)".
+        private static string PartyBaseName(string leaderName)
+        {
+            const string botSuffix = " (bot)";
+            return leaderName.EndsWith(botSuffix, StringComparison.OrdinalIgnoreCase)
+                ? leaderName[..^botSuffix.Length]
+                : leaderName;
         }
 
         private string StoreMenuChoice(GameSnapshot state)
