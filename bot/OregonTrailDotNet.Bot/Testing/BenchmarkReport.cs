@@ -74,6 +74,16 @@ namespace OregonTrailDotNet.Bot.Testing
         /// <summary>Which model scored <see cref="BestScore" /> (empty until any game scores above zero).</summary>
         public string BestScoreModel { get; private set; } = "";
 
+        /// <summary>Sum of every game's score across the whole session — climbs continuously as games are played.</summary>
+        public long TotalScore { get; private set; }
+
+        // A rolling window of the most recent game scores, for the live score sparkline.
+        private const int RecentWindow = 60;
+        private readonly Queue<int> _recentScores = new();
+
+        /// <summary>The most recent game scores (oldest first), capped to a small window for the live sparkline.</summary>
+        public IReadOnlyCollection<int> RecentScores => _recentScores;
+
         public TimeSpan Elapsed => (_finishedAt ?? DateTime.UtcNow) - _startedAt;
 
         /// <summary>True once every model has reached the goal.</summary>
@@ -86,11 +96,16 @@ namespace OregonTrailDotNet.Bot.Testing
             var stats = _byModel[model.Key];
             stats.Games++;
 
+            TotalScore += score;
             if (score > BestScore)
             {
                 BestScore = score;
                 BestScoreModel = model.DisplayName;
             }
+
+            _recentScores.Enqueue(score);
+            while (_recentScores.Count > RecentWindow)
+                _recentScores.Dequeue();
 
             if (!reachedGoal || stats.Reached)
                 return null;
@@ -117,6 +132,7 @@ namespace OregonTrailDotNet.Bot.Testing
             sb.AppendLine();
             sb.AppendLine($"Games played: {TotalGames}     Models that reached it: {Results.Count(r => r.Reached)}/{Results.Count}");
             sb.AppendLine($"Highest score seen: {BestScore}{(string.IsNullOrEmpty(BestScoreModel) ? "" : $" ({BestScoreModel})")}");
+            sb.AppendLine($"Total score across all games: {TotalScore}");
             sb.AppendLine();
 
             // Winners ranked by how quickly they got there; models that never reached the goal are listed last.

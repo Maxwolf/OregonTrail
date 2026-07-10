@@ -104,6 +104,25 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
+        public void Tracks_Total_Score_And_Recent_Scores_Across_All_Games()
+        {
+            var scores = new Queue<int>(new[] { 100, 0, 250, 4000, 0 });
+            var games = 0;
+
+            var session = new BenchmarkSession(5, "a first win", FirstWin,
+                playGame: _ => new RunResult { Outcome = GameOutcome.Death, Score = scores.Count > 0 ? scores.Dequeue() : 0 },
+                elapsed: () => TimeSpan.Zero);
+
+            var report = session.Run(keepRunning: () => games < 5, onProgress: _ => games++);
+
+            Assert.Equal(5, report.TotalGames);
+            Assert.Equal(4350, report.TotalScore); // 100 + 0 + 250 + 4000 + 0
+            Assert.Equal(4000, report.BestScore);
+            Assert.Equal(new[] { 100, 0, 250, 4000, 0 }, report.RecentScores);
+            Assert.Contains("Total score across all games: 4350", report.Format());
+        }
+
+        [Fact]
         public void FormatDuration_Shows_Milliseconds_Under_A_Second()
         {
             // Games can reach a goal in well under a second, so those times must not collapse to "0:00".

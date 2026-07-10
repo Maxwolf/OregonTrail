@@ -456,6 +456,9 @@ namespace OregonTrailDotNet.Bot
                 lines.Add("");
                 lines.Add($"Total games: {report.TotalGames}     Reached: {report.Results.Count(r => r.Reached)}/{report.Results.Count}");
                 lines.Add($"Highest score so far: {report.BestScore}{(string.IsNullOrEmpty(report.BestScoreModel) ? "" : $" ({report.BestScoreModel})")}");
+                lines.Add($"Total score reached so far: {report.TotalScore}");
+                if (report.RecentScores.Count > 0)
+                    lines.Add($"Recent scores: {Sparkline.Render(report.RecentScores.Select(s => (double) s))}");
 
                 var rows = Math.Max(lines.Count, Math.Max(1, Console.WindowHeight - 1));
                 for (var i = 0; i < rows; i++)

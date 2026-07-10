@@ -73,9 +73,9 @@ namespace OregonTrailDotNet.Bot.Ui
             {
                 sb.AppendLine();
                 sb.AppendLine($"Best score / generation ({generations.Count} gens):");
-                sb.AppendLine("  " + Sparkline(generations.Select(g => (double) g.BestScore)));
+                sb.AppendLine("  " + Sparkline.Render(generations.Select(g => (double) g.BestScore)));
                 sb.AppendLine("Mean score / generation:");
-                sb.AppendLine("  " + Sparkline(generations.Select(g => g.MeanScore)));
+                sb.AppendLine("  " + Sparkline.Render(generations.Select(g => g.MeanScore)));
             }
 
             var recent = db.Runs.RecentForProfile(profile.Id, 5);
@@ -91,26 +91,5 @@ namespace OregonTrailDotNet.Bot.Ui
         }
 
         protected override void OnDialogResponse(DialogResponse reponse) => ClearForm();
-
-        private static string Sparkline(IEnumerable<double> series)
-        {
-            const string blocks = "▁▂▃▄▅▆▇█"; // ▁▂▃▄▅▆▇█
-            var values = series.ToList();
-            if (values.Count == 0)
-                return "(no data)";
-
-            var min = values.Min();
-            var max = values.Max();
-            var range = max - min;
-
-            var sb = new StringBuilder(values.Count);
-            foreach (var v in values)
-            {
-                var level = range <= 0 ? blocks.Length / 2 : (int) ((v - min) / range * (blocks.Length - 1));
-                sb.Append(blocks[Math.Clamp(level, 0, blocks.Length - 1)]);
-            }
-
-            return sb.ToString();
-        }
     }
 }
