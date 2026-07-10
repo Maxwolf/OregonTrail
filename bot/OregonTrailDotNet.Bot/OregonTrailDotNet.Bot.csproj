@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>OregonTrailDotNet.Bot</RootNamespace>
+    <AssemblyName>OregonTrailDotNet.Bot</AssemblyName>
+    <!-- NU1903: transitive native SQLite (SQLitePCLRaw.lib.e_sqlite3, pulled by Microsoft.Data.Sqlite) has an advisory with
+         no patched bundle referenced by the official package yet. This is a local single-user tool that only runs
+         parameterized queries against its own database file, so the practical risk is nil. Revisit when Microsoft.Data.Sqlite
+         ships a bundle with the fix. -->
+    <NoWarn>$(NoWarn);NU1903</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WolfCurses" Version="2026.7.10.6" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OregonTrailDotNet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="OregonTrailDotNet.Bot.Tests" />
+  </ItemGroup>
+
+</Project>

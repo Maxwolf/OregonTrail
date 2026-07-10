@@ -1,0 +1,172 @@
+using OregonTrailDotNet.Bot.Data;
+using OregonTrailDotNet.Bot.Diagnostics;
+using OregonTrailDotNet.Bot.Game;
+
+namespace OregonTrailDotNet.Bot.Learning
+{
+    public sealed class TrainingConfig
+    {
+        public int PopulationSize { get; init; } = 16;
+        public int GamesPerCandidate { get; init; } = 5;
+        public int Generations { get; init; } = 5;
+    }
+
+    /// <summary>Progress emitted after each generation, for the live UI/console.</summary>
+    public sealed class GenerationProgress
+    {
+        public int Generation { get; init; }
+        public double MeanFitness { get; init; }
+        public int BestScoreThisGen { get; init; }
+        public int BestScoreEver { get; init; }
+        public int GamesThisGen { get; init; }
+        public int WinsThisGen { get; init; }
+        public int TotalIterations { get; init; }
+    }
+
+    /// <summary>
+    ///     Runs CEM training for a profile: sample a population of strategy genomes, evaluate each over K games (averaging out
+    ///     the game's randomness), refit the distribution to the elite genomes, and persist everything (each game to
+    ///     <c>runs</c>, the optimizer state + best score/genome to the profile, qualifying finishes to the leaderboard). Fully
+    ///     headless and deterministic per tick; resumes from the profile's saved learning state.
+    /// </summary>
+    public sealed class TrainingSession
+    {
+        private readonly BotDatabase _db;
+        private readonly long _profileId;
+        private readonly string _leaderName;
+        private readonly TrainingConfig _config;
+        private readonly CemOptimizer _optimizer;
+
+        private int _bestScoreEver;
+        private string? _bestGenomeJson;
+
+        public TrainingSession(BotDatabase db, ProfileRecord profile, TrainingConfig config)
+        {
+            _db = db;
+            _profileId = profile.Id;
+            _leaderName = $"{profile.Name} (bot)";
+            _config = config;
+
+            _optimizer = new CemOptimizer(config.PopulationSize);
+            _optimizer.Load(profile.LearningState);
+
+            _bestScoreEver = profile.BestScore;
+            _bestGenomeJson = profile.BestGenomeJson;
+        }
+
+        public CemOptimizer Optimizer => _optimizer;
+
+        /// <summary>Runs the configured number of generations, invoking <paramref name="onGeneration" /> after each and
+        ///     stopping early if <paramref name="shouldStop" /> returns true.</summary>
+        public void Run(Action<GenerationProgress>? onGeneration = null, Func<bool>? shouldStop = null)
+        {
+            for (var g = 0; g < _config.Generations; g++)
+            {
+                var generationNumber = _optimizer.Generation;
+                var population = _optimizer.SampleGeneration();
+                var scored = new List<(StrategyGenome Genome, double Fitness)>(population.Count);
+
+                var wins = 0;
+                var bestScoreThisGen = 0;
+
+                for (var candidate = 0; candidate < population.Count; candidate++)
+                {
+                    var genome = population[candidate];
+                    var genomeJson = genome.ToJson();
+                    double fitnessSum = 0;
+
+                    for (var k = 0; k < _config.GamesPerCandidate; k++)
+                    {
+                        var policy = new GenomePolicy(genome, _leaderName);
+                        var result = GamePlayer.PlayOnce(policy);
+
+                        RecordRun(result, generationNumber, candidate, genomeJson);
+
+                        // Unambiguous bugs (a crash, a broken invariant, or a screen the bot has no handler for) stop the whole
+                        // batch so a developer can fix them. A plain soft-lock is treated as a failed game (score 0, which the
+                        // optimizer learns to avoid) so one unlucky stuck game doesn't abort a long training run.
+                        if (result.Bug != null && result.Bug.Category != BugCategory.SoftLock)
+                        {
+                            PersistOptimizer();
+                            throw new BotBugException(result.Bug);
+                        }
+
+                        if (result.Outcome == GameOutcome.Win) wins++;
+                        bestScoreThisGen = Math.Max(bestScoreThisGen, result.Score);
+                        if (result.Score > _bestScoreEver)
+                        {
+                            _bestScoreEver = result.Score;
+                            _bestGenomeJson = genomeJson;
+                        }
+
+                        fitnessSum += Fitness(result);
+                    }
+
+                    scored.Add((genome, fitnessSum / _config.GamesPerCandidate));
+                }
+
+                _optimizer.Update(scored);
+                PersistOptimizer();
+
+                onGeneration?.Invoke(new GenerationProgress
+                {
+                    Generation = generationNumber,
+                    MeanFitness = scored.Average(s => s.Fitness),
+                    BestScoreThisGen = bestScoreThisGen,
+                    BestScoreEver = _bestScoreEver,
+                    GamesThisGen = population.Count * _config.GamesPerCandidate,
+                    WinsThisGen = wins,
+                    TotalIterations = _db.Runs.CountForProfile(_profileId)
+                });
+
+                if (shouldStop?.Invoke() == true)
+                    break;
+            }
+        }
+
+        private void RecordRun(RunResult result, int generation, int candidateIndex, string genomeJson)
+        {
+            // A finished run makes the persistent leaderboard if it beats the current 10th place (an empty/short board has a
+            // 10th place of 0, so the first finishes fill it up). That is also when the "(bot)" name gets stamped on.
+            var madeTop10 = result.IsFinished && result.Score > 0 &&
+                            result.Score > _db.Leaderboard.TenthPlaceScore();
+
+            var runId = _db.Runs.Insert(new RunRecord
+            {
+                ProfileId = _profileId,
+                IterationIndex = _db.Runs.NextIterationIndex(_profileId),
+                Generation = generation,
+                CandidateIndex = candidateIndex,
+                GenomeJson = genomeJson,
+                Outcome = result.Outcome.ToString(),
+                FinalScore = result.Score,
+                Days = result.Days,
+                Miles = result.Miles,
+                Survivors = result.Survivors,
+                CauseOfDeath = string.IsNullOrEmpty(result.CauseOfDeath) ? null : result.CauseOfDeath,
+                MadeTop10 = madeTop10
+            });
+
+            _db.Profiles.AddIterations(_profileId, 1);
+
+            if (madeTop10)
+                _db.Leaderboard.Insert(new LeaderboardEntry
+                {
+                    ProfileId = _profileId,
+                    RunId = runId,
+                    Name = result.LeaderName,
+                    Score = result.Score,
+                    Rating = Rating(result.Score)
+                });
+        }
+
+        private void PersistOptimizer() =>
+            _db.Profiles.SaveLearningState(_profileId, _optimizer.Serialize(), _optimizer.Generation, _bestScoreEver, _bestGenomeJson);
+
+        // Finishers are scored on their real game score; failed runs get a small shaped reward for how far they got, so the
+        // optimizer still has a gradient to climb even when most of a generation dies before Oregon.
+        private static double Fitness(RunResult result) => result.IsFinished ? result.Score : result.Miles * 0.05;
+
+        public static string Rating(int score) => score >= 7000 ? "Trail Guide" : score >= 3000 ? "Adventurer" : "Greenhorn";
+    }
+}

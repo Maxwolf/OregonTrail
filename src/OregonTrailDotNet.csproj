@@ -19,6 +19,8 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="OregonTrailDotNet.Tests" />
+    <InternalsVisibleTo Include="OregonTrailDotNet.Bot" />
+    <InternalsVisibleTo Include="OregonTrailDotNet.Bot.Tests" />
   </ItemGroup>
 
 </Project>
