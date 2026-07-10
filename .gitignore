@@ -287,5 +287,10 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
-data
 /CLAUDE.md
+
+# OregonTrailDotNet.Bot SQLite database (profiles/runs/leaderboard) and WAL sidecars
+bot.db
+bot.db-wal
+bot.db-shm
+bot.db-journal
