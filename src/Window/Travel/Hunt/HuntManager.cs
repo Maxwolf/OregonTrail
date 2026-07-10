@@ -43,7 +43,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         ///     Determines the total weight of all the food the player is allowed to take away from a given hunting session.
         /// </summary>
         // ReSharper disable once InconsistentNaming
-        public const int MAXFOOD = 100;
+        public const int MAXFOOD = 250;
 
         /// <summary>
         ///     Determines the total number of seconds a given prey item is allowed to be a target by the player, if this value is
@@ -466,6 +466,10 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
 
             // Add the target to the list of animals that have been killed.
             _killedPrey.Add(_target);
+
+            // Record the kill against the vehicle's lifetime tally so later river-crossing trades know how much the party has
+            // hunted. The fewer animals killed, the better the deal the Shoshoni guide offers for clothing.
+            game.Vehicle.IncrementAnimalKillCount();
 
             // Resets the targeting system now that the animal is bagged and tagged.
             ClearTarget();

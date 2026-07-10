@@ -55,6 +55,9 @@ namespace OregonTrailDotNet.Window.Graveyard
                 tombstone.AppendLine("All the members of");
                 tombstone.AppendLine("your party have");
                 tombstone.AppendLine($"died.{Environment.NewLine}");
+
+                // Show how far the party made it before they perished.
+                tombstone.AppendLine($"You traveled {GameSimulationApp.Instance.Vehicle.Odometer:N0} miles.{Environment.NewLine}");
             }
 
             // Write out the tombstone text and epitaph message to the game window.

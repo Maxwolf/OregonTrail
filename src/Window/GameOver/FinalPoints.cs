@@ -54,6 +54,10 @@ namespace OregonTrailDotNet.Window.GameOver
             // Shortcut to the game simulation instance to make code easier to read.
             var game = GameSimulationApp.Instance;
 
+            // Remind the player how long the journey took and how far they came before tabulating the score.
+            _pointsPrompt.AppendLine($"Your journey took {game.Time.TotalDays:N0} days and");
+            _pointsPrompt.AppendLine($"covered {game.Vehicle.Odometer:N0} miles.{Environment.NewLine}");
+
             // Calculate the total points of all spare parts for the tuple list below ahead of time.
             var spareAxles = new Tuple<int, string, int>(
                 game.Vehicle.Inventory[Entities.Axle].Quantity,

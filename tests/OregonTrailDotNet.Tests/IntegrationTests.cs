@@ -83,5 +83,39 @@ namespace OregonTrailDotNet.Tests
             Assert.True(Game.TotalTurns > 0);
             Assert.True(Game.Time.CurrentMonth != Month.April || Game.Time.Date.Day > 1);
         }
+
+        [Fact]
+        public void PartyWithNoFood_DiesAndRecordsACauseOfDeath()
+        {
+            // Outfit a party with oxen and clothing but deliberately no food and no ammunition, so they cannot eat and
+            // cannot hunt - they are doomed to die on the trail.
+            Game.SetStartInfo(new NewGameInfo
+            {
+                PlayerNames = new List<string> {"Alice", "Bob"},
+                PlayerProfession = Profession.Banker,
+                StartingMonies = 1600,
+                StartingMonth = Month.April
+            });
+
+            var vehicle = Game.Vehicle;
+            vehicle.Purchase(new SimItem(Parts.Oxen, 8));
+            vehicle.Purchase(new SimItem(Resources.Clothing, 8));
+
+            Game.Trail.ArriveAtNextLocation();
+            Game.Trail.CurrentLocation.Status = LocationStatus.Departed;
+
+            // Push down the trail until the whole party has perished.
+            for (var day = 0; (day < 250) && !vehicle.PassengersDead; day++)
+            {
+                vehicle.Status = VehicleStatus.Moving;
+                Game.TakeTurn(false);
+            }
+
+            // The party should be dead, and at least one member should have a recorded cause of death (they take starvation
+            // damage every single day, so the killing blow records a cause) rather than being left as Unknown - proving the
+            // death screen has something to report.
+            Assert.True(vehicle.PassengersDead);
+            Assert.Contains(vehicle.Passengers, person => person.Cause != CauseOfDeath.Unknown);
+        }
     }
 }

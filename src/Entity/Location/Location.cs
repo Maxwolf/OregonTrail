@@ -45,6 +45,18 @@ namespace OregonTrailDotNet.Entity.Location
         public int Depth { get; set; }
 
         /// <summary>
+        ///     Determines if this location sits at a high elevation (a mountain pass). High-ground locations have a chance of the
+        ///     party becoming stuck, suffer slow-going mileage penalties, risk cave-ins, and see far more blizzards.
+        /// </summary>
+        public bool HighGround { get; set; }
+
+        /// <summary>
+        ///     Percentage chance (0-100) that the party becomes stuck for several days when departing this location. Only used by
+        ///     high-ground mountain passes such as South Pass (80%) and the Blue Mountains (70%). Zero for normal locations.
+        /// </summary>
+        public int StuckChance { get; set; }
+
+        /// <summary>
         ///     Warnings about low food, medical problems, weather, etc.
         /// </summary>
         public LocationWarning Warning { get; }

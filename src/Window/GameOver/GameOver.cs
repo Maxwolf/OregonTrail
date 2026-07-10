@@ -1,6 +1,7 @@
 ﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
 // Timestamp 01/03/2016@1:50 AM
 
+using OregonTrailDotNet.Module.Time;
 using WolfCurses;
 using WolfCurses.Window;
 
@@ -40,6 +41,14 @@ namespace OregonTrailDotNet.Window.GameOver
             if (GameSimulationApp.Instance.Vehicle.PassengersDead)
             {
                 SetForm(typeof(GameFail));
+                return;
+            }
+
+            // The journey ran out of time (20+ weeks) with the party still alive but short of Oregon; tabulate the score for
+            // however far they made it.
+            if (GameSimulationApp.Instance.Time.TotalDays >= TimeModule.MaxTravelDays)
+            {
+                SetForm(typeof(FinalPoints));
                 return;
             }
 

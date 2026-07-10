@@ -109,7 +109,12 @@ namespace OregonTrailDotNet.Entity.Location.Weather
                 // Only trigger weather events if the vehicle is moving and we are on the trail.
                 if ((game.Vehicle.Status == VehicleStatus.Moving) &&
                     (game.Trail.CurrentLocation.Status == LocationStatus.Departed))
-                    game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.Weather);
+                    // At high elevations the overwhelming majority of storms are blizzards, so redirect the weather event to a
+                    // blizzard 90% of the time when the party is up in the high country.
+                    if (game.Trail.CurrentLocation.HighGround && (game.Random.NextDouble() <= 0.90d))
+                        game.EventDirector.TriggerEvent(game.Vehicle, typeof(Blizzard));
+                    else
+                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.Weather);
 
                 // Resets the disaster chance after firing event for it.
                 _disasterChance = 0;

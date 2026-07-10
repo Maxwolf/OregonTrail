@@ -55,27 +55,33 @@ namespace OregonTrailDotNet.Entity
         [Description("Vehicle tongues   @AMT@")] Tongue = 7,
 
         /// <summary>
+        ///     Medical supplies used to treat serious illness and infection. A party member who becomes seriously ill needs a
+        ///     medical kit to be cured; mild ailments can be shrugged off without one. Purchasable from stores like other goods.
+        /// </summary>
+        [Description("Medicine          @AMT@")] Medicine = 8,
+
+        /// <summary>
         ///     Defines the vessel in which the party members, their inventory, monies, hopes and dreams, and everything else
         ///     resides. The purpose of this enum value is so we can treat the entity properly and give it a type.
         /// </summary>
-        Vehicle = 8,
+        Vehicle = 9,
 
         /// <summary>
         ///     Represents a given occupant in the vehicle, this is used mostly to separate the player entities from vehicle and
         ///     ensure the game never confuses them for being items.
         /// </summary>
-        Person = 9,
+        Person = 10,
 
         /// <summary>
         ///     Represents paper currency which can be exchanged for goods at store. The game makes no attempt at money delineation
         ///     outside of quantity of single dollars.
         /// </summary>
-        Cash = 10,
+        Cash = 11,
 
         /// <summary>
         ///     Location on the trail the player can visit with their vehicle and purchase things, or a river crossing, or a toll
         ///     road, etc.
         /// </summary>
-        Location = 11
+        Location = 12
     }
 }

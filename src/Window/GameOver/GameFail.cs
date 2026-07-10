@@ -1,20 +1,32 @@
-﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com)
 // Timestamp 01/03/2016@1:50 AM
 
+using System;
+using System.Collections.Generic;
+using System.Text;
+using OregonTrailDotNet.Entity;
+using OregonTrailDotNet.Entity.Person;
+using WolfCurses.Utility;
 using WolfCurses.Window;
+using WolfCurses.Window.Control;
 using WolfCurses.Window.Form;
+using WolfCurses.Window.Form.Input;
 
 namespace OregonTrailDotNet.Window.GameOver
 {
     /// <summary>
-    ///     Fired when the simulation has determined the player has died. It specifically only attaches at this time. The flow
-    ///     for death like this is to first show the player the failure state like this, then ask if they want to leave an
-    ///     epitaph, process that decision, confirm it, and finally show the viewer that will also show the reason why the
-    ///     player died using description attribute from an enumeration value that determines how they died.
+    ///     Fired when the simulation has determined the entire party has died. It shows the player what happened - the cause of
+    ///     death, how far they traveled, and what supplies remained - before handing off to the graveyard where they can leave
+    ///     an epitaph and the game resets.
     /// </summary>
     [ParentWindow(typeof(GameOver))]
-    public sealed class GameFail : Form<GameOverInfo>
+    public sealed class GameFail : InputForm<GameOverInfo>
     {
+        /// <summary>
+        ///     Holds reference to the death summary text shown to the user.
+        /// </summary>
+        private readonly StringBuilder _failPrompt;
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameFail" /> class.
         ///     This constructor will be used by the other one
@@ -23,38 +35,92 @@ namespace OregonTrailDotNet.Window.GameOver
         // ReSharper disable once UnusedMember.Global
         public GameFail(IWindow window) : base(window)
         {
+            _failPrompt = new StringBuilder();
         }
 
         /// <summary>
-        ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
+        ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
         /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool InputFillsBuffer => false;
-
-        /// <summary>
-        ///     Determines if this dialog state is allowed to receive any input at all, even empty line returns. This is useful for
-        ///     preventing the player from leaving a particular dialog until you are ready or finished processing some data.
-        /// </summary>
-        public override bool AllowInput => false;
-
-        /// <summary>
-        ///     Returns a text only representation of the current game Windows state. Could be a statement, information, question
-        ///     waiting input, etc.
-        /// </summary>
-        /// <returns>
-        ///     The <see cref="string" />.
-        /// </returns>
-        public override string OnRenderForm()
+        /// <returns>The dialog prompt text.</returns>
+        protected override string OnDialogPrompt()
         {
-            // Jump right to tombstone game window, it will reset the game.
+            var game = GameSimulationApp.Instance;
+
+            _failPrompt.Clear();
+            _failPrompt.AppendLine($"{Environment.NewLine}Your party has perished.{Environment.NewLine}");
+
+            // Explain the cause of death when the party leader has a recorded one, otherwise fall back to a generic line.
+            var leader = game.Vehicle.PassengerLeader;
+            if ((leader != null) && (leader.Cause != CauseOfDeath.Unknown))
+                _failPrompt.AppendLine($"{leader.Name} {leader.Cause.ToDescriptionAttribute()}.");
+
+            // Show how far the party managed to travel before they died.
+            _failPrompt.AppendLine($"You traveled {game.Vehicle.Odometer:N0} miles.{Environment.NewLine}");
+
+            // Show whatever supplies remained in the wagon.
+            _failPrompt.AppendLine("Remaining supplies:");
+            _failPrompt.AppendLine(BuildSupplyTable());
+
+            return _failPrompt.ToString();
+        }
+
+        /// <summary>
+        ///     Builds a small table showing the quantity of each purchasable supply the party still had when they died.
+        /// </summary>
+        /// <returns>Formatted supply table.</returns>
+        private static string BuildSupplyTable()
+        {
+            var suppliesList = new List<Tuple<string, string>>();
+            foreach (var item in GameSimulationApp.Instance.Vehicle.Inventory)
+            {
+                var quantity = item.Value.Quantity.ToString("N0");
+                switch (item.Key)
+                {
+                    case Entities.Animal:
+                        suppliesList.Add(new Tuple<string, string>("oxen", quantity));
+                        break;
+                    case Entities.Clothes:
+                        suppliesList.Add(new Tuple<string, string>("sets of clothing", quantity));
+                        break;
+                    case Entities.Ammo:
+                        suppliesList.Add(new Tuple<string, string>("bullets", quantity));
+                        break;
+                    case Entities.Medicine:
+                        suppliesList.Add(new Tuple<string, string>("medical kits", quantity));
+                        break;
+                    case Entities.Wheel:
+                        suppliesList.Add(new Tuple<string, string>("wagon wheels", quantity));
+                        break;
+                    case Entities.Axle:
+                        suppliesList.Add(new Tuple<string, string>("wagon axles", quantity));
+                        break;
+                    case Entities.Tongue:
+                        suppliesList.Add(new Tuple<string, string>("wagon tongues", quantity));
+                        break;
+                    case Entities.Food:
+                        suppliesList.Add(new Tuple<string, string>("pounds of food",
+                            item.Value.TotalWeight.ToString("N0")));
+                        break;
+                    case Entities.Cash:
+                        suppliesList.Add(new Tuple<string, string>("money left", item.Value.TotalValue.ToString("C")));
+                        break;
+                }
+            }
+
+            return suppliesList.ToStringTable(
+                new[] {"Item Name", "Amount"},
+                u => u.Item1,
+                u => u.Item2);
+        }
+
+        /// <summary>
+        ///     Fired when the dialog receives favorable input and determines a response based on this.
+        /// </summary>
+        /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
+        protected override void OnDialogResponse(DialogResponse reponse)
+        {
+            // Move on to the graveyard where the player can leave an epitaph; the graveyard flow resets the game.
             GameSimulationApp.Instance.WindowManager.Add(typeof(Graveyard.Graveyard));
-            return string.Empty;
-        }
-
-        /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>
-        /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
-        public override void OnInputBufferReturned(string input)
-        {
         }
     }
 }

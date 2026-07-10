@@ -110,11 +110,43 @@ namespace OregonTrailDotNet.Module.Director
             if (groupedEventList.Count <= 0)
                 return null;
 
-            // Roll the dice against the event reference ceiling count to see which one we use.
-            var diceRoll = GameSimulationApp.Instance.Random.Next(groupedEventList.Count);
+            // Weight each event by the probability declared on its [DirectorEvent] attribute and lay them out on a cumulative
+            // number line. A single roll then selects the event whose slice the roll lands in, so events with a higher declared
+            // probability occupy a wider slice and fire more often. Successive numbers determine the odds (e.g. 0-6=eventA,
+            // 6-11=eventB, and so on) exactly like the original game's probability table.
+            var weights = new List<int>(groupedEventList.Count);
+            var totalWeight = 0;
+            foreach (var type in groupedEventList)
+            {
+                var weight = type.GetTypeInfo().GetAttributes<DirectorEventAttribute>(true).First().EventProbability;
+                weights.Add(weight);
+                totalWeight += weight;
+            }
+
+            // Fallback to uniform selection if every event in this category declared a zero weight.
+            Type selectedType;
+            if (totalWeight <= 0)
+            {
+                selectedType = groupedEventList[GameSimulationApp.Instance.Random.Next(groupedEventList.Count)];
+            }
+            else
+            {
+                var diceRoll = GameSimulationApp.Instance.Random.Next(1, totalWeight + 1);
+                var cumulative = 0;
+                selectedType = groupedEventList[groupedEventList.Count - 1];
+                for (var i = 0; i < groupedEventList.Count; i++)
+                {
+                    cumulative += weights[i];
+                    if (diceRoll > cumulative)
+                        continue;
+
+                    selectedType = groupedEventList[i];
+                    break;
+                }
+            }
 
             // Create the event we decided to execute from these types of event types.
-            var randomEvent = CreateInstance(groupedEventList[diceRoll]);
+            var randomEvent = CreateInstance(selectedType);
 
             // Clear the temporary list we made to get by category and return create event instance.
             groupedEventList.Clear();

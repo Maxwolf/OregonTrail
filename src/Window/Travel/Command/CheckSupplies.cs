@@ -66,6 +66,9 @@ namespace OregonTrailDotNet.Window.Travel.Command
                     case Entities.Ammo:
                         suppliesList.Add(new Tuple<string, string>("bullets", itemFormattedQuantity));
                         break;
+                    case Entities.Medicine:
+                        suppliesList.Add(new Tuple<string, string>("medical kits", itemFormattedQuantity));
+                        break;
                     case Entities.Wheel:
                         suppliesList.Add(new Tuple<string, string>("wagon wheels", itemFormattedQuantity));
                         break;

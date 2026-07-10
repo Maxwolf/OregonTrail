@@ -46,10 +46,10 @@ namespace OregonTrailDotNet.Tests.Entity
             var vehicle = new VehicleEntity();
             vehicle.ResetVehicle(100);
 
-            // 50 pounds of food at $0.20 per pound is a $10 transaction.
+            // 50 pounds of food at $0.10 per pound (the starting price, before any forts are departed) is a $5 transaction.
             vehicle.Purchase(new SimItem(Resources.Food, 50));
 
-            Assert.Equal(90f, vehicle.Balance);
+            Assert.Equal(95f, vehicle.Balance);
             Assert.Equal(50, vehicle.Inventory[Entities.Food].Quantity);
         }
 

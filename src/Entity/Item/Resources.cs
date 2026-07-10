@@ -12,18 +12,28 @@ namespace OregonTrailDotNet.Entity.Item
         ///     Worn by the vehicle party members to keep them warm when it is cold outside from climate simulation, without them
         ///     the players risk Person and death.
         /// </summary>
-        public static SimItem Clothing => new SimItem(Entities.Clothes, "Clothing", "sets", "set", 50, 10, 1, 1, 0, 2);
+        public static SimItem Clothing => new SimItem(Entities.Clothes, "Clothing", "sets", "set", 50,
+            StorePrice.Scaled(10f, 2.5f), 1, 1, 0, 2);
 
         /// <summary>
         ///     Ammunition used in hunting game Windows so the players can acquire food by hunting animals.
         /// </summary>
-        public static SimItem Bullets => new SimItem(Entities.Ammo, "Ammunition", "boxes", "box", 99, 2, 0, 20, 0, 1, 50);
+        public static SimItem Bullets => new SimItem(Entities.Ammo, "Ammunition", "boxes", "box", 99,
+            StorePrice.Scaled(2f, 2.5f), 0, 20, 0, 1, 50);
 
         /// <summary>
         ///     Serves as a generic reference item that represents a given amount of food. This could be from any animal or known
         ///     game resource marked as such.
         /// </summary>
-        public static SimItem Food => new SimItem(Entities.Food, "Food", "pounds", "pound", 2000, 0.20f, 1, 1, 0, 1, 25);
+        public static SimItem Food => new SimItem(Entities.Food, "Food", "pounds", "pound", 2000,
+            StorePrice.Scaled(0.10f, 0.10f), 1, 1, 0, 1, 25);
+
+        /// <summary>
+        ///     Medical supplies used to cure serious illness and infection among the party members. Sold in kits like other store
+        ///     goods; without one on hand a seriously ill traveler cannot be treated and may worsen.
+        /// </summary>
+        public static SimItem Medicine => new SimItem(Entities.Medicine, "Medicine", "kits", "kit", 99,
+            StorePrice.Scaled(15f, 2.5f), 1, 1, 0, 1);
 
         /// <summary>
         ///     Represents a vehicle entity, this is not used as actual vehicle the people travel in but rather a reference to a

@@ -43,6 +43,8 @@ namespace OregonTrailDotNet.Window.GameOver
             _gameOver.AppendLine("made it to Oregon! Let's see ");
             _gameOver.AppendLine("how many points you have ");
             _gameOver.AppendLine($"received.{Environment.NewLine}");
+            _gameOver.AppendLine($"Your journey took {GameSimulationApp.Instance.Time.TotalDays:N0} days.");
+            _gameOver.AppendLine($"You traveled {GameSimulationApp.Instance.Vehicle.Odometer:N0} miles.{Environment.NewLine}");
             return _gameOver.ToString();
         }
 

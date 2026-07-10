@@ -4,6 +4,7 @@
 using System;
 using System.Text;
 using OregonTrailDotNet.Entity.Location;
+using OregonTrailDotNet.Entity.Location.Point;
 using OregonTrailDotNet.Entity.Vehicle;
 using OregonTrailDotNet.Window.Travel.Dialog;
 using WolfCurses.Window;
@@ -73,7 +74,22 @@ namespace OregonTrailDotNet.Window.Travel.Command
             // Vehicle has departed the current location for the next one but you can only depart once.
             if ((game.Trail.DistanceToNextLocation > 0) &&
                 (game.Trail.CurrentLocation.Status == LocationStatus.Arrived))
-                game.Trail.CurrentLocation.Status = LocationStatus.Departed;
+            {
+                var departingLocation = game.Trail.CurrentLocation;
+
+                // Leaving a fort costs the party most of a day getting resupplied and back on the trail, so the next travel
+                // turn covers dramatically fewer miles.
+                if (departingLocation is Settlement)
+                    game.Vehicle.FortDeparturePenalty = true;
+
+                departingLocation.Status = LocationStatus.Departed;
+
+                // High mountain passes have a chance to leave the party stuck for several days as they head out.
+                if ((departingLocation.StuckChance > 0) &&
+                    (game.Random.Next(100) < departingLocation.StuckChance))
+                    game.EventDirector.TriggerEvent(game.Vehicle,
+                        typeof(OregonTrailDotNet.Event.Vehicle.StuckInMountains));
+            }
         }
 
         /// <summary>

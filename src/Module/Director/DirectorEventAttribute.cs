@@ -19,12 +19,19 @@ namespace OregonTrailDotNet.Module.Director
         /// </summary>
         /// <param name="eventCategory">The event Category.</param>
         /// <param name="eventExecutionType">The event Execution Type.</param>
+        /// <param name="eventProbability">
+        ///     Relative weight used when the director picks a random event from a category. Higher numbers make the event more
+        ///     likely; the default of 100 keeps every event equally likely (preserving the original uniform behavior). Negative
+        ///     values are clamped to zero so a mis-tagged event simply never rolls.
+        /// </param>
         public DirectorEventAttribute(
             EventCategory eventCategory,
-            EventExecution eventExecutionType = EventExecution.RandomOrManual)
+            EventExecution eventExecutionType = EventExecution.RandomOrManual,
+            int eventProbability = 100)
         {
             EventCategory = eventCategory;
             EventExecutionType = eventExecutionType;
+            EventProbability = eventProbability < 0 ? 0 : eventProbability;
         }
 
         /// <summary>
@@ -38,5 +45,12 @@ namespace OregonTrailDotNet.Module.Director
         ///     directly by their type.
         /// </summary>
         public EventExecution EventExecutionType { get; }
+
+        /// <summary>
+        ///     Relative weight used by the event factory when picking a random event from a category. Successive events are laid
+        ///     out on a cumulative number line and a single roll selects one, so a larger value means the event occupies a wider
+        ///     slice and fires more often. Defaults to 100 (all events equally weighted).
+        /// </summary>
+        public int EventProbability { get; }
     }
 }

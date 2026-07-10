@@ -3,8 +3,10 @@
 
 using System;
 using System.Text;
+using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Module.Director;
 using OregonTrailDotNet.Window.RandomEvent;
+using WolfCurses.Utility;
 
 namespace OregonTrailDotNet.Event.Person
 {
@@ -53,6 +55,10 @@ namespace OregonTrailDotNet.Event.Person
                 throw new ArgumentException("Cannot kill this person because it is the player!");
 
             _passengerDeath.AppendLine($"{sourcePerson.Name} has died.");
+
+            // Explain the cause of death when one was recorded.
+            if (sourcePerson.Cause != CauseOfDeath.Unknown)
+                _passengerDeath.AppendLine($"{sourcePerson.Name} {sourcePerson.Cause.ToDescriptionAttribute()}.");
         }
 
         /// <summary>

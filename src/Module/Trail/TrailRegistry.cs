@@ -34,7 +34,7 @@ namespace OregonTrailDotNet.Module.Trail
                     {
                         new Settlement("Fort Bridger", Climate.Dry),
                         new Landmark("Green River Shortcut", Climate.Dry)
-                    }),
+                    }) { HighGround = true, StuckChance = 80 },
                     new RiverCrossing("Green River Crossing", Climate.Dry),
                     new Landmark("Soda Springs", Climate.Dry),
                     new Settlement("Fort Hall", Climate.Moderate),
@@ -48,7 +48,7 @@ namespace OregonTrailDotNet.Module.Trail
                             new RiverCrossing("Columbia River", Climate.Moderate),
                             new TollRoad("Barlow Toll Road", Climate.Moderate)
                         })
-                    }),
+                    }) { HighGround = true, StuckChance = 70 },
                     new Settlement("Oregon City", Climate.Moderate)
                 };
 

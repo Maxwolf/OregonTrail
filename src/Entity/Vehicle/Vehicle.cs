@@ -113,6 +113,19 @@ namespace OregonTrailDotNet.Entity.Vehicle
         public int Mileage { get; private set; }
 
         /// <summary>
+        ///     Running tally of how many animals the party has killed while hunting over the entire journey. Used by river
+        ///     crossings to determine how good a deal the Shoshoni guide offers - the fewer animals killed, the cheaper he is.
+        /// </summary>
+        public int AnimalsKilled { get; private set; }
+
+        /// <summary>
+        ///     When true, the next travel turn's mileage is dramatically reduced to represent the time lost outfitting and
+        ///     resupplying at a fort before getting back up to speed. Set on departing a settlement and consumed on the next
+        ///     moving tick.
+        /// </summary>
+        public bool FortDeparturePenalty { get; internal set; }
+
+        /// <summary>
         ///     Defines what the trail module is currently processing if anything in regards to movement of vehicle and player
         ///     entities down the trail.
         /// </summary>
@@ -211,6 +224,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
                     {Entities.Axle, Parts.Axle},
                     {Entities.Tongue, Parts.Tongue},
                     {Entities.Food, Resources.Food},
+                    {Entities.Medicine, Resources.Medicine},
                     {Entities.Cash, Resources.Cash}
                 };
 
@@ -462,8 +476,26 @@ namespace OregonTrailDotNet.Entity.Vehicle
             if (GameSimulationApp.Instance.Random.NextBool() && (Mileage > 0))
                 Mileage = Mileage/2;
 
+            // Stopping at a fort to resupply costs the party most of the day getting back on the trail, so the first turn
+            // after departing a settlement covers dramatically fewer miles.
+            if (FortDeparturePenalty)
+            {
+                Mileage = Mileage/4;
+                FortDeparturePenalty = false;
+            }
+
             // Check for random events that might trigger regardless of calculations made.
             GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Vehicle);
+
+            // Higher elevations make for slow going and risk a cave-in blocking the trail.
+            var currentLocation = GameSimulationApp.Instance.Trail.CurrentLocation;
+            if ((currentLocation != null) && currentLocation.HighGround)
+            {
+                ReduceMileage(Mileage/3);
+                if (GameSimulationApp.Instance.Random.NextDouble() <= 0.05d)
+                    GameSimulationApp.Instance.EventDirector.TriggerEvent(this,
+                        typeof(OregonTrailDotNet.Event.Vehicle.CaveIn));
+            }
 
             // Check to make sure mileage is never below or at zero.
             if (Mileage <= 0)
@@ -590,8 +622,21 @@ namespace OregonTrailDotNet.Entity.Vehicle
             // Number of miles the vehicle has traveled.
             Odometer = 0;
 
+            // Lifetime hunting tally and fort-departure penalty start fresh each game.
+            AnimalsKilled = 0;
+            FortDeparturePenalty = false;
+
             // Vehicle is not moving and currently stopped.
             Status = VehicleStatus.Stopped;
+        }
+
+        /// <summary>
+        ///     Records that the party killed one more animal while hunting. Used to scale how much clothing the Shoshoni river
+        ///     guide demands - the fewer animals killed, the better the deal.
+        /// </summary>
+        internal void IncrementAnimalKillCount()
+        {
+            AnimalsKilled++;
         }
 
         /// <summary>
@@ -624,6 +669,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
                     case Entities.Food:
                     case Entities.Clothes:
                     case Entities.Ammo:
+                    case Entities.Medicine:
                     case Entities.Wheel:
                     case Entities.Axle:
                     case Entities.Tongue:

@@ -12,24 +12,28 @@ namespace OregonTrailDotNet.Entity.Item
         ///     Zero weight animal that is attached to the vehicle but not actually 'inside' of it, but is still in the list of
         ///     inventory items that define the vehicle the player and his party is making the journey in.
         /// </summary>
-        public static SimItem Oxen => new SimItem(Entities.Animal, "Oxen", "oxen", "ox", 20, 20, 0, 1, 0, 4);
+        public static SimItem Oxen => new SimItem(Entities.Animal, "Oxen", "oxen", "ox", 20,
+            StorePrice.Scaled(20f, 5f), 0, 1, 0, 4);
 
         /// <summary>
         ///     Required to keep the vehicle moving if this part is broken it must be replaced before the player can
         ///     continue their journey.
         /// </summary>
-        public static SimItem Axle => new SimItem(Entities.Axle, "Vehicle Axle", "axles", "axle", 3, 10, 0, 1, 0, 2);
+        public static SimItem Axle => new SimItem(Entities.Axle, "Vehicle Axle", "axles", "axle", 3,
+            StorePrice.Scaled(10f, 2.5f), 0, 1, 0, 2);
 
         /// <summary>
         ///     Required to keep the vehicle running, if the tongue breaks then the player will have to fix or replace it before
         ///     they can continue on the journey again.
         /// </summary>
-        public static SimItem Tongue => new SimItem(Entities.Tongue, "Vehicle Tongue", "tongues", "tongue", 3, 10, 0, 1, 0, 2);
+        public static SimItem Tongue => new SimItem(Entities.Tongue, "Vehicle Tongue", "tongues", "tongue", 3,
+            StorePrice.Scaled(10f, 2.5f), 0, 1, 0, 2);
 
         /// <summary>
         ///     Required to keep the vehicle moving down the path, if any of the wheel parts break they must be replaced before the
         ///     journey can continue.
         /// </summary>
-        public static SimItem Wheel => new SimItem(Entities.Wheel, "Vehicle Wheel", "wheels", "wheel", 3, 10, 0, 1, 0, 2);
+        public static SimItem Wheel => new SimItem(Entities.Wheel, "Vehicle Wheel", "wheels", "wheel", 3,
+            StorePrice.Scaled(10f, 2.5f), 0, 1, 0, 2);
     }
 }

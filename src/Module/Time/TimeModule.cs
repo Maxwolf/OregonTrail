@@ -52,9 +52,15 @@ namespace OregonTrailDotNet.Module.Time
         private int TotalMonths { get; set; }
 
         /// <summary>
+        ///     Maximum number of days the journey may last before the end-game routine is forced. Represents the ~20+ weeks
+        ///     (246 days) the original game allowed before ending the trip regardless of the party's position on the trail.
+        /// </summary>
+        public const int MaxTravelDays = 246;
+
+        /// <summary>
         ///     Total number of days that have gone by since the start of the simulation.
         /// </summary>
-        private int TotalDays { get; set; }
+        public int TotalDays { get; private set; }
 
         /// <summary>
         ///     Total number of days that have passed in the current year, typically this is three-hundred and sixty-five days

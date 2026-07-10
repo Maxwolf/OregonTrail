@@ -88,6 +88,15 @@ namespace OregonTrailDotNet.Window.Travel.Store
         }
 
         /// <summary>
+        ///     Offers the chance to buy medical supplies used to cure serious illness among the party.
+        /// </summary>
+        private void BuyMedicine()
+        {
+            UserData.Store.SelectedItem = Resources.Medicine;
+            SetForm(typeof(StorePurchase));
+        }
+
+        /// <summary>
         ///     Offers a chance to purchase some spare wheels for the vehicle.
         /// </summary>
         private void BuySpareWheels()
@@ -212,6 +221,9 @@ namespace OregonTrailDotNet.Window.Travel.Store
                     break;
                 case Entities.Ammo:
                     BuyAmmunition();
+                    break;
+                case Entities.Medicine:
+                    BuyMedicine();
                     break;
                 case Entities.Wheel:
                     BuySpareWheels();

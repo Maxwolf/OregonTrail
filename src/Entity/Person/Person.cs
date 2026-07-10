@@ -2,6 +2,7 @@
 // Timestamp 01/03/2016@1:50 AM
 
 using System;
+using OregonTrailDotNet.Entity.Location;
 using OregonTrailDotNet.Entity.Vehicle;
 using OregonTrailDotNet.Event;
 using OregonTrailDotNet.Event.Person;
@@ -149,6 +150,18 @@ namespace OregonTrailDotNet.Entity.Person
         /// </summary>
         public string Name { get; }
 
+        /// <summary>
+        ///     Records how this person died so the death screen can tell the player what happened. Remains
+        ///     <see cref="CauseOfDeath.Unknown" /> until the person is actually killed by the dice-rolling damage path.
+        /// </summary>
+        public CauseOfDeath Cause { get; private set; } = CauseOfDeath.Unknown;
+
+        /// <summary>
+        ///     Exposes the private infection flag to the test project (via InternalsVisibleTo) so recovery behavior can be
+        ///     observed without reaching into private state.
+        /// </summary>
+        internal bool IsInfected => Infected;
+
         /// <summary>The compare.</summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
@@ -244,22 +257,33 @@ namespace OregonTrailDotNet.Entity.Person
                      game.Random.NextBool())
                 CheckIllness();
 
-            // More change for illness if you have no clothes.
-            var costClothes = game.Vehicle.Inventory[Entities.Clothes].TotalValue;
-            if (costClothes > 22 + 4*game.Random.Next())
+            // Insufficient clothing for the party raises the risk of illness. The fewer sets of clothing the party carries
+            // relative to how many living members it has, the more likely someone falls ill in the cold.
+            var clothingCount = game.Vehicle.Inventory[Entities.Clothes].Quantity;
+            var partySize = game.Vehicle.PassengerLivingCount;
+            if (clothingCount < partySize + game.Random.Next(0, 4))
             {
                 CheckIllness();
             }
             else
             {
-                // Random chance for illness in general, even with nice clothes but much lower.
+                // Random chance for illness in general, even with plenty of clothes but much lower.
                 if (game.Random.NextBool() && game.Random.NextBool())
                     CheckIllness();
             }
 
-            // Will only consume food if a whole day goes by, realtime actions won't have this penalty.
+            // The rest only happens when a whole day actually passes; realtime/force ticks don't apply these penalties.
             if (!skipDay)
+            {
+                // Drinking from a bad-water source at the current location can bring on cholera or dysentery.
+                CheckWaterDisease();
+
+                // Consume food based on ration level.
                 ConsumeFood();
+
+                // Running out of ammunition (no way to hunt) or medical supplies (no way to treat the sick) wears the party down.
+                ApplySupplyPenalties(skipDay);
+            }
         }
 
         /// <summary>
@@ -287,7 +311,7 @@ namespace OregonTrailDotNet.Entity.Person
             else
             {
                 // Reduce the players health until they are dead.
-                Damage(10, 50);
+                Damage(10, 50, CauseOfDeath.Starvation);
             }
         }
 
@@ -356,60 +380,92 @@ namespace OregonTrailDotNet.Entity.Person
             if (game.Random.NextBool())
                 return;
 
+            // Poor eating makes illness both more likely and more severe. There are three tiers: a mild ailment, a worse
+            // "bad" illness, and a very serious illness. Only the very serious tier leaves the person infected and thus in
+            // need of medical services to recover; the two milder tiers can be shrugged off on their own.
             if (game.Random.Next(100) <= 10 +
                 35*((int) game.Vehicle.Ration - 1))
             {
                 // Mild illness.
                 game.Vehicle.ReduceMileage(5);
-                Damage(10, 50);
+                Damage(10, 50, CauseOfDeath.Illness);
+            }
+            else if (game.Random.Next(100) <= 5 +
+                     20*((int) game.Vehicle.Ration - 1))
+            {
+                // Bad (moderate) illness.
+                game.Vehicle.ReduceMileage(10);
+                Damage(10, 50, CauseOfDeath.Illness);
             }
             else if (game.Random.Next(100) <= 5 -
                      40/game.Vehicle.Passengers.Count*
                      ((int) game.Vehicle.Ration - 1))
             {
-                // Severe illness.
+                // Very serious illness that will require medical supplies to recover from.
                 game.Vehicle.ReduceMileage(15);
-                Damage(10, 50);
+                Infect();
+                Damage(10, 50, CauseOfDeath.Illness);
             }
+
+            // While the party is resting the sick can actually recover; while traveling, existing infections and injuries
+            // only make things worse. Determine which case we are in once.
+            var resting = game.Vehicle.Status == VehicleStatus.Stopped;
 
             // Determines if we should roll for infections based on previous complications.
             switch (HealthStatus)
             {
                 case HealthStatus.Good:
-                    if ((Infected || Injured) && (game.Vehicle.Status != VehicleStatus.Stopped))
+                    if (Infected || Injured)
                     {
-                        game.Vehicle.ReduceMileage(5);
-                        Damage(10, 50);
+                        if (resting)
+                            TreatWhileResting();
+                        else
+                        {
+                            game.Vehicle.ReduceMileage(5);
+                            Damage(10, 50, CauseOfDeath.Illness);
+                        }
                     }
 
                     break;
                 case HealthStatus.Fair:
-                    if ((Infected || Injured) && (game.Vehicle.Status != VehicleStatus.Stopped))
-                        if (game.Random.NextBool())
+                    if (Infected || Injured)
+                    {
+                        if (resting)
+                            TreatWhileResting();
+                        else if (game.Random.NextBool())
                         {
                             // Hurt the player and reduce total possible mileage this turn.
                             game.Vehicle.ReduceMileage(5);
-                            Damage(10, 50);
+                            Damage(10, 50, CauseOfDeath.Illness);
                         }
-                        else if ((!Infected || !Injured) && (game.Vehicle.Status == VehicleStatus.Stopped))
-                        {
-                            // Heal the player if their health is below good with no infections or injures.
-                            Heal();
-                        }
+                    }
 
                     break;
                 case HealthStatus.Poor:
-                    if ((Infected || Injured) && (game.Vehicle.Status != VehicleStatus.Stopped))
+                    if (Infected || Injured)
                     {
-                        game.Vehicle.ReduceMileage(10);
-                        Damage(5, 10);
+                        if (resting)
+                            TreatWhileResting();
+                        else
+                        {
+                            game.Vehicle.ReduceMileage(10);
+                            Damage(5, 10, CauseOfDeath.Illness);
+                        }
                     }
 
                     break;
                 case HealthStatus.VeryPoor:
                     _nearDeathExperience = true;
-                    game.Vehicle.ReduceMileage(15);
-                    Damage(1, 5);
+                    if (resting)
+                    {
+                        TreatWhileResting();
+                    }
+                    else
+                    {
+                        game.Vehicle.ReduceMileage(15);
+                        Damage(1, 5, CauseOfDeath.Illness);
+                    }
+
                     break;
                 case HealthStatus.Dead:
                     _dead = true;
@@ -420,12 +476,87 @@ namespace OregonTrailDotNet.Entity.Person
         }
 
         /// <summary>
+        ///     Attempts to treat a sick or injured party member while the vehicle is stopped to rest. If the party has medical
+        ///     supplies on hand a kit is used up to quickly cure the infection or injury; otherwise the person can only rely on
+        ///     slower natural recovery.
+        /// </summary>
+        private void TreatWhileResting()
+        {
+            var game = GameSimulationApp.Instance;
+
+            if ((Infected || Injured) &&
+                game.Vehicle.Inventory.ContainsKey(Entities.Medicine) &&
+                (game.Vehicle.Inventory[Entities.Medicine].Quantity > 0))
+            {
+                // Medical supplies cure the ailment quickly.
+                game.Vehicle.Inventory[Entities.Medicine].ReduceQuantity(1);
+                Infected = false;
+                Injured = false;
+                Status += game.Random.Next(15, 40);
+            }
+            else
+            {
+                // No medicine on hand, fall back to slow natural recovery.
+                Heal();
+            }
+        }
+
+        /// <summary>
+        ///     Rolls for a waterborne disease (cholera or dysentery) based on the quality of the water at the party's current
+        ///     location. Locations flagged with bad water double the daily chance of contracting one of these diseases.
+        /// </summary>
+        private void CheckWaterDisease()
+        {
+            var game = GameSimulationApp.Instance;
+
+            // Cannot get sick if already dead.
+            if ((HealthStatus == HealthStatus.Dead) || _dead)
+                return;
+
+            var location = game.Trail.CurrentLocation;
+            if (location == null)
+                return;
+
+            // Base daily chance of a waterborne illness; a bad-water source doubles it.
+            var threshold = location.Warning == LocationWarning.BadWater ? 2 : 1;
+            if (game.Random.Next(100) < threshold)
+                game.EventDirector.TriggerEvent(this,
+                    game.Random.NextBool() ? typeof(Cholera) : typeof(Dysentery));
+        }
+
+        /// <summary>
+        ///     Applies gradual health penalties when the party has run out of critical supplies: with neither food nor
+        ///     ammunition there is no way to hunt and starvation sets in faster, and a sick traveler with no medical supplies
+        ///     slowly worsens.
+        /// </summary>
+        /// <param name="skipDay">Whether the simulation force-ticked without advancing a real day.</param>
+        private void ApplySupplyPenalties(bool skipDay)
+        {
+            // Only apply once per real day and never to the dead.
+            if (skipDay || (HealthStatus == HealthStatus.Dead) || _dead)
+                return;
+
+            var inventory = GameSimulationApp.Instance.Vehicle.Inventory;
+
+            // Out of food AND out of ammunition means no way to hunt for more, so starvation accelerates.
+            if ((inventory[Entities.Food].Quantity <= 0) && (inventory[Entities.Ammo].Quantity <= 0))
+                Damage(5, 15, CauseOfDeath.Starvation);
+
+            // A sick or injured traveler with no medical supplies on hand slowly worsens.
+            if ((Infected || Injured) &&
+                inventory.ContainsKey(Entities.Medicine) &&
+                (inventory[Entities.Medicine].Quantity <= 0))
+                Damage(1, 5, CauseOfDeath.Illness);
+        }
+
+        /// <summary>
         ///     Reduces the persons health by a random amount from minimum health value to highest. If this reduces the players
         ///     health below zero the person will be considered dead.
         /// </summary>
         /// <param name="minAmount">Minimum amount of damage that should be randomly generated.</param>
         /// <param name="maxAmount">Maximum amount of damage that should be randomly generated.</param>
-        private void Damage(int minAmount, int maxAmount)
+        /// <param name="cause">What is inflicting this damage, recorded as the cause of death if it proves fatal.</param>
+        private void Damage(int minAmount, int maxAmount, CauseOfDeath cause)
         {
             // Skip what is already dead, no damage to be applied.
             if (HealthStatus == HealthStatus.Dead)
@@ -444,6 +575,9 @@ namespace OregonTrailDotNet.Entity.Person
             // Check if health dropped to dead levels.
             if (HealthStatus != HealthStatus.Dead)
                 return;
+
+            // Record what killed them so the death screen can explain what happened.
+            Cause = cause;
 
             // Reduce person's health to dead level.
             Status = (int) HealthStatus.Dead;

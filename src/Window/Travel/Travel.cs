@@ -6,6 +6,7 @@ using System.Text;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Location;
 using OregonTrailDotNet.Entity.Location.Point;
+using OregonTrailDotNet.Module.Time;
 using OregonTrailDotNet.Window.Travel.Command;
 using OregonTrailDotNet.Window.Travel.Dialog;
 using OregonTrailDotNet.Window.Travel.Hunt.Help;
@@ -235,8 +236,10 @@ namespace OregonTrailDotNet.Window.Travel
             if (GameOver)
                 return;
 
-            // Check if passengers in the vehicle are dead, or player reached end of the trail.
-            if (game.Trail.CurrentLocation.LastLocation || game.Vehicle.PassengersDead)
+            // Check if passengers in the vehicle are dead, the player reached the end of the trail, or the journey has dragged
+            // on past the maximum number of days (20+ weeks) at which point the trip ends no matter where the party is.
+            if (game.Trail.CurrentLocation.LastLocation || game.Vehicle.PassengersDead ||
+                (game.Time.TotalDays >= TimeModule.MaxTravelDays))
             {
                 GameOver = true;
                 game.WindowManager.Add(typeof(GameOver.GameOver));
