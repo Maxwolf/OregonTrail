@@ -46,6 +46,20 @@ namespace OregonTrailDotNet.Tests.Module
         }
 
         [Fact]
+        public void TickTime_CountsTheMonthRolloverDay_TotalDaysEqualsNumberOfTicks()
+        {
+            // Crossing a month boundary is still a full day elapsing. Ticking one whole month must advance TotalDays
+            // by exactly that many days; the rollover tick used to skip TotalDays++, undercounting by one per month.
+            var before = Game.Time.TotalDays;
+
+            for (var day = 0; day < Date.NumberOfDaysInMonth; day++)
+                Game.Time.TickTime(false);
+
+            Assert.Equal(Month.April, Game.Time.CurrentMonth);
+            Assert.Equal(before + Date.NumberOfDaysInMonth, Game.Time.TotalDays);
+        }
+
+        [Fact]
         public void TickTime_RollsOverYearAfterDecember()
         {
             Game.Time.SetMonth(Month.December);

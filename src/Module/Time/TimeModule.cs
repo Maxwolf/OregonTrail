@@ -114,6 +114,11 @@ namespace OregonTrailDotNet.Module.Time
             }
             else
             {
+                // Advancing from the last day of the month to the first of the next is still one full day elapsing, so
+                // it must be counted here too - omitting it made TotalDays undercount by one for every month boundary.
+                TotalDaysThisYear++;
+                TotalDays++;
+
                 // Allow processing and checking of end of month/year calculations.
                 CurrentDay = 1;
                 shouldCheckMonthEnd = true;

@@ -90,6 +90,26 @@ namespace OregonTrailDotNet.Tests.Module
         }
 
         [Fact]
+        public void ArriveAtNextLocation_AtFinalLocation_IsNoOpInsteadOfThrowing()
+        {
+            // Get past the first-turn setup so the end-of-trail advance guard is active.
+            Game.Trail.ArriveAtNextLocation();
+            Game.TakeTurn(false);
+
+            // Jump straight to the final location on the trail.
+            var lastIndex = Game.Trail.Locations.Count - 1;
+            typeof(TrailModule).GetProperty(nameof(TrailModule.LocationIndex)).SetValue(Game.Trail, lastIndex);
+            Assert.True(Game.Trail.CurrentLocation.LastLocation);
+
+            // Arriving again while already parked at the last location must be a harmless no-op. The old
+            // '> Locations.Count' guard could never fire, so the index ran to Locations.Count and threw.
+            var ex = Record.Exception(() => Game.Trail.ArriveAtNextLocation());
+
+            Assert.Null(ex);
+            Assert.Equal(lastIndex, Game.Trail.LocationIndex);
+        }
+
+        [Fact]
         public void InsertLocation_AddsLocationAfterCurrentOne()
         {
             var detour = new Landmark("Test Detour", Climate.Moderate);
