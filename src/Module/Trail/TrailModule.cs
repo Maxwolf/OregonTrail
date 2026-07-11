@@ -150,8 +150,10 @@ namespace OregonTrailDotNet.Module.Trail
         /// </summary>
         public void ArriveAtNextLocation()
         {
-            // Check if we need to keep going or if we have reached the end of the trail.
-            if (LocationIndex > Locations.Count)
+            // If we have already reached the final location there is no next location to advance to; stop before the
+            // location index would run past the end of the trail. The old '> Locations.Count' guard could never fire
+            // (the index only ever reaches Count - 1), so a further advance dereferenced Locations[Count] and threw.
+            if ((GameSimulationApp.Instance.TotalTurns > 0) && (LocationIndex + 1 >= Locations.Count))
                 return;
 
             // Setup next travel distance requirement.
