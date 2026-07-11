@@ -57,7 +57,7 @@ namespace OregonTrailDotNet.Tests
         {
             Game.SetStartInfo(new NewGameInfo
             {
-                PlayerNames = new List<string> {"Alice", "Bob", "Carol", "Dave"},
+                PlayerNames = new List<string> {"Alice", "Bob", "Carol", "Dave", "Eve"},
                 PlayerProfession = Profession.Farmer,
                 StartingMonies = 1000,
                 StartingMonth = Month.April

@@ -31,7 +31,10 @@ namespace OregonTrailDotNet
         ///     names are asked for in new game Windows.
         /// </summary>
         // ReSharper disable once InconsistentNaming
-        public const int MAXPLAYERS = 4;
+        // Five colonists (leader + four companions), matching the original MECC game. This is the score ceiling: five
+        // members in Good health (500 each) plus the wagon (50), multiplied by the Farmer's x3, is exactly Stephen Meek's
+        // 7650 — the seeded record. A party of four cannot reach it.
+        public const int MAXPLAYERS = 5;
 
         /// <summary>
         ///     Keeps track of all the points of interest we want to visit from beginning to end that makeup the entire journey.

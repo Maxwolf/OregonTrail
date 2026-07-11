@@ -35,9 +35,10 @@ namespace OregonTrailDotNet.Bot.Game
             // People still alive, weighted by average health enum value (Good=500 .. VeryPoor=200).
             total += vehicle.PassengerLivingCount * (int) vehicle.PassengerHealthStatus;
 
-            // Wagon. Kept verbatim: the shipped game reads Resources.Vehicle.Points off a template item whose quantity is 0,
-            // so this contributes 0 in practice. Calling the same property guarantees the bot matches the game exactly.
-            total += Resources.Vehicle.Points;
+            // Wagon. The party always travels in exactly one wagon, so award its per-unit points (50). Mirrors the matching
+            // line in FinalPoints so the bot's fitness signal still equals the score the game records. (Previously this read
+            // Resources.Vehicle.Points off a quantity-0 template, which scored 0 — the reason the seeded 7650 was unreachable.)
+            total += Resources.Vehicle.PointsAwarded;
 
             // Oxen.
             total += inv[Entities.Animal].Points;

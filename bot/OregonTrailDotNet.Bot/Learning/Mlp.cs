@@ -7,12 +7,12 @@ namespace OregonTrailDotNet.Bot.Learning
     /// </summary>
     public sealed class Mlp
     {
-        public const int Inputs = 11;
+        public const int Inputs = 13; // must match NeuralPolicy.Features length: 11 raw state signals + 2 derived survival signals
         public const int Hidden = 8;
         public const int Outputs = 6;
 
         /// <summary>Total weights: each hidden neuron has a bias + one weight per input; each output a bias + one per hidden.</summary>
-        public const int WeightCount = Hidden * (Inputs + 1) + Outputs * (Hidden + 1); // 96 + 54 = 150
+        public const int WeightCount = Hidden * (Inputs + 1) + Outputs * (Hidden + 1); // 8*14 + 6*9 = 112 + 54 = 166
 
         private readonly double[] _weights;
         private readonly int _offset;

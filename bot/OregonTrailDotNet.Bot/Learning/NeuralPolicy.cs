@@ -102,20 +102,28 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public int Fork(GameSnapshot state, int branchCount) => 1;
 
-        private static double[] Features(GameSnapshot s) => new[]
+        private static double[] Features(GameSnapshot s)
         {
-            Norm(s.Food, 2000),
-            Norm(s.Ammo, 99),
-            Norm(s.Cash, 1600),
-            Norm(s.Oxen, 20),
-            Norm(s.Clothing, 50),
-            Norm(s.Medicine, 99),
-            Norm((int) s.LowestHealth, 500), // the weakest member's health — the one at risk of dying next
-            Norm(s.DaysElapsed, 246),
-            Norm(s.DaysRemaining, 246),
-            Norm(s.Miles, 2000),
-            Norm(s.LivingCount, 4)
-        };
+            var living = Math.Max(1, s.LivingCount);
+            return new[]
+            {
+                Norm(s.Food, 2000),
+                Norm(s.Ammo, 99),
+                Norm(s.Cash, 1600),
+                Norm(s.Oxen, 20),
+                Norm(s.Clothing, 50),
+                Norm(s.Medicine, 99),
+                Norm((int) s.LowestHealth, 500), // the weakest member's health — the one at risk of dying next
+                Norm(s.DaysElapsed, 246),
+                Norm(s.DaysRemaining, 246),
+                Norm(s.Miles, 2000),
+                Norm(s.LivingCount, 5),          // party of five (leader + four companions)
+                // Clothing safety vs this port's hail-freeze / illness guard: 1.0 once clothing >= 2 x living members, else scales to 0.
+                Norm(s.Clothing, 2.0 * living),
+                // Food runway in days at the five-person Filling burn (ration x living^2 => living^2 lb/day), scaled to ~60 days.
+                Norm(s.Food / (double) (living * living), 60)
+            };
+        }
 
         private static double Norm(double value, double scale) => Math.Clamp(value / scale, 0.0, 1.0);
     }

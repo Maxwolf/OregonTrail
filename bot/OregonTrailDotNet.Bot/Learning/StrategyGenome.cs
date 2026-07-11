@@ -39,8 +39,12 @@ namespace OregonTrailDotNet.Bot.Learning
         public int Profession => ArgMax(ProfessionOffset, 3) + 1;
         public int StartMonth => ArgMax(MonthOffset, 5) + 1;
 
-        public int OxenTarget => ClampRound(Raw[OxenIdx], 3, 20);
-        public int FoodTarget => ClampRound(Raw[FoodIdx], 0, 2000);
+        // Oxen floor is 6, not 3: daily mileage is (oxenValue - 110)/2.5 + noise, so below ~5.5 oxen the team term goes
+        // negative and the wagon can't outrun the 246-day cap - samples in [3,5] are near-guaranteed dead evaluations.
+        public int OxenTarget => ClampRound(Raw[OxenIdx], 6, 20);
+        // Food floor is 300, not 0: a five-person party burns ~25 lb/day (ration x livingCount^2 at Filling), so a
+        // near-empty larder starves out of the gate before hunting can ever backfill it.
+        public int FoodTarget => ClampRound(Raw[FoodIdx], 300, 2000);
         public int ClothesTarget => ClampRound(Raw[ClothesIdx], 0, 50);
         public int MedicineTarget => ClampRound(Raw[MedicineIdx], 0, 99);
         public int AmmoTarget => ClampRound(Raw[AmmoIdx], 0, 99);
@@ -82,28 +86,46 @@ namespace OregonTrailDotNet.Bot.Learning
         public static StrategyGenome FromJson(string json) =>
             new() { Raw = JsonSerializer.Deserialize<double[]>(json) ?? DefaultMean() };
 
-        /// <summary>A sensible starting point: neutral categorical preferences (explore all professions/months) and
-        ///     well-provisioned, safety-first tactical defaults similar to the hand-tuned heuristic.</summary>
+        /// <summary>The expert warm-start prior distilled from the strategy knowledge base (docs/STRATEGY.md), reconciled
+        ///     against this port's real mechanics. It seeds the Farmer (x3) + May basin rather than starting uniform, because
+        ///     the score analysis is conclusive: the only route to Stephen Meek's 7650 is a full five-person party arriving in
+        ///     Good health as a Farmer ((5 x 500 + 50 wagon) x 3). Carpenter stays live as the robust fallback through the
+        ///     preference spread and the 1.0 exploration std, so the optimizer still discovers whichever actually survives.</summary>
         public static double[] DefaultMean()
         {
             var m = new double[Length];
-            // profession/month preferences all 0 -> uniform to start (indices 0..7 already 0)
-            m[OxenIdx] = 10;
-            m[FoodIdx] = 1200;
-            m[ClothesIdx] = 12;
-            m[MedicineIdx] = 5;
-            m[AmmoIdx] = 20;
-            m[WheelIdx] = 2;
+
+            // Profession preference (argmax over indices 0..2). Bias hard toward Farmer: reaching it from a uniform start is
+            // a deceptive jump (you must flip the profession AND trim the loadout to $400 at once, or the sample starves and
+            // is culled), so seed directly inside that basin. Banker (x1) is score-dominated and never seeded toward.
+            m[ProfessionOffset + 0] = 0.0; // Banker   (x1)
+            m[ProfessionOffset + 1] = 0.5; // Carpenter (x2) - the reliable fallback the search retreats to
+            m[ProfessionOffset + 2] = 1.5; // Farmer   (x3) - the score ceiling; start the argmax here
+
+            // Start-month preference (argmax over indices 0..4 -> March..July). May balances a warm-enough departure against
+            // reaching the high passes before winter; March is cold (more hail/illness weather), July risks winter mountains.
+            m[MonthOffset + 0] = 0.0; // March
+            m[MonthOffset + 1] = 0.3; // April
+            m[MonthOffset + 2] = 1.0; // May   (argmax -> StartMonth 3)
+            m[MonthOffset + 3] = 0.3; // June
+            m[MonthOffset + 4] = 0.0; // July
+
+            m[OxenIdx] = 9;       // above the 5.5-ox mileage break-even with slack; oxen finish the trail AND score 4 pts each
+            m[FoodIdx] = 1400;    // ~56 days at the five-person Filling burn (~25 lb/day); hunting backfills any overrun
+            m[ClothesIdx] = 11;   // >= the 2xliving hail-freeze guard (10 for a full party) plus slack for the Shoshoni guide
+            m[MedicineIdx] = 5;   // the best per-dollar survival item (heals + clears infection on rest); unscored, so don't hoard
+            m[AmmoIdx] = 12;      // hunting is the food backstop once the 2000 lb cap bites; a modest stock is enough
+            m[WheelIdx] = 1;      // spare parts are re-buyable at every fort, so one of each up front suffices
             m[AxleIdx] = 1;
             m[TongueIdx] = 1;
-            m[RestHealthIdx] = 300;
+            m[RestHealthIdx] = 300;  // rest the weakest member at <= Poor: every one of the five x3 heads is worth protecting
             m[RestDaysIdx] = 3;
             m[HuntFoodIdx] = 50;
-            m[RiverFerryIdx] = 1.0;
-            m[RiverIndianIdx] = 0.8;
-            m[RiverCaulkIdx] = 0.3;
+            m[RiverFerryIdx] = 1.0;  // paid/guided crossings have no drowning path at any depth
+            m[RiverIndianIdx] = 0.9; // safe AND no time delay (unlike the ferry's 1-9 lost days)
+            m[RiverCaulkIdx] = 0.3;  // float/caulk beats ford on the free rivers (safe to depth 5 vs 3)
             m[RiverFordIdx] = 0.2;
-            m[ForkSecondIdx] = 0;
+            m[ForkSecondIdx] = 0;    // branch 1 routes through forts (resupply) and sidesteps the Columbia crossing
             return m;
         }
 

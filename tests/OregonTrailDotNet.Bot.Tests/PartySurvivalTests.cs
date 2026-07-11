@@ -23,8 +23,8 @@ namespace OregonTrailDotNet.Bot.Tests
             Medicine = 5,
             Food = 500,
             DaysRemaining = 120,
-            LivingCount = 4,
-            PartySize = 4
+            LivingCount = 5,
+            PartySize = 5
         };
 
         [Fact]

@@ -93,7 +93,7 @@ namespace OregonTrailDotNet.Window.GameOver
                     game.Vehicle.PassengerLivingCount,
                     $"people in {avgHealth.ToDescriptionAttribute().ToLowerInvariant()} health",
                     game.Vehicle.PassengerLivingCount*(int) avgHealth),
-                new Tuple<int, string, int>(1, "wagon", Resources.Vehicle.Points),
+                new Tuple<int, string, int>(1, "wagon", Resources.Vehicle.PointsAwarded),
                 new Tuple<int, string, int>(
                     game.Vehicle.Inventory[Entities.Animal].Quantity,
                     "oxen",

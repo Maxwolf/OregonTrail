@@ -15,9 +15,10 @@ namespace OregonTrailDotNet.Bot.Learning
     {
         public string Name => "heuristic";
 
-        // Banker: the most starting cash ($1600), which maximizes the chance of surviving the trip. (The CEM optimizer is
-        // free to discover that the Farmer's x3 multiplier scores higher when survival is solved.)
-        public int Profession => 1;
+        // Carpenter: the x2 multiplier doubles the old Banker build's score, while $800 still comfortably provisions a full
+        // five-person party. Farmer's x3 is the true ceiling (the only route to Meek's 7650) but its $400 can't reliably keep
+        // five alive - the learning genome chases that fragile frontier; this expert's job is to finish healthy, every time.
+        public int Profession => 2;
 
         // May — enough grass, not so late that the party hits the winter mountains.
         public int StartMonth => 3;
@@ -26,14 +27,15 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public int TargetQuantity(Entities item, GameSnapshot state) => item switch
         {
-            Entities.Animal => 12,  // a healthy team, with slack to survive ox deaths and a bad river crossing
-            Entities.Food => 1500,
-            Entities.Clothes => 15, // enough to also afford the Shoshoni river guide (5 sets) when it's the safe option
-            Entities.Medicine => 5,
+            Entities.Animal => 12,   // a strong team finishes fast - fewer days on the trail means less of the ~25 lb/day
+                                     // five-person food burn - with slack to survive ox deaths and a bad river crossing
+            Entities.Food => 1600,   // ~64 days at 25 lb/day; hunting covers any overrun before the 2000 lb cap
+            Entities.Clothes => 13,  // above the 10-set hail-freeze guard for a party of five, with slack for the Shoshoni guide
+            Entities.Medicine => 6,  // the decisive survival lever (heals + clears infection while resting); unscored, so 6 is plenty
             Entities.Ammo => 20,
             Entities.Wheel => 2,
-            Entities.Axle => 1,
-            Entities.Tongue => 1,
+            Entities.Axle => 2,
+            Entities.Tongue => 2,
             _ => 0
         };
 

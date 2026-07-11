@@ -46,30 +46,15 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
             // Create string builder so we only build up this data once.
             _inputNamesHelp = new StringBuilder();
 
-            // Add the question text from constructor parameter.
-            // ReSharper disable once SwitchStatementMissingSomeCases
-            switch (UserData.PlayerNameIndex)
-            {
-                case 0:
-                    _inputNamesHelp.Append(Environment.NewLine +
-                                           $"{MainMenu.LEADER_QUESTION}");
-                    break;
-                case 1:
-                    _inputNamesHelp.Append(Environment.NewLine +
-                                           $"{MainMenu.MEMBERS_QUESTION}" +
-                                           $"{Environment.NewLine}{Environment.NewLine}");
-                    break;
-                case 2:
-                    _inputNamesHelp.Append(Environment.NewLine +
-                                           $"{MainMenu.MEMBERS_QUESTION}" +
-                                           $"{Environment.NewLine}{Environment.NewLine}");
-                    break;
-                case 3:
-                    _inputNamesHelp.Append(Environment.NewLine +
-                                           $"{MainMenu.MEMBERS_QUESTION}" +
-                                           $"{Environment.NewLine}{Environment.NewLine}");
-                    break;
-            }
+            // Add the question text: the first name entered (index 0) is the party leader, every subsequent name is a
+            // regular member. Written as leader-vs-member rather than one case per slot so it scales to any MAXPLAYERS.
+            if (UserData.PlayerNameIndex == 0)
+                _inputNamesHelp.Append(Environment.NewLine +
+                                       $"{MainMenu.LEADER_QUESTION}");
+            else
+                _inputNamesHelp.Append(Environment.NewLine +
+                                       $"{MainMenu.MEMBERS_QUESTION}" +
+                                       $"{Environment.NewLine}{Environment.NewLine}");
 
             // Only print player names if we have some to actually print.
             if (UserData.PlayerNames.Count > 0)
