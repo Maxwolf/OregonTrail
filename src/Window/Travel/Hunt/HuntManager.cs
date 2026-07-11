@@ -457,9 +457,9 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
                 return false;
             }
 
-            // Calculate the total cost of this shot in bullets.
-            var bulletCost = (int) game.Vehicle.Inventory[Entities.Ammo].TotalValue - 10 -
-                             game.Random.Next()*4;
+            // Each successful shot consumes 10-13 bullets, mirroring the original game's "B = B - 10 - INT(RND*4)". The
+            // amount is always positive, so bagging an animal can only ever reduce ammunition, never add it back.
+            var bulletCost = 10 + game.Random.Next(0, 4);
 
             // Remove the amount of bullets from vehicle inventory.
             game.Vehicle.Inventory[Entities.Ammo].ReduceQuantity(bulletCost);
