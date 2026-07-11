@@ -39,7 +39,7 @@ namespace OregonTrailDotNet.Entity.Location.Point
         ///     Defines all of the skip choices that were defined for this location. Will return null if there are no skip choices
         ///     associated with this location.
         /// </summary>
-        public ReadOnlyCollection<Location> SkipChoices => _skipChoices.AsReadOnly();
+        public ReadOnlyCollection<Location> SkipChoices => _skipChoices?.AsReadOnly();
 
         /// <summary>
         ///     Determines if the location allows the player to chat to other NPC's in the area which can offer up advice about the
