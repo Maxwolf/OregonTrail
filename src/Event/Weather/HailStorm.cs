@@ -24,9 +24,11 @@ namespace OregonTrailDotNet.Event.Weather
             // Grab an instance of the game simulation.
             var game = GameSimulationApp.Instance;
 
-            // Check if there are enough clothes to keep people warm, need two sets of clothes for every person.
+            // Check if there are enough clothes to keep people warm, need two sets of clothes for every person. A well
+            // clothed party that lost no items to the hail is spared; the old '< 0' could never be true (a dictionary
+            // Count is never negative), so the clothing check had no effect and the party always risked freezing.
             return (game.Vehicle.Inventory[Entities.Clothes].Quantity >= game.Vehicle.PassengerLivingCount*2) &&
-                   (destroyedItems.Count < 0)
+                   (destroyedItems.Count <= 0)
                 ? "no loss of items."
                 : TryKillPassengers("frozen");
         }
