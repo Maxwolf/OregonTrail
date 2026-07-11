@@ -105,9 +105,10 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                 UserData.River.FerryCost = 0;
             }
 
-            // Check if the Indian guide wants his clothes for the trip that you agreed to.
+            // Check if the Indian guide wants his clothes for the trip that you agreed to. Use >= to match the offer
+            // gate in IndianGuidePrompt (Clothes >= IndianCost); a strict > let a party with exactly the cost cross free.
             if ((UserData.River.IndianCost > 0) &&
-                (game.Vehicle.Inventory[Entities.Clothes].Quantity > UserData.River.IndianCost))
+                (game.Vehicle.Inventory[Entities.Clothes].Quantity >= UserData.River.IndianCost))
             {
                 game.Vehicle.Inventory[Entities.Clothes].ReduceQuantity(UserData.River.IndianCost);
 
