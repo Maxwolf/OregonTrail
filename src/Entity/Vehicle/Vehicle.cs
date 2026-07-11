@@ -148,8 +148,11 @@ namespace OregonTrailDotNet.Entity.Vehicle
                 if (value <= 0)
                     _inventory[Entities.Cash].Reset();
                 else
+                    // Round to the nearest whole dollar rather than truncating. Truncation always floored the balance,
+                    // so a fractional total (e.g. buying an odd number of $0.10 pounds of food) silently overcharged the
+                    // player by up to $0.99 on every transaction.
                     _inventory[Entities.Cash] = new SimItem(_inventory[Entities.Cash],
-                        (int) value);
+                        (int) Math.Round(value, MidpointRounding.AwayFromZero));
             }
         }
 
@@ -484,8 +487,14 @@ namespace OregonTrailDotNet.Entity.Vehicle
                 FortDeparturePenalty = false;
             }
 
-            // Check for random events that might trigger regardless of calculations made.
+            // Check for random events that might trigger regardless of calculations made. Roll each travel category
+            // independently (each has its own ~1% per-day chance inside TriggerEventByType): vehicle mishaps, plus
+            // wild-animal encounters (snakebite, wolf attack, buffalo stampede) and wilderness happenings (bandits,
+            // thieves, wild fruit, helpful Indians). The Animal and Wild categories were previously never rolled, so
+            // every event registered under them was dead code.
             GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Vehicle);
+            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Animal);
+            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Wild);
 
             // Higher elevations make for slow going and risk a cave-in blocking the trail.
             var currentLocation = GameSimulationApp.Instance.Trail.CurrentLocation;
