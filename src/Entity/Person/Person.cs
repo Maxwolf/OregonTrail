@@ -399,7 +399,7 @@ namespace OregonTrailDotNet.Entity.Person
                 game.Vehicle.ReduceMileage(10);
                 Damage(10, 50, CauseOfDeath.Illness);
             }
-            else if (game.Random.Next(100) <= 5 -
+            else if (game.Random.Next(100) <= 5 +
                      40/game.Vehicle.Passengers.Count*
                      ((int) game.Vehicle.Ration - 1))
             {
