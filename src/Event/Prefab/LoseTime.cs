@@ -34,8 +34,9 @@ namespace OregonTrailDotNet.Event.Prefab
         {
             base.OnPostExecute(eventExecutor);
 
-            // Check what we should do with the random event form now that the user is done with this part of it.
-            if (eventExecutor.UserData.DaysToSkip > 0)
+            // If the event declared no days to skip there is nothing to count down, so leave the plain event form up.
+            // Otherwise attach the day-skipping form below so the declared days actually elapse.
+            if (eventExecutor.UserData.DaysToSkip <= 0)
                 return false;
 
             // Attaches a new form that will skip over the required number of days we have detected.
