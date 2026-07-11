@@ -72,8 +72,9 @@ namespace OregonTrailDotNet.Window.MainMenu.Options
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            // Actually erase current top ten list.
-            GameSimulationApp.Instance.Scoring.Reset();
+            // Only wipe the list when the player actually confirms; a "No" must leave the scores untouched.
+            if (reponse == DialogResponse.Yes)
+                GameSimulationApp.Instance.Scoring.Reset();
 
             // Return to main menu.
             SetForm(typeof(ManagementOptions));

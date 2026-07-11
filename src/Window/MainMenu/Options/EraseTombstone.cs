@@ -75,8 +75,9 @@ namespace OregonTrailDotNet.Window.MainMenu.Options
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponse reponse)
         {
-            // Actually erase Tombstone messages.
-            GameSimulationApp.Instance.Tombstone.Reset();
+            // Only erase the tombstones when the player actually confirms; a "No" must leave them intact.
+            if (reponse == DialogResponse.Yes)
+                GameSimulationApp.Instance.Tombstone.Reset();
 
             SetForm(typeof(ManagementOptions));
         }
