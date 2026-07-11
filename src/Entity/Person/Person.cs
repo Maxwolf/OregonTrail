@@ -301,9 +301,11 @@ namespace OregonTrailDotNet.Entity.Person
             // Check if player has any food to eat.
             if (game.Vehicle.Inventory[Entities.Food].Quantity > 0)
             {
-                // Consume some food based on ration level, then update the cost to check against.
-                game.Vehicle.Inventory[Entities.Food].ReduceQuantity((int) game.Vehicle.Ration*
-                                                                     game.Vehicle.PassengerLivingCount);
+                // Consume this person's individual share of food for the day based on the ration level. This method runs
+                // once per living passenger each traveling day, so the party-wide daily burn already scales with the
+                // living count (ration * N). Multiplying by the living count here as well made a party of N eat ration * N
+                // squared pounds per day, starving larger parties far faster than the original game intended.
+                game.Vehicle.Inventory[Entities.Food].ReduceQuantity((int) game.Vehicle.Ration);
 
                 // Change to get better when eating well.
                 Heal();
