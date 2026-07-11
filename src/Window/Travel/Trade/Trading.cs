@@ -171,8 +171,9 @@ namespace OregonTrailDotNet.Window.Travel.Trade
         /// </summary>
         private void UpdateTrade()
         {
-            // Tick the people, but not the trail or the day.
-            GameSimulationApp.Instance.TakeTurn(false);
+            // Tick the people, but not the trail or the day. Passing false here advanced a real calendar day every
+            // time the trade screen opened or refocused (unlike CheckSupplies, which correctly skips the day).
+            GameSimulationApp.Instance.TakeTurn(true);
 
             // Grabs all the data for the player current vehicle inventory.
             _supplyPrompt.Clear();
@@ -184,9 +185,12 @@ namespace OregonTrailDotNet.Window.Travel.Trade
             // Generate a random number based on trade count and what our trade will be.
             _tradeIndex = GameSimulationApp.Instance.Random.Next(_trades.Count);
 
-            // Check if the player has the item in question the trader wants.
+            // Check the player actually holds the full quantity the trader is demanding, not merely the item's minimum.
+            // ContainsItem only compares against MinQuantity, so it would green-light a trade the player cannot honor,
+            // letting them hand over less than agreed while still receiving the full offered item.
             _playerCanTrade = (_trades.Count > 0) &&
-                             GameSimulationApp.Instance.Vehicle.ContainsItem(_trades[_tradeIndex].WantedItem);
+                             (GameSimulationApp.Instance.Vehicle.Inventory[_trades[_tradeIndex].WantedItem.Category]
+                                  .Quantity >= _trades[_tradeIndex].WantedItem.Quantity);
 
             // Select one of the trades to use, or say there are none if none generated.
             if (_trades.Count > 0)

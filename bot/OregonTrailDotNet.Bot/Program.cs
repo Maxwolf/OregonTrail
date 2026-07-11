@@ -553,6 +553,11 @@ namespace OregonTrailDotNet.Bot
             {
                 // No real console — skip.
             }
+            catch (ArgumentOutOfRangeException)
+            {
+                // Console resized smaller than the height computed above mid-render — skip this frame, like the
+                // auto-test and benchmark dashboard renderers do. Without this the whole control-panel loop crashed.
+            }
         }
 
         private static bool KeyAvailable()
