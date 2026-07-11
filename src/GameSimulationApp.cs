@@ -204,7 +204,7 @@ namespace OregonTrailDotNet
             tui.AppendLine($"Turns: {TotalTurns:D4}");
 
             // Vehicle and location status.
-            tui.AppendLine($"Vehicle: {Vehicle?.Status} - Location:{Trail?.CurrentLocation?.Status}");
+            tui.AppendLine($"Vehicle: {Vehicle?.Status} - Location: {Trail?.CurrentLocation?.Status}");
             return tui.ToString();
         }
 

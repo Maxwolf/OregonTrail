@@ -39,7 +39,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Help
             caulkWagon.AppendLine("seal it so that no water can");
             caulkWagon.AppendLine("get in. The wagon can then");
             caulkWagon.AppendLine("be floated across like a");
-            caulkWagon.AppendLine($"boat{Environment.NewLine}");
+            caulkWagon.AppendLine($"boat.{Environment.NewLine}");
             return caulkWagon.ToString();
         }
 

@@ -56,7 +56,7 @@ namespace OregonTrailDotNet.Event.River
             var eventText = new StringBuilder();
             eventText.AppendLine("Vehicle was washed");
             eventText.AppendLine("out when attempting to");
-            eventText.Append("ford the river results");
+            eventText.Append("ford the river results in");
             return eventText.ToString();
         }
     }

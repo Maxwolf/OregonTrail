@@ -46,9 +46,9 @@ namespace OregonTrailDotNet.Module.Scoring
             new Highscore("Andrew Sublette", 4138),
             new Highscore("David Hastings", 2945),
             new Highscore("Ezra Meeker", 2052),
-            new Highscore("Willian Vaughn", 1401),
+            new Highscore("William Vaughn", 1401),
             new Highscore("Mary Bartlett", 937),
-            new Highscore("Willian Wiggins", 615),
+            new Highscore("William Wiggins", 615),
             new Highscore("Charles Hopper", 396),
             new Highscore("Elijah White", 250)
         };

@@ -102,12 +102,17 @@ namespace OregonTrailDotNet.Event.Prefab
             if (!(destroyedItems?.Count > 0))
                 return;
 
-            // Loop through all of the destroyed items and add them to string builder.
+            // Loop through all of the destroyed items and add them to string builder as readable item phrases
+            // (e.g. "3 wheels", "50 pounds of food") rather than the raw inventory category name.
             foreach (var destroyedItem in destroyedItems)
+            {
+                var itemPhrase = GameSimulationApp.Instance.Vehicle.Inventory[destroyedItem.Key]
+                    .ToQuantityString(destroyedItem.Value);
                 if (destroyedItems.Last().Equals(destroyedItem))
-                    _eventText.Append($"{destroyedItem.Value:N0} {destroyedItem.Key}");
+                    _eventText.Append(itemPhrase);
                 else
-                    _eventText.AppendLine($"{destroyedItem.Value:N0} {destroyedItem.Key}");
+                    _eventText.AppendLine(itemPhrase);
+            }
         }
 
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>

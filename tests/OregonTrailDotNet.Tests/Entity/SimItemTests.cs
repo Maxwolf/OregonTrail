@@ -174,5 +174,58 @@ namespace OregonTrailDotNet.Tests.Entity
             Assert.True(MakeItem().Equals(MakeItem()));
             Assert.False(MakeItem().Equals(MakeItem(name: "Other Item")));
         }
+
+        [Theory]
+        [InlineData(1, "1 ox")]
+        [InlineData(2, "2 oxen")]
+        [InlineData(6, "6 oxen")]
+        public void ToQuantityString_Oxen_ReadAsCountableAnimalWithSingularUnit(int quantity, string expected)
+        {
+            // Name is already the plural noun ("Oxen"), so the singular falls back to the delineating unit ("ox").
+            Assert.Equal(expected, Parts.Oxen.ToQuantityString(quantity));
+        }
+
+        [Theory]
+        [InlineData(1, "1 wheel")]
+        [InlineData(3, "3 wheels")]
+        public void ToQuantityString_VehicleParts_ReadAsCountableWithoutRedundantNameOfName(int quantity,
+            string expected)
+        {
+            // Regression for "3 wheels of vehicle wheel": countable parts must never repeat the item noun.
+            Assert.Equal(expected, Parts.Wheel.ToQuantityString(quantity));
+            Assert.DoesNotContain("of vehicle", Parts.Wheel.ToQuantityString(quantity));
+        }
+
+        [Fact]
+        public void ToQuantityString_AxleAndTongue_ArePluralizedCleanly()
+        {
+            Assert.Equal("3 axles", Parts.Axle.ToQuantityString(3));
+            Assert.Equal("3 tongues", Parts.Tongue.ToQuantityString(3));
+        }
+
+        [Theory]
+        [InlineData(1, "1 pound of food")]
+        [InlineData(50, "50 pounds of food")]
+        [InlineData(2000, "2,000 pounds of food")]
+        public void ToQuantityString_Food_MeasuredInPoundsOfFood(int quantity, string expected)
+        {
+            // Bulk goods keep the "unit of name" phrasing that reads naturally ("50 pounds of food").
+            Assert.Equal(expected, Resources.Food.ToQuantityString(quantity));
+        }
+
+        [Theory]
+        [InlineData(1, "1 set of clothing")]
+        [InlineData(3, "3 sets of clothing")]
+        public void ToQuantityString_Clothing_MeasuredInSetsOfClothing(int quantity, string expected)
+        {
+            Assert.Equal(expected, Resources.Clothing.ToQuantityString(quantity));
+        }
+
+        [Fact]
+        public void ToQuantityString_AmmunitionAndMedicine_MeasuredInTheirUnits()
+        {
+            Assert.Equal("5 boxes of ammunition", Resources.Bullets.ToQuantityString(5));
+            Assert.Equal("3 kits of medicine", Resources.Medicine.ToQuantityString(3));
+        }
     }
 }

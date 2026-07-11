@@ -70,14 +70,10 @@ namespace OregonTrailDotNet.Window.Travel.Store
             // Add some information about how many you can buy and total amount you can carry.
             _itemBuyText = new StringBuilder();
 
-            // Change up question asked if plural window matches the name of the SimItem.
-            var pluralMatchesName = UserData.Store.SelectedItem.PluralForm.Equals(UserData.Store.SelectedItem.Name,
-                StringComparison.OrdinalIgnoreCase);
-
-            // Print text about purchasing the selected item.
-            _itemBuyText.AppendLine(pluralMatchesName
-                ? $"{Environment.NewLine}You can afford {_purchaseLimit} {UserData.Store.SelectedItem.Name.ToLowerInvariant()}."
-                : $"{Environment.NewLine}You can afford {_purchaseLimit} {UserData.Store.SelectedItem.PluralForm.ToLowerInvariant()} of {UserData.Store.SelectedItem.Name.ToLowerInvariant()}.");
+            // Print text about purchasing the selected item, using natural singular/plural phrasing so vehicle parts
+            // read as "3 wheels" rather than "3 wheels of vehicle wheel" while bulk goods stay "300 pounds of food".
+            _itemBuyText.AppendLine(
+                $"{Environment.NewLine}You can afford {UserData.Store.SelectedItem.ToQuantityString(_purchaseLimit)}.");
 
             // Wait for user input...
             _itemBuyText.Append($"How many {UserData.Store.SelectedItem.PluralForm.ToLowerInvariant()} to buy?");

@@ -27,7 +27,7 @@ namespace OregonTrailDotNet.Window.MainMenu
         /// </summary>
         // ReSharper disable once InconsistentNaming
         public static readonly string MEMBERS_QUESTION =
-            $"What are the first names of the{Environment.NewLine}three other members in your party?";
+            $"What are the first names of the{Environment.NewLine}four other members in your party?";
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.

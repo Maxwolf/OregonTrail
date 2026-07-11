@@ -341,6 +341,32 @@ namespace OregonTrailDotNet.Entity.Item
         }
 
         /// <summary>
+        ///     Builds a natural, grammatically-correct phrase describing a given quantity of this item as it should be
+        ///     shown to the player, handling singular/plural agreement. Countable objects whose name is the noun itself
+        ///     (oxen, wheels, axles, tongues) read as "1 ox" / "3 wheels"; bulk goods measured in a unit read as
+        ///     "1 pound of food" / "50 pounds of food" and "3 sets of clothing".
+        /// </summary>
+        /// <param name="quantity">Number of this item to describe.</param>
+        /// <returns>Phrase such as "1 ox", "3 wheels", or "50 pounds of food".</returns>
+        public string ToQuantityString(int quantity)
+        {
+            var count = quantity.ToString("N0");
+            var singular = quantity == 1;
+
+            // Countable objects whose name already IS the noun (e.g. "Vehicle Wheel"): read as "3 wheels", never
+            // "3 wheels of vehicle wheel". The delineating unit is the singular form, the plural form the many.
+            if (Name.EndsWith(DelineatingUnit, StringComparison.OrdinalIgnoreCase))
+                return $"{count} {(singular ? DelineatingUnit : PluralForm).ToLowerInvariant()}";
+
+            // Items whose name is already the plural noun (e.g. "Oxen"): singular falls back to the delineating unit.
+            if (PluralForm.Equals(Name, StringComparison.OrdinalIgnoreCase))
+                return $"{count} {(singular ? DelineatingUnit : PluralForm).ToLowerInvariant()}";
+
+            // Bulk goods measured in a distinct unit (food, clothing, ammunition, medicine): "50 pounds of food".
+            return $"{count} {(singular ? DelineatingUnit : PluralForm).ToLowerInvariant()} of {Name.ToLowerInvariant()}";
+        }
+
+        /// <summary>
         ///     Adjusts the quantity of the item instance to be lower than current quantity. Will automatically check for quantity
         ///     minimum floor and maximum ceiling values and adjust accordingly.
         /// </summary>

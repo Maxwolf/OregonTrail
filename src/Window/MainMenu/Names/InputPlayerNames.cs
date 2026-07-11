@@ -78,7 +78,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
                 }
 
                 // Wait for user input...
-                _inputNamesHelp.Append("\n(Enter names or press Enter)");
+                _inputNamesHelp.Append("\n(Type a name or press Enter)");
             }
         }
 

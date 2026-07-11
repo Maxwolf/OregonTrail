@@ -192,9 +192,11 @@ namespace OregonTrailDotNet.Window.Travel.Trade
             if (_trades.Count > 0)
             {
                 // Generates the default prompt for trading that is shown if you have items to trade back or not.
+                var wantedItem = _trades[_tradeIndex].WantedItem;
+                var offeredItem = _trades[_tradeIndex].OfferedItem;
                 var wrapText =
-                    $"You meet another emigrant who wants {_trades[_tradeIndex].WantedItem.Quantity:N0} {_trades[_tradeIndex].WantedItem.Name.ToLowerInvariant()}. " +
-                    $"He will trade you {_trades[_tradeIndex].OfferedItem.Quantity:N0} {_trades[_tradeIndex].OfferedItem.Name.ToLowerInvariant()}.";
+                    $"You meet another emigrant who wants {wantedItem.ToQuantityString(wantedItem.Quantity)}. " +
+                    $"He will trade you {offeredItem.ToQuantityString(offeredItem.Quantity)}.";
 
                 // Depending if the player has enough of what the trader wants we change up last part of message.
                 _supplyPrompt.Append(_playerCanTrade

@@ -60,7 +60,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Indian
             prompt.AppendLine($"{Environment.NewLine}A Shoshoni guide says that he");
             prompt.AppendLine("will take your wagon across");
             prompt.AppendLine($"the river in exchange for {UserData.River.IndianCost:N0}");
-            prompt.AppendLine($"sets of clothing.{Environment.NewLine}");
+            prompt.AppendLine($"{(UserData.River.IndianCost == 1 ? "set" : "sets")} of clothing.{Environment.NewLine}");
 
             // Change up the message based on if the player has enough clothing, they won't be able to get more if they don't here.
             if (HasEnoughClothingToTrade)
@@ -72,7 +72,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Indian
             else
             {
                 // Player does not have enough clothing to satisfy the Indian cost.
-                prompt.AppendLine($"You don't have {UserData.River.IndianCost:N0} sets of");
+                prompt.AppendLine($"You don't have {UserData.River.IndianCost:N0} {(UserData.River.IndianCost == 1 ? "set" : "sets")} of");
                 prompt.AppendLine($"clothing.{Environment.NewLine}");
             }
 

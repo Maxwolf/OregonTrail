@@ -41,7 +41,7 @@ namespace OregonTrailDotNet.Event.Person
             var person = userData.SourceEntity as Entity.Person.Person;
 
             // Skip if the source entity is not a person.
-            return person == null ? "nobody is well again." : $"{person.Name} is well again.";
+            return person == null ? "Nobody is well again." : $"{person.Name} is well again.";
         }
     }
 }

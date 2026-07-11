@@ -51,7 +51,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
             {
                 stuckPrompt.AppendLine($"{Environment.NewLine}You are unable to continue");
                 stuckPrompt.AppendLine(
-                    $"your journey. You're {GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}");
+                    $"your journey. Your {GameSimulationApp.Instance.Vehicle.BrokenPart.Name.ToLowerInvariant()}");
                 stuckPrompt.AppendLine($"is broken.{Environment.NewLine}");
             }
             else

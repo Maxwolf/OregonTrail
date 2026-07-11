@@ -70,8 +70,8 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                 case RiverCrossChoice.Float:
                     if (UserData.River.DisasterHappened)
                     {
-                        _crossingResult.AppendLine($"{Environment.NewLine}Your party relieved");
-                        _crossingResult.AppendLine("to reach other side after");
+                        _crossingResult.AppendLine($"{Environment.NewLine}Your party was relieved");
+                        _crossingResult.AppendLine("to reach the other side after");
                         _crossingResult.AppendLine($"trouble floating across.{Environment.NewLine}");
                     }
                     else

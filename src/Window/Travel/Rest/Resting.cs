@@ -127,7 +127,7 @@ namespace OregonTrailDotNet.Window.Travel.Rest
             else
             {
                 if (_daysRested > 1)
-                    _restMessage.AppendLine($"{Environment.NewLine}You rest for {_daysRested} days");
+                    _restMessage.AppendLine($"{Environment.NewLine}You rest for {_daysRested} days.");
                 else if (_daysRested == 1)
                     _restMessage.AppendLine($"{Environment.NewLine}You rest for a day.");
                 else if (_daysRested <= 0)

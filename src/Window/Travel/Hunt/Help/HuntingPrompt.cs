@@ -50,12 +50,12 @@ namespace OregonTrailDotNet.Window.Travel.Hunt.Help
             // Explain how timer works, how killing works and animal weight limits.
             const string huntTextTop =
                 "Hunting has a timer which represents the total daylight remaining. When the timer reaches zero the hunt is over. " +
-                "You can only take 100 pounds of food back to the wagon, don't kill more than you keep since you just waste bullets.";
+                "You can only take 250 pounds of food back to the wagon, don't kill more than you keep since you just waste bullets.";
 
             // Explain how shooting works, how player has limited window of opportunity to shoot the animal.
             const string huntTextBottom =
-                "When animal appears you have until it disappears to type the shooting word shown. " +
-                "If you don't type fast enough you risk missing your shot and bullet on nothing!";
+                "When an animal appears you have until it disappears to type the shooting word shown. " +
+                "If you don't type fast enough you risk missing your shot and wasting a bullet on nothing!";
 
             // Add the top and bottom hunting text on their own lines.
             _huntHelp.AppendLine(huntTextTop.WordWrap());

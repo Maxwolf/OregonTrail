@@ -54,7 +54,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
 
             // Build a text table from people point distribution with custom headers.
             var partyTextTable = repairLevels.Values.ToStringTable(
-                new[] {"HealthStatus of Party", "Points per Person"},
+                new[] {"Health Status of Party", "Points per Person"},
                 u => Enum.Parse(typeof(HealthStatus), u.ToString()).ToDescriptionAttribute(),
                 u => u);
 

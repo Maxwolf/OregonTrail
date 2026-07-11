@@ -40,7 +40,7 @@ namespace OregonTrailDotNet.Event.Wild
         /// <returns>Text user interface string that can be used to explain what the event did when executed.</returns>
         protected override string OnRender(RandomEventInfo userData)
         {
-            return "Find wild berries";
+            return "Find wild berries.";
         }
     }
 }
