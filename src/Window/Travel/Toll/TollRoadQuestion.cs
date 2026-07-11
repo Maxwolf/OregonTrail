@@ -108,6 +108,15 @@ namespace OregonTrailDotNet.Window.Travel.Toll
         }
 
         /// <summary>
+        ///     Sets a context-specific input prompt in place of the generic "What is your choice?", then renders as normal.
+        /// </summary>
+        public override string OnRenderForm()
+        {
+            ParentWindow.PromptText = "Yes or no?";
+            return base.OnRenderForm();
+        }
+
+        /// <summary>
         ///     Fired when the dialog receives favorable input and determines a response based on this. From this method it is
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>

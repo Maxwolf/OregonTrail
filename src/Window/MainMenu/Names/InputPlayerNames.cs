@@ -91,6 +91,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
         /// </returns>
         public override string OnRenderForm()
         {
+            ParentWindow.PromptText = "Enter a name:";
             return _inputNamesHelp.ToString();
         }
 

@@ -15,6 +15,7 @@ using OregonTrailDotNet.Window.Travel.RiverCrossing.Help;
 using OregonTrailDotNet.Window.Travel.Store.Help;
 using OregonTrailDotNet.Window.Travel.Trade;
 using WolfCurses;
+using WolfCurses.Core;
 using WolfCurses.Window;
 
 namespace OregonTrailDotNet.Window.Travel
@@ -192,6 +193,9 @@ namespace OregonTrailDotNet.Window.Travel
         protected override void OnFormChange()
         {
             base.OnFormChange();
+
+            // Reset the input prompt so a context-specific prompt set by one form does not leak into the next.
+            PromptText = SceneGraph.PROMPT_TEXT_DEFAULT;
 
             // Update menu with proper choices.
             UpdateLocation();

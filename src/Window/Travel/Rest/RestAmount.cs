@@ -34,6 +34,7 @@ namespace OregonTrailDotNet.Window.Travel.Rest
         /// </returns>
         public override string OnRenderForm()
         {
+            ParentWindow.PromptText = "Number of days?";
             return Environment.NewLine + "How many days would you like to rest?";
         }
 

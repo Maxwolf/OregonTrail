@@ -91,6 +91,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
         /// </returns>
         public override string OnRenderForm()
         {
+            ParentWindow.PromptText = "Enter a quantity:";
             return _itemBuyText.ToString();
         }
 

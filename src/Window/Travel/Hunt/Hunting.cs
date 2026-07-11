@@ -101,6 +101,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         /// </returns>
         public override string OnRenderForm()
         {
+            ParentWindow.PromptText = "Type the word to shoot.";
             return UserData.Hunt.HuntInfo;
         }
 

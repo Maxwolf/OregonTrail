@@ -4,6 +4,7 @@
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Module.Director;
 using WolfCurses;
+using WolfCurses.Core;
 using WolfCurses.Window;
 
 namespace OregonTrailDotNet.Window.RandomEvent
@@ -21,6 +22,15 @@ namespace OregonTrailDotNet.Window.RandomEvent
         // ReSharper disable once UnusedMember.Global
         public RandomEvent(SimulationApp simUnit) : base(simUnit)
         {
+        }
+
+        /// <summary>
+        ///     Resets the input prompt so a context-specific prompt set by one form does not leak into the next.
+        /// </summary>
+        protected override void OnFormChange()
+        {
+            base.OnFormChange();
+            PromptText = SceneGraph.PROMPT_TEXT_DEFAULT;
         }
 
         /// <summary>

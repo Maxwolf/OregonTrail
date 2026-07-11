@@ -55,6 +55,7 @@ namespace OregonTrailDotNet.Window.Graveyard
         /// </returns>
         public override string OnRenderForm()
         {
+            ParentWindow.PromptText = "Enter an epitaph:";
             // Add Tombstone message we want to show the player from Tombstone manager.
             _epitaphPrompt.Clear();
             _epitaphPrompt.AppendLine($"{Environment.NewLine}{UserData.Tombstone}");
