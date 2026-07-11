@@ -66,6 +66,20 @@ namespace OregonTrailDotNet.Tests.Entity
         }
 
         [Fact]
+        public void Purchase_FractionalDollarTotal_RoundsBalanceToNearestInsteadOfFlooring()
+        {
+            var vehicle = new VehicleEntity();
+            vehicle.ResetVehicle(100);
+
+            // 15 pounds of food at $0.10/lb is a $1.50 charge, leaving $98.50. That balance is rounded to the nearest
+            // whole dollar ($99); the old code truncated toward zero to $98, silently overcharging the player.
+            vehicle.Purchase(new SimItem(Resources.Food, 15));
+
+            Assert.Equal(99f, vehicle.Balance);
+            Assert.Equal(15, vehicle.Inventory[Entities.Food].Quantity);
+        }
+
+        [Fact]
         public void AddPerson_TracksPassengersAndLeader()
         {
             var vehicle = new VehicleEntity();

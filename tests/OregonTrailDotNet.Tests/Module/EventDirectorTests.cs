@@ -6,6 +6,7 @@ using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Event;
 using OregonTrailDotNet.Event.Person;
 using OregonTrailDotNet.Event.Vehicle;
+using OregonTrailDotNet.Event.Wild;
 using OregonTrailDotNet.Module.Director;
 using Xunit;
 using PersonEntity = OregonTrailDotNet.Entity.Person.Person;
@@ -115,6 +116,22 @@ namespace OregonTrailDotNet.Tests.Module
             var screen = Game.WindowManager.FocusedWindow?.OnRenderWindow() ?? string.Empty;
             Assert.Contains("repair it", screen);
             Assert.Contains(vehicle.BrokenPart.Name.ToLowerInvariant(), screen);
+        }
+
+        [Fact]
+        public void FoodSpoilage_WithFoodInTheOldCrashRange_DoesNotThrow()
+        {
+            // 8 pounds -> spoiledFood = 8 / 4 = 2 -> Random.Next(3, 2) used to throw ArgumentOutOfRangeException. The
+            // guard now requires at least 12 pounds (so a quarter is >= the three-piece minimum) and spoils nothing
+            // below that, executing harmlessly instead of crashing the game.
+            var vehicle = Game.Vehicle;
+            vehicle.ResetVehicle();
+            vehicle.Inventory[Entities.Food].AddQuantity(8);
+
+            var ex = Record.Exception(() => Game.EventDirector.TriggerEvent(vehicle, typeof(FoodSpoilage)));
+
+            Assert.Null(ex);
+            Assert.Equal(8, vehicle.Inventory[Entities.Food].Quantity);
         }
 
         [Fact]

@@ -78,5 +78,15 @@ namespace OregonTrailDotNet.Tests.Entity
             Assert.Equal(2, fork.SkipChoices.Count);
             Assert.Equal("Left Path", fork.SkipChoices[0].Name);
         }
+
+        [Fact]
+        public void ForkInRoad_WithoutSkipChoices_ReturnsNullInsteadOfThrowing()
+        {
+            // The getter documents that it returns null when there are no skip choices; a null skipChoices argument
+            // used to leave the backing list null and make the getter throw a NullReferenceException.
+            var fork = new ForkInRoad("Dead End", Climate.Dry, null);
+
+            Assert.Null(fork.SkipChoices);
+        }
     }
 }
