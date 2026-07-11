@@ -441,8 +441,12 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             // Grab game instance to make check logic legible.
             var game = GameSimulationApp.Instance;
 
-            // Check if the player outright missed their target, banker is way worse than farmer.
-            if (100*game.Random.Next() < ((int) game.Vehicle.PassengerLeader.Profession - 13)*_target.TargetTime)
+            // Check if the player outright missed their target. The chance to miss (as a percent) grows the longer the
+            // animal has sensed the hunter and is higher for a less capable hunter - a banker (profession 1) misses
+            // three times as often as a farmer (profession 3) for the same shot. A snap shot (TargetTime 0) never misses
+            // here. The old test compared 100*Random.Next() against ((int)Profession - 13)*TargetTime, which is always
+            // <= 0, so the branch was dead code and profession had no effect on hunting at all.
+            if (game.Random.Next(100) < (4 - (int) game.Vehicle.PassengerLeader.Profession)*_target.TargetTime)
             {
                 _preyEscaped.Add(_target);
                 ClearTarget();
