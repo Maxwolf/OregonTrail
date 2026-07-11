@@ -34,8 +34,9 @@ namespace OregonTrailDotNet.Event.Prefab
             if (vehicle.Inventory[Entities.Food].Quantity <= 0)
                 return;
 
-            // Check if there is enough food to cut up into four pieces.
-            if (vehicle.Inventory[Entities.Food].Quantity < 4)
+            // Need enough food that a quarter of it is at least the three-piece minimum: Random.Next(3, spoiledFood)
+            // throws when spoiledFood is below 3, which happens for any food quantity under 12 (12 / 4 == 3).
+            if (vehicle.Inventory[Entities.Food].Quantity < 12)
                 return;
 
             // Determine the amount of food we will destroy up to.
