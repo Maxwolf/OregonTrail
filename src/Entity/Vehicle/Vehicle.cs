@@ -734,6 +734,19 @@ namespace OregonTrailDotNet.Entity.Vehicle
             // Loop through the inventory and decide which items to give free copies of.
             foreach (var itemPair in copiedInventory)
             {
+                // Never loot cash (or any other non-physical bookkeeping entity). Cash has a MaxQuantity of int.MaxValue,
+                // so the amountToMake = MaxQuantity/4 roll below would hand the player up to ~536 million dollars from a
+                // single abandoned-wagon find, inflating the end-of-game score into the hundreds of millions. The singular
+                // CreateRandomItem (used for trades) already excludes these categories; this plural method must too.
+                switch (itemPair.Value.Category)
+                {
+                    case Entities.Cash:
+                    case Entities.Vehicle:
+                    case Entities.Person:
+                    case Entities.Location:
+                        continue;
+                }
+
                 // Skip item if quantity is at maximum.
                 if (itemPair.Value.Quantity >= itemPair.Value.MaxQuantity)
                     continue;

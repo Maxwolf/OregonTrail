@@ -266,6 +266,24 @@ namespace OregonTrailDotNet.Tests.Entity
         }
 
         [Fact]
+        public void CreateRandomItems_NeverLootsCash()
+        {
+            // Cash's MaxQuantity is int.MaxValue, so an abandoned-wagon find that looted cash would roll
+            // amountToMake = int.MaxValue / 4 and hand the player up to ~536 million dollars, inflating the
+            // end-of-game score into the hundreds of millions. Looted cash must always stay untouched.
+            var vehicle = new VehicleEntity();
+            vehicle.ResetVehicle(400);
+
+            // Run many finds so the per-item coin flip has ample opportunity to try looting cash.
+            for (var i = 0; i < 500; i++)
+            {
+                var created = vehicle.CreateRandomItems();
+                Assert.False(created.ContainsKey(Entities.Cash));
+                Assert.Equal(400, vehicle.Inventory[Entities.Cash].Quantity);
+            }
+        }
+
+        [Fact]
         public void DestroyRandomItems_NeverDrivesQuantitiesNegative()
         {
             var vehicle = new VehicleEntity();
