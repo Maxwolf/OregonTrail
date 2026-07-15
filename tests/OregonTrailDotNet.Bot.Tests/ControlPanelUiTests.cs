@@ -266,6 +266,56 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
+        public void Training_Menu_Custom_Option_Prompts_For_A_Number_And_Records_It()
+        {
+            Send("1"); Send("1"); Send("Trainee"); // create + activate a CEM bot (model -> name)
+            Assert.True(BotContext.ActiveProfileId > 0);
+
+            Send("3"); // Start training -> the length menu
+            Assert.Equal("TrainingConfigForm", FormName);
+            Assert.Contains("Train until I press Esc", Screen);
+            Assert.Contains("Custom number of generations", Screen);
+
+            Send("5"); // 4 presets + the custom option; picking custom opens its own prompt (no tear-down yet)
+            Assert.Equal("CustomGenerationsForm", FormName);
+
+            // Type a specific count and submit. StartTraining tears the panel down, so tick with a null guard.
+            foreach (var c in "37")
+                BotSimulationApp.Instance!.InputManager.AddCharToInputBuffer(c);
+            BotSimulationApp.Instance!.InputManager.SendInputBufferAsCommand();
+            for (var i = 0; i < 2 && BotSimulationApp.Instance != null; i++)
+                BotSimulationApp.Instance.OnTick(false);
+
+            Assert.Null(BotSimulationApp.Instance);
+            var request = BotContext.Request!;
+            Assert.Equal(BotRequestKind.Train, request.Kind);
+            Assert.Equal(BotContext.ActiveProfileId, request.ProfileId);
+            Assert.Equal(37, request.Generations);
+            Assert.Equal(16, request.PopulationSize);
+            Assert.Equal(5, request.GamesPerCandidate);
+        }
+
+        [Fact]
+        public void Training_Menu_Until_Esc_Option_Records_An_Open_Ended_Run()
+        {
+            Send("1"); Send("1"); Send("Marathoner"); // create + activate a CEM bot
+            Send("3"); // length menu
+            Assert.Equal("TrainingConfigForm", FormName);
+
+            // Option 4 is "Train until I press Esc" — recorded as a negative generation sentinel. It tears the panel down,
+            // so submit it with the null-guarded tick pattern rather than the Send helper.
+            BotSimulationApp.Instance!.InputManager.AddCharToInputBuffer('4');
+            BotSimulationApp.Instance!.InputManager.SendInputBufferAsCommand();
+            for (var i = 0; i < 2 && BotSimulationApp.Instance != null; i++)
+                BotSimulationApp.Instance.OnTick(false);
+
+            Assert.Null(BotSimulationApp.Instance);
+            var request = BotContext.Request!;
+            Assert.Equal(BotRequestKind.Train, request.Kind);
+            Assert.Equal(-1, request.Generations);
+        }
+
+        [Fact]
         public void Select_Profile_Lists_And_Activates()
         {
             BotContext.Db!.Profiles.Create("Alpha", "cem");

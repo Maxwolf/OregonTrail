@@ -131,7 +131,9 @@ namespace OregonTrailDotNet.Bot
                 return;
             }
 
-            Console.WriteLine($"Training '{profile.Name}' for {request.Generations} generations.");
+            Console.WriteLine(request.Generations < 0
+                ? $"Training '{profile.Name}' until you stop it."
+                : $"Training '{profile.Name}' for {request.Generations} generations.");
             Console.WriteLine("Press Esc or Ctrl+C at any time to stop early and return to the menu.");
             Console.WriteLine();
 

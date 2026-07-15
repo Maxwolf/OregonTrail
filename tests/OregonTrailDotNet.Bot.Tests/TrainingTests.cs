@@ -1,6 +1,6 @@
 using System.Reflection;
-using OregonTrailDotNet;
 using OregonTrailDotNet.Bot.Data;
+using OregonTrailDotNet.Bot.Game;
 using OregonTrailDotNet.Bot.Learning;
 using Xunit;
 
@@ -73,6 +73,29 @@ namespace OregonTrailDotNet.Bot.Tests
                 Assert.Equal(4, updated.Generations);
                 Assert.Equal(expectedGames * 2, db.Runs.CountForProfile(profileId));
             }
+        }
+
+        [Fact]
+        public void Negative_Generations_Trains_Open_Endedly_Until_ShouldStop()
+        {
+            // A negative generation count is the "train until I press Esc" mode: the loop must not run the count literally
+            // (which would be zero iterations) nor loop forever — it runs until shouldStop returns true. A stubbed game runner
+            // keeps it fast and deterministic; shouldStop stands in for the Esc/Ctrl+C hook and ends it after 3 generations.
+            using var db = new BotDatabase(_dbPath);
+            var id = db.Profiles.Create("Endless", "cem");
+
+            var config = new TrainingConfig { PopulationSize = 4, GamesPerCandidate = 1, Generations = -1 };
+            var gensSeen = 0;
+
+            new TrainingSession(db, db.Profiles.GetById(id)!, config,
+                    playGame: _ => new RunResult { Outcome = GameOutcome.Death, Miles = 100, PartySize = 5, Survivors = 0 })
+                .Run(onGeneration: _ => gensSeen++, shouldStop: () => gensSeen >= 3);
+
+            Assert.Equal(3, gensSeen);
+
+            var profile = db.Profiles.GetById(id)!;
+            Assert.Equal(3, profile.Generations);
+            Assert.Equal(3 * config.PopulationSize * config.GamesPerCandidate, db.Runs.CountForProfile(id));
         }
     }
 }

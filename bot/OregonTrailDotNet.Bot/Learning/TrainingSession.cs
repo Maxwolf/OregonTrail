@@ -72,10 +72,11 @@ namespace OregonTrailDotNet.Bot.Learning
         public ITrainingModel Model => _model;
 
         /// <summary>Runs the configured number of generations, invoking <paramref name="onGeneration" /> after each and
-        ///     stopping early if <paramref name="shouldStop" /> returns true.</summary>
+        ///     stopping early if <paramref name="shouldStop" /> returns true. A negative <see cref="TrainingConfig.Generations" />
+        ///     means "run open-endedly" — the loop only ends when <paramref name="shouldStop" /> says so (the Esc/Ctrl+C hook).</summary>
         public void Run(Action<GenerationProgress>? onGeneration = null, Func<bool>? shouldStop = null)
         {
-            for (var g = 0; g < _config.Generations; g++)
+            for (var g = 0; _config.Generations < 0 || g < _config.Generations; g++)
             {
                 var generationNumber = _optimizer.Generation;
                 var candidates = _optimizer.Sample();
