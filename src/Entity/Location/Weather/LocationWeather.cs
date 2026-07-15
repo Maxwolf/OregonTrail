@@ -77,7 +77,7 @@ namespace OregonTrailDotNet.Entity.Location.Weather
         /// <summary>
         ///     Current weather condition this location is experiencing.
         /// </summary>
-        public Weather Condition { get; private set; }
+        public WeatherConditions Condition { get; private set; }
 
         /// <summary>
         ///     Current temperature in Celsius for outside a building, exposed to the elements.
@@ -196,10 +196,10 @@ namespace OregonTrailDotNet.Entity.Location.Weather
         private void ConvertSnowIntoRain()
         {
             if ((OutsideTemperature <= 10) ||
-                ((Condition != Weather.Hail) && (Condition != Weather.LightSnow) &&
-                 (Condition != Weather.Flurries) && (Condition != Weather.SnowShowers) &&
-                 (Condition != Weather.Icy) && (Condition != Weather.Snow) &&
-                 (Condition != Weather.Sleet) && (Condition != Weather.FreezingDrizzle)))
+                ((Condition != WeatherConditions.Hail) && (Condition != WeatherConditions.LightSnow) &&
+                 (Condition != WeatherConditions.Flurries) && (Condition != WeatherConditions.SnowShowers) &&
+                 (Condition != WeatherConditions.Icy) && (Condition != WeatherConditions.Snow) &&
+                 (Condition != WeatherConditions.Sleet) && (Condition != WeatherConditions.FreezingDrizzle)))
                 return;
 
             // Randomly select another type to replace it with because of temp being to high! Next(6) keeps case 5
@@ -207,33 +207,33 @@ namespace OregonTrailDotNet.Entity.Location.Weather
             switch (GameSimulationApp.Instance.Random.Next(6))
             {
                 case 0:
-                    Condition = Weather.Clear;
+                    Condition = WeatherConditions.Clear;
                     _nextWeatherChance = 0.30d;
                     break;
                 case 1:
-                    Condition = Weather.MostlySunny;
+                    Condition = WeatherConditions.MostlySunny;
                     _nextWeatherChance = 0.25d;
                     break;
                 case 2:
-                    Condition = Weather.PartlySunny;
+                    Condition = WeatherConditions.PartlySunny;
                     _nextWeatherChance = 0.42d;
                     break;
                 case 3:
-                    Condition = Weather.Sunny;
+                    Condition = WeatherConditions.Sunny;
                     _nextWeatherChance = 0.33d;
                     break;
                 case 4:
-                    Condition = Weather.ChanceOfThunderstorm;
+                    Condition = WeatherConditions.ChanceOfThunderstorm;
                     _nextWeatherChance = 0.45d;
                     _disasterChance = GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 case 5:
-                    Condition = Weather.ChanceOfRain;
+                    Condition = WeatherConditions.ChanceOfRain;
                     _nextWeatherChance = 0.55d;
                     _disasterChance = GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 default:
-                    Condition = Weather.Clear;
+                    Condition = WeatherConditions.Clear;
                     _nextWeatherChance = 0.30d;
                     break;
             }
@@ -248,23 +248,23 @@ namespace OregonTrailDotNet.Entity.Location.Weather
             switch (GameSimulationApp.Instance.Random.Next(6))
             {
                 case 0:
-                    Condition = Weather.Flurries;
+                    Condition = WeatherConditions.Flurries;
                     _nextWeatherChance = 0.80d;
                     break;
                 case 1:
-                    Condition = Weather.SnowShowers;
+                    Condition = WeatherConditions.SnowShowers;
                     _nextWeatherChance = 0.85d;
                     break;
                 case 2:
-                    Condition = Weather.Snow;
+                    Condition = WeatherConditions.Snow;
                     _nextWeatherChance = 0.75d;
                     break;
                 case 3:
-                    Condition = Weather.Sleet;
+                    Condition = WeatherConditions.Sleet;
                     _nextWeatherChance = 0.90d;
                     break;
                 case 4:
-                    Condition = Weather.Hail;
+                    Condition = WeatherConditions.Hail;
                     _nextWeatherChance = 0.95d;
                     if (GameSimulationApp.Instance.Random.NextBool())
                         GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
@@ -272,7 +272,7 @@ namespace OregonTrailDotNet.Entity.Location.Weather
 
                     break;
                 case 5:
-                    Condition = Weather.Storm;
+                    Condition = WeatherConditions.Storm;
                     _nextWeatherChance = 0.85d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
 
@@ -282,7 +282,7 @@ namespace OregonTrailDotNet.Entity.Location.Weather
 
                     break;
                 default:
-                    Condition = Weather.Snow;
+                    Condition = WeatherConditions.Snow;
                     _nextWeatherChance = 0.75d;
                     break;
             }
@@ -297,7 +297,7 @@ namespace OregonTrailDotNet.Entity.Location.Weather
             switch (GameSimulationApp.Instance.Random.Next(9))
             {
                 case 0:
-                    Condition = Weather.ScatteredThunderstorms;
+                    Condition = WeatherConditions.ScatteredThunderstorms;
                     _nextWeatherChance = 0.90d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
 
@@ -307,16 +307,16 @@ namespace OregonTrailDotNet.Entity.Location.Weather
 
                     break;
                 case 1:
-                    Condition = Weather.ScatteredShowers;
+                    Condition = WeatherConditions.ScatteredShowers;
                     _nextWeatherChance = 0.85d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 case 2:
-                    Condition = Weather.MostlySunny;
+                    Condition = WeatherConditions.MostlySunny;
                     _nextWeatherChance = 0.50d;
                     break;
                 case 3:
-                    Condition = Weather.Thunderstorm;
+                    Condition = WeatherConditions.Thunderstorm;
                     _nextWeatherChance = 0.90d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
 
@@ -326,11 +326,11 @@ namespace OregonTrailDotNet.Entity.Location.Weather
 
                     break;
                 case 4:
-                    Condition = Weather.Haze;
+                    Condition = WeatherConditions.Haze;
                     _nextWeatherChance = 0.70d;
                     break;
                 case 5:
-                    Condition = Weather.Fog;
+                    Condition = WeatherConditions.Fog;
                     _nextWeatherChance = 0.78d;
 
                     if (GameSimulationApp.Instance.Random.NextBool())
@@ -339,19 +339,19 @@ namespace OregonTrailDotNet.Entity.Location.Weather
 
                     break;
                 case 6:
-                    Condition = Weather.Rain;
+                    Condition = WeatherConditions.Rain;
                     _nextWeatherChance = 0.56d;
                     break;
                 case 7:
-                    Condition = Weather.Overcast;
+                    Condition = WeatherConditions.Overcast;
                     _nextWeatherChance = 0.42d;
                     break;
                 case 8:
-                    Condition = Weather.Cloudy;
+                    Condition = WeatherConditions.Cloudy;
                     _nextWeatherChance = 0.30d;
                     break;
                 default:
-                    Condition = Weather.MostlySunny;
+                    Condition = WeatherConditions.MostlySunny;
                     _nextWeatherChance = 0.50d;
                     break;
             }
@@ -366,33 +366,33 @@ namespace OregonTrailDotNet.Entity.Location.Weather
             switch (GameSimulationApp.Instance.Random.Next(6))
             {
                 case 0:
-                    Condition = Weather.Clear;
+                    Condition = WeatherConditions.Clear;
                     _nextWeatherChance = 0.28d;
                     break;
                 case 1:
-                    Condition = Weather.MostlySunny;
+                    Condition = WeatherConditions.MostlySunny;
                     _nextWeatherChance = 0.35d;
                     break;
                 case 2:
-                    Condition = Weather.PartlySunny;
+                    Condition = WeatherConditions.PartlySunny;
                     _nextWeatherChance = 0.28d;
                     break;
                 case 3:
-                    Condition = Weather.Sunny;
+                    Condition = WeatherConditions.Sunny;
                     _nextWeatherChance = 0.24d;
                     break;
                 case 4:
-                    Condition = Weather.ChanceOfThunderstorm;
+                    Condition = WeatherConditions.ChanceOfThunderstorm;
                     _nextWeatherChance = 0.60d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 case 5:
-                    Condition = Weather.ChanceOfRain;
+                    Condition = WeatherConditions.ChanceOfRain;
                     _nextWeatherChance = 0.56d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 default:
-                    Condition = Weather.Clear;
+                    Condition = WeatherConditions.Clear;
                     _nextWeatherChance = 0.28d;
                     break;
             }
@@ -407,33 +407,33 @@ namespace OregonTrailDotNet.Entity.Location.Weather
             switch (GameSimulationApp.Instance.Random.Next(6))
             {
                 case 0:
-                    Condition = Weather.Clear;
+                    Condition = WeatherConditions.Clear;
                     _nextWeatherChance = 0.10d;
                     break;
                 case 1:
-                    Condition = Weather.MostlySunny;
+                    Condition = WeatherConditions.MostlySunny;
                     _nextWeatherChance = 0.25d;
                     break;
                 case 2:
-                    Condition = Weather.PartlySunny;
+                    Condition = WeatherConditions.PartlySunny;
                     _nextWeatherChance = 0.35d;
                     break;
                 case 3:
-                    Condition = Weather.Sunny;
+                    Condition = WeatherConditions.Sunny;
                     _nextWeatherChance = 0.60d;
                     break;
                 case 4:
-                    Condition = Weather.ChanceOfThunderstorm;
+                    Condition = WeatherConditions.ChanceOfThunderstorm;
                     _nextWeatherChance = 0.30d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 case 5:
-                    Condition = Weather.ChanceOfRain;
+                    Condition = WeatherConditions.ChanceOfRain;
                     _nextWeatherChance = 0.33d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
                     break;
                 default:
-                    Condition = Weather.Clear;
+                    Condition = WeatherConditions.Clear;
                     _nextWeatherChance = 0.10d;
                     break;
             }

@@ -64,7 +64,7 @@ namespace OregonTrailDotNet.Entity.Location
         /// <summary>
         ///     Current weather condition this location is experiencing.
         /// </summary>
-        public Weather.Weather Weather => _weather.Condition;
+        public Weather.WeatherConditions Weather => _weather.Condition;
 
         /// <summary>
         ///     Current outside temperature (in Celsius) the party is exposed to at this location. Survival mechanics read this

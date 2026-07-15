@@ -3,7 +3,7 @@ using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Entity.Vehicle;
 using OregonTrailDotNet.Module.Time;
 using OregonTrailDotNet.Window.Travel;
-using WeatherCondition = OregonTrailDotNet.Entity.Location.Weather.Weather;
+using WeatherCondition = OregonTrailDotNet.Entity.Location.Weather.WeatherConditions;
 
 namespace OregonTrailDotNet.Bot.Game
 {
