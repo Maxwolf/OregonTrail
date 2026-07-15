@@ -106,6 +106,16 @@ namespace OregonTrailDotNet.Entity.Vehicle
         public int Odometer { get; private set; }
 
         /// <summary>
+        ///     Odometer reading up to which the trail has already been scanned for gravesites the party might pass. The drive
+        ///     form checks the stretch between this and the live <see cref="Odometer" /> each turn and then advances it. It
+        ///     lives on the vehicle (which spans the whole journey) rather than on the transient drive form so the final
+        ///     stretch of a leg — the miles covered on the turn the party arrives at a landmark, after which the drive form is
+        ///     torn down for the arrival screen and can no longer check — is still examined at the start of the next leg
+        ///     instead of being skipped forever. That gap is why a grave sitting right before a landmark was never offered.
+        /// </summary>
+        internal int LastGraveCheckOdometer { get; set; }
+
+        /// <summary>
         ///     In general, you will travel 200 miles plus some additional distance which depends upon the quality of your team of
         ///     oxen. This mileage figure is an ideal, assuming nothing goes wrong. If you run into problems, mileage is subtracted
         ///     from this ideal figure; the revised total is printed at the start of the next trip segment.
@@ -652,6 +662,9 @@ namespace OregonTrailDotNet.Entity.Vehicle
 
             // Number of miles the vehicle has traveled.
             Odometer = 0;
+
+            // Fresh journey: nothing of the trail has been scanned for gravesites yet.
+            LastGraveCheckOdometer = 0;
 
             // Lifetime hunting tally and fort-departure penalty start fresh each game.
             AnimalsKilled = 0;

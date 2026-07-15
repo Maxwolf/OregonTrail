@@ -38,12 +38,6 @@ namespace OregonTrailDotNet.Window.Travel.Command
         private string _swayBarText;
 
         /// <summary>
-        ///     Odometer reading the last time we checked for a gravesite. Each travel turn we look at the stretch between this
-        ///     and the new odometer so we notice when the party crosses a grave, rather than needing to land on it exactly.
-        /// </summary>
-        private int _lastTombstoneCheckOdometer;
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="ContinueOnTrail" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
@@ -76,10 +70,6 @@ namespace OregonTrailDotNet.Window.Travel.Command
             // Animated sway bar.
             _marqueeBar = new MarqueeBar();
             _swayBarText = _marqueeBar.Step();
-
-            // Start watching for gravesites from wherever the party is right now, so we only notice graves crossed from here
-            // forward on this leg of the trail.
-            _lastTombstoneCheckOdometer = game.Vehicle.Odometer;
 
             // Vehicle has departed the current location for the next one but you can only depart once.
             if ((game.Trail.DistanceToNextLocation > 0) &&
@@ -167,17 +157,25 @@ namespace OregonTrailDotNet.Window.Travel.Command
                 case VehicleStatus.Moving:
                     _swayBarText = _marqueeBar.Step();
 
-                    // If the previous travel turn carried the party past a grave left by an earlier party, stop and offer to
-                    // look closer, just like the original game did when you crossed a tombstone on the trail.
-                    if (!game.Trail.CurrentLocation.ArrivalFlag &&
-                        game.Tombstone.FindTombstoneBetween(_lastTombstoneCheckOdometer, game.Vehicle.Odometer, out _))
+                    // If the miles covered since we last looked carried the party past a grave an earlier party left, stop
+                    // and offer to look closer, just like the original game did when you crossed a tombstone on the trail. We
+                    // are always mid-leg here (VehicleStatus.Moving, having already departed the last location), so no arrival
+                    // guard is needed. An earlier version also required !CurrentLocation.ArrivalFlag, but during a leg
+                    // CurrentLocation is the location the party just departed — its ArrivalFlag was set the moment they
+                    // reached it — so that guard was always false and silently suppressed every grave crossing. That is why
+                    // passing a marker never offered the tombstone. The scan cursor lives on the vehicle (see
+                    // Vehicle.LastGraveCheckOdometer) rather than this form, so a grave sitting in the last stretch before a
+                    // landmark — where this form is replaced by the arrival screen before its next tick can check — is picked
+                    // up at the start of the following leg instead of being skipped for good.
+                    if (game.Tombstone.FindTombstoneBetween(game.Vehicle.LastGraveCheckOdometer, game.Vehicle.Odometer,
+                            out _))
                     {
-                        _lastTombstoneCheckOdometer = game.Vehicle.Odometer;
+                        game.Vehicle.LastGraveCheckOdometer = game.Vehicle.Odometer;
                         SetForm(typeof(TombstoneQuestion));
                         return;
                     }
 
-                    _lastTombstoneCheckOdometer = game.Vehicle.Odometer;
+                    game.Vehicle.LastGraveCheckOdometer = game.Vehicle.Odometer;
 
                     // Processes the next turn in the game simulation.
                     game.TakeTurn(false);
