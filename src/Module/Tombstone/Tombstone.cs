@@ -36,6 +36,17 @@ namespace OregonTrailDotNet.Module.Tombstone
         }
 
         /// <summary>
+        ///     Initializes a tombstone directly from stored values, used when hydrating saved tombstones from the game database
+        ///     (as opposed to the parameterless constructor, which reads the live vehicle for a fresh death on the trail).
+        /// </summary>
+        public Tombstone(string playerName, int mileMarker, string epitaph)
+        {
+            PlayerName = playerName;
+            MileMarker = mileMarker;
+            Epitaph = epitaph ?? string.Empty;
+        }
+
+        /// <summary>
         ///     Name of the player whom died and the Tombstone is paying respects to.
         /// </summary>
         public string PlayerName { get; }

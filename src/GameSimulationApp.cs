@@ -11,6 +11,7 @@ using OregonTrailDotNet.Module.Scoring;
 using OregonTrailDotNet.Module.Time;
 using OregonTrailDotNet.Module.Tombstone;
 using OregonTrailDotNet.Module.Trail;
+using OregonTrailDotNet.Persistence;
 using OregonTrailDotNet.Window.GameOver;
 using OregonTrailDotNet.Window.Graveyard;
 using OregonTrailDotNet.Window.MainMenu;
@@ -80,6 +81,20 @@ namespace OregonTrailDotNet
         ///     this trail so other players can encounter them in the future.
         /// </summary>
         public TombstoneModule Tombstone { get; private set; }
+
+        /// <summary>
+        ///     When true, the game opens a persistent SQLite database (game.db, next to the executable) so high scores and
+        ///     tombstones survive across runs. Off by default so headless hosts that drive the real simulation — the training
+        ///     bot and the test suite — stay purely in-memory and never touch the player's file. The real game turns it on in
+        ///     <see cref="Program" /> before creating the simulation.
+        /// </summary>
+        internal static bool PersistenceEnabled { get; set; }
+
+        /// <summary>
+        ///     The player's persistent game database, or null when persistence is disabled or the file could not be opened. Owned
+        ///     by the simulation: created in <see cref="OnPostCreate" /> and disposed in <see cref="OnPreDestroy" />.
+        /// </summary>
+        public GameDatabase Database { get; private set; }
 
         /// <summary>
         ///     Determines what windows the simulation will be capable of using and creating using the window managers factory.
@@ -162,10 +177,15 @@ namespace OregonTrailDotNet
         /// </summary>
         private void OnPostCreate()
         {
-            Scoring = new ScoringModule();
+            // Open the persistent database first (when enabled) so the scoring and tombstone modules can load from it. A null
+            // database simply keeps both modules in-memory, matching the original behavior.
+            if (PersistenceEnabled)
+                Database = GameDatabase.TryOpen();
+
+            Scoring = new ScoringModule(Database?.HighScores);
 
             // Allows for other players to see deaths of previous players on the trail.
-            Tombstone = new TombstoneModule();
+            Tombstone = new TombstoneModule(Database?.Tombstones);
         }
 
         /// <summary>
@@ -188,6 +208,10 @@ namespace OregonTrailDotNet
             Trail = null;
             TotalTurns = 0;
             Vehicle = null;
+
+            // Release the database file handle (and its WAL sidecars) after the modules that used it are gone.
+            Database?.Dispose();
+            Database = null;
 
             // Destroys game simulation instance.
             Instance = null;

@@ -25,6 +25,10 @@ namespace OregonTrailDotNet
             // Because I want things to look correct like progress bars.
             Console.OutputEncoding = System.Text.Encoding.Unicode;
 
+            // The real game persists high scores and tombstones to game.db next to the executable (headless hosts like the
+            // training bot leave this off and stay in-memory).
+            GameSimulationApp.PersistenceEnabled = true;
+
             // Create game simulation singleton instance, and start it.
             GameSimulationApp.Create();
 

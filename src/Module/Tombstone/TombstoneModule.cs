@@ -2,6 +2,7 @@
 // Timestamp 01/03/2016@1:50 AM
 
 using System.Collections.Generic;
+using OregonTrailDotNet.Persistence;
 
 namespace OregonTrailDotNet.Module.Tombstone
 {
@@ -12,15 +13,24 @@ namespace OregonTrailDotNet.Module.Tombstone
     /// </summary>
     public sealed class TombstoneModule : WolfCurses.Module.Module
     {
+        /// <summary>Optional persistence for tombstones; null keeps the module purely in-memory (bot/tests).</summary>
+        private readonly TombstoneStore _store;
+
         /// <summary>
-        ///     Initializes a new instance of the <see cref="TombstoneModule" /> class.
-        ///     Initializes a new instance of the <see cref="T:TrailSimulation.Game.TombstoneManager" /> class.
+        ///     Initializes a new instance of the <see cref="TombstoneModule" /> class, loading any previously saved tombstones
+        ///     from the game database when persistence is enabled.
         /// </summary>
-        public TombstoneModule()
+        /// <param name="store">Tombstone persistence, or null to run without saving (in-memory only).</param>
+        public TombstoneModule(TombstoneStore store = null)
         {
             Tombstones = new Dictionary<int, Tombstone>();
+            _store = store;
 
-            // TODO: Need to code JSON saving and loading of tombstone data for given trails.
+            if (_store == null)
+                return;
+
+            foreach (var (mileMarker, playerName, epitaph) in _store.All())
+                Tombstones[mileMarker] = new Tombstone(playerName, mileMarker, epitaph);
         }
 
         /// <summary>Gets or sets the element with the specified key.</summary>
@@ -64,14 +74,19 @@ namespace OregonTrailDotNet.Module.Tombstone
 
             // Actually adds the tombstone to the internal list of them using mile marker as a key.
             Tombstones.Add(tombstoneItem.MileMarker, tombstoneClone);
+
+            // Persist it (a no-op when persistence is off); INSERT OR IGNORE mirrors the one-per-mile-marker rule above.
+            _store?.Insert(tombstoneClone.MileMarker, tombstoneClone.PlayerName, tombstoneClone.Epitaph);
         }
 
         /// <summary>
-        ///     Clears any existing tombstone data that might be loaded in the module.
+        ///     Clears any existing tombstone data that might be loaded in the module. When persistence is on this also clears the
+        ///     saved tombstones from the game database.
         /// </summary>
         public void Reset()
         {
             Tombstones.Clear();
+            _store?.Clear();
         }
 
         /// <summary>Delegating method for the internal tombstones dictionary, used to make grabbing values less verbose.</summary>
