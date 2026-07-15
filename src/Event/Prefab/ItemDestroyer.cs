@@ -50,8 +50,21 @@ namespace OregonTrailDotNet.Event.Prefab
             var postDestroy = new StringBuilder();
             postDestroy.AppendLine($"the loss of:{Environment.NewLine}");
 
-            // Attempts to kill the living passengers of the vehicle.
-            var drownedPassengers = GameSimulationApp.Instance.Vehicle.Passengers.TryKill();
+            // Translate the display verb into a recorded cause of death so the death screen can say how they died rather than
+            // falling back to a blank "unknown" (this whole event path previously killed without recording any cause).
+            var cause = killVerb switch
+            {
+                "drowned" => CauseOfDeath.Drowned,
+                "frozen" => CauseOfDeath.Frozen,
+                "mauled" or "trampled" => CauseOfDeath.Mauled,
+                "murdered" => CauseOfDeath.Murdered,
+                "crushed" or "burned" => CauseOfDeath.Accident,
+                _ => CauseOfDeath.Unknown
+            };
+
+            // Attempts to kill the living passengers of the vehicle. A healthy, well-provisioned party fares far better than a
+            // flat coin-flip: each member's odds start at 15% and climb only as their own health falls.
+            var drownedPassengers = GameSimulationApp.Instance.Vehicle.Passengers.TryKill(15, cause);
 
             // If the killed passenger list contains any entries we print them out.
             var passengers = drownedPassengers as IList<Entity.Person.Person> ?? drownedPassengers.ToList();

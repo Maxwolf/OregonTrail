@@ -67,6 +67,12 @@ namespace OregonTrailDotNet.Entity.Location
         public Weather.Weather Weather => _weather.Condition;
 
         /// <summary>
+        ///     Current outside temperature (in Celsius) the party is exposed to at this location. Survival mechanics read this
+        ///     so a party that skimped on clothing suffers real cold exposure once the trail turns freezing.
+        /// </summary>
+        public int Temperature => _weather.OutsideTemperature;
+
+        /// <summary>
         ///     Determines if the location allows the player to chat to other NPC's in the area which can offer up advice about the
         ///     trail ahead.
         /// </summary>

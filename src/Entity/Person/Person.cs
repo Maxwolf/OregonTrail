@@ -281,6 +281,13 @@ namespace OregonTrailDotNet.Entity.Person
                 // Consume food based on ration level.
                 ConsumeFood();
 
+                // Freezing weather with too little clothing is directly dangerous, independent of how well the party eats.
+                // In the original game warm clothes were essential once you hit the snow and mountain passes; here a party
+                // that carries fewer than one set per person takes real cold damage - and can freeze to death - and the
+                // colder it gets (and the shorter it is on clothing) the worse the exposure. A properly clothed party is
+                // spared entirely, which is what gives the optimizer a clean reason to buy clothing.
+                ApplyColdExposure(clothingCount, partySize);
+
                 // Running out of ammunition (no way to hunt) or medical supplies (no way to treat the sick) wears the party down.
                 ApplySupplyPenalties(skipDay);
             }
@@ -538,17 +545,61 @@ namespace OregonTrailDotNet.Entity.Person
             if (skipDay || (HealthStatus == HealthStatus.Dead) || _dead)
                 return;
 
-            var inventory = GameSimulationApp.Instance.Vehicle.Inventory;
+            var game = GameSimulationApp.Instance;
+            var inventory = game.Vehicle.Inventory;
 
             // Out of food AND out of ammunition means no way to hunt for more, so starvation accelerates.
             if ((inventory[Entities.Food].Quantity <= 0) && (inventory[Entities.Ammo].Quantity <= 0))
                 Damage(5, 15, CauseOfDeath.Starvation);
 
-            // A sick or injured traveler with no medical supplies on hand slowly worsens.
-            if ((Infected || Injured) &&
-                inventory.ContainsKey(Entities.Medicine) &&
-                (inventory[Entities.Medicine].Quantity <= 0))
-                Damage(1, 5, CauseOfDeath.Illness);
+            // Medical supplies work on the move, not only when the party stops to rest. A sick or injured traveler with
+            // medicine on hand spends a kit that day to treat the ailment - a weaker cure than a full rest-stop, but enough
+            // to clear the infection and keep them going - while one with no medicine steadily worsens. This is what makes
+            // carrying medicine pay off during the journey rather than only during a (costly) rest, so the optimizer has a
+            // reason to buy it instead of dropping it to zero.
+            if (Infected || Injured)
+            {
+                if (inventory.ContainsKey(Entities.Medicine) && (inventory[Entities.Medicine].Quantity > 0))
+                {
+                    inventory[Entities.Medicine].ReduceQuantity(1);
+                    Infected = false;
+                    Injured = false;
+                    Status += game.Random.Next(5, 20);
+                }
+                else
+                {
+                    Damage(1, 5, CauseOfDeath.Illness);
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Applies cold-exposure damage when the party is travelling through freezing weather without enough clothing. Warm
+        ///     clothes are only relevant once the temperature drops below freezing, so a party crossing warm country is never
+        ///     penalised no matter how little clothing it carries. Below freezing, a party holding fewer than one set of clothing
+        ///     per living member risks direct health loss each day; the risk climbs with how many sets it is short and how far
+        ///     below freezing it is, so the snow and high mountain passes are lethal to the ill-prepared while a party with a set
+        ///     per person shrugs the cold off entirely.
+        /// </summary>
+        /// <param name="clothingCount">Sets of clothing the party currently carries.</param>
+        /// <param name="partySize">Number of living party members needing to stay warm.</param>
+        private void ApplyColdExposure(int clothingCount, int partySize)
+        {
+            var game = GameSimulationApp.Instance;
+
+            // Warm country (at or above freezing) never threatens a clothing-short party.
+            var temperature = game.Trail.CurrentLocation?.Temperature ?? 20;
+            if (temperature > 0 || clothingCount >= partySize)
+                return;
+
+            // Missing sets of clothing and severity of the cold both raise the exposure risk. chill is 1 at freezing and
+            // climbs by one for every 10 degrees below zero; the risk is capped so even a brutal cold snap stays survivable
+            // with a little luck, which keeps a gradient for the optimizer to climb rather than wiping every party.
+            var shortfall = partySize - clothingCount;
+            var chill = 1 + (-temperature) / 10;
+            var risk = Math.Min(65, 10 + 6 * shortfall * chill);
+            if (game.Random.Next(100) < risk)
+                Damage(10, 40, CauseOfDeath.Illness);
         }
 
         /// <summary>
@@ -608,11 +659,16 @@ namespace OregonTrailDotNet.Entity.Person
         ///     alive. Will not trigger event for death of player or companion, that is left up to implementation for this method
         ///     and why it exists at all.
         /// </summary>
-        public void Kill()
+        /// <param name="cause">What killed them, recorded so the death screen can say how they died instead of falling back to a
+        ///     blank "unknown" (catastrophic events used to kill through this path without recording any cause).</param>
+        public void Kill(CauseOfDeath cause = CauseOfDeath.Unknown)
         {
             // Skip if the person is already dead.
             if (HealthStatus == HealthStatus.Dead)
                 return;
+
+            // Record how they died before flipping the health to dead.
+            Cause = cause;
 
             // Ashes to ashes, dust to dust...
             Status = 0;

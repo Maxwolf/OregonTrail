@@ -110,10 +110,13 @@ namespace OregonTrailDotNet.Bot.Learning
             m[MonthOffset + 3] = 0.3; // June
             m[MonthOffset + 4] = 0.0; // July
 
-            m[OxenIdx] = 9;       // above the 5.5-ox mileage break-even with slack; oxen finish the trail AND score 4 pts each
+            m[OxenIdx] = 13;      // seed inside the viable basin: empirically ~14-16 oxen reliably finish while ~10 strands the
+                                  // wagon, so start well above the 5.5-ox mileage break-even (oxen also score 4 pts each)
             m[FoodIdx] = 1400;    // ~56 days at the five-person Filling burn (~25 lb/day); hunting backfills any overrun
-            m[ClothesIdx] = 11;   // >= the 2xliving hail-freeze guard (10 for a full party) plus slack for the Shoshoni guide
-            m[MedicineIdx] = 5;   // the best per-dollar survival item (heals + clears infection on rest); unscored, so don't hoard
+            m[ClothesIdx] = 15;   // a full set per person survives the freezing-country cold-exposure penalty; well above the
+                                  // 2xliving hail-freeze guard (10) with slack for the Shoshoni guide's 1-5 sets
+            m[MedicineIdx] = 7;   // the best per-dollar survival item (heals + clears infection on rest); cold now drives more
+                                  // infections, so carry a few more, but it is unscored - don't hoard
             m[AmmoIdx] = 12;      // hunting is the food backstop once the 2000 lb cap bites; a modest stock is enough
             m[WheelIdx] = 1;      // spare parts are re-buyable at every fort, so one of each up front suffices
             m[AxleIdx] = 1;

@@ -31,10 +31,12 @@ namespace OregonTrailDotNet.Bot.Learning
         public TravelCommands ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommands> available)
         {
             // Rest for the party's weakest member, not the average: a full, healthy party scores far higher than a lone
-            // survivor, so every member in danger is worth stopping for.
+            // survivor, so every member in danger is worth stopping for. Resting is no longer gated on carrying medicine -
+            // stopping heals through natural recovery either way, and medicine now also treats the sick while moving, so the
+            // old "only rest if we have medicine" gate perversely taught the optimizer to drop medicine to avoid resting.
             if (available.Contains(TravelCommands.StopToRest) &&
                 (int) state.LowestHealth <= _genome.RestHealthThreshold &&
-                state.Medicine > 0 && state.DaysRemaining > 40)
+                state.DaysRemaining > 40)
                 return TravelCommands.StopToRest;
 
             if (available.Contains(TravelCommands.HuntForFood) && state.Food < _genome.HuntFoodThreshold && state.Ammo > 0)

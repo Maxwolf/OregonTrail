@@ -13,25 +13,38 @@ namespace OregonTrailDotNet.Entity.Vehicle
     public static class VehicleExtensions
     {
         /// <summary>
-        ///     Loops through all the currently living passengers and rolls the dice to see if they should be killed. This method
-        ///     is very powerful and can end the game quickly if used excessively.
+        ///     Loops through the living passengers and rolls, per person, whether a catastrophic event kills them. The chance is
+        ///     no longer a flat coin-flip: it starts from <paramref name="baseChancePercent" /> for a hale traveller and climbs
+        ///     (toward roughly double) as that person's health falls, so a well-provisioned, healthy party survives a disaster far
+        ///     better than a starving, sick one. This is what makes keeping the party fed, rested, clothed and treated pay off
+        ///     against events instead of every member facing the same 50% execution regardless of condition.
         /// </summary>
         /// <param name="passengers">List of passengers from the vehicle.</param>
+        /// <param name="baseChancePercent">Chance (0-100) that the event kills a full-health member; scaled up for the unwell.</param>
+        /// <param name="cause">What to record as the cause of death for anyone this kills.</param>
         /// <returns>List of people the method killed, empty list means nobody was killed.</returns>
-        public static IEnumerable<Person.Person> TryKill(this IEnumerable<Person.Person> passengers)
+        public static IEnumerable<Person.Person> TryKill(this IEnumerable<Person.Person> passengers,
+            int baseChancePercent, CauseOfDeath cause)
         {
+            var game = GameSimulationApp.Instance;
+
             // Determine if we lost any people, this is separate from items in vehicle.
             var peopleKilled = new List<Person.Person>();
             foreach (var person in passengers)
             {
-                // It all comes down to a dice roll if the storm kills you.
-                if (!GameSimulationApp.Instance.Random.NextBool() ||
-                    (person.HealthStatus == HealthStatus.Dead))
+                if (person.HealthStatus == HealthStatus.Dead)
                     continue;
 
-                // Kills the person and adds them to list.
-                person.Kill();
-                peopleKilled.Add(person);
+                // healthFactor is 1.0 at full (Good) health and rises toward ~2.0 as health approaches death, so the frail are
+                // markedly more likely to be taken than the hale.
+                var healthFactor = 1.0 +
+                                   (double) ((int) HealthStatus.Good - (int) person.HealthStatus) / (int) HealthStatus.Good;
+
+                if (game.Random.Next(100) < baseChancePercent * healthFactor)
+                {
+                    person.Kill(cause);
+                    peopleKilled.Add(person);
+                }
             }
 
             // Gives back the list of people that were killed by this extension method.

@@ -216,6 +216,8 @@ namespace OregonTrailDotNet.Bot.Game
                 Days = days,
                 Miles = miles,
                 Survivors = survivors,
+                PartySize = vehicle.Passengers.Count,
+                PartyHealthValue = (int) vehicle.PassengerHealthStatus,
                 CauseOfDeath = cause,
                 LeaderName = leaderName,
                 Profession = profession,

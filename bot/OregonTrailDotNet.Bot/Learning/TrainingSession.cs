@@ -172,9 +172,41 @@ namespace OregonTrailDotNet.Bot.Learning
         private void PersistOptimizer() =>
             _db.Profiles.SaveLearningState(_profileId, _optimizer.Serialize(), _optimizer.Generation, _bestScoreEver, _bestVectorJson);
 
-        // Finishers are scored on their real game score; failed runs get a small shaped reward for how far they got, so the
-        // optimizer still has a gradient to climb even when most of a generation dies before Oregon.
-        private static double Fitness(RunResult result) => result.IsFinished ? result.Score : result.Miles * 0.05;
+        // The objective is to arrive with as many people as possible in the best health, so fitness rewards that for EVERY
+        // run - finished or not - rather than the old distance-only reward for failures, which taught policies to buy oxen,
+        // floor it, and ignore the party's health (medicine, clothing and spare parts never paid off under that signal). The
+        // components, in priority order:
+        //   - partyHealth: survivors weighted by their average health (0..2500). This is the heart of the goal and is the only
+        //     signal that separates "kept 4 people alive" from "lost everyone", giving a gradient toward survival everywhere.
+        //   - finishBonus: a flat bonus plus the real game score, so actually reaching Oregon dominates and finishers are still
+        //     ranked among themselves by the true score the leaderboard records.
+        //   - progress: a gentle distance tie-breaker so that, among equally-alive parties, getting further still ranks higher.
+        // The leaderboard and best-score tracking continue to use the real game score (result.Score) untouched; only the
+        // optimizer's search objective is shaped here.
+        internal static double Fitness(RunResult result)
+        {
+            var partySize = result.PartySize > 0 ? result.PartySize : GameSimulationApp.MAXPLAYERS;
+            var deaths = Math.Max(0, partySize - result.Survivors);
+
+            if (result.IsFinished)
+            {
+                // The party reached Oregon. Reward survivors SUPER-LINEARLY (survivors^2, normalised by party size so a full
+                // healthy party scores 2500) so an all-alive arrival dominates, add the true game score, and subtract a HEAVY
+                // per-death penalty. Among parties that complete the journey, every member lost to the trail is a serious hit,
+                // so keeping everyone alive both maximises the quadratic reward AND avoids up to 4x800 in penalties - which is
+                // what makes the optimizer prioritise the whole party. (The penalty is capped near 800: pushed much higher a
+                // low-survivor finish would score worse than not finishing at all, which would perversely discourage winning.)
+                var survivalReward = (double) result.Survivors * result.Survivors * result.PartyHealthValue / partySize;
+                return 2000 + result.Score + survivalReward - deaths * 800.0;
+            }
+
+            // Still on the trail (died or stranded before Oregon). Here the goal is just to make forward progress and discover
+            // the finish, so reward distance and apply only a LIGHT death penalty: heavy enough that throwing lives away is
+            // never free, but not so heavy that a doomed party is better off parking the wagon than pressing on. A death
+            // penalty that dominates this branch collapses training - the optimizer starves the oxen budget to avoid deaths
+            // and strands the wagon short of Oregon. All the heavy survival shaping lives in the finisher branch above.
+            return result.Miles * 0.25 - deaths * 100.0;
+        }
 
         public static string Rating(int score) => score >= 7000 ? "Trail Guide" : score >= 3000 ? "Adventurer" : "Greenhorn";
     }

@@ -41,11 +41,12 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public TravelCommands ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommands> available)
         {
-            // Recover when ANY party member is sick (not just when the average dips) and there's time and medicine — keeping
-            // every member alive and healthy is what maximizes the final score.
+            // Recover when ANY party member is sick (not just when the average dips) and there's still time — keeping every
+            // member alive and healthy is what maximizes the final score. Resting heals through natural recovery with or
+            // without medicine, and medicine now also treats the sick on the move, so resting is no longer gated on it.
             if (available.Contains(TravelCommands.StopToRest) &&
                 (int) state.LowestHealth <= (int) HealthStatus.Poor &&
-                state.Medicine > 0 && state.DaysRemaining > 60)
+                state.DaysRemaining > 60)
                 return TravelCommands.StopToRest;
 
             // Top up food by hunting only if it runs dangerously low and we can shoot.

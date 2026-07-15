@@ -29,6 +29,31 @@ namespace OregonTrailDotNet.Entity.Person
         /// <summary>
         ///     The party member succumbed to a physical injury.
         /// </summary>
-        [Description("succumbed to their injuries")] Injury = 3
+        [Description("succumbed to their injuries")] Injury = 3,
+
+        /// <summary>
+        ///     The party member drowned during a river crossing disaster.
+        /// </summary>
+        [Description("drowned")] Drowned = 4,
+
+        /// <summary>
+        ///     The party member froze to death in a storm without enough warm clothing.
+        /// </summary>
+        [Description("froze to death")] Frozen = 5,
+
+        /// <summary>
+        ///     The party member was killed by wild animals (a wolf attack or buffalo stampede).
+        /// </summary>
+        [Description("was killed by wild animals")] Mauled = 6,
+
+        /// <summary>
+        ///     The party member was killed by bandits or thieves.
+        /// </summary>
+        [Description("was murdered by bandits")] Murdered = 7,
+
+        /// <summary>
+        ///     The party member died in a wagon accident such as a fire or the wagon tipping over.
+        /// </summary>
+        [Description("died in an accident")] Accident = 8
     }
 }

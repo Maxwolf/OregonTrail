@@ -36,6 +36,15 @@ namespace OregonTrailDotNet.Bot.Game
         public int Days { get; init; }
         public int Miles { get; init; }
         public int Survivors { get; init; }
+
+        /// <summary>Total party size the run started with (living + dead). Used with <see cref="Survivors" /> to count deaths,
+        ///     so the trainer can penalise losing members and reward bringing the whole party through.</summary>
+        public int PartySize { get; init; }
+
+        /// <summary>Average health of the living party at the end of the run, as the raw <c>HealthStatus</c> value (Good=500 ..
+        ///     VeryPoor=200, 0 if nobody is left alive). The trainer weights survivors by this so "arrive healthy" beats "arrive
+        ///     barely alive", giving a survival gradient even for runs that never finish.</summary>
+        public int PartyHealthValue { get; init; }
         public string CauseOfDeath { get; init; } = "";
         public string LeaderName { get; init; } = "";
         public int Profession { get; init; }
