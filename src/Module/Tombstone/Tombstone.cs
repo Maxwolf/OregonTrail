@@ -44,8 +44,9 @@ namespace OregonTrailDotNet.Module.Tombstone
             // Which half of the trail the death happened in decides which of the two graves this one occupies.
             TrailHalf = CalculateTrailHalf(MileMarker, trail.Length);
 
-            // Epitaph is left empty by default and ready to be filled in.
-            Epitaph = string.Empty;
+            // Start the grave off with a random silly epitaph, like the goofy messages players (and bots) left in the
+            // original game. The player can replace it with their own words in the epitaph editor if they want to.
+            Epitaph = EpitaphCatalog.Random();
         }
 
         /// <summary>

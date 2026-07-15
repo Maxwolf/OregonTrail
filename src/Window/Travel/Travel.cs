@@ -7,6 +7,7 @@ using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Location;
 using OregonTrailDotNet.Entity.Location.Point;
 using OregonTrailDotNet.Module.Time;
+using OregonTrailDotNet.Module.Tombstone;
 using OregonTrailDotNet.Window.Travel.Command;
 using OregonTrailDotNet.Window.Travel.Dialog;
 using OregonTrailDotNet.Window.Travel.Hunt.Help;
@@ -252,6 +253,13 @@ namespace OregonTrailDotNet.Window.Travel
                 (game.Time.TotalDays >= TimeModule.MaxTravelDays))
             {
                 GameOver = true;
+
+                // If the whole party died out here, leave a grave at this spot (with a random silly epitaph by default) so
+                // a future party can come across it — even for a bot, or a player who quits before the epitaph screen. The
+                // graveyard flow overwrites this grave's message if the player chooses to write their own.
+                if (game.Vehicle.PassengersDead)
+                    game.Tombstone.Add(new Tombstone());
+
                 game.WindowManager.Add(typeof(GameOver.GameOver));
                 return;
             }

@@ -38,6 +38,12 @@ namespace OregonTrailDotNet.Window.Travel.Command
         private string _swayBarText;
 
         /// <summary>
+        ///     Odometer reading the last time we checked for a gravesite. Each travel turn we look at the stretch between this
+        ///     and the new odometer so we notice when the party crosses a grave, rather than needing to land on it exactly.
+        /// </summary>
+        private int _lastTombstoneCheckOdometer;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="ContinueOnTrail" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
@@ -70,6 +76,10 @@ namespace OregonTrailDotNet.Window.Travel.Command
             // Animated sway bar.
             _marqueeBar = new MarqueeBar();
             _swayBarText = _marqueeBar.Step();
+
+            // Start watching for gravesites from wherever the party is right now, so we only notice graves crossed from here
+            // forward on this leg of the trail.
+            _lastTombstoneCheckOdometer = game.Vehicle.Odometer;
 
             // Vehicle has departed the current location for the next one but you can only depart once.
             if ((game.Trail.DistanceToNextLocation > 0) &&
@@ -155,14 +165,19 @@ namespace OregonTrailDotNet.Window.Travel.Command
                     SetForm(typeof(UnableToContinue));
                     break;
                 case VehicleStatus.Moving:
-                    // Check if there is a tombstone here, if so we attach question form that asks if we stop or not.
                     _swayBarText = _marqueeBar.Step();
-                    if (game.Tombstone.ContainsTombstone(game.Vehicle.Odometer) &&
-                        !game.Trail.CurrentLocation.ArrivalFlag)
+
+                    // If the previous travel turn carried the party past a grave left by an earlier party, stop and offer to
+                    // look closer, just like the original game did when you crossed a tombstone on the trail.
+                    if (!game.Trail.CurrentLocation.ArrivalFlag &&
+                        game.Tombstone.FindTombstoneBetween(_lastTombstoneCheckOdometer, game.Vehicle.Odometer, out _))
                     {
+                        _lastTombstoneCheckOdometer = game.Vehicle.Odometer;
                         SetForm(typeof(TombstoneQuestion));
                         return;
                     }
+
+                    _lastTombstoneCheckOdometer = game.Vehicle.Odometer;
 
                     // Processes the next turn in the game simulation.
                     game.TakeTurn(false);

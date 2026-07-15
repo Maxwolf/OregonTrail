@@ -58,6 +58,13 @@ namespace OregonTrailDotNet.Module.Tombstone
         private Dictionary<int, Tombstone> Tombstones { get; }
 
         /// <summary>
+        ///     The grave the party most recently came across on the trail, set by <see cref="FindTombstoneBetween" /> when a
+        ///     travel turn carries them past a gravesite. This is what the graveyard view shows when a living party stops to
+        ///     read a tombstone (their odometer will have moved a little past the exact mile marker of the grave).
+        /// </summary>
+        public Tombstone Encountered { get; private set; }
+
+        /// <summary>
         ///     Creates a shallow copy of the tombstone item and places it in the grave slot for its half of the trail. The
         ///     trail holds only two graves — one per half — so a fresh death in a half overwrites whatever grave was there.
         /// </summary>
@@ -116,6 +123,33 @@ namespace OregonTrailDotNet.Module.Tombstone
                 if (grave.MileMarker == odemeter)
                     return true;
 
+            return false;
+        }
+
+        /// <summary>
+        ///     Determines whether a grave sits in the stretch of trail the party just covered, i.e. its mile marker is greater
+        ///     than <paramref name="fromExclusive" /> and less than or equal to <paramref name="toInclusive" />. A travel turn
+        ///     advances the odometer in a jump, so an exact match rarely lands on a grave — checking the range the turn covered
+        ///     is how the party reliably comes across the graves earlier parties left behind. The found grave is remembered in
+        ///     <see cref="Encountered" /> so the graveyard view can show it.
+        /// </summary>
+        /// <param name="fromExclusive">Odometer at the start of the stretch (exclusive), typically last turn's mile marker.</param>
+        /// <param name="toInclusive">Odometer at the end of the stretch (inclusive), typically the current mile marker.</param>
+        /// <param name="grave">The first grave found within the stretch, or NULL if none.</param>
+        /// <returns>TRUE if a grave was crossed in the given stretch of trail.</returns>
+        public bool FindTombstoneBetween(int fromExclusive, int toInclusive, out Tombstone grave)
+        {
+            foreach (var candidate in Tombstones.Values)
+            {
+                if ((candidate.MileMarker <= fromExclusive) || (candidate.MileMarker > toInclusive))
+                    continue;
+
+                grave = candidate;
+                Encountered = candidate;
+                return true;
+            }
+
+            grave = null;
             return false;
         }
     }

@@ -134,7 +134,9 @@ namespace OregonTrailDotNet.Bot.Game
                 case "Hunting":
                     return HuntWord(screen);
                 case "EpitaphEditor":
-                    return ""; // party wiped; a blank epitaph is fine (rarely reached — death ends the run first)
+                    // Party wiped; leave a random silly epitaph like a person would (rarely reached — the run ends at the
+                    // game-over screen first, and the grave already gets a silly default when the party dies).
+                    return OregonTrailDotNet.Module.Tombstone.EpitaphCatalog.Random();
                 case "ManagementOptions":
                     return "4"; // back out (the bot never opens management options)
                 default:

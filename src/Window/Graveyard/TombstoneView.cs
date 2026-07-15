@@ -37,13 +37,16 @@ namespace OregonTrailDotNet.Window.Graveyard
             // Check if the tombstone manager returned anything, if not then check for user data it's player death then.
             var tombstone = new StringBuilder();
 
-            // Finding a tombstone at the current vehicle odometer means we use that reference.
+            // A living party is stopping to read a grave they just came across on the trail.
             if (GameSimulationApp.Instance.Vehicle.PassengerLivingCount > 0)
             {
-                // Grab the current Tombstone based on players progress on the trail so far.
-                GameSimulationApp.Instance.Tombstone.FindTombstone(
-                    GameSimulationApp.Instance.Vehicle.Odometer,
-                    out var foundTombstone);
+                // Show the grave the party just crossed. Fall back to an exact-odometer lookup on the off chance we landed
+                // right on the mile marker without the crossing check recording it first.
+                var foundTombstone = GameSimulationApp.Instance.Tombstone.Encountered;
+                if (foundTombstone == null)
+                    GameSimulationApp.Instance.Tombstone.FindTombstone(
+                        GameSimulationApp.Instance.Vehicle.Odometer,
+                        out foundTombstone);
 
                 tombstone.AppendLine($"{Environment.NewLine}{foundTombstone}");
             }

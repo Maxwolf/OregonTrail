@@ -1,4 +1,5 @@
 using OregonTrailDotNet.Entity.Person;
+using OregonTrailDotNet.Module.Tombstone;
 using Xunit;
 using PersonEntity = OregonTrailDotNet.Entity.Person.Person;
 using TombstoneEntity = OregonTrailDotNet.Module.Tombstone.Tombstone;
@@ -25,15 +26,20 @@ namespace OregonTrailDotNet.Tests.Module
 
             Assert.Equal("Alice", tombstone.PlayerName);
             Assert.Equal(Game.Vehicle.Odometer, tombstone.MileMarker);
-            Assert.Equal(string.Empty, tombstone.Epitaph);
+
+            // A fresh grave starts with a random silly epitaph from the pool rather than a blank one.
+            Assert.False(string.IsNullOrEmpty(tombstone.Epitaph));
+            Assert.Contains(tombstone.Epitaph, EpitaphCatalog.All);
         }
 
         [Fact]
         public void ToString_WithoutEpitaph_OnlyNamesTheDeceased()
         {
-            var tombstone = new TombstoneEntity();
+            // A grave with an explicitly empty epitaph (e.g. one loaded blank from the database) only names the deceased.
+            var tombstone = new TombstoneEntity(0, 100, "Alice", "", "Independence", "Kansas River Crossing", 20);
 
             Assert.Contains("Here lies Alice", tombstone.ToString());
+            Assert.Equal("Here lies Alice", tombstone.ToString().Trim());
         }
 
         [Fact]
@@ -109,6 +115,34 @@ namespace OregonTrailDotNet.Tests.Module
             Game.Tombstone.Reset();
 
             Assert.False(Game.Tombstone.ContainsTombstone(tombstone.MileMarker));
+        }
+
+        [Fact]
+        public void FindTombstoneBetween_DetectsAGraveCrossedThisTurn_AndRemembersIt()
+        {
+            // A grave sitting at mile 250 that the party sweeps past when the odometer jumps from 200 to 300.
+            Game.Tombstone.Add(new TombstoneEntity(0, 250, "Wanderer", "welp", "Fort Kearney", "Chimney Rock", 10));
+
+            Assert.True(Game.Tombstone.FindTombstoneBetween(200, 300, out var grave));
+            Assert.Equal("Wanderer", grave.PlayerName);
+
+            // The crossed grave is remembered so the graveyard view can show it even though we did not land on mile 250.
+            Assert.NotNull(Game.Tombstone.Encountered);
+            Assert.Equal(250, Game.Tombstone.Encountered.MileMarker);
+        }
+
+        [Fact]
+        public void FindTombstoneBetween_IgnoresGravesOutsideTheStretchJustTraveled()
+        {
+            Game.Tombstone.Add(new TombstoneEntity(0, 250, "Wanderer", "welp", "Fort Kearney", "Chimney Rock", 10));
+
+            // The party has not reached mile 250 yet (still short of it) so there is nothing to come across.
+            Assert.False(Game.Tombstone.FindTombstoneBetween(100, 200, out var beforeIt));
+            Assert.Null(beforeIt);
+
+            // And a grave exactly at the start of the stretch was already passed on the previous turn — not crossed again.
+            Assert.False(Game.Tombstone.FindTombstoneBetween(250, 350, out var alreadyPassed));
+            Assert.Null(alreadyPassed);
         }
     }
 }
