@@ -132,7 +132,9 @@ namespace OregonTrailDotNet.Bot.Game
                 case "LocationFork":
                     return ForkChoice(screen, state);
                 case "Hunting":
-                    return HuntWord(screen);
+                    // Once we have bagged enough food, quit the hunt like a player would instead of firing until dark; the
+                    // game's Hunting form treats "stop" as an early exit that keeps whatever meat we already have.
+                    return HuntStrategy.HasEnoughFood(state) ? "stop" : HuntWord(screen);
                 case "EpitaphEditor":
                     // Party wiped; leave a random silly epitaph like a person would (rarely reached — the run ends at the
                     // game-over screen first, and the grave already gets a silly default when the party dies).

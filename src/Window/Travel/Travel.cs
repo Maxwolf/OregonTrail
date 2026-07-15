@@ -40,6 +40,13 @@ namespace OregonTrailDotNet.Window.Travel
         private bool GameOver { get; set; }
 
         /// <summary>
+        ///     The hunting session currently in progress on this window, or NULL when the party is not hunting. Exposed so the
+        ///     headless bot can read how much meat it has bagged so far and decide, like a player, when it has enough and can
+        ///     stop the hunt early.
+        /// </summary>
+        internal Hunt.HuntManager ActiveHunt => UserData?.Hunt;
+
+        /// <summary>
         ///     Attaches state that picks strings from array at random to show from point of interest.
         /// </summary>
         private void TalkToPeople()

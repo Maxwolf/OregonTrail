@@ -2,6 +2,7 @@ using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Entity.Vehicle;
 using OregonTrailDotNet.Module.Time;
+using OregonTrailDotNet.Window.Travel;
 
 namespace OregonTrailDotNet.Bot.Game
 {
@@ -44,6 +45,12 @@ namespace OregonTrailDotNet.Bot.Game
         public RationLevel Ration { get; init; }
         public TravelPace Pace { get; init; }
         public string LocationName { get; init; } = "";
+
+        /// <summary>
+        ///     Pounds of meat bagged so far in the hunt currently in progress (0 when not hunting). Lets the policy decide,
+        ///     like a player, when it has enough food and should stop the hunt rather than waste more daylight and bullets.
+        /// </summary>
+        public int HuntBagged { get; init; }
 
         /// <summary>True while nobody in the party has died yet.</summary>
         public bool AllAlive => LivingCount >= PartySize && PartySize > 0;
@@ -89,8 +96,18 @@ namespace OregonTrailDotNet.Bot.Game
                 Miles = v.Odometer,
                 Ration = v.Ration,
                 Pace = v.Pace,
-                LocationName = game.Trail.CurrentLocation?.Name ?? ""
+                LocationName = game.Trail.CurrentLocation?.Name ?? "",
+                HuntBagged = BaggedThisHunt(game)
             };
+        }
+
+        // Meat bagged so far in the hunt in progress, read straight off the live hunt session on the travel window, or 0 when
+        // the party is not currently hunting.
+        private static int BaggedThisHunt(GameSimulationApp game)
+        {
+            return game.WindowManager.FocusedWindow is Travel travel && travel.ActiveHunt != null
+                ? travel.ActiveHunt.KillWeight
+                : 0;
         }
 
         // The worst health among the still-living party members (Dead excluded). Falls back to the party average only if the
