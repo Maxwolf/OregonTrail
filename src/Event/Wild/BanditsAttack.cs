@@ -15,17 +15,17 @@ namespace OregonTrailDotNet.Event.Wild
     ///     several choices about what they would like to do, they can attack them, try to outrun them, or circle the vehicle
     ///     around them to try and get them to leave.
     /// </summary>
-    [DirectorEvent(EventCategory.Wild)]
+    [DirectorEvent(EventCategoryEnum.Wild)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class BanditsAttack : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
         /// <returns>The <see cref="string" />.</returns>
-        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
+        protected override string OnPostDestroyItems(IDictionary<EntitiesEnum, int> destroyedItems)
         {
             // Ammo used to kill the bandits is randomly generated.
-            GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].ReduceQuantity(
+            GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Ammo].ReduceQuantity(
                 GameSimulationApp.Instance.Random.Next(3, 15));
 
             // Change event text depending on if items were destroyed or not.

@@ -28,7 +28,7 @@ namespace OregonTrailDotNet.Entity.Item
                     return 0;
 
                 return locations.Count(location =>
-                    location is Settlement && location.Status == LocationStatus.Departed);
+                    location is Settlement && location.Status == LocationStatusEnum.Departed);
             }
         }
 

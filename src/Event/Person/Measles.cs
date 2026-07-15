@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Person
     ///     Measles, also known as morbilli, rubeola or red measles, is a highly contagious infection caused by the measles
     ///     virus.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategoryEnum.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Measles : PersonInfect
     {

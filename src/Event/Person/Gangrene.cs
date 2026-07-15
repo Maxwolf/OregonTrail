@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Person
     ///     Localized death and decomposition of body tissue, resulting from either obstructed circulation or bacterial
     ///     infection.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategoryEnum.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Gangrene : PersonInfect
     {

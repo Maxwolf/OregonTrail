@@ -49,7 +49,7 @@ namespace OregonTrailDotNet.Window.Travel.Command
             // Build up a table of location names and if the player has visited them.
             var locationTable = GameSimulationApp.Instance.Trail.Locations.ToStringTable(
                 new[] {"Visited", "Location Name"},
-                u => u.Status >= LocationStatus.Arrived,
+                u => u.Status >= LocationStatusEnum.Arrived,
                 u => u.Name
             );
             map.AppendLine(locationTable);

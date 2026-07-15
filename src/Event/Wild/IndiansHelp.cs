@@ -12,7 +12,7 @@ namespace OregonTrailDotNet.Event.Wild
     ///     Indians help you find some free food, this event will be called manually more often if you are low on food to
     ///     simulate the effect of them noticing you need help.
     /// </summary>
-    [DirectorEvent(EventCategory.Wild)]
+    [DirectorEvent(EventCategoryEnum.Wild)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class IndiansHelp : EventProduct
     {
@@ -30,7 +30,7 @@ namespace OregonTrailDotNet.Event.Wild
             var vehicle = eventExecutor.SourceEntity as Entity.Vehicle.Vehicle;
 
             // Indians hook you up with free food, what nice guys.
-            vehicle?.Inventory[Entities.Food].AddQuantity(14);
+            vehicle?.Inventory[EntitiesEnum.Food].AddQuantity(14);
         }
 
         /// <summary>

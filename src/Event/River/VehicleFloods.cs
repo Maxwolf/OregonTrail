@@ -14,13 +14,13 @@ namespace OregonTrailDotNet.Event.River
     ///     When crossing a river there is a chance that your wagon will flood if you choose to caulk and float across the
     ///     river.
     /// </summary>
-    [DirectorEvent(EventCategory.RiverCross, EventExecution.ManualOnly)]
+    [DirectorEvent(EventCategoryEnum.RiverCross, EventExecutionEnum.ManualOnly)]
     public sealed class VehicleFloods : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
         /// <returns>The <see cref="string" />.</returns>
-        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
+        protected override string OnPostDestroyItems(IDictionary<EntitiesEnum, int> destroyedItems)
         {
             return destroyedItems.Count > 0
                 ? TryKillPassengers("drowned")

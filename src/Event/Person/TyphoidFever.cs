@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Person
     ///     An infectious bacterial fever with an eruption of red spots on the chest and abdomen and severe intestinal
     ///     irritation.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategoryEnum.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class TyphoidFever : PersonInfect
     {

@@ -28,22 +28,22 @@ namespace OregonTrailDotNet.Tests
             var vehicle = Game.Vehicle;
             vehicle.ResetVehicle();
             for (var i = 0; i < partySize; i++)
-                vehicle.AddPerson(new PersonEntity(Profession.Farmer, $"P{i}", i == 0));
+                vehicle.AddPerson(new PersonEntity(ProfessionEnum.Farmer, $"P{i}", i == 0));
 
-            vehicle.ChangeRations(RationLevel.Filling);
+            vehicle.ChangeRations(RationLevelEnum.Filling);
 
             // Plenty of food so nobody hits the starvation branch during the tick and every passenger eats.
-            vehicle.Inventory[Entities.Food].AddQuantity(1000);
-            var foodBefore = vehicle.Inventory[Entities.Food].Quantity;
+            vehicle.Inventory[EntitiesEnum.Food].AddQuantity(1000);
+            var foodBefore = vehicle.Inventory[EntitiesEnum.Food].Quantity;
 
             // One traveling day: tick every passenger exactly once. The vehicle stays Stopped, so no mileage or
             // random events fire to perturb the food count - the only change is the day's eating.
             vehicle.OnTick(false, false);
 
-            var consumed = foodBefore - vehicle.Inventory[Entities.Food].Quantity;
+            var consumed = foodBefore - vehicle.Inventory[EntitiesEnum.Food].Quantity;
 
             // Linear: 5 people * 1 lb (Filling) = 5 lb. The old quadratic bug consumed 5 * (1 * 5) = 25 lb.
-            Assert.Equal(partySize * (int) RationLevel.Filling, consumed);
+            Assert.Equal(partySize * (int) RationLevelEnum.Filling, consumed);
         }
 
         [Fact]
@@ -51,16 +51,16 @@ namespace OregonTrailDotNet.Tests
         {
             var vehicle = Game.Vehicle;
             vehicle.ResetVehicle();
-            vehicle.AddPerson(new PersonEntity(Profession.Farmer, "Leader", true));
+            vehicle.AddPerson(new PersonEntity(ProfessionEnum.Farmer, "Leader", true));
 
             // ResetVehicle zeroes the larder, so the party has no food. Give them a team of oxen.
-            vehicle.Inventory[Entities.Animal].AddQuantity(6);
-            Assert.Equal(0, vehicle.Inventory[Entities.Food].Quantity);
+            vehicle.Inventory[EntitiesEnum.Animal].AddQuantity(6);
+            Assert.Equal(0, vehicle.Inventory[EntitiesEnum.Food].Quantity);
 
             // One real day with an empty larder: the oxen go hungry and the team loses one.
             vehicle.OnTick(false, false);
 
-            Assert.Equal(5, vehicle.Inventory[Entities.Animal].Quantity);
+            Assert.Equal(5, vehicle.Inventory[EntitiesEnum.Animal].Quantity);
         }
 
         [Fact]
@@ -68,15 +68,15 @@ namespace OregonTrailDotNet.Tests
         {
             var vehicle = Game.Vehicle;
             vehicle.ResetVehicle();
-            vehicle.AddPerson(new PersonEntity(Profession.Farmer, "Leader", true));
+            vehicle.AddPerson(new PersonEntity(ProfessionEnum.Farmer, "Leader", true));
 
-            vehicle.Inventory[Entities.Animal].AddQuantity(6);
-            vehicle.Inventory[Entities.Food].AddQuantity(1000);
+            vehicle.Inventory[EntitiesEnum.Animal].AddQuantity(6);
+            vehicle.Inventory[EntitiesEnum.Food].AddQuantity(1000);
 
             // A well-fed party keeps its whole team - food covers the animals too.
             vehicle.OnTick(false, false);
 
-            Assert.Equal(6, vehicle.Inventory[Entities.Animal].Quantity);
+            Assert.Equal(6, vehicle.Inventory[EntitiesEnum.Animal].Quantity);
         }
 
         /// <summary>
@@ -91,9 +91,9 @@ namespace OregonTrailDotNet.Tests
             vehicle.ResetVehicle();
 
             // The miss roll reads the party leader's profession, so the vehicle needs a leader aboard.
-            vehicle.AddPerson(new PersonEntity(Profession.Farmer, "Hunter", true));
+            vehicle.AddPerson(new PersonEntity(ProfessionEnum.Farmer, "Hunter", true));
 
-            var ammo = vehicle.Inventory[Entities.Ammo];
+            var ammo = vehicle.Inventory[EntitiesEnum.Ammo];
             ammo.AddQuantity(ammo.MaxQuantity); // top the stack off to a known amount that a single shot cannot floor.
             var ammoBefore = ammo.Quantity;
             Assert.True(ammoBefore > 13);

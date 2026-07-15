@@ -23,33 +23,33 @@ namespace OregonTrailDotNet.Module.Trail
             {
                 var oregonTrail = new Location[]
                 {
-                    new Settlement("Independence", Climate.Moderate),
-                    new RiverCrossing("Kansas River Crossing", Climate.Continental, RiverOption.FerryOperator),
-                    new RiverCrossing("Big Blue River Crossing", Climate.Continental),
-                    new Settlement("Fort Kearney", Climate.Continental),
-                    new Landmark("Chimney Rock", Climate.Moderate),
-                    new Settlement("Fort Laramie", Climate.Moderate),
-                    new Landmark("Independence Rock", Climate.Moderate),
-                    new ForkInRoad("South Pass", Climate.Dry, new List<Location>
+                    new Settlement("Independence", ClimateEnum.Moderate),
+                    new RiverCrossing("Kansas River Crossing", ClimateEnum.Continental, RiverOptionEnum.FerryOperator),
+                    new RiverCrossing("Big Blue River Crossing", ClimateEnum.Continental),
+                    new Settlement("Fort Kearney", ClimateEnum.Continental),
+                    new Landmark("Chimney Rock", ClimateEnum.Moderate),
+                    new Settlement("Fort Laramie", ClimateEnum.Moderate),
+                    new Landmark("Independence Rock", ClimateEnum.Moderate),
+                    new ForkInRoad("South Pass", ClimateEnum.Dry, new List<Location>
                     {
-                        new Settlement("Fort Bridger", Climate.Dry),
-                        new Landmark("Green River Shortcut", Climate.Dry)
+                        new Settlement("Fort Bridger", ClimateEnum.Dry),
+                        new Landmark("Green River Shortcut", ClimateEnum.Dry)
                     }) { HighGround = true, StuckChance = 80 },
-                    new RiverCrossing("Green River Crossing", Climate.Dry),
-                    new Landmark("Soda Springs", Climate.Dry),
-                    new Settlement("Fort Hall", Climate.Moderate),
-                    new RiverCrossing("Snake River Crossing", Climate.Moderate, RiverOption.IndianGuide),
-                    new Settlement("Fort Boise", Climate.Polar),
-                    new ForkInRoad("Blue Mountains", Climate.Polar, new List<Location>
+                    new RiverCrossing("Green River Crossing", ClimateEnum.Dry),
+                    new Landmark("Soda Springs", ClimateEnum.Dry),
+                    new Settlement("Fort Hall", ClimateEnum.Moderate),
+                    new RiverCrossing("Snake River Crossing", ClimateEnum.Moderate, RiverOptionEnum.IndianGuide),
+                    new Settlement("Fort Boise", ClimateEnum.Polar),
+                    new ForkInRoad("Blue Mountains", ClimateEnum.Polar, new List<Location>
                     {
-                        new Settlement("Fort Walla Walla", Climate.Polar),
-                        new ForkInRoad("The Dalles", Climate.Polar, new List<Location>
+                        new Settlement("Fort Walla Walla", ClimateEnum.Polar),
+                        new ForkInRoad("The Dalles", ClimateEnum.Polar, new List<Location>
                         {
-                            new RiverCrossing("Columbia River", Climate.Moderate),
-                            new TollRoad("Barlow Toll Road", Climate.Moderate)
+                            new RiverCrossing("Columbia River", ClimateEnum.Moderate),
+                            new TollRoad("Barlow Toll Road", ClimateEnum.Moderate)
                         })
                     }) { HighGround = true, StuckChance = 70 },
-                    new Settlement("Oregon City", Climate.Moderate)
+                    new Settlement("Oregon City", ClimateEnum.Moderate)
                 };
 
                 return new Trail(oregonTrail, 32, 164);
@@ -65,8 +65,8 @@ namespace OregonTrailDotNet.Module.Trail
             {
                 var testPoints = new Location[]
                 {
-                    new Settlement("Start Of Test", Climate.Moderate),
-                    new Settlement("End Of Test", Climate.Dry)
+                    new Settlement("Start Of Test", ClimateEnum.Moderate),
+                    new Settlement("End Of Test", ClimateEnum.Dry)
                 };
 
                 return new Trail(testPoints, 50, 100);

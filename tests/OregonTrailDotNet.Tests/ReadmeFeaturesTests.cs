@@ -41,7 +41,7 @@ namespace OregonTrailDotNet.Tests
         [Fact]
         public void Location_HighGroundAndStuckChanceDefaultToOff()
         {
-            var landmark = new Landmark("Test Rock", Climate.Moderate);
+            var landmark = new Landmark("Test Rock", ClimateEnum.Moderate);
 
             Assert.False(landmark.HighGround);
             Assert.Equal(0, landmark.StuckChance);
@@ -81,7 +81,7 @@ namespace OregonTrailDotNet.Tests
 
                 // All three are manual-only so they never show up in random category rolls.
                 var attribute = eventType.GetCustomAttributes<DirectorEventAttribute>(false).First();
-                Assert.Equal(EventExecution.ManualOnly, attribute.EventExecutionType);
+                Assert.Equal(EventExecutionEnum.ManualOnly, attribute.EventExecutionType);
             }
         }
 
@@ -105,10 +105,10 @@ namespace OregonTrailDotNet.Tests
         [Fact]
         public void DirectorEventAttribute_DefaultsToEqualWeightAndClampsNegatives()
         {
-            Assert.Equal(100, new DirectorEventAttribute(EventCategory.Person).EventProbability);
-            Assert.Equal(25, new DirectorEventAttribute(EventCategory.Person, EventExecution.RandomOrManual, 25)
+            Assert.Equal(100, new DirectorEventAttribute(EventCategoryEnum.Person).EventProbability);
+            Assert.Equal(25, new DirectorEventAttribute(EventCategoryEnum.Person, EventExecutionEnum.RandomOrManual, 25)
                 .EventProbability);
-            Assert.Equal(0, new DirectorEventAttribute(EventCategory.Person, EventExecution.RandomOrManual, -5)
+            Assert.Equal(0, new DirectorEventAttribute(EventCategoryEnum.Person, EventExecutionEnum.RandomOrManual, -5)
                 .EventProbability);
         }
 
@@ -120,10 +120,10 @@ namespace OregonTrailDotNet.Tests
             // Weighted cumulative selection must only ever return an event of the requested category.
             for (var i = 0; i < 200; i++)
             {
-                var created = factory.CreateRandomByType(EventCategory.Vehicle);
+                var created = factory.CreateRandomByType(EventCategoryEnum.Vehicle);
                 Assert.NotNull(created);
                 var attribute = created.GetType().GetCustomAttributes<DirectorEventAttribute>(false).First();
-                Assert.Equal(EventCategory.Vehicle, attribute.EventCategory);
+                Assert.Equal(EventCategoryEnum.Vehicle, attribute.EventCategory);
             }
         }
 
@@ -155,7 +155,7 @@ namespace OregonTrailDotNet.Tests
         public void Vehicle_FortDeparturePenaltyConsumedOnNextMovingTick()
         {
             var vehicle = new VehicleEntity();
-            vehicle.Status = OregonTrailDotNet.Entity.Vehicle.VehicleStatus.Moving;
+            vehicle.Status = OregonTrailDotNet.Entity.Vehicle.VehicleStatusEnum.Moving;
             vehicle.FortDeparturePenalty = true;
 
             vehicle.OnTick(false, false);
@@ -169,7 +169,7 @@ namespace OregonTrailDotNet.Tests
         public void Vehicle_FortDeparturePenaltyRetainedWhileStopped()
         {
             var vehicle = new VehicleEntity();
-            vehicle.Status = OregonTrailDotNet.Entity.Vehicle.VehicleStatus.Stopped;
+            vehicle.Status = OregonTrailDotNet.Entity.Vehicle.VehicleStatusEnum.Stopped;
             vehicle.FortDeparturePenalty = true;
 
             vehicle.OnTick(false, false);
@@ -183,10 +183,10 @@ namespace OregonTrailDotNet.Tests
         [Fact]
         public void Medicine_IsADistinctPurchasableInventoryItem()
         {
-            Assert.Equal(Entities.Medicine, Resources.Medicine.Category);
+            Assert.Equal(EntitiesEnum.Medicine, Resources.Medicine.Category);
 
             var vehicle = new VehicleEntity();
-            Assert.True(vehicle.Inventory.ContainsKey(Entities.Medicine));
+            Assert.True(vehicle.Inventory.ContainsKey(EntitiesEnum.Medicine));
         }
 
         // ---- Travel #16 + #15/#17: prices align to the README and climb at each fort ----
@@ -207,7 +207,7 @@ namespace OregonTrailDotNet.Tests
         {
             // Mark the first settlement on the trail as departed to simulate leaving one fort behind.
             var firstFort = Game.Trail.Locations.First(location => location is Settlement);
-            firstFort.Status = LocationStatus.Departed;
+            firstFort.Status = LocationStatusEnum.Departed;
 
             Assert.Equal(0.20, (double) Resources.Food.Cost, 2); // +$0.10 per fort
             Assert.Equal(12.5f, Resources.Clothing.Cost); // +$2.5 per fort
@@ -221,9 +221,9 @@ namespace OregonTrailDotNet.Tests
         [Fact]
         public void CauseOfDeath_UnknownIsBlankAndOthersDescribeThemselves()
         {
-            Assert.Equal(string.Empty, CauseOfDeath.Unknown.ToDescriptionAttribute());
-            Assert.False(string.IsNullOrEmpty(CauseOfDeath.Starvation.ToDescriptionAttribute()));
-            Assert.False(string.IsNullOrEmpty(CauseOfDeath.Illness.ToDescriptionAttribute()));
+            Assert.Equal(string.Empty, CauseOfDeathEnum.Unknown.ToDescriptionAttribute());
+            Assert.False(string.IsNullOrEmpty(CauseOfDeathEnum.Starvation.ToDescriptionAttribute()));
+            Assert.False(string.IsNullOrEmpty(CauseOfDeathEnum.Illness.ToDescriptionAttribute()));
         }
 
         // ---- Input: spaces are accepted (e.g. tombstone epitaphs) despite the WolfCurses letter/digit filter ----

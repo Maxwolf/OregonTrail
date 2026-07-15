@@ -71,7 +71,7 @@ namespace OregonTrailDotNet.Tests.Module
             Game.Trail.ArriveAtNextLocation();
 
             Assert.Equal(0, Game.Trail.LocationIndex);
-            Assert.Equal(LocationStatus.Arrived, Game.Trail.CurrentLocation.Status);
+            Assert.Equal(LocationStatusEnum.Arrived, Game.Trail.CurrentLocation.Status);
             Assert.Equal(Game.Trail.CurrentLocation.TotalDistance, Game.Trail.DistanceToNextLocation);
         }
 
@@ -86,7 +86,7 @@ namespace OregonTrailDotNet.Tests.Module
             Assert.Equal(1, Game.Trail.LocationIndex);
             Assert.False(Game.Trail.IsFirstLocation);
             Assert.Equal("Kansas River Crossing", Game.Trail.CurrentLocation.Name);
-            Assert.Equal(LocationStatus.Arrived, Game.Trail.CurrentLocation.Status);
+            Assert.Equal(LocationStatusEnum.Arrived, Game.Trail.CurrentLocation.Status);
         }
 
         [Fact]
@@ -112,7 +112,7 @@ namespace OregonTrailDotNet.Tests.Module
         [Fact]
         public void InsertLocation_AddsLocationAfterCurrentOne()
         {
-            var detour = new Landmark("Test Detour", Climate.Moderate);
+            var detour = new Landmark("Test Detour", ClimateEnum.Moderate);
             Game.Trail.InsertLocation(detour);
 
             Assert.Same(detour, Game.Trail.NextLocation);
@@ -141,7 +141,7 @@ namespace OregonTrailDotNet.Tests.Module
         [Fact]
         public void Trail_RejectsSingleLocationList()
         {
-            var locations = new Location[] {new Landmark("Lonely Rock", Climate.Dry)};
+            var locations = new Location[] {new Landmark("Lonely Rock", ClimateEnum.Dry)};
 
             Assert.Throws<ArgumentException>(() => new TrailEntity(locations, 32, 164));
         }

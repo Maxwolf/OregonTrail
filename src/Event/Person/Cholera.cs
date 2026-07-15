@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Person
     ///     Cholera is an infection of the small intestine by some strains of the bacterium Vibrio cholerae. Symptoms may range
     ///     from none, to mild, to severe.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategoryEnum.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Cholera : PersonInfect
     {

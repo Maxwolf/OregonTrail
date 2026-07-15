@@ -12,7 +12,7 @@ namespace OregonTrailDotNet.Event.Vehicle
     ///     Oxen is damaged, which decreases the ability for the vehicle to be pulled forward. It is possible for this event to
     ///     make the vehicle stuck, unable to continue until the player acquires another oxen via trading.
     /// </summary>
-    [DirectorEvent(EventCategory.Vehicle)]
+    [DirectorEvent(EventCategoryEnum.Vehicle)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class OxenDied : EventProduct
     {
@@ -34,7 +34,7 @@ namespace OregonTrailDotNet.Event.Vehicle
                 return;
 
             // Damages the oxen, could make vehicle stuck.
-            vehicle.Inventory[Entities.Animal].ReduceQuantity(1);
+            vehicle.Inventory[EntitiesEnum.Animal].ReduceQuantity(1);
 
             // Reduce the total possible mileage of the vehicle this turn.
             vehicle.ReduceMileage(25);

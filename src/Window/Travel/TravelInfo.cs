@@ -65,7 +65,7 @@ namespace OregonTrailDotNet.Window.Travel
                 var game = GameSimulationApp.Instance;
 
                 // GetModule the current food item from vehicle inventory.
-                var foodItem = game.Vehicle.Inventory[Entities.Food];
+                var foodItem = game.Vehicle.Inventory[EntitiesEnum.Food];
 
                 // Set default food status text, update to actual food item total weight if it exists.
                 var foodStatus = "0 pounds";
@@ -104,7 +104,7 @@ namespace OregonTrailDotNet.Window.Travel
                 // Grab instance of game simulation.
                 var game = GameSimulationApp.Instance;
 
-                var showLocationName = game.Trail.CurrentLocation.Status == LocationStatus.Arrived;
+                var showLocationName = game.Trail.CurrentLocation.Status == LocationStatusEnum.Arrived;
                 var locationStatus = new StringBuilder();
                 locationStatus.AppendLine("--------------------------------");
 

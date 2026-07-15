@@ -1,0 +1,96 @@
+root = true
+
+###############################################################################
+# OregonTrailDotNet — repository code-style / naming conventions
+#
+# The naming rules below are enforced at BUILD time because
+# Directory.Build.props sets <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>,
+# which turns the built-in Roslyn IDE analyzers (IDE1006 naming) into build
+# warnings. Three of the house conventions map onto that analyzer and are
+# enforced here:
+#
+#   * Interfaces   -> "I" prefix        (IEntity, IPolicy, ...)
+#   * Enums        -> "Enum" suffix     (TravelPaceEnum, MonthEnum, ...)
+#   * Private fields -> "_camelCase"    (_connection, _optimizer, ...)
+#
+# Two further conventions have NO built-in Roslyn analyzer, so they are NOT
+# build-enforced. They are honored by hand across the repo and documented here:
+#
+#   * Async methods -> "Async" suffix. (There is no built-in analyzer that can
+#     target async methods specifically; VSTHRD200 from the VS Threading
+#     analyzers would be required. The game/src is fully synchronous.)
+#   * One type per file, and the file is named after the type it contains.
+###############################################################################
+
+[*.cs]
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+charset = utf-8
+
+#### Naming conventions ####
+
+# Elevate the umbrella naming diagnostic so violations of the rules below are
+# reported as warnings by `dotnet build` (not only in the IDE / `dotnet format`).
+dotnet_diagnostic.IDE1006.severity = warning
+
+## Symbol specifications ##
+
+dotnet_naming_symbols.interface_symbols.applicable_kinds = interface
+dotnet_naming_symbols.interface_symbols.applicable_accessibilities = *
+
+dotnet_naming_symbols.enum_symbols.applicable_kinds = enum
+dotnet_naming_symbols.enum_symbols.applicable_accessibilities = *
+
+# const fields (this also covers enum members) — claimed first so the
+# private-field underscore rule below never applies to them.
+dotnet_naming_symbols.const_field_symbols.applicable_kinds = field
+dotnet_naming_symbols.const_field_symbols.applicable_accessibilities = *
+dotnet_naming_symbols.const_field_symbols.required_modifiers = const
+
+# static readonly fields keep PascalCase (Migrations, ...) — claimed before the
+# underscore rule so they are exempt from it.
+dotnet_naming_symbols.static_readonly_field_symbols.applicable_kinds = field
+dotnet_naming_symbols.static_readonly_field_symbols.applicable_accessibilities = *
+dotnet_naming_symbols.static_readonly_field_symbols.required_modifiers = static,readonly
+
+# Everything else that is a private (instance) field -> _camelCase.
+dotnet_naming_symbols.private_field_symbols.applicable_kinds = field
+dotnet_naming_symbols.private_field_symbols.applicable_accessibilities = private,private_protected
+
+## Naming styles ##
+
+dotnet_naming_style.prefix_with_i.required_prefix = I
+dotnet_naming_style.prefix_with_i.capitalization = pascal_case
+
+dotnet_naming_style.suffix_with_enum.required_suffix = Enum
+dotnet_naming_style.suffix_with_enum.capitalization = pascal_case
+
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+dotnet_naming_style.underscore_prefixed_camel_case.required_prefix = _
+dotnet_naming_style.underscore_prefixed_camel_case.capitalization = camel_case
+
+## Rules (order matters: const/static claimed before private fields) ##
+
+dotnet_naming_rule.interfaces_are_i_prefixed.symbols = interface_symbols
+dotnet_naming_rule.interfaces_are_i_prefixed.style = prefix_with_i
+dotnet_naming_rule.interfaces_are_i_prefixed.severity = warning
+
+dotnet_naming_rule.enums_are_enum_suffixed.symbols = enum_symbols
+dotnet_naming_rule.enums_are_enum_suffixed.style = suffix_with_enum
+dotnet_naming_rule.enums_are_enum_suffixed.severity = warning
+
+# Exemptions: const + static readonly are matched (and silenced) before the
+# private-field rule, so they are never asked to take a "_" prefix.
+dotnet_naming_rule.const_fields_exempt.symbols = const_field_symbols
+dotnet_naming_rule.const_fields_exempt.style = pascal_case
+dotnet_naming_rule.const_fields_exempt.severity = silent
+
+dotnet_naming_rule.static_readonly_fields_exempt.symbols = static_readonly_field_symbols
+dotnet_naming_rule.static_readonly_fields_exempt.style = pascal_case
+dotnet_naming_rule.static_readonly_fields_exempt.severity = silent
+
+dotnet_naming_rule.private_fields_are_underscore_camel_case.symbols = private_field_symbols
+dotnet_naming_rule.private_fields_are_underscore_camel_case.style = underscore_prefixed_camel_case
+dotnet_naming_rule.private_fields_are_underscore_camel_case.severity = warning

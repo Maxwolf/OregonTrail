@@ -9,7 +9,7 @@ namespace OregonTrailDotNet.Event.Person
     /// <summary>
     ///     Makes the person whom the event was fired on no loner afflicted by any illness.
     /// </summary>
-    [DirectorEvent(EventCategory.Person, EventExecution.ManualOnly)]
+    [DirectorEvent(EventCategoryEnum.Person, EventExecutionEnum.ManualOnly)]
     public sealed class WellAgain : EventProduct
     {
         /// <summary>

@@ -64,8 +64,8 @@ namespace OregonTrailDotNet.Bot.Tests
             var game = GameSimulationApp.Instance;
             var vehicle = game.Vehicle;
             vehicle.ResetVehicle();
-            vehicle.AddPerson(new PersonEntity(Profession.Farmer, "Hunter", true)); // leader for TryShoot's miss roll
-            var ammo = vehicle.Inventory[Entities.Ammo];
+            vehicle.AddPerson(new PersonEntity(ProfessionEnum.Farmer, "Hunter", true)); // leader for TryShoot's miss roll
+            var ammo = vehicle.Inventory[EntitiesEnum.Ammo];
             ammo.AddQuantity(ammo.MaxQuantity);
 
             var travelInfo = FocusTravelWindow();

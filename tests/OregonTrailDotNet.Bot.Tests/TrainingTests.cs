@@ -52,9 +52,9 @@ namespace OregonTrailDotNet.Bot.Tests
             // un-hardcoding them changes nothing at generation 0 and only opens the door for the optimizer to explore.
             var expert = StrategyGenome.Default();
             Assert.Equal(3, expert.PaceChoice);                       // Grueling (menu 3)
-            Assert.Equal(TravelPace.Grueling, expert.DesiredPace);
+            Assert.Equal(TravelPaceEnum.Grueling, expert.DesiredPace);
             Assert.Equal(1, expert.RationChoice);                     // Filling (menu 1)
-            Assert.Equal(RationLevel.Filling, expert.DesiredRation);
+            Assert.Equal(RationLevelEnum.Filling, expert.DesiredRation);
 
             // Out-of-range raw gene values clamp into the legal 1..3 menu range (indices 24/25 = pace/ration).
             var raw = (double[]) StrategyGenome.DefaultMean().Clone();
@@ -63,7 +63,7 @@ namespace OregonTrailDotNet.Bot.Tests
             var wild = new StrategyGenome { Raw = raw };
             Assert.Equal(3, wild.PaceChoice);                          // 99 clamps to 3
             Assert.Equal(1, wild.RationChoice);                        // -99 clamps to 1
-            Assert.Equal(RationLevel.Filling, wild.DesiredRation);     // menu 1 -> Filling
+            Assert.Equal(RationLevelEnum.Filling, wild.DesiredRation);     // menu 1 -> Filling
         }
 
         [Fact]
@@ -80,7 +80,7 @@ namespace OregonTrailDotNet.Bot.Tests
                     playGame: (_, seed) =>
                     {
                         seen.Add(seed);
-                        return new RunResult { Outcome = GameOutcome.Death, PartySize = 5 };
+                        return new RunResult { Outcome = GameOutcomeEnum.Death, PartySize = 5 };
                     })
                 .Run();
 
@@ -118,7 +118,7 @@ namespace OregonTrailDotNet.Bot.Tests
                         playGame: (_, seed) =>
                         {
                             seeds.Add(seed);
-                            return new RunResult { Outcome = GameOutcome.Death, PartySize = 5 };
+                            return new RunResult { Outcome = GameOutcomeEnum.Death, PartySize = 5 };
                         })
                     .Run();
                 return seeds;
@@ -185,7 +185,7 @@ namespace OregonTrailDotNet.Bot.Tests
             var gensSeen = 0;
 
             new TrainingSession(db, db.Profiles.GetById(id)!, config,
-                    playGame: (_, _) => new RunResult { Outcome = GameOutcome.Death, Miles = 100, PartySize = 5, Survivors = 0 })
+                    playGame: (_, _) => new RunResult { Outcome = GameOutcomeEnum.Death, Miles = 100, PartySize = 5, Survivors = 0 })
                 .Run(onGeneration: _ => gensSeen++, shouldStop: () => gensSeen >= 3);
 
             Assert.Equal(3, gensSeen);

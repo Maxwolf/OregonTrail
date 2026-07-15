@@ -73,7 +73,7 @@ namespace OregonTrailDotNet.Window.Travel.Command
 
             // Vehicle has departed the current location for the next one but you can only depart once.
             if ((game.Trail.DistanceToNextLocation > 0) &&
-                (game.Trail.CurrentLocation.Status == LocationStatus.Arrived))
+                (game.Trail.CurrentLocation.Status == LocationStatusEnum.Arrived))
             {
                 var departingLocation = game.Trail.CurrentLocation;
 
@@ -82,7 +82,7 @@ namespace OregonTrailDotNet.Window.Travel.Command
                 if (departingLocation is Settlement)
                     game.Vehicle.FortDeparturePenalty = true;
 
-                departingLocation.Status = LocationStatus.Departed;
+                departingLocation.Status = LocationStatusEnum.Departed;
 
                 // High mountain passes have a chance to leave the party stuck for several days as they head out.
                 if ((departingLocation.StuckChance > 0) &&
@@ -148,13 +148,13 @@ namespace OregonTrailDotNet.Window.Travel.Command
             // Determine if we should continue down the trail based on current vehicle status.
             switch (game.Vehicle.Status)
             {
-                case VehicleStatus.Stopped:
+                case VehicleStatusEnum.Stopped:
                     return;
-                case VehicleStatus.Disabled:
+                case VehicleStatusEnum.Disabled:
                     // Check if vehicle was able to obtain spare parts for repairs.
                     SetForm(typeof(UnableToContinue));
                     break;
-                case VehicleStatus.Moving:
+                case VehicleStatusEnum.Moving:
                     _swayBarText = _marqueeBar.Step();
 
                     // If the miles covered since we last looked carried the party past a grave an earlier party left, stop
@@ -194,8 +194,8 @@ namespace OregonTrailDotNet.Window.Travel.Command
                 return;
 
             // Stop ticks and close this state.
-            if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Moving)
-                GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
+            if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatusEnum.Moving)
+                GameSimulationApp.Instance.Vehicle.Status = VehicleStatusEnum.Stopped;
 
             // Remove the this form.
             ClearForm();

@@ -13,13 +13,13 @@ namespace OregonTrailDotNet.Event.River
     /// <summary>
     ///     Player forded the river and it was to deep, they have been washed out by the current and some items destroyed.
     /// </summary>
-    [DirectorEvent(EventCategory.RiverCross, EventExecution.ManualOnly)]
+    [DirectorEvent(EventCategoryEnum.RiverCross, EventExecutionEnum.ManualOnly)]
     public sealed class VehicleWashOut : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
         /// <returns>The <see cref="string" />.</returns>
-        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
+        protected override string OnPostDestroyItems(IDictionary<EntitiesEnum, int> destroyedItems)
         {
             return destroyedItems.Count > 0
                 ? TryKillPassengers("drowned")

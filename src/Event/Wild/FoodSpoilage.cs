@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Wild
     ///     Causes some of the vehicle food stores to be lost due to spoilage or improper storage. The amount taken will be
     ///     randomly generated but never go above quarter of the total food reserves.
     /// </summary>
-    [DirectorEvent(EventCategory.Wild)]
+    [DirectorEvent(EventCategoryEnum.Wild)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class FoodSpoilage : FoodDestroyer
     {

@@ -67,7 +67,7 @@ namespace OregonTrailDotNet.Bot.Tests
 
                 var result = player.Run();
 
-                Assert.True(result.Outcome != GameOutcome.Aborted,
+                Assert.True(result.Outcome != GameOutcomeEnum.Aborted,
                     $"Run {i} aborted: {result.AbortReason}. Unknown forms: [{string.Join(", ", player.UnknownForms)}]");
                 Assert.Empty(player.UnknownForms);
             }

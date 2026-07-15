@@ -4,39 +4,6 @@ using OregonTrailDotNet.Bot.Learning;
 
 namespace OregonTrailDotNet.Bot.Testing
 {
-    /// <summary>One problem the automated-testing session surfaced from a single game.</summary>
-    public sealed class AutoTestProblem
-    {
-        public string Model { get; init; } = "";
-
-        /// <summary>1-based index of the game (across all models) that produced this problem.</summary>
-        public int GameIndex { get; init; }
-
-        public string Category { get; init; } = "";
-        public string Summary { get; init; } = "";
-
-        /// <summary>Full developer-facing detail (a formatted <see cref="Diagnostics.BugReport" /> or abort context).</summary>
-        public string Detail { get; init; } = "";
-    }
-
-    /// <summary>Running tally for one training model across an automated-testing session.</summary>
-    public sealed class ModelStats
-    {
-        public ModelStats(string key, string displayName)
-        {
-            Key = key;
-            DisplayName = displayName;
-        }
-
-        public string Key { get; }
-        public string DisplayName { get; }
-        public int Games { get; set; }
-        public int Wins { get; set; }
-        public int Deaths { get; set; }
-        public int Timeouts { get; set; }
-        public int Problems { get; set; }
-    }
-
     /// <summary>
     ///     Accumulates the results of an automated-testing session — per-model game tallies and the list of problems found —
     ///     and formats them into a saveable, developer-facing report.
@@ -78,20 +45,20 @@ namespace OregonTrailDotNet.Bot.Testing
 
             switch (result.Outcome)
             {
-                case GameOutcome.Win:
+                case GameOutcomeEnum.Win:
                     stats.Wins++;
                     break;
-                case GameOutcome.Death:
+                case GameOutcomeEnum.Death:
                     stats.Deaths++;
                     break;
-                case GameOutcome.Timeout:
+                case GameOutcomeEnum.Timeout:
                     stats.Timeouts++;
                     break;
             }
 
             // A healthy game ends in a win, a timeout, or the party dying. Anything the bot had to abort — a crash, a
             // soft-lock, a screen with no handler, or a broken invariant — is a problem a developer should look at.
-            var isProblem = result.Bug != null || result.Outcome == GameOutcome.Aborted;
+            var isProblem = result.Bug != null || result.Outcome == GameOutcomeEnum.Aborted;
             if (!isProblem)
                 return null;
 

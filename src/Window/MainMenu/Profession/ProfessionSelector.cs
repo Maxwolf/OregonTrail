@@ -50,7 +50,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Profession
             base.OnFormPostCreate();
 
             // Set the profession to default value in case we are retrying this.
-            UserData.PlayerProfession = Entity.Person.Profession.Banker;
+            UserData.PlayerProfession = Entity.Person.ProfessionEnum.Banker;
             UserData.StartingMonies = 1600;
 
             // Pass the game data to the simulation for each new game Windows state.
@@ -64,8 +64,8 @@ namespace OregonTrailDotNet.Window.MainMenu.Profession
 
             // Loop through all the profession enumeration values and grab their description attribute for selection purposes.
             var professions =
-                new List<Entity.Person.Profession>(
-                    Enum.GetValues(typeof(Entity.Person.Profession)).Cast<Entity.Person.Profession>());
+                new List<Entity.Person.ProfessionEnum>(
+                    Enum.GetValues(typeof(Entity.Person.ProfessionEnum)).Cast<Entity.Person.ProfessionEnum>());
             for (var index = 0; index < professions.Count; index++)
             {
                 // Get the current profession choice enumeration value we casted into list.
@@ -108,31 +108,31 @@ namespace OregonTrailDotNet.Window.MainMenu.Profession
                 return;
 
             // Attempt to cast string to enum value, can be characters or integer.
-            Enum.TryParse(input, out Entity.Person.Profession professionChoice);
+            Enum.TryParse(input, out Entity.Person.ProfessionEnum professionChoice);
 
             // Once a profession is selected, we need to confirm that is what the user wanted.
             switch (professionChoice)
             {
-                case Entity.Person.Profession.Banker:
-                    UserData.PlayerProfession = Entity.Person.Profession.Banker;
+                case Entity.Person.ProfessionEnum.Banker:
+                    UserData.PlayerProfession = Entity.Person.ProfessionEnum.Banker;
                     UserData.StartingMonies = 1600;
                     UserData.PlayerNameIndex = 0;
                     SetForm(typeof(InputPlayerNames));
                     break;
-                case Entity.Person.Profession.Carpenter:
-                    UserData.PlayerProfession = Entity.Person.Profession.Carpenter;
+                case Entity.Person.ProfessionEnum.Carpenter:
+                    UserData.PlayerProfession = Entity.Person.ProfessionEnum.Carpenter;
                     UserData.StartingMonies = 800;
                     UserData.PlayerNameIndex = 0;
                     SetForm(typeof(InputPlayerNames));
                     break;
-                case Entity.Person.Profession.Farmer:
-                    UserData.PlayerProfession = Entity.Person.Profession.Farmer;
+                case Entity.Person.ProfessionEnum.Farmer:
+                    UserData.PlayerProfession = Entity.Person.ProfessionEnum.Farmer;
                     UserData.StartingMonies = 400;
                     UserData.PlayerNameIndex = 0;
                     SetForm(typeof(InputPlayerNames));
                     break;
                 default:
-                    UserData.PlayerProfession = Entity.Person.Profession.Banker;
+                    UserData.PlayerProfession = Entity.Person.ProfessionEnum.Banker;
                     UserData.StartingMonies = 1600;
                     UserData.PlayerNameIndex = 0;
                     SetForm(typeof(ProfessionHelp));

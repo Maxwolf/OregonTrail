@@ -54,7 +54,7 @@ namespace OregonTrailDotNet.Module.Director
         /// </summary>
         /// <param name="sourceEntity">Entities which will be affected by event if triggered.</param>
         /// <param name="eventCategory">Event type the dice will be rolled against and attempted to trigger.</param>
-        public void TriggerEventByType(IEntity sourceEntity, EventCategory eventCategory)
+        public void TriggerEventByType(IEntity sourceEntity, EventCategoryEnum eventCategory)
         {
             // Roll the dice here to determine if the event is triggered at all.
             var diceRoll = GameSimulationApp.Instance.Random.Next(100);

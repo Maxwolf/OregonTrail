@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Person
     ///     If you have sprained your acromioclavicular joint (the joint at the top of your shoulder), you may be advised to
     ///     avoid activities that involve moving your arm.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategoryEnum.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class SprainedShoulder : PersonInjure
     {

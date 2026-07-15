@@ -14,7 +14,7 @@ namespace OregonTrailDotNet.Event.Vehicle
     ///     this form is shown if the dice roll went in their favor, otherwise they better hope they have a spare part to fix
     ///     it or they are going to be stranded in a broken vehicle unable to continue their journey.
     /// </summary>
-    [DirectorEvent(EventCategory.Vehicle, EventExecution.ManualOnly)]
+    [DirectorEvent(EventCategoryEnum.Vehicle, EventExecutionEnum.ManualOnly)]
     public sealed class RepairVehiclePart : EventProduct
     {
         /// <summary>
@@ -42,7 +42,7 @@ namespace OregonTrailDotNet.Event.Vehicle
                 return true;
 
             // Ensures the vehicle will be able to continue down the trail.
-            vehicle.Status = VehicleStatus.Stopped;
+            vehicle.Status = VehicleStatusEnum.Stopped;
             return false;
         }
 

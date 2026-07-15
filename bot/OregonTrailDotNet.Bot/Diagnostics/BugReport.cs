@@ -3,28 +3,13 @@ using OregonTrailDotNet.Bot.Game;
 
 namespace OregonTrailDotNet.Bot.Diagnostics
 {
-    public enum BugCategory
-    {
-        /// <summary>An unhandled exception escaped a tick/command/score computation.</summary>
-        Crash,
-
-        /// <summary>The bot recognized a screen but couldn't make it progress (stuck).</summary>
-        SoftLock,
-
-        /// <summary>The bot landed on a form it has no handler for.</summary>
-        RecognizerGap,
-
-        /// <summary>Public game state violated an invariant (negative money, too many passengers, etc.).</summary>
-        InvariantViolation
-    }
-
     /// <summary>
     ///     A structured, developer-facing report captured when the bot detects a crash or a bug while driving the game. The
     ///     bot stops on any of these so a human can fix the underlying issue rather than the bot silently limping on.
     /// </summary>
     public sealed class BugReport
     {
-        public BugCategory Category { get; init; }
+        public BugCategoryEnum Category { get; init; }
         public string TimestampUtc { get; init; } = DateTime.UtcNow.ToString("o");
         public string WindowType { get; init; } = "";
         public string FormType { get; init; } = "";
@@ -35,7 +20,7 @@ namespace OregonTrailDotNet.Bot.Diagnostics
         public string VehicleSnapshot { get; init; } = "";
         public string? ExceptionDetail { get; init; }
 
-        public static BugReport Capture(BugCategory category, GameDriver driver, string detail, Exception? exception = null)
+        public static BugReport Capture(BugCategoryEnum category, GameDriver driver, string detail, Exception? exception = null)
             => new()
             {
                 Category = category,

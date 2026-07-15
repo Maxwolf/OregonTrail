@@ -78,7 +78,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         /// <summary>
         ///     List of all the shooting words generated from the get values on hunt word enumeration.
         /// </summary>
-        private readonly List<HuntWord> _shootWords;
+        private readonly List<HuntWordEnum> _shootWords;
 
         /// <summary>
         ///     Reference to all of the created prey in the area which the player will be able to hunt and kill with their bullets.
@@ -104,7 +104,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             _secondsRemaining = HUNTINGTIME;
 
             // Grab all of the shooting words from enum that holds them.
-            _shootWords = Enum.GetValues(typeof(HuntWord)).Cast<HuntWord>().ToList();
+            _shootWords = Enum.GetValues(typeof(HuntWordEnum)).Cast<HuntWordEnum>().ToList();
 
             // Create animals for the player to shoot with their bullets.
             GeneratePrey();
@@ -113,7 +113,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         /// <summary>
         ///     Determines the current hunting word the player needs to type if an animal exists.
         /// </summary>
-        public HuntWord ShootingWord { get; private set; }
+        public HuntWordEnum ShootingWord { get; private set; }
 
         /// <summary>
         ///     Renders out a bunch of text that shows all the state data about current hunt.
@@ -127,7 +127,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
 
                 // Framed status HUD: a titled panel groups the two "how am I doing" meters (daylight left, food bagged
                 // against the carry limit) so they read at a glance, then the target and the call-to-action sit below it.
-                var locationName = game.Trail.CurrentLocation.Status != LocationStatus.Departed
+                var locationName = game.Trail.CurrentLocation.Status != LocationStatusEnum.Departed
                     ? $"outside {game.Trail.CurrentLocation.Name}"
                     : $"near {game.Trail.NextLocation.Name}";
 
@@ -224,7 +224,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         /// <summary>
         ///     Determines if the hunt currently has a animal prey on the field available for the player to kill.
         /// </summary>
-        public bool PreyAvailable => ShootingWord != HuntWord.None;
+        public bool PreyAvailable => ShootingWord != HuntWordEnum.None;
 
         /// <summary>
         ///     Determines if the hunting session is over and the results form should be displayed.
@@ -339,7 +339,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
                 return;
 
             // Check target ticking if not null and shooting word not none.
-            if ((_target != null) && (ShootingWord != HuntWord.None))
+            if ((_target != null) && (ShootingWord != HuntWordEnum.None))
                 _target.TickTarget();
 
             // Check if the target wants to run away from the hunter.
@@ -366,7 +366,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             _target = null;
 
             // Set the shooting word back to none.
-            ShootingWord = HuntWord.None;
+            ShootingWord = HuntWordEnum.None;
 
             // Clear the input buffer.
             GameSimulationApp.Instance.InputManager.ClearBuffer();
@@ -392,10 +392,10 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
                 return;
 
             // Randomly select one of the hunting words from the list.
-            var tempShootWord = (HuntWord) GameSimulationApp.Instance.Random.Next(_shootWords.Count);
+            var tempShootWord = (HuntWordEnum) GameSimulationApp.Instance.Random.Next(_shootWords.Count);
 
             // Check if we are already trying to hunt a particular animal.
-            if ((tempShootWord == HuntWord.None) || (tempShootWord == ShootingWord))
+            if ((tempShootWord == HuntWordEnum.None) || (tempShootWord == ShootingWord))
                 return;
 
             // Set the shooting word to the one we have now verified. 
@@ -479,7 +479,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             var bulletCost = 10 + game.Random.Next(0, 4);
 
             // Remove the amount of bullets from vehicle inventory.
-            game.Vehicle.Inventory[Entities.Ammo].ReduceQuantity(bulletCost);
+            game.Vehicle.Inventory[EntitiesEnum.Ammo].ReduceQuantity(bulletCost);
 
             // Add the target to the list of animals that have been killed.
             _killedPrey.Add(_target);

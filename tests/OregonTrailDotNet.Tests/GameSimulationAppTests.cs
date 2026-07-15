@@ -58,18 +58,18 @@ namespace OregonTrailDotNet.Tests
             Game.SetStartInfo(new NewGameInfo
             {
                 PlayerNames = new List<string> {"Alice", "Bob", "Carol", "Dave", "Eve"},
-                PlayerProfession = Profession.Farmer,
+                PlayerProfession = ProfessionEnum.Farmer,
                 StartingMonies = 1000,
-                StartingMonth = Month.April
+                StartingMonth = MonthEnum.April
             });
 
             Assert.Equal(GameSimulationApp.MAXPLAYERS, Game.Vehicle.Passengers.Count);
             Assert.Equal("Alice", Game.Vehicle.PassengerLeader.Name);
             Assert.True(Game.Vehicle.Passengers[0].Leader);
             Assert.False(Game.Vehicle.Passengers[1].Leader);
-            Assert.All(Game.Vehicle.Passengers, person => Assert.Equal(Profession.Farmer, person.Profession));
+            Assert.All(Game.Vehicle.Passengers, person => Assert.Equal(ProfessionEnum.Farmer, person.Profession));
             Assert.Equal(1000f, Game.Vehicle.Balance);
-            Assert.Equal(Month.April, Game.Time.CurrentMonth);
+            Assert.Equal(MonthEnum.April, Game.Time.CurrentMonth);
         }
 
         [Fact]

@@ -63,7 +63,7 @@ namespace OregonTrailDotNet.Window.RandomEvent
                 return;
 
             // Ensures the vehicle will be able to continue down the trail.
-            vehicle.Status = VehicleStatus.Stopped;
+            vehicle.Status = VehicleStatusEnum.Stopped;
 
             // Set broken part to nothing.
             vehicle.BrokenPart = null;

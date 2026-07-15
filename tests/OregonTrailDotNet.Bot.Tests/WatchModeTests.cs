@@ -16,11 +16,11 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void Narration_Explains_Decisions()
         {
-            var lowFood = new GameSnapshot { Food = 40, Health = HealthStatus.Fair };
+            var lowFood = new GameSnapshot { Food = 40, Health = HealthStatusEnum.Fair };
 
             Assert.Equal("Setting off on the Oregon Trail", WatchNarration.Describe("MainMenu", "", "1", lowFood));
 
-            var hunt = WatchNarration.Describe("Travel", "", "8", lowFood); // TravelCommands.HuntForFood == 8
+            var hunt = WatchNarration.Describe("Travel", "", "8", lowFood); // TravelCommandsEnum.HuntForFood == 8
             Assert.Contains("hunting", hunt, StringComparison.OrdinalIgnoreCase);
             Assert.Contains("40", hunt);
 
@@ -34,9 +34,9 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void Speed_Presets_Order_From_Fastest_To_Slowest()
         {
-            var fast = WatchOptions.ForSpeed(WatchSpeed.Fast);
-            var medium = WatchOptions.ForSpeed(WatchSpeed.Medium);
-            var slow = WatchOptions.ForSpeed(WatchSpeed.Slow);
+            var fast = WatchOptions.ForSpeed(WatchSpeedEnum.Fast);
+            var medium = WatchOptions.ForSpeed(WatchSpeedEnum.Medium);
+            var slow = WatchOptions.ForSpeed(WatchSpeedEnum.Slow);
 
             // Each slower step waits longer, both per tick and at each decision, so playback is visibly slower.
             Assert.True(fast.TickDelayMs < medium.TickDelayMs && medium.TickDelayMs < slow.TickDelayMs);
@@ -55,7 +55,7 @@ namespace OregonTrailDotNet.Bot.Tests
             var options = new WatchOptions { TickDelayMs = 0, DecisionPauseMs = 0, Narrate = true };
             var result = GamePlayer.PlayOnce(new HeuristicPolicy(), options);
 
-            Assert.True(result.Bug is null || result.Bug.Category == Diagnostics.BugCategory.SoftLock);
+            Assert.True(result.Bug is null || result.Bug.Category == Diagnostics.BugCategoryEnum.SoftLock);
             Assert.NotEqual(0, result.Days); // it actually played
         }
     }

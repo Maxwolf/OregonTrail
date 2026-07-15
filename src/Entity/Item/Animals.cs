@@ -17,43 +17,43 @@ namespace OregonTrailDotNet.Entity.Item
         ///     shared game randomizer, and adding a draw here shifts every downstream random roll, which perturbs the
         ///     deterministic seeded games the training bot relies on.
         /// </summary>
-        public static SimItem Bear => new(Entities.Food, "Bear", "pounds", "pound", 2000, 0, 150);
+        public static SimItem Bear => new(EntitiesEnum.Food, "Bear", "pounds", "pound", 2000, 0, 150);
 
         /// <summary>
         ///     You must use *all* the buffalo...
         /// </summary>
-        public static SimItem Buffalo => new(Entities.Food, "Buffalo", "pounds", "pound", 2000, 0,
+        public static SimItem Buffalo => new(EntitiesEnum.Food, "Buffalo", "pounds", "pound", 2000, 0,
             GameSimulationApp.Instance.Random.Next(350, 500));
 
         /// <summary>
         ///     Gets the caribou.
         /// </summary>
-        public static SimItem Caribou => new(Entities.Food, "Caribou", "pounds", "pound", 2000, 0,
+        public static SimItem Caribou => new(EntitiesEnum.Food, "Caribou", "pounds", "pound", 2000, 0,
             GameSimulationApp.Instance.Random.Next(300, 350));
 
         /// <summary>
         ///     Gets the deer.
         /// </summary>
-        public static SimItem Deer => new(Entities.Food, "Deer", "pounds", "pound", 2000, 0, 50);
+        public static SimItem Deer => new(EntitiesEnum.Food, "Deer", "pounds", "pound", 2000, 0, 50);
 
         /// <summary>
         ///     Gets the duck. Small game — yields 2 lb of meat.
         /// </summary>
-        public static SimItem Duck => new(Entities.Food, "Duck", "pounds", "pound", 2000, 0, 2);
+        public static SimItem Duck => new(EntitiesEnum.Food, "Duck", "pounds", "pound", 2000, 0, 2);
 
         /// <summary>
         ///     Gets the goose.
         /// </summary>
-        public static SimItem Goose => new(Entities.Food, "Goose", "pounds", "pound", 2000, 0, 2);
+        public static SimItem Goose => new(EntitiesEnum.Food, "Goose", "pounds", "pound", 2000, 0, 2);
 
         /// <summary>
         ///     Gets the rabbit.
         /// </summary>
-        public static SimItem Rabbit => new(Entities.Food, "Rabbit", "pounds", "pound", 2000, 0, 2);
+        public static SimItem Rabbit => new(EntitiesEnum.Food, "Rabbit", "pounds", "pound", 2000, 0, 2);
 
         /// <summary>
         ///     Gets the squirrel. The smallest game — yields 1 lb of meat.
         /// </summary>
-        public static SimItem Squirrel => new(Entities.Food, "Squirrel", "pounds", "pound", 2000, 0, 1);
+        public static SimItem Squirrel => new(EntitiesEnum.Food, "Squirrel", "pounds", "pound", 2000, 0, 1);
     }
 }

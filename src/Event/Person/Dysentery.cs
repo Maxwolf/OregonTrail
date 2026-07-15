@@ -10,7 +10,7 @@ namespace OregonTrailDotNet.Event.Person
     /// <summary>
     ///     Infection of the intestines resulting in severe diarrhea with the presence of blood and mucus in the feces.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategoryEnum.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Dysentery : PersonInfect
     {

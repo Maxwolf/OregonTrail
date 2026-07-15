@@ -67,23 +67,23 @@ namespace OregonTrailDotNet.Tests.Module
             var factory = new EventFactory();
 
             // Every category in the game ships with at least one randomly-triggerable event.
-            foreach (EventCategory category in Enum.GetValues(typeof(EventCategory)))
+            foreach (EventCategoryEnum category in Enum.GetValues(typeof(EventCategoryEnum)))
             {
                 var created = factory.CreateRandomByType(category);
 
                 Assert.NotNull(created);
                 var attribute = created.GetType().GetCustomAttributes<DirectorEventAttribute>(false).First();
                 Assert.Equal(category, attribute.EventCategory);
-                Assert.Equal(EventExecution.RandomOrManual, attribute.EventExecutionType);
+                Assert.Equal(EventExecutionEnum.RandomOrManual, attribute.EventExecutionType);
             }
         }
 
         [Fact]
         public void TriggerEvent_ExecutesEventAndNotifiesSubscribers()
         {
-            var person = new PersonEntity(Profession.Banker, "Alice", true);
+            var person = new PersonEntity(ProfessionEnum.Banker, "Alice", true);
             person.Damage(200);
-            Assert.Equal(HealthStatus.Poor, person.HealthStatus);
+            Assert.Equal(HealthStatusEnum.Poor, person.HealthStatus);
 
             IEntity notifiedEntity = null;
             EventProduct notifiedEvent = null;
@@ -98,7 +98,7 @@ namespace OregonTrailDotNet.Tests.Module
 
             Assert.Same(person, notifiedEntity);
             Assert.IsType<WellAgain>(notifiedEvent);
-            Assert.Equal(HealthStatus.Good, person.HealthStatus);
+            Assert.Equal(HealthStatusEnum.Good, person.HealthStatus);
         }
 
         [Fact]
@@ -126,20 +126,20 @@ namespace OregonTrailDotNet.Tests.Module
             // below that, executing harmlessly instead of crashing the game.
             var vehicle = Game.Vehicle;
             vehicle.ResetVehicle();
-            vehicle.Inventory[Entities.Food].AddQuantity(8);
+            vehicle.Inventory[EntitiesEnum.Food].AddQuantity(8);
 
             var ex = Record.Exception(() => Game.EventDirector.TriggerEvent(vehicle, typeof(FoodSpoilage)));
 
             Assert.Null(ex);
-            Assert.Equal(8, vehicle.Inventory[Entities.Food].Quantity);
+            Assert.Equal(8, vehicle.Inventory[EntitiesEnum.Food].Quantity);
         }
 
         [Fact]
         public void EventKey_EqualityIsByValue()
         {
-            var key = new EventKey(EventCategory.Person, "TestEvent", EventExecution.RandomOrManual);
-            var sameKey = new EventKey(EventCategory.Person, "TestEvent", EventExecution.RandomOrManual);
-            var otherKey = new EventKey(EventCategory.Person, "OtherEvent", EventExecution.RandomOrManual);
+            var key = new EventKey(EventCategoryEnum.Person, "TestEvent", EventExecutionEnum.RandomOrManual);
+            var sameKey = new EventKey(EventCategoryEnum.Person, "TestEvent", EventExecutionEnum.RandomOrManual);
+            var otherKey = new EventKey(EventCategoryEnum.Person, "OtherEvent", EventExecutionEnum.RandomOrManual);
 
             Assert.True(key.Equals(sameKey));
             Assert.False(key.Equals(otherKey));

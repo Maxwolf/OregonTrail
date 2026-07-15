@@ -38,7 +38,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Indian
         /// <summary>
         ///     Determines if the player has enough clothing to trade the Indian guide for his services in crossing the river.
         /// </summary>
-        private bool HasEnoughClothingToTrade => GameSimulationApp.Instance.Vehicle.Inventory[Entities.Clothes].Quantity >=
+        private bool HasEnoughClothingToTrade => GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Clothes].Quantity >=
                                                  UserData.River.IndianCost;
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Indian
                 switch (reponse)
                 {
                     case DialogResponse.Yes:
-                        UserData.River.CrossingType = RiverCrossChoice.Indian;
+                        UserData.River.CrossingType = RiverCrossChoiceEnum.Indian;
                         SetForm(typeof(UseIndianConfirm));
                         break;
                     case DialogResponse.No:
@@ -120,7 +120,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Indian
         /// </summary>
         private void CancelIndianCrossing()
         {
-            UserData.River.CrossingType = RiverCrossChoice.None;
+            UserData.River.CrossingType = RiverCrossChoiceEnum.None;
             SetForm(typeof(RiverCross));
         }
     }

@@ -13,7 +13,7 @@ namespace OregonTrailDotNet.Window.GameOver
     ///     be attached at any point by any other window, or form in order to facilitate the game being able to trigger a game
     ///     over scenario no matter what is happening.
     /// </summary>
-    public sealed class GameOver : Window<GameOverCommands, GameOverInfo>
+    public sealed class GameOver : Window<GameOverCommandsEnum, GameOverInfo>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.

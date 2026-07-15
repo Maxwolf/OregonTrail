@@ -50,7 +50,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             // Depending on crossing type we will say different things about the crossing.
             switch (UserData.River.CrossingType)
             {
-                case RiverCrossChoice.Ford:
+                case RiverCrossChoiceEnum.Ford:
                     if (GameSimulationApp.Instance.Random.NextBool())
                     {
                         // No loss in time, but warning to let the player know it's dangerous.
@@ -67,7 +67,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                     }
 
                     break;
-                case RiverCrossChoice.Float:
+                case RiverCrossChoiceEnum.Float:
                     if (UserData.River.DisasterHappened)
                     {
                         _crossingResult.AppendLine($"{Environment.NewLine}Your party was relieved");
@@ -82,7 +82,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                     }
 
                     break;
-                case RiverCrossChoice.Ferry:
+                case RiverCrossChoiceEnum.Ferry:
                     if (UserData.River.DisasterHappened)
                     {
                         _crossingResult.AppendLine($"{Environment.NewLine}The ferry operator");
@@ -96,7 +96,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                     }
 
                     break;
-                case RiverCrossChoice.Indian:
+                case RiverCrossChoiceEnum.Indian:
                     if (UserData.River.DisasterHappened)
                     {
                         _crossingResult.AppendLine($"{Environment.NewLine}The Indian runs away");
@@ -110,9 +110,9 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                     }
 
                     break;
-                case RiverCrossChoice.None:
-                case RiverCrossChoice.WaitForWeather:
-                case RiverCrossChoice.GetMoreInformation:
+                case RiverCrossChoiceEnum.None:
+                case RiverCrossChoiceEnum.WaitForWeather:
+                case RiverCrossChoiceEnum.GetMoreInformation:
                     throw new InvalidOperationException(
                         $"Invalid river crossing result choice {UserData.River.CrossingType}.");
                 default:

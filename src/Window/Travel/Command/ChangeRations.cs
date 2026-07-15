@@ -75,15 +75,15 @@ namespace OregonTrailDotNet.Window.Travel.Command
             switch (input.ToUpperInvariant())
             {
                 case "1":
-                    GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.Filling);
+                    GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevelEnum.Filling);
                     ClearForm();
                     break;
                 case "2":
-                    GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.Meager);
+                    GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevelEnum.Meager);
                     ClearForm();
                     break;
                 case "3":
-                    GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevel.BareBones);
+                    GameSimulationApp.Instance.Vehicle.ChangeRations(RationLevelEnum.BareBones);
                     ClearForm();
                     break;
                 default:

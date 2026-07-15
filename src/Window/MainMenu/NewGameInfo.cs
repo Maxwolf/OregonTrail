@@ -22,10 +22,10 @@ namespace OregonTrailDotNet.Window.MainMenu
         {
             PlayerNameIndex = 0;
             PlayerNames = new List<string>();
-            PlayerProfession = Entity.Person.Profession.Banker;
+            PlayerProfession = Entity.Person.ProfessionEnum.Banker;
             StartingInventory = new List<SimItem>();
             StartingMonies = 0;
-            StartingMonth = Month.March;
+            StartingMonth = MonthEnum.March;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace OregonTrailDotNet.Window.MainMenu
         ///     Determines what profession the player character is, this information is applied to the entire party as the group
         ///     leader affects every players stats.
         /// </summary>
-        public Entity.Person.Profession PlayerProfession { get; set; }
+        public Entity.Person.ProfessionEnum PlayerProfession { get; set; }
 
         /// <summary>
         ///     References all of the starting items that the player decided to purchase from the first store interface they are
@@ -60,6 +60,6 @@ namespace OregonTrailDotNet.Window.MainMenu
         ///     Starting month of the simulation, this helps determine the amount of grass for grazing, temperature, chance for
         ///     failure or random event, etc.
         /// </summary>
-        public Month StartingMonth { get; set; }
+        public MonthEnum StartingMonth { get; set; }
     }
 }

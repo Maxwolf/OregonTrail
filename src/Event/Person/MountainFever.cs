@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Person
     ///     Rocky Mountain spotted fever (RMSF), also known as blue disease, is the most lethal and most frequently reported
     ///     rickettsial illness in the United States.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategoryEnum.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class MountainFever : PersonInfect
     {

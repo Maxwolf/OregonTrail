@@ -24,7 +24,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
         /// <param name="cause">What to record as the cause of death for anyone this kills.</param>
         /// <returns>List of people the method killed, empty list means nobody was killed.</returns>
         public static IEnumerable<Person.Person> TryKill(this IEnumerable<Person.Person> passengers,
-            int baseChancePercent, CauseOfDeath cause)
+            int baseChancePercent, CauseOfDeathEnum cause)
         {
             var game = GameSimulationApp.Instance;
 
@@ -32,13 +32,13 @@ namespace OregonTrailDotNet.Entity.Vehicle
             var peopleKilled = new List<Person.Person>();
             foreach (var person in passengers)
             {
-                if (person.HealthStatus == HealthStatus.Dead)
+                if (person.HealthStatus == HealthStatusEnum.Dead)
                     continue;
 
                 // healthFactor is 1.0 at full (Good) health and rises toward ~2.0 as health approaches death, so the frail are
                 // markedly more likely to be taken than the hale.
                 var healthFactor = 1.0 +
-                                   (double) ((int) HealthStatus.Good - (int) person.HealthStatus) / (int) HealthStatus.Good;
+                                   (double) ((int) HealthStatusEnum.Good - (int) person.HealthStatus) / (int) HealthStatusEnum.Good;
 
                 if (game.Random.Next(100) < baseChancePercent * healthFactor)
                 {
@@ -79,7 +79,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
             foreach (var person in passengers)
             {
                 // Skip if the person is already dead.
-                if (person.HealthStatus == HealthStatus.Dead)
+                if (person.HealthStatus == HealthStatusEnum.Dead)
                     continue;
 
                 // Apply damage to the person we calculated above.

@@ -13,13 +13,13 @@ namespace OregonTrailDotNet.Tests.Module
     public class ScoringTests
     {
         [Theory]
-        [InlineData(0, Performance.Greenhorn)]
-        [InlineData(2999, Performance.Greenhorn)]
-        [InlineData(3000, Performance.Adventurer)]
-        [InlineData(6999, Performance.Adventurer)]
-        [InlineData(7000, Performance.TrailGuide)]
-        [InlineData(9999, Performance.TrailGuide)]
-        public void Highscore_RatesPerformanceByPointThresholds(int points, Performance expected)
+        [InlineData(0, PerformanceEnum.Greenhorn)]
+        [InlineData(2999, PerformanceEnum.Greenhorn)]
+        [InlineData(3000, PerformanceEnum.Adventurer)]
+        [InlineData(6999, PerformanceEnum.Adventurer)]
+        [InlineData(7000, PerformanceEnum.TrailGuide)]
+        [InlineData(9999, PerformanceEnum.TrailGuide)]
+        public void Highscore_RatesPerformanceByPointThresholds(int points, PerformanceEnum expected)
         {
             var highscore = new Highscore("Test Player", points);
 

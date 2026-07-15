@@ -5,20 +5,6 @@ using OregonTrailDotNet.Window.Travel;
 namespace OregonTrailDotNet.Bot.Learning
 {
     /// <summary>
-    ///     A river-crossing method, decoupled from the per-location integer the game happens to assign it (the game renumbers
-    ///     these 1..N differently at each river, so the recognizer maps a chosen kind back to the current number).
-    /// </summary>
-    public enum RiverChoiceKind
-    {
-        Ford,
-        Caulk,
-        Ferry,
-        Indian,
-        Wait,
-        MoreInfo
-    }
-
-    /// <summary>
     ///     The bot's decision-making brain. Every choice the game asks of a player routes through one of these hooks, so the
     ///     game-driving layer never bakes in a strategy. Implementations range from a fixed <c>HeuristicPolicy</c> to the
     ///     learning <c>CemPolicy</c>; they are swapped without touching the driver. All learning state serializes through
@@ -43,12 +29,12 @@ namespace OregonTrailDotNet.Bot.Learning
 
         /// <summary>Absolute quantity of a store item the policy wants to end up holding. The recognizer buys the gap up to
         ///     what is affordable, in priority order, then leaves.</summary>
-        int TargetQuantity(Entities item, GameSnapshot state);
+        int TargetQuantity(EntitiesEnum item, GameSnapshot state);
 
         // ---- Travel loop ----
 
         /// <summary>Which travel-menu command to issue given the subset currently offered.</summary>
-        TravelCommands ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommands> available);
+        TravelCommandsEnum ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommandsEnum> available);
 
         /// <summary>Pace when changing it: 1=Steady, 2=Strenuous, 3=Grueling.</summary>
         int Pace(GameSnapshot state);
@@ -66,7 +52,7 @@ namespace OregonTrailDotNet.Bot.Learning
         bool YesNo(string formName, GameSnapshot state);
 
         /// <summary>Preferred river-crossing method among those available at this river.</summary>
-        RiverChoiceKind River(GameSnapshot state, IReadOnlyCollection<RiverChoiceKind> options);
+        RiverChoiceKindEnum River(GameSnapshot state, IReadOnlyCollection<RiverChoiceKindEnum> options);
 
         /// <summary>Which branch to take at a fork in the road (1-based index among the offered branches).</summary>
         int Fork(GameSnapshot state, int branchCount);

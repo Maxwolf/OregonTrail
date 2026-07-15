@@ -28,7 +28,7 @@ namespace OregonTrailDotNet.Entity.Location.Point
         /// <param name="name">The name.</param>
         /// <param name="climateType">The climate Type.</param>
         /// <param name="skipChoices">The skip Choices.</param>
-        public ForkInRoad(string name, Climate climateType, IEnumerable<Location> skipChoices) : base(name, climateType)
+        public ForkInRoad(string name, ClimateEnum climateType, IEnumerable<Location> skipChoices) : base(name, climateType)
         {
             // Offers up a decision when traveling on the trail, there are normally one of many possible outcomes.
             if (skipChoices != null)

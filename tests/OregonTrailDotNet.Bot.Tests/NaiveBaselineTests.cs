@@ -24,7 +24,7 @@ namespace OregonTrailDotNet.Bot.Tests
             {
                 var result = GamePlayer.PlayOnce(new RandomPolicy("Chaos (bot)"), seed: seed);
 
-                Assert.True(result.Outcome != GameOutcome.Aborted,
+                Assert.True(result.Outcome != GameOutcomeEnum.Aborted,
                     $"Naive run (seed {seed}) aborted: {result.AbortReason}");
             }
         }

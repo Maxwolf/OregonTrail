@@ -17,10 +17,10 @@ namespace OregonTrailDotNet.Bot.Game
     public sealed class ScreenRecognizer
     {
         // Buy priority: movement first (oxen are required to leave the first store), then survival, then spares.
-        private static readonly Entities[] BuyOrder =
+        private static readonly EntitiesEnum[] BuyOrder =
         {
-            Entities.Animal, Entities.Food, Entities.Clothes, Entities.Medicine, Entities.Ammo,
-            Entities.Wheel, Entities.Axle, Entities.Tongue
+            EntitiesEnum.Animal, EntitiesEnum.Food, EntitiesEnum.Clothes, EntitiesEnum.Medicine, EntitiesEnum.Ammo,
+            EntitiesEnum.Wheel, EntitiesEnum.Axle, EntitiesEnum.Tongue
         };
 
         private static readonly HashSet<string> YesNoForms = new()
@@ -40,8 +40,8 @@ namespace OregonTrailDotNet.Bot.Game
         private readonly IPolicy _policy;
 
         // Per-store-visit state so we buy each item once and know which item StorePurchase refers to.
-        private readonly HashSet<Entities> _storeHandled = new();
-        private Entities? _storeSelected;
+        private readonly HashSet<EntitiesEnum> _storeHandled = new();
+        private EntitiesEnum? _storeSelected;
 
         // Per-crossing counter: if we keep bouncing back to the river menu (an unaffordable ferry/guide choice), force a free
         // crossing so we can never loop forever there.
@@ -74,8 +74,8 @@ namespace OregonTrailDotNet.Bot.Game
         public string TravelChoice(GameDriver driver, GameSnapshot state)
         {
             var available = ParseMenu(driver.RenderWindowText())
-                .Select(o => (TravelCommands) o.Number)
-                .Where(c => Enum.IsDefined(typeof(TravelCommands), c))
+                .Select(o => (TravelCommandsEnum) o.Number)
+                .Where(c => Enum.IsDefined(typeof(TravelCommandsEnum), c))
                 .ToList();
 
             if (available.Count == 0)
@@ -83,8 +83,8 @@ namespace OregonTrailDotNet.Bot.Game
 
             var choice = _policy.ChooseTravel(state, available);
             if (!available.Contains(choice))
-                choice = available.Contains(TravelCommands.ContinueOnTrail)
-                    ? TravelCommands.ContinueOnTrail
+                choice = available.Contains(TravelCommandsEnum.ContinueOnTrail)
+                    ? TravelCommandsEnum.ContinueOnTrail
                     : available[0];
 
             return ((int) choice).ToString();
@@ -187,13 +187,13 @@ namespace OregonTrailDotNet.Bot.Game
 
         private string StoreQuantity(string screen, GameSnapshot state)
         {
-            var item = _storeSelected ?? Entities.Food;
+            var item = _storeSelected ?? EntitiesEnum.Food;
             var afford = ParseAfford(screen);
             var gap = Math.Max(0, _policy.TargetQuantity(item, state) - state.OwnedOf(item));
             var qty = Math.Min(gap, afford);
 
             // Never leave the first store unable to move: guarantee at least a few oxen while we can afford them.
-            if (item == Entities.Animal && state.OwnedOf(Entities.Animal) == 0)
+            if (item == EntitiesEnum.Animal && state.OwnedOf(EntitiesEnum.Animal) == 0)
                 qty = Math.Max(qty, Math.Min(3, afford));
 
             return qty <= 0 ? "0" : qty.ToString();
@@ -212,11 +212,11 @@ namespace OregonTrailDotNet.Bot.Game
 
             _riverVisits++;
 
-            RiverChoiceKind chosen;
+            RiverChoiceKindEnum chosen;
             if (_riverVisits > 2)
                 // We keep landing back on the river menu — the policy's pick isn't executable (can't afford it). Force a
                 // free crossing that always proceeds.
-                chosen = options.Any(o => o.Kind == RiverChoiceKind.Ford) ? RiverChoiceKind.Ford : RiverChoiceKind.Caulk;
+                chosen = options.Any(o => o.Kind == RiverChoiceKindEnum.Ford) ? RiverChoiceKindEnum.Ford : RiverChoiceKindEnum.Caulk;
             else
                 chosen = _policy.River(state, options.Select(o => o.Kind).ToList());
 
@@ -251,15 +251,15 @@ namespace OregonTrailDotNet.Bot.Game
             return m2.Success ? m2.Groups[1].Value.ToLowerInvariant() : string.Empty;
         }
 
-        private static RiverChoiceKind? ClassifyRiver(string label)
+        private static RiverChoiceKindEnum? ClassifyRiver(string label)
         {
             var l = label.ToLowerInvariant();
-            if (l.Contains("ford")) return RiverChoiceKind.Ford;
-            if (l.Contains("caulk") || l.Contains("float")) return RiverChoiceKind.Caulk;
-            if (l.Contains("ferry")) return RiverChoiceKind.Ferry;
-            if (l.Contains("indian") || l.Contains("hire")) return RiverChoiceKind.Indian;
-            if (l.Contains("wait")) return RiverChoiceKind.Wait;
-            if (l.Contains("information")) return RiverChoiceKind.MoreInfo;
+            if (l.Contains("ford")) return RiverChoiceKindEnum.Ford;
+            if (l.Contains("caulk") || l.Contains("float")) return RiverChoiceKindEnum.Caulk;
+            if (l.Contains("ferry")) return RiverChoiceKindEnum.Ferry;
+            if (l.Contains("indian") || l.Contains("hire")) return RiverChoiceKindEnum.Indian;
+            if (l.Contains("wait")) return RiverChoiceKindEnum.Wait;
+            if (l.Contains("information")) return RiverChoiceKindEnum.MoreInfo;
             return null;
         }
 

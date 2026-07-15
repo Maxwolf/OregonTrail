@@ -10,7 +10,7 @@ namespace OregonTrailDotNet.Event.Person
     /// <summary>
     ///     One of the members of the vehicle passenger manifest broke their arm somehow.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategoryEnum.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class BrokenArm : PersonInjure
     {

@@ -14,14 +14,14 @@ namespace OregonTrailDotNet.Event.Vehicle
     ///     Vehicle was going around a bend, hit a bump, rough trail, or any of the following it now tipped over and supplies
     ///     could be destroyed and passengers can be crushed to death.
     /// </summary>
-    [DirectorEvent(EventCategory.Vehicle)]
+    [DirectorEvent(EventCategoryEnum.Vehicle)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class TippedVehicle : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
         /// <returns>The <see cref="string" />.</returns>
-        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
+        protected override string OnPostDestroyItems(IDictionary<EntitiesEnum, int> destroyedItems)
         {
             // Change event text depending on if items were destroyed or not.
             return destroyedItems.Count > 0

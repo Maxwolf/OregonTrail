@@ -1,0 +1,13 @@
+<Project>
+
+  <!--
+    Repository-wide MSBuild defaults, imported automatically by every project
+    (src, bot, tests). EnforceCodeStyleInBuild runs the built-in Roslyn IDE
+    code-style analyzers during `dotnet build`, so the naming rules declared in
+    the root .editorconfig surface as IDE1006 build warnings.
+  -->
+  <PropertyGroup>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+</Project>

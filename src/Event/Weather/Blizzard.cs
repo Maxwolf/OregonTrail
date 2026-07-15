@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Weather
     ///     A blizzard sweeps across the high country, pinning the party down for several days until the storm passes. Fired
     ///     manually when severe weather strikes a high-ground location, which is where blizzards overwhelmingly occur.
     /// </summary>
-    [DirectorEvent(EventCategory.Weather, EventExecution.ManualOnly)]
+    [DirectorEvent(EventCategoryEnum.Weather, EventExecutionEnum.ManualOnly)]
     public sealed class Blizzard : LoseTime
     {
         /// <summary>

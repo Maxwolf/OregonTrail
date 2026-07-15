@@ -14,10 +14,10 @@ namespace OregonTrailDotNet.Bot.Learning
     {
         // Per-item purchase ceilings the recognizer will cap to what's affordable. A random amount up to these is always a
         // legal store target (buying nothing is legal too), matching the bounds the strategy genome searches within.
-        private static readonly IReadOnlyDictionary<Entities, int> BuyCeiling = new Dictionary<Entities, int>
+        private static readonly IReadOnlyDictionary<EntitiesEnum, int> BuyCeiling = new Dictionary<EntitiesEnum, int>
         {
-            { Entities.Animal, 20 }, { Entities.Food, 2000 }, { Entities.Clothes, 50 }, { Entities.Medicine, 99 },
-            { Entities.Ammo, 99 }, { Entities.Wheel, 3 }, { Entities.Axle, 3 }, { Entities.Tongue, 3 }
+            { EntitiesEnum.Animal, 20 }, { EntitiesEnum.Food, 2000 }, { EntitiesEnum.Clothes, 50 }, { EntitiesEnum.Medicine, 99 },
+            { EntitiesEnum.Ammo, 99 }, { EntitiesEnum.Wheel, 3 }, { EntitiesEnum.Axle, 3 }, { EntitiesEnum.Tongue, 3 }
         };
 
         // Chosen once (lazily, on first read after the game has booted) so the profession/month don't wobble between reads.
@@ -32,10 +32,10 @@ namespace OregonTrailDotNet.Bot.Learning
         public int Profession => _profession ??= Next(1, 4);   // 1=Banker, 2=Carpenter, 3=Farmer
         public int StartMonth => _startMonth ??= Next(1, 6);   // 1=March .. 5=July
 
-        public int TargetQuantity(Entities item, GameSnapshot state) =>
+        public int TargetQuantity(EntitiesEnum item, GameSnapshot state) =>
             BuyCeiling.TryGetValue(item, out var max) ? Next(0, max + 1) : 0;
 
-        public TravelCommands ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommands> available) =>
+        public TravelCommandsEnum ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommandsEnum> available) =>
             available.ElementAt(Next(0, available.Count));
 
         public int Pace(GameSnapshot state) => Next(1, 4);     // 1=Steady, 2=Strenuous, 3=Grueling
@@ -44,7 +44,7 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public bool YesNo(string formName, GameSnapshot state) => NextBool();
 
-        public RiverChoiceKind River(GameSnapshot state, IReadOnlyCollection<RiverChoiceKind> options) =>
+        public RiverChoiceKindEnum River(GameSnapshot state, IReadOnlyCollection<RiverChoiceKindEnum> options) =>
             options.ElementAt(Next(0, options.Count));
 
         public int Fork(GameSnapshot state, int branchCount) => Next(1, Math.Max(1, branchCount) + 1);

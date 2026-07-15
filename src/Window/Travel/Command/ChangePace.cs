@@ -73,15 +73,15 @@ namespace OregonTrailDotNet.Window.Travel.Command
             switch (input.ToUpperInvariant())
             {
                 case "1":
-                    GameSimulationApp.Instance.Vehicle.ChangePace(TravelPace.Steady);
+                    GameSimulationApp.Instance.Vehicle.ChangePace(TravelPaceEnum.Steady);
                     ClearForm();
                     break;
                 case "2":
-                    GameSimulationApp.Instance.Vehicle.ChangePace(TravelPace.Strenuous);
+                    GameSimulationApp.Instance.Vehicle.ChangePace(TravelPaceEnum.Strenuous);
                     ClearForm();
                     break;
                 case "3":
-                    GameSimulationApp.Instance.Vehicle.ChangePace(TravelPace.Grueling);
+                    GameSimulationApp.Instance.Vehicle.ChangePace(TravelPaceEnum.Grueling);
                     ClearForm();
                     break;
                 case "4":

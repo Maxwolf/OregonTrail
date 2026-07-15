@@ -20,9 +20,9 @@ namespace OregonTrailDotNet.Bot.Tests
         {
             var result = GamePlayer.PlayOnce(new ThrowingPolicy());
 
-            Assert.Equal(GameOutcome.Aborted, result.Outcome);
+            Assert.Equal(GameOutcomeEnum.Aborted, result.Outcome);
             Assert.NotNull(result.Bug);
-            Assert.Equal(BugCategory.Crash, result.Bug!.Category);
+            Assert.Equal(BugCategoryEnum.Crash, result.Bug!.Category);
             Assert.Contains("boom in ChooseTravel", result.Bug.ExceptionDetail);
 
             var formatted = result.Bug.Format();
@@ -39,14 +39,14 @@ namespace OregonTrailDotNet.Bot.Tests
             public int Profession => _inner.Profession;
             public int StartMonth => _inner.StartMonth;
             public string LeaderName => "Crasher (bot)";
-            public int TargetQuantity(Entities item, GameSnapshot state) => _inner.TargetQuantity(item, state);
-            public TravelCommands ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommands> available)
+            public int TargetQuantity(EntitiesEnum item, GameSnapshot state) => _inner.TargetQuantity(item, state);
+            public TravelCommandsEnum ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommandsEnum> available)
                 => throw new InvalidOperationException("boom in ChooseTravel");
             public int Pace(GameSnapshot state) => _inner.Pace(state);
             public int Ration(GameSnapshot state) => _inner.Ration(state);
             public int RestDays(GameSnapshot state) => _inner.RestDays(state);
             public bool YesNo(string formName, GameSnapshot state) => _inner.YesNo(formName, state);
-            public RiverChoiceKind River(GameSnapshot state, IReadOnlyCollection<RiverChoiceKind> options) => _inner.River(state, options);
+            public RiverChoiceKindEnum River(GameSnapshot state, IReadOnlyCollection<RiverChoiceKindEnum> options) => _inner.River(state, options);
             public int Fork(GameSnapshot state, int branchCount) => _inner.Fork(state, branchCount);
         }
     }

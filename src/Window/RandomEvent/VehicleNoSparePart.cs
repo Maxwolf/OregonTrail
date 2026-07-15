@@ -64,7 +64,7 @@ namespace OregonTrailDotNet.Window.RandomEvent
                 return;
 
             // Ensure the vehicle is broken and unable to continue.
-            vehicle.Status = VehicleStatus.Disabled;
+            vehicle.Status = VehicleStatusEnum.Disabled;
 
             // Removes this form and random event window.
             ParentWindow.RemoveWindowNextTick();

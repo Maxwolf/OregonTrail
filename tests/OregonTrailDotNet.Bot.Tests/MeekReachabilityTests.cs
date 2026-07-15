@@ -28,12 +28,12 @@ namespace OregonTrailDotNet.Bot.Tests
             vehicle.ResetVehicle(0); // clear inventory + cash so only the party and the wagon contribute points
 
             // A full party of Farmers, everyone starting at Good health; crew #1 is the leader (its profession is the multiplier).
-            vehicle.AddPerson(new PersonEntity(Profession.Farmer, "Trailblazer 1", true));
+            vehicle.AddPerson(new PersonEntity(ProfessionEnum.Farmer, "Trailblazer 1", true));
             for (var i = 2; i <= GameSimulationApp.MAXPLAYERS; i++)
-                vehicle.AddPerson(new PersonEntity(Profession.Farmer, $"Trailblazer {i}", false));
+                vehicle.AddPerson(new PersonEntity(ProfessionEnum.Farmer, $"Trailblazer {i}", false));
 
             Assert.Equal(GameSimulationApp.MAXPLAYERS, vehicle.PassengerLivingCount);
-            Assert.Equal(HealthStatus.Good, vehicle.PassengerHealthStatus);
+            Assert.Equal(HealthStatusEnum.Good, vehicle.PassengerHealthStatus);
             Assert.Equal(50, Resources.Vehicle.PointsAwarded); // the wagon is worth 50 (previously scored 0)
 
             // base = 5 x 500 (Good) + 50 (wagon) = 2550; Farmer x3 = 7650, exactly Stephen Meek's seeded record.

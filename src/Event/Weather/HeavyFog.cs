@@ -10,7 +10,7 @@ namespace OregonTrailDotNet.Event.Weather
     ///     Reduces the total capacity for the vehicle to move in a given trip segment by a random amount calculated at the
     ///     time of event execution.
     /// </summary>
-    [DirectorEvent(EventCategory.Weather)]
+    [DirectorEvent(EventCategoryEnum.Weather)]
     public sealed class HeavyFog : EventProduct
     {
         /// <summary>

@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Window.Graveyard
     ///     Displays the name of a previous player whom traveled the trail and died at a given mile marker. There is also an
     ///     optional epitaph that can be displayed. These tombstones are saved per trail, and can be reset from main menu.
     /// </summary>
-    public sealed class Graveyard : Window<TombstoneCommands, TombstoneInfo>
+    public sealed class Graveyard : Window<TombstoneCommandsEnum, TombstoneInfo>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.

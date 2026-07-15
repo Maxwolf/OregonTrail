@@ -46,7 +46,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
             base.OnFormPostCreate();
 
             // Vehicle is stopped when you are looking around.
-            GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
+            GameSimulationApp.Instance.Vehicle.Status = VehicleStatusEnum.Stopped;
         }
 
         /// <summary>

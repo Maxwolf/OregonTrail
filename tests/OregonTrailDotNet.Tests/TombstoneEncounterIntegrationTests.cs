@@ -38,9 +38,9 @@ namespace OregonTrailDotNet.Tests
             Game.SetStartInfo(new NewGameInfo
             {
                 PlayerNames = new List<string> {"Alice", "Bob", "Carol", "Dave", "Eve"},
-                PlayerProfession = Profession.Farmer,
+                PlayerProfession = ProfessionEnum.Farmer,
                 StartingMonies = 1600,
-                StartingMonth = Month.April
+                StartingMonth = MonthEnum.April
             });
 
             var vehicle = Game.Vehicle;
@@ -97,7 +97,7 @@ namespace OregonTrailDotNet.Tests
                     else
                     {
                         // Arrived (or some other travel form is up) — re-depart so the drive continues onto the next leg.
-                        Game.Trail.CurrentLocation.Status = LocationStatus.Departed;
+                        Game.Trail.CurrentLocation.Status = LocationStatusEnum.Departed;
                         travel.ContinueOnTrail();
                         Game.OnTick(false);
                     }

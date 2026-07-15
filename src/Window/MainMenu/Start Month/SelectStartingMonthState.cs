@@ -60,7 +60,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Start_Month
             _startMonthQuestion.AppendLine($"to leave Independence{Environment.NewLine}");
 
             // Loop through every possible starting month and list them out by their enumeration integer values along with description attribute.
-            var choices = new List<StartingMonth>(Enum.GetValues(typeof(StartingMonth)).Cast<StartingMonth>());
+            var choices = new List<StartingMonthEnum>(Enum.GetValues(typeof(StartingMonthEnum)).Cast<StartingMonthEnum>());
             for (var index = 0; index < choices.Count; index++)
             {
                 // Get the current river choice enumeration value we casted into list.
@@ -100,29 +100,29 @@ namespace OregonTrailDotNet.Window.MainMenu.Start_Month
                 return;
 
             // Attempt to cast string to enum value, can be characters or integer.
-            Enum.TryParse(input, out StartingMonth startMonth);
+            Enum.TryParse(input, out StartingMonthEnum startMonth);
 
             // Depending on what was selected we will set starting month to correct one in full listing, or show advice to player.
             switch (startMonth)
             {
-                case StartingMonth.March:
-                    UserData.StartingMonth = Month.March;
+                case StartingMonthEnum.March:
+                    UserData.StartingMonth = MonthEnum.March;
                     SetForm(typeof(InitialItemsHelp));
                     break;
-                case StartingMonth.April:
-                    UserData.StartingMonth = Month.April;
+                case StartingMonthEnum.April:
+                    UserData.StartingMonth = MonthEnum.April;
                     SetForm(typeof(InitialItemsHelp));
                     break;
-                case StartingMonth.May:
-                    UserData.StartingMonth = Month.May;
+                case StartingMonthEnum.May:
+                    UserData.StartingMonth = MonthEnum.May;
                     SetForm(typeof(InitialItemsHelp));
                     break;
-                case StartingMonth.June:
-                    UserData.StartingMonth = Month.June;
+                case StartingMonthEnum.June:
+                    UserData.StartingMonth = MonthEnum.June;
                     SetForm(typeof(InitialItemsHelp));
                     break;
-                case StartingMonth.July:
-                    UserData.StartingMonth = Month.July;
+                case StartingMonthEnum.July:
+                    UserData.StartingMonth = MonthEnum.July;
                     SetForm(typeof(InitialItemsHelp));
                     break;
                 default:

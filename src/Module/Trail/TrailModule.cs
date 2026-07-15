@@ -123,11 +123,11 @@ namespace OregonTrailDotNet.Module.Trail
             vehicle.OnTick(false, skipDay);
 
             // No advancing down the trail when vehicle is parked or force ticked by skipping a day.
-            if ((vehicle.Status != VehicleStatus.Moving) || skipDay)
+            if ((vehicle.Status != VehicleStatusEnum.Moving) || skipDay)
                 return;
 
             // Check if the player is still working with the location they are currently arrived at.
-            if ((CurrentLocation?.Status == LocationStatus.Arrived) &&
+            if ((CurrentLocation?.Status == LocationStatusEnum.Arrived) &&
                 (DistanceToNextLocation <= 0))
                 return;
 
@@ -164,7 +164,7 @@ namespace OregonTrailDotNet.Module.Trail
                 LocationIndex++;
 
             // Set visited flag for location, park the vehicle, and attach Windows the location requires.
-            CurrentLocation.Status = LocationStatus.Arrived;
+            CurrentLocation.Status = LocationStatusEnum.Arrived;
 
             // Check for end of game if we are at the end of the trail.
             GameSimulationApp.Instance.WindowManager.Add(typeof(Travel));

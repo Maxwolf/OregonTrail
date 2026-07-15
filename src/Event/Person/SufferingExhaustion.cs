@@ -10,7 +10,7 @@ namespace OregonTrailDotNet.Event.Person
     /// <summary>
     ///     A person with weakness or fatigue lacks energy, feels weary, and is constantly tired.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategoryEnum.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class SufferingExhaustion : PersonInjure
     {

@@ -25,9 +25,9 @@ namespace OregonTrailDotNet.Tests
             Game.SetStartInfo(new NewGameInfo
             {
                 PlayerNames = new List<string> {"Alice"},
-                PlayerProfession = Profession.Farmer,
+                PlayerProfession = ProfessionEnum.Farmer,
                 StartingMonies = monies,
-                StartingMonth = Month.April
+                StartingMonth = MonthEnum.April
             });
         }
 
@@ -51,7 +51,7 @@ namespace OregonTrailDotNet.Tests
 
             Assert.Null(thrown); // must not crash
             Assert.Equal(balanceBefore, Game.Vehicle.Balance); // Vehicle.Purchase refuses the unaffordable lot
-            Assert.Equal(0, Game.Vehicle.Inventory[Entities.Ammo].Quantity); // nothing was added
+            Assert.Equal(0, Game.Vehicle.Inventory[EntitiesEnum.Ammo].Quantity); // nothing was added
         }
 
         [Fact]
@@ -76,7 +76,7 @@ namespace OregonTrailDotNet.Tests
 
             Assert.Null(thrown);
             Assert.Equal(balanceBefore, Game.Vehicle.Balance);
-            Assert.Equal(0, Game.Vehicle.Inventory[Entities.Ammo].Quantity);
+            Assert.Equal(0, Game.Vehicle.Inventory[EntitiesEnum.Ammo].Quantity);
         }
 
         [Fact]

@@ -37,7 +37,7 @@ namespace OregonTrailDotNet.Entity.Person
         /// <param name="profession">The profession.</param>
         /// <param name="name">The name.</param>
         /// <param name="leader">The is Leader.</param>
-        public Person(Profession profession, string name, bool leader)
+        public Person(ProfessionEnum profession, string name, bool leader)
         {
             // Person needs a name, profession, and need to know if they are the leader.
             Profession = profession;
@@ -47,7 +47,7 @@ namespace OregonTrailDotNet.Entity.Person
             // Person starts with clean bill of health.
             Infected = false;
             Injured = false;
-            Status = (int) HealthStatus.Good;
+            Status = (int) HealthStatusEnum.Good;
         }
 
         /// <summary>
@@ -59,35 +59,35 @@ namespace OregonTrailDotNet.Entity.Person
         /// <summary>
         ///     Current health of this person which is enum that also represents the total points they are currently worth.
         /// </summary>
-        public HealthStatus HealthStatus
+        public HealthStatusEnum HealthStatus
         {
             get
             {
                 // Skip if this person is dead, cannot heal them.
                 if (_dead)
                 {
-                    _status = (int) HealthStatus.Dead;
-                    return HealthStatus.Dead;
+                    _status = (int) HealthStatusEnum.Dead;
+                    return HealthStatusEnum.Dead;
                 }
 
                 // Health is greater than fair so it must be good.
-                if (Status > (int) HealthStatus.Fair)
-                    return HealthStatus.Good;
+                if (Status > (int) HealthStatusEnum.Fair)
+                    return HealthStatusEnum.Good;
 
                 // Health is less than good, but greater than poor so it must be fair.
-                if ((Status < (int) HealthStatus.Good) && (Status > (int) HealthStatus.Poor))
-                    return HealthStatus.Fair;
+                if ((Status < (int) HealthStatusEnum.Good) && (Status > (int) HealthStatusEnum.Poor))
+                    return HealthStatusEnum.Fair;
 
                 // Health is less than fair, but greater than very poor so it is just poor.
-                if ((Status < (int) HealthStatus.Fair) && (Status > (int) HealthStatus.VeryPoor))
-                    return HealthStatus.Poor;
+                if ((Status < (int) HealthStatusEnum.Fair) && (Status > (int) HealthStatusEnum.VeryPoor))
+                    return HealthStatusEnum.Poor;
 
                 // Health is less than poor, but not quite dead yet so it must be very poor.
-                if ((Status < (int) HealthStatus.Poor) && (Status > (int) HealthStatus.Dead))
-                    return HealthStatus.VeryPoor;
+                if ((Status < (int) HealthStatusEnum.Poor) && (Status > (int) HealthStatusEnum.Dead))
+                    return HealthStatusEnum.VeryPoor;
 
                 // Default response is to indicate this person is dead.
-                return HealthStatus.Dead;
+                return HealthStatusEnum.Dead;
             }
         }
 
@@ -103,22 +103,22 @@ namespace OregonTrailDotNet.Entity.Person
                 // Skip if this person is dead, cannot heal them.
                 if (_dead)
                 {
-                    _status = (int) HealthStatus.Dead;
+                    _status = (int) HealthStatusEnum.Dead;
                     return;
                 }
 
                 // Check that value is not above max.
-                if (value >= (int) HealthStatus.Good)
+                if (value >= (int) HealthStatusEnum.Good)
                 {
-                    _status = (int) HealthStatus.Good;
+                    _status = (int) HealthStatusEnum.Good;
                     return;
                 }
 
                 // Check that value is not below min.
-                if (value <= (int) HealthStatus.Dead)
+                if (value <= (int) HealthStatusEnum.Dead)
                 {
                     _dead = true;
-                    _status = (int) HealthStatus.Dead;
+                    _status = (int) HealthStatusEnum.Dead;
                     return;
                 }
 
@@ -131,7 +131,7 @@ namespace OregonTrailDotNet.Entity.Person
         ///     Profession of this person, typically if the leader is a banker then the entire family is all bankers for sanity
         ///     sake.
         /// </summary>
-        public Profession Profession { get; }
+        public ProfessionEnum Profession { get; }
 
         /// <summary>
         ///     Determines if this person is the party leader, without this person the game will end. The others cannot go on
@@ -152,9 +152,9 @@ namespace OregonTrailDotNet.Entity.Person
 
         /// <summary>
         ///     Records how this person died so the death screen can tell the player what happened. Remains
-        ///     <see cref="CauseOfDeath.Unknown" /> until the person is actually killed by the dice-rolling damage path.
+        ///     <see cref="CauseOfDeathEnum.Unknown" /> until the person is actually killed by the dice-rolling damage path.
         /// </summary>
-        public CauseOfDeath Cause { get; private set; } = CauseOfDeath.Unknown;
+        public CauseOfDeathEnum Cause { get; private set; } = CauseOfDeathEnum.Unknown;
 
         /// <summary>
         ///     Exposes the private infection flag to the test project (via InternalsVisibleTo) so recovery behavior can be
@@ -244,22 +244,22 @@ namespace OregonTrailDotNet.Entity.Person
                 return;
 
             // Skip if this person is dead, cannot heal them.
-            if ((HealthStatus == HealthStatus.Dead) || _dead)
+            if ((HealthStatus == HealthStatusEnum.Dead) || _dead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
             // Eating poorly raises risk of illness.
-            if (game.Vehicle.Ration == RationLevel.BareBones)
+            if (game.Vehicle.Ration == RationLevelEnum.BareBones)
                 CheckIllness();
-            else if ((game.Vehicle.Ration == RationLevel.Meager) &&
+            else if ((game.Vehicle.Ration == RationLevelEnum.Meager) &&
                      game.Random.NextBool())
                 CheckIllness();
 
             // Insufficient clothing for the party raises the risk of illness. The fewer sets of clothing the party carries
             // relative to how many living members it has, the more likely someone falls ill in the cold.
-            var clothingCount = game.Vehicle.Inventory[Entities.Clothes].Quantity;
+            var clothingCount = game.Vehicle.Inventory[EntitiesEnum.Clothes].Quantity;
             var partySize = game.Vehicle.PassengerLivingCount;
             if (clothingCount < partySize + game.Random.Next(0, 4))
             {
@@ -299,20 +299,20 @@ namespace OregonTrailDotNet.Entity.Person
         private void ConsumeFood()
         {
             // Skip if this person is dead, cannot heal them.
-            if ((HealthStatus == HealthStatus.Dead) || _dead)
+            if ((HealthStatus == HealthStatusEnum.Dead) || _dead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
             // Check if player has any food to eat.
-            if (game.Vehicle.Inventory[Entities.Food].Quantity > 0)
+            if (game.Vehicle.Inventory[EntitiesEnum.Food].Quantity > 0)
             {
                 // Consume this person's individual share of food for the day based on the ration level. This method runs
                 // once per living passenger each traveling day, so the party-wide daily burn already scales with the
                 // living count (ration * N). Multiplying by the living count here as well made a party of N eat ration * N
                 // squared pounds per day, starving larger parties far faster than the original game intended.
-                game.Vehicle.Inventory[Entities.Food].ReduceQuantity((int) game.Vehicle.Ration);
+                game.Vehicle.Inventory[EntitiesEnum.Food].ReduceQuantity((int) game.Vehicle.Ration);
 
                 // Change to get better when eating well.
                 Heal();
@@ -320,7 +320,7 @@ namespace OregonTrailDotNet.Entity.Person
             else
             {
                 // Reduce the players health until they are dead.
-                Damage(10, 50, CauseOfDeath.Starvation);
+                Damage(10, 50, CauseOfDeathEnum.Starvation);
             }
         }
 
@@ -331,11 +331,11 @@ namespace OregonTrailDotNet.Entity.Person
         private void Heal()
         {
             // Skip if this person is dead, cannot heal them.
-            if ((HealthStatus == HealthStatus.Dead) || _dead)
+            if ((HealthStatus == HealthStatusEnum.Dead) || _dead)
                 return;
 
             // Skip if already at max health.
-            if (HealthStatus == HealthStatus.Good)
+            if (HealthStatus == HealthStatusEnum.Good)
                 return;
 
             // Grab instance of the game simulation to increase readability.
@@ -368,7 +368,7 @@ namespace OregonTrailDotNet.Entity.Person
         /// </summary>
         public void HealEntirely()
         {
-            Status = (int) HealthStatus.Good;
+            Status = (int) HealthStatusEnum.Good;
             Infected = false;
             Injured = false;
         }
@@ -382,7 +382,7 @@ namespace OregonTrailDotNet.Entity.Person
             var game = GameSimulationApp.Instance;
 
             // Cannot calculate illness for the dead.
-            if ((HealthStatus == HealthStatus.Dead) || _dead)
+            if ((HealthStatus == HealthStatusEnum.Dead) || _dead)
                 return;
 
             // Person will not get hurt every single time it is called.
@@ -397,14 +397,14 @@ namespace OregonTrailDotNet.Entity.Person
             {
                 // Mild illness.
                 game.Vehicle.ReduceMileage(5);
-                Damage(10, 50, CauseOfDeath.Illness);
+                Damage(10, 50, CauseOfDeathEnum.Illness);
             }
             else if (game.Random.Next(100) <= 5 +
                      20*(3 - (int) game.Vehicle.Ration))
             {
                 // Bad (moderate) illness.
                 game.Vehicle.ReduceMileage(10);
-                Damage(10, 50, CauseOfDeath.Illness);
+                Damage(10, 50, CauseOfDeathEnum.Illness);
             }
             else if (game.Random.Next(100) <= 5 +
                      40/game.Vehicle.Passengers.Count*
@@ -413,17 +413,17 @@ namespace OregonTrailDotNet.Entity.Person
                 // Very serious illness that will require medical supplies to recover from.
                 game.Vehicle.ReduceMileage(15);
                 Infect();
-                Damage(10, 50, CauseOfDeath.Illness);
+                Damage(10, 50, CauseOfDeathEnum.Illness);
             }
 
             // While the party is resting the sick can actually recover; while traveling, existing infections and injuries
             // only make things worse. Determine which case we are in once.
-            var resting = game.Vehicle.Status == VehicleStatus.Stopped;
+            var resting = game.Vehicle.Status == VehicleStatusEnum.Stopped;
 
             // Determines if we should roll for infections based on previous complications.
             switch (HealthStatus)
             {
-                case HealthStatus.Good:
+                case HealthStatusEnum.Good:
                     if (Infected || Injured)
                     {
                         if (resting)
@@ -431,12 +431,12 @@ namespace OregonTrailDotNet.Entity.Person
                         else
                         {
                             game.Vehicle.ReduceMileage(5);
-                            Damage(10, 50, CauseOfDeath.Illness);
+                            Damage(10, 50, CauseOfDeathEnum.Illness);
                         }
                     }
 
                     break;
-                case HealthStatus.Fair:
+                case HealthStatusEnum.Fair:
                     if (Infected || Injured)
                     {
                         if (resting)
@@ -445,12 +445,12 @@ namespace OregonTrailDotNet.Entity.Person
                         {
                             // Hurt the player and reduce total possible mileage this turn.
                             game.Vehicle.ReduceMileage(5);
-                            Damage(10, 50, CauseOfDeath.Illness);
+                            Damage(10, 50, CauseOfDeathEnum.Illness);
                         }
                     }
 
                     break;
-                case HealthStatus.Poor:
+                case HealthStatusEnum.Poor:
                     if (Infected || Injured)
                     {
                         if (resting)
@@ -458,12 +458,12 @@ namespace OregonTrailDotNet.Entity.Person
                         else
                         {
                             game.Vehicle.ReduceMileage(10);
-                            Damage(5, 10, CauseOfDeath.Illness);
+                            Damage(5, 10, CauseOfDeathEnum.Illness);
                         }
                     }
 
                     break;
-                case HealthStatus.VeryPoor:
+                case HealthStatusEnum.VeryPoor:
                     _nearDeathExperience = true;
                     if (resting)
                     {
@@ -472,11 +472,11 @@ namespace OregonTrailDotNet.Entity.Person
                     else
                     {
                         game.Vehicle.ReduceMileage(15);
-                        Damage(1, 5, CauseOfDeath.Illness);
+                        Damage(1, 5, CauseOfDeathEnum.Illness);
                     }
 
                     break;
-                case HealthStatus.Dead:
+                case HealthStatusEnum.Dead:
                     _dead = true;
                     break;
                 default:
@@ -494,11 +494,11 @@ namespace OregonTrailDotNet.Entity.Person
             var game = GameSimulationApp.Instance;
 
             if ((Infected || Injured) &&
-                game.Vehicle.Inventory.ContainsKey(Entities.Medicine) &&
-                (game.Vehicle.Inventory[Entities.Medicine].Quantity > 0))
+                game.Vehicle.Inventory.ContainsKey(EntitiesEnum.Medicine) &&
+                (game.Vehicle.Inventory[EntitiesEnum.Medicine].Quantity > 0))
             {
                 // Medical supplies cure the ailment quickly.
-                game.Vehicle.Inventory[Entities.Medicine].ReduceQuantity(1);
+                game.Vehicle.Inventory[EntitiesEnum.Medicine].ReduceQuantity(1);
                 Infected = false;
                 Injured = false;
                 Status += game.Random.Next(15, 40);
@@ -519,7 +519,7 @@ namespace OregonTrailDotNet.Entity.Person
             var game = GameSimulationApp.Instance;
 
             // Cannot get sick if already dead.
-            if ((HealthStatus == HealthStatus.Dead) || _dead)
+            if ((HealthStatus == HealthStatusEnum.Dead) || _dead)
                 return;
 
             var location = game.Trail.CurrentLocation;
@@ -527,7 +527,7 @@ namespace OregonTrailDotNet.Entity.Person
                 return;
 
             // Base daily chance of a waterborne illness; a bad-water source doubles it.
-            var threshold = location.Warning == LocationWarning.BadWater ? 2 : 1;
+            var threshold = location.Warning == LocationWarningEnum.BadWater ? 2 : 1;
             if (game.Random.Next(100) < threshold)
                 game.EventDirector.TriggerEvent(this,
                     game.Random.NextBool() ? typeof(Cholera) : typeof(Dysentery));
@@ -542,15 +542,15 @@ namespace OregonTrailDotNet.Entity.Person
         private void ApplySupplyPenalties(bool skipDay)
         {
             // Only apply once per real day and never to the dead.
-            if (skipDay || (HealthStatus == HealthStatus.Dead) || _dead)
+            if (skipDay || (HealthStatus == HealthStatusEnum.Dead) || _dead)
                 return;
 
             var game = GameSimulationApp.Instance;
             var inventory = game.Vehicle.Inventory;
 
             // Out of food AND out of ammunition means no way to hunt for more, so starvation accelerates.
-            if ((inventory[Entities.Food].Quantity <= 0) && (inventory[Entities.Ammo].Quantity <= 0))
-                Damage(5, 15, CauseOfDeath.Starvation);
+            if ((inventory[EntitiesEnum.Food].Quantity <= 0) && (inventory[EntitiesEnum.Ammo].Quantity <= 0))
+                Damage(5, 15, CauseOfDeathEnum.Starvation);
 
             // Medical supplies work on the move, not only when the party stops to rest. A sick or injured traveler with
             // medicine on hand spends a kit that day to treat the ailment - a weaker cure than a full rest-stop, but enough
@@ -559,16 +559,16 @@ namespace OregonTrailDotNet.Entity.Person
             // reason to buy it instead of dropping it to zero.
             if (Infected || Injured)
             {
-                if (inventory.ContainsKey(Entities.Medicine) && (inventory[Entities.Medicine].Quantity > 0))
+                if (inventory.ContainsKey(EntitiesEnum.Medicine) && (inventory[EntitiesEnum.Medicine].Quantity > 0))
                 {
-                    inventory[Entities.Medicine].ReduceQuantity(1);
+                    inventory[EntitiesEnum.Medicine].ReduceQuantity(1);
                     Infected = false;
                     Injured = false;
                     Status += game.Random.Next(5, 20);
                 }
                 else
                 {
-                    Damage(1, 5, CauseOfDeath.Illness);
+                    Damage(1, 5, CauseOfDeathEnum.Illness);
                 }
             }
         }
@@ -599,7 +599,7 @@ namespace OregonTrailDotNet.Entity.Person
             var chill = 1 + (-temperature) / 10;
             var risk = Math.Min(65, 10 + 6 * shortfall * chill);
             if (game.Random.Next(100) < risk)
-                Damage(10, 40, CauseOfDeath.Illness);
+                Damage(10, 40, CauseOfDeathEnum.Illness);
         }
 
         /// <summary>
@@ -609,10 +609,10 @@ namespace OregonTrailDotNet.Entity.Person
         /// <param name="minAmount">Minimum amount of damage that should be randomly generated.</param>
         /// <param name="maxAmount">Maximum amount of damage that should be randomly generated.</param>
         /// <param name="cause">What is inflicting this damage, recorded as the cause of death if it proves fatal.</param>
-        private void Damage(int minAmount, int maxAmount, CauseOfDeath cause)
+        private void Damage(int minAmount, int maxAmount, CauseOfDeathEnum cause)
         {
             // Skip what is already dead, no damage to be applied.
-            if (HealthStatus == HealthStatus.Dead)
+            if (HealthStatus == HealthStatusEnum.Dead)
                 return;
 
             // Grab instance of the game simulation to increase readability.
@@ -623,17 +623,17 @@ namespace OregonTrailDotNet.Entity.Person
 
             // Chance for broken bones and other ailments related to damage (but not death).
             if (!Infected || !Injured)
-                game.EventDirector.TriggerEventByType(this, EventCategory.Person);
+                game.EventDirector.TriggerEventByType(this, EventCategoryEnum.Person);
 
             // Check if health dropped to dead levels.
-            if (HealthStatus != HealthStatus.Dead)
+            if (HealthStatus != HealthStatusEnum.Dead)
                 return;
 
             // Record what killed them so the death screen can explain what happened.
             Cause = cause;
 
             // Reduce person's health to dead level.
-            Status = (int) HealthStatus.Dead;
+            Status = (int) HealthStatusEnum.Dead;
 
             // Check if leader died or party member and execute corresponding event.
             game.EventDirector.TriggerEvent(this, Leader ? typeof(DeathPlayer) : typeof(DeathCompanion));
@@ -661,10 +661,10 @@ namespace OregonTrailDotNet.Entity.Person
         /// </summary>
         /// <param name="cause">What killed them, recorded so the death screen can say how they died instead of falling back to a
         ///     blank "unknown" (catastrophic events used to kill through this path without recording any cause).</param>
-        public void Kill(CauseOfDeath cause = CauseOfDeath.Unknown)
+        public void Kill(CauseOfDeathEnum cause = CauseOfDeathEnum.Unknown)
         {
             // Skip if the person is already dead.
-            if (HealthStatus == HealthStatus.Dead)
+            if (HealthStatus == HealthStatusEnum.Dead)
                 return;
 
             // Record how they died before flipping the health to dead.

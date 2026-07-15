@@ -15,7 +15,7 @@ namespace OregonTrailDotNet.Window.MainMenu
     /// <summary>
     ///     Allows the configuration of party names, player profession, and purchasing initial items for trip.
     /// </summary>
-    public sealed class MainMenu : Window<MainMenuCommands, NewGameInfo>
+    public sealed class MainMenu : Window<MainMenuCommandsEnum, NewGameInfo>
     {
         /// <summary>
         ///     Asked for the first party member.
@@ -58,11 +58,11 @@ namespace OregonTrailDotNet.Window.MainMenu
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();
 
-            AddCommand(TravelTheTrail, MainMenuCommands.TravelTheTrail);
-            AddCommand(LearnAboutTrail, MainMenuCommands.LearnAboutTheTrail);
-            AddCommand(SeeTopTen, MainMenuCommands.SeeTheOregonTopTen);
-            AddCommand(ChooseManagementOptions, MainMenuCommands.ChooseManagementOptions);
-            AddCommand(CloseSimulation, MainMenuCommands.CloseSimulation);
+            AddCommand(TravelTheTrail, MainMenuCommandsEnum.TravelTheTrail);
+            AddCommand(LearnAboutTrail, MainMenuCommandsEnum.LearnAboutTheTrail);
+            AddCommand(SeeTopTen, MainMenuCommandsEnum.SeeTheOregonTopTen);
+            AddCommand(ChooseManagementOptions, MainMenuCommandsEnum.ChooseManagementOptions);
+            AddCommand(CloseSimulation, MainMenuCommandsEnum.CloseSimulation);
         }
 
         /// <summary>

@@ -31,19 +31,19 @@ namespace OregonTrailDotNet.Event.Prefab
                 return;
 
             // Check there is food to even remove.
-            if (vehicle.Inventory[Entities.Food].Quantity <= 0)
+            if (vehicle.Inventory[EntitiesEnum.Food].Quantity <= 0)
                 return;
 
             // Need enough food that a quarter of it is at least the three-piece minimum: Random.Next(3, spoiledFood)
             // throws when spoiledFood is below 3, which happens for any food quantity under 12 (12 / 4 == 3).
-            if (vehicle.Inventory[Entities.Food].Quantity < 12)
+            if (vehicle.Inventory[EntitiesEnum.Food].Quantity < 12)
                 return;
 
             // Determine the amount of food we will destroy up to.
-            var spoiledFood = vehicle.Inventory[Entities.Food].Quantity/4;
+            var spoiledFood = vehicle.Inventory[EntitiesEnum.Food].Quantity/4;
 
             // Remove some random amount of food, the minimum being three pieces.
-            vehicle.Inventory[Entities.Food].ReduceQuantity(GameSimulationApp.Instance.Random.Next(3, spoiledFood));
+            vehicle.Inventory[EntitiesEnum.Food].ReduceQuantity(GameSimulationApp.Instance.Random.Next(3, spoiledFood));
         }
 
         /// <summary>

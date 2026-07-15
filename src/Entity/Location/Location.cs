@@ -21,10 +21,10 @@ namespace OregonTrailDotNet.Entity.Location
         /// <summary>Initializes a new instance of the <see cref="T:OregonTrailDotNet.Entity.Location.Location" /> class.</summary>
         /// <param name="name">Display name of the location as it should be known to the player.</param>
         /// <param name="climateType">Defines the type of weather the location will have overall.</param>
-        protected Location(string name, Climate climateType)
+        protected Location(string name, ClimateEnum climateType)
         {
             // Default warning message for the location is based on fresh water status.
-            Warning = GameSimulationApp.Instance.Random.NextBool() ? LocationWarning.None : LocationWarning.BadWater;
+            Warning = GameSimulationApp.Instance.Random.NextBool() ? LocationWarningEnum.None : LocationWarningEnum.BadWater;
 
             // Creates a new system to deal with the management of the weather for this given location.
             _weather = new LocationWeather(climateType);
@@ -33,7 +33,7 @@ namespace OregonTrailDotNet.Entity.Location
             Name = name;
 
             // Default location status is not visited by the player or vehicle.
-            Status = LocationStatus.Unreached;
+            Status = LocationStatusEnum.Unreached;
         }
 
         /// <summary>
@@ -59,12 +59,12 @@ namespace OregonTrailDotNet.Entity.Location
         /// <summary>
         ///     Warnings about low food, medical problems, weather, etc.
         /// </summary>
-        public LocationWarning Warning { get; }
+        public LocationWarningEnum Warning { get; }
 
         /// <summary>
         ///     Current weather condition this location is experiencing.
         /// </summary>
-        public Weather.WeatherConditions Weather => _weather.Condition;
+        public Weather.WeatherConditionsEnum Weather => _weather.Condition;
 
         /// <summary>
         ///     Current outside temperature (in Celsius) the party is exposed to at this location. Survival mechanics read this
@@ -87,7 +87,7 @@ namespace OregonTrailDotNet.Entity.Location
         ///     Determines if this location has already been visited by the vehicle and party members.
         /// </summary>
         /// <returns>TRUE if location has been passed by, FALSE if location has yet to be reached.</returns>
-        public LocationStatus Status { get; set; }
+        public LocationStatusEnum Status { get; set; }
 
         /// <summary>
         ///     Determines if the look around question has been asked in regards to the player stopping the vehicle to rest or

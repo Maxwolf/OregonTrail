@@ -12,18 +12,18 @@ namespace OregonTrailDotNet.Bot.Tests
     /// </summary>
     public sealed class AutoTestSessionTests
     {
-        private static RunResult Clean(GameOutcome outcome = GameOutcome.Death) => new()
+        private static RunResult Clean(GameOutcomeEnum outcome = GameOutcomeEnum.Death) => new()
         {
             Outcome = outcome,
-            Score = outcome == GameOutcome.Win ? 1000 : 0,
+            Score = outcome == GameOutcomeEnum.Win ? 1000 : 0,
             Days = 100,
             Miles = 1200,
-            Survivors = outcome == GameOutcome.Win ? 4 : 0
+            Survivors = outcome == GameOutcomeEnum.Win ? 4 : 0
         };
 
-        private static RunResult Buggy(BugCategory category, string detail) => new()
+        private static RunResult Buggy(BugCategoryEnum category, string detail) => new()
         {
-            Outcome = GameOutcome.Aborted,
+            Outcome = GameOutcomeEnum.Aborted,
             Bug = new BugReport { Category = category, Detail = detail, WindowType = "Travel", FormType = "SomeForm" }
         };
 
@@ -55,7 +55,7 @@ namespace OregonTrailDotNet.Bot.Tests
         {
             // Default behaviour: stop the moment a problem is found.
             var session = new AutoTestSession(0, stopOnProblem: true, playGame: model =>
-                model.Key == "hillclimb" ? Buggy(BugCategory.SoftLock, "stuck at the river") : Clean());
+                model.Key == "hillclimb" ? Buggy(BugCategoryEnum.SoftLock, "stuck at the river") : Clean());
 
             var report = session.Run(keepRunning: () => true);
 
@@ -76,7 +76,7 @@ namespace OregonTrailDotNet.Bot.Tests
             var session = new AutoTestSession(5, stopOnProblem: false, playGame: _ =>
             {
                 played++;
-                return Buggy(BugCategory.Crash, "boom");
+                return Buggy(BugCategoryEnum.Crash, "boom");
             });
 
             var report = session.Run(keepRunning: () => played < 8);

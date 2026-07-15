@@ -62,33 +62,33 @@ namespace OregonTrailDotNet.Bot.Learning
         public bool ForkTakeSecond => Raw[ForkSecondIdx] > 0;
 
         // Pace and rations are learned menu choices (1..3) instead of being hardcoded, so the optimizer can trade speed for
-        // the party's health. Pace menu numbers line up with the TravelPace enum directly (1=Steady, 2=Strenuous, 3=Grueling).
-        // Ration menu numbers are the REVERSE of the RationLevel enum (menu 1=Filling..3=BareBones, but enum Filling=3..
+        // the party's health. Pace menu numbers line up with the TravelPaceEnum enum directly (1=Steady, 2=Strenuous, 3=Grueling).
+        // Ration menu numbers are the REVERSE of the RationLevelEnum enum (menu 1=Filling..3=BareBones, but enum Filling=3..
         // BareBones=1), so DesiredRation maps the menu number back to the enum for comparing against the live ration.
         public int PaceChoice => ClampRound(Raw[PaceIdx], 1, 3);
         public int RationChoice => ClampRound(Raw[RationIdx], 1, 3);
-        public TravelPace DesiredPace => (TravelPace) PaceChoice;
-        public RationLevel DesiredRation => (RationLevel) (4 - RationChoice);
+        public TravelPaceEnum DesiredPace => (TravelPaceEnum) PaceChoice;
+        public RationLevelEnum DesiredRation => (RationLevelEnum) (4 - RationChoice);
 
-        public int TargetQuantity(Entities item) => item switch
+        public int TargetQuantity(EntitiesEnum item) => item switch
         {
-            Entities.Animal => OxenTarget,
-            Entities.Food => FoodTarget,
-            Entities.Clothes => ClothesTarget,
-            Entities.Medicine => MedicineTarget,
-            Entities.Ammo => AmmoTarget,
-            Entities.Wheel => WheelTarget,
-            Entities.Axle => AxleTarget,
-            Entities.Tongue => TongueTarget,
+            EntitiesEnum.Animal => OxenTarget,
+            EntitiesEnum.Food => FoodTarget,
+            EntitiesEnum.Clothes => ClothesTarget,
+            EntitiesEnum.Medicine => MedicineTarget,
+            EntitiesEnum.Ammo => AmmoTarget,
+            EntitiesEnum.Wheel => WheelTarget,
+            EntitiesEnum.Axle => AxleTarget,
+            EntitiesEnum.Tongue => TongueTarget,
             _ => 0
         };
 
-        public double RiverScore(RiverChoiceKind kind) => kind switch
+        public double RiverScore(RiverChoiceKindEnum kind) => kind switch
         {
-            RiverChoiceKind.Ferry => Raw[RiverFerryIdx],
-            RiverChoiceKind.Indian => Raw[RiverIndianIdx],
-            RiverChoiceKind.Caulk => Raw[RiverCaulkIdx],
-            RiverChoiceKind.Ford => Raw[RiverFordIdx],
+            RiverChoiceKindEnum.Ferry => Raw[RiverFerryIdx],
+            RiverChoiceKindEnum.Indian => Raw[RiverIndianIdx],
+            RiverChoiceKindEnum.Caulk => Raw[RiverCaulkIdx],
+            RiverChoiceKindEnum.Ford => Raw[RiverFordIdx],
             _ => double.NegativeInfinity // never electively wait or ask for more info
         };
 

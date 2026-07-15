@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Vehicle
     ///     Manually triggered event for when the player decides to not and repair their vehicle and instead opts to use spare
     ///     parts and or willingly want to be stranded unable to continue their journey.
     /// </summary>
-    [DirectorEvent(EventCategory.Vehicle, EventExecution.ManualOnly)]
+    [DirectorEvent(EventCategoryEnum.Vehicle, EventExecutionEnum.ManualOnly)]
     public sealed class NoRepairVehicle : EventProduct
     {
         /// <summary>

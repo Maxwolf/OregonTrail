@@ -10,7 +10,7 @@ namespace OregonTrailDotNet.Event.Vehicle
     /// <summary>
     ///     The oxen wander off.
     /// </summary>
-    [DirectorEvent(EventCategory.Vehicle)]
+    [DirectorEvent(EventCategoryEnum.Vehicle)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class OxenWanderOff : EventProduct
     {

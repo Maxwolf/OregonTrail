@@ -17,7 +17,7 @@ namespace OregonTrailDotNet.Entity.Location.Point
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="climateType">The climate Type.</param>
-        public Landmark(string name, Climate climateType) : base(name, climateType)
+        public Landmark(string name, ClimateEnum climateType) : base(name, climateType)
         {
         }
 

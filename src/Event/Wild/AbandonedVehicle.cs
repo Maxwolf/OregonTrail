@@ -15,14 +15,14 @@ namespace OregonTrailDotNet.Event.Wild
     ///     Discover a vehicle on the side of the road that might have some items inside of it that will be added to the
     ///     players inventory.
     /// </summary>
-    [DirectorEvent(EventCategory.Wild)]
+    [DirectorEvent(EventCategoryEnum.Wild)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class AbandonedVehicle : ItemCreator
     {
         /// <summary>Fired by the event prefab after the event has executed.</summary>
         /// <param name="createdItems"></param>
         /// <returns>The <see cref="string" />.</returns>
-        protected override string OnPostCreateItems(IDictionary<Entities, int> createdItems)
+        protected override string OnPostCreateItems(IDictionary<EntitiesEnum, int> createdItems)
         {
             return createdItems.Count > 0 ? $"and find:{Environment.NewLine}" : "but it is empty";
         }

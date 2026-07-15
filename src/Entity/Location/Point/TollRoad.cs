@@ -18,7 +18,7 @@ namespace OregonTrailDotNet.Entity.Location.Point
         /// </summary>
         /// <param name="name">Display name of the location as it should be known to the player.</param>
         /// <param name="climateType">Defines the type of weather the location will have overall.</param>
-        public TollRoad(string name, Climate climateType) : base(name, climateType)
+        public TollRoad(string name, ClimateEnum climateType) : base(name, climateType)
         {
         }
 

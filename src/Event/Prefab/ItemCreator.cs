@@ -81,7 +81,7 @@ namespace OregonTrailDotNet.Event.Prefab
         /// <summary>Fired by the event prefab after the event has executed.</summary>
         /// <param name="createdItems">Items that were created and added to vehicle inventory.</param>
         /// <returns>The <see cref="string" />.</returns>
-        protected abstract string OnPostCreateItems(IDictionary<Entities, int> createdItems);
+        protected abstract string OnPostCreateItems(IDictionary<EntitiesEnum, int> createdItems);
 
         /// <summary>
         ///     Fired by the event prefab before the event has executed.

@@ -25,29 +25,29 @@ namespace OregonTrailDotNet.Bot.Learning
         public int Profession => _genome.Profession;
         public int StartMonth => _genome.StartMonth;
 
-        public int TargetQuantity(Entities item, GameSnapshot state) => _genome.TargetQuantity(item);
+        public int TargetQuantity(EntitiesEnum item, GameSnapshot state) => _genome.TargetQuantity(item);
 
-        public TravelCommands ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommands> available)
+        public TravelCommandsEnum ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommandsEnum> available)
         {
             // Set the party's pace and rations to whatever the genome has learned (no longer hardcoded), so the optimizer can
             // trade travel speed against the party's health rather than always flooring it. Do this before anything else.
-            if (available.Contains(TravelCommands.ChangePace) && state.Pace != _genome.DesiredPace)
-                return TravelCommands.ChangePace;
-            if (available.Contains(TravelCommands.ChangeFoodRations) && state.Ration != _genome.DesiredRation)
-                return TravelCommands.ChangeFoodRations;
+            if (available.Contains(TravelCommandsEnum.ChangePace) && state.Pace != _genome.DesiredPace)
+                return TravelCommandsEnum.ChangePace;
+            if (available.Contains(TravelCommandsEnum.ChangeFoodRations) && state.Ration != _genome.DesiredRation)
+                return TravelCommandsEnum.ChangeFoodRations;
 
             // Rest for the party's weakest member, not the average: a full, healthy party scores far higher than a lone
             // survivor, so every member in danger is worth stopping for. Resting is no longer gated on carrying medicine -
             // stopping heals through natural recovery either way, and medicine now also treats the sick while moving, so the
             // old "only rest if we have medicine" gate perversely taught the optimizer to drop medicine to avoid resting.
-            if (available.Contains(TravelCommands.StopToRest) && WantRecovery(state) && state.DaysRemaining > 40)
-                return TravelCommands.StopToRest;
+            if (available.Contains(TravelCommandsEnum.StopToRest) && WantRecovery(state) && state.DaysRemaining > 40)
+                return TravelCommandsEnum.StopToRest;
 
-            if (available.Contains(TravelCommands.HuntForFood) && state.Food < _genome.HuntFoodThreshold && state.Ammo > 0)
-                return TravelCommands.HuntForFood;
+            if (available.Contains(TravelCommandsEnum.HuntForFood) && state.Food < _genome.HuntFoodThreshold && state.Ammo > 0)
+                return TravelCommandsEnum.HuntForFood;
 
-            return available.Contains(TravelCommands.ContinueOnTrail)
-                ? TravelCommands.ContinueOnTrail
+            return available.Contains(TravelCommandsEnum.ContinueOnTrail)
+                ? TravelCommandsEnum.ContinueOnTrail
                 : available.First();
         }
 
@@ -70,7 +70,7 @@ namespace OregonTrailDotNet.Bot.Learning
             _ => false
         };
 
-        public RiverChoiceKind River(GameSnapshot state, IReadOnlyCollection<RiverChoiceKind> options)
+        public RiverChoiceKindEnum River(GameSnapshot state, IReadOnlyCollection<RiverChoiceKindEnum> options)
         {
             var best = options.FirstOrDefault();
             var bestScore = double.NegativeInfinity;

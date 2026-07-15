@@ -20,7 +20,7 @@ namespace OregonTrailDotNet.Entity.Location.Point
         /// <param name="name">The name.</param>
         /// <param name="climateType">The climate Type.</param>
         /// <param name="riverOption">The river Option.</param>
-        public RiverCrossing(string name, Climate climateType, RiverOption riverOption = RiverOption.FloatAndFord)
+        public RiverCrossing(string name, ClimateEnum climateType, RiverOptionEnum riverOption = RiverOptionEnum.FloatAndFord)
             : base(name, climateType)
         {
             // Set the river option into the location itself.
@@ -31,7 +31,7 @@ namespace OregonTrailDotNet.Entity.Location.Point
         ///     Defines the type of river crossing this location will be, this is in regards to the types of options presented when
         ///     the crossing comes up in the trail.
         /// </summary>
-        public RiverOption RiverCrossOption { get; }
+        public RiverOptionEnum RiverCrossOption { get; }
 
         /// <summary>
         ///     Determines if the location allows the player to chat to other NPC's in the area which can offer up advice about the

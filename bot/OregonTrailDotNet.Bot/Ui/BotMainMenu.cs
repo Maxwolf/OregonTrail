@@ -8,7 +8,7 @@ namespace OregonTrailDotNet.Bot.Ui
     ///     Root control-panel menu for the bot. Command handlers are filled in as the UI is built; for now the window exists so
     ///     the de-risk spike can prove the bot's own <see cref="SimulationApp" /> discovers and renders its forms.
     /// </summary>
-    public sealed class BotMainMenu : Window<BotMainMenuCommands, BotAppData>
+    public sealed class BotMainMenu : Window<BotMainMenuCommandsEnum, BotAppData>
     {
         // ReSharper disable once UnusedMember.Global — constructed by the WolfCurses window factory via reflection.
         public BotMainMenu(SimulationApp simUnit) : base(simUnit)
@@ -23,16 +23,16 @@ namespace OregonTrailDotNet.Bot.Ui
             header.Append("You may:");
             MenuHeader = header.ToString();
 
-            AddCommand(CreateProfile, BotMainMenuCommands.CreateProfile);
-            AddCommand(SelectProfile, BotMainMenuCommands.SelectProfile);
-            AddCommand(StartTraining, BotMainMenuCommands.StartTraining);
-            AddCommand(WatchGame, BotMainMenuCommands.WatchGame);
-            AddCommand(ViewLeaderboard, BotMainMenuCommands.ViewLeaderboard);
-            AddCommand(ViewStats, BotMainMenuCommands.ViewStats);
-            AddCommand(AutomatedTesting, BotMainMenuCommands.AutomatedTesting);
-            AddCommand(Benchmark, BotMainMenuCommands.Benchmark);
-            AddCommand(ManageData, BotMainMenuCommands.ManageData);
-            AddCommand(Quit, BotMainMenuCommands.Quit);
+            AddCommand(CreateProfile, BotMainMenuCommandsEnum.CreateProfile);
+            AddCommand(SelectProfile, BotMainMenuCommandsEnum.SelectProfile);
+            AddCommand(StartTraining, BotMainMenuCommandsEnum.StartTraining);
+            AddCommand(WatchGame, BotMainMenuCommandsEnum.WatchGame);
+            AddCommand(ViewLeaderboard, BotMainMenuCommandsEnum.ViewLeaderboard);
+            AddCommand(ViewStats, BotMainMenuCommandsEnum.ViewStats);
+            AddCommand(AutomatedTesting, BotMainMenuCommandsEnum.AutomatedTesting);
+            AddCommand(Benchmark, BotMainMenuCommandsEnum.Benchmark);
+            AddCommand(ManageData, BotMainMenuCommandsEnum.ManageData);
+            AddCommand(Quit, BotMainMenuCommandsEnum.Quit);
         }
 
         private void CreateProfile() => SetForm(typeof(SelectModelForm));
@@ -79,7 +79,7 @@ namespace OregonTrailDotNet.Bot.Ui
 
         private static void Quit()
         {
-            BotContext.Request = new BotRequest { Kind = BotRequestKind.Quit };
+            BotContext.Request = new BotRequest { Kind = BotRequestKindEnum.Quit };
             BotSimulationApp.Instance?.Destroy();
         }
     }

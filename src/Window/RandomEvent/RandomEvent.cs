@@ -13,7 +13,7 @@ namespace OregonTrailDotNet.Window.RandomEvent
     ///     Random event window is attached by the event director which then listens for the event it will throw at it over
     ///     event delegate the random event window will subscribe to.
     /// </summary>
-    public sealed class RandomEvent : Window<RandomEventCommands, RandomEventInfo>
+    public sealed class RandomEvent : Window<RandomEventCommandsEnum, RandomEventInfo>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.

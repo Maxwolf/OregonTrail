@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Vehicle
     ///     Used when we want to trigger special event that will damage one of the vehicles parts making it unable to continue
     ///     the journey until the player decides to either repair or replace the part in question.
     /// </summary>
-    [DirectorEvent(EventCategory.Vehicle)]
+    [DirectorEvent(EventCategoryEnum.Vehicle)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class BrokenVehiclePart : EventProduct
     {

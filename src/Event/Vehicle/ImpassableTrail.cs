@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Vehicle
     ///     Wastes the players time by forcing them to go around a section of the trail that has been blocked by some natural
     ///     and or man made obstruction.
     /// </summary>
-    [DirectorEvent(EventCategory.Vehicle)]
+    [DirectorEvent(EventCategoryEnum.Vehicle)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class ImpassableTrail : LoseTime
     {

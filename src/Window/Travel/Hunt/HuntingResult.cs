@@ -120,7 +120,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         {
             // Transfers the total finalized kill weight we calculated to vehicle inventory as food in pounds.
             if (_finalKillWeight > 0)
-                GameSimulationApp.Instance.Vehicle.Inventory[Entities.Food].AddQuantity(_finalKillWeight);
+                GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Food].AddQuantity(_finalKillWeight);
 
             // Destroys all hunting related data now that we are done with it.
             UserData.DestroyHunt();

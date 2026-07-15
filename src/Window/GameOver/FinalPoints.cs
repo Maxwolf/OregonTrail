@@ -60,19 +60,19 @@ namespace OregonTrailDotNet.Window.GameOver
 
             // Calculate the total points of all spare parts for the tuple list below ahead of time.
             var spareAxles = new Tuple<int, string, int>(
-                game.Vehicle.Inventory[Entities.Axle].Quantity,
-                game.Vehicle.Inventory[Entities.Axle].PluralForm,
-                game.Vehicle.Inventory[Entities.Axle].Points);
+                game.Vehicle.Inventory[EntitiesEnum.Axle].Quantity,
+                game.Vehicle.Inventory[EntitiesEnum.Axle].PluralForm,
+                game.Vehicle.Inventory[EntitiesEnum.Axle].Points);
 
             var spareTongues = new Tuple<int, string, int>(
-                game.Vehicle.Inventory[Entities.Tongue].Quantity,
-                game.Vehicle.Inventory[Entities.Tongue].PluralForm,
-                game.Vehicle.Inventory[Entities.Tongue].Points);
+                game.Vehicle.Inventory[EntitiesEnum.Tongue].Quantity,
+                game.Vehicle.Inventory[EntitiesEnum.Tongue].PluralForm,
+                game.Vehicle.Inventory[EntitiesEnum.Tongue].Points);
 
             var spareWheels = new Tuple<int, string, int>(
-                game.Vehicle.Inventory[Entities.Wheel].Quantity,
-                game.Vehicle.Inventory[Entities.Wheel].PluralForm,
-                game.Vehicle.Inventory[Entities.Wheel].Points);
+                game.Vehicle.Inventory[EntitiesEnum.Wheel].Quantity,
+                game.Vehicle.Inventory[EntitiesEnum.Wheel].PluralForm,
+                game.Vehicle.Inventory[EntitiesEnum.Wheel].Points);
 
             var spareParts = new Tuple<int, string, int>(
                 spareAxles.Item1 + spareTongues.Item1 + spareWheels.Item1,
@@ -95,26 +95,26 @@ namespace OregonTrailDotNet.Window.GameOver
                     game.Vehicle.PassengerLivingCount*(int) avgHealth),
                 new Tuple<int, string, int>(1, "wagon", Resources.Vehicle.PointsAwarded),
                 new Tuple<int, string, int>(
-                    game.Vehicle.Inventory[Entities.Animal].Quantity,
+                    game.Vehicle.Inventory[EntitiesEnum.Animal].Quantity,
                     "oxen",
-                    game.Vehicle.Inventory[Entities.Animal].Points),
+                    game.Vehicle.Inventory[EntitiesEnum.Animal].Points),
                 spareParts,
                 new Tuple<int, string, int>(
-                    game.Vehicle.Inventory[Entities.Clothes].Quantity,
+                    game.Vehicle.Inventory[EntitiesEnum.Clothes].Quantity,
                     "sets of clothing",
-                    game.Vehicle.Inventory[Entities.Clothes].Points),
+                    game.Vehicle.Inventory[EntitiesEnum.Clothes].Points),
                 new Tuple<int, string, int>(
-                    game.Vehicle.Inventory[Entities.Ammo].Quantity,
+                    game.Vehicle.Inventory[EntitiesEnum.Ammo].Quantity,
                     "bullets",
-                    game.Vehicle.Inventory[Entities.Ammo].Points),
+                    game.Vehicle.Inventory[EntitiesEnum.Ammo].Points),
                 new Tuple<int, string, int>(
-                    game.Vehicle.Inventory[Entities.Food].Quantity,
+                    game.Vehicle.Inventory[EntitiesEnum.Food].Quantity,
                     "pounds of food",
-                    game.Vehicle.Inventory[Entities.Food].Points),
+                    game.Vehicle.Inventory[EntitiesEnum.Food].Points),
                 new Tuple<int, string, int>(
-                    game.Vehicle.Inventory[Entities.Cash].Quantity,
+                    game.Vehicle.Inventory[EntitiesEnum.Cash].Quantity,
                     "cash",
-                    game.Vehicle.Inventory[Entities.Cash].Points)
+                    game.Vehicle.Inventory[EntitiesEnum.Cash].Points)
             };
 
             // Create the actual points table from the tuple list data we created above from game simulation state.
@@ -137,12 +137,12 @@ namespace OregonTrailDotNet.Window.GameOver
             var totalPointsWithBonus = totalPoints*(int) leaderPerson.Profession;
             switch (leaderPerson.Profession)
             {
-                case Profession.Banker:
+                case ProfessionEnum.Banker:
                     break;
-                case Profession.Carpenter:
+                case ProfessionEnum.Carpenter:
                     _pointsPrompt.AppendLine($"Bonus Total: {totalPointsWithBonus}");
                     break;
-                case Profession.Farmer:
+                case ProfessionEnum.Farmer:
                     _pointsPrompt.AppendLine($"Bonus Total: {totalPointsWithBonus}");
                     break;
                 default:
@@ -154,13 +154,13 @@ namespace OregonTrailDotNet.Window.GameOver
                 $"{Environment.NewLine}For going as a {leaderPerson.Profession.ToString().ToLowerInvariant()}, your");
             switch (leaderPerson.Profession)
             {
-                case Profession.Banker:
+                case ProfessionEnum.Banker:
                     _pointsPrompt.AppendLine($"points are normal, no bonus!{Environment.NewLine}");
                     break;
-                case Profession.Carpenter:
+                case ProfessionEnum.Carpenter:
                     _pointsPrompt.AppendLine($"points are doubled.{Environment.NewLine}");
                     break;
-                case Profession.Farmer:
+                case ProfessionEnum.Farmer:
                     _pointsPrompt.AppendLine($"points are tripled.{Environment.NewLine}");
                     break;
                 default:

@@ -45,21 +45,21 @@ namespace OregonTrailDotNet.Bot
                 var request = BotContext.Request;
                 BotContext.Request = null;
 
-                if (request == null || request.Kind == BotRequestKind.Quit)
+                if (request == null || request.Kind == BotRequestKindEnum.Quit)
                     break;
 
                 switch (request.Kind)
                 {
-                    case BotRequestKind.Train:
+                    case BotRequestKindEnum.Train:
                         RunTraining(request);
                         break;
-                    case BotRequestKind.Watch:
+                    case BotRequestKindEnum.Watch:
                         RunWatch(request);
                         break;
-                    case BotRequestKind.AutoTest:
+                    case BotRequestKindEnum.AutoTest:
                         RunAutoTest(request);
                         break;
-                    case BotRequestKind.Benchmark:
+                    case BotRequestKindEnum.Benchmark:
                         RunBenchmark(request);
                         break;
                 }
@@ -487,16 +487,16 @@ namespace OregonTrailDotNet.Bot
 
         // Maps a benchmark goal to its display label and the predicate that decides whether a game reached it. The Meek
         // target is read from the game's own original high-score list so it can never drift out of sync.
-        private static (string Label, Func<RunResult, bool> Reached) BenchmarkGoalSpec(BenchmarkGoal goal)
+        private static (string Label, Func<RunResult, bool> Reached) BenchmarkGoalSpec(BenchmarkGoalEnum goal)
         {
-            if (goal == BenchmarkGoal.MeekScore)
+            if (goal == BenchmarkGoalEnum.MeekScore)
             {
                 var meek = OregonTrailDotNet.Module.Scoring.ScoringModule.DefaultTopTen
                     .OrderByDescending(h => h.Points).First();
                 return ($"{meek.Name}'s {meek.Points} (Trail Guide)", result => result.Score >= meek.Points);
             }
 
-            return ("a first win", result => result.Outcome == GameOutcome.Win);
+            return ("a first win", result => result.Outcome == GameOutcomeEnum.Win);
         }
 
         private static string? SaveBenchmarkReport(BenchmarkReport report)

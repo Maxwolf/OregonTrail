@@ -37,14 +37,14 @@ namespace OregonTrailDotNet.Module.Director
                 var eventType = eventAttribute.EventCategory;
 
                 // Initialize the execution history dictionary with every event type.
-                foreach (var modeType in Enum.GetValues(typeof(EventCategory)))
+                foreach (var modeType in Enum.GetValues(typeof(EventCategoryEnum)))
                 {
                     // Only proceed if enum value matches attribute enum value for event type.
                     if (!modeType.Equals(eventType))
                         continue;
 
                     // Create key for the event execution counter.
-                    var eventKey = new EventKey((EventCategory) modeType, eventObject.Name,
+                    var eventKey = new EventKey((EventCategoryEnum) modeType, eventObject.Name,
                         eventAttribute.EventExecutionType);
 
                     // Reference type for creating instances.
@@ -97,13 +97,13 @@ namespace OregonTrailDotNet.Module.Director
         /// <summary>Gathers all of the events by specified type and picks one of them at random to return.</summary>
         /// <param name="eventCategory">Enum value of the type of event such as medical, person, vehicle, etc.</param>
         /// <returns>Created event product based on enum value.</returns>
-        public EventProduct CreateRandomByType(EventCategory eventCategory)
+        public EventProduct CreateRandomByType(EventCategoryEnum eventCategory)
         {
             // Query all of the reference event types that match the given enumeration value.
             var groupedEventList = new List<Type>();
             foreach (var type in EventReference)
                 if (type.Key.Category.Equals(eventCategory) &&
-                    (type.Key.ExecutionType == EventExecution.RandomOrManual))
+                    (type.Key.ExecutionType == EventExecutionEnum.RandomOrManual))
                     groupedEventList.Add(type.Value);
 
             // Check to make sure there is at least one type of event of this type.

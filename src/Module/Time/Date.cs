@@ -17,7 +17,7 @@ namespace OregonTrailDotNet.Module.Time
         /// <param name="dueYear">The due year.</param>
         /// <param name="dueMonth">The due month.</param>
         /// <param name="dueDay">The due day.</param>
-        public Date(int dueYear, Month dueMonth, int dueDay)
+        public Date(int dueYear, MonthEnum dueMonth, int dueDay)
         {
             Day = dueDay;
             Month = dueMonth;
@@ -27,7 +27,7 @@ namespace OregonTrailDotNet.Module.Time
         /// <summary>
         ///     Gets or sets the month.
         /// </summary>
-        public Month Month { get; set; }
+        public MonthEnum Month { get; set; }
 
         /// <summary>
         ///     Gets or sets the year.

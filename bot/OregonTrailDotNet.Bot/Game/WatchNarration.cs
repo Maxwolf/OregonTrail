@@ -17,8 +17,8 @@ namespace OregonTrailDotNet.Bot.Game
                 if (windowName == "MainMenu")
                     return "Setting off on the Oregon Trail";
                 if (windowName == "Travel" && int.TryParse(input, out var t) &&
-                    Enum.IsDefined(typeof(TravelCommands), (TravelCommands) t))
-                    return TravelThought((TravelCommands) t, state);
+                    Enum.IsDefined(typeof(TravelCommandsEnum), (TravelCommandsEnum) t))
+                    return TravelThought((TravelCommandsEnum) t, state);
                 return $"Choosing option {input}";
             }
 
@@ -58,18 +58,18 @@ namespace OregonTrailDotNet.Bot.Game
             _ => ""
         };
 
-        private static string TravelThought(TravelCommands command, GameSnapshot state) => command switch
+        private static string TravelThought(TravelCommandsEnum command, GameSnapshot state) => command switch
         {
-            TravelCommands.ContinueOnTrail => "Pressing on down the trail",
-            TravelCommands.CheckSupplies => "Checking the supplies",
-            TravelCommands.LookAtMap => "Looking at the map",
-            TravelCommands.ChangePace => "Reconsidering the pace",
-            TravelCommands.ChangeFoodRations => "Reconsidering the rations",
-            TravelCommands.StopToRest => $"Health is {state.Health} — stopping to rest",
-            TravelCommands.AttemptToTrade => "Looking for a trade",
-            TravelCommands.HuntForFood => $"Food is low ({state.Food} lb) — hunting for meat",
-            TravelCommands.BuySupplies => "Stopping to buy supplies",
-            TravelCommands.TalkToPeople => "Chatting with the locals",
+            TravelCommandsEnum.ContinueOnTrail => "Pressing on down the trail",
+            TravelCommandsEnum.CheckSupplies => "Checking the supplies",
+            TravelCommandsEnum.LookAtMap => "Looking at the map",
+            TravelCommandsEnum.ChangePace => "Reconsidering the pace",
+            TravelCommandsEnum.ChangeFoodRations => "Reconsidering the rations",
+            TravelCommandsEnum.StopToRest => $"Health is {state.Health} — stopping to rest",
+            TravelCommandsEnum.AttemptToTrade => "Looking for a trade",
+            TravelCommandsEnum.HuntForFood => $"Food is low ({state.Food} lb) — hunting for meat",
+            TravelCommandsEnum.BuySupplies => "Stopping to buy supplies",
+            TravelCommandsEnum.TalkToPeople => "Chatting with the locals",
             _ => "Deciding what to do"
         };
 

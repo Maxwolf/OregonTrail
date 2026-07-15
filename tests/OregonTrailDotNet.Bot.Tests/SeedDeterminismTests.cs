@@ -22,7 +22,7 @@ namespace OregonTrailDotNet.Bot.Tests
             GameSimulationApp.Instance?.Destroy();
         }
 
-        private static (GameOutcome Outcome, int Score, int Miles, int Days, int Survivors) Play(int seed)
+        private static (GameOutcomeEnum Outcome, int Score, int Miles, int Days, int Survivors) Play(int seed)
         {
             var result = GamePlayer.PlayOnce(new HeuristicPolicy(), seed: seed);
             return (result.Outcome, result.Score, result.Miles, result.Days, result.Survivors);
@@ -43,7 +43,7 @@ namespace OregonTrailDotNet.Bot.Tests
             // Across a spread of seeds the deterministic heuristic can't produce identical (outcome, score, miles, days,
             // survivors) tuples unless the seed is genuinely driving the game RNG — so more than one distinct result proves
             // seeding takes effect. (The chance of eight seeds coinciding on all five fields is effectively zero.)
-            var outcomes = new HashSet<(GameOutcome, int, int, int, int)>();
+            var outcomes = new HashSet<(GameOutcomeEnum, int, int, int, int)>();
             for (var seed = 1; seed <= 8; seed++)
                 outcomes.Add(Play(seed));
 

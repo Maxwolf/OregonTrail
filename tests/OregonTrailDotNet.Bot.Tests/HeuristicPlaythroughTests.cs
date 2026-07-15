@@ -39,7 +39,7 @@ namespace OregonTrailDotNet.Bot.Tests
                 var result = player.Run();
 
                 Assert.True(
-                    result.Outcome != GameOutcome.Aborted,
+                    result.Outcome != GameOutcomeEnum.Aborted,
                     $"Run {i} aborted: {result.AbortReason}. Unknown forms: [{string.Join(", ", player.UnknownForms)}]. " +
                     $"Last screen:\n{driver.LastScreen}");
 
@@ -47,7 +47,7 @@ namespace OregonTrailDotNet.Bot.Tests
 
                 // A finished game (win or out-of-time) should score, and the bot's recompute must match what the game
                 // actually recorded to its top-ten when the score lands there.
-                if (result.Outcome is GameOutcome.Win or GameOutcome.Timeout)
+                if (result.Outcome is GameOutcomeEnum.Win or GameOutcomeEnum.Timeout)
                 {
                     Assert.True(result.Score > 0, $"Run {i} finished ({result.Outcome}) but scored {result.Score}.");
                     if (result.GameRecordedScore.HasValue)

@@ -206,9 +206,9 @@ namespace OregonTrailDotNet.Bot.Tests
 
             Assert.Null(BotSimulationApp.Instance); // panel torn down to hand off to the watch session
             var request = BotContext.Request!;
-            Assert.Equal(BotRequestKind.Watch, request.Kind);
+            Assert.Equal(BotRequestKindEnum.Watch, request.Kind);
             Assert.Equal(BotContext.ActiveProfileId, request.ProfileId);
-            Assert.Equal(WatchSpeed.Slow, request.WatchSpeed);
+            Assert.Equal(WatchSpeedEnum.Slow, request.WatchSpeed);
             Assert.True(request.LoopUntilEscape);
         }
 
@@ -233,7 +233,7 @@ namespace OregonTrailDotNet.Bot.Tests
 
             Assert.Null(BotSimulationApp.Instance);
             var request = BotContext.Request!;
-            Assert.Equal(BotRequestKind.AutoTest, request.Kind);
+            Assert.Equal(BotRequestKindEnum.AutoTest, request.Kind);
             Assert.Equal(15, request.AutoTestMinutes);
             Assert.False(request.AutoTestStopOnProblem); // toggled off
         }
@@ -260,9 +260,9 @@ namespace OregonTrailDotNet.Bot.Tests
 
             Assert.Null(BotSimulationApp.Instance);
             var request = BotContext.Request!;
-            Assert.Equal(BotRequestKind.Benchmark, request.Kind);
+            Assert.Equal(BotRequestKindEnum.Benchmark, request.Kind);
             Assert.Equal(12, request.BenchmarkMinutes);
-            Assert.Equal(OregonTrailDotNet.Bot.Testing.BenchmarkGoal.MeekScore, request.BenchmarkGoal);
+            Assert.Equal(OregonTrailDotNet.Bot.Testing.BenchmarkGoalEnum.MeekScore, request.BenchmarkGoal);
         }
 
         [Fact]
@@ -288,7 +288,7 @@ namespace OregonTrailDotNet.Bot.Tests
 
             Assert.Null(BotSimulationApp.Instance);
             var request = BotContext.Request!;
-            Assert.Equal(BotRequestKind.Train, request.Kind);
+            Assert.Equal(BotRequestKindEnum.Train, request.Kind);
             Assert.Equal(BotContext.ActiveProfileId, request.ProfileId);
             Assert.Equal(37, request.Generations);
             Assert.Equal(16, request.PopulationSize);
@@ -311,7 +311,7 @@ namespace OregonTrailDotNet.Bot.Tests
 
             Assert.Null(BotSimulationApp.Instance);
             var request = BotContext.Request!;
-            Assert.Equal(BotRequestKind.Train, request.Kind);
+            Assert.Equal(BotRequestKindEnum.Train, request.Kind);
             Assert.Equal(-1, request.Generations);
         }
 

@@ -41,16 +41,16 @@ namespace OregonTrailDotNet.Bot.Game
             total += Resources.Vehicle.PointsAwarded;
 
             // Oxen.
-            total += inv[Entities.Animal].Points;
+            total += inv[EntitiesEnum.Animal].Points;
 
             // Spare wagon parts.
-            total += inv[Entities.Axle].Points + inv[Entities.Tongue].Points + inv[Entities.Wheel].Points;
+            total += inv[EntitiesEnum.Axle].Points + inv[EntitiesEnum.Tongue].Points + inv[EntitiesEnum.Wheel].Points;
 
             // Clothing, bullets, food, cash.
-            total += inv[Entities.Clothes].Points;
-            total += inv[Entities.Ammo].Points;
-            total += inv[Entities.Food].Points;
-            total += inv[Entities.Cash].Points;
+            total += inv[EntitiesEnum.Clothes].Points;
+            total += inv[EntitiesEnum.Ammo].Points;
+            total += inv[EntitiesEnum.Food].Points;
+            total += inv[EntitiesEnum.Cash].Points;
 
             return total;
         }

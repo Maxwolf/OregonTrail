@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Bot.Tests
     /// </summary>
     public sealed class FitnessShapingTests
     {
-        private static RunResult Run(GameOutcome outcome, int survivors, int partyHealth, int miles, int score = 0,
+        private static RunResult Run(GameOutcomeEnum outcome, int survivors, int partyHealth, int miles, int score = 0,
             int partySize = 5) =>
             new()
             {
@@ -28,8 +28,8 @@ namespace OregonTrailDotNet.Bot.Tests
         {
             // A party that stopped early but kept four people alive and healthy (timeout) must outrank one that floored it,
             // got further, and lost the whole party (death) - the exact trade the old distance-only reward got backwards.
-            var aliveButShort = Fitness(Run(GameOutcome.Timeout, survivors: 4, partyHealth: 400, miles: 900, score: 4800));
-            var deadButFar = Fitness(Run(GameOutcome.Death, survivors: 0, partyHealth: 0, miles: 2000));
+            var aliveButShort = Fitness(Run(GameOutcomeEnum.Timeout, survivors: 4, partyHealth: 400, miles: 900, score: 4800));
+            var deadButFar = Fitness(Run(GameOutcomeEnum.Death, survivors: 0, partyHealth: 0, miles: 2000));
 
             Assert.True(aliveButShort > deadButFar);
         }
@@ -38,8 +38,8 @@ namespace OregonTrailDotNet.Bot.Tests
         public void HealthierParty_ScoresHigherThanBarelyAliveParty()
         {
             // Same survivor count and distance; the only difference is health. Arriving healthy must win.
-            var healthy = Fitness(Run(GameOutcome.Timeout, survivors: 5, partyHealth: 500, miles: 1000, score: 7500));
-            var barelyAlive = Fitness(Run(GameOutcome.Timeout, survivors: 5, partyHealth: 200, miles: 1000, score: 3000));
+            var healthy = Fitness(Run(GameOutcomeEnum.Timeout, survivors: 5, partyHealth: 500, miles: 1000, score: 7500));
+            var barelyAlive = Fitness(Run(GameOutcomeEnum.Timeout, survivors: 5, partyHealth: 200, miles: 1000, score: 3000));
 
             Assert.True(healthy > barelyAlive);
         }
@@ -47,8 +47,8 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void MoreSurvivors_ScoresHigher_AtEqualHealth()
         {
-            var fivePeople = Fitness(Run(GameOutcome.Timeout, survivors: 5, partyHealth: 400, miles: 1000, score: 6000));
-            var onePerson = Fitness(Run(GameOutcome.Timeout, survivors: 1, partyHealth: 400, miles: 1000, score: 1200));
+            var fivePeople = Fitness(Run(GameOutcomeEnum.Timeout, survivors: 5, partyHealth: 400, miles: 1000, score: 6000));
+            var onePerson = Fitness(Run(GameOutcomeEnum.Timeout, survivors: 1, partyHealth: 400, miles: 1000, score: 1200));
 
             Assert.True(fivePeople > onePerson);
         }
@@ -56,8 +56,8 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void FinishingDominates_EvenAgainstAHealthyTimeout()
         {
-            var win = Fitness(Run(GameOutcome.Win, survivors: 5, partyHealth: 500, miles: 2040, score: 7650));
-            var timeout = Fitness(Run(GameOutcome.Timeout, survivors: 5, partyHealth: 500, miles: 1500, score: 7500));
+            var win = Fitness(Run(GameOutcomeEnum.Win, survivors: 5, partyHealth: 500, miles: 2040, score: 7650));
+            var timeout = Fitness(Run(GameOutcomeEnum.Timeout, survivors: 5, partyHealth: 500, miles: 1500, score: 7500));
 
             Assert.True(win > timeout);
         }
@@ -67,8 +67,8 @@ namespace OregonTrailDotNet.Bot.Tests
         {
             // With everyone dead the survival term is zero for both, so distance remains a gentle tie-breaker - the optimizer
             // still gets a gradient out of the all-dying early generations rather than a flat zero everywhere.
-            var farDeath = Fitness(Run(GameOutcome.Death, survivors: 0, partyHealth: 0, miles: 1500));
-            var nearDeath = Fitness(Run(GameOutcome.Death, survivors: 0, partyHealth: 0, miles: 300));
+            var farDeath = Fitness(Run(GameOutcomeEnum.Death, survivors: 0, partyHealth: 0, miles: 1500));
+            var nearDeath = Fitness(Run(GameOutcomeEnum.Death, survivors: 0, partyHealth: 0, miles: 300));
 
             Assert.True(farDeath > nearDeath);
         }
@@ -79,8 +79,8 @@ namespace OregonTrailDotNet.Bot.Tests
             // Super-linear reward: a full-party win must dominate a lone-survivor win by a wide margin, so the rare all-alive
             // finish beats a reliable low-survivor rush on expected value (the whole point of the reshape). Both travelled the
             // same distance, so the gap is pure survival/score - it must still be several times larger.
-            var allFive = Fitness(Run(GameOutcome.Win, survivors: 5, partyHealth: 500, miles: 2040, score: 7650));
-            var loneSurvivor = Fitness(Run(GameOutcome.Win, survivors: 1, partyHealth: 500, miles: 2040, score: 1650));
+            var allFive = Fitness(Run(GameOutcomeEnum.Win, survivors: 5, partyHealth: 500, miles: 2040, score: 7650));
+            var loneSurvivor = Fitness(Run(GameOutcomeEnum.Win, survivors: 1, partyHealth: 500, miles: 2040, score: 1650));
 
             Assert.True(allFive > loneSurvivor * 4);
         }
@@ -90,8 +90,8 @@ namespace OregonTrailDotNet.Bot.Tests
         {
             // Two finishers that travelled the same distance with equally healthy survivors; the one that lost more of its
             // party must score lower. This closes the "starve the party so survivors have more food" exploit.
-            var keptFour = Fitness(Run(GameOutcome.Win, survivors: 4, partyHealth: 500, miles: 2040, score: 6150));
-            var keptOne = Fitness(Run(GameOutcome.Win, survivors: 1, partyHealth: 500, miles: 2040, score: 1650));
+            var keptFour = Fitness(Run(GameOutcomeEnum.Win, survivors: 4, partyHealth: 500, miles: 2040, score: 6150));
+            var keptOne = Fitness(Run(GameOutcomeEnum.Win, survivors: 1, partyHealth: 500, miles: 2040, score: 1650));
 
             Assert.True(keptFour > keptOne);
         }
@@ -102,8 +102,8 @@ namespace OregonTrailDotNet.Bot.Tests
             // Holding the game score constant to isolate the survival shaping: losing even one member from a party that
             // reaches Oregon must cost a large amount (super-linear reward drop + the heavy per-death penalty), so the
             // optimizer is pushed hard to bring the WHOLE party through rather than accept losses.
-            var allAlive = Fitness(Run(GameOutcome.Win, survivors: 5, partyHealth: 500, miles: 2040, score: 5000));
-            var lostOne = Fitness(Run(GameOutcome.Win, survivors: 4, partyHealth: 500, miles: 2040, score: 5000));
+            var allAlive = Fitness(Run(GameOutcomeEnum.Win, survivors: 5, partyHealth: 500, miles: 2040, score: 5000));
+            var lostOne = Fitness(Run(GameOutcomeEnum.Win, survivors: 4, partyHealth: 500, miles: 2040, score: 5000));
 
             Assert.True(allAlive - lostOne > 1000);
         }
@@ -113,8 +113,8 @@ namespace OregonTrailDotNet.Bot.Tests
         {
             // A wiped party is a net-negative outcome (the death penalty bites), yet distance still separates two wipeouts so
             // the optimizer keeps a gradient in the all-dying early generations.
-            var farWipe = Fitness(Run(GameOutcome.Death, survivors: 0, partyHealth: 0, miles: 1500));
-            var nearWipe = Fitness(Run(GameOutcome.Death, survivors: 0, partyHealth: 0, miles: 300));
+            var farWipe = Fitness(Run(GameOutcomeEnum.Death, survivors: 0, partyHealth: 0, miles: 1500));
+            var nearWipe = Fitness(Run(GameOutcomeEnum.Death, survivors: 0, partyHealth: 0, miles: 300));
 
             Assert.True(farWipe < 0);
             Assert.True(farWipe > nearWipe);
@@ -126,8 +126,8 @@ namespace OregonTrailDotNet.Bot.Tests
             // A party that stranded/died at mile 900 but kept four healthy people alive must score far above a same-distance
             // full wipe. The survival term now applies off the finish line too, so the old "no credit unless you finish" cliff
             // - the main reason fitness used to be dominated by luck - is gone.
-            var strandedAlive = Fitness(Run(GameOutcome.Death, survivors: 4, partyHealth: 400, miles: 900));
-            var wipedOut = Fitness(Run(GameOutcome.Death, survivors: 0, partyHealth: 0, miles: 900));
+            var strandedAlive = Fitness(Run(GameOutcomeEnum.Death, survivors: 4, partyHealth: 400, miles: 900));
+            var wipedOut = Fitness(Run(GameOutcomeEnum.Death, survivors: 0, partyHealth: 0, miles: 900));
 
             Assert.True(strandedAlive > wipedOut + 1000);
         }
@@ -136,13 +136,13 @@ namespace OregonTrailDotNet.Bot.Tests
         public void Fitness_IsMonotonic_In_Survivors_And_In_Progress()
         {
             // More survivors is always better at equal health/distance (even among non-finishers)...
-            var twoAlive = Fitness(Run(GameOutcome.Death, survivors: 2, partyHealth: 400, miles: 800));
-            var fourAlive = Fitness(Run(GameOutcome.Death, survivors: 4, partyHealth: 400, miles: 800));
+            var twoAlive = Fitness(Run(GameOutcomeEnum.Death, survivors: 2, partyHealth: 400, miles: 800));
+            var fourAlive = Fitness(Run(GameOutcomeEnum.Death, survivors: 4, partyHealth: 400, miles: 800));
             Assert.True(fourAlive > twoAlive);
 
             // ...and more distance is always better at equal survival, so the optimizer keeps a gradient everywhere.
-            var nearer = Fitness(Run(GameOutcome.Death, survivors: 2, partyHealth: 400, miles: 400));
-            var farther = Fitness(Run(GameOutcome.Death, survivors: 2, partyHealth: 400, miles: 1200));
+            var nearer = Fitness(Run(GameOutcomeEnum.Death, survivors: 2, partyHealth: 400, miles: 400));
+            var farther = Fitness(Run(GameOutcomeEnum.Death, survivors: 2, partyHealth: 400, miles: 1200));
             Assert.True(farther > nearer);
         }
 

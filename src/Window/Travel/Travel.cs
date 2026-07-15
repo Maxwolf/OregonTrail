@@ -24,7 +24,7 @@ namespace OregonTrailDotNet.Window.Travel
     /// <summary>
     ///     Primary game Windows used for advancing simulation down the trail.
     /// </summary>
-    public sealed class Travel : Window<TravelCommands, TravelInfo>
+    public sealed class Travel : Window<TravelCommandsEnum, TravelInfo>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Window{TCommands,TData}" /> class.
@@ -68,7 +68,7 @@ namespace OregonTrailDotNet.Window.Travel
         internal void ContinueOnTrail()
         {
             // Check if player has already departed and we are just moving along again.
-            if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Departed)
+            if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatusEnum.Departed)
             {
                 SetForm(typeof(ContinueOnTrail));
                 return;
@@ -142,7 +142,7 @@ namespace OregonTrailDotNet.Window.Travel
         private void HuntForFood()
         {
             // Check if the player even has enough bullets to go hunting.
-            SetForm(GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].Quantity > 0
+            SetForm(GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Ammo].Quantity > 0
                 ? typeof(HuntingPrompt)
                 : typeof(NoAmmo));
         }
@@ -163,37 +163,37 @@ namespace OregonTrailDotNet.Window.Travel
 
             // Reset and calculate what commands are allowed at this current point of interest on the trail.
             ClearCommands();
-            AddCommand(ContinueOnTrail, TravelCommands.ContinueOnTrail);
-            AddCommand(CheckSupplies, TravelCommands.CheckSupplies);
-            AddCommand(LookAtMap, TravelCommands.LookAtMap);
-            AddCommand(ChangePace, TravelCommands.ChangePace);
-            AddCommand(ChangeFoodRations, TravelCommands.ChangeFoodRations);
-            AddCommand(StopToRest, TravelCommands.StopToRest);
+            AddCommand(ContinueOnTrail, TravelCommandsEnum.ContinueOnTrail);
+            AddCommand(CheckSupplies, TravelCommandsEnum.CheckSupplies);
+            AddCommand(LookAtMap, TravelCommandsEnum.LookAtMap);
+            AddCommand(ChangePace, TravelCommandsEnum.ChangePace);
+            AddCommand(ChangeFoodRations, TravelCommandsEnum.ChangeFoodRations);
+            AddCommand(StopToRest, TravelCommandsEnum.StopToRest);
 
             // Depending on where you are at on the trail the last few available commands change.
             switch (location.Status)
             {
-                case LocationStatus.Unreached:
+                case LocationStatusEnum.Unreached:
                     break;
-                case LocationStatus.Arrived:
-                    AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
+                case LocationStatusEnum.Arrived:
+                    AddCommand(AttemptToTrade, TravelCommandsEnum.AttemptToTrade);
 
                     // Hunting is a trail activity available whenever the party is stopped on the trail, not only between
                     // landmarks - in the original game "Hunt for food" is always on the travel menu, which is what makes the
                     // low-food / hunt-for-meat provisioning strategy viable. Without it here the party can never top up food
                     // at the locations where it actually stops and makes decisions, so it starves mid-journey.
-                    AddCommand(HuntForFood, TravelCommands.HuntForFood);
+                    AddCommand(HuntForFood, TravelCommandsEnum.HuntForFood);
 
                     // Some commands are optional and change depending on location category.
                     if (location.ChattingAllowed)
-                        AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
+                        AddCommand(TalkToPeople, TravelCommandsEnum.TalkToPeople);
 
                     if (location.ShoppingAllowed)
-                        AddCommand(BuySupplies, TravelCommands.BuySupplies);
+                        AddCommand(BuySupplies, TravelCommandsEnum.BuySupplies);
                     break;
-                case LocationStatus.Departed:
-                    AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
-                    AddCommand(HuntForFood, TravelCommands.HuntForFood);
+                case LocationStatusEnum.Departed:
+                    AddCommand(AttemptToTrade, TravelCommandsEnum.AttemptToTrade);
+                    AddCommand(HuntForFood, TravelCommandsEnum.HuntForFood);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -225,7 +225,7 @@ namespace OregonTrailDotNet.Window.Travel
 
             // Starting store that is shown after setting up player names, profession, and starting month.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached))
+                (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Unreached))
                 SetForm(typeof(StoreWelcome));
         }
 
@@ -272,7 +272,7 @@ namespace OregonTrailDotNet.Window.Travel
             }
 
             // Check if player is just arriving at a new location.
-            if ((game.Trail.CurrentLocation.Status == LocationStatus.Arrived) && !game.Trail.CurrentLocation.ArrivalFlag &&
+            if ((game.Trail.CurrentLocation.Status == LocationStatusEnum.Arrived) && !game.Trail.CurrentLocation.ArrivalFlag &&
                 !GameOver)
             {
                 game.Trail.CurrentLocation.ArrivalFlag = true;

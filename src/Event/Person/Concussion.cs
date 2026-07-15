@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Person
     ///     Temporary unconsciousness caused by a blow to the head. The term is also used loosely of the aftereffects such as
     ///     confusion or temporary incapacity.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategoryEnum.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Concussion : PersonInjure
     {

@@ -10,7 +10,7 @@ namespace OregonTrailDotNet.Event.Person
     ///     To start to get worse. It appeared that person was going to get well; then, unfortunately, they took a turn for the
     ///     worse.
     /// </summary>
-    [DirectorEvent(EventCategory.Person, EventExecution.ManualOnly)]
+    [DirectorEvent(EventCategoryEnum.Person, EventExecutionEnum.ManualOnly)]
     public sealed class TurnForWorse : EventProduct
     {
         /// <summary>

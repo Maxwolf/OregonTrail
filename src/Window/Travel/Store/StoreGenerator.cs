@@ -19,7 +19,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        private Dictionary<Entities, SimItem> _totalTransactions;
+        private Dictionary<EntitiesEnum, SimItem> _totalTransactions;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="StoreGenerator" /> class.
@@ -38,7 +38,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
         /// <summary>
         ///     Keeps track of all the pending transactions that need to be made.
         /// </summary>
-        public IDictionary<Entities, SimItem> Transactions => _totalTransactions;
+        public IDictionary<EntitiesEnum, SimItem> Transactions => _totalTransactions;
 
         /// <summary>
         ///     Returns the total cost of all the transactions this receipt information object represents.
@@ -62,8 +62,8 @@ namespace OregonTrailDotNet.Window.Travel.Store
         /// </summary>
         /// <returns>TRUE if player is missing enough items to correctly start the game, FALSE if everything is OK.</returns>
         internal bool MissingImportantItems => GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                                               (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached) &&
-                                               (_totalTransactions[Entities.Animal].Quantity <= 0);
+                                               (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Unreached) &&
+                                               (_totalTransactions[EntitiesEnum.Animal].Quantity <= 0);
 
         /// <summary>
         ///     Processes all of the pending transactions in the store receipt info object.
@@ -88,7 +88,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
         /// </summary>
         private void Reset()
         {
-            _totalTransactions = new Dictionary<Entities, SimItem>(Vehicle.DefaultInventory);
+            _totalTransactions = new Dictionary<EntitiesEnum, SimItem>(Vehicle.DefaultInventory);
         }
 
         /// <summary>Adds an SimItem to the list of pending transactions. If it already exists it will be replaced.</summary>
@@ -104,7 +104,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
         public void RemoveItem(SimItem item)
         {
             // Loop through every single transaction.
-            var copyList = new Dictionary<Entities, SimItem>(_totalTransactions);
+            var copyList = new Dictionary<EntitiesEnum, SimItem>(_totalTransactions);
             foreach (var transaction in copyList)
             {
                 // Check if SimItem name matches incoming one.

@@ -149,17 +149,17 @@ namespace OregonTrailDotNet.Window.Travel.Store
             _storePrompt.AppendLine("--------------------------------");
 
             // Loop through all the store assets commands and print them out for the state.
-            var storeAssets = new List<Entities>(Enum.GetValues(typeof(Entities)).Cast<Entities>());
+            var storeAssets = new List<EntitiesEnum>(Enum.GetValues(typeof(EntitiesEnum)).Cast<EntitiesEnum>());
             for (var index = 0; index < storeAssets.Count; index++)
             {
                 // Get the current entity enumeration value we casted into list.
                 var storeItem = storeAssets[index];
 
                 // Skip if store item is cash, person, or vehicle.
-                if ((storeItem == Entities.Cash) ||
-                    (storeItem == Entities.Person) ||
-                    (storeItem == Entities.Vehicle) ||
-                    (storeItem == Entities.Location))
+                if ((storeItem == EntitiesEnum.Cash) ||
+                    (storeItem == EntitiesEnum.Person) ||
+                    (storeItem == EntitiesEnum.Vehicle) ||
+                    (storeItem == EntitiesEnum.Location))
                     continue;
 
                 // Creates a store price tag that shows the user how much the item is and or how much the store has.
@@ -167,7 +167,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
                     .Replace("@AMT@",
                         UserData.Store.Transactions[storeItem].ToString(
                             GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                            (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached)));
+                            (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Unreached)));
 
                 // Last line should not print new line.
                 if (index == storeAssets.Count - 5)
@@ -190,7 +190,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
 
             // If at first location we show the total cost of the bill so far the player has racked up.
             _storePrompt.Append(GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                                (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached)
+                                (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Unreached)
                 ? $"Total bill:            {totalBill:C2}" +
                   $"{Environment.NewLine}Amount you have:       {amountPlayerHas:C2}"
                 : $"You have {GameSimulationApp.Instance.Vehicle.Balance:C2} to spend.");
@@ -205,38 +205,38 @@ namespace OregonTrailDotNet.Window.Travel.Store
                 return;
 
             // Attempt to cast string to enum value, can be characters or integer.
-            Enum.TryParse(input, out Entities selectedItem);
+            Enum.TryParse(input, out EntitiesEnum selectedItem);
 
             // Figure out what to do based on selection.
             switch (selectedItem)
             {
-                case Entities.Animal:
+                case EntitiesEnum.Animal:
                     BuyOxen();
                     break;
-                case Entities.Food:
+                case EntitiesEnum.Food:
                     BuyFood();
                     break;
-                case Entities.Clothes:
+                case EntitiesEnum.Clothes:
                     BuyClothing();
                     break;
-                case Entities.Ammo:
+                case EntitiesEnum.Ammo:
                     BuyAmmunition();
                     break;
-                case Entities.Medicine:
+                case EntitiesEnum.Medicine:
                     BuyMedicine();
                     break;
-                case Entities.Wheel:
+                case EntitiesEnum.Wheel:
                     BuySpareWheels();
                     break;
-                case Entities.Axle:
+                case EntitiesEnum.Axle:
                     BuySpareAxles();
                     break;
-                case Entities.Tongue:
+                case EntitiesEnum.Tongue:
                     BuySpareTongues();
                     break;
-                case Entities.Vehicle:
-                case Entities.Person:
-                case Entities.Cash:
+                case EntitiesEnum.Vehicle:
+                case EntitiesEnum.Person:
+                case EntitiesEnum.Cash:
                     LeaveStore();
                     break;
                 default:
@@ -269,7 +269,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
 
             // Travel Windows waits until it is by itself on first location and first turn.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Unreached))
+                (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Unreached))
             {
                 // First location and store prompt buys items when you leave the store.
                 UserData.Store.PurchaseItems();

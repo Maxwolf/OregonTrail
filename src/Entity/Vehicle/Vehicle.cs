@@ -20,7 +20,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
         /// <summary>
         ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
         /// </summary>
-        private Dictionary<Entities, SimItem> _inventory;
+        private Dictionary<EntitiesEnum, SimItem> _inventory;
 
         /// <summary>
         ///     References all the critical infrastructure that makes up the
@@ -39,9 +39,9 @@ namespace OregonTrailDotNet.Entity.Vehicle
         {
             ResetVehicle();
             Name = "Vehicle";
-            Pace = TravelPace.Steady;
+            Pace = TravelPaceEnum.Steady;
             Mileage = 1;
-            Status = VehicleStatus.Stopped;
+            Status = VehicleStatusEnum.Stopped;
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
                 for (var i = 0; i < Passengers.Count; i++)
                 {
                     var passenger = Passengers[i];
-                    allDead[i] = passenger.HealthStatus == HealthStatus.Dead;
+                    allDead[i] = passenger.HealthStatus == HealthStatusEnum.Dead;
                 }
 
                 // Determine if everybody is dead by checking if truths are greater than passenger count.
@@ -83,7 +83,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
         /// <summary>
         ///     References the vehicle itself, it is important to remember the vehicle is not an entity and not an item.
         /// </summary>
-        public IDictionary<Entities, SimItem> Inventory => _inventory;
+        public IDictionary<EntitiesEnum, SimItem> Inventory => _inventory;
 
         /// <summary>
         ///     References all of the people inside of the vehicle.
@@ -93,12 +93,12 @@ namespace OregonTrailDotNet.Entity.Vehicle
         /// <summary>
         ///     Current ration level, determines the amount food that will be consumed each day of the simulation.
         /// </summary>
-        public RationLevel Ration { get; private set; }
+        public RationLevelEnum Ration { get; private set; }
 
         /// <summary>
         ///     Current travel pace, determines how fast the vehicle will attempt to move down the trail.
         /// </summary>
-        public TravelPace Pace { get; private set; }
+        public TravelPaceEnum Pace { get; private set; }
 
         /// <summary>
         ///     Total number of miles the vehicle has traveled since the start of the simulation.
@@ -139,7 +139,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
         ///     Defines what the trail module is currently processing if anything in regards to movement of vehicle and player
         ///     entities down the trail.
         /// </summary>
-        public VehicleStatus Status { get; set; }
+        public VehicleStatusEnum Status { get; set; }
 
         /// <summary>
         ///     Returns the total value of all the cash the vehicle and all party members currently have.
@@ -147,21 +147,21 @@ namespace OregonTrailDotNet.Entity.Vehicle
         /// </summary>
         public float Balance
         {
-            get => _inventory[Entities.Cash].TotalValue;
+            get => _inventory[EntitiesEnum.Cash].TotalValue;
             private set
             {
                 // Skip if the quantity already matches the value we are going to set it to.
-                if (value.Equals(_inventory[Entities.Cash].Quantity))
+                if (value.Equals(_inventory[EntitiesEnum.Cash].Quantity))
                     return;
 
                 // Check if the value being set is zero, if so just reset it.
                 if (value <= 0)
-                    _inventory[Entities.Cash].Reset();
+                    _inventory[EntitiesEnum.Cash].Reset();
                 else
                     // Round to the nearest whole dollar rather than truncating. Truncation always floored the balance,
                     // so a fractional total (e.g. buying an odd number of $0.10 pounds of food) silently overcharged the
                     // player by up to $0.99 on every transaction.
-                    _inventory[Entities.Cash] = new SimItem(_inventory[Entities.Cash],
+                    _inventory[EntitiesEnum.Cash] = new SimItem(_inventory[EntitiesEnum.Cash],
                         (int) Math.Round(value, MidpointRounding.AwayFromZero));
             }
         }
@@ -187,29 +187,29 @@ namespace OregonTrailDotNet.Entity.Vehicle
                 foreach (var part in defaultParts)
                     switch (part.Category)
                     {
-                        case Entities.Wheel:
+                        case EntitiesEnum.Wheel:
                             // You need four (4) wheels.
                             part.ReduceQuantity(part.MaxQuantity);
                             part.AddQuantity(4);
                             break;
-                        case Entities.Axle:
+                        case EntitiesEnum.Axle:
                             // You need one (1) axle.
                             part.ReduceQuantity(part.MaxQuantity);
                             part.AddQuantity(1);
                             break;
-                        case Entities.Tongue:
+                        case EntitiesEnum.Tongue:
                             // You need one (1) tongue.
                             part.ReduceQuantity(part.MaxQuantity);
                             part.AddQuantity(1);
                             break;
-                        case Entities.Animal:
-                        case Entities.Food:
-                        case Entities.Clothes:
-                        case Entities.Ammo:
-                        case Entities.Vehicle:
-                        case Entities.Person:
-                        case Entities.Cash:
-                        case Entities.Location:
+                        case EntitiesEnum.Animal:
+                        case EntitiesEnum.Food:
+                        case EntitiesEnum.Clothes:
+                        case EntitiesEnum.Ammo:
+                        case EntitiesEnum.Vehicle:
+                        case EntitiesEnum.Person:
+                        case EntitiesEnum.Cash:
+                        case EntitiesEnum.Location:
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -223,22 +223,22 @@ namespace OregonTrailDotNet.Entity.Vehicle
         /// <summary>
         ///     Default items every vehicle and store will have, their prices increase with distance from starting point.
         /// </summary>
-        internal static IDictionary<Entities, SimItem> DefaultInventory
+        internal static IDictionary<EntitiesEnum, SimItem> DefaultInventory
         {
             get
             {
                 // Create inventory of items with default starting amounts.
-                var defaultInventory = new Dictionary<Entities, SimItem>
+                var defaultInventory = new Dictionary<EntitiesEnum, SimItem>
                 {
-                    {Entities.Animal, Parts.Oxen},
-                    {Entities.Clothes, Resources.Clothing},
-                    {Entities.Ammo, Resources.Bullets},
-                    {Entities.Wheel, Parts.Wheel},
-                    {Entities.Axle, Parts.Axle},
-                    {Entities.Tongue, Parts.Tongue},
-                    {Entities.Food, Resources.Food},
-                    {Entities.Medicine, Resources.Medicine},
-                    {Entities.Cash, Resources.Cash}
+                    {EntitiesEnum.Animal, Parts.Oxen},
+                    {EntitiesEnum.Clothes, Resources.Clothing},
+                    {EntitiesEnum.Ammo, Resources.Bullets},
+                    {EntitiesEnum.Wheel, Parts.Wheel},
+                    {EntitiesEnum.Axle, Parts.Axle},
+                    {EntitiesEnum.Tongue, Parts.Tongue},
+                    {EntitiesEnum.Food, Resources.Food},
+                    {EntitiesEnum.Medicine, Resources.Medicine},
+                    {EntitiesEnum.Cash, Resources.Cash}
                 };
 
                 // Zero out all of the quantities by removing their max quantity.
@@ -269,13 +269,13 @@ namespace OregonTrailDotNet.Entity.Vehicle
 
                 // A full team of six oxen pulls at the regional maximum; a smaller team is proportionally slower. More than six
                 // gives no extra speed (the team is already at the cap), matching how the original never rewarded huge herds.
-                var oxenFactor = Math.Min(1.0, Inventory[Entities.Animal].Quantity/6.0);
+                var oxenFactor = Math.Min(1.0, Inventory[EntitiesEnum.Animal].Quantity/6.0);
 
                 // Pace is the fraction of the maximum the party pushes for.
                 var paceFactor = Pace switch
                 {
-                    TravelPace.Grueling => 1.0,
-                    TravelPace.Strenuous => 0.75,
+                    TravelPaceEnum.Grueling => 1.0,
+                    TravelPaceEnum.Strenuous => 0.75,
                     _ => 0.5 // Steady
                 };
 
@@ -321,22 +321,22 @@ namespace OregonTrailDotNet.Entity.Vehicle
         ///     Grabs the averaged health of all the passengers in the vehicle, only adds towards total if they are alive. Will be
         ///     recalculated each time this is called.
         /// </summary>
-        public HealthStatus PassengerHealthStatus
+        public HealthStatusEnum PassengerHealthStatus
         {
             get
             {
                 // Check if passenger manifest exists.
                 if (Passengers == null)
-                    return HealthStatus.Dead;
+                    return HealthStatusEnum.Dead;
 
                 // Check if there are any passengers to work with, return good health if none.
                 if (!Passengers.Any())
-                    return HealthStatus.Dead;
+                    return HealthStatusEnum.Dead;
 
                 // Builds up a list of enumeration health values for living passengers.
-                var livingPassengersHealth = new List<HealthStatus>();
+                var livingPassengersHealth = new List<HealthStatusEnum>();
                 foreach (var person in Passengers)
-                    if (person.HealthStatus != HealthStatus.Dead)
+                    if (person.HealthStatus != HealthStatusEnum.Dead)
                         livingPassengersHealth.Add(person.HealthStatus);
 
                 // Casts all the enumeration health values to integers and averages them.
@@ -345,8 +345,8 @@ namespace OregonTrailDotNet.Entity.Vehicle
                     averageHealthValue = (int) livingPassengersHealth.Cast<int>().Average();
 
                 // Look for the closest health level to the average health level from all living passengers.
-                var closest = ClosestTo(Enum.GetValues(typeof(HealthStatus)).Cast<int>(), averageHealthValue);
-                return (HealthStatus) closest;
+                var closest = ClosestTo(Enum.GetValues(typeof(HealthStatusEnum)).Cast<int>(), averageHealthValue);
+                return (HealthStatusEnum) closest;
             }
         }
 
@@ -391,9 +391,9 @@ namespace OregonTrailDotNet.Entity.Vehicle
                     return 0;
 
                 // Builds up a list of enumeration health values for living passengers.
-                var alivePersonsHealth = new List<HealthStatus>();
+                var alivePersonsHealth = new List<HealthStatusEnum>();
                 foreach (var person in Passengers)
-                    if (person.HealthStatus != HealthStatus.Dead)
+                    if (person.HealthStatus != HealthStatusEnum.Dead)
                         alivePersonsHealth.Add(person.HealthStatus);
 
                 return alivePersonsHealth.Count;
@@ -496,12 +496,12 @@ namespace OregonTrailDotNet.Entity.Vehicle
             // hit zero doesn't just kill the party's people, it can also cost the animals that pull the wagon and leave them
             // stranded. This happens whether stopped or moving (the animals go hungry either way), before the travel check.
             if (!skipDay &&
-                (_inventory[Entities.Food].Quantity <= 0) &&
-                (_inventory[Entities.Animal].Quantity > 0))
-                _inventory[Entities.Animal].ReduceQuantity(1);
+                (_inventory[EntitiesEnum.Food].Quantity <= 0) &&
+                (_inventory[EntitiesEnum.Animal].Quantity > 0))
+                _inventory[EntitiesEnum.Animal].ReduceQuantity(1);
 
             // Only advance the vehicle if we are actually traveling and not skipping a day of simulation.
-            if ((Status != VehicleStatus.Moving) || skipDay)
+            if ((Status != VehicleStatusEnum.Moving) || skipDay)
                 return;
 
             // Figure out how far we need to go to reach the next point.
@@ -524,9 +524,9 @@ namespace OregonTrailDotNet.Entity.Vehicle
             // wild-animal encounters (snakebite, wolf attack, buffalo stampede) and wilderness happenings (bandits,
             // thieves, wild fruit, helpful Indians). The Animal and Wild categories were previously never rolled, so
             // every event registered under them was dead code.
-            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Vehicle);
-            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Animal);
-            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategory.Wild);
+            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategoryEnum.Vehicle);
+            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategoryEnum.Animal);
+            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategoryEnum.Wild);
 
             // Higher elevations make for slow going and risk a cave-in blocking the trail.
             var currentLocation = GameSimulationApp.Instance.Trail.CurrentLocation;
@@ -592,7 +592,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
         internal void ReduceMileage(int amount)
         {
             // Mileage cannot be reduced when parked.
-            if (Status != VehicleStatus.Moving)
+            if (Status != VehicleStatusEnum.Moving)
                 return;
 
             // Check if current mileage is below zero.
@@ -613,7 +613,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
 
         /// <summary>Sets the current speed of the game simulation.</summary>
         /// <param name="castedSpeed">The casted Speed.</param>
-        public void ChangePace(TravelPace castedSpeed)
+        public void ChangePace(TravelPaceEnum castedSpeed)
         {
             // Change game simulation speed.
             Pace = castedSpeed;
@@ -649,7 +649,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
             _parts = new List<SimItem>(DefaultParts);
 
             // Inventory items for the passengers to use like food, clothes, spare parts.
-            _inventory = new Dictionary<Entities, SimItem>(DefaultInventory);
+            _inventory = new Dictionary<EntitiesEnum, SimItem>(DefaultInventory);
 
             // Passengers the vehicle will be moving along the trail.
             _passengers = new List<Person.Person>();
@@ -658,7 +658,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
             Balance = startingMonies;
 
             // Determines amount of food consumed per day.
-            Ration = RationLevel.Filling;
+            Ration = RationLevelEnum.Filling;
 
             // Number of miles the vehicle has traveled.
             Odometer = 0;
@@ -671,7 +671,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
             FortDeparturePenalty = false;
 
             // Vehicle is not moving and currently stopped.
-            Status = VehicleStatus.Stopped;
+            Status = VehicleStatusEnum.Stopped;
         }
 
         /// <summary>
@@ -688,7 +688,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
         ///     subscribers to get event notification about the change.
         /// </summary>
         /// <param name="ration">The rate at which people are permitted to eat in the vehicle party.</param>
-        public void ChangeRations(RationLevel ration)
+        public void ChangeRations(RationLevelEnum ration)
         {
             Ration = ration;
         }
@@ -710,16 +710,16 @@ namespace OregonTrailDotNet.Entity.Vehicle
                 // Skip certain items that cannot be traded.
                 switch (itemPair.Value.Category)
                 {
-                    case Entities.Food:
-                    case Entities.Clothes:
-                    case Entities.Ammo:
-                    case Entities.Medicine:
-                    case Entities.Wheel:
-                    case Entities.Axle:
-                    case Entities.Tongue:
-                    case Entities.Vehicle:
-                    case Entities.Animal:
-                    case Entities.Person:
+                    case EntitiesEnum.Food:
+                    case EntitiesEnum.Clothes:
+                    case EntitiesEnum.Ammo:
+                    case EntitiesEnum.Medicine:
+                    case EntitiesEnum.Wheel:
+                    case EntitiesEnum.Axle:
+                    case EntitiesEnum.Tongue:
+                    case EntitiesEnum.Vehicle:
+                    case EntitiesEnum.Animal:
+                    case EntitiesEnum.Person:
                     {
                         // Create a random number within the range we need to create an item.
                         var amountToMake = itemPair.Value.MaxQuantity/4;
@@ -739,8 +739,8 @@ namespace OregonTrailDotNet.Entity.Vehicle
                         var createdItem = new SimItem(itemPair.Value, createdAmount);
                         return createdItem;
                     }
-                    case Entities.Cash:
-                    case Entities.Location:
+                    case EntitiesEnum.Cash:
+                    case EntitiesEnum.Location:
                         continue;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -758,13 +758,13 @@ namespace OregonTrailDotNet.Entity.Vehicle
         /// <returns>
         ///     The dictionary of items created and their quantities.
         /// </returns>
-        public IDictionary<Entities, int> CreateRandomItems()
+        public IDictionary<EntitiesEnum, int> CreateRandomItems()
         {
             // Items that will be created by this method.
-            IDictionary<Entities, int> createdItems = new Dictionary<Entities, int>();
+            IDictionary<EntitiesEnum, int> createdItems = new Dictionary<EntitiesEnum, int>();
 
             // Make a copy of the inventory to iterate over.
-            var copiedInventory = new Dictionary<Entities, SimItem>(Inventory);
+            var copiedInventory = new Dictionary<EntitiesEnum, SimItem>(Inventory);
 
             // Loop through the inventory and decide which items to give free copies of.
             foreach (var itemPair in copiedInventory)
@@ -775,10 +775,10 @@ namespace OregonTrailDotNet.Entity.Vehicle
                 // CreateRandomItem (used for trades) already excludes these categories; this plural method must too.
                 switch (itemPair.Value.Category)
                 {
-                    case Entities.Cash:
-                    case Entities.Vehicle:
-                    case Entities.Person:
-                    case Entities.Location:
+                    case EntitiesEnum.Cash:
+                    case EntitiesEnum.Vehicle:
+                    case EntitiesEnum.Person:
+                    case EntitiesEnum.Location:
                         continue;
                 }
 
@@ -825,13 +825,13 @@ namespace OregonTrailDotNet.Entity.Vehicle
         /// <returns>
         ///     The dictionary of items destroyed and their quantities.
         /// </returns>
-        public IDictionary<Entities, int> DestroyRandomItems()
+        public IDictionary<EntitiesEnum, int> DestroyRandomItems()
         {
             // Dictionary that will keep track of enumeration item type and destroyed amount for record keeping purposes.
-            IDictionary<Entities, int> destroyedItems = new Dictionary<Entities, int>();
+            IDictionary<EntitiesEnum, int> destroyedItems = new Dictionary<EntitiesEnum, int>();
 
             // Make a copy of the inventory to iterate over.
-            var copiedInventory = new Dictionary<Entities, SimItem>(Inventory);
+            var copiedInventory = new Dictionary<EntitiesEnum, SimItem>(Inventory);
 
             // Loop through the inventory and decide to randomly destroy some inventory items.
             foreach (var itemPair in copiedInventory)
@@ -887,7 +887,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
                 part.Repair();
 
             // Set the vehicle status to be stopped.
-            Status = VehicleStatus.Stopped;
+            Status = VehicleStatusEnum.Stopped;
         }
 
         /// <summary>
@@ -897,18 +897,18 @@ namespace OregonTrailDotNet.Entity.Vehicle
         public void CheckStatus()
         {
             // Checks if the player has animals to pull their vehicle.
-            if (Inventory[Entities.Animal].Quantity <= 0)
+            if (Inventory[EntitiesEnum.Animal].Quantity <= 0)
             {
-                Status = VehicleStatus.Disabled;
+                Status = VehicleStatusEnum.Disabled;
                 return;
             }
 
             // Don't change the state from disabled to moving.
-            if (Status == VehicleStatus.Disabled)
+            if (Status == VehicleStatusEnum.Disabled)
                 return;
 
             // Default response it to allow the vehicle to move.
-            Status = VehicleStatus.Moving;
+            Status = VehicleStatusEnum.Moving;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace OregonTrailDotNet.Event.Vehicle
     ///     Vehicle has lost the trail and ended up in the deep woods, now they need to find their way back onto the trail.
     ///     Hopefully there are some tracks you can follow!
     /// </summary>
-    [DirectorEvent(EventCategory.Vehicle)]
+    [DirectorEvent(EventCategoryEnum.Vehicle)]
     // ReSharper disable once UnusedMember.Global
     public sealed class LostTrail : LoseTime
     {

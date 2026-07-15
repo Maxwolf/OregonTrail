@@ -21,7 +21,7 @@ namespace OregonTrailDotNet.Tests.Entity
             int pointsAwarded = 3,
             int pointsPerAmount = 10)
         {
-            return new SimItem(Entities.Food, name, "things", "thing", maxQuantity, cost, weight,
+            return new SimItem(EntitiesEnum.Food, name, "things", "thing", maxQuantity, cost, weight,
                 minimumQuantity, startingQuantity, pointsAwarded, pointsPerAmount);
         }
 

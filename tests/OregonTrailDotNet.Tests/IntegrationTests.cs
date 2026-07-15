@@ -46,9 +46,9 @@ namespace OregonTrailDotNet.Tests
             Game.SetStartInfo(new NewGameInfo
             {
                 PlayerNames = new List<string> {"Alice", "Bob", "Carol", "Dave"},
-                PlayerProfession = Profession.Banker,
+                PlayerProfession = ProfessionEnum.Banker,
                 StartingMonies = 1600,
-                StartingMonth = Month.April
+                StartingMonth = MonthEnum.April
             });
 
             var vehicle = Game.Vehicle;
@@ -67,13 +67,13 @@ namespace OregonTrailDotNet.Tests
 
             // Leave town the same way the continue on trail command does; while a location is
             // still flagged as arrived the trail module refuses to move the vehicle onward.
-            Game.Trail.CurrentLocation.Status = LocationStatus.Departed;
+            Game.Trail.CurrentLocation.Status = LocationStatusEnum.Departed;
 
             // Head out. Random events may stop or damage the wagon along the way, so keep pushing
             // until the party arrives at the second location on the trail.
             for (var day = 0; (day < 150) && (Game.Trail.LocationIndex < 1); day++)
             {
-                vehicle.Status = VehicleStatus.Moving;
+                vehicle.Status = VehicleStatusEnum.Moving;
                 Game.TakeTurn(false);
             }
 
@@ -81,7 +81,7 @@ namespace OregonTrailDotNet.Tests
             Assert.Equal("Kansas River Crossing", Game.Trail.CurrentLocation.Name);
             Assert.True(vehicle.Odometer > 0);
             Assert.True(Game.TotalTurns > 0);
-            Assert.True(Game.Time.CurrentMonth != Month.April || Game.Time.Date.Day > 1);
+            Assert.True(Game.Time.CurrentMonth != MonthEnum.April || Game.Time.Date.Day > 1);
         }
 
         [Fact]
@@ -92,9 +92,9 @@ namespace OregonTrailDotNet.Tests
             Game.SetStartInfo(new NewGameInfo
             {
                 PlayerNames = new List<string> {"Alice", "Bob"},
-                PlayerProfession = Profession.Banker,
+                PlayerProfession = ProfessionEnum.Banker,
                 StartingMonies = 1600,
-                StartingMonth = Month.April
+                StartingMonth = MonthEnum.April
             });
 
             var vehicle = Game.Vehicle;
@@ -102,12 +102,12 @@ namespace OregonTrailDotNet.Tests
             vehicle.Purchase(new SimItem(Resources.Clothing, 8));
 
             Game.Trail.ArriveAtNextLocation();
-            Game.Trail.CurrentLocation.Status = LocationStatus.Departed;
+            Game.Trail.CurrentLocation.Status = LocationStatusEnum.Departed;
 
             // Push down the trail until the whole party has perished.
             for (var day = 0; (day < 250) && !vehicle.PassengersDead; day++)
             {
-                vehicle.Status = VehicleStatus.Moving;
+                vehicle.Status = VehicleStatusEnum.Moving;
                 Game.TakeTurn(false);
             }
 
@@ -115,7 +115,7 @@ namespace OregonTrailDotNet.Tests
             // damage every single day, so the killing blow records a cause) rather than being left as Unknown - proving the
             // death screen has something to report.
             Assert.True(vehicle.PassengersDead);
-            Assert.Contains(vehicle.Passengers, person => person.Cause != CauseOfDeath.Unknown);
+            Assert.Contains(vehicle.Passengers, person => person.Cause != CauseOfDeathEnum.Unknown);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace OregonTrailDotNet.Event.Vehicle
     ///     days before they manage to get moving again. Fired manually when departing a high-ground location that rolls its
     ///     stuck chance (South Pass 80%, Blue Mountains 70%).
     /// </summary>
-    [DirectorEvent(EventCategory.Vehicle, EventExecution.ManualOnly)]
+    [DirectorEvent(EventCategoryEnum.Vehicle, EventExecutionEnum.ManualOnly)]
     public sealed class StuckInMountains : LoseTime
     {
         /// <summary>

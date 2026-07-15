@@ -25,8 +25,8 @@ namespace OregonTrailDotNet.Module.Director
         ///     values are clamped to zero so a mis-tagged event simply never rolls.
         /// </param>
         public DirectorEventAttribute(
-            EventCategory eventCategory,
-            EventExecution eventExecutionType = EventExecution.RandomOrManual,
+            EventCategoryEnum eventCategory,
+            EventExecutionEnum eventExecutionType = EventExecutionEnum.RandomOrManual,
             int eventProbability = 100)
         {
             EventCategory = eventCategory;
@@ -38,13 +38,13 @@ namespace OregonTrailDotNet.Module.Director
         ///     References what type of event this event is going to register as, allows for easy sorting and filtering by event
         ///     director.
         /// </summary>
-        public EventCategory EventCategory { get; }
+        public EventCategoryEnum EventCategory { get; }
 
         /// <summary>
         ///     Determines if this event will be selected for being chosen at random when events are fired by category and not
         ///     directly by their type.
         /// </summary>
-        public EventExecution EventExecutionType { get; }
+        public EventExecutionEnum EventExecutionType { get; }
 
         /// <summary>
         ///     Relative weight used by the event factory when picking a random event from a category. Successive events are laid

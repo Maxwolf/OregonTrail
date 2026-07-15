@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Vehicle
     ///     A cave-in along a high mountain trail blocks the way forward, costing the party a few days to dig out and find a way
     ///     around. Fired manually while traveling through high-ground locations.
     /// </summary>
-    [DirectorEvent(EventCategory.Vehicle, EventExecution.ManualOnly)]
+    [DirectorEvent(EventCategoryEnum.Vehicle, EventExecutionEnum.ManualOnly)]
     public sealed class CaveIn : LoseTime
     {
         /// <summary>

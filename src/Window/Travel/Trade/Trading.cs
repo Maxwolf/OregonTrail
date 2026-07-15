@@ -77,35 +77,35 @@ namespace OregonTrailDotNet.Window.Travel.Trade
                     // Change up how we print out various items in the vehicle inventory.
                     switch (item.Key)
                     {
-                        case Entities.Animal:
+                        case EntitiesEnum.Animal:
                             suppliesList.Add(new Tuple<string, string>("oxen", itemFormattedQuantity));
                             break;
-                        case Entities.Clothes:
+                        case EntitiesEnum.Clothes:
                             suppliesList.Add(new Tuple<string, string>("sets of clothing", itemFormattedQuantity));
                             break;
-                        case Entities.Ammo:
+                        case EntitiesEnum.Ammo:
                             suppliesList.Add(new Tuple<string, string>("bullets", itemFormattedQuantity));
                             break;
-                        case Entities.Medicine:
+                        case EntitiesEnum.Medicine:
                             suppliesList.Add(new Tuple<string, string>("medical kits", itemFormattedQuantity));
                             break;
-                        case Entities.Wheel:
+                        case EntitiesEnum.Wheel:
                             suppliesList.Add(new Tuple<string, string>("wagon wheels", itemFormattedQuantity));
                             break;
-                        case Entities.Axle:
+                        case EntitiesEnum.Axle:
                             suppliesList.Add(new Tuple<string, string>("wagon axles", itemFormattedQuantity));
                             break;
-                        case Entities.Tongue:
+                        case EntitiesEnum.Tongue:
                             suppliesList.Add(new Tuple<string, string>("wagon tongues", itemFormattedQuantity));
                             break;
-                        case Entities.Food:
+                        case EntitiesEnum.Food:
                             suppliesList.Add(new Tuple<string, string>("pounds of food",
                                 item.Value.TotalWeight.ToString("N0")));
                             break;
-                        case Entities.Cash:
-                        case Entities.Vehicle:
-                        case Entities.Person:
-                        case Entities.Location:
+                        case EntitiesEnum.Cash:
+                        case EntitiesEnum.Vehicle:
+                        case EntitiesEnum.Person:
+                        case EntitiesEnum.Location:
                             continue;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -277,9 +277,9 @@ namespace OregonTrailDotNet.Window.Travel.Trade
 
                     // Checks if the player has animals to pull their vehicle.
                     GameSimulationApp.Instance.Vehicle.Status =
-                        GameSimulationApp.Instance.Vehicle.Inventory[Entities.Animal].Quantity <= 0
-                            ? VehicleStatus.Disabled
-                            : VehicleStatus.Moving;
+                        GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Animal].Quantity <= 0
+                            ? VehicleStatusEnum.Disabled
+                            : VehicleStatusEnum.Moving;
 
                     // Return to the travel menu.
                     ClearForm();

@@ -15,17 +15,17 @@ namespace OregonTrailDotNet.Event.Wild
     ///     dangerous and will do whatever it takes to get what he wants, so there is a chance some of your party members may
     ///     get murdered.
     /// </summary>
-    [DirectorEvent(EventCategory.Wild)]
+    [DirectorEvent(EventCategoryEnum.Wild)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Thief : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
         /// <returns>The <see cref="string" />.</returns>
-        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
+        protected override string OnPostDestroyItems(IDictionary<EntitiesEnum, int> destroyedItems)
         {
             // Ammo used to kill the thief is randomly generated.
-            GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].ReduceQuantity(
+            GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Ammo].ReduceQuantity(
                 GameSimulationApp.Instance.Random.Next(1, 5));
 
             // Change event text depending on if items were destroyed or not.

@@ -57,37 +57,37 @@ namespace OregonTrailDotNet.Window.Travel.Command
                 // Change up how we print out various items in the vehicle inventory.
                 switch (item.Key)
                 {
-                    case Entities.Animal:
+                    case EntitiesEnum.Animal:
                         suppliesList.Add(new Tuple<string, string>("oxen", itemFormattedQuantity));
                         break;
-                    case Entities.Clothes:
+                    case EntitiesEnum.Clothes:
                         suppliesList.Add(new Tuple<string, string>("sets of clothing", itemFormattedQuantity));
                         break;
-                    case Entities.Ammo:
+                    case EntitiesEnum.Ammo:
                         suppliesList.Add(new Tuple<string, string>("bullets", itemFormattedQuantity));
                         break;
-                    case Entities.Medicine:
+                    case EntitiesEnum.Medicine:
                         suppliesList.Add(new Tuple<string, string>("medical kits", itemFormattedQuantity));
                         break;
-                    case Entities.Wheel:
+                    case EntitiesEnum.Wheel:
                         suppliesList.Add(new Tuple<string, string>("wagon wheels", itemFormattedQuantity));
                         break;
-                    case Entities.Axle:
+                    case EntitiesEnum.Axle:
                         suppliesList.Add(new Tuple<string, string>("wagon axles", itemFormattedQuantity));
                         break;
-                    case Entities.Tongue:
+                    case EntitiesEnum.Tongue:
                         suppliesList.Add(new Tuple<string, string>("wagon tongues", itemFormattedQuantity));
                         break;
-                    case Entities.Food:
+                    case EntitiesEnum.Food:
                         suppliesList.Add(new Tuple<string, string>("pounds of food",
                             item.Value.TotalWeight.ToString("N0")));
                         break;
-                    case Entities.Cash:
+                    case EntitiesEnum.Cash:
                         suppliesList.Add(new Tuple<string, string>("money left", item.Value.TotalValue.ToString("C")));
                         break;
-                    case Entities.Vehicle:
-                    case Entities.Person:
-                    case Entities.Location:
+                    case EntitiesEnum.Vehicle:
+                    case EntitiesEnum.Person:
+                    case EntitiesEnum.Location:
                         throw new ArgumentOutOfRangeException();
                     default:
                         throw new ArgumentOutOfRangeException();

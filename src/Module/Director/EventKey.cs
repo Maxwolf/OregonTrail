@@ -18,7 +18,7 @@ namespace OregonTrailDotNet.Module.Director
         /// <param name="category">The category.</param>
         /// <param name="name">The name.</param>
         /// <param name="executionType">The execution Type.</param>
-        public EventKey(EventCategory category, string name, EventExecution executionType)
+        public EventKey(EventCategoryEnum category, string name, EventExecutionEnum executionType)
         {
             ExecutionType = executionType;
             Category = category;
@@ -28,7 +28,7 @@ namespace OregonTrailDotNet.Module.Director
         /// <summary>
         ///     Category the event should fall under so when we select by type we can include this event in that selection.
         /// </summary>
-        public EventCategory Category { get; }
+        public EventCategoryEnum Category { get; }
 
         /// <summary>
         ///     Name of the event, typically this is the type name but it really could be anything.
@@ -39,7 +39,7 @@ namespace OregonTrailDotNet.Module.Director
         ///     Determines if this event will be selected for being chosen at random when events are fired by category and not
         ///     directly by their type.
         /// </summary>
-        public EventExecution ExecutionType { get; }
+        public EventExecutionEnum ExecutionType { get; }
 
         /// <summary>Compares the current object with another object of the same type.</summary>
         /// <returns>

@@ -101,8 +101,8 @@ namespace OregonTrailDotNet.Window.RandomEvent
             base.OnFormPostCreate();
 
             // Only change the vehicle status to stopped if it is moving, it could just be stuck.
-            if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Moving)
-                GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
+            if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatusEnum.Moving)
+                GameSimulationApp.Instance.Vehicle.Status = VehicleStatusEnum.Stopped;
 
             UpdateDaysLeft();
         }

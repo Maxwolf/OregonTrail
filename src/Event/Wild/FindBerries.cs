@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Wild
     /// <summary>
     ///     Vehicle comes across some wild berries which the party picks up to eat.
     /// </summary>
-    [DirectorEvent(EventCategory.Wild)]
+    [DirectorEvent(EventCategoryEnum.Wild)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class FindBerries : EventProduct
     {
@@ -29,7 +29,7 @@ namespace OregonTrailDotNet.Event.Wild
             var vehicle = eventExecutor.SourceEntity as Entity.Vehicle.Vehicle;
 
             // Add the berries to vehicle food stores.
-            vehicle?.Inventory[Entities.Food].AddQuantity(5);
+            vehicle?.Inventory[EntitiesEnum.Food].AddQuantity(5);
         }
 
         /// <summary>

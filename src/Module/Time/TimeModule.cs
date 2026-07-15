@@ -17,7 +17,7 @@ namespace OregonTrailDotNet.Module.Time
         {
             // Create a new time object for our simulation.
             CurrentYear = 1848;
-            CurrentMonth = Month.March;
+            CurrentMonth = MonthEnum.March;
             CurrentDay = 1;
 
             TotalDays = 0;
@@ -29,7 +29,7 @@ namespace OregonTrailDotNet.Module.Time
         /// <summary>
         ///     Current month the simulation is ticking over, it has typically thirty (30) days in it.
         /// </summary>
-        public Month CurrentMonth { get; private set; }
+        public MonthEnum CurrentMonth { get; private set; }
 
         /// <summary>
         ///     Day of the month the simulation is currently ticking over.
@@ -128,7 +128,7 @@ namespace OregonTrailDotNet.Module.Time
             OnTickDay(false);
 
             if (shouldCheckMonthEnd)
-                if (CurrentMonth != Month.December)
+                if (CurrentMonth != MonthEnum.December)
                 {
                     // End of month
                     CurrentMonth++;
@@ -139,7 +139,7 @@ namespace OregonTrailDotNet.Module.Time
                     // End of year
                     CurrentYear++;
                     TotalDaysThisYear = 1;
-                    CurrentMonth = Month.January;
+                    CurrentMonth = MonthEnum.January;
                     TotalMonths++;
                     TotalYears++;
                 }
@@ -155,7 +155,7 @@ namespace OregonTrailDotNet.Module.Time
 
         /// <summary>Changes the time simulations current month, this also will reset the day back to the first of that month.</summary>
         /// <param name="month">The month.</param>
-        public void SetMonth(Month month)
+        public void SetMonth(MonthEnum month)
         {
             CurrentMonth = month;
             CurrentDay = 1;

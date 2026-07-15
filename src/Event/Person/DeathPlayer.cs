@@ -13,7 +13,7 @@ namespace OregonTrailDotNet.Event.Person
     /// <summary>
     ///     Party leader has died! This will end the entire simulation since the others cannot go on without the leader.
     /// </summary>
-    [DirectorEvent(EventCategory.Person, EventExecution.ManualOnly)]
+    [DirectorEvent(EventCategoryEnum.Person, EventExecutionEnum.ManualOnly)]
     public sealed class DeathPlayer : EventProduct
     {
         /// <summary>
@@ -55,7 +55,7 @@ namespace OregonTrailDotNet.Event.Person
             _leaderDeath.AppendLine($"{sourcePerson.Name} has died.");
 
             // Explain the cause of death when one was recorded.
-            if (sourcePerson.Cause != CauseOfDeath.Unknown)
+            if (sourcePerson.Cause != CauseOfDeathEnum.Unknown)
                 _leaderDeath.AppendLine($"{sourcePerson.Name} {sourcePerson.Cause.ToDescriptionAttribute()}.");
         }
 

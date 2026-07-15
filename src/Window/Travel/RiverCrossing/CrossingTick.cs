@@ -93,13 +93,13 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             var game = GameSimulationApp.Instance;
 
             // Park the vehicle if it is not somehow by now.
-            game.Vehicle.Status = VehicleStatus.Stopped;
+            game.Vehicle.Status = VehicleStatusEnum.Stopped;
 
             // Check if ferry operator wants players monies for trip across river.
             if ((UserData.River.FerryCost > 0) &&
-                (game.Vehicle.Inventory[Entities.Cash].TotalValue > UserData.River.FerryCost))
+                (game.Vehicle.Inventory[EntitiesEnum.Cash].TotalValue > UserData.River.FerryCost))
             {
-                game.Vehicle.Inventory[Entities.Cash].ReduceQuantity((int) UserData.River.FerryCost);
+                game.Vehicle.Inventory[EntitiesEnum.Cash].ReduceQuantity((int) UserData.River.FerryCost);
 
                 // Clear out the cost for the ferry since it has been paid for now.
                 UserData.River.FerryCost = 0;
@@ -108,9 +108,9 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             // Check if the Indian guide wants his clothes for the trip that you agreed to. Use >= to match the offer
             // gate in IndianGuidePrompt (Clothes >= IndianCost); a strict > let a party with exactly the cost cross free.
             if ((UserData.River.IndianCost > 0) &&
-                (game.Vehicle.Inventory[Entities.Clothes].Quantity >= UserData.River.IndianCost))
+                (game.Vehicle.Inventory[EntitiesEnum.Clothes].Quantity >= UserData.River.IndianCost))
             {
-                game.Vehicle.Inventory[Entities.Clothes].ReduceQuantity(UserData.River.IndianCost);
+                game.Vehicle.Inventory[EntitiesEnum.Clothes].ReduceQuantity(UserData.River.IndianCost);
 
                 // Clear out the cost for the ferry since it has been paid for now.
                 UserData.River.IndianCost = 0;
@@ -211,7 +211,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             // Attempt to throw a random event related to some failure happening with river crossing.
             switch (UserData.River.CrossingType)
             {
-                case RiverCrossChoice.Ford:
+                case RiverCrossChoiceEnum.Ford:
                     if ((UserData.River.RiverDepth > 3) && !UserData.River.DisasterHappened &&
                         (_riverCrossingOfTotalWidth >= UserData.River.RiverWidth/2))
                     {
@@ -221,11 +221,11 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                     else
                     {
                         // Check that we don't flood the user twice, that is just annoying.
-                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
+                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategoryEnum.RiverCross);
                     }
 
                     break;
-                case RiverCrossChoice.Float:
+                case RiverCrossChoiceEnum.Float:
                     if ((UserData.River.RiverDepth > 5) && !UserData.River.DisasterHappened &&
                         (_riverCrossingOfTotalWidth >= UserData.River.RiverWidth/2) &&
                         game.Random.NextBool())
@@ -236,17 +236,17 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                     else
                     {
                         // Check that we don't flood the user twice, that is just annoying.
-                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
+                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategoryEnum.RiverCross);
                     }
 
                     break;
-                case RiverCrossChoice.Ferry:
-                case RiverCrossChoice.Indian:
-                    game.EventDirector.TriggerEventByType(game.Vehicle, EventCategory.RiverCross);
+                case RiverCrossChoiceEnum.Ferry:
+                case RiverCrossChoiceEnum.Indian:
+                    game.EventDirector.TriggerEventByType(game.Vehicle, EventCategoryEnum.RiverCross);
                     break;
-                case RiverCrossChoice.None:
-                case RiverCrossChoice.WaitForWeather:
-                case RiverCrossChoice.GetMoreInformation:
+                case RiverCrossChoiceEnum.None:
+                case RiverCrossChoiceEnum.WaitForWeather:
+                case RiverCrossChoiceEnum.GetMoreInformation:
                     throw new InvalidOperationException(
                         $"Invalid river crossing result choice {UserData.River.CrossingType}.");
                 default:

@@ -17,7 +17,7 @@ namespace OregonTrailDotNet.Module.Scoring
         ///     Internal enumeration value for the score the player actually had as enumeration value, we convert this to string
         ///     when asked for it.
         /// </summary>
-        private readonly Performance _rating;
+        private readonly PerformanceEnum _rating;
 
         /// <summary>Initializes a new instance of the <see cref="T:OregonTrailDotNet.Module.Scoring.Highscore" /> class.</summary>
         /// <param name="name">The name.</param>
@@ -30,11 +30,11 @@ namespace OregonTrailDotNet.Module.Scoring
 
             // Rank the players performance based on the number of points they have.
             if (points >= 7000)
-                _rating = Performance.TrailGuide;
+                _rating = PerformanceEnum.TrailGuide;
             else if ((points >= 3000) && (points < 7000))
-                _rating = Performance.Adventurer;
+                _rating = PerformanceEnum.Adventurer;
             else if (points < 3000)
-                _rating = Performance.Greenhorn;
+                _rating = PerformanceEnum.Greenhorn;
         }
 
         /// <summary>

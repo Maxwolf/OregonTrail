@@ -98,8 +98,8 @@ namespace OregonTrailDotNet.Window.Travel.Rest
             base.OnFormPostCreate();
 
             // Only change the vehicle status to stopped if it is moving, it could just be stuck.
-            if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatus.Moving)
-                GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
+            if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatusEnum.Moving)
+                GameSimulationApp.Instance.Vehicle.Status = VehicleStatusEnum.Stopped;
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace OregonTrailDotNet.Window.Travel.Rest
 
             // Check if we have already departed from current location, so we just return to travel menu.
             if (GameSimulationApp.Instance.Trail.CurrentLocation.ArrivalFlag &&
-                (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatus.Departed))
+                (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatusEnum.Departed))
             {
                 ClearForm();
                 return;
@@ -183,7 +183,7 @@ namespace OregonTrailDotNet.Window.Travel.Rest
 
                 // Player might be crossing a river, so we check if they made a decision and are waiting for ferry operator.
                 if ((UserData.River != null) &&
-                    (UserData.River.CrossingType == RiverCrossChoice.Ferry) &&
+                    (UserData.River.CrossingType == RiverCrossChoiceEnum.Ferry) &&
                     (UserData.River.FerryDelayInDays <= 0) &&
                     (UserData.River.FerryCost >= 0))
                     SetForm(typeof(CrossingTick));

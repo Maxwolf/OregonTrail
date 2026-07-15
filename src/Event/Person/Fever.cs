@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Person
     ///     Fever, also known as pyrexia and febrile response, is defined as having a temperature above the normal range due to
     ///     an increase in the body's temperature.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategoryEnum.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Fever : PersonInfect
     {

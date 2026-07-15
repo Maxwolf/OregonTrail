@@ -12,7 +12,7 @@ namespace OregonTrailDotNet.Event.Animal
     ///     Processes an attack of snake biting one of the passengers in the vehicle at random. Depending on the outcome of the
     ///     event we might kill the player if they actually get bit, otherwise the event will say they killed it.
     /// </summary>
-    [DirectorEvent(EventCategory.Animal)]
+    [DirectorEvent(EventCategoryEnum.Animal)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Snakebite : EventProduct
     {
@@ -34,7 +34,7 @@ namespace OregonTrailDotNet.Event.Animal
                 return;
 
             // Ammo used to kill the snake.
-            GameSimulationApp.Instance.Vehicle.Inventory[Entities.Ammo].ReduceQuantity(10);
+            GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Ammo].ReduceQuantity(10);
 
             // Damage the person that was bit by the snake, it might be a little or a huge poisonousness bite.
             if (GameSimulationApp.Instance.Random.NextBool())

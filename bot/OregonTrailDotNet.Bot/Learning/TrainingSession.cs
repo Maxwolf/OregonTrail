@@ -5,30 +5,6 @@ using OregonTrailDotNet.Bot.Game;
 
 namespace OregonTrailDotNet.Bot.Learning
 {
-    public sealed class TrainingConfig
-    {
-        public int PopulationSize { get; init; } = 16;
-        public int GamesPerCandidate { get; init; } = 8;
-        public int Generations { get; init; } = 5;
-
-        /// <summary>Base seed for the per-generation common-random-numbers evaluation. Every candidate in a generation plays
-        ///     the same set of game seeds derived from this, so fitness differences reflect the genome rather than luck; a fixed
-        ///     value also makes a whole training run reproducible.</summary>
-        public int EvaluationSeed { get; init; } = 20250715;
-    }
-
-    /// <summary>Progress emitted after each generation, for the live UI/console.</summary>
-    public sealed class GenerationProgress
-    {
-        public int Generation { get; init; }
-        public double MeanFitness { get; init; }
-        public int BestScoreThisGen { get; init; }
-        public int BestScoreEver { get; init; }
-        public int GamesThisGen { get; init; }
-        public int WinsThisGen { get; init; }
-        public int TotalIterations { get; init; }
-    }
-
     /// <summary>
     ///     Runs training for a profile using whichever <see cref="ITrainingModel" /> the profile was created with. Each
     ///     generation it samples candidate vectors from the model's optimizer, decodes each into a policy, evaluates it over K
@@ -113,13 +89,13 @@ namespace OregonTrailDotNet.Bot.Learning
                         // Unambiguous bugs (a crash, a broken invariant, or a screen the bot has no handler for) stop the whole
                         // batch so a developer can fix them. A plain soft-lock is treated as a failed game (score 0, which the
                         // optimizer learns to avoid) so one unlucky stuck game doesn't abort a long training run.
-                        if (result.Bug != null && result.Bug.Category != BugCategory.SoftLock)
+                        if (result.Bug != null && result.Bug.Category != BugCategoryEnum.SoftLock)
                         {
                             PersistOptimizer();
                             throw new BotBugException(result.Bug);
                         }
 
-                        if (result.Outcome == GameOutcome.Win) wins++;
+                        if (result.Outcome == GameOutcomeEnum.Win) wins++;
                         bestScoreThisGen = Math.Max(bestScoreThisGen, result.Score);
                         if (result.Score > _bestScoreEver)
                             _bestScoreEver = result.Score;

@@ -12,7 +12,7 @@ namespace OregonTrailDotNet.Tests.Entity
     {
         private static PersonEntity MakePerson(bool leader = true)
         {
-            return new PersonEntity(Profession.Banker, "Alice", leader);
+            return new PersonEntity(ProfessionEnum.Banker, "Alice", leader);
         }
 
         [Fact]
@@ -21,9 +21,9 @@ namespace OregonTrailDotNet.Tests.Entity
             var person = MakePerson();
 
             Assert.Equal("Alice", person.Name);
-            Assert.Equal(Profession.Banker, person.Profession);
+            Assert.Equal(ProfessionEnum.Banker, person.Profession);
             Assert.True(person.Leader);
-            Assert.Equal(HealthStatus.Good, person.HealthStatus);
+            Assert.Equal(HealthStatusEnum.Good, person.HealthStatus);
         }
 
         [Fact]
@@ -39,16 +39,16 @@ namespace OregonTrailDotNet.Tests.Entity
             var person = MakePerson();
 
             person.Damage(100);
-            Assert.Equal(HealthStatus.Fair, person.HealthStatus);
+            Assert.Equal(HealthStatusEnum.Fair, person.HealthStatus);
 
             person.Damage(100);
-            Assert.Equal(HealthStatus.Poor, person.HealthStatus);
+            Assert.Equal(HealthStatusEnum.Poor, person.HealthStatus);
 
             person.Damage(100);
-            Assert.Equal(HealthStatus.VeryPoor, person.HealthStatus);
+            Assert.Equal(HealthStatusEnum.VeryPoor, person.HealthStatus);
 
             person.Damage(200);
-            Assert.Equal(HealthStatus.Dead, person.HealthStatus);
+            Assert.Equal(HealthStatusEnum.Dead, person.HealthStatus);
         }
 
         [Theory]
@@ -59,7 +59,7 @@ namespace OregonTrailDotNet.Tests.Entity
             var person = MakePerson();
             person.Damage(amount);
 
-            Assert.Equal(HealthStatus.Good, person.HealthStatus);
+            Assert.Equal(HealthStatusEnum.Good, person.HealthStatus);
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace OregonTrailDotNet.Tests.Entity
             var person = MakePerson();
             person.Damage(9999);
 
-            Assert.Equal(HealthStatus.Dead, person.HealthStatus);
+            Assert.Equal(HealthStatusEnum.Dead, person.HealthStatus);
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace OregonTrailDotNet.Tests.Entity
             var person = MakePerson();
             person.Kill();
 
-            Assert.Equal(HealthStatus.Dead, person.HealthStatus);
+            Assert.Equal(HealthStatusEnum.Dead, person.HealthStatus);
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace OregonTrailDotNet.Tests.Entity
             person.Damage(300);
             person.HealEntirely();
 
-            Assert.Equal(HealthStatus.Good, person.HealthStatus);
+            Assert.Equal(HealthStatusEnum.Good, person.HealthStatus);
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace OregonTrailDotNet.Tests.Entity
             person.Kill();
             person.HealEntirely();
 
-            Assert.Equal(HealthStatus.Dead, person.HealthStatus);
+            Assert.Equal(HealthStatusEnum.Dead, person.HealthStatus);
         }
     }
 }

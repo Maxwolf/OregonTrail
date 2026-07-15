@@ -15,8 +15,8 @@ namespace OregonTrailDotNet.Tests.Module
         public TombstoneTests()
         {
             // Tombstones capture the current party leader by name.
-            Game.Vehicle.AddPerson(new PersonEntity(Profession.Banker, "Alice", true));
-            Game.Vehicle.AddPerson(new PersonEntity(Profession.Banker, "Bob", false));
+            Game.Vehicle.AddPerson(new PersonEntity(ProfessionEnum.Banker, "Alice", true));
+            Game.Vehicle.AddPerson(new PersonEntity(ProfessionEnum.Banker, "Bob", false));
         }
 
         [Fact]

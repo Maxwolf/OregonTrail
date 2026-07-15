@@ -13,14 +13,14 @@ namespace OregonTrailDotNet.Event.Animal
     /// <summary>
     ///     The buffalo stampede by the vehicle and can destroy items and trample people to death.
     /// </summary>
-    [DirectorEvent(EventCategory.Animal)]
+    [DirectorEvent(EventCategoryEnum.Animal)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class BuffaloStampede : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
         /// <returns>The <see cref="string" />.</returns>
-        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
+        protected override string OnPostDestroyItems(IDictionary<EntitiesEnum, int> destroyedItems)
         {
             // Change event text depending on if items were destroyed or not.
             return destroyedItems.Count > 0

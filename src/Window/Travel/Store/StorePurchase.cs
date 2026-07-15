@@ -155,7 +155,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
             UserData.Store.AddItem(_itemToBuy, parsedInputNumber);
 
             // If we are not on the first location we will add the item right away.
-            if (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatus.Arrived)
+            if (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Arrived)
             {
                 // Normal store operation while on the trail.
                 UserData.Store.PurchaseItems();

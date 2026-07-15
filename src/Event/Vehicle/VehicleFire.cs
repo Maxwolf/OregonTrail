@@ -13,14 +13,14 @@ namespace OregonTrailDotNet.Event.Vehicle
     /// <summary>
     ///     Fire in the vehicle occurs, there is a chance that some of the inventory items or people were burned to death.
     /// </summary>
-    [DirectorEvent(EventCategory.Vehicle)]
+    [DirectorEvent(EventCategoryEnum.Vehicle)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class VehicleFire : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
         /// <returns>The <see cref="string" />.</returns>
-        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
+        protected override string OnPostDestroyItems(IDictionary<EntitiesEnum, int> destroyedItems)
         {
             // Change event text depending on if items were destroyed or not.
             return destroyedItems.Count > 0

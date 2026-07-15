@@ -55,7 +55,7 @@ namespace OregonTrailDotNet.Bot.Game
                 // Any unhandled exception from the game is treated as a crash bug: capture full context and stop.
                 return new RunResult
                 {
-                    Outcome = GameOutcome.Aborted,
+                    Outcome = GameOutcomeEnum.Aborted,
                     Score = 0,
                     Days = GameSimulationApp.Instance?.Time?.TotalDays ?? 0,
                     Miles = GameSimulationApp.Instance?.Vehicle?.Odometer ?? 0,
@@ -63,7 +63,7 @@ namespace OregonTrailDotNet.Bot.Game
                     Profession = policy.Profession,
                     StartMonth = policy.StartMonth,
                     AbortReason = "crash: " + ex.Message,
-                    Bug = BugReport.Capture(BugCategory.Crash, driver, "unhandled exception while driving the game", ex)
+                    Bug = BugReport.Capture(BugCategoryEnum.Crash, driver, "unhandled exception while driving the game", ex)
                 };
             }
         }
@@ -106,7 +106,7 @@ namespace OregonTrailDotNet.Bot.Game
                 // Fuzzing the real game surfaces bugs: check public state invariants every step and stop if one breaks.
                 var violation = CheckInvariants();
                 if (violation != null)
-                    return BugResult(BugCategory.InvariantViolation, violation);
+                    return BugResult(BugCategoryEnum.InvariantViolation, violation);
 
                 var state = GameSnapshot.Capture(GameSimulationApp.Instance!);
 
@@ -144,7 +144,7 @@ namespace OregonTrailDotNet.Bot.Game
                     var unknownBefore = _recognizer.UnknownForms.Count;
                     var input = _recognizer.TypedInput(_driver, state);
                     if (_recognizer.UnknownForms.Count > unknownBefore)
-                        return BugResult(BugCategory.RecognizerGap, $"no input handler for form '{_driver.FormName}'");
+                        return BugResult(BugCategoryEnum.RecognizerGap, $"no input handler for form '{_driver.FormName}'");
 
                     NarrateDecision(input, state);
                     _driver.Send(input);
@@ -187,10 +187,10 @@ namespace OregonTrailDotNet.Bot.Game
 
             var win = game.Trail.CurrentLocation?.LastLocation == true;
             var dead = vehicle.PassengersDead;
-            var outcome = win ? GameOutcome.Win : dead ? GameOutcome.Death : GameOutcome.Timeout;
+            var outcome = win ? GameOutcomeEnum.Win : dead ? GameOutcomeEnum.Death : GameOutcomeEnum.Timeout;
 
-            var score = outcome == GameOutcome.Death ? 0 : ScoreCalculator.Compute(vehicle);
-            var cause = dead ? (leader?.Cause ?? CauseOfDeath.Unknown).ToString() : "";
+            var score = outcome == GameOutcomeEnum.Death ? 0 : ScoreCalculator.Compute(vehicle);
+            var cause = dead ? (leader?.Cause ?? CauseOfDeathEnum.Unknown).ToString() : "";
             var leaderName = leader?.Name ?? "";
             var days = game.Time.TotalDays;
             var miles = vehicle.Odometer;
@@ -201,7 +201,7 @@ namespace OregonTrailDotNet.Bot.Game
             // "(bot)" leader name onto the high-score list), then read that recorded value back for cross-checking. Death
             // records nothing, so we leave those end screens alone (avoids wandering into the epitaph flow).
             int? recorded = null;
-            if (outcome != GameOutcome.Death)
+            if (outcome != GameOutcomeEnum.Death)
             {
                 var guard = 0;
                 while (_driver.Alive && _driver.WindowName == "GameOver" && guard++ < 25)
@@ -235,7 +235,7 @@ namespace OregonTrailDotNet.Bot.Game
             // A stranded journey scores nothing and never finishes; model it as a failed run so the optimizer avoids it.
             return new RunResult
             {
-                Outcome = GameOutcome.Death,
+                Outcome = GameOutcomeEnum.Death,
                 Score = 0,
                 Days = game.Time.TotalDays,
                 Miles = vehicle.Odometer,
@@ -281,15 +281,15 @@ namespace OregonTrailDotNet.Bot.Game
             return null;
         }
 
-        private BugCategory SoftLockCategory() =>
-            _recognizer.UnknownForms.Contains(_driver.FormName) ? BugCategory.RecognizerGap : BugCategory.SoftLock;
+        private BugCategoryEnum SoftLockCategory() =>
+            _recognizer.UnknownForms.Contains(_driver.FormName) ? BugCategoryEnum.RecognizerGap : BugCategoryEnum.SoftLock;
 
-        private RunResult BugResult(BugCategory category, string detail)
+        private RunResult BugResult(BugCategoryEnum category, string detail)
         {
             var game = GameSimulationApp.Instance;
             return new RunResult
             {
-                Outcome = GameOutcome.Aborted,
+                Outcome = GameOutcomeEnum.Aborted,
                 Score = 0,
                 Days = game?.Time?.TotalDays ?? 0,
                 Miles = game?.Vehicle?.Odometer ?? 0,
@@ -320,7 +320,7 @@ namespace OregonTrailDotNet.Bot.Game
             var game = GameSimulationApp.Instance;
             return new RunResult
             {
-                Outcome = GameOutcome.Aborted,
+                Outcome = GameOutcomeEnum.Aborted,
                 Score = 0,
                 Days = game?.Time?.TotalDays ?? 0,
                 Miles = game?.Vehicle?.Odometer ?? 0,

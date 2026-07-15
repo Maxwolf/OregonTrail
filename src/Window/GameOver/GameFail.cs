@@ -51,7 +51,7 @@ namespace OregonTrailDotNet.Window.GameOver
 
             // Explain the cause of death when the party leader has a recorded one, otherwise fall back to a generic line.
             var leader = game.Vehicle.PassengerLeader;
-            if ((leader != null) && (leader.Cause != CauseOfDeath.Unknown))
+            if ((leader != null) && (leader.Cause != CauseOfDeathEnum.Unknown))
                 _failPrompt.AppendLine($"{leader.Name} {leader.Cause.ToDescriptionAttribute()}.");
 
             // Show how far the party managed to travel before they died.
@@ -76,32 +76,32 @@ namespace OregonTrailDotNet.Window.GameOver
                 var quantity = item.Value.Quantity.ToString("N0");
                 switch (item.Key)
                 {
-                    case Entities.Animal:
+                    case EntitiesEnum.Animal:
                         suppliesList.Add(new Tuple<string, string>("oxen", quantity));
                         break;
-                    case Entities.Clothes:
+                    case EntitiesEnum.Clothes:
                         suppliesList.Add(new Tuple<string, string>("sets of clothing", quantity));
                         break;
-                    case Entities.Ammo:
+                    case EntitiesEnum.Ammo:
                         suppliesList.Add(new Tuple<string, string>("bullets", quantity));
                         break;
-                    case Entities.Medicine:
+                    case EntitiesEnum.Medicine:
                         suppliesList.Add(new Tuple<string, string>("medical kits", quantity));
                         break;
-                    case Entities.Wheel:
+                    case EntitiesEnum.Wheel:
                         suppliesList.Add(new Tuple<string, string>("wagon wheels", quantity));
                         break;
-                    case Entities.Axle:
+                    case EntitiesEnum.Axle:
                         suppliesList.Add(new Tuple<string, string>("wagon axles", quantity));
                         break;
-                    case Entities.Tongue:
+                    case EntitiesEnum.Tongue:
                         suppliesList.Add(new Tuple<string, string>("wagon tongues", quantity));
                         break;
-                    case Entities.Food:
+                    case EntitiesEnum.Food:
                         suppliesList.Add(new Tuple<string, string>("pounds of food",
                             item.Value.TotalWeight.ToString("N0")));
                         break;
-                    case Entities.Cash:
+                    case EntitiesEnum.Cash:
                         suppliesList.Add(new Tuple<string, string>("money left", item.Value.TotalValue.ToString("C")));
                         break;
                 }

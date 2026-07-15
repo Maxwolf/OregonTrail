@@ -10,7 +10,7 @@ namespace OregonTrailDotNet.Event.Person
     /// <summary>
     ///     The most common soft tissues injured are muscles, tendons, and ligaments.
     /// </summary>
-    [DirectorEvent(EventCategory.Person)]
+    [DirectorEvent(EventCategoryEnum.Person)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class SprainedMuscle : PersonInjure
     {

@@ -25,10 +25,10 @@ namespace OregonTrailDotNet.Tests
         private static void StartDriving()
         {
             var game = GameSimulationApp.Instance;
-            game.Vehicle.Inventory[Entities.Animal].AddQuantity(4);
-            game.Vehicle.Status = VehicleStatus.Moving;
+            game.Vehicle.Inventory[EntitiesEnum.Animal].AddQuantity(4);
+            game.Vehicle.Status = VehicleStatusEnum.Moving;
             game.Trail.CurrentLocation.ArrivalFlag = true;
-            game.Trail.CurrentLocation.Status = LocationStatus.Departed;
+            game.Trail.CurrentLocation.Status = LocationStatusEnum.Departed;
         }
 
         [Fact]

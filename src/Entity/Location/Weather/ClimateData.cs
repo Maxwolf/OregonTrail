@@ -21,7 +21,7 @@ namespace OregonTrailDotNet.Entity.Location.Weather
         /// <param name="rainfall">Average rainfall for this month.</param>
         /// <param name="avgHumidity">Daily humidity for this month.</param>
         public ClimateData(
-            Month month,
+            MonthEnum month,
             float averageTemp,
             float tempMax,
             float tempMin,
@@ -39,7 +39,7 @@ namespace OregonTrailDotNet.Entity.Location.Weather
         /// <summary>
         ///     Month this data is representative of.
         /// </summary>
-        public Month Month { get; }
+        public MonthEnum Month { get; }
 
         /// <summary>
         ///     Average set of temperatures for this month.

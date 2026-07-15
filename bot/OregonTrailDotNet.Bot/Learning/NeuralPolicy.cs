@@ -50,34 +50,34 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public int Profession => _setup.Profession;
         public int StartMonth => _setup.StartMonth;
-        public int TargetQuantity(Entities item, GameSnapshot state) => _setup.TargetQuantity(item);
+        public int TargetQuantity(EntitiesEnum item, GameSnapshot state) => _setup.TargetQuantity(item);
 
-        public TravelCommands ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommands> available)
+        public TravelCommandsEnum ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommandsEnum> available)
         {
             var o = _brain.Forward(Features(state));
 
             // Set pace and rations to the genome's learned choice PLUS the network's state-adaptive nudge (o[6]/o[7]). At zero
             // weights the nudge is 0, so this is exactly the warm-started genome choice (Grueling/Filling at the expert prior),
             // and as the weights evolve the network can ease the pace or stretch the rations in response to the live situation.
-            if (available.Contains(TravelCommands.ChangePace) && state.Pace != (TravelPace) NudgedPace(o))
-                return TravelCommands.ChangePace;
-            if (available.Contains(TravelCommands.ChangeFoodRations) && state.Ration != (RationLevel) (4 - NudgedRation(o)))
-                return TravelCommands.ChangeFoodRations;
+            if (available.Contains(TravelCommandsEnum.ChangePace) && state.Pace != (TravelPaceEnum) NudgedPace(o))
+                return TravelCommandsEnum.ChangePace;
+            if (available.Contains(TravelCommandsEnum.ChangeFoodRations) && state.Ration != (RationLevelEnum) (4 - NudgedRation(o)))
+                return TravelCommandsEnum.ChangeFoodRations;
 
             // Rest: the expert rule (stop when the weakest member has fallen to the genome's health threshold) plus the
             // network's state-adaptive nudge o[0]. At zero weights o[0] is 0, so this is exactly the expert decision.
             var restMargin = (_setup.RestHealthThreshold - (int) state.LowestHealth) / 500.0 + o[0];
-            if (available.Contains(TravelCommands.StopToRest) && restMargin > 0 && state.DaysRemaining > 40)
-                return TravelCommands.StopToRest;
+            if (available.Contains(TravelCommandsEnum.StopToRest) && restMargin > 0 && state.DaysRemaining > 40)
+                return TravelCommandsEnum.StopToRest;
 
             // Hunt: the expert rule (top up the larder below the genome's food threshold) plus the network's nudge o[1], still
             // gated on having ammo. Normalized by the same 500-scale as the feature so o[1] is a comparable-magnitude signal.
             var huntMargin = (_setup.HuntFoodThreshold - state.Food) / 500.0 + o[1];
-            if (available.Contains(TravelCommands.HuntForFood) && huntMargin > 0 && state.Ammo > 0)
-                return TravelCommands.HuntForFood;
+            if (available.Contains(TravelCommandsEnum.HuntForFood) && huntMargin > 0 && state.Ammo > 0)
+                return TravelCommandsEnum.HuntForFood;
 
-            return available.Contains(TravelCommands.ContinueOnTrail)
-                ? TravelCommands.ContinueOnTrail
+            return available.Contains(TravelCommandsEnum.ContinueOnTrail)
+                ? TravelCommandsEnum.ContinueOnTrail
                 : available.First();
         }
 
@@ -102,18 +102,18 @@ namespace OregonTrailDotNet.Bot.Learning
             _ => false
         };
 
-        public RiverChoiceKind River(GameSnapshot state, IReadOnlyCollection<RiverChoiceKind> options)
+        public RiverChoiceKindEnum River(GameSnapshot state, IReadOnlyCollection<RiverChoiceKindEnum> options)
         {
             var o = _brain.Forward(Features(state));
 
             // Expert river preference (the seeded genome scores) plus the network's per-option correction. At zero weights the
             // corrections are 0, so this is the expert's argmax; the network can re-rank the crossings as it learns.
-            double ScoreOf(RiverChoiceKind kind) => _setup.RiverScore(kind) + kind switch
+            double ScoreOf(RiverChoiceKindEnum kind) => _setup.RiverScore(kind) + kind switch
             {
-                RiverChoiceKind.Ferry => o[2],
-                RiverChoiceKind.Indian => o[3],
-                RiverChoiceKind.Caulk => o[4],
-                RiverChoiceKind.Ford => o[5],
+                RiverChoiceKindEnum.Ferry => o[2],
+                RiverChoiceKindEnum.Indian => o[3],
+                RiverChoiceKindEnum.Caulk => o[4],
+                RiverChoiceKindEnum.Ford => o[5],
                 _ => 0.0
             };
 

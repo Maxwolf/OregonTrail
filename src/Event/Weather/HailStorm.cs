@@ -13,13 +13,13 @@ namespace OregonTrailDotNet.Event.Weather
     /// <summary>
     ///     Bad hail storm damages supplies, this uses the item destroyer prefab like the river crossings do.
     /// </summary>
-    [DirectorEvent(EventCategory.Weather, EventExecution.ManualOnly)]
+    [DirectorEvent(EventCategoryEnum.Weather, EventExecutionEnum.ManualOnly)]
     public sealed class HailStorm : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems"></param>
         /// <returns>The <see cref="string" />.</returns>
-        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
+        protected override string OnPostDestroyItems(IDictionary<EntitiesEnum, int> destroyedItems)
         {
             // Grab an instance of the game simulation.
             var game = GameSimulationApp.Instance;
@@ -27,7 +27,7 @@ namespace OregonTrailDotNet.Event.Weather
             // Check if there are enough clothes to keep people warm, need two sets of clothes for every person. A well
             // clothed party that lost no items to the hail is spared; the old '< 0' could never be true (a dictionary
             // Count is never negative), so the clothing check had no effect and the party always risked freezing.
-            return (game.Vehicle.Inventory[Entities.Clothes].Quantity >= game.Vehicle.PassengerLivingCount*2) &&
+            return (game.Vehicle.Inventory[EntitiesEnum.Clothes].Quantity >= game.Vehicle.PassengerLivingCount*2) &&
                    (destroyedItems.Count <= 0)
                 ? "no loss of items."
                 : TryKillPassengers("frozen");

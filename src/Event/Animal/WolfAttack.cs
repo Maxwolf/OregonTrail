@@ -14,14 +14,14 @@ namespace OregonTrailDotNet.Event.Animal
     ///     A pack of wolves is attacking the vehicle party! If there are not enough bullets to stop them then they will
     ///     overwhelm the people and kill them!
     /// </summary>
-    [DirectorEvent(EventCategory.Animal)]
+    [DirectorEvent(EventCategoryEnum.Animal)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class WolfAttack : ItemDestroyer
     {
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
         /// <returns>The <see cref="string" />.</returns>
-        protected override string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems)
+        protected override string OnPostDestroyItems(IDictionary<EntitiesEnum, int> destroyedItems)
         {
             // Change event text depending on if items were destroyed or not.
             return destroyedItems.Count > 0

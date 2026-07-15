@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Wild
     /// <summary>
     ///     Similar to wild berries, but with fruit there will be more to go around.
     /// </summary>
-    [DirectorEvent(EventCategory.Wild)]
+    [DirectorEvent(EventCategoryEnum.Wild)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class FindFruit : EventProduct
     {
@@ -28,7 +28,7 @@ namespace OregonTrailDotNet.Event.Wild
             // Cast the source entity as vehicle.
             var vehicle = eventExecutor.SourceEntity as Entity.Vehicle.Vehicle;
 
-            vehicle?.Inventory[Entities.Food].AddQuantity(17);
+            vehicle?.Inventory[EntitiesEnum.Food].AddQuantity(17);
         }
 
         /// <summary>

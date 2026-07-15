@@ -26,50 +26,50 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public string LeaderName => "Trailblazer (bot)";
 
-        public int TargetQuantity(Entities item, GameSnapshot state) => item switch
+        public int TargetQuantity(EntitiesEnum item, GameSnapshot state) => item switch
         {
-            Entities.Animal => 12,   // a strong team finishes fast - fewer days on the trail means less of the ~25 lb/day
+            EntitiesEnum.Animal => 12,   // a strong team finishes fast - fewer days on the trail means less of the ~25 lb/day
                                      // five-person food burn - with slack to survive ox deaths and a bad river crossing
-            Entities.Food => 1600,   // ~64 days at 25 lb/day; hunting covers any overrun before the 2000 lb cap
-            Entities.Clothes => 13,  // above the 10-set hail-freeze guard for a party of five, with slack for the Shoshoni guide
-            Entities.Medicine => 6,  // the decisive survival lever (heals + clears infection while resting); unscored, so 6 is plenty
-            Entities.Ammo => 20,
-            Entities.Wheel => 2,
-            Entities.Axle => 2,
-            Entities.Tongue => 2,
+            EntitiesEnum.Food => 1600,   // ~64 days at 25 lb/day; hunting covers any overrun before the 2000 lb cap
+            EntitiesEnum.Clothes => 13,  // above the 10-set hail-freeze guard for a party of five, with slack for the Shoshoni guide
+            EntitiesEnum.Medicine => 6,  // the decisive survival lever (heals + clears infection while resting); unscored, so 6 is plenty
+            EntitiesEnum.Ammo => 20,
+            EntitiesEnum.Wheel => 2,
+            EntitiesEnum.Axle => 2,
+            EntitiesEnum.Tongue => 2,
             _ => 0
         };
 
-        public TravelCommands ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommands> available)
+        public TravelCommandsEnum ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommandsEnum> available)
         {
             // Travel the original high-score way: grueling pace on bare-bones rations to cover ground cheaply, switching to
             // filling rations when the weakest member needs to recover. Set that configuration before anything else.
-            var recovering = (int) state.LowestHealth <= (int) HealthStatus.Poor;
-            var desiredRation = recovering ? RationLevel.Filling : RationLevel.BareBones;
+            var recovering = (int) state.LowestHealth <= (int) HealthStatusEnum.Poor;
+            var desiredRation = recovering ? RationLevelEnum.Filling : RationLevelEnum.BareBones;
 
-            if (available.Contains(TravelCommands.ChangePace) && state.Pace != TravelPace.Grueling)
-                return TravelCommands.ChangePace;
-            if (available.Contains(TravelCommands.ChangeFoodRations) && state.Ration != desiredRation)
-                return TravelCommands.ChangeFoodRations;
+            if (available.Contains(TravelCommandsEnum.ChangePace) && state.Pace != TravelPaceEnum.Grueling)
+                return TravelCommandsEnum.ChangePace;
+            if (available.Contains(TravelCommandsEnum.ChangeFoodRations) && state.Ration != desiredRation)
+                return TravelCommandsEnum.ChangeFoodRations;
 
             // Recover when ANY party member is sick (not just when the average dips) and there's still time — keeping every
             // member alive and healthy is what maximizes the final score. Resting heals through natural recovery with or
             // without medicine, and medicine now also treats the sick on the move, so resting is no longer gated on it.
-            if (available.Contains(TravelCommands.StopToRest) && recovering && state.DaysRemaining > 60)
-                return TravelCommands.StopToRest;
+            if (available.Contains(TravelCommandsEnum.StopToRest) && recovering && state.DaysRemaining > 60)
+                return TravelCommandsEnum.StopToRest;
 
             // Top up food by hunting only if it runs dangerously low and we can shoot.
-            if (available.Contains(TravelCommands.HuntForFood) && state.Food < 50 && state.Ammo > 0)
-                return TravelCommands.HuntForFood;
+            if (available.Contains(TravelCommandsEnum.HuntForFood) && state.Food < 50 && state.Ammo > 0)
+                return TravelCommandsEnum.HuntForFood;
 
-            return available.Contains(TravelCommands.ContinueOnTrail)
-                ? TravelCommands.ContinueOnTrail
+            return available.Contains(TravelCommandsEnum.ContinueOnTrail)
+                ? TravelCommandsEnum.ContinueOnTrail
                 : available.First();
         }
 
-        public int Pace(GameSnapshot state) => (int) TravelPace.Grueling;   // menu 3: 100% of the daily maximum
+        public int Pace(GameSnapshot state) => (int) TravelPaceEnum.Grueling;   // menu 3: 100% of the daily maximum
         public int Ration(GameSnapshot state) =>
-            (int) state.LowestHealth <= (int) HealthStatus.Poor ? 1 : 3;     // menu 1 Filling to recover / 3 Bare Bones
+            (int) state.LowestHealth <= (int) HealthStatusEnum.Poor ? 1 : 3;     // menu 1 Filling to recover / 3 Bare Bones
         public int RestDays(GameSnapshot state) => 3;
 
         public bool YesNo(string formName, GameSnapshot state) => formName switch
@@ -84,12 +84,12 @@ namespace OregonTrailDotNet.Bot.Learning
             _ => false
         };
 
-        public RiverChoiceKind River(GameSnapshot state, IReadOnlyCollection<RiverChoiceKind> options)
+        public RiverChoiceKindEnum River(GameSnapshot state, IReadOnlyCollection<RiverChoiceKindEnum> options)
         {
             // Prefer the crossings that can't drown the wagon (and its oxen): the ferry, then the Shoshoni guide (safe but
             // costs clothing). Only fall back to caulk/ford, which risk a wash-out in deep water. If the guide turns out to be
             // unaffordable the recognizer's bounce guard forces a free crossing.
-            foreach (var preferred in new[] { RiverChoiceKind.Ferry, RiverChoiceKind.Indian, RiverChoiceKind.Caulk, RiverChoiceKind.Ford })
+            foreach (var preferred in new[] { RiverChoiceKindEnum.Ferry, RiverChoiceKindEnum.Indian, RiverChoiceKindEnum.Caulk, RiverChoiceKindEnum.Ford })
                 if (options.Contains(preferred))
                     return preferred;
 

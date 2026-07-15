@@ -15,7 +15,7 @@ namespace OregonTrailDotNet.Module.Scoring
         /// <param name="partyHealthStatus">The party Health Level.</param>
         /// <param name="pointsPerPerson">The points Per Person.</param>
         // ReSharper disable once UnusedMember.Global
-        public HealthScoring(HealthStatus partyHealthStatus, int pointsPerPerson)
+        public HealthScoring(HealthStatusEnum partyHealthStatus, int pointsPerPerson)
         {
             PartyHealthStatus = partyHealthStatus;
             PointsPerPerson = pointsPerPerson;
@@ -24,7 +24,7 @@ namespace OregonTrailDotNet.Module.Scoring
         /// <summary>
         ///     Gets the party health level.
         /// </summary>
-        public HealthStatus PartyHealthStatus { get; }
+        public HealthStatusEnum PartyHealthStatus { get; }
 
         /// <summary>
         ///     Gets the points per person.

@@ -54,12 +54,12 @@ namespace OregonTrailDotNet.Event.Prefab
             // falling back to a blank "unknown" (this whole event path previously killed without recording any cause).
             var cause = killVerb switch
             {
-                "drowned" => CauseOfDeath.Drowned,
-                "frozen" => CauseOfDeath.Frozen,
-                "mauled" or "trampled" => CauseOfDeath.Mauled,
-                "murdered" => CauseOfDeath.Murdered,
-                "crushed" or "burned" => CauseOfDeath.Accident,
-                _ => CauseOfDeath.Unknown
+                "drowned" => CauseOfDeathEnum.Drowned,
+                "frozen" => CauseOfDeathEnum.Frozen,
+                "mauled" or "trampled" => CauseOfDeathEnum.Mauled,
+                "murdered" => CauseOfDeathEnum.Murdered,
+                "crushed" or "burned" => CauseOfDeathEnum.Accident,
+                _ => CauseOfDeathEnum.Unknown
             };
 
             // Attempts to kill the living passengers of the vehicle. A healthy, well-provisioned party fares far better than a
@@ -71,7 +71,7 @@ namespace OregonTrailDotNet.Event.Prefab
             foreach (var person in passengers)
             {
                 // Only proceed if person is actually dead.
-                if (person.HealthStatus != HealthStatus.Dead)
+                if (person.HealthStatus != HealthStatusEnum.Dead)
                     continue;
 
                 // Last person killed will not add a new line.
@@ -131,7 +131,7 @@ namespace OregonTrailDotNet.Event.Prefab
         /// <summary>Fired by the item destroyer event prefab before items are destroyed.</summary>
         /// <param name="destroyedItems">Items that were destroyed from the players inventory.</param>
         /// <returns>The <see cref="string" />.</returns>
-        protected abstract string OnPostDestroyItems(IDictionary<Entities, int> destroyedItems);
+        protected abstract string OnPostDestroyItems(IDictionary<EntitiesEnum, int> destroyedItems);
 
         /// <summary>
         ///     Fired by the item destroyer event prefab after items are destroyed.

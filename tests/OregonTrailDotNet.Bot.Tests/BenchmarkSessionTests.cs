@@ -11,10 +11,10 @@ namespace OregonTrailDotNet.Bot.Tests
     /// </summary>
     public sealed class BenchmarkSessionTests
     {
-        private static RunResult Win(int score) => new() { Outcome = GameOutcome.Win, Score = score };
-        private static RunResult Loss() => new() { Outcome = GameOutcome.Death };
+        private static RunResult Win(int score) => new() { Outcome = GameOutcomeEnum.Win, Score = score };
+        private static RunResult Loss() => new() { Outcome = GameOutcomeEnum.Death };
 
-        private static bool FirstWin(RunResult r) => r.Outcome == GameOutcome.Win;
+        private static bool FirstWin(RunResult r) => r.Outcome == GameOutcomeEnum.Win;
 
         [Fact]
         public void Records_Time_And_Games_To_Goal_For_Every_Model()
@@ -111,7 +111,7 @@ namespace OregonTrailDotNet.Bot.Tests
             var games = 0;
 
             var session = new BenchmarkSession(5, "a first win", FirstWin,
-                playGame: _ => new RunResult { Outcome = GameOutcome.Death, Score = scores.Count > 0 ? scores.Dequeue() : 0 },
+                playGame: _ => new RunResult { Outcome = GameOutcomeEnum.Death, Score = scores.Count > 0 ? scores.Dequeue() : 0 },
                 elapsed: () => TimeSpan.Zero);
 
             var report = session.Run(keepRunning: () => games < 5, onProgress: _ => games++);

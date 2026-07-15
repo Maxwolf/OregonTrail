@@ -3,7 +3,7 @@ using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Entity.Vehicle;
 using OregonTrailDotNet.Module.Time;
 using OregonTrailDotNet.Window.Travel;
-using WeatherCondition = OregonTrailDotNet.Entity.Location.Weather.WeatherConditions;
+using WeatherCondition = OregonTrailDotNet.Entity.Location.Weather.WeatherConditionsEnum;
 
 namespace OregonTrailDotNet.Bot.Game
 {
@@ -31,20 +31,20 @@ namespace OregonTrailDotNet.Bot.Game
         public int PartySize { get; init; }
 
         /// <summary>Average health across the living party (what the end-of-game score is weighted by).</summary>
-        public HealthStatus Health { get; init; }
+        public HealthStatusEnum Health { get; init; }
 
         /// <summary>
         ///     Health of the party's weakest living member — the one nearest to dying. The average can stay high while one
         ///     member is failing, so policies watch this to protect every individual (each death is lost score), not just the
         ///     party as a whole.
         /// </summary>
-        public HealthStatus LowestHealth { get; init; }
+        public HealthStatusEnum LowestHealth { get; init; }
 
         public int DaysElapsed { get; init; }
         public int DaysRemaining { get; init; }
         public int Miles { get; init; }
-        public RationLevel Ration { get; init; }
-        public TravelPace Pace { get; init; }
+        public RationLevelEnum Ration { get; init; }
+        public TravelPaceEnum Pace { get; init; }
         public string LocationName { get; init; } = "";
 
         /// <summary>Current calendar month (1=January .. 12=December) — a season signal for weather and illness risk.</summary>
@@ -77,16 +77,16 @@ namespace OregonTrailDotNet.Bot.Game
         public bool AllAlive => LivingCount >= PartySize && PartySize > 0;
 
         /// <summary>Current owned quantity of a purchasable store item.</summary>
-        public int OwnedOf(Entities item) => item switch
+        public int OwnedOf(EntitiesEnum item) => item switch
         {
-            Entities.Animal => Oxen,
-            Entities.Food => Food,
-            Entities.Clothes => Clothing,
-            Entities.Ammo => Ammo,
-            Entities.Medicine => Medicine,
-            Entities.Wheel => Wheels,
-            Entities.Axle => Axles,
-            Entities.Tongue => Tongues,
+            EntitiesEnum.Animal => Oxen,
+            EntitiesEnum.Food => Food,
+            EntitiesEnum.Clothes => Clothing,
+            EntitiesEnum.Ammo => Ammo,
+            EntitiesEnum.Medicine => Medicine,
+            EntitiesEnum.Wheel => Wheels,
+            EntitiesEnum.Axle => Axles,
+            EntitiesEnum.Tongue => Tongues,
             _ => 0
         };
 
@@ -96,19 +96,19 @@ namespace OregonTrailDotNet.Bot.Game
             var inv = v.Inventory;
             var loc = game.Trail.CurrentLocation;
 
-            int Qty(Entities e) => inv.TryGetValue(e, out var item) ? item.Quantity : 0;
+            int Qty(EntitiesEnum e) => inv.TryGetValue(e, out var item) ? item.Quantity : 0;
 
             return new GameSnapshot
             {
-                Oxen = Qty(Entities.Animal),
-                Food = Qty(Entities.Food),
-                Clothing = Qty(Entities.Clothes),
-                Ammo = Qty(Entities.Ammo),
-                Medicine = Qty(Entities.Medicine),
-                Wheels = Qty(Entities.Wheel),
-                Axles = Qty(Entities.Axle),
-                Tongues = Qty(Entities.Tongue),
-                Cash = Qty(Entities.Cash),
+                Oxen = Qty(EntitiesEnum.Animal),
+                Food = Qty(EntitiesEnum.Food),
+                Clothing = Qty(EntitiesEnum.Clothes),
+                Ammo = Qty(EntitiesEnum.Ammo),
+                Medicine = Qty(EntitiesEnum.Medicine),
+                Wheels = Qty(EntitiesEnum.Wheel),
+                Axles = Qty(EntitiesEnum.Axle),
+                Tongues = Qty(EntitiesEnum.Tongue),
+                Cash = Qty(EntitiesEnum.Cash),
                 LivingCount = v.PassengerLivingCount,
                 PartySize = v.Passengers.Count,
                 Health = v.PassengerHealthStatus,
@@ -141,12 +141,12 @@ namespace OregonTrailDotNet.Bot.Game
 
         // The worst health among the still-living party members (Dead excluded). Falls back to the party average only if the
         // party is empty, which never happens mid-game.
-        private static HealthStatus LowestLivingHealth(Vehicle v)
+        private static HealthStatusEnum LowestLivingHealth(Vehicle v)
         {
-            HealthStatus? lowest = null;
+            HealthStatusEnum? lowest = null;
             foreach (var person in v.Passengers)
             {
-                if (person.HealthStatus == HealthStatus.Dead)
+                if (person.HealthStatus == HealthStatusEnum.Dead)
                     continue;
                 if (lowest == null || (int) person.HealthStatus < (int) lowest)
                     lowest = person.HealthStatus;

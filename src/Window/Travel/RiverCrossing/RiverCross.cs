@@ -28,19 +28,19 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         ///     type of river crossing in the middle of the choices we need to have a correct mapping of integers to their
         ///     respective enumeration values. There is another dictionary for mapping enumeration values to actions.
         /// </summary>
-        private Dictionary<string, RiverCrossChoice> _choiceMappings;
+        private Dictionary<string, RiverCrossChoiceEnum> _choiceMappings;
 
         /// <summary>
         ///     Holds reference to all of the choices that can be made in the river, since the are dynamic and change based on the
         ///     location we are visiting this dictionary facilitates the ability for lookups and checking of inputted key for
         ///     validity. If key is found then the appropriate action can be invoked.
         /// </summary>
-        private Dictionary<RiverCrossChoice, Action> _riverActions;
+        private Dictionary<RiverCrossChoiceEnum, Action> _riverActions;
 
         /// <summary>
         ///     Defines enumeration values in list format so they can easily be iterated over.
         /// </summary>
-        private List<RiverCrossChoice> _riverChoices;
+        private List<RiverCrossChoiceEnum> _riverChoices;
 
         /// <summary>
         ///     Holds all the information about the river and crossing decisions so it only needs to be constructed once at
@@ -83,9 +83,9 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             // Re-create the mappings and text information on post create each time.
             _riverOptionsCount = 0;
             _riverChoices =
-                new List<RiverCrossChoice>(Enum.GetValues(typeof(RiverCrossChoice)).Cast<RiverCrossChoice>());
-            _choiceMappings = new Dictionary<string, RiverCrossChoice>();
-            _riverActions = new Dictionary<RiverCrossChoice, Action>();
+                new List<RiverCrossChoiceEnum>(Enum.GetValues(typeof(RiverCrossChoiceEnum)).Cast<RiverCrossChoiceEnum>());
+            _choiceMappings = new Dictionary<string, RiverCrossChoiceEnum>();
+            _riverActions = new Dictionary<RiverCrossChoiceEnum, Action>();
             _riverInfo = new StringBuilder();
 
             // Header text for above menu comes from river crossing info object.
@@ -110,25 +110,25 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                 var allow = false;
                 switch (riverChoice)
                 {
-                    case RiverCrossChoice.Float:
-                    case RiverCrossChoice.Ford:
+                    case RiverCrossChoiceEnum.Float:
+                    case RiverCrossChoiceEnum.Ford:
                         // Default float and ford choices that exist on every river.
                         allow = true;
                         break;
-                    case RiverCrossChoice.GetMoreInformation:
-                    case RiverCrossChoice.WaitForWeather:
+                    case RiverCrossChoiceEnum.GetMoreInformation:
+                    case RiverCrossChoiceEnum.WaitForWeather:
                         // Allows player to try and wait out bad weather.
                         allow = true;
                         break;
-                    case RiverCrossChoice.None:
+                    case RiverCrossChoiceEnum.None:
                         break;
-                    case RiverCrossChoice.Ferry:
-                        if (riverLocation.RiverCrossOption == RiverOption.FerryOperator)
+                    case RiverCrossChoiceEnum.Ferry:
+                        if (riverLocation.RiverCrossOption == RiverOptionEnum.FerryOperator)
                             // Ferry operator costs money.
                             allow = true;
                         break;
-                    case RiverCrossChoice.Indian:
-                        if (riverLocation.RiverCrossOption == RiverOption.IndianGuide)
+                    case RiverCrossChoiceEnum.Indian:
+                        if (riverLocation.RiverCrossOption == RiverOptionEnum.IndianGuide)
                             // Indian wants sets of clothes in exchange for helping float.
                             allow = true;
                         break;
@@ -151,7 +151,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         ///     Current river crossing choice that would like to be added to list, this method decides if it
         ///     makes the cut.
         /// </param>
-        private void AddRiverChoice(RiverCrossChoice riverChoice)
+        private void AddRiverChoice(RiverCrossChoiceEnum riverChoice)
         {
             // Increment the total number of river option mappings we have created.
             _riverOptionsCount++;
@@ -168,55 +168,55 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             // Depending on selection made we will decide on what to do.
             switch (riverChoice)
             {
-                case RiverCrossChoice.Ford:
+                case RiverCrossChoiceEnum.Ford:
                     _riverActions.Add(riverChoice, delegate
                     {
                         // Driving straight into the river and hoping you don't drown.
-                        UserData.River.CrossingType = RiverCrossChoice.Ford;
+                        UserData.River.CrossingType = RiverCrossChoiceEnum.Ford;
                         SetForm(typeof(CrossingTick));
                     });
                     break;
-                case RiverCrossChoice.Float:
+                case RiverCrossChoiceEnum.Float:
                     _riverActions.Add(riverChoice, delegate
                     {
                         // Floating wagon manually without any help.
-                        UserData.River.CrossingType = RiverCrossChoice.Float;
+                        UserData.River.CrossingType = RiverCrossChoiceEnum.Float;
                         SetForm(typeof(CrossingTick));
                     });
                     break;
-                case RiverCrossChoice.Ferry:
+                case RiverCrossChoiceEnum.Ferry:
                     _riverActions.Add(riverChoice, delegate
                     {
                         // Ferry operator charges money and time before player can cross.
-                        UserData.River.CrossingType = RiverCrossChoice.Ferry;
+                        UserData.River.CrossingType = RiverCrossChoiceEnum.Ferry;
                         SetForm(typeof(UseFerryConfirm));
                     });
                     break;
-                case RiverCrossChoice.Indian:
+                case RiverCrossChoiceEnum.Indian:
                     _riverActions.Add(riverChoice, delegate
                     {
                         // Indian guide helps float wagon across river for sets of clothing.
-                        UserData.River.CrossingType = RiverCrossChoice.Indian;
+                        UserData.River.CrossingType = RiverCrossChoiceEnum.Indian;
                         SetForm(typeof(IndianGuidePrompt));
                     });
                     break;
-                case RiverCrossChoice.WaitForWeather:
+                case RiverCrossChoiceEnum.WaitForWeather:
                     _riverActions.Add(riverChoice, delegate
                     {
                         // Resting by a river only increments a single day at a time.
                         UserData.DaysToRest = 1;
-                        UserData.River.CrossingType = RiverCrossChoice.WaitForWeather;
+                        UserData.River.CrossingType = RiverCrossChoiceEnum.WaitForWeather;
                         SetForm(typeof(Resting));
                     });
                     break;
-                case RiverCrossChoice.GetMoreInformation:
+                case RiverCrossChoiceEnum.GetMoreInformation:
                     _riverActions.Add(riverChoice, delegate
                     {
-                        UserData.River.CrossingType = RiverCrossChoice.GetMoreInformation;
+                        UserData.River.CrossingType = RiverCrossChoiceEnum.GetMoreInformation;
                         SetForm(typeof(FordRiverHelp));
                     });
                     break;
-                case RiverCrossChoice.None:
+                case RiverCrossChoiceEnum.None:
                     throw new ArgumentException(
                         "Unable to use river cross choice NONE as a selection since it is only intended for initialization.");
                 default:

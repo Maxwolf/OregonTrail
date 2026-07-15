@@ -29,7 +29,7 @@ namespace OregonTrailDotNet.Bot.Tests
         // (most parties die on the trail) — so asserting on a random training finish is inherently flaky.
         private static RunResult WinningRun() => new()
         {
-            Outcome = GameOutcome.Win,
+            Outcome = GameOutcomeEnum.Win,
             Score = 5000,
             Days = 150,
             Miles = 2000,
@@ -93,7 +93,7 @@ namespace OregonTrailDotNet.Bot.Tests
             // tolerated the same way training tolerates it — it is not a crash/bug).
             var policy = new GenomePolicy(StrategyGenome.FromJson(profile.BestGenomeJson!), $"{profile.Name} (bot)");
             var result = GamePlayer.PlayOnce(policy);
-            Assert.True(result.Bug is null || result.Bug.Category == Diagnostics.BugCategory.SoftLock);
+            Assert.True(result.Bug is null || result.Bug.Category == Diagnostics.BugCategoryEnum.SoftLock);
 
             // The party is named "<profile> 1..4", so the leader (crew #1, whose name brands the in-game high-score list)
             // is "<profile> 1" — the "(bot)" tag passed to the policy is stripped for the shared party base name.

@@ -33,22 +33,22 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             RiverWidth = game.Random.Next(100, 1500);
 
             // Determines how the player will want to cross the river.
-            CrossingType = RiverCrossChoice.None;
+            CrossingType = RiverCrossChoiceEnum.None;
 
             // Only setup ferry cost and delay if this is that type of crossing.
             switch (riverLocation.RiverCrossOption)
             {
-                case RiverOption.FerryOperator:
+                case RiverOptionEnum.FerryOperator:
                     IndianCost = 0;
                     FerryCost = game.Random.Next(3, 8);
                     FerryDelayInDays = game.Random.Next(1, 10);
                     break;
-                case RiverOption.FloatAndFord:
+                case RiverOptionEnum.FloatAndFord:
                     IndianCost = 0;
                     FerryCost = 0;
                     FerryDelayInDays = 0;
                     break;
-                case RiverOption.IndianGuide:
+                case RiverOptionEnum.IndianGuide:
                     // The Shoshoni guide wants 1-5 sets of clothing to float the wagon across. The more animals the party has
                     // killed while hunting, the greedier he gets (the less impressed he is), so his price climbs with kills.
                     // Players who hunt sparingly receive the better deal. Scaling is capped so the price can never soft-lock the
@@ -57,7 +57,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                     FerryCost = 0;
                     FerryDelayInDays = 0;
                     break;
-                case RiverOption.None:
+                case RiverOptionEnum.None:
                     throw new ArgumentException(
                         "Unable to generate river without having options configured to some value other than NONE!");
                 default:
@@ -74,7 +74,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         /// <summary>
         ///     Determines how the vehicle and party members would like to cross the river.
         /// </summary>
-        public RiverCrossChoice CrossingType { get; set; }
+        public RiverCrossChoiceEnum CrossingType { get; set; }
 
         /// <summary>
         ///     Determines how deep the river is in feet.

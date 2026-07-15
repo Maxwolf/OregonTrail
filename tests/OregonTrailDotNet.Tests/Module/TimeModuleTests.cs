@@ -13,7 +13,7 @@ namespace OregonTrailDotNet.Tests.Module
         public void Simulation_StartsOnMarchFirst1848()
         {
             Assert.Equal(1848, Game.Time.CurrentYear);
-            Assert.Equal(Month.March, Game.Time.CurrentMonth);
+            Assert.Equal(MonthEnum.March, Game.Time.CurrentMonth);
             Assert.Equal(1, Game.Time.Date.Day);
         }
 
@@ -31,7 +31,7 @@ namespace OregonTrailDotNet.Tests.Module
             Game.Time.TickTime(true);
 
             Assert.Equal(1, Game.Time.Date.Day);
-            Assert.Equal(Month.March, Game.Time.CurrentMonth);
+            Assert.Equal(MonthEnum.March, Game.Time.CurrentMonth);
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace OregonTrailDotNet.Tests.Module
             for (var day = 0; day < Date.NumberOfDaysInMonth; day++)
                 Game.Time.TickTime(false);
 
-            Assert.Equal(Month.April, Game.Time.CurrentMonth);
+            Assert.Equal(MonthEnum.April, Game.Time.CurrentMonth);
             Assert.Equal(1, Game.Time.Date.Day);
             Assert.Equal(1848, Game.Time.CurrentYear);
         }
@@ -55,18 +55,18 @@ namespace OregonTrailDotNet.Tests.Module
             for (var day = 0; day < Date.NumberOfDaysInMonth; day++)
                 Game.Time.TickTime(false);
 
-            Assert.Equal(Month.April, Game.Time.CurrentMonth);
+            Assert.Equal(MonthEnum.April, Game.Time.CurrentMonth);
             Assert.Equal(before + Date.NumberOfDaysInMonth, Game.Time.TotalDays);
         }
 
         [Fact]
         public void TickTime_RollsOverYearAfterDecember()
         {
-            Game.Time.SetMonth(Month.December);
+            Game.Time.SetMonth(MonthEnum.December);
             for (var day = 0; day < Date.NumberOfDaysInMonth; day++)
                 Game.Time.TickTime(false);
 
-            Assert.Equal(Month.January, Game.Time.CurrentMonth);
+            Assert.Equal(MonthEnum.January, Game.Time.CurrentMonth);
             Assert.Equal(1849, Game.Time.CurrentYear);
         }
 
@@ -75,9 +75,9 @@ namespace OregonTrailDotNet.Tests.Module
         {
             Game.Time.TickTime(false);
             Game.Time.TickTime(false);
-            Game.Time.SetMonth(Month.May);
+            Game.Time.SetMonth(MonthEnum.May);
 
-            Assert.Equal(Month.May, Game.Time.CurrentMonth);
+            Assert.Equal(MonthEnum.May, Game.Time.CurrentMonth);
             Assert.Equal(1, Game.Time.Date.Day);
         }
 

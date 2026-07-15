@@ -12,14 +12,14 @@ namespace OregonTrailDotNet.Bot.Tests
     /// </summary>
     public sealed class PartySurvivalTests
     {
-        private static readonly TravelCommands[] Available =
-            { TravelCommands.ContinueOnTrail, TravelCommands.StopToRest, TravelCommands.HuntForFood };
+        private static readonly TravelCommandsEnum[] Available =
+            { TravelCommandsEnum.ContinueOnTrail, TravelCommandsEnum.StopToRest, TravelCommandsEnum.HuntForFood };
 
         // Party average looks fine, but one member is failing.
         private static GameSnapshot OneMemberFailing() => new()
         {
-            Health = HealthStatus.Good,
-            LowestHealth = HealthStatus.Poor,
+            Health = HealthStatusEnum.Good,
+            LowestHealth = HealthStatusEnum.Poor,
             Medicine = 5,
             Food = 500,
             DaysRemaining = 120,
@@ -30,7 +30,7 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void Heuristic_Rests_To_Save_A_Single_Failing_Member()
         {
-            Assert.Equal(TravelCommands.StopToRest, new HeuristicPolicy().ChooseTravel(OneMemberFailing(), Available));
+            Assert.Equal(TravelCommandsEnum.StopToRest, new HeuristicPolicy().ChooseTravel(OneMemberFailing(), Available));
         }
 
         [Fact]
@@ -38,7 +38,7 @@ namespace OregonTrailDotNet.Bot.Tests
         {
             // The default genome's rest threshold is Poor (300); the weakest member at Poor should trigger a rest.
             var policy = new GenomePolicy(StrategyGenome.Default(), "Weighted (bot)");
-            Assert.Equal(TravelCommands.StopToRest, policy.ChooseTravel(OneMemberFailing(), Available));
+            Assert.Equal(TravelCommandsEnum.StopToRest, policy.ChooseTravel(OneMemberFailing(), Available));
         }
 
         [Fact]
@@ -46,8 +46,8 @@ namespace OregonTrailDotNet.Bot.Tests
         {
             var healthy = new GameSnapshot
             {
-                Health = HealthStatus.Good,
-                LowestHealth = HealthStatus.Good,
+                Health = HealthStatusEnum.Good,
+                LowestHealth = HealthStatusEnum.Good,
                 Medicine = 5,
                 Food = 500,
                 DaysRemaining = 120,
@@ -55,8 +55,8 @@ namespace OregonTrailDotNet.Bot.Tests
                 PartySize = 4
             };
 
-            Assert.Equal(TravelCommands.ContinueOnTrail, new HeuristicPolicy().ChooseTravel(healthy, Available));
-            Assert.Equal(TravelCommands.ContinueOnTrail,
+            Assert.Equal(TravelCommandsEnum.ContinueOnTrail, new HeuristicPolicy().ChooseTravel(healthy, Available));
+            Assert.Equal(TravelCommandsEnum.ContinueOnTrail,
                 new GenomePolicy(StrategyGenome.Default(), "Weighted (bot)").ChooseTravel(healthy, Available));
         }
     }

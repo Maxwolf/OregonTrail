@@ -10,7 +10,7 @@ namespace OregonTrailDotNet.Event.Vehicle
     /// <summary>
     ///     Vehicle gets stuck in the mud, wasting the entire day.
     /// </summary>
-    [DirectorEvent(EventCategory.Vehicle)]
+    [DirectorEvent(EventCategoryEnum.Vehicle)]
     public sealed class StuckInMud : LoseTime
     {
         /// <summary>

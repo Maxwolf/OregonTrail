@@ -24,7 +24,7 @@ namespace OregonTrailDotNet.Entity.Item
         /// <param name="pointsAwarded">The points Awarded.</param>
         /// <param name="pointsPerAmount">The points Per Amount.</param>
         public SimItem(
-            Entities category,
+            EntitiesEnum category,
             string name,
             string pluralForm,
             string delineatingUnit,
@@ -202,7 +202,7 @@ namespace OregonTrailDotNet.Entity.Item
         ///     them
         ///     when looking for a particular piece of data in the vehicles inventory list.
         /// </summary>
-        public Entities Category { get; }
+        public EntitiesEnum Category { get; }
 
         /// <summary>
         ///     Display name of the SimItem as it should be known to players.

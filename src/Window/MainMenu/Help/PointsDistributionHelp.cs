@@ -49,13 +49,13 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
 
             // Repair status reference dictionary.
             var repairLevels = new Dictionary<string, int>();
-            foreach (var repairStat in Enum.GetNames(typeof(HealthStatus)))
-                repairLevels.Add(repairStat, (int) Enum.Parse(typeof(HealthStatus), repairStat));
+            foreach (var repairStat in Enum.GetNames(typeof(HealthStatusEnum)))
+                repairLevels.Add(repairStat, (int) Enum.Parse(typeof(HealthStatusEnum), repairStat));
 
             // Build a text table from people point distribution with custom headers.
             var partyTextTable = repairLevels.Values.ToStringTable(
                 new[] {"Health Status of Party", "Points per Person"},
-                u => Enum.Parse(typeof(HealthStatus), u.ToString()).ToDescriptionAttribute(),
+                u => Enum.Parse(typeof(HealthStatusEnum), u.ToString()).ToDescriptionAttribute(),
                 u => u);
 
             // Print the table to the screen buffer.

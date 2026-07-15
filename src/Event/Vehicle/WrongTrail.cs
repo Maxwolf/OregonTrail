@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Event.Vehicle
     ///     Player gets lost and heads in the wrong direction which forces time to be lost without any progression of the date
     ///     or trail location.
     /// </summary>
-    [DirectorEvent(EventCategory.Vehicle)]
+    [DirectorEvent(EventCategoryEnum.Vehicle)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class WrongTrail : LoseTime
     {

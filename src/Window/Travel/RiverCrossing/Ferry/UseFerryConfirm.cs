@@ -73,7 +73,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Ferry
             {
                 case DialogResponse.Yes:
                     if (UserData.River.FerryCost >=
-                        GameSimulationApp.Instance.Vehicle.Inventory[Entities.Cash].TotalValue)
+                        GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Cash].TotalValue)
                     {
                         // Tell the player they do not have enough money to cross the river using the ferry.
                         SetForm(typeof(FerryNoMonies));
@@ -83,7 +83,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Ferry
                     // Check if the ferry operator wants player to wait a certain amount of days before they can cross.
                     if (UserData.River.FerryDelayInDays > 0)
                     {
-                        GameSimulationApp.Instance.Vehicle.Status = VehicleStatus.Stopped;
+                        GameSimulationApp.Instance.Vehicle.Status = VehicleStatusEnum.Stopped;
                         UserData.DaysToRest = UserData.River.FerryDelayInDays;
                         SetForm(typeof(Resting));
                         return;
@@ -93,7 +93,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Ferry
                     break;
                 case DialogResponse.No:
                 case DialogResponse.Custom:
-                    UserData.River.CrossingType = RiverCrossChoice.None;
+                    UserData.River.CrossingType = RiverCrossChoiceEnum.None;
                     SetForm(typeof(RiverCross));
                     break;
                 default:
