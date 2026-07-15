@@ -128,9 +128,9 @@ namespace OregonTrailDotNet.Bot.Learning
             m[TongueIdx] = 1;
             m[RestHealthIdx] = 300;  // rest the weakest member at <= Poor: every one of the five x3 heads is worth protecting
             m[RestDaysIdx] = 3;
-            m[HuntFoodIdx] = 100; // hunt only when the larder actually runs low (~100 lb) so the party spends most days TRAVELLING
-                                  // and only occasionally stops to hunt - a single hunt refills up to 250 lb. Set too high (near
-                                  // the starting food) the bot hunts every day and never makes progress. Needs ammo on hand.
+            m[HuntFoodIdx] = 200; // hunt at a location whenever the larder is below ~200 lb, leaving a buffer for the next
+                                  // multi-day drive (the party can only stop to hunt at the locations where it makes decisions,
+                                  // so it must top up with margin rather than waiting until food is nearly gone). Needs ammo.
             m[RiverFerryIdx] = 1.0;  // paid/guided crossings have no drowning path at any depth
             m[RiverIndianIdx] = 0.9; // safe AND no time delay (unlike the ferry's 1-9 lost days)
             m[RiverCaulkIdx] = 0.3;  // float/caulk beats ford on the free rivers (safe to depth 5 vs 3)

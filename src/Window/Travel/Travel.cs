@@ -170,6 +170,12 @@ namespace OregonTrailDotNet.Window.Travel
                 case LocationStatus.Arrived:
                     AddCommand(AttemptToTrade, TravelCommands.AttemptToTrade);
 
+                    // Hunting is a trail activity available whenever the party is stopped on the trail, not only between
+                    // landmarks - in the original game "Hunt for food" is always on the travel menu, which is what makes the
+                    // low-food / hunt-for-meat provisioning strategy viable. Without it here the party can never top up food
+                    // at the locations where it actually stops and makes decisions, so it starves mid-journey.
+                    AddCommand(HuntForFood, TravelCommands.HuntForFood);
+
                     // Some commands are optional and change depending on location category.
                     if (location.ChattingAllowed)
                         AddCommand(TalkToPeople, TravelCommands.TalkToPeople);
