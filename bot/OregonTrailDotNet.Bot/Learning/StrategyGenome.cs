@@ -117,13 +117,17 @@ namespace OregonTrailDotNet.Bot.Learning
                                   // 2xliving hail-freeze guard (10) with slack for the Shoshoni guide's 1-5 sets
             m[MedicineIdx] = 7;   // the best per-dollar survival item (heals + clears infection on rest); cold now drives more
                                   // infections, so carry a few more, but it is unscored - don't hoard
-            m[AmmoIdx] = 12;      // hunting is the food backstop once the 2000 lb cap bites; a modest stock is enough
+            m[AmmoIdx] = 30;      // enough bullets for repeated hunts: a single hunt yields up to 250 lb of meat (~10 party-days
+                                  // of food) for one day, so hunting is a cheap way to top up food the tight budget can't buy
             m[WheelIdx] = 1;      // spare parts are re-buyable at every fort, so one of each up front suffices
             m[AxleIdx] = 1;
             m[TongueIdx] = 1;
             m[RestHealthIdx] = 300;  // rest the weakest member at <= Poor: every one of the five x3 heads is worth protecting
             m[RestDaysIdx] = 3;
-            m[HuntFoodIdx] = 50;
+            m[HuntFoodIdx] = 300; // hunt PROACTIVELY - top the larder up whenever food dips below ~300 rather than waiting for
+                                  // near-starvation. With time to spare (wins finish in ~55 of 246 days) and a tight food budget,
+                                  // trading a hunting day for up to 250 lb of meat cuts starvation deaths and lifts the win rate.
+                                  // Needs ammo on hand: HuntFood and ammo are a deceptive combo - either alone does nothing.
             m[RiverFerryIdx] = 1.0;  // paid/guided crossings have no drowning path at any depth
             m[RiverIndianIdx] = 0.9; // safe AND no time delay (unlike the ferry's 1-9 lost days)
             m[RiverCaulkIdx] = 0.3;  // float/caulk beats ford on the free rivers (safe to depth 5 vs 3)
