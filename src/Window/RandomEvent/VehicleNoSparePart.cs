@@ -1,4 +1,4 @@
-﻿// Created by Ron 'Maxwolf' McDowell (ron.mcdowell@gmail.com) 
+﻿// Created by Maxwolf (bigmaxwolf.com) 
 // Timestamp 02/01/2016@11:23 PM
 
 using System;
