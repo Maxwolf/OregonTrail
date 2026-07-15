@@ -28,7 +28,9 @@ namespace OregonTrailDotNet.Bot.Learning
         public double[] InitialStd() => StrategyGenome.DefaultStd();
 
         public IPolicy Decode(double[] vector, string leaderName) =>
-            new GenomePolicy(new StrategyGenome { Raw = vector }, leaderName);
+            // Fit the vector to the current gene layout so replaying a genome saved under an older layout never indexes out of
+            // range (fresh training always matches exactly).
+            new GenomePolicy(new StrategyGenome { Raw = StrategyGenome.Sized(vector) }, leaderName);
 
         public IOptimizer CreateOptimizer(int populationSize) =>
             _optimizerFactory(InitialMean(), InitialStd(), populationSize);

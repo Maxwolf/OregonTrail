@@ -27,7 +27,7 @@ namespace OregonTrailDotNet.Bot.Testing
             _goalLabel = goalLabel;
             _reachedGoal = reachedGoal;
             _models = models ?? TrainingModels.All;
-            _playGame = playGame ?? new FuzzPlayer(_models).Play;
+            _playGame = playGame ?? new FuzzPlayer(_models, learn: true).Play;
             _elapsed = elapsed ?? RealClock();
         }
 

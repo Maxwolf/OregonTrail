@@ -54,7 +54,12 @@ namespace OregonTrailDotNet.Bot.Data
                 timestamp_utc     TEXT    NOT NULL
             );
             CREATE INDEX ix_leaderboard_score ON leaderboard(score DESC);
-            """
+            """,
+
+            // v2 — record the shaped training fitness per run (nullable; old rows read as NULL/0). The learning curve plots
+            // this optimized objective and the win-rate, not just the raw game score, so the dashboards match what training
+            // actually maximizes.
+            "ALTER TABLE runs ADD COLUMN fitness REAL;"
         };
 
         public static void Migrate(SqliteConnection connection)

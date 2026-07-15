@@ -3,6 +3,7 @@ using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Entity.Vehicle;
 using OregonTrailDotNet.Module.Time;
 using OregonTrailDotNet.Window.Travel;
+using WeatherCondition = OregonTrailDotNet.Entity.Location.Weather.Weather;
 
 namespace OregonTrailDotNet.Bot.Game
 {
@@ -46,6 +47,26 @@ namespace OregonTrailDotNet.Bot.Game
         public TravelPace Pace { get; init; }
         public string LocationName { get; init; } = "";
 
+        /// <summary>Current calendar month (1=January .. 12=December) — a season signal for weather and illness risk.</summary>
+        public int CurrentMonth { get; init; }
+
+        /// <summary>The weather condition at the party's current location.</summary>
+        public WeatherCondition Weather { get; init; }
+
+        /// <summary>Outside temperature at the location, in Celsius — the cold exposure the party's clothing must offset.</summary>
+        public int Temperature { get; init; }
+
+        /// <summary>True at a mountain-pass location (slow going, blizzards, a chance of getting stuck).</summary>
+        public bool HighGround { get; init; }
+
+        /// <summary>True where the party can resupply at a store (a fort or settlement).</summary>
+        public bool ShoppingAllowed { get; init; }
+
+        /// <summary>The current location's index along the trail and the total number of locations — together, trail progress.</summary>
+        public int LocationIndex { get; init; }
+
+        public int LocationCount { get; init; }
+
         /// <summary>
         ///     Pounds of meat bagged so far in the hunt currently in progress (0 when not hunting). Lets the policy decide,
         ///     like a player, when it has enough food and should stop the hunt rather than waste more daylight and bullets.
@@ -73,6 +94,7 @@ namespace OregonTrailDotNet.Bot.Game
         {
             var v = game.Vehicle;
             var inv = v.Inventory;
+            var loc = game.Trail.CurrentLocation;
 
             int Qty(Entities e) => inv.TryGetValue(e, out var item) ? item.Quantity : 0;
 
@@ -96,7 +118,14 @@ namespace OregonTrailDotNet.Bot.Game
                 Miles = v.Odometer,
                 Ration = v.Ration,
                 Pace = v.Pace,
-                LocationName = game.Trail.CurrentLocation?.Name ?? "",
+                LocationName = loc?.Name ?? "",
+                CurrentMonth = (int) game.Time.CurrentMonth,
+                Weather = loc?.Weather ?? default,
+                Temperature = loc?.Temperature ?? 0,
+                HighGround = loc?.HighGround ?? false,
+                ShoppingAllowed = loc?.ShoppingAllowed ?? false,
+                LocationIndex = game.Trail.LocationIndex,
+                LocationCount = game.Trail.Locations.Count,
                 HuntBagged = BaggedThisHunt(game)
             };
         }

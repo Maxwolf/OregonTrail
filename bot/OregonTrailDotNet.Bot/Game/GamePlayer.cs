@@ -39,13 +39,14 @@ namespace OregonTrailDotNet.Bot.Game
 
         /// <summary>Convenience: boot a fresh game, play it with the given policy, and tear it down. Pass
         ///     <paramref name="watch" /> to render and pace it for a human; leave it null for headless training speed.</summary>
-        public static RunResult PlayOnce(IPolicy policy, WatchOptions? watch = null, Func<bool>? shouldAbort = null)
+        public static RunResult PlayOnce(IPolicy policy, WatchOptions? watch = null, Func<bool>? shouldAbort = null,
+            int? seed = null)
         {
             using var driver = new GameDriver(watch);
             var recognizer = new ScreenRecognizer(policy);
             try
             {
-                driver.Boot();
+                driver.Boot(seed);
                 var player = new GamePlayer(driver, recognizer, policy);
                 return player.Run(shouldAbort: shouldAbort);
             }

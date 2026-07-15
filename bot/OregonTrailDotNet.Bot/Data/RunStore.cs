@@ -14,8 +14,8 @@ namespace OregonTrailDotNet.Bot.Data
             using var cmd = _connection.CreateCommand();
             cmd.CommandText = """
                 INSERT INTO runs (profile_id, iteration_index, generation, candidate_index, timestamp_utc, genome_json,
-                                  outcome, final_score, days, miles, survivors, cause_of_death, made_top10)
-                VALUES ($pid, $iter, $gen, $cand, $ts, $genome, $outcome, $score, $days, $miles, $surv, $cause, $top10);
+                                  outcome, final_score, days, miles, survivors, cause_of_death, made_top10, fitness)
+                VALUES ($pid, $iter, $gen, $cand, $ts, $genome, $outcome, $score, $days, $miles, $surv, $cause, $top10, $fitness);
                 SELECT last_insert_rowid();
                 """;
             cmd.Parameters.AddWithValue("$pid", run.ProfileId);
@@ -31,6 +31,7 @@ namespace OregonTrailDotNet.Bot.Data
             cmd.Parameters.AddWithValue("$surv", run.Survivors);
             cmd.Parameters.AddWithValue("$cause", (object?) run.CauseOfDeath ?? DBNull.Value);
             cmd.Parameters.AddWithValue("$top10", run.MadeTop10 ? 1 : 0);
+            cmd.Parameters.AddWithValue("$fitness", run.Fitness);
             return (long) cmd.ExecuteScalar()!;
         }
 
@@ -69,7 +70,13 @@ namespace OregonTrailDotNet.Bot.Data
             var list = new List<GenerationStat>();
             using var cmd = _connection.CreateCommand();
             cmd.CommandText = """
-                SELECT generation, AVG(final_score) AS mean, MAX(final_score) AS best, COUNT(*) AS games
+                SELECT generation,
+                       AVG(fitness)     AS meanFitness,
+                       MAX(fitness)     AS bestFitness,
+                       AVG(final_score) AS meanScore,
+                       MAX(final_score) AS bestScore,
+                       AVG(CASE WHEN outcome = 'Win' THEN 1.0 ELSE 0.0 END) AS winRate,
+                       COUNT(*)         AS games
                   FROM runs
                  WHERE profile_id = $pid AND generation IS NOT NULL
                  GROUP BY generation
@@ -81,9 +88,12 @@ namespace OregonTrailDotNet.Bot.Data
                 list.Add(new GenerationStat
                 {
                     Generation = reader.GetInt32(0),
-                    MeanScore = reader.IsDBNull(1) ? 0 : reader.GetDouble(1),
-                    BestScore = reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
-                    Games = reader.GetInt32(3)
+                    MeanFitness = reader.IsDBNull(1) ? 0 : reader.GetDouble(1),
+                    BestFitness = reader.IsDBNull(2) ? 0 : reader.GetDouble(2),
+                    MeanScore = reader.IsDBNull(3) ? 0 : reader.GetDouble(3),
+                    BestScore = reader.IsDBNull(4) ? 0 : reader.GetInt32(4),
+                    WinRate = reader.IsDBNull(5) ? 0 : reader.GetDouble(5),
+                    Games = reader.GetInt32(6)
                 });
             return list;
         }
@@ -103,7 +113,8 @@ namespace OregonTrailDotNet.Bot.Data
             Miles = r.GetInt32(r.GetOrdinal("miles")),
             Survivors = r.GetInt32(r.GetOrdinal("survivors")),
             CauseOfDeath = r.IsDBNull(r.GetOrdinal("cause_of_death")) ? null : r.GetString(r.GetOrdinal("cause_of_death")),
-            MadeTop10 = r.GetInt32(r.GetOrdinal("made_top10")) != 0
+            MadeTop10 = r.GetInt32(r.GetOrdinal("made_top10")) != 0,
+            Fitness = r.IsDBNull(r.GetOrdinal("fitness")) ? 0 : r.GetDouble(r.GetOrdinal("fitness"))
         };
     }
 }

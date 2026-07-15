@@ -12,7 +12,7 @@ namespace OregonTrailDotNet.Bot.Ui
     {
         // Internal so the custom-count form can build an identical request.
         internal const int DefaultPopulation = 16;
-        internal const int DefaultGamesPerCandidate = 5;
+        internal const int DefaultGamesPerCandidate = 8;
 
         // The training-length choices. A negative generation count means "train until the player presses Esc" (see
         // TrainingSession.Run and Program.RunTraining, which both treat < 0 as open-ended).

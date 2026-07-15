@@ -72,10 +72,16 @@ namespace OregonTrailDotNet.Bot.Ui
             if (generations.Count > 0)
             {
                 sb.AppendLine();
-                sb.AppendLine($"Best score / generation ({generations.Count} gens):");
+                // Plot the SHAPED FITNESS the optimizer actually maximizes (not the raw game score) plus the win-rate, so the
+                // learning curve reflects what training is climbing. The raw-score curve is kept but clearly labelled as such.
+                sb.AppendLine($"Mean fitness / generation ({generations.Count} gens)  <- the objective training maximizes:");
+                sb.AppendLine("  " + Sparkline.Render(generations.Select(g => g.MeanFitness)));
+                sb.AppendLine("Best fitness / generation:");
+                sb.AppendLine("  " + Sparkline.Render(generations.Select(g => g.BestFitness)));
+                sb.AppendLine($"Win rate / generation (latest {generations[^1].WinRate:P0}):");
+                sb.AppendLine("  " + Sparkline.Render(generations.Select(g => g.WinRate)));
+                sb.AppendLine("Best RAW game score / generation:");
                 sb.AppendLine("  " + Sparkline.Render(generations.Select(g => (double) g.BestScore)));
-                sb.AppendLine("Mean score / generation:");
-                sb.AppendLine("  " + Sparkline.Render(generations.Select(g => g.MeanScore)));
             }
 
             var recent = db.Runs.RecentForProfile(profile.Id, 5);
@@ -84,7 +90,7 @@ namespace OregonTrailDotNet.Bot.Ui
                 sb.AppendLine();
                 sb.AppendLine("Most recent games:");
                 foreach (var r in recent)
-                    sb.AppendLine($"  {r.Outcome,-8} score:{r.FinalScore,6} miles:{r.Miles,4} days:{r.Days,3}");
+                    sb.AppendLine($"  {r.Outcome,-8} fit:{r.Fitness,7:F0} score:{r.FinalScore,6} miles:{r.Miles,4} days:{r.Days,3}");
             }
 
             return sb.ToString();

@@ -22,7 +22,7 @@ namespace OregonTrailDotNet.Bot.Tests
             // Each model is rigged to win after a different number of games, so first-win games/times are distinct.
             var winAfter = new Dictionary<string, int>
             {
-                ["cem"] = 1, ["genetic"] = 2, ["hillclimb"] = 3, ["random"] = 4, ["neuro"] = 5
+                ["cem"] = 1, ["genetic"] = 2, ["hillclimb"] = 3, ["random"] = 4, ["neuro"] = 5, ["naive"] = 6
             };
             var played = new Dictionary<string, int>();
             var clock = TimeSpan.Zero;

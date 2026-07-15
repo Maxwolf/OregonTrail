@@ -59,8 +59,10 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.Equal(config.Generations, profile.Generations);
             Assert.NotNull(profile.LearningState);
 
-            // Best-score/best-genome are kept in lockstep: if any run scored, its genome was captured too (and vice versa).
-            Assert.Equal(profile.BestScore > 0, !string.IsNullOrEmpty(profile.BestGenomeJson));
+            // The persisted best genome is now the optimizer's ROBUST champion (its best vector by shaped fitness), saved after
+            // every generation independent of whether any single random game happened to score - so it is always available to
+            // replay once training has run, even when no game finished with points. (Best RAW score is tracked separately.)
+            Assert.False(string.IsNullOrEmpty(profile.BestGenomeJson));
         }
 
         [Fact]
@@ -73,7 +75,7 @@ namespace OregonTrailDotNet.Bot.Tests
             // The genomes recorded are still the optimizer's real candidate vectors — only the game outcome is controlled.
             new TrainingSession(db, db.Profiles.GetById(id)!,
                 new TrainingConfig { PopulationSize = 8, GamesPerCandidate = 2, Generations = 2 },
-                playGame: _ => WinningRun()).Run();
+                playGame: (_, _) => WinningRun()).Run();
 
             // Finishing games populate the bot's own leaderboard, which uses the plain profile name (no "(bot)").
             var top = db.Leaderboard.Top(10);

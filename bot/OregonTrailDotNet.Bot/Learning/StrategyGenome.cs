@@ -1,5 +1,7 @@
 using System.Text.Json;
 using OregonTrailDotNet.Entity;
+using OregonTrailDotNet.Entity.Person;
+using OregonTrailDotNet.Entity.Vehicle;
 
 namespace OregonTrailDotNet.Bot.Learning
 {
@@ -29,8 +31,10 @@ namespace OregonTrailDotNet.Bot.Learning
         private const int RiverCaulkIdx = 21;
         private const int RiverFordIdx = 22;
         private const int ForkSecondIdx = 23;
+        private const int PaceIdx = 24;
+        private const int RationIdx = 25;
 
-        public const int Length = 24;
+        public const int Length = 26;
 
         public double[] Raw { get; init; } = new double[Length];
 
@@ -56,6 +60,15 @@ namespace OregonTrailDotNet.Bot.Learning
         public int RestDays => ClampRound(Raw[RestDaysIdx], 1, 9);
         public double HuntFoodThreshold => Math.Clamp(Raw[HuntFoodIdx], 0, 500);
         public bool ForkTakeSecond => Raw[ForkSecondIdx] > 0;
+
+        // Pace and rations are learned menu choices (1..3) instead of being hardcoded, so the optimizer can trade speed for
+        // the party's health. Pace menu numbers line up with the TravelPace enum directly (1=Steady, 2=Strenuous, 3=Grueling).
+        // Ration menu numbers are the REVERSE of the RationLevel enum (menu 1=Filling..3=BareBones, but enum Filling=3..
+        // BareBones=1), so DesiredRation maps the menu number back to the enum for comparing against the live ration.
+        public int PaceChoice => ClampRound(Raw[PaceIdx], 1, 3);
+        public int RationChoice => ClampRound(Raw[RationIdx], 1, 3);
+        public TravelPace DesiredPace => (TravelPace) PaceChoice;
+        public RationLevel DesiredRation => (RationLevel) (4 - RationChoice);
 
         public int TargetQuantity(Entities item) => item switch
         {
@@ -83,8 +96,20 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public string ToJson() => JsonSerializer.Serialize(Raw);
 
-        public static StrategyGenome FromJson(string json) =>
-            new() { Raw = JsonSerializer.Deserialize<double[]>(json) ?? DefaultMean() };
+        public static StrategyGenome FromJson(string json)
+        {
+            var raw = JsonSerializer.Deserialize<double[]>(json);
+            return new StrategyGenome { Raw = raw == null ? DefaultMean() : Sized(raw) };
+        }
+
+        /// <summary>Fits a raw vector to the current gene layout: copies what overlaps and zero-fills the rest. Tolerates a
+        ///     vector saved under an older, shorter (or longer) layout so decoding never indexes out of range.</summary>
+        public static double[] Sized(double[] raw)
+        {
+            var sized = new double[Length];
+            Array.Copy(raw, sized, Math.Min(raw.Length, Length));
+            return sized;
+        }
 
         /// <summary>The expert warm-start prior distilled from the strategy knowledge base (docs/STRATEGY.md), reconciled
         ///     against this port's real mechanics. It seeds the Farmer (x3) + May basin rather than starting uniform, because
@@ -98,9 +123,10 @@ namespace OregonTrailDotNet.Bot.Learning
             // Profession preference (argmax over indices 0..2). Bias hard toward Farmer: reaching it from a uniform start is
             // a deceptive jump (you must flip the profession AND trim the loadout to $400 at once, or the sample starves and
             // is culled), so seed directly inside that basin. Banker (x1) is score-dominated and never seeded toward.
-            m[ProfessionOffset + 0] = 0.0; // Banker   (x1)
-            m[ProfessionOffset + 1] = 0.5; // Carpenter (x2) - the reliable fallback the search retreats to
-            m[ProfessionOffset + 2] = 1.5; // Farmer   (x3) - the score ceiling; start the argmax here
+            m[ProfessionOffset + 0] = 0.0; // Banker   (x1) - score-dominated, never seeded toward
+            m[ProfessionOffset + 1] = 0.7; // Carpenter (x2) - the reliable fallback, now within ~1 std of the argmax
+            m[ProfessionOffset + 2] = 1.1; // Farmer   (x3) - still the seeded argmax, but the gap to Carpenter is small enough
+                                           //                 that the optimizer genuinely explores both professions for headroom
 
             // Start-month preference (argmax over indices 0..4 -> March..July). May balances a warm-enough departure against
             // reaching the high passes before winter; March is cold (more hail/illness weather), July risks winter mountains.
@@ -137,6 +163,10 @@ namespace OregonTrailDotNet.Bot.Learning
             m[RiverCaulkIdx] = 0.3;  // float/caulk beats ford on the free rivers (safe to depth 5 vs 3)
             m[RiverFordIdx] = 0.2;
             m[ForkSecondIdx] = 0;    // branch 1 routes through forts (resupply) and sidesteps the Columbia crossing
+            m[PaceIdx] = 3;          // Grueling (menu 3): the high-score default - covers the most ground per day. The optimizer
+                                     // can now learn to ease off (Strenuous/Steady) to protect the party's health when needed.
+            m[RationIdx] = 1;        // Filling (menu 1): keeps the party healthiest; the optimizer may stretch to Meager/BareBones
+                                     // to make the food last when it is short.
             return m;
         }
 
@@ -144,12 +174,14 @@ namespace OregonTrailDotNet.Bot.Learning
         public static double[] DefaultStd()
         {
             var s = new double[Length];
-            for (var i = ProfessionOffset; i < OxenIdx; i++) s[i] = 1.0; // categorical preference logits
-            s[OxenIdx] = 3; s[FoodIdx] = 300; s[ClothesIdx] = 4; s[MedicineIdx] = 3; s[AmmoIdx] = 10;
+            for (var i = ProfessionOffset; i < OxenIdx; i++) s[i] = 1.2; // categorical logits: wider so both professions and
+                                                                         // more start months are genuinely explored
+            s[OxenIdx] = 4; s[FoodIdx] = 400; s[ClothesIdx] = 6; s[MedicineIdx] = 4; s[AmmoIdx] = 12;
             s[WheelIdx] = 1; s[AxleIdx] = 1; s[TongueIdx] = 1;
             s[RestHealthIdx] = 80; s[RestDaysIdx] = 2; s[HuntFoodIdx] = 40;
             s[RiverFerryIdx] = 0.5; s[RiverIndianIdx] = 0.5; s[RiverCaulkIdx] = 0.5; s[RiverFordIdx] = 0.5;
             s[ForkSecondIdx] = 1.0;
+            s[PaceIdx] = 0.9; s[RationIdx] = 0.9; // enough spread to explore Strenuous/Steady and Meager/BareBones
             return s;
         }
 

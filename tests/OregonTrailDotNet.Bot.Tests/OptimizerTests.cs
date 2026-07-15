@@ -7,12 +7,12 @@ namespace OregonTrailDotNet.Bot.Tests
     public sealed class OptimizerTests
     {
         [Fact]
-        public void Registry_Has_All_Five_Models_And_Resolves_Keys()
+        public void Registry_Has_All_Models_And_Resolves_Keys()
         {
             var keys = TrainingModels.All.Select(m => m.Key).ToList();
 
-            Assert.Equal(5, TrainingModels.All.Count);
-            foreach (var expected in new[] { "cem", "genetic", "hillclimb", "random", "neuro" })
+            Assert.Equal(6, TrainingModels.All.Count);
+            foreach (var expected in new[] { "cem", "genetic", "hillclimb", "random", "neuro", "naive" })
                 Assert.Contains(expected, keys);
 
             Assert.Equal("cem", TrainingModels.Default.Key);

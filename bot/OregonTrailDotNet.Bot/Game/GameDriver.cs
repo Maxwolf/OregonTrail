@@ -51,11 +51,16 @@ namespace OregonTrailDotNet.Bot.Game
         /// <summary>A "thinking" line drawn under the game screen in watch mode.</summary>
         public string? StatusLine { get; set; }
 
-        /// <summary>Boots a fresh game and leaves it focused on the main menu.</summary>
-        public void Boot()
+        /// <summary>Boots a fresh game and leaves it focused on the main menu. Pass <paramref name="randomSeed" /> to make the
+        ///     whole playthrough reproducible (the seed is applied at construction, before the first tick builds the randomized
+        ///     trail); leave it null for the normal clock-seeded game.</summary>
+        public void Boot(int? randomSeed = null)
         {
             GameSimulationApp.Instance?.Destroy();
-            GameSimulationApp.Create();
+            if (randomSeed.HasValue)
+                GameSimulationApp.Create(randomSeed.Value);
+            else
+                GameSimulationApp.Create();
             GameSimulationApp.Instance!.SceneGraph.ScreenBufferDirtyEvent += OnScreen;
             _subscribed = true;
 

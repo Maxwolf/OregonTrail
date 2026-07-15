@@ -120,6 +120,32 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.True(farWipe > nearWipe);
         }
 
+        [Fact]
+        public void StrandedButAlive_GetsSurvivalCredit_NotTheOldZero()
+        {
+            // A party that stranded/died at mile 900 but kept four healthy people alive must score far above a same-distance
+            // full wipe. The survival term now applies off the finish line too, so the old "no credit unless you finish" cliff
+            // - the main reason fitness used to be dominated by luck - is gone.
+            var strandedAlive = Fitness(Run(GameOutcome.Death, survivors: 4, partyHealth: 400, miles: 900));
+            var wipedOut = Fitness(Run(GameOutcome.Death, survivors: 0, partyHealth: 0, miles: 900));
+
+            Assert.True(strandedAlive > wipedOut + 1000);
+        }
+
+        [Fact]
+        public void Fitness_IsMonotonic_In_Survivors_And_In_Progress()
+        {
+            // More survivors is always better at equal health/distance (even among non-finishers)...
+            var twoAlive = Fitness(Run(GameOutcome.Death, survivors: 2, partyHealth: 400, miles: 800));
+            var fourAlive = Fitness(Run(GameOutcome.Death, survivors: 4, partyHealth: 400, miles: 800));
+            Assert.True(fourAlive > twoAlive);
+
+            // ...and more distance is always better at equal survival, so the optimizer keeps a gradient everywhere.
+            var nearer = Fitness(Run(GameOutcome.Death, survivors: 2, partyHealth: 400, miles: 400));
+            var farther = Fitness(Run(GameOutcome.Death, survivors: 2, partyHealth: 400, miles: 1200));
+            Assert.True(farther > nearer);
+        }
+
         private static double Fitness(RunResult result) => TrainingSession.Fitness(result);
     }
 }

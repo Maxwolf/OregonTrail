@@ -8,8 +8,13 @@ namespace OregonTrailDotNet.Bot.Learning
     public sealed class TrainingConfig
     {
         public int PopulationSize { get; init; } = 16;
-        public int GamesPerCandidate { get; init; } = 5;
+        public int GamesPerCandidate { get; init; } = 8;
         public int Generations { get; init; } = 5;
+
+        /// <summary>Base seed for the per-generation common-random-numbers evaluation. Every candidate in a generation plays
+        ///     the same set of game seeds derived from this, so fitness differences reflect the genome rather than luck; a fixed
+        ///     value also makes a whole training run reproducible.</summary>
+        public int EvaluationSeed { get; init; } = 20250715;
     }
 
     /// <summary>Progress emitted after each generation, for the live UI/console.</summary>
@@ -40,19 +45,18 @@ namespace OregonTrailDotNet.Bot.Learning
         private readonly TrainingConfig _config;
         private readonly ITrainingModel _model;
         private readonly IOptimizer _optimizer;
-        private readonly Func<IPolicy, RunResult> _playGame;
+        private readonly Func<IPolicy, int?, RunResult> _playGame;
 
         private int _bestScoreEver;
-        private string? _bestVectorJson;
 
         /// <summary>The <paramref name="playGame" /> runner is injectable (defaulting to the real <see cref="GamePlayer.PlayOnce" />)
         ///     so tests can drive the record/leaderboard/persistence pipeline deterministically, mirroring
         ///     <see cref="Testing.BenchmarkSession" />.</summary>
         public TrainingSession(BotDatabase db, ProfileRecord profile, TrainingConfig config,
-            Func<IPolicy, RunResult>? playGame = null)
+            Func<IPolicy, int?, RunResult>? playGame = null)
         {
             _db = db;
-            _playGame = playGame ?? (policy => GamePlayer.PlayOnce(policy));
+            _playGame = playGame ?? ((policy, seed) => GamePlayer.PlayOnce(policy, seed: seed));
             _profileId = profile.Id;
             _profileName = profile.Name;
             // The in-game high-score list is shared with human players, so the bot marks its entries there with "(bot)". The
@@ -65,7 +69,6 @@ namespace OregonTrailDotNet.Bot.Learning
             _optimizer.Load(profile.LearningState);
 
             _bestScoreEver = profile.BestScore;
-            _bestVectorJson = profile.BestGenomeJson;
         }
 
         public IOptimizer Optimizer => _optimizer;
@@ -85,6 +88,14 @@ namespace OregonTrailDotNet.Bot.Learning
                 var wins = 0;
                 var bestScoreThisGen = 0;
 
+                // Common random numbers: draw one set of game seeds for this generation and evaluate EVERY candidate on the
+                // same seeds. Pairing the evaluations this way cancels most of the game's luck from the comparison, so the
+                // fitness differences the optimizer selects on reflect the genome rather than which candidate drew easy games.
+                var seedRng = new Random(unchecked(_config.EvaluationSeed * 1000003 + generationNumber));
+                var seeds = new int[_config.GamesPerCandidate];
+                for (var i = 0; i < seeds.Length; i++)
+                    seeds[i] = seedRng.Next();
+
                 for (var candidate = 0; candidate < candidates.Count; candidate++)
                 {
                     var vector = candidates[candidate];
@@ -94,9 +105,10 @@ namespace OregonTrailDotNet.Bot.Learning
                     for (var k = 0; k < _config.GamesPerCandidate; k++)
                     {
                         var policy = _model.Decode(vector, _leaderName);
-                        var result = _playGame(policy);
+                        var result = _playGame(policy, seeds[k]);
+                        var fitness = Fitness(result);
 
-                        RecordRun(result, generationNumber, candidate, vectorJson);
+                        RecordRun(result, generationNumber, candidate, vectorJson, fitness);
 
                         // Unambiguous bugs (a crash, a broken invariant, or a screen the bot has no handler for) stop the whole
                         // batch so a developer can fix them. A plain soft-lock is treated as a failed game (score 0, which the
@@ -110,12 +122,9 @@ namespace OregonTrailDotNet.Bot.Learning
                         if (result.Outcome == GameOutcome.Win) wins++;
                         bestScoreThisGen = Math.Max(bestScoreThisGen, result.Score);
                         if (result.Score > _bestScoreEver)
-                        {
                             _bestScoreEver = result.Score;
-                            _bestVectorJson = vectorJson;
-                        }
 
-                        fitnessSum += Fitness(result);
+                        fitnessSum += fitness;
                     }
 
                     scored.Add((vector, fitnessSum / _config.GamesPerCandidate));
@@ -140,7 +149,7 @@ namespace OregonTrailDotNet.Bot.Learning
             }
         }
 
-        private void RecordRun(RunResult result, int generation, int candidateIndex, string vectorJson)
+        private void RecordRun(RunResult result, int generation, int candidateIndex, string vectorJson, double fitness)
         {
             // A finished run makes the persistent leaderboard if it beats the current 10th place (an empty/short board has a
             // 10th place of 0, so the first finishes fill it up).
@@ -160,7 +169,8 @@ namespace OregonTrailDotNet.Bot.Learning
                 Miles = result.Miles,
                 Survivors = result.Survivors,
                 CauseOfDeath = string.IsNullOrEmpty(result.CauseOfDeath) ? null : result.CauseOfDeath,
-                MadeTop10 = madeTop10
+                MadeTop10 = madeTop10,
+                Fitness = fitness
             });
 
             _db.Profiles.AddIterations(_profileId, 1);
@@ -176,8 +186,16 @@ namespace OregonTrailDotNet.Bot.Learning
                 });
         }
 
-        private void PersistOptimizer() =>
-            _db.Profiles.SaveLearningState(_profileId, _optimizer.Serialize(), _optimizer.Generation, _bestScoreEver, _bestVectorJson);
+        private void PersistOptimizer()
+        {
+            // The genome saved for replay/leaderboard is the optimizer's ROBUST champion — its best vector by shaped fitness
+            // (averaged over the generation's common-random-numbers seeds), falling back to its current best-guess mean. This
+            // replaces the old "single luckiest raw-score game" genome, which under un-seeded noise was mostly luck rather than
+            // a policy worth watching. The best RAW SCORE is still tracked separately (for the "best ever" stat and leaderboard).
+            var bestVector = _optimizer.BestVector ?? _optimizer.MeanVector();
+            var bestGenomeJson = JsonSerializer.Serialize(bestVector);
+            _db.Profiles.SaveLearningState(_profileId, _optimizer.Serialize(), _optimizer.Generation, _bestScoreEver, bestGenomeJson);
+        }
 
         // The objective is to arrive with as many people as possible in the best health, so fitness rewards that for EVERY
         // run - finished or not - rather than the old distance-only reward for failures, which taught policies to buy oxen,
@@ -195,24 +213,28 @@ namespace OregonTrailDotNet.Bot.Learning
             var partySize = result.PartySize > 0 ? result.PartySize : GameSimulationApp.MAXPLAYERS;
             var deaths = Math.Max(0, partySize - result.Survivors);
 
+            // Survivors weighted SUPER-LINEARLY (survivors^2) by their average health, normalised by party size so a full,
+            // healthy party scores 2500. This is the heart of the objective and is now credited on EVERY run - finished,
+            // timed-out, died, OR stranded - so a party that kept people alive always out-scores one that lost them and there
+            // is a smooth survival gradient everywhere. Previously a stranded-but-alive party fell into the distance-only
+            // branch and got NO credit for the members it kept alive - a ~2500-point cliff that made fitness mostly luck.
+            // Adding this term to both branches removes the cliff while leaving the finisher ordering byte-for-byte unchanged.
+            var survivalReward = (double) result.Survivors * result.Survivors * result.PartyHealthValue / partySize;
+
             if (result.IsFinished)
             {
-                // The party reached Oregon. Reward survivors SUPER-LINEARLY (survivors^2, normalised by party size so a full
-                // healthy party scores 2500) so an all-alive arrival dominates, add the true game score, and subtract a HEAVY
-                // per-death penalty. Among parties that complete the journey, every member lost to the trail is a serious hit,
-                // so keeping everyone alive both maximises the quadratic reward AND avoids up to 4x800 in penalties - which is
-                // what makes the optimizer prioritise the whole party. (The penalty is capped near 800: pushed much higher a
+                // The party reached Oregon (or ran the clock out still on the trail). A flat bonus plus the true game score
+                // make finishing dominate and rank finishers among themselves, and a HEAVY per-death penalty pushes the
+                // optimizer to bring the WHOLE party through. (The penalty is capped near 800: pushed much higher a
                 // low-survivor finish would score worse than not finishing at all, which would perversely discourage winning.)
-                var survivalReward = (double) result.Survivors * result.Survivors * result.PartyHealthValue / partySize;
                 return 2000 + result.Score + survivalReward - deaths * 800.0;
             }
 
-            // Still on the trail (died or stranded before Oregon). Here the goal is just to make forward progress and discover
-            // the finish, so reward distance and apply only a LIGHT death penalty: heavy enough that throwing lives away is
-            // never free, but not so heavy that a doomed party is better off parking the wagon than pressing on. A death
-            // penalty that dominates this branch collapses training - the optimizer starves the oxen budget to avoid deaths
-            // and strands the wagon short of Oregon. All the heavy survival shaping lives in the finisher branch above.
-            return result.Miles * 0.25 - deaths * 100.0;
+            // Died or stranded before Oregon. Forward progress is a gentle tie-breaker on top of the survival reward above,
+            // and the death penalty here stays LIGHT: heavy enough that throwing lives away is never free, but not so heavy
+            // that a doomed party is better off parking the wagon than pressing on. A penalty that dominates this branch
+            // collapses training - the optimizer starves the oxen budget to avoid deaths and strands the wagon short of Oregon.
+            return result.Miles * 0.25 + survivalReward - deaths * 100.0;
         }
 
         public static string Rating(int score) => score >= 7000 ? "Trail Guide" : score >= 3000 ? "Adventurer" : "Greenhorn";

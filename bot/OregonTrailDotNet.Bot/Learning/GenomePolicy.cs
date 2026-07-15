@@ -1,7 +1,5 @@
 using OregonTrailDotNet.Bot.Game;
 using OregonTrailDotNet.Entity;
-using OregonTrailDotNet.Entity.Person;
-using OregonTrailDotNet.Entity.Vehicle;
 using OregonTrailDotNet.Window.Travel;
 
 namespace OregonTrailDotNet.Bot.Learning
@@ -31,11 +29,11 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public TravelCommands ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommands> available)
         {
-            // Travel the original high-score way: push a grueling pace on bare-bones rations to cover ground cheaply, then
-            // switch to filling rations whenever the weakest member needs to recover. Get this configuration right first.
-            if (available.Contains(TravelCommands.ChangePace) && state.Pace != TravelPace.Grueling)
+            // Set the party's pace and rations to whatever the genome has learned (no longer hardcoded), so the optimizer can
+            // trade travel speed against the party's health rather than always flooring it. Do this before anything else.
+            if (available.Contains(TravelCommands.ChangePace) && state.Pace != _genome.DesiredPace)
                 return TravelCommands.ChangePace;
-            if (available.Contains(TravelCommands.ChangeFoodRations) && state.Ration != DesiredRation(state))
+            if (available.Contains(TravelCommands.ChangeFoodRations) && state.Ration != _genome.DesiredRation)
                 return TravelCommands.ChangeFoodRations;
 
             // Rest for the party's weakest member, not the average: a full, healthy party scores far higher than a lone
@@ -56,13 +54,8 @@ namespace OregonTrailDotNet.Bot.Learning
         // The weakest living member has fallen far enough that the party should stop pushing and recover.
         private bool WantRecovery(GameSnapshot state) => (int) state.LowestHealth <= _genome.RestHealthThreshold;
 
-        // Eat Filling to stay healthy. In this port bare-bones rations roll a daily illness check that is far too punishing to
-        // sustain, and because the strategy HUNTS for its food (rather than stretching a fixed larder), there is no need to
-        // ration hard - keep the party fed and well, and let hunting refill the wagon.
-        private RationLevel DesiredRation(GameSnapshot state) => RationLevel.Filling;
-
-        public int Pace(GameSnapshot state) => (int) TravelPace.Grueling;                 // menu 3: 100% of the daily maximum
-        public int Ration(GameSnapshot state) => DesiredRation(state) == RationLevel.Filling ? 1 : 3; // menu 1 Filling / 3 Bare Bones
+        public int Pace(GameSnapshot state) => _genome.PaceChoice;     // learned menu 1=Steady / 2=Strenuous / 3=Grueling
+        public int Ration(GameSnapshot state) => _genome.RationChoice; // learned menu 1=Filling / 2=Meager / 3=BareBones
         public int RestDays(GameSnapshot state) => _genome.RestDays;
 
         public bool YesNo(string formName, GameSnapshot state) => formName switch

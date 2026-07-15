@@ -27,6 +27,7 @@ namespace OregonTrailDotNet.Bot.Tests
         [InlineData("hillclimb")]
         [InlineData("random")]
         [InlineData("neuro")]
+        [InlineData("naive")]
         public void Model_Trains_Records_And_Resumes(string key)
         {
             var config = new TrainingConfig { PopulationSize = 4, GamesPerCandidate = 2, Generations = 2 };

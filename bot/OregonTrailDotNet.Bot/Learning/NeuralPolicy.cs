@@ -56,11 +56,12 @@ namespace OregonTrailDotNet.Bot.Learning
         {
             var o = _brain.Forward(Features(state));
 
-            // Adopt the same known high-score travel tactics as the strategy policy - grueling pace on filling rations - so the
-            // network doesn't have to rediscover them. These are the invariant that gets the wagon to Oregon inside the cap.
-            if (available.Contains(TravelCommands.ChangePace) && state.Pace != TravelPace.Grueling)
+            // Set pace and rations to the genome's learned choice PLUS the network's state-adaptive nudge (o[6]/o[7]). At zero
+            // weights the nudge is 0, so this is exactly the warm-started genome choice (Grueling/Filling at the expert prior),
+            // and as the weights evolve the network can ease the pace or stretch the rations in response to the live situation.
+            if (available.Contains(TravelCommands.ChangePace) && state.Pace != (TravelPace) NudgedPace(o))
                 return TravelCommands.ChangePace;
-            if (available.Contains(TravelCommands.ChangeFoodRations) && state.Ration != RationLevel.Filling)
+            if (available.Contains(TravelCommands.ChangeFoodRations) && state.Ration != (RationLevel) (4 - NudgedRation(o)))
                 return TravelCommands.ChangeFoodRations;
 
             // Rest: the expert rule (stop when the weakest member has fallen to the genome's health threshold) plus the
@@ -80,9 +81,14 @@ namespace OregonTrailDotNet.Bot.Learning
                 : available.First();
         }
 
-        public int Pace(GameSnapshot state) => (int) TravelPace.Grueling;                              // menu 3: full daily maximum
-        public int Ration(GameSnapshot state) => 1;                                                    // menu 1: Filling
+        public int Pace(GameSnapshot state) => NudgedPace(_brain.Forward(Features(state)));     // menu 1=Steady..3=Grueling
+        public int Ration(GameSnapshot state) => NudgedRation(_brain.Forward(Features(state))); // menu 1=Filling..3=BareBones
         public int RestDays(GameSnapshot state) => _setup.RestDays;
+
+        // The network nudges the genome's pace/ration menu choice by its output head, clamped to the legal 1..3 range. At zero
+        // weights the nudge rounds to 0, so this is exactly the warm-started genome choice.
+        private int NudgedPace(double[] o) => Math.Clamp(_setup.PaceChoice + (int) Math.Round(o[6]), 1, 3);
+        private int NudgedRation(double[] o) => Math.Clamp(_setup.RationChoice + (int) Math.Round(o[7]), 1, 3);
 
         public bool YesNo(string formName, GameSnapshot state) => formName switch
         {
@@ -148,7 +154,14 @@ namespace OregonTrailDotNet.Bot.Learning
                 // Clothing safety vs this port's hail-freeze / illness guard: 1.0 once clothing >= 2 x living members, else scales to 0.
                 Norm(s.Clothing, 2.0 * living),
                 // Food runway in days at the five-person Filling burn (ration x living^2 => living^2 lb/day), scaled to ~60 days.
-                Norm(s.Food / (double) (living * living), 60)
+                Norm(s.Food / (double) (living * living), 60),
+
+                // Situational signals (new): let the network condition on WHERE and WHEN it is, not just aggregate stock levels.
+                Norm(s.CurrentMonth, 12),                             // season (illness/weather risk rises late in the year)
+                Math.Clamp((s.Temperature + 30) / 70.0, 0.0, 1.0),    // cold exposure (Celsius, ~ -30..40 -> 0..1)
+                s.HighGround ? 1.0 : 0.0,                             // mountain pass: slow going, blizzards, risk of getting stuck
+                Norm(s.LocationIndex, Math.Max(1, s.LocationCount)),  // progress along the trail (early vs. nearly there)
+                s.ShoppingAllowed ? 1.0 : 0.0                         // can resupply here (a fort/settlement)
             };
         }
 

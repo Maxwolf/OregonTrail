@@ -292,7 +292,7 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.Equal(BotContext.ActiveProfileId, request.ProfileId);
             Assert.Equal(37, request.Generations);
             Assert.Equal(16, request.PopulationSize);
-            Assert.Equal(5, request.GamesPerCandidate);
+            Assert.Equal(8, request.GamesPerCandidate);
         }
 
         [Fact]

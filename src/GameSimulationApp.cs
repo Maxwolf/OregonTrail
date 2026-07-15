@@ -159,16 +159,49 @@ namespace OregonTrailDotNet
         }
 
         /// <summary>
-        ///     Creates new instance of game simulation. Complains if instance already exists.
+        ///     Default constructor. The base simulation seeds its randomizer from the clock, so every game is different — this
+        ///     is the shipped game's path.
+        /// </summary>
+        private GameSimulationApp()
+        {
+        }
+
+        /// <summary>
+        ///     Fixed-seed constructor: forwards the seed to the base simulation so its randomizer is deterministic and the whole
+        ///     playthrough is reproducible. Reached only through the internal <see cref="Create(int)" /> below.
+        /// </summary>
+        private GameSimulationApp(int randomSeed) : base(randomSeed)
+        {
+        }
+
+        /// <summary>
+        ///     Creates a new game simulation with the default clock-seeded randomizer — the normal path the shipped game uses.
+        ///     Complains if an instance already exists.
         /// </summary>
         public static void Create()
+        {
+            GuardNoInstance();
+            Instance = new GameSimulationApp();
+            Instance.OnPostCreate();
+        }
+
+        /// <summary>
+        ///     Creates a new game simulation with a fixed random seed so an entire playthrough is reproducible. Exposed as
+        ///     <c>internal</c> (visible to the headless training bot and the tests via <c>InternalsVisibleTo</c>) purely so
+        ///     policies can be evaluated on common random numbers; the shipped game never seeds and always uses <see cref="Create()" />.
+        /// </summary>
+        internal static void Create(int randomSeed)
+        {
+            GuardNoInstance();
+            Instance = new GameSimulationApp(randomSeed);
+            Instance.OnPostCreate();
+        }
+
+        private static void GuardNoInstance()
         {
             if (Instance != null)
                 throw new InvalidOperationException(
                     "Unable to create new instance of game simulation since it already exists!");
-
-            Instance = new GameSimulationApp();
-            Instance.OnPostCreate();
         }
 
         /// <summary>

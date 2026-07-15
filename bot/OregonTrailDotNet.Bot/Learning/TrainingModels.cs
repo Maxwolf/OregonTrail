@@ -20,11 +20,15 @@ namespace OregonTrailDotNet.Bot.Learning
                 "Greedily improves one strategy. Fast, but can get stuck.",
                 (mean, std, pop) => new HillClimberOptimizer(mean, std, pop)),
 
-            new StrategyModel("random", "Random Search",
-                "No learning — keeps the best of random tries. A baseline.",
+            new StrategyModel("random", "Random Search (expert-seeded)",
+                "No learning — best of random tries around the expert prior (strong).",
                 (mean, std, pop) => new RandomSearchOptimizer(mean, std, pop)),
 
-            new NeuralModel()
+            new NeuralModel(),
+
+            // The genuine weak floor: plays random legal moves, no strategy at all. Distinct from "Random Search" above, which
+            // samples the strong expert prior — the gap between the learners and THIS is the honest measure of learning.
+            new RandomBaselineModel()
         };
 
         public static ITrainingModel Default => ByKey("cem");
