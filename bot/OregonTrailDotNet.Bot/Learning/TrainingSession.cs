@@ -40,13 +40,19 @@ namespace OregonTrailDotNet.Bot.Learning
         private readonly TrainingConfig _config;
         private readonly ITrainingModel _model;
         private readonly IOptimizer _optimizer;
+        private readonly Func<IPolicy, RunResult> _playGame;
 
         private int _bestScoreEver;
         private string? _bestVectorJson;
 
-        public TrainingSession(BotDatabase db, ProfileRecord profile, TrainingConfig config)
+        /// <summary>The <paramref name="playGame" /> runner is injectable (defaulting to the real <see cref="GamePlayer.PlayOnce" />)
+        ///     so tests can drive the record/leaderboard/persistence pipeline deterministically, mirroring
+        ///     <see cref="Testing.BenchmarkSession" />.</summary>
+        public TrainingSession(BotDatabase db, ProfileRecord profile, TrainingConfig config,
+            Func<IPolicy, RunResult>? playGame = null)
         {
             _db = db;
+            _playGame = playGame ?? (policy => GamePlayer.PlayOnce(policy));
             _profileId = profile.Id;
             _profileName = profile.Name;
             // The in-game high-score list is shared with human players, so the bot marks its entries there with "(bot)". The
@@ -87,7 +93,7 @@ namespace OregonTrailDotNet.Bot.Learning
                     for (var k = 0; k < _config.GamesPerCandidate; k++)
                     {
                         var policy = _model.Decode(vector, _leaderName);
-                        var result = GamePlayer.PlayOnce(policy);
+                        var result = _playGame(policy);
 
                         RecordRun(result, generationNumber, candidate, vectorJson);
 
