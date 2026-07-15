@@ -170,13 +170,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
 
                 var huntStatus = new StringBuilder();
                 huntStatus.AppendLine();
-                huntStatus.AppendLine(new Box
-                {
-                    Border = BoxBorder.Double,
-                    Title = $"HUNTING · {locationName}",
-                    TitleAlignment = BoxAlignment.Center,
-                    Padding = 1
-                }.Render(panel.ToString()));
+                huntStatus.AppendLine(FramedPanel.Render($"HUNTING · {locationName}", panel.ToString()));
                 huntStatus.AppendLine();
 
                 // Below the panel: either the current target (with its rising-awareness bar and a shoot-or-not caption)

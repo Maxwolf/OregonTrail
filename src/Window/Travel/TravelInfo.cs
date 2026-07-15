@@ -1,6 +1,7 @@
 ﻿// Created by Maxwolf (bigmaxwolf.com) 
 // Timestamp 01/03/2016@1:50 AM
 
+using System;
 using System.Text;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Location;
@@ -72,18 +73,16 @@ namespace OregonTrailDotNet.Window.Travel
                 if (foodItem != null)
                     foodStatus = $"{foodItem.TotalWeight} pounds";
 
-                // Build up the status for the vehicle as it moves through the simulation.
+                // Build up the status for the vehicle as it moves through the simulation, framed in the shared panel.
                 var driveStatus = new StringBuilder();
-                driveStatus.AppendLine("--------------------------------");
                 driveStatus.AppendLine($"Date: {game.Time.Date}");
                 driveStatus.AppendLine(
                     $"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
                 driveStatus.AppendLine($"Health: {game.Vehicle.PassengerHealthStatus.ToDescriptionAttribute()}");
                 driveStatus.AppendLine($"Food: {foodStatus}");
                 driveStatus.AppendLine($"Next landmark: {game.Trail.DistanceToNextLocation} miles");
-                driveStatus.AppendLine($"Miles traveled: {game.Vehicle.Odometer} miles");
-                driveStatus.AppendLine("--------------------------------");
-                return driveStatus.ToString();
+                driveStatus.Append($"Miles traveled: {game.Vehicle.Odometer} miles");
+                return FramedPanel.Render("ON THE TRAIL", driveStatus.ToString());
             }
         }
 
@@ -105,23 +104,23 @@ namespace OregonTrailDotNet.Window.Travel
                 var game = GameSimulationApp.Instance;
 
                 var showLocationName = game.Trail.CurrentLocation.Status == LocationStatusEnum.Arrived;
-                var locationStatus = new StringBuilder();
-                locationStatus.AppendLine("--------------------------------");
 
-                // Only add the location name if we are on the next point, otherwise we should not show this.
-                locationStatus.AppendLine(showLocationName
+                // The location header — a landmark name once arrived, otherwise the distance to the next one — titles the
+                // framed panel; the date and party stats form its body.
+                var title = showLocationName
                     ? game.Trail.CurrentLocation.Name
-                    : $"{game.Trail.DistanceToNextLocation:N0} miles to {game.Trail.NextLocation.Name}");
+                    : $"{game.Trail.DistanceToNextLocation:N0} miles to {game.Trail.NextLocation.Name}";
 
+                var locationStatus = new StringBuilder();
                 locationStatus.AppendLine($"{game.Time.Date}");
-                locationStatus.AppendLine("--------------------------------");
                 locationStatus.AppendLine(
                     $"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
                 locationStatus.AppendLine($"Health: {game.Vehicle.PassengerHealthStatus.ToDescriptionAttribute()}");
                 locationStatus.AppendLine($"Pace: {game.Vehicle.Pace.ToDescriptionAttribute()}");
-                locationStatus.AppendLine($"Rations: {game.Vehicle.Ration.ToDescriptionAttribute()}");
-                locationStatus.AppendLine("--------------------------------");
-                return locationStatus.ToString();
+                locationStatus.Append($"Rations: {game.Vehicle.Ration.ToDescriptionAttribute()}");
+
+                // Trailing newline so a caller appending a menu ("You may:") below the panel starts on its own line.
+                return FramedPanel.Render(title, locationStatus.ToString()) + Environment.NewLine;
             }
         }
 

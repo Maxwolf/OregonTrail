@@ -2,13 +2,10 @@
 // Timestamp 01/03/2016@1:50 AM
 
 using System;
-using System.Collections.Generic;
 using System.Text;
-using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Person;
 using WolfCurses.Utility;
 using WolfCurses.Window;
-using WolfCurses.Window.Control;
 using WolfCurses.Window.Form;
 using WolfCurses.Window.Form.Input;
 
@@ -57,60 +54,11 @@ namespace OregonTrailDotNet.Window.GameOver
             // Show how far the party managed to travel before they died.
             _failPrompt.AppendLine($"You traveled {game.Vehicle.Odometer:N0} miles.{Environment.NewLine}");
 
-            // Show whatever supplies remained in the wagon.
+            // Show whatever supplies remained in the wagon (with the money left over).
             _failPrompt.AppendLine("Remaining supplies:");
-            _failPrompt.AppendLine(BuildSupplyTable());
+            _failPrompt.AppendLine(SupplyPanel.Build(includeCash: true));
 
             return _failPrompt.ToString();
-        }
-
-        /// <summary>
-        ///     Builds a small table showing the quantity of each purchasable supply the party still had when they died.
-        /// </summary>
-        /// <returns>Formatted supply table.</returns>
-        private static string BuildSupplyTable()
-        {
-            var suppliesList = new List<Tuple<string, string>>();
-            foreach (var item in GameSimulationApp.Instance.Vehicle.Inventory)
-            {
-                var quantity = item.Value.Quantity.ToString("N0");
-                switch (item.Key)
-                {
-                    case EntitiesEnum.Animal:
-                        suppliesList.Add(new Tuple<string, string>("oxen", quantity));
-                        break;
-                    case EntitiesEnum.Clothes:
-                        suppliesList.Add(new Tuple<string, string>("sets of clothing", quantity));
-                        break;
-                    case EntitiesEnum.Ammo:
-                        suppliesList.Add(new Tuple<string, string>("bullets", quantity));
-                        break;
-                    case EntitiesEnum.Medicine:
-                        suppliesList.Add(new Tuple<string, string>("medical kits", quantity));
-                        break;
-                    case EntitiesEnum.Wheel:
-                        suppliesList.Add(new Tuple<string, string>("wagon wheels", quantity));
-                        break;
-                    case EntitiesEnum.Axle:
-                        suppliesList.Add(new Tuple<string, string>("wagon axles", quantity));
-                        break;
-                    case EntitiesEnum.Tongue:
-                        suppliesList.Add(new Tuple<string, string>("wagon tongues", quantity));
-                        break;
-                    case EntitiesEnum.Food:
-                        suppliesList.Add(new Tuple<string, string>("pounds of food",
-                            item.Value.TotalWeight.ToString("N0")));
-                        break;
-                    case EntitiesEnum.Cash:
-                        suppliesList.Add(new Tuple<string, string>("money left", item.Value.TotalValue.ToString("C")));
-                        break;
-                }
-            }
-
-            return suppliesList.ToStringTable(
-                new[] {"Item Name", "Amount"},
-                u => u.Item1,
-                u => u.Item2);
         }
 
         /// <summary>

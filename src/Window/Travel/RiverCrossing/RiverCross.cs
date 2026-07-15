@@ -88,16 +88,13 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             _riverActions = new Dictionary<RiverCrossChoiceEnum, Action>();
             _riverInfo = new StringBuilder();
 
-            // Header text for above menu comes from river crossing info object.
-            _riverInfo.AppendLine("--------------------------------");
-            _riverInfo.AppendLine($"{riverLocation.Name}");
-            _riverInfo.AppendLine($"{game.Time.Date}");
-            _riverInfo.AppendLine("--------------------------------");
-            _riverInfo.AppendLine(
-                $"Weather: {riverLocation.Weather.ToDescriptionAttribute()}");
-            _riverInfo.AppendLine($"River width: {UserData.River.RiverWidth:N0} feet");
-            _riverInfo.AppendLine($"River depth: {UserData.River.RiverDepth:N0} feet");
-            _riverInfo.AppendLine("--------------------------------");
+            // Header text for above menu comes from river crossing info object; the river's name titles the framed panel.
+            var header = new StringBuilder();
+            header.AppendLine($"{game.Time.Date}");
+            header.AppendLine($"Weather: {riverLocation.Weather.ToDescriptionAttribute()}");
+            header.AppendLine($"River width: {UserData.River.RiverWidth:N0} feet");
+            header.Append($"River depth: {UserData.River.RiverDepth:N0} feet");
+            _riverInfo.AppendLine(FramedPanel.Render(riverLocation.Name, header.ToString()));
             _riverInfo.AppendLine($"You may:{Environment.NewLine}");
 
             // Loop through all the river choice commands and print them out for the state.

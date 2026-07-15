@@ -141,12 +141,11 @@ namespace OregonTrailDotNet.Window.Travel.Store
         /// </summary>
         private void UpdateStore()
         {
-            // Clear previous prompt and rebuild it.
+            // Clear previous prompt and rebuild it. The store name and date title a framed header panel above the menu.
             _storePrompt.Clear();
-            _storePrompt.AppendLine("--------------------------------");
-            _storePrompt.AppendLine($"{GameSimulationApp.Instance.Trail.CurrentLocation?.Name} General Store");
-            _storePrompt.AppendLine($"{GameSimulationApp.Instance.Time.Date}");
-            _storePrompt.AppendLine("--------------------------------");
+            _storePrompt.AppendLine(FramedPanel.Render(
+                $"{GameSimulationApp.Instance.Trail.CurrentLocation?.Name} General Store",
+                $"{GameSimulationApp.Instance.Time.Date}"));
 
             // Loop through all the store assets commands and print them out for the state.
             var storeAssets = new List<EntitiesEnum>(Enum.GetValues(typeof(EntitiesEnum)).Cast<EntitiesEnum>());

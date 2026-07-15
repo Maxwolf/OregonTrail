@@ -135,25 +135,15 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             // Get instance of game simulation.
             var game = GameSimulationApp.Instance;
 
-            // Shows basic status of vehicle and total river crossing percentage.
-            _crossingPrompt.AppendLine(
-                "--------------------------------");
-            _crossingPrompt.AppendLine(
-                $"{game.Trail.CurrentLocation.Name}");
-            _crossingPrompt.AppendLine(
-                $"{game.Time.Date}");
-            _crossingPrompt.AppendLine(
-                $"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
-            _crossingPrompt.AppendLine(
-                $"Health: {game.Vehicle.PassengerHealthStatus.ToDescriptionAttribute()}");
-            _crossingPrompt.AppendLine(
-                $"Crossing By: {UserData.River.CrossingType}");
-            _crossingPrompt.AppendLine(
-                $"River width: {UserData.River.RiverWidth:N0} feet");
-            _crossingPrompt.AppendLine(
-                $"River crossed: {_riverCrossingOfTotalWidth:N0} feet");
-            _crossingPrompt.AppendLine(
-                "--------------------------------");
+            // Framed panel showing basic status of the vehicle and total river crossing progress; the river's name titles it.
+            var body = new StringBuilder();
+            body.AppendLine($"{game.Time.Date}");
+            body.AppendLine($"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
+            body.AppendLine($"Health: {game.Vehicle.PassengerHealthStatus.ToDescriptionAttribute()}");
+            body.AppendLine($"Crossing By: {UserData.River.CrossingType}");
+            body.AppendLine($"River width: {UserData.River.RiverWidth:N0} feet");
+            body.Append($"River crossed: {_riverCrossingOfTotalWidth:N0} feet");
+            _crossingPrompt.AppendLine(FramedPanel.Render(game.Trail.CurrentLocation.Name, body.ToString()));
 
             // Wait for user input...
             if (_finishedCrossingRiver)

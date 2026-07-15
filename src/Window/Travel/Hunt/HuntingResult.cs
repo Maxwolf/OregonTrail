@@ -82,13 +82,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             panel.Append($"Bullets fired: {bulletsFired:N0}");
 
             _huntScore.AppendLine();
-            _huntScore.AppendLine(new Box
-            {
-                Border = BoxBorder.Double,
-                Title = "HUNT OVER",
-                TitleAlignment = BoxAlignment.Center,
-                Padding = 1
-            }.Render(panel.ToString()));
+            _huntScore.AppendLine(FramedPanel.Render("HUNT OVER", panel.ToString()));
             _huntScore.AppendLine();
 
             // A short line under the panel: empty-handed, a clean haul, or an over-the-limit haul that wasted meat.

@@ -8,7 +8,6 @@ using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Vehicle;
 using WolfCurses.Utility;
 using WolfCurses.Window;
-using WolfCurses.Window.Control;
 using WolfCurses.Window.Form;
 using WolfCurses.Window.Form.Input;
 
@@ -52,76 +51,6 @@ namespace OregonTrailDotNet.Window.Travel.Trade
         public Trading(IWindow window) : base(window)
         {
             _supplyPrompt = new StringBuilder();
-        }
-
-        /// <summary>
-        ///     Builds up representation of supplies once in constructor and then reference when asked for render.
-        /// </summary>
-        /// <returns>Formatted text table that shows vehicle current supplies.</returns>
-        private static string SupplyTextTable
-        {
-            get
-            {
-                var tradeTable = new StringBuilder();
-                tradeTable.AppendLine($"{Environment.NewLine}Your Supplies{Environment.NewLine}");
-
-                // Build up a list with tuple in it to hold our data about supplies.
-                var suppliesList = new List<Tuple<string, string>>();
-
-                // Loop through every inventory item in the vehicle.
-                foreach (var item in GameSimulationApp.Instance.Vehicle.Inventory)
-                {
-                    // Apply number formatting to quantities so they have thousand separators.
-                    var itemFormattedQuantity = item.Value.Quantity.ToString("N0");
-
-                    // Change up how we print out various items in the vehicle inventory.
-                    switch (item.Key)
-                    {
-                        case EntitiesEnum.Animal:
-                            suppliesList.Add(new Tuple<string, string>("oxen", itemFormattedQuantity));
-                            break;
-                        case EntitiesEnum.Clothes:
-                            suppliesList.Add(new Tuple<string, string>("sets of clothing", itemFormattedQuantity));
-                            break;
-                        case EntitiesEnum.Ammo:
-                            suppliesList.Add(new Tuple<string, string>("bullets", itemFormattedQuantity));
-                            break;
-                        case EntitiesEnum.Medicine:
-                            suppliesList.Add(new Tuple<string, string>("medical kits", itemFormattedQuantity));
-                            break;
-                        case EntitiesEnum.Wheel:
-                            suppliesList.Add(new Tuple<string, string>("wagon wheels", itemFormattedQuantity));
-                            break;
-                        case EntitiesEnum.Axle:
-                            suppliesList.Add(new Tuple<string, string>("wagon axles", itemFormattedQuantity));
-                            break;
-                        case EntitiesEnum.Tongue:
-                            suppliesList.Add(new Tuple<string, string>("wagon tongues", itemFormattedQuantity));
-                            break;
-                        case EntitiesEnum.Food:
-                            suppliesList.Add(new Tuple<string, string>("pounds of food",
-                                item.Value.TotalWeight.ToString("N0")));
-                            break;
-                        case EntitiesEnum.Cash:
-                        case EntitiesEnum.Vehicle:
-                        case EntitiesEnum.Person:
-                        case EntitiesEnum.Location:
-                            continue;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                }
-
-                // Generate the formatted table of supplies we will show to user.
-                var supplyTable = suppliesList.ToStringTable(
-                    new[] {"Item Name", "Amount"},
-                    u => u.Item1,
-                    u => u.Item2);
-
-                // Add the table to the text user interface.
-                tradeTable.AppendLine(supplyTable);
-                return tradeTable.ToString();
-            }
         }
 
         /// <summary>
@@ -175,9 +104,10 @@ namespace OregonTrailDotNet.Window.Travel.Trade
             // time the trade screen opened or refocused (unlike CheckSupplies, which correctly skips the day).
             GameSimulationApp.Instance.TakeTurn(true);
 
-            // Grabs all the data for the player current vehicle inventory.
+            // Grabs all the data for the player current vehicle inventory (cash is excluded — it is not bartered).
             _supplyPrompt.Clear();
-            _supplyPrompt.Append(SupplyTextTable);
+            _supplyPrompt.AppendLine($"{Environment.NewLine}Your Supplies{Environment.NewLine}");
+            _supplyPrompt.AppendLine(SupplyPanel.Build(includeCash: false));
 
             // Trades are randomly generated when ticking the location.
             GenerateTrades();
