@@ -241,22 +241,36 @@ namespace OregonTrailDotNet.Entity.Vehicle
         }
 
         /// <summary>
-        ///     In general, you will travel 200 miles plus some additional distance which depends upon the quality of your team of
-        ///     oxen. This mileage figure is an ideal, assuming nothing goes wrong. If you run into problems, mileage is subtracted
-        ///     from this ideal figure; the revised total is printed at the start of the next trip segment.
+        ///     Ideal distance travelled in a day, as in the original game: a regional daily maximum (40 miles/day before Fort
+        ///     Laramie, 24 after) taken as a fraction set by the travel pace (grueling 100%, strenuous 75%, steady 50%) and the
+        ///     size of the ox team (a full team of six pulls at the maximum; fewer are proportionally slower). A little day-to-day
+        ///     randomness sits on top. Problems (illness, weather, terrain) subtract from this ideal afterward.
         /// </summary>
-        /// <returns>The expected mileage over the next two week segment.</returns>
+        /// <returns>The ideal mileage for the day before setbacks are applied.</returns>
         private int RandomMileage
         {
             get
             {
-                // Total amount of monies the player has spent on animals to pull their vehicle.
-                var costAnimals = Inventory[Entities.Animal].TotalValue;
+                var game = GameSimulationApp.Instance;
 
-                // Variables that will hold the distance we should travel in the next day.
-                var totalMiles = Mileage + (costAnimals - 110)/2.5 + 10*GameSimulationApp.Instance.Random.NextDouble();
+                // Regional cap: up to 40 miles/day on the first half of the trail, dropping to 24 once past Fort Laramie
+                // (~640 miles in), where the terrain turns mountainous and slow - the original game's "disk A / disk B" split.
+                var maxMiles = Odometer >= 640 ? 24 : 40;
 
-                return (int) Math.Abs(totalMiles);
+                // A full team of six oxen pulls at the regional maximum; a smaller team is proportionally slower. More than six
+                // gives no extra speed (the team is already at the cap), matching how the original never rewarded huge herds.
+                var oxenFactor = Math.Min(1.0, Inventory[Entities.Animal].Quantity/6.0);
+
+                // Pace is the fraction of the maximum the party pushes for.
+                var paceFactor = Pace switch
+                {
+                    TravelPace.Grueling => 1.0,
+                    TravelPace.Strenuous => 0.75,
+                    _ => 0.5 // Steady
+                };
+
+                var miles = maxMiles*oxenFactor*paceFactor + 4*game.Random.NextDouble();
+                return (int) miles;
             }
         }
 

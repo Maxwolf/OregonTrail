@@ -110,24 +110,27 @@ namespace OregonTrailDotNet.Bot.Learning
             m[MonthOffset + 3] = 0.3; // June
             m[MonthOffset + 4] = 0.0; // July
 
-            m[OxenIdx] = 13;      // seed inside the viable basin: empirically ~14-16 oxen reliably finish while ~10 strands the
-                                  // wagon, so start well above the 5.5-ox mileage break-even (oxen also score 4 pts each)
-            m[FoodIdx] = 1400;    // ~56 days at the five-person Filling burn (~25 lb/day); hunting backfills any overrun
-            m[ClothesIdx] = 15;   // a full set per person survives the freezing-country cold-exposure penalty; well above the
-                                  // 2xliving hail-freeze guard (10) with slack for the Shoshoni guide's 1-5 sets
-            m[MedicineIdx] = 7;   // the best per-dollar survival item (heals + clears infection on rest); cold now drives more
-                                  // infections, so carry a few more, but it is unscored - don't hoard
-            m[AmmoIdx] = 30;      // enough bullets for repeated hunts: a single hunt yields up to 250 lb of meat (~10 party-days
-                                  // of food) for one day, so hunting is a cheap way to top up food the tight budget can't buy
+            // The whole loadout is kept comfortably UNDER the Farmer's $400 so the opening store applies it in a single clean
+            // pass (over-budgeting trips a debt-warning path that leaves a broken partial loadout). Roughly: 6 oxen $120 +
+            // 800 food $80 + 10 clothes $100 + 2 medicine $30 + 15 ammo $30 + 1 of each spare part $30 ~= $390.
+            m[OxenIdx] = 6;       // the strategy-guide team: 3 yoke pulls at the full daily maximum now that mileage scales by
+                                  // oxen COUNT (not $ value), so a small team is fast and cheap - freeing the budget the old
+                                  // ~16-ox teams swallowed for FOOD and clothing, which is the whole unlock.
+            m[FoodIdx] = 800;     // carry the journey's food outright. Cheap oxen free enough budget to buy ~a season of food
+                                  // (~55 travel days x 15 lb Filling), so the party isn't forced to rely on hunting - which this
+                                  // port only offers intermittently in the travel menu - and won't starve mid-drive.
+            m[ClothesIdx] = 10;   // a big clothing buy protects health in the freezing country and leaves enough for the
+                                  // Shoshoni guide's 1-5 sets at the Snake River
+            m[MedicineIdx] = 2;   // a couple of kits (they treat the sick while travelling); rest + food does most of the healing
+            m[AmmoIdx] = 15;      // some bullets to top up food by hunting when the option is offered, and to defend the party
             m[WheelIdx] = 1;      // spare parts are re-buyable at every fort, so one of each up front suffices
             m[AxleIdx] = 1;
             m[TongueIdx] = 1;
             m[RestHealthIdx] = 300;  // rest the weakest member at <= Poor: every one of the five x3 heads is worth protecting
             m[RestDaysIdx] = 3;
-            m[HuntFoodIdx] = 300; // hunt PROACTIVELY - top the larder up whenever food dips below ~300 rather than waiting for
-                                  // near-starvation. With time to spare (wins finish in ~55 of 246 days) and a tight food budget,
-                                  // trading a hunting day for up to 250 lb of meat cuts starvation deaths and lifts the win rate.
-                                  // Needs ammo on hand: HuntFood and ammo are a deceptive combo - either alone does nothing.
+            m[HuntFoodIdx] = 100; // hunt only when the larder actually runs low (~100 lb) so the party spends most days TRAVELLING
+                                  // and only occasionally stops to hunt - a single hunt refills up to 250 lb. Set too high (near
+                                  // the starting food) the bot hunts every day and never makes progress. Needs ammo on hand.
             m[RiverFerryIdx] = 1.0;  // paid/guided crossings have no drowning path at any depth
             m[RiverIndianIdx] = 0.9; // safe AND no time delay (unlike the ferry's 1-9 lost days)
             m[RiverCaulkIdx] = 0.3;  // float/caulk beats ford on the free rivers (safe to depth 5 vs 3)

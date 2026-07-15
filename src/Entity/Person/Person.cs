@@ -393,14 +393,14 @@ namespace OregonTrailDotNet.Entity.Person
             // "bad" illness, and a very serious illness. Only the very serious tier leaves the person infected and thus in
             // need of medical services to recover; the two milder tiers can be shrugged off on their own.
             if (game.Random.Next(100) <= 10 +
-                35*((int) game.Vehicle.Ration - 1))
+                35*(3 - (int) game.Vehicle.Ration))
             {
                 // Mild illness.
                 game.Vehicle.ReduceMileage(5);
                 Damage(10, 50, CauseOfDeath.Illness);
             }
             else if (game.Random.Next(100) <= 5 +
-                     20*((int) game.Vehicle.Ration - 1))
+                     20*(3 - (int) game.Vehicle.Ration))
             {
                 // Bad (moderate) illness.
                 game.Vehicle.ReduceMileage(10);
@@ -408,7 +408,7 @@ namespace OregonTrailDotNet.Entity.Person
             }
             else if (game.Random.Next(100) <= 5 +
                      40/game.Vehicle.Passengers.Count*
-                     ((int) game.Vehicle.Ration - 1))
+                     (3 - (int) game.Vehicle.Ration))
             {
                 // Very serious illness that will require medical supplies to recover from.
                 game.Vehicle.ReduceMileage(15);

@@ -1,6 +1,7 @@
 using OregonTrailDotNet.Bot.Game;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Person;
+using OregonTrailDotNet.Entity.Vehicle;
 using OregonTrailDotNet.Window.Travel;
 
 namespace OregonTrailDotNet.Bot.Learning
@@ -41,12 +42,20 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public TravelCommands ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommands> available)
         {
+            // Travel the original high-score way: grueling pace on bare-bones rations to cover ground cheaply, switching to
+            // filling rations when the weakest member needs to recover. Set that configuration before anything else.
+            var recovering = (int) state.LowestHealth <= (int) HealthStatus.Poor;
+            var desiredRation = recovering ? RationLevel.Filling : RationLevel.BareBones;
+
+            if (available.Contains(TravelCommands.ChangePace) && state.Pace != TravelPace.Grueling)
+                return TravelCommands.ChangePace;
+            if (available.Contains(TravelCommands.ChangeFoodRations) && state.Ration != desiredRation)
+                return TravelCommands.ChangeFoodRations;
+
             // Recover when ANY party member is sick (not just when the average dips) and there's still time — keeping every
             // member alive and healthy is what maximizes the final score. Resting heals through natural recovery with or
             // without medicine, and medicine now also treats the sick on the move, so resting is no longer gated on it.
-            if (available.Contains(TravelCommands.StopToRest) &&
-                (int) state.LowestHealth <= (int) HealthStatus.Poor &&
-                state.DaysRemaining > 60)
+            if (available.Contains(TravelCommands.StopToRest) && recovering && state.DaysRemaining > 60)
                 return TravelCommands.StopToRest;
 
             // Top up food by hunting only if it runs dangerously low and we can shoot.
@@ -58,8 +67,9 @@ namespace OregonTrailDotNet.Bot.Learning
                 : available.First();
         }
 
-        public int Pace(GameSnapshot state) => 1;   // Steady (pace does not affect mileage in this port; safest for health)
-        public int Ration(GameSnapshot state) => 1; // Filling (eats the least and lowers illness in this port)
+        public int Pace(GameSnapshot state) => (int) TravelPace.Grueling;   // menu 3: 100% of the daily maximum
+        public int Ration(GameSnapshot state) =>
+            (int) state.LowestHealth <= (int) HealthStatus.Poor ? 1 : 3;     // menu 1 Filling to recover / 3 Bare Bones
         public int RestDays(GameSnapshot state) => 3;
 
         public bool YesNo(string formName, GameSnapshot state) => formName switch

@@ -31,7 +31,9 @@ namespace OregonTrailDotNet.Bot.Game
         };
 
         private static readonly Regex MenuLine = new(@"^\s*(\d+)\.\s+(.*\S)\s*$", RegexOptions.Compiled);
-        private static readonly Regex AffordRx = new(@"You can afford\s+(\d+)", RegexOptions.Compiled);
+        // The affordable quantity is rendered with thousands separators (e.g. "You can afford 2,600 pounds of food"), so match
+        // digits AND commas - a bare \d+ stops at the comma and reads 2,600 as 2, which had the bot buying 2 lb of cheap food.
+        private static readonly Regex AffordRx = new(@"You can afford\s+([\d,]+)", RegexOptions.Compiled);
         private static readonly Regex ShootingWordRx = new(@"Shooting Word:\s*([A-Za-z]+)", RegexOptions.Compiled);
         private static readonly Regex TypeWordRx = new(@"Type the word '([A-Za-z]+)'", RegexOptions.Compiled);
 
@@ -260,7 +262,7 @@ namespace OregonTrailDotNet.Bot.Game
         private static int ParseAfford(string screen)
         {
             var m = AffordRx.Match(screen);
-            return m.Success && int.TryParse(m.Groups[1].Value, out var n) ? n : 0;
+            return m.Success && int.TryParse(m.Groups[1].Value.Replace(",", ""), out var n) ? n : 0;
         }
 
         public static List<MenuOption> ParseMenu(string text)
