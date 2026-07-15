@@ -132,7 +132,7 @@ namespace OregonTrailDotNet.Bot
             }
 
             Console.WriteLine($"Training '{profile.Name}' for {request.Generations} generations.");
-            Console.WriteLine("Press Ctrl+C at any time to stop early and return to the menu.");
+            Console.WriteLine("Press Esc or Ctrl+C at any time to stop early and return to the menu.");
             Console.WriteLine();
 
             var config = new TrainingConfig
@@ -148,7 +148,12 @@ namespace OregonTrailDotNet.Bot
                     onGeneration: p => Console.WriteLine(
                         $"gen {p.Generation,3}:  mean fitness {p.MeanFitness,8:F1}   best {p.BestScoreThisGen,6}   " +
                         $"best-ever {p.BestScoreEver,6}   wins {p.WinsThisGen}/{p.GamesThisGen}   (total games {p.TotalIterations})"),
-                    shouldStop: () => _stopRequested);
+                    shouldStop: () =>
+                    {
+                        if (EscPressed())
+                            _stopRequested = true;
+                        return _stopRequested;
+                    });
 
                 Console.WriteLine(_stopRequested ? "\nStopped early — progress saved." : "\nTraining complete — progress saved.");
             }
