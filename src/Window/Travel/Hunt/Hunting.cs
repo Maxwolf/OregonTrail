@@ -12,7 +12,8 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
     /// <summary>
     ///     Used to allow the players party to hunt for wild animals, shooting bullet items into the animals will successfully
     ///     kill them and when the round is over the amount of meat is determined by what animals are killed. The player party
-    ///     can only take back up to one hundred pounds of whatever the value was back to the wagon regardless of what it was.
+    ///     can only take back up to <see cref="HuntManager.MAXFOOD" /> pounds of meat to the wagon regardless of how much
+    ///     they shot.
     /// </summary>
     [ParentWindow(typeof(Travel))]
     public sealed class Hunting : Form<TravelInfo>
@@ -110,8 +111,14 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         /// </returns>
         public override string OnRenderForm()
         {
-            ParentWindow.PromptText = "Type the word to shoot.";
-            return UserData.Hunt.HuntInfo;
+            // The framework draws the prompt text immediately in front of the live input buffer on the very last line,
+            // so making it a bold, state-aware caret is what tells the player exactly where their keystrokes go. When an
+            // animal is up it echoes the word to type; otherwise it advertises the way out.
+            var hunt = UserData.Hunt;
+            ParentWindow.PromptText = hunt.PreyAvailable
+                ? $"Type '{hunt.ShootingWord.ToString().ToLowerInvariant()}' and hit ENTER ►"
+                : "Type STOP to quit ►";
+            return hunt.HuntInfo;
         }
 
         /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>

@@ -10,6 +10,7 @@ using OregonTrailDotNet.Entity.Item;
 using OregonTrailDotNet.Entity.Location;
 using WolfCurses;
 using WolfCurses.Utility;
+using WolfCurses.Window.Control;
 
 namespace OregonTrailDotNet.Window.Travel.Hunt
 {
@@ -124,65 +125,67 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
                 // Grab instance of game simulation.
                 var game = GameSimulationApp.Instance;
 
-                // Will hole on the string data representing hunting status.
+                // Framed status HUD: a titled panel groups the two "how am I doing" meters (daylight left, food bagged
+                // against the carry limit) so they read at a glance, then the target and the call-to-action sit below it.
+                var locationName = game.Trail.CurrentLocation.Status != LocationStatus.Departed
+                    ? $"outside {game.Trail.CurrentLocation.Name}"
+                    : $"near {game.Trail.NextLocation.Name}";
+
+                // Reuse the framework progress-bar control rather than hand-rolling bars. Equal-length labels keep the
+                // two panel bars' brackets aligned. Width 20 fits an 80-column window and much narrower ones.
+                var daylightBar = new ProgressBar {Width = 20, Label = "Daylight"}.Render(_secondsRemaining, HUNTINGTIME);
+                var foodBar = new ProgressBar {Width = 20, Label = "Food bag"}.Render(KillWeight, MAXFOOD);
+
+                var panel = new StringBuilder();
+                panel.AppendLine(daylightBar);
+                panel.AppendLine(foodBar);
+                // Indent the raw poundage so it lines up under the food bar (label "Food bag" + a space = 9 chars).
+                panel.AppendLine($"{new string(' ', 9)}{KillWeight} / {MAXFOOD} lb");
+                panel.Append($"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
+
                 var huntStatus = new StringBuilder();
+                huntStatus.AppendLine();
+                huntStatus.AppendLine(new Box
+                {
+                    Border = BoxBorder.Double,
+                    Title = $"HUNTING · {locationName}",
+                    TitleAlignment = BoxAlignment.Center,
+                    Padding = 1
+                }.Render(panel.ToString()));
+                huntStatus.AppendLine();
 
-                // Build up the status for the current hunt.
-                huntStatus.AppendLine($"{Environment.NewLine}--------------------------------");
-
-                // Title displays some basic info about the area.
-                huntStatus.AppendLine(game.Trail.CurrentLocation.Status != LocationStatus.Departed
-                    ? $"Hunting outside {game.Trail.CurrentLocation.Name}"
-                    : $"Hunting near {game.Trail.NextLocation.Name}");
-
-                // Represent seconds remaining as daylight left percentage.
-                var daylightPercentage = _secondsRemaining/(decimal) HUNTINGTIME;
-                huntStatus.AppendLine($"Daylight Remaining: {daylightPercentage*100:N0}%");
-
-                // Current weather on the planes.
-                huntStatus.AppendLine($"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
-                huntStatus.AppendLine("--------------------------------");
-
-                // Show the player their current shooting word and target they are aiming at.
-                huntStatus.AppendLine(
-                    $"{Environment.NewLine}Shooting Word: {ShootingWord.ToString().ToUpperInvariant()}");
-
-                // Only show the target to shoot at if there is one.
-                huntStatus.AppendLine(_target != null
-                    ? $"Target: {_target.Animal.Name.ToUpperInvariant()}{Environment.NewLine}"
-                    : "Target: NONE");
-
-                // Targeting time is used to determine when animal will get scared and run away.
+                // Below the panel: either the current target (with its rising-awareness bar and a shoot-or-not caption)
+                // or an idle "nothing in your sights" note.
                 if (_target != null)
                 {
-                    // Represent targeting time as a percentage of total animal awareness of the hunter.
-                    var targetPercentage = _target.TargetTime/(decimal) _target.TargetTimeMax;
-                    huntStatus.AppendLine($"Awareness: {targetPercentage*100:N0}%");
-                }
+                    huntStatus.AppendLine($"  A {_target.Animal.Name.ToUpperInvariant()} breaks cover!");
 
-                // Prompt the player with information about what to do.
-                if (ShootingWord != HuntWord.None)
-                {
-                    huntStatus.AppendLine($"Type the word '{ShootingWord.ToString().ToLowerInvariant()}' to");
-                    huntStatus.Append("take a shot!");
+                    // Awareness climbs toward the animal spooking; surface it as a bar tied to the same values HuntInfo
+                    // used to print as a bare percentage.
+                    var awarenessBar = new ProgressBar {Width = 20, Label = "Awareness"}
+                        .Render(_target.TargetTime, _target.TargetTimeMax);
+                    huntStatus.AppendLine($"  {awarenessBar}");
+
+                    // A shot fired after awareness passes the halfway mark always misses (see TryShoot), so the caption
+                    // flips at that exact threshold to tell the player when the clean-shot window has closed.
+                    huntStatus.AppendLine(_target.TargetTime <= _target.TargetTimeMax/2
+                        ? "  Steady — take the shot!"
+                        : "  Spooked — it may bolt!");
+                    huntStatus.AppendLine();
+
+                    // BOT CONTRACT: the literal "Type the word '<word>'" shape is scraped by the headless training bot
+                    // (ScreenRecognizer.TypeWordRx in bot/OregonTrailDotNet.Bot/Game/ScreenRecognizer.cs) to learn which
+                    // word to type. Keep the exact "Type the word '...'" form — capital T, single quotes, one word — or
+                    // update that regex in tandem, otherwise the bot silently stops hunting.
+                    huntStatus.Append($"  ►  Type the word '{ShootingWord.ToString().ToLowerInvariant()}' to shoot!");
                 }
                 else
                 {
-                    // Depending on number of prey change up the wording slightly.
-                    var animalText = "animals";
-                    if (_sortedPrey.Count == 1)
-                        animalText = "animal";
-
-                    // Prey will read out animals for multiple, and just animal for one (1), animals for zero (0).
-                    huntStatus.AppendLine(
-                        $"{Environment.NewLine}You sense {_sortedPrey.Count:N0} {animalText}");
-                    huntStatus.Append("in the area...");
+                    // Read out "animal" for one, "animals" for none or many.
+                    var animalText = _sortedPrey.Count == 1 ? "animal" : "animals";
+                    huntStatus.AppendLine("  No animal in your sights yet —");
+                    huntStatus.Append($"  you sense {_sortedPrey.Count:N0} {animalText} nearby. Stay ready.");
                 }
-
-                // Let the player know they can leave the hunt early once they have bagged enough food, rather than being
-                // forced to wait out the whole session.
-                huntStatus.AppendLine($"{Environment.NewLine}");
-                huntStatus.Append("Type STOP or press ESC to quit hunting.");
 
                 return huntStatus.ToString();
             }
