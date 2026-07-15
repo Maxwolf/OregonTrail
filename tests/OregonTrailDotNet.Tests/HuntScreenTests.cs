@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using OregonTrailDotNet.Entity.Item;
 using OregonTrailDotNet.Window.Travel.Hunt;
 using Xunit;
 
@@ -8,7 +9,7 @@ namespace OregonTrailDotNet.Tests
     ///     Guards the redesigned hunting screen's contract with the headless training bot: no matter how the human-facing
     ///     layout changes, while an animal is being aimed at the body must still carry the exact "Type the word '&lt;word&gt;'"
     ///     token that <c>ScreenRecognizer.TypeWordRx</c> scrapes to learn which word to type. If this breaks, the bot
-    ///     silently stops shooting.
+    ///     silently stops shooting. Also locks in the per-animal meat yields.
     /// </summary>
     public class HuntScreenTests : SimulationTestBase
     {
@@ -47,5 +48,24 @@ namespace OregonTrailDotNet.Tests
             Assert.True(match.Success, $"bot word token missing from hunt body:\n{screen}");
             Assert.Equal(hunt.ShootingWord.ToString(), match.Groups[1].Value, ignoreCase: true);
         }
+
+        [Fact]
+        public void AnimalYields_AreIntentional_NotTheDefaultOnePound()
+        {
+            // Weight is per-unit meat yield; each prey is created with quantity 1, so TotalWeight of a single copy is the
+            // yield. Bear/Duck/Squirrel once omitted the yield argument and silently gave 1 lb each — lock in real values.
+            Assert.InRange(YieldOf(Animals.Bear), 100, 199);
+            Assert.Equal(2, YieldOf(Animals.Duck));
+            Assert.Equal(1, YieldOf(Animals.Squirrel));
+
+            // Sanity on the ones that were always set explicitly.
+            Assert.Equal(50, YieldOf(Animals.Deer));
+            Assert.Equal(2, YieldOf(Animals.Goose));
+            Assert.Equal(2, YieldOf(Animals.Rabbit));
+            Assert.InRange(YieldOf(Animals.Buffalo), 350, 499);
+            Assert.InRange(YieldOf(Animals.Caribou), 300, 349);
+        }
+
+        private static int YieldOf(SimItem animal) => new SimItem(animal, 1).TotalWeight;
     }
 }

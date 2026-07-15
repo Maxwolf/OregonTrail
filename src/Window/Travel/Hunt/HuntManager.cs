@@ -252,6 +252,11 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         }
 
         /// <summary>
+        ///     Number of prey the player successfully bagged during this hunt.
+        /// </summary>
+        public int KillCount => _killedPrey.Count;
+
+        /// <summary>
         ///     Gets the last known prey that became aware of the hunter and fled the hunting grounds.
         /// </summary>
         public PreyItem LastEscapee => _preyEscaped.LastOrDefault();

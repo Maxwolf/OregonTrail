@@ -5,6 +5,7 @@ using System;
 using System.Text;
 using OregonTrailDotNet.Entity;
 using WolfCurses.Window;
+using WolfCurses.Window.Control;
 using WolfCurses.Window.Form;
 using WolfCurses.Window.Form.Input;
 
@@ -12,8 +13,8 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
 {
     /// <summary>
     ///     Tabulates results about the hunting session after it ends, depending on the performance of the player and how many
-    ///     animals they killed, if any will be calculated in weight. Players can only ever take 100 pounds of meat back to
-    ///     the vehicle so this discourages mass killing.
+    ///     animals they killed, if any will be calculated in weight. Players can only ever take <see cref="HuntManager.MAXFOOD" />
+    ///     pounds of meat back to the vehicle so this discourages mass killing.
     /// </summary>
     [ParentWindow(typeof(Travel))]
     public sealed class HuntingResult : InputForm<TravelInfo>
@@ -62,35 +63,48 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             // Clear previous hunting score information.
             _huntScore.Clear();
 
-            // Calculate total weight of all animals killed by player during hunt.
+            // Total weight of everything shot, and how many animals that was.
             var killWeight = UserData.Hunt.KillWeight;
+            var killCount = UserData.Hunt.KillCount;
 
-            // Depending on kill weight we change response and message.
+            // The wagon can only carry MAXFOOD pounds home regardless of how much was shot; the rest is wasted meat.
+            _finalKillWeight = Math.Min(killWeight, HuntManager.MAXFOOD);
+
+            // Framed summary panel that echoes the hunt HUD's food meter, so the result reads as "how full a load did I
+            // haul back?" against the same 250 lb ceiling.
+            var foodBar = new ProgressBar {Width = 20, Label = "Food bag"}.Render(_finalKillWeight, HuntManager.MAXFOOD);
+            var panel = new StringBuilder();
+            panel.AppendLine(foodBar);
+            panel.Append($"{new string(' ', 9)}{_finalKillWeight} / {HuntManager.MAXFOOD} lb");
+
+            _huntScore.AppendLine();
+            _huntScore.AppendLine(new Box
+            {
+                Border = BoxBorder.Double,
+                Title = "HUNT OVER",
+                TitleAlignment = BoxAlignment.Center,
+                Padding = 1
+            }.Render(panel.ToString()));
+            _huntScore.AppendLine();
+
+            // A short line under the panel: empty-handed, a clean haul, or an over-the-limit haul that wasted meat.
             if (killWeight <= 0)
             {
-                _huntScore.AppendLine($"{Environment.NewLine}You were unable to shoot any");
-                _huntScore.AppendLine($"food.{Environment.NewLine}");
+                _huntScore.Append("  You came back empty-handed.");
             }
-            else if (killWeight > 0)
+            else
             {
-                // Message to let the player know they killed prey.
-                _huntScore.AppendLine($"{Environment.NewLine}From the animals you shot, you");
-                _huntScore.AppendLine($"got {killWeight:N0} pounds of meat.{Environment.NewLine}");
-
-                // Adds the killing weight since it is safe at this point.
-                _finalKillWeight = killWeight;
-
-                // Player can only take MAXFOOD amount from hunt regardless of total weight.
+                var animalText = killCount == 1 ? "animal" : "animals";
                 if (killWeight <= HuntManager.MAXFOOD)
-                    return _huntScore.ToString();
-
-                // Forces the weight of the kill to become
-                _finalKillWeight = HuntManager.MAXFOOD;
-
-                // Player killed to many animals.
-                _huntScore.AppendLine("However, you were only able to");
-                _huntScore.AppendLine($"carry {_finalKillWeight:N0} pounds back to the");
-                _huntScore.AppendLine($"wagon.{Environment.NewLine}");
+                {
+                    _huntScore.AppendLine($"  You bagged {killCount:N0} {animalText} for");
+                    _huntScore.Append($"  {killWeight:N0} pounds of meat.");
+                }
+                else
+                {
+                    _huntScore.AppendLine($"  You bagged {killCount:N0} {animalText} —");
+                    _huntScore.Append($"  {killWeight:N0} lb shot, {HuntManager.MAXFOOD:N0} lb carried.");
+                }
             }
 
             // Return the hunting result to text renderer.
