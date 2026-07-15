@@ -76,6 +76,18 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         private int _secondsRemaining;
 
         /// <summary>
+        ///     Ammunition the party had in the wagon at the moment this hunt began. Used as the full mark for the
+        ///     "bullets remaining" meter so it starts full and drains as the player lands shots.
+        /// </summary>
+        private readonly int _startingBullets;
+
+        /// <summary>
+        ///     Running total of bullets actually spent on kills during this hunt, surfaced on the results screen so the
+        ///     player can see how much ammunition the outing cost them.
+        /// </summary>
+        private int _bulletsFired;
+
+        /// <summary>
         ///     List of all the shooting words generated from the get values on hunt word enumeration.
         /// </summary>
         private readonly List<HuntWordEnum> _shootWords;
@@ -102,6 +114,9 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
 
             // Player has set amount of time in seconds to perform a hunt.
             _secondsRemaining = HUNTINGTIME;
+
+            // Snapshot the ammunition on hand so the hunt HUD can show a bullets-remaining bar that drains as shots land.
+            _startingBullets = GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Ammo].Quantity;
 
             // Grab all of the shooting words from enum that holds them.
             _shootWords = Enum.GetValues(typeof(HuntWordEnum)).Cast<HuntWordEnum>().ToList();
@@ -131,16 +146,26 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
                     ? $"outside {game.Trail.CurrentLocation.Name}"
                     : $"near {game.Trail.NextLocation.Name}";
 
-                // Reuse the framework progress-bar control rather than hand-rolling bars. Equal-length labels keep the
-                // two panel bars' brackets aligned. Width 20 fits an 80-column window and much narrower ones.
-                var daylightBar = new ProgressBar {Width = 20, Label = "Daylight"}.Render(_secondsRemaining, HUNTINGTIME);
-                var foodBar = new ProgressBar {Width = 20, Label = "Food bag"}.Render(KillWeight, MAXFOOD);
+                // Reuse the framework progress-bar control rather than hand-rolling bars. Labels are padded to one shared
+                // width so every bar's opening bracket lines up in the panel regardless of the label's natural length.
+                // Width 20 fits an 80-column window and much narrower ones.
+                const int barLabelWidth = 8;
+                var daylightBar = new ProgressBar {Width = 20, Label = "Daylight".PadRight(barLabelWidth)}
+                    .Render(_secondsRemaining, HUNTINGTIME);
+                // Ammunition drains as the player lands shots (each kill costs bullets in TryShoot), so it reads like the
+                // daylight clock: starts full at whatever the party set out with and ticks down toward empty.
+                var bulletsBar = new ProgressBar {Width = 20, Label = "Bullets".PadRight(barLabelWidth)}
+                    .Render(BulletsRemaining, StartingBullets);
+                var foodBar = new ProgressBar {Width = 20, Label = "Food bag".PadRight(barLabelWidth)}
+                    .Render(KillWeight, MAXFOOD);
 
                 var panel = new StringBuilder();
                 panel.AppendLine(daylightBar);
+                panel.AppendLine(bulletsBar);
+                // Indent the raw counts so they line up under the bars' brackets (label width + the control's own space).
+                panel.AppendLine($"{new string(' ', barLabelWidth + 1)}{BulletsRemaining} / {StartingBullets} bullets");
                 panel.AppendLine(foodBar);
-                // Indent the raw poundage so it lines up under the food bar (label "Food bag" + a space = 9 chars).
-                panel.AppendLine($"{new string(' ', 9)}{KillWeight} / {MAXFOOD} lb");
+                panel.AppendLine($"{new string(' ', barLabelWidth + 1)}{KillWeight} / {MAXFOOD} lb");
                 panel.Append($"Weather: {game.Trail.CurrentLocation.Weather.ToDescriptionAttribute()}");
 
                 var huntStatus = new StringBuilder();
@@ -255,6 +280,21 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         ///     Number of prey the player successfully bagged during this hunt.
         /// </summary>
         public int KillCount => _killedPrey.Count;
+
+        /// <summary>
+        ///     Ammunition the party set out with when this hunt began — the full mark for the bullets-remaining meter.
+        /// </summary>
+        public int StartingBullets => _startingBullets;
+
+        /// <summary>
+        ///     Ammunition still in the wagon right now, read live from inventory so it drops the instant a shot lands.
+        /// </summary>
+        public int BulletsRemaining => GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Ammo].Quantity;
+
+        /// <summary>
+        ///     Total bullets spent on kills over the course of this hunt, shown on the results screen.
+        /// </summary>
+        public int BulletsFired => _bulletsFired;
 
         /// <summary>
         ///     Gets the last known prey that became aware of the hunter and fled the hunting grounds.
@@ -478,8 +518,13 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             // amount is always positive, so bagging an animal can only ever reduce ammunition, never add it back.
             var bulletCost = 10 + game.Random.Next(0, 4);
 
-            // Remove the amount of bullets from vehicle inventory.
-            game.Vehicle.Inventory[EntitiesEnum.Ammo].ReduceQuantity(bulletCost);
+            // Remove the amount of bullets from vehicle inventory, and tally what was actually taken. ReduceQuantity floors
+            // at zero, so on a near-empty wagon fewer than bulletCost bullets may leave — count the real delta so the
+            // "bullets fired" total on the results screen always equals the ammunition the hunt genuinely spent.
+            var ammo = game.Vehicle.Inventory[EntitiesEnum.Ammo];
+            var ammoBefore = ammo.Quantity;
+            ammo.ReduceQuantity(bulletCost);
+            _bulletsFired += ammoBefore - ammo.Quantity;
 
             // Add the target to the list of animals that have been killed.
             _killedPrey.Add(_target);

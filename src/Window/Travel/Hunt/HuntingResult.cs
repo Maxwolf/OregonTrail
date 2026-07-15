@@ -63,9 +63,10 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             // Clear previous hunting score information.
             _huntScore.Clear();
 
-            // Total weight of everything shot, and how many animals that was.
+            // Total weight of everything shot, how many animals that was, and the ammunition the outing cost.
             var killWeight = UserData.Hunt.KillWeight;
             var killCount = UserData.Hunt.KillCount;
+            var bulletsFired = UserData.Hunt.BulletsFired;
 
             // The wagon can only carry MAXFOOD pounds home regardless of how much was shot; the rest is wasted meat.
             _finalKillWeight = Math.Min(killWeight, HuntManager.MAXFOOD);
@@ -75,7 +76,10 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             var foodBar = new ProgressBar {Width = 20, Label = "Food bag"}.Render(_finalKillWeight, HuntManager.MAXFOOD);
             var panel = new StringBuilder();
             panel.AppendLine(foodBar);
-            panel.Append($"{new string(' ', 9)}{_finalKillWeight} / {HuntManager.MAXFOOD} lb");
+            panel.AppendLine($"{new string(' ', 9)}{_finalKillWeight} / {HuntManager.MAXFOOD} lb");
+            // Close the panel with the ammunition the hunt cost, so the player can weigh the meat hauled back against the
+            // bullets spent to get it. Bullets only leave inventory on a landed shot, so this is the true cost of the outing.
+            panel.Append($"Bullets fired: {bulletsFired:N0}");
 
             _huntScore.AppendLine();
             _huntScore.AppendLine(new Box
