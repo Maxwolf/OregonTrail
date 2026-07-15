@@ -7,9 +7,10 @@ using OregonTrailDotNet.Persistence;
 namespace OregonTrailDotNet.Module.Tombstone
 {
     /// <summary>
-    ///     Keeps track of all the tombstones in a nice collection and also supports saving them to disk and loading them again
-    ///     using JSON. Finally it also has all the needed methods to check for a Tombstone at a particular spot on the
-    ///     trail.
+    ///     Keeps track of the trail's tombstones and supports saving them to the game database and loading them again. The
+    ///     trail only ever holds two graves — one for each half of the trail — keyed by <see cref="Tombstone.TrailHalf" />, so
+    ///     a party that dies in a half simply overwrites whatever grave was already there. Also has the methods to check for a
+    ///     Tombstone at a particular spot on the trail.
     /// </summary>
     public sealed class TombstoneModule : WolfCurses.Module.Module
     {
@@ -29,8 +30,9 @@ namespace OregonTrailDotNet.Module.Tombstone
             if (_store == null)
                 return;
 
-            foreach (var (mileMarker, playerName, epitaph) in _store.All())
-                Tombstones[mileMarker] = new Tombstone(playerName, mileMarker, epitaph);
+            foreach (var grave in _store.All())
+                Tombstones[grave.TrailHalf] = new Tombstone(grave.TrailHalf, grave.MileMarker, grave.PlayerName,
+                    grave.Epitaph, grave.LastLandmark, grave.NextLandmark, grave.MilesToNext);
         }
 
         /// <summary>Gets or sets the element with the specified key.</summary>
@@ -50,13 +52,14 @@ namespace OregonTrailDotNet.Module.Tombstone
         }
 
         /// <summary>
-        ///     References all of the currently loaded tombstones.
+        ///     References the currently loaded tombstones, keyed by which half of the trail they occupy (0 or 1) so there is
+        ///     never more than one grave per half.
         /// </summary>
         private Dictionary<int, Tombstone> Tombstones { get; }
 
         /// <summary>
-        ///     Creates a shallow copy of the tombstone item and adds it to the list of tombstones. Does not check if it already
-        ///     exists. Only safety is that multiple tombstones cannot be placed at the same mile marker.
+        ///     Creates a shallow copy of the tombstone item and places it in the grave slot for its half of the trail. The
+        ///     trail holds only two graves — one per half — so a fresh death in a half overwrites whatever grave was there.
         /// </summary>
         /// <param name="tombstoneItem">The tombstone Item.</param>
         public void Add(Tombstone tombstoneItem)
@@ -68,15 +71,13 @@ namespace OregonTrailDotNet.Module.Tombstone
             if (tombstoneClone == null)
                 return;
 
-            // Check if we already have a tombstone at this mile marker.
-            if (Tombstones.ContainsKey(tombstoneClone.MileMarker))
-                return;
+            // Place the grave in the slot for its half of the trail, replacing any earlier grave in that same half.
+            Tombstones[tombstoneClone.TrailHalf] = tombstoneClone;
 
-            // Actually adds the tombstone to the internal list of them using mile marker as a key.
-            Tombstones.Add(tombstoneItem.MileMarker, tombstoneClone);
-
-            // Persist it (a no-op when persistence is off); INSERT OR IGNORE mirrors the one-per-mile-marker rule above.
-            _store?.Insert(tombstoneClone.MileMarker, tombstoneClone.PlayerName, tombstoneClone.Epitaph);
+            // Persist it (a no-op when persistence is off); INSERT OR REPLACE mirrors the overwrite-per-half rule above.
+            _store?.Insert(tombstoneClone.TrailHalf, tombstoneClone.MileMarker, tombstoneClone.PlayerName,
+                tombstoneClone.Epitaph, tombstoneClone.LastLandmark, tombstoneClone.NextLandmark,
+                tombstoneClone.MilesToNextLandmark);
         }
 
         /// <summary>
@@ -89,12 +90,21 @@ namespace OregonTrailDotNet.Module.Tombstone
             _store?.Clear();
         }
 
-        /// <summary>Delegating method for the internal tombstones dictionary, used to make grabbing values less verbose.</summary>
+        /// <summary>Looks up a grave sitting at the given mile marker on the trail (the spot where that party actually died).</summary>
         /// <param name="odometer">Number of miles the vehicle has traveled (to check for grave-site).</param>
         /// <param name="foundTombstone">Tombstone item returned from this mile marker if one exists, NULL if no tombstone found.</param>
         public void FindTombstone(int odometer, out Tombstone foundTombstone)
         {
-            Tombstones.TryGetValue(odometer, out foundTombstone);
+            foreach (var grave in Tombstones.Values)
+            {
+                if (grave.MileMarker != odometer)
+                    continue;
+
+                foundTombstone = grave;
+                return;
+            }
+
+            foundTombstone = null;
         }
 
         /// <summary>Checks if there is a tombstone at the given mile marker, does not return it but only indicates if one exists.</summary>
@@ -102,7 +112,11 @@ namespace OregonTrailDotNet.Module.Tombstone
         /// <returns>TRUE if tombstone exists for this mile marker.</returns>
         public bool ContainsTombstone(int odemeter)
         {
-            return Tombstones.ContainsKey(odemeter);
+            foreach (var grave in Tombstones.Values)
+                if (grave.MileMarker == odemeter)
+                    return true;
+
+            return false;
         }
     }
 }

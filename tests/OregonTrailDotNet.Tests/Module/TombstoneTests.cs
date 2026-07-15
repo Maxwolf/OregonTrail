@@ -77,6 +77,31 @@ namespace OregonTrailDotNet.Tests.Module
         }
 
         [Fact]
+        public void Module_SecondDeathInSameHalf_OverwritesTheEarlierGrave()
+        {
+            // Two deaths in the first half (trail_half 0): the trail only keeps one grave per half, so the later one wins.
+            Game.Tombstone.Add(new TombstoneEntity(0, 100, "Early", "", "Independence", "Kansas River Crossing", 20));
+            Game.Tombstone.Add(new TombstoneEntity(0, 300, "Later", "", "Fort Kearney", "Chimney Rock", 10));
+
+            Assert.False(Game.Tombstone.ContainsTombstone(100)); // the first grave was overwritten
+            Assert.True(Game.Tombstone.ContainsTombstone(300));  // only the most recent death in the half remains
+
+            Game.Tombstone.FindTombstone(300, out var grave);
+            Assert.Equal("Later", grave.PlayerName);
+        }
+
+        [Fact]
+        public void Module_DeathsInDifferentHalves_KeepBothGraves()
+        {
+            // One grave per half means a first-half and a second-half death coexist.
+            Game.Tombstone.Add(new TombstoneEntity(0, 300, "First Half", "", "Fort Kearney", "Chimney Rock", 10));
+            Game.Tombstone.Add(new TombstoneEntity(1, 1500, "Second Half", "", "Fort Hall", "Fort Boise", 5));
+
+            Assert.True(Game.Tombstone.ContainsTombstone(300));
+            Assert.True(Game.Tombstone.ContainsTombstone(1500));
+        }
+
+        [Fact]
         public void Module_Reset_ClearsAllTombstones()
         {
             var tombstone = new TombstoneEntity();

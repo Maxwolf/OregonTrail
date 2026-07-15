@@ -6,7 +6,10 @@ using System;
 namespace OregonTrailDotNet.Module.Tombstone
 {
     /// <summary>
-    ///     Facilitates a tombstone base class that supports shallow copies of itself to be created.
+    ///     Facilitates a tombstone base class that supports shallow copies of itself to be created. Mirrors the data the
+    ///     original game recorded in TOMBS.REC: the party leader's name, an epitaph, and where the last member died —
+    ///     captured as the surrounding landmarks and the distance to the next one. Only two graves exist at a time (one per
+    ///     half of the trail); a fresh death in a half overwrites the grave already there.
     /// </summary>
     public sealed class Tombstone
     {
@@ -31,6 +34,16 @@ namespace OregonTrailDotNet.Module.Tombstone
             // Grabs the current mile marker where the player died on the trail for the Tombstone to sit at.
             MileMarker = GameSimulationApp.Instance.Vehicle.Odometer;
 
+            // Record the landmarks that bracket the death, exactly as the original TOMBS.REC did, so the grave remembers
+            // the location of the death rather than just its raw mileage.
+            var trail = GameSimulationApp.Instance.Trail;
+            LastLandmark = trail.CurrentLocation?.Name ?? string.Empty;
+            NextLandmark = trail.NextLocation?.Name ?? string.Empty;
+            MilesToNextLandmark = trail.DistanceToNextLocation;
+
+            // Which half of the trail the death happened in decides which of the two graves this one occupies.
+            TrailHalf = CalculateTrailHalf(MileMarker, trail.Length);
+
             // Epitaph is left empty by default and ready to be filled in.
             Epitaph = string.Empty;
         }
@@ -39,17 +52,54 @@ namespace OregonTrailDotNet.Module.Tombstone
         ///     Initializes a tombstone directly from stored values, used when hydrating saved tombstones from the game database
         ///     (as opposed to the parameterless constructor, which reads the live vehicle for a fresh death on the trail).
         /// </summary>
-        public Tombstone(string playerName, int mileMarker, string epitaph)
+        public Tombstone(int trailHalf, int mileMarker, string playerName, string epitaph, string lastLandmark,
+            string nextLandmark, int milesToNextLandmark)
         {
-            PlayerName = playerName;
+            TrailHalf = trailHalf;
             MileMarker = mileMarker;
+            PlayerName = playerName;
             Epitaph = epitaph ?? string.Empty;
+            LastLandmark = lastLandmark ?? string.Empty;
+            NextLandmark = nextLandmark ?? string.Empty;
+            MilesToNextLandmark = milesToNextLandmark;
         }
+
+        /// <summary>
+        ///     Determines which half of the trail a given mile marker falls in: 0 for the first half, 1 for the second. A
+        ///     zero-or-unknown trail length keeps everything in the first half so nothing divides by zero.
+        /// </summary>
+        internal static int CalculateTrailHalf(int mileMarker, int trailLength)
+        {
+            return trailLength > 0 && mileMarker >= trailLength / 2 ? 1 : 0;
+        }
+
+        /// <summary>
+        ///     Which half of the trail this grave sits in — 0 for the first half, 1 for the second. The trail only ever holds
+        ///     one grave per half, so this doubles as the grave's slot: a new death in the same half overwrites it.
+        /// </summary>
+        public int TrailHalf { get; }
 
         /// <summary>
         ///     Name of the player whom died and the Tombstone is paying respects to.
         /// </summary>
         public string PlayerName { get; }
+
+        /// <summary>
+        ///     Name of the last landmark the party reached before the leader died, matching the original tombstone format's
+        ///     record of where the death occurred.
+        /// </summary>
+        public string LastLandmark { get; }
+
+        /// <summary>
+        ///     Name of the landmark the party was traveling toward when the leader died.
+        /// </summary>
+        public string NextLandmark { get; }
+
+        /// <summary>
+        ///     Miles that still remained to <see cref="NextLandmark" /> at the moment of death; together with
+        ///     <see cref="LastLandmark" /> this pins the exact spot the party perished, as the original file format did.
+        /// </summary>
+        public int MilesToNextLandmark { get; }
 
         /// <summary>
         ///     Defines where on the trail in regards to length in miles traveled. The purpose of this is so we can check for this

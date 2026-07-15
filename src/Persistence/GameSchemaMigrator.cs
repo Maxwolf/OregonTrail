@@ -15,7 +15,9 @@ namespace OregonTrailDotNet.Persistence
     {
         private static readonly string[] Migrations =
         {
-            // v1 — high scores and tombstones.
+            // v1 — high scores and tombstones. Tombstones are two-per-trail (one per half, keyed by trail_half so a new
+            //      death in a half overwrites the old grave) and record the bracketing landmarks the original TOMBS.REC
+            //      stored — matching where the party died.
             """
             CREATE TABLE high_scores (
                 id      INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,9 +27,13 @@ namespace OregonTrailDotNet.Persistence
             CREATE INDEX ix_high_scores_points ON high_scores(points DESC);
 
             CREATE TABLE tombstones (
-                mile_marker  INTEGER PRIMARY KEY,
-                player_name  TEXT    NOT NULL,
-                epitaph      TEXT    NOT NULL DEFAULT ''
+                trail_half     INTEGER PRIMARY KEY,
+                mile_marker    INTEGER NOT NULL,
+                player_name    TEXT    NOT NULL,
+                epitaph        TEXT    NOT NULL DEFAULT '',
+                last_landmark  TEXT    NOT NULL DEFAULT '',
+                next_landmark  TEXT    NOT NULL DEFAULT '',
+                miles_to_next  INTEGER NOT NULL DEFAULT 0
             );
             """
         };

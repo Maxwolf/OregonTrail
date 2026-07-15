@@ -49,21 +49,29 @@ namespace OregonTrailDotNet.Tests.Persistence
         }
 
         [Fact]
-        public void TombstoneStore_Is_One_Per_Mile_Marker_And_Persists()
+        public void TombstoneStore_Holds_Two_Graves_One_Per_Half_And_Overwrites()
         {
             using (var db = new GameDatabase(_dbPath))
             {
-                db.Tombstones.Insert(500, "Alice", "Watch the river");
-                db.Tombstones.Insert(500, "Bob", "Should not overwrite"); // same mile marker -> ignored
-                db.Tombstones.Insert(1200, "Cara", "");
+                // First-half grave, then a second death in the same half overwrites it (INSERT OR REPLACE on trail_half).
+                db.Tombstones.Insert(0, 500, "Alice", "Watch the river", "Fort Kearney", "Chimney Rock", 40);
+                db.Tombstones.Insert(0, 620, "Bob", "Overwrote Alice", "Chimney Rock", "Fort Laramie", 15);
+
+                // A second-half grave lives alongside the first-half one — two graves total.
+                db.Tombstones.Insert(1, 1200, "Cara", "", "Fort Hall", "Fort Boise", 5);
             }
 
             using (var db = new GameDatabase(_dbPath))
             {
-                var all = db.Tombstones.All().OrderBy(t => t.MileMarker).ToList();
-                Assert.Equal(2, all.Count);
-                Assert.Equal("Alice", all[0].PlayerName);           // first writer at mile 500 kept
-                Assert.Equal("Watch the river", all[0].Epitaph);
+                var all = db.Tombstones.All().OrderBy(t => t.TrailHalf).ToList();
+                Assert.Equal(2, all.Count);                         // only two graves, one per half of the trail
+                Assert.Equal("Bob", all[0].PlayerName);             // second death in half 0 replaced the first
+                Assert.Equal("Overwrote Alice", all[0].Epitaph);
+                Assert.Equal(620, all[0].MileMarker);
+                Assert.Equal("Chimney Rock", all[0].LastLandmark);
+                Assert.Equal("Fort Laramie", all[0].NextLandmark);
+                Assert.Equal(15, all[0].MilesToNext);
+                Assert.Equal("Cara", all[1].PlayerName);            // the half-1 grave is untouched
                 Assert.Equal(1200, all[1].MileMarker);
 
                 db.Tombstones.Clear();
@@ -109,7 +117,7 @@ namespace OregonTrailDotNet.Tests.Persistence
             using var db = new GameDatabase(_dbPath);
 
             var first = new TombstoneModule(db.Tombstones);
-            first.Add(new Tombstone("Ezra", 640, "Ate bad berries"));
+            first.Add(new Tombstone(0, 640, "Ezra", "Ate bad berries", "Fort Kearney", "Chimney Rock", 40));
 
             // A fresh module over the same store loads the saved grave at its mile marker.
             var reloaded = new TombstoneModule(db.Tombstones);
@@ -133,7 +141,7 @@ namespace OregonTrailDotNet.Tests.Persistence
             Assert.Contains(scoring.TopTen, s => s.Name == "Ghost");
 
             var tombstones = new TombstoneModule();
-            tombstones.Add(new Tombstone("Ghost", 100, ""));
+            tombstones.Add(new Tombstone(0, 100, "Ghost", "", "Independence", "Kansas River Crossing", 20));
             Assert.True(tombstones.ContainsTombstone(100));
 
             Assert.False(File.Exists(_dbPath));
