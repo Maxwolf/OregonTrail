@@ -32,7 +32,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType => DialogType.Custom;
+        protected override DialogTypeEnum DialogType => DialogTypeEnum.Custom;
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
@@ -86,18 +86,18 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             switch (reponse)
             {
-                case DialogResponse.No:
+                case DialogResponseEnum.No:
                     RestartNameInput();
                     break;
-                case DialogResponse.Yes:
+                case DialogResponseEnum.Yes:
                     UserData.PlayerNameIndex = 0;
                     SetForm(typeof(SelectStartingMonthState));
                     break;
-                case DialogResponse.Custom:
+                case DialogResponseEnum.Custom:
                     RestartNameInput();
                     break;
                 default:

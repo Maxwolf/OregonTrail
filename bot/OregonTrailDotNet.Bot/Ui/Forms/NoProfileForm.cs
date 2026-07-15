@@ -17,6 +17,6 @@ namespace OregonTrailDotNet.Bot.Ui
         protected override string OnDialogPrompt() =>
             $"{Environment.NewLine}No profile is selected.{Environment.NewLine}Create a new profile or select an existing one first.";
 
-        protected override void OnDialogResponse(DialogResponse reponse) => ClearForm();
+        protected override void OnDialogResponse(DialogResponseEnum reponse) => ClearForm();
     }
 }

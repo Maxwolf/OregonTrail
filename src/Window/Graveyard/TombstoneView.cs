@@ -72,7 +72,7 @@ namespace OregonTrailDotNet.Window.Graveyard
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             // Determine if we are showing the player a tombstone because they died.
             if (GameSimulationApp.Instance.Vehicle.PassengerLivingCount <= 0)

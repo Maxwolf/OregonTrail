@@ -31,7 +31,7 @@ namespace OregonTrailDotNet.Window.RandomEvent
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType => DialogType.YesNo;
+        protected override DialogTypeEnum DialogType => DialogTypeEnum.YesNo;
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
@@ -66,7 +66,7 @@ namespace OregonTrailDotNet.Window.RandomEvent
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             // Get game instance to improve readability.
             var game = GameSimulationApp.Instance;
@@ -76,12 +76,12 @@ namespace OregonTrailDotNet.Window.RandomEvent
 
             switch (reponse)
             {
-                case DialogResponse.No:
-                case DialogResponse.Custom:
+                case DialogResponseEnum.No:
+                case DialogResponseEnum.Custom:
                     // Player has chosen to not attempt a repair and opted instead for replacement with spare part.
                     game.EventDirector.TriggerEvent(vehicle, typeof(NoRepairVehicle));
                     break;
-                case DialogResponse.Yes:
+                case DialogResponseEnum.Yes:
                     // Depending on dice roll player might be able to fix their broken vehicle part.
                     game.EventDirector.TriggerEvent(vehicle,
                         game.Random.NextBool() ? typeof(RepairVehiclePart) : typeof(NoRepairVehicle));

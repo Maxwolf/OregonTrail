@@ -57,15 +57,15 @@ namespace OregonTrailDotNet.Window.Travel.Trade
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType
+        protected override DialogTypeEnum DialogType
         {
             get
             {
                 // Dialog type is determined by players ability to trade against the generated offer.
                 if ((_trades != null) && (_trades.Count > 0) && _playerCanTrade)
-                    return DialogType.YesNo;
+                    return DialogTypeEnum.YesNo;
 
-                return DialogType.Prompt;
+                return DialogTypeEnum.Prompt;
             }
         }
 
@@ -191,11 +191,11 @@ namespace OregonTrailDotNet.Window.Travel.Trade
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             switch (reponse)
             {
-                case DialogResponse.Yes:
+                case DialogResponseEnum.Yes:
                 {
                     // Remove the quantity of item from the vehicle inventory the trader wants.
                     GameSimulationApp.Instance.Vehicle.Inventory[_trades[_tradeIndex].WantedItem.Category].ReduceQuantity(
@@ -215,8 +215,8 @@ namespace OregonTrailDotNet.Window.Travel.Trade
                     ClearForm();
                     return;
                 }
-                case DialogResponse.Custom:
-                case DialogResponse.No:
+                case DialogResponseEnum.Custom:
+                case DialogResponseEnum.No:
                 {
                     // Return to the travel menu.
                     ClearForm();

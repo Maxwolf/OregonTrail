@@ -14,7 +14,7 @@ namespace OregonTrailDotNet.Bot.Ui
         {
         }
 
-        protected override DialogType DialogType => DialogType.YesNo;
+        protected override DialogTypeEnum DialogType => DialogTypeEnum.YesNo;
 
         protected override string OnDialogPrompt() =>
             $"{Environment.NewLine}Delete the bot '{BotContext.ActiveProfileName}'?{Environment.NewLine}{Environment.NewLine}" +
@@ -22,9 +22,9 @@ namespace OregonTrailDotNet.Bot.Ui
             $"and high scores, and cannot be undone.{Environment.NewLine}{Environment.NewLine}" +
             "Are you sure? (Y/N)";
 
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
-            if (reponse == DialogResponse.Yes && BotContext.Db != null && BotContext.ActiveProfileId >= 0)
+            if (reponse == DialogResponseEnum.Yes && BotContext.Db != null && BotContext.ActiveProfileId >= 0)
             {
                 BotContext.Db.Leaderboard.DeleteForProfile(BotContext.ActiveProfileId);
                 BotContext.Db.Profiles.Delete(BotContext.ActiveProfileId);

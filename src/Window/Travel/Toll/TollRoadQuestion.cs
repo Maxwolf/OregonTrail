@@ -47,7 +47,7 @@ namespace OregonTrailDotNet.Window.Travel.Toll
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType => _canAffordToll ? DialogType.YesNo : DialogType.Prompt;
+        protected override DialogTypeEnum DialogType => _canAffordToll ? DialogTypeEnum.YesNo : DialogTypeEnum.Prompt;
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
@@ -121,7 +121,7 @@ namespace OregonTrailDotNet.Window.Travel.Toll
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             // Check if the player has enough monies to pay for the toll road.
             if (!_canAffordToll)
@@ -133,7 +133,7 @@ namespace OregonTrailDotNet.Window.Travel.Toll
             // Depending on player response we will subtract money or continue on trail.
             switch (reponse)
             {
-                case DialogResponse.Yes:
+                case DialogResponseEnum.Yes:
                     // Remove monies for the cost of the trip on toll road.
                     GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Cash].ReduceQuantity(UserData.Toll.Cost);
 
@@ -147,8 +147,8 @@ namespace OregonTrailDotNet.Window.Travel.Toll
                     // Onward to the next location!
                     SetForm(typeof(LocationDepart));
                     break;
-                case DialogResponse.No:
-                case DialogResponse.Custom:
+                case DialogResponseEnum.No:
+                case DialogResponseEnum.Custom:
                     if (GameSimulationApp.Instance.Trail.CurrentLocation is ForkInRoad)
                         SetForm(typeof(LocationFork));
                     else

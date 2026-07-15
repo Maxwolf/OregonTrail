@@ -33,9 +33,9 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType => GameSimulationApp.Instance.Trail.IsFirstLocation
-            ? DialogType.Prompt
-            : DialogType.YesNo;
+        protected override DialogTypeEnum DialogType => GameSimulationApp.Instance.Trail.IsFirstLocation
+            ? DialogTypeEnum.Prompt
+            : DialogTypeEnum.YesNo;
 
         /// <summary>
         ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
@@ -94,7 +94,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             // First location we will always clear state back to location since it is starting point.
             if (GameSimulationApp.Instance.Trail.IsFirstLocation)
@@ -106,8 +106,8 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
             // Subsequent locations will confirm what the player wants to do, they can stop or keep going on the trail at their own demise.
             switch (reponse)
             {
-                case DialogResponse.Custom:
-                case DialogResponse.No:
+                case DialogResponseEnum.Custom:
+                case DialogResponseEnum.No:
                     var travelMode = ParentWindow as Travel;
                     if (travelMode == null)
                         throw new InvalidCastException(
@@ -116,7 +116,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
                     // Call the continue on trail method command inside that game Windows, it will trigger the next action accordingly.
                     travelMode.ContinueOnTrail();
                     break;
-                case DialogResponse.Yes:
+                case DialogResponseEnum.Yes:
                     ClearForm();
                     break;
                 default:

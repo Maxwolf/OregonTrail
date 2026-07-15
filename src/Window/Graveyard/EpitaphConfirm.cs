@@ -37,7 +37,7 @@ namespace OregonTrailDotNet.Window.Graveyard
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType => DialogType.YesNo;
+        protected override DialogTypeEnum DialogType => DialogTypeEnum.YesNo;
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game window and would like to have a string returned.
@@ -74,16 +74,16 @@ namespace OregonTrailDotNet.Window.Graveyard
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             switch (reponse)
             {
-                case DialogResponse.Custom:
-                case DialogResponse.No:
+                case DialogResponseEnum.Custom:
+                case DialogResponseEnum.No:
                     GameSimulationApp.Instance.Tombstone.Add(UserData.Tombstone.Clone() as Tombstone);
                     SetForm(typeof(TombstoneView));
                     break;
-                case DialogResponse.Yes:
+                case DialogResponseEnum.Yes:
                     UserData.Tombstone.Epitaph = string.Empty;
                     SetForm(typeof(EpitaphEditor));
                     break;

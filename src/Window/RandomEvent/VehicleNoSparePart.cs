@@ -30,7 +30,7 @@ namespace OregonTrailDotNet.Window.RandomEvent
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType => DialogType.Prompt;
+        protected override DialogTypeEnum DialogType => DialogTypeEnum.Prompt;
 
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
@@ -56,7 +56,7 @@ namespace OregonTrailDotNet.Window.RandomEvent
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             // Check to make sure the source entity is a vehicle.
             var vehicle = UserData.SourceEntity as Vehicle;

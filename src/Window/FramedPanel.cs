@@ -27,9 +27,9 @@ namespace OregonTrailDotNet.Window
         {
             return new Box
             {
-                Border = BoxBorder.Double,
+                Border = BoxBorderEnum.Double,
                 Title = title,
-                TitleAlignment = BoxAlignment.Center,
+                TitleAlignment = BoxAlignmentEnum.Center,
                 Padding = 1
             }.Render(body);
         }

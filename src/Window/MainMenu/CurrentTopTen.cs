@@ -32,7 +32,7 @@ namespace OregonTrailDotNet.Window.MainMenu
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType => DialogType.YesNo;
+        protected override DialogTypeEnum DialogType => DialogTypeEnum.YesNo;
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
@@ -74,17 +74,17 @@ namespace OregonTrailDotNet.Window.MainMenu
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             switch (reponse)
             {
-                case DialogResponse.No:
+                case DialogResponseEnum.No:
                     ClearForm();
                     break;
-                case DialogResponse.Yes:
+                case DialogResponseEnum.Yes:
                     SetForm(typeof(PointsDistributionHelp));
                     break;
-                case DialogResponse.Custom:
+                case DialogResponseEnum.Custom:
                     ClearForm();
                     break;
                 default:

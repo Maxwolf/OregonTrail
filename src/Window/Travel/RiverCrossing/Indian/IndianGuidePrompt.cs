@@ -33,7 +33,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Indian
         /// <summary>
         ///     Changes up the behavior of the input dialog based on if the player has enough clothes to trade the Indian guide.
         /// </summary>
-        protected override DialogType DialogType => HasEnoughClothingToTrade ? DialogType.YesNo : DialogType.Prompt;
+        protected override DialogTypeEnum DialogType => HasEnoughClothingToTrade ? DialogTypeEnum.YesNo : DialogTypeEnum.Prompt;
 
         /// <summary>
         ///     Determines if the player has enough clothing to trade the Indian guide for his services in crossing the river.
@@ -94,18 +94,18 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Indian
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             // Depending on if the player has enough clothing their response to Indian guide changes.
             if (HasEnoughClothingToTrade)
                 switch (reponse)
                 {
-                    case DialogResponse.Yes:
+                    case DialogResponseEnum.Yes:
                         UserData.River.CrossingType = RiverCrossChoiceEnum.Indian;
                         SetForm(typeof(UseIndianConfirm));
                         break;
-                    case DialogResponse.No:
-                    case DialogResponse.Custom:
+                    case DialogResponseEnum.No:
+                    case DialogResponseEnum.Custom:
                         CancelIndianCrossing();
                         break;
                     default:

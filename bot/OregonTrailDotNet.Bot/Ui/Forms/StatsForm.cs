@@ -57,6 +57,6 @@ namespace OregonTrailDotNet.Bot.Ui
             return sb.ToString();
         }
 
-        protected override void OnDialogResponse(DialogResponse reponse) => ClearForm();
+        protected override void OnDialogResponse(DialogResponseEnum reponse) => ClearForm();
     }
 }

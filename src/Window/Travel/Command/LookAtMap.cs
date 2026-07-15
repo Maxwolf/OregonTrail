@@ -62,7 +62,7 @@ namespace OregonTrailDotNet.Window.Travel.Command
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             // Check if current location is a fork in the road, if so we will return to that form.
             if (GameSimulationApp.Instance.Trail.CurrentLocation is ForkInRoad)

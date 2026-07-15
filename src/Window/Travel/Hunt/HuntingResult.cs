@@ -114,7 +114,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             // Transfers the total finalized kill weight we calculated to vehicle inventory as food in pounds.
             if (_finalKillWeight > 0)

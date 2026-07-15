@@ -65,7 +65,7 @@ namespace OregonTrailDotNet.Window.GameOver
         ///     Fired when the dialog receives favorable input and determines a response based on this.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             // Move on to the graveyard where the player can leave an epitaph; the graveyard flow resets the game.
             GameSimulationApp.Instance.WindowManager.Add(typeof(Graveyard.Graveyard));

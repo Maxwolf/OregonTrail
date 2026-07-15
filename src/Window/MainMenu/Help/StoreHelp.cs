@@ -44,7 +44,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Help
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             // Closes main menu and drops back to travel Windows at the bottom level which should have store already open and ready.
             ParentWindow.RemoveWindowNextTick();

@@ -34,7 +34,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Ferry
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>
-        protected override DialogType DialogType => DialogType.YesNo;
+        protected override DialogTypeEnum DialogType => DialogTypeEnum.YesNo;
 
         /// <summary>
         ///     Fired when dialog prompt is attached to active game Windows and would like to have a string returned.
@@ -66,12 +66,12 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Ferry
         ///     common to attach another state, or remove the current state based on the response.
         /// </summary>
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
-        protected override void OnDialogResponse(DialogResponse reponse)
+        protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             // Player has enough money for ferry operator, and there is no more delay we can cross now.
             switch (reponse)
             {
-                case DialogResponse.Yes:
+                case DialogResponseEnum.Yes:
                     if (UserData.River.FerryCost >=
                         GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Cash].TotalValue)
                     {
@@ -91,8 +91,8 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Ferry
 
                     SetForm(typeof(CrossingTick));
                     break;
-                case DialogResponse.No:
-                case DialogResponse.Custom:
+                case DialogResponseEnum.No:
+                case DialogResponseEnum.Custom:
                     UserData.River.CrossingType = RiverCrossChoiceEnum.None;
                     SetForm(typeof(RiverCross));
                     break;
