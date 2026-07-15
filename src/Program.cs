@@ -57,6 +57,13 @@ namespace OregonTrailDotNet
                         case ConsoleKey.Backspace:
                             GameSimulationApp.Instance.InputManager.RemoveLastCharOfInputBuffer();
                             break;
+                        case ConsoleKey.Escape:
+                            // Escape is a universal "I'm done here" — right now that means bailing out of a hunt early and
+                            // keeping whatever food was already bagged. On any other screen it simply does nothing.
+                            if (GameSimulationApp.Instance.WindowManager.FocusedWindow?.CurrentForm is
+                                Window.Travel.Hunt.Hunting huntForm)
+                                huntForm.StopHunting();
+                            break;
                         default:
                             GameSimulationApp.Instance.InputManager.AddCharToInputBuffer(key.KeyChar);
                             break;

@@ -2,6 +2,7 @@
 // Timestamp 01/03/2016@1:50 AM
 
 using System;
+using System.Linq;
 using OregonTrailDotNet.Window.Travel.Hunt.Help;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
@@ -17,6 +18,11 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
     public sealed class Hunting : Form<TravelInfo>
     {
         /// <summary>
+        ///     Words the player can type to leave the hunt early once they have bagged enough food, instead of waiting out the
+        ///     whole session. Pressing Escape (handled by the game loop) does the same thing.
+        /// </summary>
+        private static readonly string[] StopWords = { "stop", "quit", "done", "leave", "exit", "q" };
+        /// <summary>
         ///     Initializes a new instance of the <see cref="Hunting" /> class.
         ///     This constructor will be used by the other one
         /// </summary>
@@ -28,14 +34,17 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         /// <summary>
         ///     Determines if user input is currently allowed to be typed and filled into the input buffer.
         /// </summary>
-        /// <remarks>Default is FALSE. Setting to TRUE allows characters and input buffer to be read when submitted.</remarks>
-        public override bool InputFillsBuffer => UserData.Hunt.PreyAvailable;
+        /// <remarks>
+        ///     Always TRUE while hunting: the player types the shooting word to fire when prey is on the field, and can type a
+        ///     stop word (e.g. "stop"/"quit") at any time — even between animals — to leave the hunt early.
+        /// </remarks>
+        public override bool InputFillsBuffer => true;
 
         /// <summary>
-        ///     Determines if this dialog state is allowed to receive any input at all, even empty line returns. This is useful for
-        ///     preventing the player from leaving a particular dialog until you are ready or finished processing some data.
+        ///     Determines if this dialog state is allowed to receive any input at all, even empty line returns. Always TRUE so a
+        ///     player can quit the hunt whenever they want, not only while an animal is being aimed at.
         /// </summary>
-        public override bool AllowInput => UserData.Hunt.PreyAvailable;
+        public override bool AllowInput => true;
 
         /// <summary>
         ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
@@ -109,9 +118,17 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game mode.</param>
         public override void OnInputBufferReturned(string input)
         {
-            // Skip if the input is null or empty.
-            if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
+            // Skip if the input is null or empty (an empty ENTER should never end the hunt — that keeps the headless bot,
+            // which submits blank input between animals, hunting normally).
+            if (string.IsNullOrWhiteSpace(input))
                 return;
+
+            // A stop word means the player is done hunting and wants to collect whatever they have bagged so far.
+            if (StopWords.Contains(input.Trim(), StringComparer.OrdinalIgnoreCase))
+            {
+                StopHunting();
+                return;
+            }
 
             // Check if we have anything to shoot at right now.
             if (!UserData.Hunt.PreyAvailable)
@@ -123,6 +140,19 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
 
             // Determine if the player shot an animal or missed their shot.
             SetForm(UserData.Hunt.TryShoot() ? typeof(PreyHit) : typeof(PreyMissed));
+        }
+
+        /// <summary>
+        ///     Ends the hunt right now and moves on to tally up whatever the party managed to bag. Exposed so the game loop can
+        ///     hook the Escape key to it, and shared by the typed stop words. Safe to call at any point during a hunt.
+        /// </summary>
+        public void StopHunting()
+        {
+            // Unhook event for when targeted prey flees so it does not fire after we have left the hunt.
+            UserData.Hunt.TargetFledEvent -= Hunt_TargetFledEvent;
+
+            // Jump straight to the results screen with the kills gathered so far.
+            SetForm(typeof(HuntingResult));
         }
     }
 }

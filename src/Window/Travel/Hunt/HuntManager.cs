@@ -179,6 +179,11 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
                     huntStatus.Append("in the area...");
                 }
 
+                // Let the player know they can leave the hunt early once they have bagged enough food, rather than being
+                // forced to wait out the whole session.
+                huntStatus.AppendLine($"{Environment.NewLine}");
+                huntStatus.Append("Type STOP or press ESC to quit hunting.");
+
                 return huntStatus.ToString();
             }
         }
