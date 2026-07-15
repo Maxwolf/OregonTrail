@@ -46,6 +46,39 @@ namespace OregonTrailDotNet.Tests
             Assert.Equal(partySize * (int) RationLevel.Filling, consumed);
         }
 
+        [Fact]
+        public void NoFood_StarvesAnOxEachDay()
+        {
+            var vehicle = Game.Vehicle;
+            vehicle.ResetVehicle();
+            vehicle.AddPerson(new PersonEntity(Profession.Farmer, "Leader", true));
+
+            // ResetVehicle zeroes the larder, so the party has no food. Give them a team of oxen.
+            vehicle.Inventory[Entities.Animal].AddQuantity(6);
+            Assert.Equal(0, vehicle.Inventory[Entities.Food].Quantity);
+
+            // One real day with an empty larder: the oxen go hungry and the team loses one.
+            vehicle.OnTick(false, false);
+
+            Assert.Equal(5, vehicle.Inventory[Entities.Animal].Quantity);
+        }
+
+        [Fact]
+        public void WithFood_OxenAreNotStarved()
+        {
+            var vehicle = Game.Vehicle;
+            vehicle.ResetVehicle();
+            vehicle.AddPerson(new PersonEntity(Profession.Farmer, "Leader", true));
+
+            vehicle.Inventory[Entities.Animal].AddQuantity(6);
+            vehicle.Inventory[Entities.Food].AddQuantity(1000);
+
+            // A well-fed party keeps its whole team - food covers the animals too.
+            vehicle.OnTick(false, false);
+
+            Assert.Equal(6, vehicle.Inventory[Entities.Animal].Quantity);
+        }
+
         /// <summary>
         ///     A successful hunting shot must strictly consume bullets. The bug derived the cost from the ammo stack's
         ///     monetary TotalValue and could produce a negative amount, which ReduceQuantity turned into a gain (clamped

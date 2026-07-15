@@ -468,6 +468,14 @@ namespace OregonTrailDotNet.Entity.Vehicle
             foreach (var person in _passengers)
                 person.OnTick(false, skipDay);
 
+            // Oxen have to eat too. On a real day with the larder run dry, the team starves and an ox is lost - so letting food
+            // hit zero doesn't just kill the party's people, it can also cost the animals that pull the wagon and leave them
+            // stranded. This happens whether stopped or moving (the animals go hungry either way), before the travel check.
+            if (!skipDay &&
+                (_inventory[Entities.Food].Quantity <= 0) &&
+                (_inventory[Entities.Animal].Quantity > 0))
+                _inventory[Entities.Animal].ReduceQuantity(1);
+
             // Only advance the vehicle if we are actually traveling and not skipping a day of simulation.
             if ((Status != VehicleStatus.Moving) || skipDay)
                 return;
