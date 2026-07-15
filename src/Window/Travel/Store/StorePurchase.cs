@@ -67,6 +67,13 @@ namespace OregonTrailDotNet.Window.Travel.Store
             if (_purchaseLimit > UserData.Store.SelectedItem.MaxQuantity)
                 _purchaseLimit = UserData.Store.SelectedItem.MaxQuantity;
 
+            // Items sold in a minimum lot (e.g. a 20-round box of ammunition) charge for the whole lot even when fewer are
+            // requested, because the item enforces a minimum quantity that a purchase is silently clamped up to. If the
+            // player cannot afford one full lot they can afford none of this item; otherwise the quote below would offer a
+            // quantity that becomes an unaffordable purchase once clamped.
+            if (_purchaseLimit < UserData.Store.SelectedItem.MinQuantity)
+                _purchaseLimit = 0;
+
             // Add some information about how many you can buy and total amount you can carry.
             _itemBuyText = new StringBuilder();
 
@@ -130,8 +137,13 @@ namespace OregonTrailDotNet.Window.Travel.Store
                 return;
             }
 
-            // Check that the player has enough monies to pay for the quantity of item they specified.
-            if (GameSimulationApp.Instance.Vehicle.Balance < _itemToBuy.TotalValue*parsedInputNumber)
+            // Check that the player can actually afford this purchase. A purchase is charged for at least the item's
+            // minimum lot (e.g. a 20-round box of ammunition), so validate against the quantity that will really be added
+            // and against the balance left after any other items already on the pending receipt. The previous check used
+            // _itemToBuy.TotalValue, which was always zero (SelectedItem's quantity is zero), so it never caught anything.
+            var chargedQuantity = Math.Max(parsedInputNumber, _itemToBuy.MinQuantity);
+            var balanceAfterPending = GameSimulationApp.Instance.Vehicle.Balance - UserData.Store.TotalTransactionCost;
+            if (balanceAfterPending < _itemToBuy.Cost*chargedQuantity)
             {
                 UserData.Store.RemoveItem(_itemToBuy);
                 UserData.Store.SelectedItem = null;

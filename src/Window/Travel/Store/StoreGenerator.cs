@@ -1,7 +1,6 @@
 ﻿// Created by Maxwolf (bigmaxwolf.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-using System;
 using System.Collections.Generic;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Item;
@@ -71,15 +70,12 @@ namespace OregonTrailDotNet.Window.Travel.Store
         /// </summary>
         internal void PurchaseItems()
         {
-            // Grab the total transaction cost once since it requires work to get the property value.
-            var totalBill = TotalTransactionCost;
-
-            // Throws exception if player cannot afford items. Developer calling this at wrong time!
-            if (GameSimulationApp.Instance.Vehicle.Balance < totalBill)
-                throw new InvalidOperationException(
-                    "Attempted to purchase items the player does not have enough monies for!");
-
-            // Loop through all the pending transaction and buy them out.
+            // Attempt every pending transaction. Vehicle.Purchase already refuses (silently skips) any single item the
+            // player cannot afford, so the wagon balance can never be driven negative here. This deliberately does NOT
+            // throw when the running total exceeds the balance: the store reaches this method from the on-trail
+            // immediate-buy path with no debt-warning gate in front of it, and a hard exception there crashed the game.
+            // Affordability is enforced up front in StorePurchase (per item, accounting for each item's minimum lot) and,
+            // on the first location, by the StoreDebtWarning check before checkout.
             foreach (var transaction in _totalTransactions)
                 GameSimulationApp.Instance.Vehicle.Purchase(transaction.Value);
 
