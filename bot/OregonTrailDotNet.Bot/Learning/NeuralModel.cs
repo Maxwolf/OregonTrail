@@ -2,8 +2,10 @@ namespace OregonTrailDotNet.Bot.Learning
 {
     /// <summary>
     ///     The neuro-evolution model: a small neural network (<see cref="NeuralPolicy" />) whose weights are searched by CEM.
-    ///     Its setup slice starts from the same sensible defaults as the strategy models, while the network weights start near
-    ///     zero and are explored outward — so early on it behaves plainly and then discovers state-adaptive tactics.
+    ///     The whole setup + tactical slice is warm-started from the same expert prior as the strategy models, and the network
+    ///     weights start at zero — so at generation 0 the policy plays the exact expert strategy (a zero-residual network), then
+    ///     evolves state-adaptive corrections on top of it. This is the warm-start that lets it reach its first win as quickly as
+    ///     the linear bots instead of rediscovering a whole tactical policy from random weights.
     /// </summary>
     public sealed class NeuralModel : ITrainingModel
     {
@@ -17,8 +19,9 @@ namespace OregonTrailDotNet.Bot.Learning
         public double[] InitialMean()
         {
             var mean = new double[VectorLength];
+            // Warm-start the FULL genome (setup AND the rest/hunt/river/fork tactical thresholds), so the network starts as a
+            // zero residual on top of the expert policy rather than from a do-nothing zero baseline. The MLP weights stay 0.
             Array.Copy(StrategyGenome.DefaultMean(), mean, NeuralPolicy.SetupLength);
-            // MLP weights start at 0 (rest of the array is already zero).
             return mean;
         }
 
@@ -26,8 +29,10 @@ namespace OregonTrailDotNet.Bot.Learning
         {
             var std = new double[VectorLength];
             Array.Copy(StrategyGenome.DefaultStd(), std, NeuralPolicy.SetupLength);
+            // Network-weight exploration width. Kept modest so early candidates stay close to the expert baseline (small
+            // tactical nudges) instead of large random swings that undo the warm-start and cost the bot its early wins.
             for (var i = NeuralPolicy.SetupLength; i < VectorLength; i++)
-                std[i] = 0.5; // exploration width for the network weights
+                std[i] = 0.25;
             return std;
         }
 

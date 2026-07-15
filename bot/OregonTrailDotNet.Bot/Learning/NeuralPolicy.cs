@@ -1,19 +1,24 @@
 using OregonTrailDotNet.Bot.Game;
 using OregonTrailDotNet.Entity;
+using OregonTrailDotNet.Entity.Person;
+using OregonTrailDotNet.Entity.Vehicle;
 using OregonTrailDotNet.Window.Travel;
 
 namespace OregonTrailDotNet.Bot.Learning
 {
     /// <summary>
-    ///     A policy whose tactical decisions come from a small neural network evaluated against the live game state, giving a
-    ///     genuinely different, state-adaptive play style. The search vector is <c>[16 setup params] + [MLP weights]</c>: the
-    ///     setup slice (profession, month, store targets) is decoded by reusing <see cref="StrategyGenome" />'s getters, while
-    ///     the MLP decides whether to rest/hunt and which river crossing to prefer, from normalized features of the situation.
+    ///     A policy whose tactical decisions are the expert strategy PLUS a small, state-adaptive correction from a neural
+    ///     network. The search vector is <c>[full StrategyGenome] + [MLP weights]</c>: the genome slice (profession, month, store
+    ///     targets, and the rest/hunt/river/fork thresholds) is warm-started from the same expert prior as the strategy models,
+    ///     and the MLP weights start at zero. So with an all-zero network this plays the exact expert policy (a zero residual),
+    ///     and as the weights evolve the network nudges the rest/hunt/river decisions based on its read of the live situation.
+    ///     That warm-start is what lets neuro-evolution reach its first win as fast as the linear bots instead of discovering a
+    ///     whole tactical policy from random weights.
     /// </summary>
     public sealed class NeuralPolicy : IPolicy
     {
-        /// <summary>Number of leading vector entries that map to <see cref="StrategyGenome" />'s setup fields (indices 0..15).</summary>
-        public const int SetupLength = 16;
+        /// <summary>Leading vector entries mapped to the full <see cref="StrategyGenome" /> (the warm-started expert baseline).</summary>
+        public const int SetupLength = StrategyGenome.Length;
 
         public static int VectorLength => SetupLength + Mlp.WeightCount;
 
@@ -24,10 +29,18 @@ namespace OregonTrailDotNet.Bot.Learning
         {
             LeaderName = leaderName;
 
-            // Reuse the strategy genome's decoding for the one-time setup by padding the setup slice out to its full length.
-            var padded = new double[StrategyGenome.Length];
-            Array.Copy(vector, padded, Math.Min(SetupLength, vector.Length));
-            _setup = new StrategyGenome { Raw = padded };
+            // Tolerate a stored vector of a different length (e.g. a best-genome saved before the layout changed): copy what
+            // fits and zero-pad the rest so decoding/replay never indexes out of range. A fresh training run always matches.
+            if (vector.Length != VectorLength)
+            {
+                var sized = new double[VectorLength];
+                Array.Copy(vector, sized, Math.Min(vector.Length, VectorLength));
+                vector = sized;
+            }
+
+            var setup = new double[StrategyGenome.Length];
+            Array.Copy(vector, setup, StrategyGenome.Length);
+            _setup = new StrategyGenome { Raw = setup };
 
             _brain = new Mlp(vector, SetupLength);
         }
@@ -43,12 +56,23 @@ namespace OregonTrailDotNet.Bot.Learning
         {
             var o = _brain.Forward(Features(state));
 
-            // Same safety guards as the genome policy, but the "should I?" comes from the network's read of the situation.
-            if (available.Contains(TravelCommands.StopToRest) && o[0] > 0 &&
-                state.Medicine > 0 && state.DaysRemaining > 40)
+            // Adopt the same known high-score travel tactics as the strategy policy - grueling pace on filling rations - so the
+            // network doesn't have to rediscover them. These are the invariant that gets the wagon to Oregon inside the cap.
+            if (available.Contains(TravelCommands.ChangePace) && state.Pace != TravelPace.Grueling)
+                return TravelCommands.ChangePace;
+            if (available.Contains(TravelCommands.ChangeFoodRations) && state.Ration != RationLevel.Filling)
+                return TravelCommands.ChangeFoodRations;
+
+            // Rest: the expert rule (stop when the weakest member has fallen to the genome's health threshold) plus the
+            // network's state-adaptive nudge o[0]. At zero weights o[0] is 0, so this is exactly the expert decision.
+            var restMargin = (_setup.RestHealthThreshold - (int) state.LowestHealth) / 500.0 + o[0];
+            if (available.Contains(TravelCommands.StopToRest) && restMargin > 0 && state.DaysRemaining > 40)
                 return TravelCommands.StopToRest;
 
-            if (available.Contains(TravelCommands.HuntForFood) && o[1] > 0 && state.Ammo > 0)
+            // Hunt: the expert rule (top up the larder below the genome's food threshold) plus the network's nudge o[1], still
+            // gated on having ammo. Normalized by the same 500-scale as the feature so o[1] is a comparable-magnitude signal.
+            var huntMargin = (_setup.HuntFoodThreshold - state.Food) / 500.0 + o[1];
+            if (available.Contains(TravelCommands.HuntForFood) && huntMargin > 0 && state.Ammo > 0)
                 return TravelCommands.HuntForFood;
 
             return available.Contains(TravelCommands.ContinueOnTrail)
@@ -56,9 +80,9 @@ namespace OregonTrailDotNet.Bot.Learning
                 : available.First();
         }
 
-        public int Pace(GameSnapshot state) => 1;
-        public int Ration(GameSnapshot state) => 1;
-        public int RestDays(GameSnapshot state) => 3;
+        public int Pace(GameSnapshot state) => (int) TravelPace.Grueling;                              // menu 3: full daily maximum
+        public int Ration(GameSnapshot state) => 1;                                                    // menu 1: Filling
+        public int RestDays(GameSnapshot state) => _setup.RestDays;
 
         public bool YesNo(string formName, GameSnapshot state) => formName switch
         {
@@ -76,13 +100,15 @@ namespace OregonTrailDotNet.Bot.Learning
         {
             var o = _brain.Forward(Features(state));
 
-            double ScoreOf(RiverChoiceKind kind) => kind switch
+            // Expert river preference (the seeded genome scores) plus the network's per-option correction. At zero weights the
+            // corrections are 0, so this is the expert's argmax; the network can re-rank the crossings as it learns.
+            double ScoreOf(RiverChoiceKind kind) => _setup.RiverScore(kind) + kind switch
             {
                 RiverChoiceKind.Ferry => o[2],
                 RiverChoiceKind.Indian => o[3],
                 RiverChoiceKind.Caulk => o[4],
                 RiverChoiceKind.Ford => o[5],
-                _ => double.NegativeInfinity
+                _ => 0.0
             };
 
             var best = options.FirstOrDefault();
@@ -100,7 +126,8 @@ namespace OregonTrailDotNet.Bot.Learning
             return best;
         }
 
-        public int Fork(GameSnapshot state, int branchCount) => 1;
+        public int Fork(GameSnapshot state, int branchCount) =>
+            _setup.ForkTakeSecond && branchCount >= 2 ? 2 : 1;
 
         private static double[] Features(GameSnapshot s)
         {
