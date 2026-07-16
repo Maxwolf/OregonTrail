@@ -903,8 +903,10 @@ namespace OregonTrailDotNet.Entity.Vehicle
                 return;
             }
 
-            // Don't change the state from disabled to moving.
-            if (Status == VehicleStatusEnum.Disabled)
+            // A disabled wagon whose part is still broken stays disabled until that part is repaired or replaced. A disabled
+            // wagon whose team has been restored (fort store, trade, abandoned wagon) rolls again — Disabled used to be
+            // sticky here, which made buying fresh oxen at a fort useless to a stranded party.
+            if ((Status == VehicleStatusEnum.Disabled) && (BrokenPart != null))
                 return;
 
             // Default response it to allow the vehicle to move.
