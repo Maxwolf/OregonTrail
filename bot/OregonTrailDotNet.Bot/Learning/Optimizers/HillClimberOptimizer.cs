@@ -67,7 +67,8 @@ namespace OregonTrailDotNet.Bot.Learning
             Current = _current,
             Generation = Generation,
             BestRaw = BestVector,
-            BestFitness = BestFitness
+            BestFitness = BestFitness,
+            FitnessVersion = TrainingSession.FitnessVersion
         });
 
         public void Load(byte[]? blob)
@@ -86,6 +87,14 @@ namespace OregonTrailDotNet.Bot.Learning
             BestFitness = state.BestFitness;
             if (state.BestRaw != null && state.BestRaw.Length == _length)
                 BestVector = state.BestRaw;
+
+            // A champion scored under an older fitness shaping is not comparable on the new scale — drop it (the climber's
+            // current point remains a meaningful starting point) so the next batch's champion can take over.
+            if (state.FitnessVersion != TrainingSession.FitnessVersion)
+            {
+                BestFitness = double.MinValue; // MinValue, not NegativeInfinity: a bug-halt can Serialize before the next Update, and JSON cannot express Infinity
+                BestVector = null;
+            }
         }
 
         private sealed class PersistedState
@@ -94,6 +103,9 @@ namespace OregonTrailDotNet.Bot.Learning
             public int Generation { get; set; }
             public double[]? BestRaw { get; set; }
             public double BestFitness { get; set; }
+
+            // Absent in blobs saved before versioning existed — deserializes to 0, which never matches a real version.
+            public int FitnessVersion { get; set; }
         }
     }
 }

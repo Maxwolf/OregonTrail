@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Person;
+using OregonTrailDotNet.Entity.Vehicle;
 using OregonTrailDotNet.Event;
 using OregonTrailDotNet.Event.Person;
 using OregonTrailDotNet.Event.Vehicle;
@@ -116,6 +117,28 @@ namespace OregonTrailDotNet.Tests.Module
             var screen = Game.WindowManager.FocusedWindow?.OnRenderWindow() ?? string.Empty;
             Assert.Contains("repair it", screen);
             Assert.Contains(vehicle.BrokenPart.Name.ToLowerInvariant(), screen);
+        }
+
+        [Fact]
+        public void TriggerEvent_MagicRepair_ClearsTheBrokenPart()
+        {
+            // The "you were able to repair it" outcome must clear the broken part: CheckStatus treats a lingering broken
+            // part as disabling, so a stale flag would re-strand the wagon long after the repair (and silently block any
+            // future part from ever breaking again).
+            var vehicle = Game.Vehicle;
+            vehicle.Inventory[EntitiesEnum.Animal].AddQuantity(2);
+            vehicle.BreakRandomPart();
+            Assert.NotNull(vehicle.BrokenPart);
+            vehicle.Status = VehicleStatusEnum.Disabled;
+
+            Game.EventDirector.TriggerEvent(vehicle, typeof(RepairVehiclePart));
+
+            Assert.Null(vehicle.BrokenPart);
+            Assert.Equal(VehicleStatusEnum.Stopped, vehicle.Status);
+
+            // And with the part cleared, the wagon rolls again on the next status check.
+            vehicle.CheckStatus();
+            Assert.Equal(VehicleStatusEnum.Moving, vehicle.Status);
         }
 
         [Fact]

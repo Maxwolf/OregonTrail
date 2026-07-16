@@ -74,15 +74,40 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
-        public void AllAliveWin_IsWorthFarMoreThanAProportionateShare_OfALoneSurvivorWin()
+        public void AllAliveWin_IsWorthFarMoreThan_ALoneSurvivorWin()
         {
-            // Super-linear reward: a full-party win must dominate a lone-survivor win by a wide margin, so the rare all-alive
-            // finish beats a reliable low-survivor rush on expected value (the whole point of the reshape). Both travelled the
-            // same distance, so the gap is pure survival/score - it must still be several times larger.
+            // Super-linear reward: a full-party win must dominate a lone-survivor win by a wide margin. (The old 4x ratio is
+            // no longer attainable: every win now carries the flat dominance bonus that floors it above every non-win, so
+            // the survival gap is expressed within the win band rather than by driving bad wins toward zero.)
             var allFive = Fitness(Run(GameOutcomeEnum.Win, survivors: 5, partyHealth: 500, miles: 2040, score: 7650));
             var loneSurvivor = Fitness(Run(GameOutcomeEnum.Win, survivors: 1, partyHealth: 500, miles: 2040, score: 1650));
 
-            Assert.True(allFive > loneSurvivor * 4);
+            Assert.True(allFive > loneSurvivor * 2);
+        }
+
+        [Fact]
+        public void WorstWin_StillBeats_TheBestPossibleNonWin()
+        {
+            // The whole point of the finish bonus: no non-win outcome - not even a full healthy party that stalled out the
+            // clock at Oregon's doorstep - may ever outrank an actual finish, or the optimizer climbs toward stalling.
+            var worstWin = Fitness(Run(GameOutcomeEnum.Win, survivors: 1, partyHealth: 200, miles: 2040, score: 300));
+            var bestTimeout = Fitness(Run(GameOutcomeEnum.Timeout, survivors: 5, partyHealth: 500, miles: 2000, score: 7650));
+            var bestStranding = Fitness(Run(GameOutcomeEnum.Death, survivors: 5, partyHealth: 500, miles: 2000));
+
+            Assert.True(worstWin > bestTimeout);
+            Assert.True(worstWin > bestStranding);
+        }
+
+        [Fact]
+        public void Timeout_EarnsNoFinishBonus_AndIgnoresItsPartialScore()
+        {
+            // Running out the 246-day clock is a failure, scored exactly like any other non-finish (survival + progress).
+            // It used to share the win branch's finish bonus - a healthy party idling to day 246 out-scored every genuine
+            // attempt, so the accessible fitness optimum was stalling, not winning.
+            var timedOut = Fitness(Run(GameOutcomeEnum.Timeout, survivors: 4, partyHealth: 400, miles: 900, score: 9999));
+            var sameButDead = Fitness(Run(GameOutcomeEnum.Death, survivors: 4, partyHealth: 400, miles: 900));
+
+            Assert.Equal(sameButDead, timedOut);
         }
 
         [Fact]

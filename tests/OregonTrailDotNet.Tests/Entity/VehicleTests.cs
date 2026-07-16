@@ -165,14 +165,30 @@ namespace OregonTrailDotNet.Tests.Entity
         }
 
         [Fact]
-        public void CheckStatus_DisabledVehicleStaysDisabled()
+        public void CheckStatus_RegainingOxen_ReenablesDisabledVehicle()
         {
             var vehicle = new VehicleEntity();
             vehicle.CheckStatus();
             Assert.Equal(VehicleStatusEnum.Disabled, vehicle.Status);
 
-            // Getting oxen back does not automatically re-enable the wagon.
+            // Getting oxen back (fort store, trade, abandoned wagon) re-enables the wagon: Disabled used to be sticky,
+            // which made buying fresh oxen at a fort useless to a stranded party.
             vehicle.Inventory[EntitiesEnum.Animal].AddQuantity(2);
+            vehicle.CheckStatus();
+
+            Assert.Equal(VehicleStatusEnum.Moving, vehicle.Status);
+        }
+
+        [Fact]
+        public void CheckStatus_BrokenPartWithoutSpare_KeepsDisabledVehicleDisabled()
+        {
+            var vehicle = new VehicleEntity();
+            vehicle.Inventory[EntitiesEnum.Animal].AddQuantity(2);
+
+            // A broken part with no spare disables the wagon (VehicleNoSparePart does this in-game); having oxen must not
+            // clear it while the part is still broken.
+            vehicle.BrokenPart = Parts.Wheel;
+            vehicle.Status = VehicleStatusEnum.Disabled;
             vehicle.CheckStatus();
 
             Assert.Equal(VehicleStatusEnum.Disabled, vehicle.Status);

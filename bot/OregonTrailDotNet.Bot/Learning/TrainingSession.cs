@@ -14,6 +14,12 @@ namespace OregonTrailDotNet.Bot.Learning
     /// </summary>
     public sealed class TrainingSession
     {
+        /// <summary>Bumped whenever <see cref="Fitness" /> changes scale or semantics. Optimizers stamp it into their
+        ///     persisted learning state so a champion's BestFitness measured under an old objective is never compared against
+        ///     new-scale fitness on resume — a stale cross-scale champion could otherwise never be displaced and the profile
+        ///     would keep replaying it as its "best" genome forever.</summary>
+        internal const int FitnessVersion = 2;
+
         private readonly BotDatabase _db;
         private readonly long _profileId;
         private readonly string _profileName;
@@ -87,8 +93,8 @@ namespace OregonTrailDotNet.Bot.Learning
                         RecordRun(result, generationNumber, candidate, vectorJson, fitness);
 
                         // Unambiguous bugs (a crash, a broken invariant, or a screen the bot has no handler for) stop the whole
-                        // batch so a developer can fix them. A plain soft-lock is treated as a failed game (score 0, which the
-                        // optimizer learns to avoid) so one unlucky stuck game doesn't abort a long training run.
+                        // batch so a developer can fix them. A plain soft-lock is treated as a failed game (recorded with the
+                        // ordinary non-finish fitness for its end state) so one unlucky stuck game doesn't abort a long run.
                         if (result.Bug != null && result.Bug.Category != BugCategoryEnum.SoftLock)
                         {
                             PersistOptimizer();
@@ -173,14 +179,13 @@ namespace OregonTrailDotNet.Bot.Learning
             _db.Profiles.SaveLearningState(_profileId, _optimizer.Serialize(), _optimizer.Generation, _bestScoreEver, bestGenomeJson);
         }
 
-        // The objective is to arrive with as many people as possible in the best health, so fitness rewards that for EVERY
-        // run - finished or not - rather than the old distance-only reward for failures, which taught policies to buy oxen,
-        // floor it, and ignore the party's health (medicine, clothing and spare parts never paid off under that signal). The
-        // components, in priority order:
-        //   - partyHealth: survivors weighted by their average health (0..2500). This is the heart of the goal and is the only
-        //     signal that separates "kept 4 people alive" from "lost everyone", giving a gradient toward survival everywhere.
-        //   - finishBonus: a flat bonus plus the real game score, so actually reaching Oregon dominates and finishers are still
-        //     ranked among themselves by the true score the leaderboard records.
+        // The objective is to REACH OREGON with as many people as possible in the best health. Fitness shapes that in
+        // strict priority order:
+        //   - winning: only an actual Win earns the finish bonus, sized so that EVERY win outranks EVERY non-win. (Timeout
+        //     used to share this branch, which taught the optimizer that a fat party idling out the 246-day clock beats
+        //     trying to finish - stalling was the accessible optimum, so nothing ever learned to push for Oregon.)
+        //   - partyHealth: survivors weighted by their average health (0..2500), credited on every run, giving a gradient
+        //     toward survival everywhere.
         //   - progress: a gentle distance tie-breaker so that, among equally-alive parties, getting further still ranks higher.
         // The leaderboard and best-score tracking continue to use the real game score (result.Score) untouched; only the
         // optimizer's search objective is shaped here.
@@ -190,26 +195,25 @@ namespace OregonTrailDotNet.Bot.Learning
             var deaths = Math.Max(0, partySize - result.Survivors);
 
             // Survivors weighted SUPER-LINEARLY (survivors^2) by their average health, normalised by party size so a full,
-            // healthy party scores 2500. This is the heart of the objective and is now credited on EVERY run - finished,
-            // timed-out, died, OR stranded - so a party that kept people alive always out-scores one that lost them and there
-            // is a smooth survival gradient everywhere. Previously a stranded-but-alive party fell into the distance-only
-            // branch and got NO credit for the members it kept alive - a ~2500-point cliff that made fitness mostly luck.
-            // Adding this term to both branches removes the cliff while leaving the finisher ordering byte-for-byte unchanged.
+            // healthy party scores 2500. This is credited on EVERY run - won, timed-out, died, OR stranded - so a party that
+            // kept people alive always out-scores one that lost them and there is a smooth survival gradient everywhere.
             var survivalReward = (double) result.Survivors * result.Survivors * result.PartyHealthValue / partySize;
 
-            if (result.IsFinished)
+            if (result.Outcome == GameOutcomeEnum.Win)
             {
-                // The party reached Oregon (or ran the clock out still on the trail). A flat bonus plus the true game score
-                // make finishing dominate and rank finishers among themselves, and a HEAVY per-death penalty pushes the
-                // optimizer to bring the WHOLE party through. (The penalty is capped near 800: pushed much higher a
-                // low-survivor finish would score worse than not finishing at all, which would perversely discourage winning.)
-                return 2000 + result.Score + survivalReward - deaths * 800.0;
+                // Reaching Oregon strictly dominates: the flat bonus exceeds the best possible non-win fitness (500 progress
+                // + 2500 survival = 3000) even after the worst-case death penalty (4 x 150 = 600), so the optimizer can never
+                // prefer stalling or parking over a genuine finish. Within wins, the real game score plus the survival term
+                // still rank a full healthy party far above a decimated one; the per-death penalty stays LIGHT because a
+                // heavy one made a costly win rank below not finishing at all, which perversely discouraged winning.
+                return 4000 + result.Score + survivalReward - deaths * 150.0;
             }
 
-            // Died or stranded before Oregon. Forward progress is a gentle tie-breaker on top of the survival reward above,
-            // and the death penalty here stays LIGHT: heavy enough that throwing lives away is never free, but not so heavy
-            // that a doomed party is better off parking the wagon than pressing on. A penalty that dominates this branch
-            // collapses training - the optimizer starves the oxen budget to avoid deaths and strands the wagon short of Oregon.
+            // Timed out, died, or stranded before Oregon - the party did not finish, so no finish bonus. Forward progress is
+            // a gentle tie-breaker on top of the survival reward above, and the death penalty here stays LIGHT: heavy enough
+            // that throwing lives away is never free, but not so heavy that a doomed party is better off parking the wagon
+            // than pressing on. A penalty that dominates this branch collapses training - the optimizer starves the oxen
+            // budget to avoid deaths and strands the wagon short of Oregon.
             return result.Miles * 0.25 + survivalReward - deaths * 100.0;
         }
 

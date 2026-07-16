@@ -1,5 +1,6 @@
 using OregonTrailDotNet.Bot.Diagnostics;
 using OregonTrailDotNet.Bot.Learning;
+using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Person;
 
 namespace OregonTrailDotNet.Bot.Game
@@ -60,6 +61,10 @@ namespace OregonTrailDotNet.Bot.Game
                     Days = GameSimulationApp.Instance?.Time?.TotalDays ?? 0,
                     Miles = GameSimulationApp.Instance?.Vehicle?.Odometer ?? 0,
                     Survivors = GameSimulationApp.Instance?.Vehicle?.PassengerLivingCount ?? 0,
+                    PartySize = GameSimulationApp.Instance?.Vehicle?.Passengers.Count ?? 0,
+                    PartyHealthValue = GameSimulationApp.Instance?.Vehicle != null
+                        ? (int) GameSimulationApp.Instance.Vehicle.PassengerHealthStatus
+                        : 0,
                     Profession = policy.Profession,
                     StartMonth = policy.StartMonth,
                     AbortReason = "crash: " + ex.Message,
@@ -232,7 +237,17 @@ namespace OregonTrailDotNet.Bot.Game
             var vehicle = game.Vehicle;
             var leader = vehicle.PassengerLeader;
 
+            // The game's UnableToContinue screen covers BOTH immovable-wagon causes; report the one that actually hit so
+            // the training data doesn't lump broken-part strandings in with oxen loss.
+            var cause = vehicle.Inventory[EntitiesEnum.Animal].Quantity <= 0
+                ? "Stranded (no oxen to pull the wagon)"
+                : vehicle.BrokenPart != null
+                    ? $"Stranded (broken {vehicle.BrokenPart.Name.ToLowerInvariant()}, no spare)"
+                    : "Stranded (wagon unable to continue)";
+
             // A stranded journey scores nothing and never finishes; model it as a failed run so the optimizer avoids it.
+            // PartySize/PartyHealthValue must be filled in here: the fitness survival term reads them, and stranding is the
+            // dominant failed outcome — leaving them zero silently erased the survival gradient for almost every death.
             return new RunResult
             {
                 Outcome = GameOutcomeEnum.Death,
@@ -240,7 +255,9 @@ namespace OregonTrailDotNet.Bot.Game
                 Days = game.Time.TotalDays,
                 Miles = vehicle.Odometer,
                 Survivors = vehicle.PassengerLivingCount,
-                CauseOfDeath = "Stranded (no oxen to pull the wagon)",
+                PartySize = vehicle.Passengers.Count,
+                PartyHealthValue = (int) vehicle.PassengerHealthStatus,
+                CauseOfDeath = cause,
                 LeaderName = leader?.Name ?? "",
                 Profession = leader != null ? (int) leader.Profession : _policy.Profession,
                 StartMonth = _policy.StartMonth
@@ -294,6 +311,8 @@ namespace OregonTrailDotNet.Bot.Game
                 Days = game?.Time?.TotalDays ?? 0,
                 Miles = game?.Vehicle?.Odometer ?? 0,
                 Survivors = game?.Vehicle?.PassengerLivingCount ?? 0,
+                PartySize = game?.Vehicle?.Passengers.Count ?? 0,
+                PartyHealthValue = game?.Vehicle != null ? (int) game.Vehicle.PassengerHealthStatus : 0,
                 LeaderName = game?.Vehicle?.PassengerLeader?.Name ?? "",
                 Profession = _policy.Profession,
                 StartMonth = _policy.StartMonth,
@@ -325,6 +344,8 @@ namespace OregonTrailDotNet.Bot.Game
                 Days = game?.Time?.TotalDays ?? 0,
                 Miles = game?.Vehicle?.Odometer ?? 0,
                 Survivors = game?.Vehicle?.PassengerLivingCount ?? 0,
+                PartySize = game?.Vehicle?.Passengers.Count ?? 0,
+                PartyHealthValue = game?.Vehicle != null ? (int) game.Vehicle.PassengerHealthStatus : 0,
                 LeaderName = game?.Vehicle?.PassengerLeader?.Name ?? "",
                 Profession = _policy.Profession,
                 StartMonth = _policy.StartMonth,

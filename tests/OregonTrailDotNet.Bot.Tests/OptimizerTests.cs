@@ -1,3 +1,5 @@
+using System.Text;
+using System.Text.Json.Nodes;
 using OregonTrailDotNet.Bot.Learning;
 using Xunit;
 
@@ -48,6 +50,33 @@ namespace OregonTrailDotNet.Bot.Tests
                 restored.Load(optimizer.Serialize());
                 Assert.Equal(optimizer.Generation, restored.Generation);
                 Assert.Equal(optimizer.BestFitness, restored.BestFitness);
+            }
+        }
+
+        [Fact]
+        public void Load_DropsTheChampion_FromABlobSavedUnderAnOlderFitnessShaping()
+        {
+            foreach (var model in TrainingModels.All)
+            {
+                var optimizer = model.CreateOptimizer(8);
+                var scored = optimizer.Sample().Select((v, i) => (v, (double) (i * 10))).ToList();
+                optimizer.Update(scored);
+                Assert.NotNull(optimizer.BestVector);
+
+                // Blobs written before fitness versioning carry no FitnessVersion property (reads back as 0).
+                var node = JsonNode.Parse(optimizer.Serialize())!.AsObject();
+                node.Remove("FitnessVersion");
+                var preVersioningBlob = Encoding.UTF8.GetBytes(node.ToJsonString());
+
+                var restored = model.CreateOptimizer(8);
+                restored.Load(preVersioningBlob);
+
+                // The search state survives the upgrade, but the champion must not: its BestFitness was measured on the
+                // old fitness scale, and comparing it against new-scale fitness would freeze the profile's "best" genome
+                // on a policy the reshape was designed to displace.
+                Assert.Equal(optimizer.Generation, restored.Generation);
+                Assert.Null(restored.BestVector);
+                Assert.Equal(double.MinValue, restored.BestFitness);
             }
         }
     }

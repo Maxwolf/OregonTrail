@@ -10,9 +10,10 @@ namespace OregonTrailDotNet.Bot.Ui
     [ParentWindow(typeof(BotMainMenu))]
     public sealed class TrainingConfigForm : Form<BotAppData>
     {
-        // Internal so the custom-count form can build an identical request.
+        // Internal so the custom-count form can build an identical request. Games-per-candidate matches the
+        // TrainingConfig default (see its doc comment for why 64).
         internal const int DefaultPopulation = 16;
-        internal const int DefaultGamesPerCandidate = 8;
+        internal const int DefaultGamesPerCandidate = 64;
 
         // The training-length choices. A negative generation count means "train until the player presses Esc" (see
         // TrainingSession.Run and Program.RunTraining, which both treat < 0 as open-ended).

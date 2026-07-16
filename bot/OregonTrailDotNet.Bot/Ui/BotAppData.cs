@@ -34,7 +34,7 @@ namespace OregonTrailDotNet.Bot.Ui
         /// <summary>
         ///     Number of games averaged together to score a single candidate genome (noise smoothing).
         /// </summary>
-        public int GamesPerCandidate { get; set; } = 8;
+        public int GamesPerCandidate { get; set; } = 64;
 
         /// <summary>
         ///     Number of CEM generations to run in a single training batch.

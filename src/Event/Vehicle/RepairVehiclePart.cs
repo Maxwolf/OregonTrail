@@ -43,6 +43,11 @@ namespace OregonTrailDotNet.Event.Vehicle
 
             // Ensures the vehicle will be able to continue down the trail.
             vehicle.Status = VehicleStatusEnum.Stopped;
+
+            // The part is fixed, so stop tracking it as broken (safe here: the event text was already rendered). Leaving
+            // it set blocked any future part from breaking and let CheckStatus, which treats a lingering broken part as
+            // disabling, re-strand the wagon long after this repair.
+            vehicle.BrokenPart = null;
             return false;
         }
 

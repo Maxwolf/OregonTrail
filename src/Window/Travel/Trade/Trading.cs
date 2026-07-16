@@ -205,6 +205,12 @@ namespace OregonTrailDotNet.Window.Travel.Trade
                     GameSimulationApp.Instance.Vehicle.Inventory[_trades[_tradeIndex].OfferedItem.Category].AddQuantity(
                         _trades[_tradeIndex].OfferedItem.Quantity);
 
+                    // A wagon sitting on a broken part is repaired on the spot when the party now holds a matching
+                    // spare — completing the "trade for the part you need" rescue the stranding screens point toward.
+                    var vehicle = GameSimulationApp.Instance.Vehicle;
+                    if ((vehicle.BrokenPart != null) && vehicle.TryUseSparePart())
+                        vehicle.BrokenPart = null;
+
                     // Checks if the player has animals to pull their vehicle.
                     GameSimulationApp.Instance.Vehicle.Status =
                         GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Animal].Quantity <= 0
