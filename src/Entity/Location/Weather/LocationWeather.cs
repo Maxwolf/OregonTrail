@@ -107,8 +107,7 @@ namespace OregonTrailDotNet.Entity.Location.Weather
             if ((_disasterChance > 0) && (game.Random.NextDouble() >= _disasterChance))
             {
                 // Only trigger weather events if the vehicle is moving and we are on the trail.
-                if ((game.Vehicle.Status == VehicleStatusEnum.Moving) &&
-                    (game.Trail.CurrentLocation.Status == LocationStatusEnum.Departed))
+                if (VehicleOnTrail())
                     // At high elevations the overwhelming majority of storms are blizzards, so redirect the weather event to a
                     // blizzard 90% of the time when the party is up in the high country.
                     if (game.Trail.CurrentLocation.HighGround && (game.Random.NextDouble() <= 0.90d))
@@ -158,6 +157,18 @@ namespace OregonTrailDotNet.Entity.Location.Weather
             // Adjust both temperature and humidity.
             AdjustTemperature();
             AdjustHumidity();
+        }
+
+        /// <summary>
+        ///     True only while the wagon is actually rolling down the trail — the same guard the disaster branch in
+        ///     <see cref="Tick" /> has always applied. Weather-rolled events (hail storms, severe weather, heavy fog) use it
+        ///     too so a party resting at a location or already stranded is not pummeled by trail disasters it cannot outrun.
+        /// </summary>
+        private static bool VehicleOnTrail()
+        {
+            var game = GameSimulationApp.Instance;
+            return (game.Vehicle.Status == VehicleStatusEnum.Moving) &&
+                   (game.Trail.CurrentLocation.Status == LocationStatusEnum.Departed);
         }
 
         /// <summary>
@@ -266,7 +277,7 @@ namespace OregonTrailDotNet.Entity.Location.Weather
                 case 4:
                     Condition = WeatherConditionsEnum.Hail;
                     _nextWeatherChance = 0.95d;
-                    if (GameSimulationApp.Instance.Random.NextBool())
+                    if (VehicleOnTrail() && GameSimulationApp.Instance.Random.NextBool())
                         GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
                             typeof(HailStorm));
 
@@ -276,7 +287,7 @@ namespace OregonTrailDotNet.Entity.Location.Weather
                     _nextWeatherChance = 0.85d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
 
-                    if (GameSimulationApp.Instance.Random.NextBool())
+                    if (VehicleOnTrail() && GameSimulationApp.Instance.Random.NextBool())
                         GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
                             typeof(SevereWeather));
 
@@ -301,7 +312,7 @@ namespace OregonTrailDotNet.Entity.Location.Weather
                     _nextWeatherChance = 0.90d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
 
-                    if (GameSimulationApp.Instance.Random.NextBool())
+                    if (VehicleOnTrail() && GameSimulationApp.Instance.Random.NextBool())
                         GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
                             typeof(SevereWeather));
 
@@ -320,7 +331,7 @@ namespace OregonTrailDotNet.Entity.Location.Weather
                     _nextWeatherChance = 0.90d;
                     _disasterChance = (float) GameSimulationApp.Instance.Random.NextDouble();
 
-                    if (GameSimulationApp.Instance.Random.NextBool())
+                    if (VehicleOnTrail() && GameSimulationApp.Instance.Random.NextBool())
                         GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
                             typeof(SevereWeather));
 
@@ -333,7 +344,7 @@ namespace OregonTrailDotNet.Entity.Location.Weather
                     Condition = WeatherConditionsEnum.Fog;
                     _nextWeatherChance = 0.78d;
 
-                    if (GameSimulationApp.Instance.Random.NextBool())
+                    if (VehicleOnTrail() && GameSimulationApp.Instance.Random.NextBool())
                         GameSimulationApp.Instance.EventDirector.TriggerEvent(GameSimulationApp.Instance.Vehicle,
                             typeof(HeavyFog));
 
