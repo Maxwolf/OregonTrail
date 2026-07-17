@@ -1,129 +1,66 @@
-﻿// Created by Maxwolf (bigmaxwolf.com) 
+﻿// Created by Maxwolf (bigmaxwolf.com)
 // Timestamp 01/03/2016@1:50 AM
 
-using WolfCurses.Utility;
+using System.ComponentModel;
 
 namespace OregonTrailDotNet.Entity.Location.Weather
 {
     /// <summary>
-    ///     Determines what the environment is like and goes into helping calculate roll chance. For example, experiencing
-    ///     stormy weather will mean there is a higher chance of a travel event being triggered.
+    ///     What the weather is doing today. The first six are the temperature the party is walking through, banded from the
+    ///     day's reading; the last four replace that reading entirely when there is something falling out of the sky, since
+    ///     what matters then is the rain or the snow rather than the thermometer. Colder days turn rain to snow, and heavy
+    ///     weather is worse for the party than light. Values are the band the original indexed its weather names by.
     /// </summary>
     public enum WeatherConditionsEnum
     {
         /// <summary>
-        ///     The partly sunny.
+        ///     Freezing and dangerous to a party without warm clothes.
         /// </summary>
-        [Description("Partly Sunny")] PartlySunny,
+        [Description("very cold")] VeryCold = 0,
 
         /// <summary>
-        ///     The scattered thunderstorms.
+        ///     Cold enough that clothing matters.
         /// </summary>
-        [Description("Scattered Thunderstorms")] ScatteredThunderstorms,
+        [Description("cold")] Cold = 1,
 
         /// <summary>
-        ///     The scattered showers.
+        ///     Cool but comfortable.
         /// </summary>
-        [Description("Scattered Showers")] ScatteredShowers,
+        [Description("cool")] Cool = 2,
 
         /// <summary>
-        ///     The overcast.
+        ///     Warm: the easiest travelling weather there is.
         /// </summary>
-        [Description("Overcast")] Overcast,
+        [Description("warm")] Warm = 3,
 
         /// <summary>
-        ///     The light snow.
+        ///     Hot enough to wear on the party.
         /// </summary>
-        [Description("Light Snow")] LightSnow,
+        [Description("hot")] Hot = 4,
 
         /// <summary>
-        ///     The freezing drizzle.
+        ///     Baking, and as hard on the party as the cold.
         /// </summary>
-        [Description("Freezing Drizzle")] FreezingDrizzle,
+        [Description("very hot")] VeryHot = 5,
 
         /// <summary>
-        ///     The chance of rain.
+        ///     Rain.
         /// </summary>
-        [Description("Chance Of Rain")] ChanceOfRain,
+        [Description("rainy")] Rainy = 6,
 
         /// <summary>
-        ///     The sunny.
+        ///     Rain that fell as snow because the day was cold.
         /// </summary>
-        [Description("Sunny")] Sunny,
+        [Description("snowy")] Snowy = 7,
 
         /// <summary>
-        ///     The clear.
+        ///     A downpour, which swells the rivers ahead considerably faster.
         /// </summary>
-        [Description("Clear")] Clear,
+        [Description("very rainy")] VeryRainy = 8,
 
         /// <summary>
-        ///     The mostly sunny.
+        ///     A blizzard: the worst travelling weather in the game.
         /// </summary>
-        [Description("Mostly Sunny")] MostlySunny,
-
-        /// <summary>
-        ///     The rain.
-        /// </summary>
-        [Description("Rain")] Rain,
-
-        /// <summary>
-        ///     The cloudy.
-        /// </summary>
-        [Description("Cloudy")] Cloudy,
-
-        /// <summary>
-        ///     The storm.
-        /// </summary>
-        [Description("Storm")] Storm,
-
-        /// <summary>
-        ///     The thunderstorm.
-        /// </summary>
-        [Description("Thunderstorm")] Thunderstorm,
-
-        /// <summary>
-        ///     The chance of thunderstorm.
-        /// </summary>
-        [Description("Chance Of Thunderstorm")] ChanceOfThunderstorm,
-
-        /// <summary>
-        ///     The sleet.
-        /// </summary>
-        [Description("Sleet")] Sleet,
-
-        /// <summary>
-        ///     The snow.
-        /// </summary>
-        [Description("Snow")] Snow,
-
-        /// <summary>
-        ///     The icy.
-        /// </summary>
-        [Description("Icy")] Icy,
-
-        /// <summary>
-        ///     The fog.
-        /// </summary>
-        [Description("Fog")] Fog,
-
-        /// <summary>
-        ///     The haze.
-        /// </summary>
-        [Description("Haze")] Haze,
-
-        /// <summary>
-        ///     The flurries.
-        /// </summary>
-        [Description("Flurries")] Flurries,
-
-        /// <summary>
-        ///     The snow showers.
-        /// </summary>
-        [Description("Snow Showers")] SnowShowers,
-
-        /// <summary>
-        ///     The hail.
-        /// </summary>
-        [Description("Hail")] Hail
+        [Description("very snowy")] VerySnowy = 9
     }
 }
