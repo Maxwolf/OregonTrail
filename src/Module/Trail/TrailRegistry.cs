@@ -35,7 +35,8 @@ namespace OregonTrailDotNet.Module.Trail
                     new ForkInRoad("South Pass", ClimateEnum.Dry, new List<Location>
                     {
                         new Settlement("Fort Bridger", ClimateEnum.Dry),
-                        new RiverCrossing("Green River Crossing", ClimateEnum.Dry)
+                        new RiverCrossing("Green River Crossing", ClimateEnum.Dry,
+                            RiverOptionEnum.FerryOperator)
                     }) { HighGround = true, StuckChance = 80 },
                     new Landmark("Soda Springs", ClimateEnum.Dry),
                     new Settlement("Fort Hall", ClimateEnum.Moderate),
