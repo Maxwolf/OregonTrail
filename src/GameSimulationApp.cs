@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Entity.Vehicle;
+using OregonTrailDotNet.Module.Climate;
 using OregonTrailDotNet.Module.Director;
 using OregonTrailDotNet.Module.Scoring;
 using OregonTrailDotNet.Module.Time;
@@ -53,6 +54,11 @@ namespace OregonTrailDotNet
         ///     Manages time in a linear since from the provided ticks in base simulation class. Handles days, months, and years.
         /// </summary>
         public TimeModule Time { get; private set; }
+
+        /// <summary>
+        ///     Runs the weather over the journey: what today is like, and how wet and snowed-in the country has become.
+        /// </summary>
+        public ClimateModule Climate { get; private set; }
 
         /// <summary>
         ///     Base interface for the event manager, it is ticked as a sub-system of the primary game simulation and can affect
@@ -157,6 +163,10 @@ namespace OregonTrailDotNet
 
             // Set the starting month to match what the user selected.
             Time.SetMonth(startingInfo.StartingMonth);
+
+            // The departure month decides how much of the spring melt the party is setting out into, so the weather has to
+            // be started over now that the month is actually known rather than at the default it was created with.
+            Climate = new ClimateModule((int) startingInfo.StartingMonth);
         }
 
         /// <summary>
@@ -233,6 +243,7 @@ namespace OregonTrailDotNet
             Time.Destroy();
             EventDirector.Destroy();
             Trail.Destroy();
+            Climate?.Destroy();
 
             // Null the destroyed instances.
             Scoring = null;
@@ -240,6 +251,7 @@ namespace OregonTrailDotNet
             Time = null;
             EventDirector = null;
             Trail = null;
+            Climate = null;
             TotalTurns = 0;
             Vehicle = null;
 
@@ -291,6 +303,10 @@ namespace OregonTrailDotNet
             EventDirector = new EventDirectorModule();
             Trail = new TrailModule();
             Vehicle = new Vehicle();
+
+            // Weather over the journey. Started again once the player picks a departure month, since that decides how much
+            // of the spring melt they are heading out into.
+            Climate = new ClimateModule((int) Time.CurrentMonth);
 
             // Resets the window manager in the base simulation.
             base.Restart();

@@ -312,6 +312,43 @@ namespace OregonTrailDotNet.Entity.Vehicle
         }
 
         /// <summary>
+        ///     Decides whether the trail lays somebody low today. The worse the party is faring the likelier it is, so a
+        ///     well-fed party in fair weather is rarely troubled while a cold, hungry one is picked at daily. Anybody worn as
+        ///     far down as a person can go is taken regardless - that is what being at the end of your rope means here.
+        /// </summary>
+        private void CheckPartyMisfortune()
+        {
+            var living = _passengers.Where(passenger => passenger.HealthStatus != HealthStatusEnum.Dead).ToList();
+            if (living.Count <= 0)
+                return;
+
+            // The leader is spared while anybody else is still standing, so they are not even in the running to be picked;
+            // choosing them and then declining to hurt them would mean nobody was picked at all, and a doomed party would
+            // stagger on forever rather than dying.
+            var victims = living.Count > 1
+                ? living.Where(passenger => !passenger.Leader).ToList()
+                : living;
+            if (victims.Count <= 0)
+                return;
+
+            // Anyone who cannot be worn down any further is struck first, without needing luck to find them.
+            var spent = victims.FirstOrDefault(passenger => passenger.AtBreakingPoint);
+            if (spent != null)
+            {
+                spent.StrikeIllness();
+                return;
+            }
+
+            // Otherwise the odds ride on how the party as a whole is holding up.
+            var worn = living.Average(passenger => passenger.Ailment);
+            if (GameSimulationApp.Instance.Random.NextDouble() >= 0.01 + worn/1500.0)
+                return;
+
+            // Somebody in particular has the bad luck of it.
+            victims[GameSimulationApp.Instance.Random.Next(victims.Count)].StrikeIllness();
+        }
+
+        /// <summary>
         ///     Health the party's score will be tallied against once frozen, or NULL while it still tracks their real health.
         ///     Committing to run the Columbia locks this in: the original wrote the whole scorecard to memory the moment that
         ///     choice was made and the rafting program afterwards rewrote every figure on it except the health, so a party who
@@ -543,6 +580,12 @@ namespace OregonTrailDotNet.Entity.Vehicle
             // actually slowed the wagon down.
             foreach (var person in _passengers)
                 person.OnTick(false, skipDay);
+
+            // Whether the trail claims anybody today is decided once for the party, not argued over by each of them in
+            // turn: one roll, one victim. Rolling per person would multiply the odds by the size of the family and turn a
+            // merely hard journey into a death spiral, since being struck down while already ill is what kills.
+            if (!skipDay)
+                CheckPartyMisfortune();
 
             // Oxen have to eat too. On a real day with the larder run dry, the team starves and an ox is lost - so letting
             // food hit zero doesn't just kill the party's people, it can also cost the animals that pull the wagon and

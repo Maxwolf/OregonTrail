@@ -1,3 +1,4 @@
+using System.Linq;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Item;
 using OregonTrailDotNet.Entity.Person;
@@ -130,6 +131,30 @@ namespace OregonTrailDotNet.Tests.Entity
             vehicle.ResetVehicle();
 
             Assert.Null(vehicle.LockedHealthStatus);
+        }
+
+        [Fact]
+        public void PartyMisfortune_NeverPicksTheLeaderWhileOthersLive_SoADoomedPartyStillDies()
+        {
+            // The leader is spared while anybody else is standing. If the day's victim were chosen without regard to that
+            // and then simply not harmed, nobody would be picked at all and a party with no food would stagger on forever
+            // instead of dying, so the leader must be excluded from the draw rather than shielded after it. Run this
+            // through the party the simulation actually knows about, since that is the one the shield asks about.
+            var vehicle = Game.Vehicle;
+            vehicle.ResetVehicle(0);
+            vehicle.AddPerson(new PersonEntity(ProfessionEnum.Banker, "Alice", true));
+            vehicle.AddPerson(new PersonEntity(ProfessionEnum.Banker, "Bob", false));
+
+            // Wear everyone to the end of their rope; the harm must land on Bob and never on Alice.
+            foreach (var person in vehicle.Passengers)
+                person.Damage(999);
+
+            var leader = vehicle.Passengers.First(person => person.Leader);
+            var companion = vehicle.Passengers.First(person => !person.Leader);
+
+            Assert.Equal(HealthStatusEnum.Good, leader.HealthStatus);
+            Assert.False(leader.IsSick);
+            Assert.True(companion.IsSick);
         }
 
         [Fact]

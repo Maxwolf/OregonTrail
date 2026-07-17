@@ -77,7 +77,7 @@ namespace OregonTrailDotNet.Tests
         [Fact]
         public void Location_HighGroundAndStuckChanceDefaultToOff()
         {
-            var landmark = new Landmark("Test Rock", ClimateEnum.Moderate);
+            var landmark = new Landmark("Test Rock", ClimateEnum.MissouriValley);
 
             Assert.False(landmark.HighGround);
             Assert.Equal(0, landmark.StuckChance);

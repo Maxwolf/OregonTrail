@@ -150,6 +150,10 @@ namespace OregonTrailDotNet.Module.Time
         /// <param name="skipDay">Determines if the time simulation did not advance the day but still ticked the game.</param>
         private void OnTickDay(bool skipDay)
         {
+            // The sky changes overnight, before anybody has to live through the day under it.
+            if (!skipDay)
+                GameSimulationApp.Instance.Climate?.Tick();
+
             // Move towards the next location on the trail. Ticks vehicle, location, people, weather, etc.
             GameSimulationApp.Instance.Trail.OnTick(false, skipDay);
         }

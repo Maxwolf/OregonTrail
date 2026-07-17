@@ -83,7 +83,7 @@ namespace OregonTrailDotNet.Tests.Module
         public void TriggerEvent_ExecutesEventAndNotifiesSubscribers()
         {
             var person = new PersonEntity(ProfessionEnum.Banker, "Alice", true);
-            person.Damage(200);
+            person.Damage(70);
             Assert.Equal(HealthStatusEnum.Poor, person.HealthStatus);
 
             IEntity notifiedEntity = null;

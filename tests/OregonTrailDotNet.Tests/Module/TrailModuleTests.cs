@@ -190,7 +190,7 @@ namespace OregonTrailDotNet.Tests.Module
         [Fact]
         public void InsertLocation_AddsLocationAfterCurrentOne()
         {
-            var detour = new Landmark("Test Detour", ClimateEnum.Moderate);
+            var detour = new Landmark("Test Detour", ClimateEnum.MissouriValley);
             Game.Trail.InsertLocation(detour);
 
             Assert.Same(detour, Game.Trail.NextLocation);
@@ -219,7 +219,7 @@ namespace OregonTrailDotNet.Tests.Module
         [Fact]
         public void Trail_RejectsSingleLocationList()
         {
-            var locations = new Location[] {new Landmark("Lonely Rock", ClimateEnum.Dry)};
+            var locations = new Location[] {new Landmark("Lonely Rock", ClimateEnum.HighCountry)};
 
             Assert.Throws<ArgumentException>(() => new TrailEntity(locations, 32, 164));
         }

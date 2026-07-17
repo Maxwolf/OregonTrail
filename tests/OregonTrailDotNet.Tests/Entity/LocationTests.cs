@@ -16,7 +16,7 @@ namespace OregonTrailDotNet.Tests.Entity
         [Fact]
         public void Settlement_AllowsChattingAndShopping()
         {
-            var settlement = new Settlement("Fort Test", ClimateEnum.Moderate);
+            var settlement = new Settlement("Fort Test", ClimateEnum.MissouriValley);
 
             Assert.True(settlement.ChattingAllowed);
             Assert.True(settlement.ShoppingAllowed);
@@ -25,7 +25,7 @@ namespace OregonTrailDotNet.Tests.Entity
         [Fact]
         public void Landmark_ForbidsChattingAndShopping()
         {
-            var landmark = new Landmark("Test Rock", ClimateEnum.Dry);
+            var landmark = new Landmark("Test Rock", ClimateEnum.HighCountry);
 
             Assert.False(landmark.ChattingAllowed);
             Assert.False(landmark.ShoppingAllowed);
@@ -34,7 +34,7 @@ namespace OregonTrailDotNet.Tests.Entity
         [Fact]
         public void TollRoad_ForbidsChattingAndShopping()
         {
-            var tollRoad = new TollRoad("Test Toll Road", ClimateEnum.Moderate);
+            var tollRoad = new TollRoad("Test Toll Road", ClimateEnum.MissouriValley);
 
             Assert.False(tollRoad.ChattingAllowed);
             Assert.False(tollRoad.ShoppingAllowed);
@@ -43,7 +43,7 @@ namespace OregonTrailDotNet.Tests.Entity
         [Fact]
         public void NewLocation_StartsUnreached()
         {
-            var location = new Landmark("Test Rock", ClimateEnum.Moderate);
+            var location = new Landmark("Test Rock", ClimateEnum.MissouriValley);
 
             Assert.Equal(LocationStatusEnum.Unreached, location.Status);
             Assert.False(location.LastLocation);
@@ -52,7 +52,7 @@ namespace OregonTrailDotNet.Tests.Entity
         [Fact]
         public void RiverCrossing_DefaultsToFloatAndFord()
         {
-            var river = new RiverCrossing("Test River", ClimateEnum.Continental);
+            var river = new RiverCrossing("Test River", ClimateEnum.GreatPlains);
 
             Assert.Equal(RiverOptionEnum.FloatAndFord, river.RiverCrossOption);
         }
@@ -60,7 +60,7 @@ namespace OregonTrailDotNet.Tests.Entity
         [Fact]
         public void RiverCrossing_KeepsExplicitCrossingOption()
         {
-            var river = new RiverCrossing("Test River", ClimateEnum.Continental, RiverOptionEnum.FerryOperator);
+            var river = new RiverCrossing("Test River", ClimateEnum.GreatPlains, RiverOptionEnum.FerryOperator);
 
             Assert.Equal(RiverOptionEnum.FerryOperator, river.RiverCrossOption);
         }
@@ -70,10 +70,10 @@ namespace OregonTrailDotNet.Tests.Entity
         {
             var choices = new List<Location>
             {
-                new Landmark("Left Path", ClimateEnum.Dry),
-                new Landmark("Right Path", ClimateEnum.Dry)
+                new Landmark("Left Path", ClimateEnum.HighCountry),
+                new Landmark("Right Path", ClimateEnum.HighCountry)
             };
-            var fork = new ForkInRoad("Test Fork", ClimateEnum.Dry, choices);
+            var fork = new ForkInRoad("Test Fork", ClimateEnum.HighCountry, choices);
 
             Assert.Equal(2, fork.SkipChoices.Count);
             Assert.Equal("Left Path", fork.SkipChoices[0].Name);
@@ -84,7 +84,7 @@ namespace OregonTrailDotNet.Tests.Entity
         {
             // The getter documents that it returns null when there are no skip choices; a null skipChoices argument
             // used to leave the backing list null and make the getter throw a NullReferenceException.
-            var fork = new ForkInRoad("Dead End", ClimateEnum.Dry, null);
+            var fork = new ForkInRoad("Dead End", ClimateEnum.HighCountry, null);
 
             Assert.Null(fork.SkipChoices);
         }

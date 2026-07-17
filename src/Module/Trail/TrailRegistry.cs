@@ -29,56 +29,56 @@ namespace OregonTrailDotNet.Module.Trail
                 {
                     // The five legs out to Fort Laramie run across open plains at twenty miles a day; everything west of it
                     // is mountain country at twelve, which is the default every other location keeps.
-                    new Settlement("Independence", ClimateEnum.Moderate)
+                    new Settlement("Independence", ClimateEnum.MissouriValley)
                         { TotalDistance = 102, BaseMilesPerDay = Location.PlainsMilesPerDay },
-                    new RiverCrossing("Kansas River Crossing", ClimateEnum.Continental, RiverOptionEnum.FerryOperator)
+                    new RiverCrossing("Kansas River Crossing", ClimateEnum.MissouriValley, RiverOptionEnum.FerryOperator)
                         { TotalDistance = 83, BaseMilesPerDay = Location.PlainsMilesPerDay },
-                    new RiverCrossing("Big Blue River Crossing", ClimateEnum.Continental)
+                    new RiverCrossing("Big Blue River Crossing", ClimateEnum.MissouriValley)
                         { TotalDistance = 119, BaseMilesPerDay = Location.PlainsMilesPerDay },
-                    new Settlement("Fort Kearney", ClimateEnum.Continental)
+                    new Settlement("Fort Kearney", ClimateEnum.GreatPlains)
                         { TotalDistance = 250, BaseMilesPerDay = Location.PlainsMilesPerDay },
-                    new Landmark("Chimney Rock", ClimateEnum.Moderate)
+                    new Landmark("Chimney Rock", ClimateEnum.GreatPlains)
                         { TotalDistance = 86, BaseMilesPerDay = Location.PlainsMilesPerDay },
-                    new Settlement("Fort Laramie", ClimateEnum.Moderate) { TotalDistance = 190 },
-                    new Landmark("Independence Rock", ClimateEnum.Moderate) { TotalDistance = 102 },
+                    new Settlement("Fort Laramie", ClimateEnum.GreatPlains) { TotalDistance = 190 },
+                    new Landmark("Independence Rock", ClimateEnum.HighCountry) { TotalDistance = 102 },
 
                     // Taking the Fort Bridger road means one less river to cross: the Green River crossing is the other
                     // branch of this same fork, not a location on the main trail, so choosing the fort skips it outright.
                     // It costs 86 miles to do so - 125 + 162 by way of the fort against 57 + 144 through the river.
                     // The fork's own distance is never used, since neither branch is the main trail.
-                    new ForkInRoad("South Pass", ClimateEnum.Dry, new List<Location>
+                    new ForkInRoad("South Pass", ClimateEnum.HighCountry, new List<Location>
                     {
-                        new Settlement("Fort Bridger", ClimateEnum.Dry) { LegDistance = 125, TotalDistance = 162 },
-                        new RiverCrossing("Green River Crossing", ClimateEnum.Dry, RiverOptionEnum.FerryOperator)
+                        new Settlement("Fort Bridger", ClimateEnum.HighCountry) { LegDistance = 125, TotalDistance = 162 },
+                        new RiverCrossing("Green River Crossing", ClimateEnum.HighCountry, RiverOptionEnum.FerryOperator)
                             { LegDistance = 57, TotalDistance = 144 }
                     }) { HighGround = true, StuckChance = 80, TotalDistance = 57 },
 
-                    new Landmark("Soda Springs", ClimateEnum.Dry) { TotalDistance = 57 },
-                    new Settlement("Fort Hall", ClimateEnum.Moderate) { TotalDistance = 182 },
-                    new RiverCrossing("Snake River Crossing", ClimateEnum.Moderate, RiverOptionEnum.IndianGuide)
+                    new Landmark("Soda Springs", ClimateEnum.HighCountry) { TotalDistance = 57 },
+                    new Settlement("Fort Hall", ClimateEnum.SnakeRiverPlain) { TotalDistance = 182 },
+                    new RiverCrossing("Snake River Crossing", ClimateEnum.SnakeRiverPlain, RiverOptionEnum.IndianGuide)
                         { TotalDistance = 114 },
-                    new Settlement("Fort Boise", ClimateEnum.Polar) { TotalDistance = 160 },
+                    new Settlement("Fort Boise", ClimateEnum.SnakeRiverPlain) { TotalDistance = 160 },
 
                     // Fort Walla Walla is a detour, not a parting of ways: both routes out of the Blue Mountains arrive at
                     // The Dalles, so the second choice is a null - stay on the main trail - rather than a branch. Going by
                     // way of the fort is 55 + 120 miles against 125 straight on, which is the fork's own distance.
-                    new ForkInRoad("Blue Mountains", ClimateEnum.Polar, new List<Location>
+                    new ForkInRoad("Blue Mountains", ClimateEnum.PacificSlope, new List<Location>
                     {
-                        new Settlement("Fort Walla Walla", ClimateEnum.Polar) { LegDistance = 55, TotalDistance = 120 },
+                        new Settlement("Fort Walla Walla", ClimateEnum.PacificSlope) { LegDistance = 55, TotalDistance = 120 },
                         null
                     }) { HighGround = true, StuckChance = 70, TotalDistance = 125 },
 
                     // The Dalles sits on the main trail and cannot be avoided, which is what makes its choice - run the
                     // Columbia for free, or pay the Barlow toll - the last real decision of the journey. Either way it is
                     // the same 100 miles to the valley.
-                    new ForkInRoad("The Dalles", ClimateEnum.Polar, new List<Location>
+                    new ForkInRoad("The Dalles", ClimateEnum.PacificSlope, new List<Location>
                     {
-                        new RiverCrossing("Columbia River", ClimateEnum.Moderate)
+                        new RiverCrossing("Columbia River", ClimateEnum.PacificSlope)
                             { LocksPartyHealth = true, TotalDistance = 100 },
-                        new TollRoad("Barlow Toll Road", ClimateEnum.Moderate) { TotalDistance = 100 }
+                        new TollRoad("Barlow Toll Road", ClimateEnum.PacificSlope) { TotalDistance = 100 }
                     }) { TotalDistance = 100 },
 
-                    new Settlement("Oregon City", ClimateEnum.Moderate)
+                    new Settlement("Oregon City", ClimateEnum.PacificSlope)
                 };
 
                 return new Trail(oregonTrail);
@@ -94,8 +94,8 @@ namespace OregonTrailDotNet.Module.Trail
             {
                 var testPoints = new Location[]
                 {
-                    new Settlement("Start Of Test", ClimateEnum.Moderate),
-                    new Settlement("End Of Test", ClimateEnum.Dry)
+                    new Settlement("Start Of Test", ClimateEnum.MissouriValley),
+                    new Settlement("End Of Test", ClimateEnum.PacificSlope)
                 };
 
                 return new Trail(testPoints, 50, 100);

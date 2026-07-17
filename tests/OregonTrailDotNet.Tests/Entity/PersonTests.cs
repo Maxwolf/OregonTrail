@@ -35,20 +35,18 @@ namespace OregonTrailDotNet.Tests.Entity
         [Fact]
         public void Damage_WalksHealthDownThroughEveryBand()
         {
-            // Health starts at Good (500); each band is a 100 point window.
+            // Nobody starts the trail worn at all, and every 35 points of wear costs a band.
             var person = MakePerson();
+            Assert.Equal(HealthStatusEnum.Good, person.HealthStatus);
 
-            person.Damage(100);
+            person.Damage(35);
             Assert.Equal(HealthStatusEnum.Fair, person.HealthStatus);
 
-            person.Damage(100);
+            person.Damage(35);
             Assert.Equal(HealthStatusEnum.Poor, person.HealthStatus);
 
-            person.Damage(100);
+            person.Damage(35);
             Assert.Equal(HealthStatusEnum.VeryPoor, person.HealthStatus);
-
-            person.Damage(200);
-            Assert.Equal(HealthStatusEnum.Dead, person.HealthStatus);
         }
 
         [Theory]
@@ -63,12 +61,43 @@ namespace OregonTrailDotNet.Tests.Entity
         }
 
         [Fact]
-        public void Damage_BeyondMinimumHealth_KillsPerson()
+        public void Damage_BeyondWhatAPersonCanTake_MakesThemIllRatherThanKillingThemOutright()
         {
+            // Nobody drops dead of hardship in one go: worn past all bearing they sicken, and it is being struck down a
+            // second time while already ill that finishes them. This is the whole of how the trail kills.
             var person = MakePerson();
             person.Damage(9999);
 
+            Assert.NotEqual(HealthStatusEnum.Dead, person.HealthStatus);
+            Assert.True(person.IsSick);
+
+            person.Damage(9999);
             Assert.Equal(HealthStatusEnum.Dead, person.HealthStatus);
+            Assert.Equal(CauseOfDeathEnum.Illness, person.Cause);
+        }
+
+        [Fact]
+        public void Infect_StartsTheRecoveryCountdown_SoIllnessIsNeverPermanent()
+        {
+            // Illness has to run out on its own, because being struck down while already ill is what kills. An infection
+            // that never cleared - which is what happens if the countdown is left at zero - both wears on the whole party
+            // for the rest of the journey and turns the next misfortune into a certain death.
+            var person = MakePerson();
+            person.Infect();
+            Assert.True(person.IsSick);
+            Assert.True(person.IllnessDaysRemaining > 0);
+        }
+
+        [Fact]
+        public void Injure_LaysAPersonUpForLongerThanAnIllness()
+        {
+            var ill = MakePerson();
+            ill.Infect();
+
+            var hurt = MakePerson();
+            hurt.Injure();
+
+            Assert.True(hurt.IllnessDaysRemaining > ill.IllnessDaysRemaining);
         }
 
         [Fact]
@@ -84,10 +113,11 @@ namespace OregonTrailDotNet.Tests.Entity
         public void HealEntirely_RestoresFullHealth()
         {
             var person = MakePerson();
-            person.Damage(300);
+            person.Damage(100);
             person.HealEntirely();
 
             Assert.Equal(HealthStatusEnum.Good, person.HealthStatus);
+            Assert.False(person.IsSick);
         }
 
         [Fact]

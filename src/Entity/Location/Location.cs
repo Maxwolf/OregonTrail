@@ -12,22 +12,16 @@ namespace OregonTrailDotNet.Entity.Location
     /// </summary>
     public abstract class Location : IEntity
     {
-        /// <summary>
-        ///     Deals with the weather simulation for this location, each location on the trail is capable of simulating it's own
-        ///     type of weather for the purposes of keeping them unique.
-        /// </summary>
-        private readonly LocationWeather _weather;
-
         /// <summary>Initializes a new instance of the <see cref="T:OregonTrailDotNet.Entity.Location.Location" /> class.</summary>
         /// <param name="name">Display name of the location as it should be known to the player.</param>
-        /// <param name="climateType">Defines the type of weather the location will have overall.</param>
+        /// <param name="climateType">Band of country this location sits in, which decides its weather.</param>
         protected Location(string name, ClimateEnum climateType)
         {
             // Default warning message for the location is based on fresh water status.
             Warning = GameSimulationApp.Instance.Random.NextBool() ? LocationWarningEnum.None : LocationWarningEnum.BadWater;
 
-            // Creates a new system to deal with the management of the weather for this given location.
-            _weather = new LocationWeather(climateType);
+            // Stretch of country this place sits in; the climate module reads it to know what the weather should be doing.
+            Climate = climateType;
 
             // Name of the point as it should be known to the player.
             Name = name;
@@ -62,15 +56,22 @@ namespace OregonTrailDotNet.Entity.Location
         public LocationWarningEnum Warning { get; }
 
         /// <summary>
-        ///     Current weather condition this location is experiencing.
+        ///     Band of country this location sits in, which is what decides the weather over it.
         /// </summary>
-        public Weather.WeatherConditionsEnum Weather => _weather.Condition;
+        public ClimateEnum Climate { get; }
 
         /// <summary>
-        ///     Current outside temperature (in Celsius) the party is exposed to at this location. Survival mechanics read this
-        ///     so a party that skimped on clothing suffers real cold exposure once the trail turns freezing.
+        ///     What the weather is doing where the party is standing. There is one sky over the journey rather than a private
+        ///     one per location, so this reports whatever the climate module has the weather doing today.
         /// </summary>
-        public int Temperature => _weather.OutsideTemperature;
+        public WeatherConditionsEnum Weather =>
+            GameSimulationApp.Instance.Climate?.Condition ?? WeatherConditionsEnum.Warm;
+
+        /// <summary>
+        ///     Current outside temperature in Fahrenheit the party is exposed to. Survival mechanics read this so a party that
+        ///     skimped on clothing suffers real cold exposure once the trail turns freezing.
+        /// </summary>
+        public int Temperature => GameSimulationApp.Instance.Climate?.Temperature ?? 60;
 
         /// <summary>
         ///     Determines if the location allows the player to chat to other NPC's in the area which can offer up advice about the
@@ -237,9 +238,8 @@ namespace OregonTrailDotNet.Entity.Location
             if (systemTick)
                 return;
 
-            // Weather will only be ticked when not skipping a day.
-            if (!skipDay)
-                _weather.Tick();
+            // Weather belongs to the journey rather than to any one place, so the climate module advances it once a day
+            // from the simulation itself; there is nothing location-specific left to tick here.
         }
     }
 }

@@ -32,8 +32,12 @@ namespace OregonTrailDotNet.Bot.Game
 
             var total = 0;
 
-            // People still alive, weighted by average health enum value (Good=500 .. VeryPoor=200).
-            total += vehicle.PassengerLivingCount * (int) vehicle.PassengerHealthStatus;
+            // People still alive, weighted by average health enum value (Good=500 .. VeryPoor=200). A party that committed
+            // to the Columbia is scored on the health they had when they chose it rather than on whatever the river left
+            // them with, so read the locked-in value when there is one — FinalPoints does the same, and this has to agree
+            // with it or the bot trains against a fitness signal the game never awards.
+            var health = vehicle.LockedHealthStatus ?? vehicle.PassengerHealthStatus;
+            total += vehicle.PassengerLivingCount * (int) health;
 
             // Wagon. The party always travels in exactly one wagon, so award its per-unit points (50). Mirrors the matching
             // line in FinalPoints so the bot's fitness signal still equals the score the game records. (Previously this read

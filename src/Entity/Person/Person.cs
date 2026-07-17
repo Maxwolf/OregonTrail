@@ -2,7 +2,9 @@
 // Timestamp 01/03/2016@1:50 AM
 
 using System;
+using System.Linq;
 using OregonTrailDotNet.Entity.Location;
+using OregonTrailDotNet.Entity.Location.Weather;
 using OregonTrailDotNet.Entity.Vehicle;
 using OregonTrailDotNet.Event;
 using OregonTrailDotNet.Event.Person;
@@ -16,22 +18,28 @@ namespace OregonTrailDotNet.Entity.Person
     public sealed class Person : IEntity
     {
         /// <summary>
-        ///     Defines the current health of the person. It will be tracked and kept within bounds of HealthMin and HealthMax
-        ///     constants.
+        ///     How badly worn down this person is, from nothing at all up to the point of death. Everything the trail does to
+        ///     a person adds to this, and it eases off a little every day, so a party that is merely having a hard week
+        ///     recovers while one that is cold and hungry and pushing too hard for too long does not.
         /// </summary>
-        private int _status;
+        private double _ailment;
+
+        /// <summary>
+        ///     Wear that has built up from being cold or hungry for days on end. It halves away once conditions improve but
+        ///     climbs while they do not, which is what makes a long spell of hardship so much worse than a bad day.
+        /// </summary>
+        private double _fatigue;
+
+        /// <summary>
+        ///     Days left of the illness this person is carrying, if any.
+        /// </summary>
+        private int _illnessDays;
 
         /// <summary>
         ///     Determines if this person has reached the point of no return and has died. There is no coming back from this and
         ///     this flag will be used to prevent any further operations or resources being performed by this person.
         /// </summary>
         private bool _dead;
-
-        /// <summary>
-        ///     Determines if the persons health was at any time at the very poor level, which means they were close to death. We
-        ///     can keep track of this and if they recover to full health we will make note about this for the player to see.
-        /// </summary>
-        private bool _nearDeathExperience;
 
         /// <summary>Initializes a new instance of the <see cref="T:TrailEntities.Entities.Person" /> class.</summary>
         /// <param name="profession">The profession.</param>
@@ -47,8 +55,29 @@ namespace OregonTrailDotNet.Entity.Person
             // Person starts with clean bill of health.
             Infected = false;
             Injured = false;
-            Status = (int) HealthStatusEnum.Good;
+            _ailment = 0;
         }
+
+        /// <summary>
+        ///     Worst this person can be worn down before the trail takes them.
+        /// </summary>
+        private const double AilmentMax = 139;
+
+        /// <summary>
+        ///     How much wear separates one health band from the next: good, fair, poor, very poor.
+        /// </summary>
+        private const double AilmentPerBand = 35;
+
+        /// <summary>
+        ///     Days an illness runs before the person shakes it off on their own.
+        /// </summary>
+        private const int IllnessLength = 10;
+
+        /// <summary>
+        ///     Days a broken bone keeps a person laid up. Far longer than an illness, which is what makes an injury the
+        ///     worse thing to be carrying when the trail comes looking for somebody.
+        /// </summary>
+        private const int InjuryLength = 30;
 
         /// <summary>
         ///     Flag for indicating if the player is afflicted with a disease, virus, fungus, parasite, etc. The type is not
@@ -63,67 +92,23 @@ namespace OregonTrailDotNet.Entity.Person
         {
             get
             {
-                // Skip if this person is dead, cannot heal them.
                 if (_dead)
-                {
-                    _status = (int) HealthStatusEnum.Dead;
                     return HealthStatusEnum.Dead;
-                }
 
-                // Health is greater than fair so it must be good.
-                if (Status > (int) HealthStatusEnum.Fair)
-                    return HealthStatusEnum.Good;
-
-                // Health is less than good, but greater than poor so it must be fair.
-                if ((Status < (int) HealthStatusEnum.Good) && (Status > (int) HealthStatusEnum.Poor))
-                    return HealthStatusEnum.Fair;
-
-                // Health is less than fair, but greater than very poor so it is just poor.
-                if ((Status < (int) HealthStatusEnum.Fair) && (Status > (int) HealthStatusEnum.VeryPoor))
-                    return HealthStatusEnum.Poor;
-
-                // Health is less than poor, but not quite dead yet so it must be very poor.
-                if ((Status < (int) HealthStatusEnum.Poor) && (Status > (int) HealthStatusEnum.Dead))
-                    return HealthStatusEnum.VeryPoor;
-
-                // Default response is to indicate this person is dead.
-                return HealthStatusEnum.Dead;
-            }
-        }
-
-        /// <summary>
-        ///     Defines the current health of the person. It will be tracked and kept within bounds of HealthMin and HealthMax
-        ///     constants.
-        /// </summary>
-        private int Status
-        {
-            get => _status;
-            set
-            {
-                // Skip if this person is dead, cannot heal them.
-                if (_dead)
+                // Wear is read in bands rather than as a number: a person is good until they are worn a third of the way
+                // down, then fair, then poor, then very poor right up until the trail finishes them.
+                var band = (int) (_ailment/AilmentPerBand);
+                switch (band)
                 {
-                    _status = (int) HealthStatusEnum.Dead;
-                    return;
+                    case 0:
+                        return HealthStatusEnum.Good;
+                    case 1:
+                        return HealthStatusEnum.Fair;
+                    case 2:
+                        return HealthStatusEnum.Poor;
+                    default:
+                        return HealthStatusEnum.VeryPoor;
                 }
-
-                // Check that value is not above max.
-                if (value >= (int) HealthStatusEnum.Good)
-                {
-                    _status = (int) HealthStatusEnum.Good;
-                    return;
-                }
-
-                // Check that value is not below min.
-                if (value <= (int) HealthStatusEnum.Dead)
-                {
-                    _dead = true;
-                    _status = (int) HealthStatusEnum.Dead;
-                    return;
-                }
-
-                // Set health to ceiling corrected value.
-                _status = value;
             }
         }
 
@@ -161,6 +146,18 @@ namespace OregonTrailDotNet.Entity.Person
         ///     observed without reaching into private state.
         /// </summary>
         internal bool IsInfected => Infected;
+
+        /// <summary>
+        ///     Days this person still has to run of whatever laid them up. Exposed to the test project (via InternalsVisibleTo)
+        ///     so that illness being temporary can be asserted without reaching into private state.
+        /// </summary>
+        internal int IllnessDaysRemaining => _illnessDays;
+
+        /// <summary>
+        ///     Whether this person is currently laid up with something. Nursing the sick wears on the whole party, so this is
+        ///     counted across everyone each day, and falling ill while already ill is what kills.
+        /// </summary>
+        public bool IsSick => !_dead && (Infected || Injured);
 
         /// <summary>
         ///     The party leader is spared every misfortune for as long as anyone else is still alive to suffer it instead.
@@ -266,50 +263,132 @@ namespace OregonTrailDotNet.Entity.Person
             if ((HealthStatus == HealthStatusEnum.Dead) || _dead)
                 return;
 
-            // Grab instance of the game simulation to increase readability.
+            // Nothing below happens on a force tick; this is the reckoning of a whole day lived.
+            if (skipDay)
+                return;
+
+            // Drinking from a bad-water source at the current location can bring on cholera or dysentery.
+            CheckWaterDisease();
+
+            // Consume food based on ration level.
+            ConsumeFood();
+
+            // Medical supplies work on the move, not only when the party stops to rest.
+            TreatWithMedicine();
+
+            // Count down whatever illness this person is carrying; ten days and they shake it off unaided.
+            if (_illnessDays > 0)
+            {
+                _illnessDays--;
+                if (_illnessDays <= 0)
+                {
+                    Infected = false;
+                    Injured = false;
+                }
+            }
+
+            // Everything the day did to this person, reckoned at once.
+            ApplyDailyWear();
+        }
+
+        /// <summary>
+        ///     Works out how much the day wore this person down and folds it into their health. Nothing here is a single
+        ///     cause of death; each is a pressure, and it is living under several of them at once and for long enough that
+        ///     kills. The reckoning always eases off by a tenth first, so a party whose luck turns really does recover -
+        ///     which is why the way to save a sick party is to stop, eat properly and wait, and why a party that is merely
+        ///     cold will sit at "poor" indefinitely rather than dying of it.
+        /// </summary>
+        private void ApplyDailyWear()
+        {
             var game = GameSimulationApp.Instance;
+            var vehicle = game.Vehicle;
+            var climate = game.Climate;
 
-            // Eating poorly raises risk of illness.
-            if (game.Vehicle.Ration == RationLevelEnum.BareBones)
-                CheckIllness();
-            else if ((game.Vehicle.Ration == RationLevelEnum.Meager) &&
-                     game.Random.NextBool())
-                CheckIllness();
+            // How hot or cold it is, in the six steps a person actually feels, and what the sky is doing.
+            var warmth = climate?.TemperatureBand ?? 3;
+            var sky = (int) (climate?.Condition ?? WeatherConditionsEnum.Warm);
 
-            // Insufficient clothing for the party raises the risk of illness. The fewer sets of clothing the party carries
-            // relative to how many living members it has, the more likely someone falls ill in the cold.
-            var clothingCount = game.Vehicle.Inventory[EntitiesEnum.Clothes].Quantity;
-            var partySize = game.Vehicle.PassengerLivingCount;
-            if (clothingCount < partySize + game.Random.Next(0, 4))
+            // Weather that is comfortable costs nothing; it is the extremes at either end that wear people down, and the
+            // cold end is worse than the hot.
+            var exposure = warmth - 3;
+            if (exposure < 0)
+                exposure = 2 - warmth;
+
+            // Cold bites only as far as the party is short of warm clothes: a set each and they shrug it off, which is why
+            // clothing is worth buying rather than merely worth points.
+            var living = vehicle.PassengerLivingCount;
+            var clothing = living > 0 ? vehicle.Inventory[EntitiesEnum.Clothes].Quantity/(double) living : 0;
+            var chill = 5 - 2*warmth - clothing;
+            if (chill < 0)
+                chill = 0;
+
+            // Short rations wear people down; no food at all wears them down far faster. The ration level counts pounds a
+            // head, so eating well is the high value and costs nothing, and it is the lean settings that hurt.
+            var foodless = vehicle.Inventory[EntitiesEnum.Food].Quantity <= 0;
+            var hunger = foodless ? 8 : 2*(RationLevelEnum.Filling - vehicle.Ration);
+
+            // Rain and snow are hard going, and so is pushing the pace. A party that has stopped is not pushing at all.
+            var toil = (sky > 5 ? 1 : 0) + (sky > 7 ? 1 : 0);
+            if (vehicle.Status == VehicleStatusEnum.Moving)
+                toil += 2*(int) vehicle.Pace;
+
+            // Being cold or hungry does not just cost today; it builds up, and only eases once the party is neither.
+            _fatigue = (chill > 0.5) || foodless ? _fatigue + 0.8 : _fatigue*0.5;
+
+            // Nursing the sick wears on everybody.
+            var sickCount = vehicle.Passengers.Count(passenger => passenger.IsSick);
+
+            _ailment = 0.9*_ailment + exposure + chill + hunger + toil + _fatigue + sickCount;
+            if (_ailment < 0)
+                _ailment = 0;
+            if (_ailment > AilmentMax)
+                _ailment = AilmentMax;
+        }
+
+        /// <summary>
+        ///     How worn down this person is, for the party to weigh when working out whether the trail claims anybody today.
+        /// </summary>
+        internal double Ailment => _ailment;
+
+        /// <summary>
+        ///     Whether this person is as worn down as a person can get, at which point something has to give.
+        /// </summary>
+        internal bool AtBreakingPoint => !_dead && (_ailment >= AilmentMax);
+
+        /// <summary>
+        ///     Lets the party visit the day's misfortune on this person. Sickness is dealt out once a day for the party as a
+        ///     whole rather than rolled for separately by everybody, so the decision of whether it happens at all belongs to
+        ///     the vehicle and only the consequence belongs here.
+        /// </summary>
+        internal void StrikeIllness()
+        {
+            StrikeDownWithIllness();
+        }
+
+        /// <summary>
+        ///     Visits an illness on this person, or kills them if they were already carrying one. That is the whole of how
+        ///     the trail kills: nobody dies outright of hunger or cold, they sicken first, and it is falling ill while
+        ///     already ill that finishes them. The leader is spared while anybody else is still standing.
+        /// </summary>
+        private void StrikeDownWithIllness()
+        {
+            if (_dead || ShieldedAsLeader)
+                return;
+
+            // Announcing what happened is for the benefit of a running game; the harm itself does not depend on there
+            // being one, so a person can be worn down in isolation without a simulation attached.
+            var director = GameSimulationApp.Instance?.EventDirector;
+
+            // Already ailing, and now this.
+            if (Infected || Injured)
             {
-                CheckIllness();
-            }
-            else
-            {
-                // Random chance for illness in general, even with plenty of clothes but much lower.
-                if (game.Random.NextBool() && game.Random.NextBool())
-                    CheckIllness();
+                Kill(CauseOfDeathEnum.Illness);
+                director?.TriggerEvent(this, Leader ? typeof(DeathPlayer) : typeof(DeathCompanion));
+                return;
             }
 
-            // The rest only happens when a whole day actually passes; realtime/force ticks don't apply these penalties.
-            if (!skipDay)
-            {
-                // Drinking from a bad-water source at the current location can bring on cholera or dysentery.
-                CheckWaterDisease();
-
-                // Consume food based on ration level.
-                ConsumeFood();
-
-                // Freezing weather with too little clothing is directly dangerous, independent of how well the party eats.
-                // In the original game warm clothes were essential once you hit the snow and mountain passes; here a party
-                // that carries fewer than one set per person takes real cold damage - and can freeze to death - and the
-                // colder it gets (and the shorter it is on clothing) the worse the exposure. A properly clothed party is
-                // spared entirely, which is what gives the optimizer a clean reason to buy clothing.
-                ApplyColdExposure(clothingCount, partySize);
-
-                // Running out of ammunition (no way to hunt) or medical supplies (no way to treat the sick) wears the party down.
-                ApplySupplyPenalties(skipDay);
-            }
+            Infect();
+            director?.TriggerEventByType(this, EventCategoryEnum.Person);
         }
 
         /// <summary>
@@ -332,53 +411,6 @@ namespace OregonTrailDotNet.Entity.Person
                 // living count (ration * N). Multiplying by the living count here as well made a party of N eat ration * N
                 // squared pounds per day, starving larger parties far faster than the original game intended.
                 game.Vehicle.Inventory[EntitiesEnum.Food].ReduceQuantity((int) game.Vehicle.Ration);
-
-                // Change to get better when eating well.
-                Heal();
-            }
-            else
-            {
-                // Reduce the players health until they are dead.
-                Damage(10, 50, CauseOfDeathEnum.Starvation);
-            }
-        }
-
-        /// <summary>
-        ///     Increases person's health until it reaches maximum value. When it does will fire off event indicating to player
-        ///     this person is now well again and fully healed.
-        /// </summary>
-        private void Heal()
-        {
-            // Skip if this person is dead, cannot heal them.
-            if ((HealthStatus == HealthStatusEnum.Dead) || _dead)
-                return;
-
-            // Skip if already at max health.
-            if (HealthStatus == HealthStatusEnum.Good)
-                return;
-
-            // Grab instance of the game simulation to increase readability.
-            var game = GameSimulationApp.Instance;
-
-            // Person will not get healed every single time it is possible to do so.
-            if (game.Random.NextBool())
-                return;
-
-            // Check if the player has made a recovery from near death.
-            if (_nearDeathExperience && (Infected || Injured))
-            {
-                // We only want to show the well again event if the player made a massive recovery.
-                _nearDeathExperience = false;
-
-                // Roll the dice, person can get better or way worse here.
-                game.EventDirector.TriggerEvent(this, game.Random.NextBool()
-                    ? typeof(WellAgain)
-                    : typeof(TurnForWorse));
-            }
-            else
-            {
-                // Increase health by a random amount.
-                Status += game.Random.Next(1, 10);
             }
         }
 
@@ -387,146 +419,38 @@ namespace OregonTrailDotNet.Entity.Person
         /// </summary>
         public void HealEntirely()
         {
-            Status = (int) HealthStatusEnum.Good;
+            _ailment = 0;
+            _fatigue = 0;
+            _illnessDays = 0;
             Infected = false;
             Injured = false;
         }
 
         /// <summary>
-        ///     Check if party leader or a member of it has been killed by an illness.
+        ///     Spends a medical kit on a sick or injured person to clear the ailment outright, sparing them the ten days it
+        ///     would otherwise run - and, more to the point, sparing them being struck down a second time while still ill,
+        ///     which is what actually kills. Does nothing if they are well or there is no medicine left.
         /// </summary>
-        private void CheckIllness()
-        {
-            // Grab instance of the game simulation to increase readability.
-            var game = GameSimulationApp.Instance;
-
-            // Cannot calculate illness for the dead.
-            if ((HealthStatus == HealthStatusEnum.Dead) || _dead)
-                return;
-
-            // Person will not get hurt every single time it is called.
-            if (game.Random.NextBool())
-                return;
-
-            // Poor eating makes illness both more likely and more severe. There are three tiers: a mild ailment, a worse
-            // "bad" illness, and a very serious illness. Only the very serious tier leaves the person infected and thus in
-            // need of medical services to recover; the two milder tiers can be shrugged off on their own.
-            if (game.Random.Next(100) <= 10 +
-                35*(3 - (int) game.Vehicle.Ration))
-            {
-                // Mild illness.
-                game.Vehicle.ReduceMileage(5);
-                Damage(10, 50, CauseOfDeathEnum.Illness);
-            }
-            else if (game.Random.Next(100) <= 5 +
-                     20*(3 - (int) game.Vehicle.Ration))
-            {
-                // Bad (moderate) illness.
-                game.Vehicle.ReduceMileage(10);
-                Damage(10, 50, CauseOfDeathEnum.Illness);
-            }
-            else if (game.Random.Next(100) <= 5 +
-                     40/game.Vehicle.Passengers.Count*
-                     (3 - (int) game.Vehicle.Ration))
-            {
-                // Very serious illness that will require medical supplies to recover from.
-                game.Vehicle.ReduceMileage(15);
-                Infect();
-                Damage(10, 50, CauseOfDeathEnum.Illness);
-            }
-
-            // While the party is resting the sick can actually recover; while traveling, existing infections and injuries
-            // only make things worse. Determine which case we are in once.
-            var resting = game.Vehicle.Status == VehicleStatusEnum.Stopped;
-
-            // Determines if we should roll for infections based on previous complications.
-            switch (HealthStatus)
-            {
-                case HealthStatusEnum.Good:
-                    if (Infected || Injured)
-                    {
-                        if (resting)
-                            TreatWhileResting();
-                        else
-                        {
-                            game.Vehicle.ReduceMileage(5);
-                            Damage(10, 50, CauseOfDeathEnum.Illness);
-                        }
-                    }
-
-                    break;
-                case HealthStatusEnum.Fair:
-                    if (Infected || Injured)
-                    {
-                        if (resting)
-                            TreatWhileResting();
-                        else if (game.Random.NextBool())
-                        {
-                            // Hurt the player and reduce total possible mileage this turn.
-                            game.Vehicle.ReduceMileage(5);
-                            Damage(10, 50, CauseOfDeathEnum.Illness);
-                        }
-                    }
-
-                    break;
-                case HealthStatusEnum.Poor:
-                    if (Infected || Injured)
-                    {
-                        if (resting)
-                            TreatWhileResting();
-                        else
-                        {
-                            game.Vehicle.ReduceMileage(10);
-                            Damage(5, 10, CauseOfDeathEnum.Illness);
-                        }
-                    }
-
-                    break;
-                case HealthStatusEnum.VeryPoor:
-                    _nearDeathExperience = true;
-                    if (resting)
-                    {
-                        TreatWhileResting();
-                    }
-                    else
-                    {
-                        game.Vehicle.ReduceMileage(15);
-                        Damage(1, 5, CauseOfDeathEnum.Illness);
-                    }
-
-                    break;
-                case HealthStatusEnum.Dead:
-                    _dead = true;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        /// <summary>
-        ///     Attempts to treat a sick or injured party member while the vehicle is stopped to rest. If the party has medical
-        ///     supplies on hand a kit is used up to quickly cure the infection or injury; otherwise the person can only rely on
-        ///     slower natural recovery.
-        /// </summary>
-        private void TreatWhileResting()
+        private void TreatWithMedicine()
         {
             var game = GameSimulationApp.Instance;
+            var inventory = game.Vehicle.Inventory;
 
-            if ((Infected || Injured) &&
-                game.Vehicle.Inventory.ContainsKey(EntitiesEnum.Medicine) &&
-                (game.Vehicle.Inventory[EntitiesEnum.Medicine].Quantity > 0))
-            {
-                // Medical supplies cure the ailment quickly.
-                game.Vehicle.Inventory[EntitiesEnum.Medicine].ReduceQuantity(1);
-                Infected = false;
-                Injured = false;
-                Status += game.Random.Next(15, 40);
-            }
-            else
-            {
-                // No medicine on hand, fall back to slow natural recovery.
-                Heal();
-            }
+            if (!Infected && !Injured)
+                return;
+
+            if (!inventory.ContainsKey(EntitiesEnum.Medicine) || (inventory[EntitiesEnum.Medicine].Quantity <= 0))
+                return;
+
+            inventory[EntitiesEnum.Medicine].ReduceQuantity(1);
+            Infected = false;
+            Injured = false;
+            _illnessDays = 0;
+
+            // Being nursed back to health takes some of the wear off with it.
+            _ailment -= game.Random.Next(15, 40);
+            if (_ailment < 0)
+                _ailment = 0;
         }
 
         /// <summary>
@@ -553,75 +477,6 @@ namespace OregonTrailDotNet.Entity.Person
         }
 
         /// <summary>
-        ///     Applies gradual health penalties when the party has run out of critical supplies: with neither food nor
-        ///     ammunition there is no way to hunt and starvation sets in faster, and a sick traveler with no medical supplies
-        ///     slowly worsens.
-        /// </summary>
-        /// <param name="skipDay">Whether the simulation force-ticked without advancing a real day.</param>
-        private void ApplySupplyPenalties(bool skipDay)
-        {
-            // Only apply once per real day and never to the dead.
-            if (skipDay || (HealthStatus == HealthStatusEnum.Dead) || _dead)
-                return;
-
-            var game = GameSimulationApp.Instance;
-            var inventory = game.Vehicle.Inventory;
-
-            // Out of food AND out of ammunition means no way to hunt for more, so starvation accelerates.
-            if ((inventory[EntitiesEnum.Food].Quantity <= 0) && (inventory[EntitiesEnum.Ammo].Quantity <= 0))
-                Damage(5, 15, CauseOfDeathEnum.Starvation);
-
-            // Medical supplies work on the move, not only when the party stops to rest. A sick or injured traveler with
-            // medicine on hand spends a kit that day to treat the ailment - a weaker cure than a full rest-stop, but enough
-            // to clear the infection and keep them going - while one with no medicine steadily worsens. This is what makes
-            // carrying medicine pay off during the journey rather than only during a (costly) rest, so the optimizer has a
-            // reason to buy it instead of dropping it to zero.
-            if (Infected || Injured)
-            {
-                if (inventory.ContainsKey(EntitiesEnum.Medicine) && (inventory[EntitiesEnum.Medicine].Quantity > 0))
-                {
-                    inventory[EntitiesEnum.Medicine].ReduceQuantity(1);
-                    Infected = false;
-                    Injured = false;
-                    Status += game.Random.Next(5, 20);
-                }
-                else
-                {
-                    Damage(1, 5, CauseOfDeathEnum.Illness);
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Applies cold-exposure damage when the party is travelling through freezing weather without enough clothing. Warm
-        ///     clothes are only relevant once the temperature drops below freezing, so a party crossing warm country is never
-        ///     penalised no matter how little clothing it carries. Below freezing, a party holding fewer than one set of clothing
-        ///     per living member risks direct health loss each day; the risk climbs with how many sets it is short and how far
-        ///     below freezing it is, so the snow and high mountain passes are lethal to the ill-prepared while a party with a set
-        ///     per person shrugs the cold off entirely.
-        /// </summary>
-        /// <param name="clothingCount">Sets of clothing the party currently carries.</param>
-        /// <param name="partySize">Number of living party members needing to stay warm.</param>
-        private void ApplyColdExposure(int clothingCount, int partySize)
-        {
-            var game = GameSimulationApp.Instance;
-
-            // Warm country (at or above freezing) never threatens a clothing-short party.
-            var temperature = game.Trail.CurrentLocation?.Temperature ?? 20;
-            if (temperature > 0 || clothingCount >= partySize)
-                return;
-
-            // Missing sets of clothing and severity of the cold both raise the exposure risk. chill is 1 at freezing and
-            // climbs by one for every 10 degrees below zero; the risk is capped so even a brutal cold snap stays survivable
-            // with a little luck, which keeps a gradient for the optimizer to climb rather than wiping every party.
-            var shortfall = partySize - clothingCount;
-            var chill = 1 + (-temperature) / 10;
-            var risk = Math.Min(65, 10 + 6 * shortfall * chill);
-            if (game.Random.Next(100) < risk)
-                Damage(10, 40, CauseOfDeathEnum.Illness);
-        }
-
-        /// <summary>
         ///     Reduces the persons health by a random amount from minimum health value to highest. If this reduces the players
         ///     health below zero the person will be considered dead.
         /// </summary>
@@ -641,25 +496,9 @@ namespace OregonTrailDotNet.Entity.Person
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
-            // Reduce the persons health by random amount from death amount to desired damage level.
-            Status -= game.Random.Next(minAmount, maxAmount);
-
-            // Chance for broken bones and other ailments related to damage (but not death).
-            if (!Infected || !Injured)
-                game.EventDirector.TriggerEventByType(this, EventCategoryEnum.Person);
-
-            // Check if health dropped to dead levels.
-            if (HealthStatus != HealthStatusEnum.Dead)
-                return;
-
-            // Record what killed them so the death screen can explain what happened.
+            // Whatever happened wears on them now; the day's own reckoning will ease it off again afterwards.
             Cause = cause;
-
-            // Reduce person's health to dead level.
-            Status = (int) HealthStatusEnum.Dead;
-
-            // Check if leader died or party member and execute corresponding event.
-            game.EventDirector.TriggerEvent(this, Leader ? typeof(DeathPlayer) : typeof(DeathCompanion));
+            AddWear(game.Random.Next(minAmount, maxAmount));
         }
 
         /// <summary>
@@ -677,8 +516,26 @@ namespace OregonTrailDotNet.Entity.Person
             if (ShieldedAsLeader)
                 return;
 
-            // Remove the health from the person.
-            Status -= amount;
+            AddWear(amount);
+        }
+
+        /// <summary>
+        ///     Wears a person down by some amount and sees whether it was more than they could take. Everything that harms a
+        ///     person comes through here, so this is the single place the trail is allowed to make somebody ill or kill them.
+        /// </summary>
+        /// <param name="amount">How much wear to add, on the same scale as the health bands.</param>
+        private void AddWear(double amount)
+        {
+            if (_dead || (amount <= 0))
+                return;
+
+            _ailment += amount;
+
+            if (_ailment <= AilmentMax)
+                return;
+
+            _ailment = AilmentMax;
+            StrikeDownWithIllness();
         }
 
         /// <summary>
@@ -698,7 +555,8 @@ namespace OregonTrailDotNet.Entity.Person
             Cause = cause;
 
             // Ashes to ashes, dust to dust...
-            Status = 0;
+            _dead = true;
+            _ailment = AilmentMax;
         }
 
         /// <summary>
@@ -708,6 +566,11 @@ namespace OregonTrailDotNet.Entity.Person
         public void Infect()
         {
             Infected = true;
+
+            // Start them on the mend, or an illness caught this way never ends: only a person with days left to run ever
+            // recovers, and one who is permanently sick both wears on the whole party and dies to the next misfortune.
+            if (_illnessDays < IllnessLength)
+                _illnessDays = IllnessLength;
         }
 
         /// <summary>
@@ -718,6 +581,10 @@ namespace OregonTrailDotNet.Entity.Person
         public void Injure()
         {
             Injured = true;
+
+            // A broken bone keeps somebody down far longer than a fever does.
+            if (_illnessDays < InjuryLength)
+                _illnessDays = InjuryLength;
         }
     }
 }

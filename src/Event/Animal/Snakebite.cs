@@ -36,15 +36,15 @@ namespace OregonTrailDotNet.Event.Animal
             // Ammo used to kill the snake.
             GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Ammo].ReduceQuantity(10);
 
-            // Damage the person that was bit by the snake, it might be a little or a huge poisonousness bite.
+            // A bad bite leaves them poisoned and laid up; a glancing one is little worse than a scratch.
             if (GameSimulationApp.Instance.Random.NextBool())
             {
                 person.Infect();
-                person.Damage(256);
+                person.Damage(70);
             }
             else
             {
-                person.Damage(5);
+                person.Damage(2);
             }
         }
 

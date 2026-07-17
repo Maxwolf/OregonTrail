@@ -27,7 +27,7 @@ namespace OregonTrailDotNet.Event.Person
             var person = eventExecutor.SourceEntity as Entity.Person.Person;
 
             // We are going to inflict enough damage to probably kill the person.
-            person?.Damage(100);
+            person?.Damage(28);
         }
 
         /// <summary>
