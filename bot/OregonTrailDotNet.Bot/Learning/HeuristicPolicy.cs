@@ -14,6 +14,9 @@ namespace OregonTrailDotNet.Bot.Learning
     /// </summary>
     public sealed class HeuristicPolicy : IPolicy
     {
+        // Per-game supply decisions (fort restocking, rescue/opportunistic trades) with their own loop guards.
+        private readonly SupplyPlanner _supplies = new();
+
         public string Name => "heuristic";
 
         // Carpenter: the x2 multiplier doubles the old Banker build's score, while $800 still comfortably provisions a full
@@ -42,6 +45,11 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public TravelCommandsEnum ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommandsEnum> available)
         {
+            // Supply decisions come first: a stranded wagon goes for the store/trade that un-strands it, forts get one
+            // restock visit per stop, and a thin team or missing spare browses a few emigrant offers.
+            if (_supplies.Decide(state, available, item => TargetQuantity(item, state)) is { } supplyMove)
+                return supplyMove;
+
             // Travel the original high-score way: grueling pace on bare-bones rations to cover ground cheaply, switching to
             // filling rations when the weakest member needs to recover. Set that configuration before anything else.
             var recovering = (int) state.LowestHealth <= (int) HealthStatusEnum.Poor;
@@ -72,6 +80,8 @@ namespace OregonTrailDotNet.Bot.Learning
             (int) state.LowestHealth <= (int) HealthStatusEnum.Poor ? 1 : 3;     // menu 1 Filling to recover / 3 Bare Bones
         public int RestDays(GameSnapshot state) => 3;
 
+        public int CashReserve(GameSnapshot state) => 25; // keep ferry/toll money in the sock when restocking
+
         public bool YesNo(string formName, GameSnapshot state) => formName switch
         {
             "VehicleBrokenPrompt" => true,  // always attempt a repair
@@ -79,7 +89,7 @@ namespace OregonTrailDotNet.Bot.Learning
             "LocationArrive" => true,       // look around so we reach the travel menu (lets us rest/decide)
             "UseFerryConfirm" => true,
             "IndianGuidePrompt" => true,
-            "Trading" => false,             // ignore trades
+            "Trading" => SupplyTactics.AcceptTrade(state, margin: 0), // any value-positive swap; desperation pays anything
             "TombstoneQuestion" => false,   // don't stop at gravesites
             _ => false
         };

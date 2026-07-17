@@ -189,12 +189,30 @@ namespace OregonTrailDotNet.Bot.Game
         {
             var item = _storeSelected ?? EntitiesEnum.Food;
             var afford = ParseAfford(screen);
+
+            // Mid-trail restocking holds back the policy's cash reserve so ferries and tolls stay payable (a broke party
+            // gets forced into ford/caulk crossings, which are what drown oxen). The opening store (Independence, index 0)
+            // spends freely, and a party buying the oxen that un-strand it ignores the reserve — moving again comes first.
+            // The screen only shows the affordable QUANTITY, so back the unit price out of cash/afford (rounding the kept
+            // quantity up, which errs toward keeping slightly more cash than asked).
+            var reserve = state.LocationIndex > 0 ? _policy.CashReserve(state) : 0;
+            if (reserve > 0 && afford > 0 && state.Cash > 0 && !(item == EntitiesEnum.Animal && state.Oxen == 0))
+            {
+                var keep = (int) Math.Ceiling(reserve * (double) afford / state.Cash);
+                afford = Math.Max(0, afford - keep);
+            }
+
             var gap = Math.Max(0, _policy.TargetQuantity(item, state) - state.OwnedOf(item));
             var qty = Math.Min(gap, afford);
 
+            // Ammunition sells in 20-box lots and the store silently rounds a smaller answer UP, charging the whole lot
+            // against the full balance — which would blow straight through the reserve. Answer a full lot or nothing.
+            if (item == EntitiesEnum.Ammo && qty > 0 && qty < 20)
+                qty = afford >= 20 ? 20 : 0;
+
             // Never leave the first store unable to move: guarantee at least a few oxen while we can afford them.
             if (item == EntitiesEnum.Animal && state.OwnedOf(EntitiesEnum.Animal) == 0)
-                qty = Math.Max(qty, Math.Min(3, afford));
+                qty = Math.Max(qty, Math.Min(3, ParseAfford(screen)));
 
             return qty <= 0 ? "0" : qty.ToString();
         }

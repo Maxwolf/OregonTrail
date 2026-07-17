@@ -33,8 +33,10 @@ namespace OregonTrailDotNet.Bot.Learning
         private const int ForkSecondIdx = 23;
         private const int PaceIdx = 24;
         private const int RationIdx = 25;
+        private const int TradeMarginIdx = 26;
+        private const int RestockReserveIdx = 27;
 
-        public const int Length = 26;
+        public const int Length = 28;
 
         public double[] Raw { get; init; } = new double[Length];
 
@@ -69,6 +71,14 @@ namespace OregonTrailDotNet.Bot.Learning
         public int RationChoice => ClampRound(Raw[RationIdx], 1, 3);
         public TravelPaceEnum DesiredPace => (TravelPaceEnum) PaceChoice;
         public RationLevelEnum DesiredRation => (RationLevelEnum) (4 - RationChoice);
+
+        // Minimum $ of value an emigrant trade must gain (offered minus wanted, at store base prices) to be accepted.
+        // Negative values let the optimizer learn to take slightly losing trades; desperation (a stranded wagon) bypasses
+        // this entirely in SupplyTactics. Zero — the legacy zero-fill default — accepts any value-positive trade.
+        public double TradeMargin => Math.Clamp(Raw[TradeMarginIdx], -60, 100);
+
+        // Cash ($) held back from fort restocking so ferries and tolls stay affordable; the opening store ignores it.
+        public int RestockReserve => ClampRound(Raw[RestockReserveIdx], 0, 150);
 
         public int TargetQuantity(EntitiesEnum item) => item switch
         {
@@ -167,6 +177,10 @@ namespace OregonTrailDotNet.Bot.Learning
                                      // can now learn to ease off (Strenuous/Steady) to protect the party's health when needed.
             m[RationIdx] = 1;        // Filling (menu 1): keeps the party healthiest; the optimizer may stretch to Meager/BareBones
                                      // to make the food last when it is short.
+            m[TradeMarginIdx] = 0;   // accept any value-positive emigrant trade; the optimizer can grow choosier (or, learning
+                                     // that mid-trail goods beat book value, more generous)
+            m[RestockReserveIdx] = 25; // keep ferry/toll money in the sock when restocking at forts (a broke party is forced
+                                       // into ford/caulk crossings, which are what drown oxen)
             return m;
         }
 
@@ -182,6 +196,7 @@ namespace OregonTrailDotNet.Bot.Learning
             s[RiverFerryIdx] = 0.5; s[RiverIndianIdx] = 0.5; s[RiverCaulkIdx] = 0.5; s[RiverFordIdx] = 0.5;
             s[ForkSecondIdx] = 1.0;
             s[PaceIdx] = 0.9; s[RationIdx] = 0.9; // enough spread to explore Strenuous/Steady and Meager/BareBones
+            s[TradeMarginIdx] = 20; s[RestockReserveIdx] = 15;
             return s;
         }
 

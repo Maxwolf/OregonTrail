@@ -31,6 +31,10 @@ namespace OregonTrailDotNet.Bot.Learning
         ///     what is affordable, in priority order, then leaves.</summary>
         int TargetQuantity(EntitiesEnum item, GameSnapshot state);
 
+        /// <summary>Cash ($) the recognizer holds back when buying at a mid-trail fort store, so ferries and tolls stay
+        ///     affordable. The opening store ignores it. Default: spend freely.</summary>
+        int CashReserve(GameSnapshot state) => 0;
+
         // ---- Travel loop ----
 
         /// <summary>Which travel-menu command to issue given the subset currently offered.</summary>

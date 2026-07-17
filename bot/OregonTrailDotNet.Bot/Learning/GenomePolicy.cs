@@ -13,6 +13,9 @@ namespace OregonTrailDotNet.Bot.Learning
     {
         private readonly StrategyGenome _genome;
 
+        // Per-game supply decisions (fort restocking, rescue/opportunistic trades) with their own loop guards.
+        private readonly SupplyPlanner _supplies = new();
+
         public GenomePolicy(StrategyGenome genome, string leaderName)
         {
             _genome = genome;
@@ -27,8 +30,15 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public int TargetQuantity(EntitiesEnum item, GameSnapshot state) => _genome.TargetQuantity(item);
 
+        public int CashReserve(GameSnapshot state) => _genome.RestockReserve;
+
         public TravelCommandsEnum ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommandsEnum> available)
         {
+            // Supply decisions come first: a stranded wagon goes for the store/trade that un-strands it before anything
+            // else, forts get one restock visit per stop, and a thin team or missing spare browses a few emigrant offers.
+            if (_supplies.Decide(state, available, item => _genome.TargetQuantity(item)) is { } supplyMove)
+                return supplyMove;
+
             // Set the party's pace and rations to whatever the genome has learned (no longer hardcoded), so the optimizer can
             // trade travel speed against the party's health rather than always flooring it. Do this before anything else.
             if (available.Contains(TravelCommandsEnum.ChangePace) && state.Pace != _genome.DesiredPace)
@@ -65,7 +75,7 @@ namespace OregonTrailDotNet.Bot.Learning
             "LocationArrive" => true,
             "UseFerryConfirm" => true,
             "IndianGuidePrompt" => true,
-            "Trading" => false,
+            "Trading" => SupplyTactics.AcceptTrade(state, _genome.TradeMargin),
             "TombstoneQuestion" => false,
             _ => false
         };

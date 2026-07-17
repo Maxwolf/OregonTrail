@@ -86,6 +86,19 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
+        public void HighScoreWin_OutValuesACheapWin_ByAtLeastTwiceTheScoreGap()
+        {
+            // Both parties finish with five healthy members; one arrives as a Farmer with supplies to spare (Meek's 7650),
+            // the other ground out the cheapest tally that still counts as a win (2550). The score term is amplified so
+            // chasing the great score pays even at a somewhat lower win rate — without it, training settled on reliable
+            // ~2700-point finishes and never pushed higher.
+            var meekGrade = Fitness(Run(GameOutcomeEnum.Win, survivors: 5, partyHealth: 500, miles: 2040, score: 7650));
+            var cheapWin = Fitness(Run(GameOutcomeEnum.Win, survivors: 5, partyHealth: 500, miles: 2040, score: 2550));
+
+            Assert.True(meekGrade - cheapWin >= 2 * (7650 - 2550));
+        }
+
+        [Fact]
         public void WorstWin_StillBeats_TheBestPossibleNonWin()
         {
             // The whole point of the finish bonus: no non-win outcome - not even a full healthy party that stalled out the
@@ -96,6 +109,18 @@ namespace OregonTrailDotNet.Bot.Tests
 
             Assert.True(worstWin > bestTimeout);
             Assert.True(worstWin > bestStranding);
+        }
+
+        [Fact]
+        public void FatParking_AtTheTrailhead_LosesTo_PushingDownTheTrail()
+        {
+            // The reward-hack observed in real training: a party that parks early and strands with five fat members must
+            // NOT out-score a party that pushed deep into the trail keeping most people alive. The survival term scales
+            // with progress off the finish line, so survival credit cannot be farmed by refusing to travel.
+            var fatParker = Fitness(Run(GameOutcomeEnum.Death, survivors: 5, partyHealth: 500, miles: 300));
+            var pusher = Fitness(Run(GameOutcomeEnum.Death, survivors: 4, partyHealth: 400, miles: 1400));
+
+            Assert.True(pusher > fatParker);
         }
 
         [Fact]

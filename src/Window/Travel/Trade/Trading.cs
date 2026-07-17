@@ -54,6 +54,17 @@ namespace OregonTrailDotNet.Window.Travel.Trade
         }
 
         /// <summary>
+        ///     The trade currently on the table, or null when nobody wants to trade. Exposed read-only for the headless bot,
+        ///     the same way <see cref="Travel.ActiveHunt" /> exposes the live hunt.
+        /// </summary>
+        public TradeOffer CurrentOffer => (_trades != null) && (_trades.Count > 0) ? _trades[_tradeIndex] : null;
+
+        /// <summary>
+        ///     Whether the player holds the full quantity the current offer demands (the Y/N prompt only shows when true).
+        /// </summary>
+        public bool PlayerCanTrade => _playerCanTrade;
+
+        /// <summary>
         ///     Defines what type of dialog this will act like depending on this enumeration value. Up to implementation to define
         ///     desired behavior.
         /// </summary>

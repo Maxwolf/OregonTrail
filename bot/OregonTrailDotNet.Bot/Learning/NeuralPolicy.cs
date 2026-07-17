@@ -25,6 +25,9 @@ namespace OregonTrailDotNet.Bot.Learning
         private readonly StrategyGenome _setup;
         private readonly Mlp _brain;
 
+        // Per-game supply decisions (fort restocking, rescue/opportunistic trades) with their own loop guards.
+        private readonly SupplyPlanner _supplies = new();
+
         public NeuralPolicy(double[] vector, string leaderName)
         {
             LeaderName = leaderName;
@@ -52,8 +55,16 @@ namespace OregonTrailDotNet.Bot.Learning
         public int StartMonth => _setup.StartMonth;
         public int TargetQuantity(EntitiesEnum item, GameSnapshot state) => _setup.TargetQuantity(item);
 
+        public int CashReserve(GameSnapshot state) => _setup.RestockReserve;
+
         public TravelCommandsEnum ChooseTravel(GameSnapshot state, IReadOnlyCollection<TravelCommandsEnum> available)
         {
+            // Supply tactics come from the shared expert rules on the genome slice (not the network): a stranded wagon
+            // goes for the store/trade that un-strands it, forts get one restock visit per stop, and a thin team or
+            // missing spare browses a few emigrant offers. See SupplyPlanner for the loop guards.
+            if (_supplies.Decide(state, available, item => _setup.TargetQuantity(item)) is { } supplyMove)
+                return supplyMove;
+
             var o = _brain.Forward(Features(state));
 
             // Set pace and rations to the genome's learned choice PLUS the network's state-adaptive nudge (o[6]/o[7]). At zero
@@ -97,7 +108,7 @@ namespace OregonTrailDotNet.Bot.Learning
             "LocationArrive" => true,
             "UseFerryConfirm" => true,
             "IndianGuidePrompt" => true,
-            "Trading" => false,
+            "Trading" => SupplyTactics.AcceptTrade(state, _setup.TradeMargin),
             "TombstoneQuestion" => false,
             _ => false
         };

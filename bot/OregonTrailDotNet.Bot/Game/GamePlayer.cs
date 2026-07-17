@@ -115,6 +115,12 @@ namespace OregonTrailDotNet.Bot.Game
 
                 var state = GameSnapshot.Capture(GameSimulationApp.Instance!);
 
+                // A rescued wagon (emigrant trade or fort store) can strand again later, so the dead-end detector counts
+                // only CONSECUTIVE stranding sightings: reset once the wagon can roll again. A hopeless stranding still
+                // terminates — nothing resets the counter while the team stays empty or the part stays broken.
+                if (strandedHits > 0 && state.Oxen > 0 && state.BrokenPart == null)
+                    strandedHits = 0;
+
                 if (_driver.FormIsNull)
                 {
                     var input = _driver.WindowName switch

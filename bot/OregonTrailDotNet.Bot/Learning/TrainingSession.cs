@@ -18,7 +18,25 @@ namespace OregonTrailDotNet.Bot.Learning
         ///     persisted learning state so a champion's BestFitness measured under an old objective is never compared against
         ///     new-scale fitness on resume — a stale cross-scale champion could otherwise never be displaced and the profile
         ///     would keep replaying it as its "best" genome forever.</summary>
-        internal const int FitnessVersion = 2;
+        internal const int FitnessVersion = 5;
+
+        /// <summary>Weight of the real game score inside the win branch of <see cref="Fitness" />. At 1x the optimizer
+        ///     settled on the most RELIABLE win it could find — Banker (x1 multiplier, $1600 restocking warchest), ~2750
+        ///     points tops — because higher-multiplier professions win somewhat less often and lost on expected value. The
+        ///     amplified weight lowers the win-rate bar a score-chasing strategy must clear: at 3x, a Carpenter (x2) beats a
+        ///     58%-win-rate Banker from ~35% win rate, and a Meek-grade Farmer (x3, 7650) from ~21% — pushing training
+        ///     toward the best score AND winning, not merely finishing. Pushed much higher, one lucky high-score win would
+        ///     dominate a candidate's 64-game mean and selection would degrade into score-lottery noise.</summary>
+        internal const double WinScoreWeight = 3.0;
+
+        /// <summary>Weight of a candidate's single best WINNING score, added on top of its mean fitness. The mean is an
+        ///     expected-value objective, and measured play shows the reliable Banker (43% wins, ~1300-point wins) beats the
+        ///     score-multiplier professions on EV no matter how the per-game score is weighted — Carpenter's 1.7x score
+        ///     edge never overcomes its 2.3x win-rate deficit, so training kept abandoning high-score play. Crediting the
+        ///     best win a candidate produced (every candidate plays the same seeds, so the comparison is fair) rewards the
+        ///     high-ceiling strategies for their peaks and keeps them in the gene pool. Wins only: a Timeout's partial
+        ///     score must never feed this, or the park-and-stall exploit returns through the back door.</summary>
+        internal const double MaxScoreBonusWeight = 1.0;
 
         private readonly BotDatabase _db;
         private readonly long _profileId;
@@ -58,14 +76,24 @@ namespace OregonTrailDotNet.Bot.Learning
 
         /// <summary>Runs the configured number of generations, invoking <paramref name="onGeneration" /> after each and
         ///     stopping early if <paramref name="shouldStop" /> returns true. A negative <see cref="TrainingConfig.Generations" />
-        ///     means "run open-endedly" — the loop only ends when <paramref name="shouldStop" /> says so (the Esc/Ctrl+C hook).</summary>
-        public void Run(Action<GenerationProgress>? onGeneration = null, Func<bool>? shouldStop = null)
+        ///     means "run open-endedly" — the loop only ends when <paramref name="shouldStop" /> says so (the Esc/Ctrl+C hook).
+        ///     <paramref name="shouldStop" /> is polled between GAMES, not just between generations: a stop mid-batch abandons
+        ///     the in-progress generation and discards its partial results (the optimizer can only learn from a fully scored
+        ///     generation, and a half-evaluated one would otherwise pollute the run history and get replayed on resume).
+        ///     <paramref name="onGame" /> fires after every single game inside a generation, for a live progress bar.</summary>
+        public void Run(Action<GenerationProgress>? onGeneration = null, Func<bool>? shouldStop = null,
+            Action<GenerationTick>? onGame = null)
         {
             for (var g = 0; _config.Generations < 0 || g < _config.Generations; g++)
             {
                 var generationNumber = _optimizer.Generation;
                 var candidates = _optimizer.Sample();
                 var scored = new List<(double[] Vector, double Fitness)>(candidates.Count);
+
+                // First iteration index this generation will write, so an abandoned batch can be surgically removed.
+                var generationStartIteration = _db.Runs.NextIterationIndex(_profileId);
+                var gamesRecorded = 0;
+                var abandoned = false;
 
                 var wins = 0;
                 var bestScoreThisGen = 0;
@@ -78,19 +106,28 @@ namespace OregonTrailDotNet.Bot.Learning
                 for (var i = 0; i < seeds.Length; i++)
                     seeds[i] = seedRng.Next();
 
-                for (var candidate = 0; candidate < candidates.Count; candidate++)
+                for (var candidate = 0; candidate < candidates.Count && !abandoned; candidate++)
                 {
                     var vector = candidates[candidate];
                     var vectorJson = JsonSerializer.Serialize(vector);
                     double fitnessSum = 0;
+                    var bestWinScore = 0;
 
                     for (var k = 0; k < _config.GamesPerCandidate; k++)
                     {
+                        // Esc lands here, between games, so stopping never waits out the rest of a ~1000-game batch.
+                        if (shouldStop?.Invoke() == true)
+                        {
+                            abandoned = true;
+                            break;
+                        }
+
                         var policy = _model.Decode(vector, _leaderName);
                         var result = _playGame(policy, seeds[k]);
                         var fitness = Fitness(result);
 
                         RecordRun(result, generationNumber, candidate, vectorJson, fitness);
+                        gamesRecorded++;
 
                         // Unambiguous bugs (a crash, a broken invariant, or a screen the bot has no handler for) stop the whole
                         // batch so a developer can fix them. A plain soft-lock is treated as a failed game (recorded with the
@@ -101,15 +138,40 @@ namespace OregonTrailDotNet.Bot.Learning
                             throw new BotBugException(result.Bug);
                         }
 
-                        if (result.Outcome == GameOutcomeEnum.Win) wins++;
+                        if (result.Outcome == GameOutcomeEnum.Win)
+                        {
+                            wins++;
+                            bestWinScore = Math.Max(bestWinScore, result.Score);
+                        }
+
                         bestScoreThisGen = Math.Max(bestScoreThisGen, result.Score);
                         if (result.Score > _bestScoreEver)
                             _bestScoreEver = result.Score;
 
                         fitnessSum += fitness;
+
+                        onGame?.Invoke(new GenerationTick(generationNumber,
+                            candidate * _config.GamesPerCandidate + k + 1,
+                            candidates.Count * _config.GamesPerCandidate, wins));
                     }
 
-                    scored.Add((vector, fitnessSum / _config.GamesPerCandidate));
+                    if (abandoned)
+                        break;
+
+                    scored.Add((vector,
+                        fitnessSum / _config.GamesPerCandidate + MaxScoreBonusWeight * bestWinScore));
+                }
+
+                if (abandoned)
+                {
+                    // Discard the partial generation: remove its recorded games and rewind the profile's game counter so
+                    // the run history only ever holds fully evaluated generations (the same generation number replays with
+                    // the same common-random-number seeds on resume). The optimizer never saw the partial scores, so
+                    // persisting just re-saves its unchanged state plus any best-score a partial game legitimately set.
+                    _db.Runs.DeleteFromIteration(_profileId, generationStartIteration);
+                    _db.Profiles.AddIterations(_profileId, -gamesRecorded);
+                    PersistOptimizer();
+                    return;
                 }
 
                 _optimizer.Update(scored);
@@ -179,13 +241,16 @@ namespace OregonTrailDotNet.Bot.Learning
             _db.Profiles.SaveLearningState(_profileId, _optimizer.Serialize(), _optimizer.Generation, _bestScoreEver, bestGenomeJson);
         }
 
-        // The objective is to REACH OREGON with as many people as possible in the best health. Fitness shapes that in
-        // strict priority order:
+        // The objective is to REACH OREGON with the highest score the game can award - a full healthy party, the x3
+        // profession, supplies still in the wagon. Fitness shapes that in strict priority order:
         //   - winning: only an actual Win earns the finish bonus, sized so that EVERY win outranks EVERY non-win. (Timeout
         //     used to share this branch, which taught the optimizer that a fat party idling out the 246-day clock beats
         //     trying to finish - stalling was the accessible optimum, so nothing ever learned to push for Oregon.)
-        //   - partyHealth: survivors weighted by their average health (0..2500), credited on every run, giving a gradient
-        //     toward survival everywhere.
+        //   - score, amplified (see WinScoreWeight): among wins, the game's own tally is the objective, so a Meek-grade
+        //     finish beats grinding out the cheapest reliable one.
+        //   - partyHealth: survivors weighted by their average health (0..2500), credited on every run and — off the finish
+        //     line — scaled by trail progress, so "keep them alive AND get them down the trail" is the gradient rather than
+        //     "park at the trailhead and keep everyone fat".
         //   - progress: a gentle distance tie-breaker so that, among equally-alive parties, getting further still ranks higher.
         // The leaderboard and best-score tracking continue to use the real game score (result.Score) untouched; only the
         // optimizer's search objective is shaped here.
@@ -202,19 +267,23 @@ namespace OregonTrailDotNet.Bot.Learning
             if (result.Outcome == GameOutcomeEnum.Win)
             {
                 // Reaching Oregon strictly dominates: the flat bonus exceeds the best possible non-win fitness (500 progress
-                // + 2500 survival = 3000) even after the worst-case death penalty (4 x 150 = 600), so the optimizer can never
-                // prefer stalling or parking over a genuine finish. Within wins, the real game score plus the survival term
-                // still rank a full healthy party far above a decimated one; the per-death penalty stays LIGHT because a
-                // heavy one made a costly win rank below not finishing at all, which perversely discouraged winning.
-                return 4000 + result.Score + survivalReward - deaths * 150.0;
+                // + 2500 survival = 3000) even after the worst-case death penalty (4 x 150 = 600) — the score term only adds
+                // (it is never negative) — so the optimizer can never prefer stalling or parking over a genuine finish.
+                // Within wins, the AMPLIFIED game score is the objective: it packages everything a top finish means
+                // (survivors x health x profession multiplier, plus supplies and cash carried through), so weighting it up
+                // steers training toward Meek-grade scores instead of the cheapest reliable finish. The per-death penalty
+                // stays LIGHT because a heavy one made a costly win rank below not finishing, which discouraged winning.
+                return 4000 + WinScoreWeight * result.Score + survivalReward - deaths * 150.0;
             }
 
-            // Timed out, died, or stranded before Oregon - the party did not finish, so no finish bonus. Forward progress is
-            // a gentle tie-breaker on top of the survival reward above, and the death penalty here stays LIGHT: heavy enough
-            // that throwing lives away is never free, but not so heavy that a doomed party is better off parking the wagon
-            // than pressing on. A penalty that dominates this branch collapses training - the optimizer starves the oxen
-            // budget to avoid deaths and strands the wagon short of Oregon.
-            return result.Miles * 0.25 + survivalReward - deaths * 100.0;
+            // Timed out, died, or stranded before Oregon - the party did not finish, so no finish bonus. The survival reward
+            // is scaled by trail progress: without this, a party that parks at the trailhead and strands with five fat
+            // members out-scores every genuine attempt (observed in real training - fitness climbed while miles FELL to ~320
+            // and wins hit zero), because full survival credit (up to 2500) dwarfs anything progress or rare wins can offer.
+            // Keeping 15% everywhere preserves a survival gradient even for early deaths; the death penalty stays LIGHT so
+            // a doomed party is still better off pressing on than parking the wagon.
+            var progress = Math.Min(1.0, result.Miles / 2000.0);
+            return result.Miles * 0.25 + survivalReward * (0.15 + 0.85 * progress) - deaths * 100.0;
         }
 
         public static string Rating(int score) => score >= 7000 ? "Trail Guide" : score >= 3000 ? "Adventurer" : "Greenhorn";

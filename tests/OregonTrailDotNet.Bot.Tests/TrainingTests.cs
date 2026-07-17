@@ -67,6 +67,88 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
+        public void OnGame_Ticks_Once_Per_Game_With_A_Complete_Progress_Count()
+        {
+            using var db = new BotDatabase(_dbPath);
+            var profile = db.Profiles.GetById(db.Profiles.Create("Ticker", "cem"))!;
+            var config = new TrainingConfig { PopulationSize = 4, GamesPerCandidate = 3, Generations = 1 };
+
+            var ticks = new List<GenerationTick>();
+            new TrainingSession(db, profile, config,
+                    playGame: (_, _) => new RunResult { Outcome = GameOutcomeEnum.Death, PartySize = 5 })
+                .Run(onGame: ticks.Add);
+
+            // One tick per game, counting 1..N against a constant total, so a console bar can render live progress.
+            Assert.NotEmpty(ticks);
+            Assert.All(ticks, t => Assert.Equal(ticks.Count, t.GamesTotal));
+            Assert.Equal(Enumerable.Range(1, ticks.Count), ticks.Select(t => t.GamesPlayed));
+            Assert.Equal(ticks.Count, ticks[^1].GamesTotal);
+        }
+
+        [Fact]
+        public void BestWinScore_Bonus_Rewards_A_Candidates_Peak_Win_But_Never_A_Timeout()
+        {
+            using var db = new BotDatabase(_dbPath);
+            var config = new TrainingConfig { PopulationSize = 4, GamesPerCandidate = 2, Generations = 1 };
+
+            // Every game times out with a huge PARTIAL score: the score bonus must not flow (or park-and-stall pays again).
+            // Per-game fitness: 1000*0.25 + (5^2*500/5)*(0.15+0.85*1000/2000) = 1687.5, and no win means no bonus.
+            var timeoutProfile = db.Profiles.GetById(db.Profiles.Create("Staller", "cem"))!;
+            double? timeoutMean = null;
+            new TrainingSession(db, timeoutProfile, config,
+                    playGame: (_, _) => new RunResult
+                    {
+                        Outcome = GameOutcomeEnum.Timeout, Score = 9999, Survivors = 5, PartySize = 5,
+                        PartyHealthValue = 500, Miles = 1000
+                    })
+                .Run(onGeneration: p => timeoutMean = p.MeanFitness);
+            Assert.NotNull(timeoutMean);
+            Assert.Equal(1687.5, timeoutMean!.Value, precision: 3);
+
+            // Every game WINS at score 2000: per-game fitness 4000 + 3*2000 + 2500 = 12500, plus the candidate's best
+            // winning score once more (2000) = 14500. This is the lever that keeps high-ceiling strategies in the pool.
+            var winnerProfile = db.Profiles.GetById(db.Profiles.Create("Winner", "cem"))!;
+            double? winnerMean = null;
+            new TrainingSession(db, winnerProfile, config,
+                    playGame: (_, _) => new RunResult
+                    {
+                        Outcome = GameOutcomeEnum.Win, Score = 2000, Survivors = 5, PartySize = 5,
+                        PartyHealthValue = 500, Miles = 2000
+                    })
+                .Run(onGeneration: p => winnerMean = p.MeanFitness);
+            Assert.NotNull(winnerMean);
+            Assert.Equal(12500 + TrainingSession.MaxScoreBonusWeight * 2000, winnerMean!.Value, precision: 3);
+        }
+
+        [Fact]
+        public void Stop_MidGeneration_Abandons_The_Batch_And_Discards_Its_Partial_Results()
+        {
+            using var db = new BotDatabase(_dbPath);
+            var profile = db.Profiles.GetById(db.Profiles.Create("Quitter", "cem"))!;
+            var config = new TrainingConfig { PopulationSize = 4, GamesPerCandidate = 3, Generations = 5 };
+
+            // Play the first generation (4 x 3 = 12 games) to completion, then stop 5 games into the second.
+            var played = 0;
+            var session = new TrainingSession(db, profile, config,
+                playGame: (_, _) =>
+                {
+                    played++;
+                    return new RunResult { Outcome = GameOutcomeEnum.Death, PartySize = 5 };
+                });
+
+            var gensCompleted = 0;
+            session.Run(onGeneration: _ => gensCompleted++, shouldStop: () => played >= 12 + 5);
+
+            // The completed generation survives untouched; the abandoned one leaves no trace anywhere — its games are
+            // deleted, the profile's counter is rewound, and the optimizer never folded in the partial scores.
+            Assert.Equal(1, gensCompleted);
+            Assert.Equal(1, session.Optimizer.Generation);
+            Assert.Equal(12, db.Runs.CountForProfile(profile.Id));
+            Assert.Equal(12, db.Profiles.GetById(profile.Id)!.TotalIterations);
+            Assert.Equal(12, db.Runs.NextIterationIndex(profile.Id));
+        }
+
+        [Fact]
         public void Generation_Uses_Shared_Seeds_And_Varies_Across_Generations()
         {
             const int k = 4, gens = 2;

@@ -7,6 +7,7 @@ using OregonTrailDotNet.Bot.Game;
 using OregonTrailDotNet.Bot.Learning;
 using OregonTrailDotNet.Bot.Testing;
 using OregonTrailDotNet.Bot.Ui;
+using WolfCurses.Window.Control;
 
 namespace OregonTrailDotNet.Bot
 {
@@ -147,17 +148,37 @@ namespace OregonTrailDotNet.Bot
             try
             {
                 new TrainingSession(db, profile, config).Run(
-                    onGeneration: p => Console.WriteLine(
-                        $"gen {p.Generation,3}:  mean fitness {p.MeanFitness,8:F1}   best {p.BestScoreThisGen,6}   " +
-                        $"best-ever {p.BestScoreEver,6}   wins {p.WinsThisGen}/{p.GamesThisGen}   (total games {p.TotalIterations})"),
+                    onGeneration: p =>
+                    {
+                        // Overwrite the in-progress bar with the generation's summary line.
+                        Console.Write($"\r{new string(' ', 79)}\r");
+                        Console.WriteLine(
+                            $"gen {p.Generation,3}:  mean fitness {p.MeanFitness,8:F1}   best {p.BestScoreThisGen,6}   " +
+                            $"best-ever {p.BestScoreEver,6}   wins {p.WinsThisGen}/{p.GamesThisGen}   (total games {p.TotalIterations})");
+                    },
                     shouldStop: () =>
                     {
                         if (EscPressed())
                             _stopRequested = true;
                         return _stopRequested;
+                    },
+                    // A 16x64-game generation runs ~10+ seconds with nothing on screen; redraw a live bar on the same
+                    // console line as games finish (throttled — the console can't usefully show ~100 updates a second).
+                    onGame: tick =>
+                    {
+                        if (tick.GamesPlayed % 16 != 0 && tick.GamesPlayed != tick.GamesTotal)
+                            return;
+
+                        var bar = new ProgressBar { Width = 30, Label = $"gen {tick.Generation,3}" }
+                            .Render(tick.GamesPlayed, tick.GamesTotal);
+                        Console.Write($"\r{bar}  {tick.GamesPlayed,4}/{tick.GamesTotal} games   wins {tick.WinsSoFar,3}");
                     });
 
-                Console.WriteLine(_stopRequested ? "\nStopped early — progress saved." : "\nTraining complete — progress saved.");
+                // Esc can land mid-generation, leaving the progress bar on the current line — wipe it before summarizing.
+                Console.Write($"\r{new string(' ', 79)}\r");
+                Console.WriteLine(_stopRequested
+                    ? "\nStopped — completed generations saved; the interrupted one was discarded."
+                    : "\nTraining complete — progress saved.");
             }
             catch (BotBugException bug)
             {

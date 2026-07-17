@@ -3,10 +3,15 @@ using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Entity.Vehicle;
 using OregonTrailDotNet.Module.Time;
 using OregonTrailDotNet.Window.Travel;
+using OregonTrailDotNet.Window.Travel.Trade;
 using WeatherCondition = OregonTrailDotNet.Entity.Location.Weather.WeatherConditionsEnum;
 
 namespace OregonTrailDotNet.Bot.Game
 {
+    /// <summary>The emigrant trade currently on the table, read off the live Trading form for the policy to judge.</summary>
+    public readonly record struct TradeOfferView(
+        EntitiesEnum Offered, int OfferedQuantity, EntitiesEnum Wanted, int WantedQuantity, bool CanPay);
+
     /// <summary>
     ///     Read-only snapshot of the things a policy needs to make a decision, captured from the live game singleton. Keeping
     ///     the policy behind this view (rather than handing it the whole simulation) keeps decisions testable and decoupled
@@ -73,6 +78,13 @@ namespace OregonTrailDotNet.Bot.Game
         /// </summary>
         public int HuntBagged { get; init; }
 
+        /// <summary>Category of the wagon's currently broken part, or null when nothing is broken. A broken part with no
+        ///     spare on hand disables the wagon just like having no oxen does.</summary>
+        public EntitiesEnum? BrokenPart { get; init; }
+
+        /// <summary>The emigrant trade currently on the table (null when not on the trading screen or nobody offers).</summary>
+        public TradeOfferView? Trade { get; init; }
+
         /// <summary>True while nobody in the party has died yet.</summary>
         public bool AllAlive => LivingCount >= PartySize && PartySize > 0;
 
@@ -126,8 +138,25 @@ namespace OregonTrailDotNet.Bot.Game
                 ShoppingAllowed = loc?.ShoppingAllowed ?? false,
                 LocationIndex = game.Trail.LocationIndex,
                 LocationCount = game.Trail.Locations.Count,
-                HuntBagged = BaggedThisHunt(game)
+                HuntBagged = BaggedThisHunt(game),
+                BrokenPart = v.BrokenPart?.Category,
+                Trade = CurrentTrade(game)
             };
+        }
+
+        // The offer shown on the live Trading form, or null when the party is not at the trading screen (same live-form
+        // seam as BaggedThisHunt below).
+        private static TradeOfferView? CurrentTrade(GameSimulationApp game)
+        {
+            if (game.WindowManager.FocusedWindow is not Travel travel || travel.CurrentForm is not Trading trading)
+                return null;
+
+            var offer = trading.CurrentOffer;
+            if (offer?.OfferedItem == null || offer.WantedItem == null)
+                return null;
+
+            return new TradeOfferView(offer.OfferedItem.Category, offer.OfferedItem.Quantity,
+                offer.WantedItem.Category, offer.WantedItem.Quantity, trading.PlayerCanTrade);
         }
 
         // Meat bagged so far in the hunt in progress, read straight off the live hunt session on the travel window, or 0 when
