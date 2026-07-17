@@ -156,12 +156,15 @@ namespace OregonTrailDotNet.Module.Trail
             if ((GameSimulationApp.Instance.TotalTurns > 0) && (LocationIndex + 1 >= Locations.Count))
                 return;
 
-            // Setup next travel distance requirement.
-            DistanceToNextLocation = CurrentLocation.TotalDistance;
-
             // Skip incrementing to next location on first turn, we use first turn to setup game world and player position in it.
             if (GameSimulationApp.Instance.TotalTurns > 0)
                 LocationIndex++;
+
+            // Setup next travel distance requirement. This has to be read AFTER stepping the index: a location's distance
+            // is the leg leading away from it, so the leg we are about to travel belongs to the location we just reached,
+            // not the one we left. Reading it before the step charged every leg the previous location's distance, which
+            // was invisible while all legs were random numbers from the same range and only shows up once they differ.
+            DistanceToNextLocation = CurrentLocation.TotalDistance;
 
             // Set visited flag for location, park the vehicle, and attach Windows the location requires.
             CurrentLocation.Status = LocationStatusEnum.Arrived;
@@ -175,6 +178,17 @@ namespace OregonTrailDotNet.Module.Trail
         public void InsertLocation(Location skipChoice)
         {
             Trail.InsertLocation(LocationIndex + 1, skipChoice);
+        }
+
+        /// <summary>
+        ///     Overrides the leg the party is about to travel. Taking a fork changes how far the next location is - the two
+        ///     roads out of South Pass are 57 and 125 miles - so the distance set on arriving at the fork only holds for
+        ///     staying on the main trail, and choosing a branch replaces it with that branch's own leg.
+        /// </summary>
+        /// <param name="miles">Distance in miles to the location the party is now heading for.</param>
+        public void SetDistanceToNextLocation(int miles)
+        {
+            DistanceToNextLocation = miles;
         }
     }
 }

@@ -36,6 +36,15 @@ namespace OregonTrailDotNet.Module.Trail
         /// <param name="locations">List of locations indexed in the order they should be visited in simulation.</param>
         /// <param name="lengthMin">Minimum length of any given trail segment.</param>
         /// <param name="lengthMax">Maximum length of any given trail segment.</param>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Trail" /> class for a trail whose locations already carry their
+        ///     real distances, so nothing is left to invent.
+        /// </summary>
+        /// <param name="locations">List of locations indexed in the order they should be visited in simulation.</param>
+        public Trail(IEnumerable<Location> locations) : this(locations, 0, 0)
+        {
+        }
+
         public Trail(IEnumerable<Location> locations, int lengthMin, int lengthMax)
         {
             // Check if trail given to us is valid.
@@ -82,11 +91,15 @@ namespace OregonTrailDotNet.Module.Trail
         private int LengthMin { get; }
 
         /// <summary>
-        ///     Generate random length for tail within range, or use remaining amount when all out of space.
+        ///     Generate random length for tail within range, or use remaining amount when all out of space. A trail built with
+        ///     no range at all is one whose distances are already known, so nothing is generated for it.
         /// </summary>
         /// <returns>Trail length for this location, distance vehicle will need to travel before arrival at next location.</returns>
         private int CreateRandomLength()
         {
+            if (LengthMax <= 0)
+                return 0;
+
             var generatedLength = GameSimulationApp.Instance.Random.Next(LengthMin, LengthMax);
             return generatedLength;
         }
@@ -126,9 +139,11 @@ namespace OregonTrailDotNet.Module.Trail
                 if (location == null)
                     continue;
 
-                // Work on the current item we have.
+                // Work on the current item we have. A location that already knows how far it is from the next one keeps
+                // that distance; only trails built without real mileages have theirs invented here.
                 location.Depth = locationDepth;
-                location.TotalDistance = CreateRandomLength();
+                if (location.TotalDistance <= 0)
+                    location.TotalDistance = CreateRandomLength();
                 _totalTrailLength += location.TotalDistance;
 
                 // Check if the location is a fork in the road and has skip choices.

@@ -109,6 +109,30 @@ namespace OregonTrailDotNet.Entity.Location
         public int TotalDistance { get; set; }
 
         /// <summary>
+        ///     Miles a day a full ox team makes at a steady pace out on the open plains.
+        /// </summary>
+        public const int PlainsMilesPerDay = 20;
+
+        /// <summary>
+        ///     Miles a day a full ox team makes at a steady pace once the trail turns mountainous past Fort Laramie.
+        /// </summary>
+        public const int MountainMilesPerDay = 12;
+
+        /// <summary>
+        ///     Base miles a day for the leg leading away from this location, before the ox team and pace scale it. The
+        ///     original kept this per leg rather than per region: twenty across the plains, twelve from Fort Laramie west.
+        /// </summary>
+        public int BaseMilesPerDay { get; set; } = MountainMilesPerDay;
+
+        /// <summary>
+        ///     Miles from the fork that offers this location as a branch to the branch itself, for locations that are one.
+        ///     A fork's own distance only describes staying on the main trail, so each branch has to carry the length of the
+        ///     road leading to it: South Pass is 57 miles from the Green River but 125 from Fort Bridger. Zero for any
+        ///     location that is not a fork branch.
+        /// </summary>
+        public int LegDistance { get; set; }
+
+        /// <summary>
         ///     Name of the current point of interest as it should be known to the player.
         /// </summary>
         public string Name { get; }

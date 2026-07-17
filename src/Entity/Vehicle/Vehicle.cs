@@ -251,36 +251,30 @@ namespace OregonTrailDotNet.Entity.Vehicle
         }
 
         /// <summary>
-        ///     Ideal distance travelled in a day, as in the original game: a regional daily maximum (40 miles/day before Fort
-        ///     Laramie, 24 after) taken as a fraction set by the travel pace (grueling 100%, strenuous 75%, steady 50%) and the
-        ///     size of the ox team (a full team of six pulls at the maximum; fewer are proportionally slower). A little day-to-day
-        ///     randomness sits on top. Problems (illness, weather, terrain) subtract from this ideal afterward.
+        ///     Ideal distance travelled in a day: the leg's own base rate scaled by the ox team and the pace, exactly as the
+        ///     original computed it (base * oxen * (pace + 1) / 2). The base rate belongs to the leg - twenty miles a day out
+        ///     on the plains, twelve once the trail turns mountainous past Fort Laramie - so a full team at a steady pace
+        ///     makes twenty miles a day across Kansas and twelve through the Blue Mountains, doubling at a grueling pace.
+        ///     Four oxen are enough to pull at the leg's full rate; fewer are proportionally slower, and more buy nothing.
+        ///     Problems (illness, weather, terrain) subtract from this ideal afterward.
         /// </summary>
         /// <returns>The ideal mileage for the day before setbacks are applied.</returns>
-        private int RandomMileage
+        private int DailyMileage
         {
             get
             {
-                var game = GameSimulationApp.Instance;
+                // Base miles per day for the leg being travelled.
+                var baseMiles = GameSimulationApp.Instance.Trail?.CurrentLocation?.BaseMilesPerDay ??
+                                Location.Location.MountainMilesPerDay;
 
-                // Regional cap: up to 40 miles/day on the first half of the trail, dropping to 24 once past Fort Laramie
-                // (~640 miles in), where the terrain turns mountainous and slow - the original game's "disk A / disk B" split.
-                var maxMiles = Odometer >= 640 ? 24 : 40;
+                // A team of four pulls at the leg's full rate; a smaller team is proportionally slower, and a bigger one is
+                // no faster, which is why collecting oxen past the fourth buys nothing but points.
+                var oxenFactor = Math.Min(1.0, Inventory[EntitiesEnum.Animal].Quantity/4.0);
 
-                // A full team of six oxen pulls at the regional maximum; a smaller team is proportionally slower. More than six
-                // gives no extra speed (the team is already at the cap), matching how the original never rewarded huge herds.
-                var oxenFactor = Math.Min(1.0, Inventory[EntitiesEnum.Animal].Quantity/6.0);
+                // Steady walks the base rate, strenuous is half again, grueling doubles it.
+                var paceFactor = ((int) Pace + 1)/2.0;
 
-                // Pace is the fraction of the maximum the party pushes for.
-                var paceFactor = Pace switch
-                {
-                    TravelPaceEnum.Grueling => 1.0,
-                    TravelPaceEnum.Strenuous => 0.75,
-                    _ => 0.5 // Steady
-                };
-
-                var miles = maxMiles*oxenFactor*paceFactor + 4*game.Random.NextDouble();
-                return (int) miles;
+                return (int) (baseMiles*oxenFactor*paceFactor);
             }
         }
 
@@ -509,12 +503,10 @@ namespace OregonTrailDotNet.Entity.Vehicle
 
             if (traveling)
             {
-                // Figure out how far we need to go to reach the next point.
-                Mileage = RandomMileage;
-
-                // Sometimes things just go slow on the trail, cut mileage in half if above zero randomly.
-                if (GameSimulationApp.Instance.Random.NextBool() && (Mileage > 0))
-                    Mileage = Mileage/2;
+                // Figure out how far we need to go to reach the next point. A healthy party with a full team simply makes
+                // the leg's rate every day; the original had no dice roll here, its day-to-day variation coming from the
+                // sick, the snow and whatever the trail threw at them.
+                Mileage = DailyMileage;
 
                 // Stopping at a fort to resupply costs the party most of the day getting back on the trail, so the first
                 // turn after departing a settlement covers dramatically fewer miles.

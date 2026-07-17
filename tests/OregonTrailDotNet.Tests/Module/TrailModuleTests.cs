@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using OregonTrailDotNet.Entity.Location;
 using OregonTrailDotNet.Entity.Location.Point;
@@ -49,11 +50,88 @@ namespace OregonTrailDotNet.Tests.Module
         }
 
         [Fact]
-        public void SegmentDistances_StayWithinRegistryBounds()
+        public void SegmentDistances_AreTheOriginalsRouteTable()
         {
-            // TrailRegistry builds the Oregon Trail with segments between 32 and 164 miles.
+            // The 1985 game's own mileages, recovered from VAR.BIN (legacy/source/VAR.BIN.txt). A location's distance is
+            // the leg leading away from it, so these read as "Independence to the Kansas River is 102 miles".
+            var expected = new Dictionary<string, int>
+            {
+                ["Independence"] = 102,
+                ["Kansas River Crossing"] = 83,
+                ["Big Blue River Crossing"] = 119,
+                ["Fort Kearney"] = 250,
+                ["Chimney Rock"] = 86,
+                ["Fort Laramie"] = 190,
+                ["Independence Rock"] = 102,
+                ["Soda Springs"] = 57,
+                ["Fort Hall"] = 182,
+                ["Snake River Crossing"] = 114,
+                ["Fort Boise"] = 160,
+                ["Blue Mountains"] = 125,
+                ["The Dalles"] = 100
+            };
+
             foreach (var location in Game.Trail.Locations)
-                Assert.InRange(location.TotalDistance, 32, 164);
+                if (expected.TryGetValue(location.Name, out var miles))
+                    Assert.Equal(miles, location.TotalDistance);
+
+            // Nothing is invented for this trail any more, so no leg may be randomised into existence.
+            foreach (var location in Game.Trail.Locations)
+                Assert.True(expected.ContainsKey(location.Name) || location.LastLocation ||
+                            location is ForkInRoad);
+        }
+
+        [Fact]
+        public void ForkBranches_CarryTheirOwnLegAndOnwardDistance()
+        {
+            var southPass = (ForkInRoad) Game.Trail.Locations.First(l => l.Name == "South Pass");
+            var bridger = southPass.SkipChoices.First(c => c.Name == "Fort Bridger");
+            var greenRiver = southPass.SkipChoices.First(c => c.Name == "Green River Crossing");
+
+            // Going by way of Fort Bridger skips the Green River crossing but costs 86 extra miles.
+            Assert.Equal(125, bridger.LegDistance);
+            Assert.Equal(162, bridger.TotalDistance);
+            Assert.Equal(57, greenRiver.LegDistance);
+            Assert.Equal(144, greenRiver.TotalDistance);
+            Assert.Equal(86, bridger.LegDistance + bridger.TotalDistance -
+                             (greenRiver.LegDistance + greenRiver.TotalDistance));
+
+            // Fort Walla Walla is a detour off the main trail that rejoins at The Dalles: 55 + 120 against 125 straight.
+            var blueMountains = (ForkInRoad) Game.Trail.Locations.First(l => l.Name == "Blue Mountains");
+            var wallaWalla = blueMountains.SkipChoices.First(c => c != null && c.Name == "Fort Walla Walla");
+            Assert.Equal(55, wallaWalla.LegDistance);
+            Assert.Equal(120, wallaWalla.TotalDistance);
+            Assert.Contains(blueMountains.SkipChoices, c => c == null);
+        }
+
+        [Fact]
+        public void BaseMilesPerDay_IsTwentyOnThePlainsAndTwelveWestOfFortLaramie()
+        {
+            var plains = new[]
+            {
+                "Independence", "Kansas River Crossing", "Big Blue River Crossing", "Fort Kearney", "Chimney Rock"
+            };
+
+            foreach (var location in Game.Trail.Locations)
+                Assert.Equal(plains.Contains(location.Name)
+                        ? Location.PlainsMilesPerDay
+                        : Location.MountainMilesPerDay,
+                    location.BaseMilesPerDay);
+
+            // The five plains legs are exactly the 640 miles from Independence to Fort Laramie, which is where the
+            // original's daily rate drops from twenty to twelve.
+            Assert.Equal(640, Game.Trail.Locations
+                .Where(l => plains.Contains(l.Name))
+                .Sum(l => l.TotalDistance));
+        }
+
+        [Fact]
+        public void TrailLength_MatchesTheOriginalsStandardRoute()
+        {
+            // 102 + 83 + 119 + 250 + 86 + 190 + 102 (to South Pass), + 57 + 144 through the Green River,
+            // + 57 + 182 + 114 + 160 (to the Blue Mountains), + 125 straight on, + 100 to the valley = 1,871.
+            var standardRoute = 102 + 83 + 119 + 250 + 86 + 190 + 102 + 57 + 144 + 57 + 182 + 114 + 160 + 125 + 100;
+            Assert.Equal(1871, standardRoute);
         }
 
         [Fact]

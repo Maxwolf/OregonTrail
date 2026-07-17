@@ -144,9 +144,16 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
                         GameSimulationApp.Instance.Vehicle.LockPartyHealth();
 
                     // A null choice means staying on the main trail, so there is no detour to splice in - the party just
-                    // carries on to the location that already follows this one.
+                    // carries on to the location that already follows this one, over the leg the fork itself describes.
                     if (chosen != null)
+                    {
                         GameSimulationApp.Instance.Trail.InsertLocation(chosen);
+
+                        // The roads out of a fork are not the same length, so the leg set on arrival here is only right
+                        // for staying on the main trail. Taking a branch means travelling that branch's own road.
+                        if (chosen.LegDistance > 0)
+                            GameSimulationApp.Instance.Trail.SetDistanceToNextLocation(chosen.LegDistance);
+                    }
 
                     // Start going there...
                     SetForm(typeof(LocationDepart));
