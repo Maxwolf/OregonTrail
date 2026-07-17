@@ -274,7 +274,17 @@ namespace OregonTrailDotNet.Entity.Vehicle
                 // Steady walks the base rate, strenuous is half again, grueling doubles it.
                 var paceFactor = ((int) Pace + 1)/2.0;
 
-                return (int) (baseMiles*oxenFactor*paceFactor);
+                // A party carrying sick people goes slower for it - a tenth off the day for each of them - and snow on the
+                // ground slows everybody, right down to a standstill in a deep enough drift. This is where the wagon's
+                // day-to-day variation actually comes from: the trail's, not a dice roll's.
+                var sickCount = _passengers.Count(passenger => passenger.IsSick);
+                var sickFactor = 1.0 - 0.1*sickCount;
+                if (sickFactor < 0)
+                    sickFactor = 0;
+
+                var snowFactor = 1.0 - (GameSimulationApp.Instance.Climate?.SnowDrag ?? 0);
+
+                return (int) (baseMiles*oxenFactor*paceFactor*sickFactor*snowFactor);
             }
         }
 
@@ -599,9 +609,11 @@ namespace OregonTrailDotNet.Entity.Vehicle
             if (!traveling)
                 return;
 
-            // Check to make sure mileage is never below or at zero.
-            if (Mileage <= 0)
-                Mileage = 10;
+            // A day can genuinely cover no ground at all - snowed in, or the party too sick to move - so this is floored at
+            // nothing rather than at some token distance. Putting a floor here would quietly undo the snow and sickness
+            // penalties entirely, since a mountain leg only makes twelve miles on its best day to begin with.
+            if (Mileage < 0)
+                Mileage = 0;
 
             // Use our altered mileage to affect how far the vehicle has traveled in todays tick..
             Odometer += Mileage;
