@@ -251,6 +251,16 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.Contains("Meek", Screen);
             Assert.Contains("7650", Screen);
 
+            Send("g"); // switch goal to the max-score test (the game's 13,860 ceiling)
+            Assert.Contains("Max score", Screen);
+            Assert.Contains("13,860", Screen);
+
+            Send("g"); // the cycle wraps back around to the first goal
+            Assert.Contains("First win", Screen);
+
+            Send("g");
+            Send("g"); // back to the max-score goal for the recorded request below
+
             Send("12"); // set an explicit limit
             Assert.Contains("12 minutes", Screen);
 
@@ -262,7 +272,7 @@ namespace OregonTrailDotNet.Bot.Tests
             var request = BotContext.Request!;
             Assert.Equal(BotRequestKindEnum.Benchmark, request.Kind);
             Assert.Equal(12, request.BenchmarkMinutes);
-            Assert.Equal(OregonTrailDotNet.Bot.Testing.BenchmarkGoalEnum.MeekScore, request.BenchmarkGoal);
+            Assert.Equal(OregonTrailDotNet.Bot.Testing.BenchmarkGoalEnum.MaxScore, request.BenchmarkGoal);
         }
 
         [Fact]

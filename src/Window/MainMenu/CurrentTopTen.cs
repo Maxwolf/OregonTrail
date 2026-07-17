@@ -55,7 +55,8 @@ namespace OregonTrailDotNet.Window.MainMenu
             currentTopTen.AppendLine(table);
 
             // For anybody wondering how high the list can possibly go.
-            currentTopTen.Append($"The highest possible score is 13,860:{Environment.NewLine}");
+            currentTopTen.Append(
+                $"The highest possible score is {Module.Scoring.ScoringModule.MaxPossibleScore:N0}:{Environment.NewLine}");
             currentTopTen.Append($"a farmer party of five arriving in good{Environment.NewLine}");
             currentTopTen.Append($"health with a fully loaded wagon.{Environment.NewLine}{Environment.NewLine}");
 

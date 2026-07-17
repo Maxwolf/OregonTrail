@@ -104,6 +104,29 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
+        public void Max_Goal_Requires_The_Games_Full_Ceiling()
+        {
+            const int max = OregonTrailDotNet.Module.Scoring.ScoringModule.MaxPossibleScore;
+            var played = 0;
+
+            // The max-score test requires the full 13,860 ceiling: even a Meek-beating 10,000-point win does NOT count.
+            var session = new BenchmarkSession(5, $"the highest possible score ({max:N0})", r => r.Score >= max,
+                playGame: model => model.Key == "cem"
+                    ? Win(max) // the perfect grind finish
+                    : Win(10000), // beats Meek comfortably, still short of the ceiling
+                elapsed: () => TimeSpan.Zero);
+
+            var report = session.Run(keepRunning: () => played++ < 20);
+
+            Assert.False(report.AllReached);
+            var cem = report.Results.First(r => r.Key == "cem");
+            Assert.True(cem.Reached);
+            Assert.Equal(max, cem.ScoreAtGoal);
+            Assert.All(report.Results.Where(r => r.Key != "cem"), r => Assert.False(r.Reached));
+            Assert.Contains($"{max:N0}", report.Format());
+        }
+
+        [Fact]
         public void Tracks_Each_Models_Best_Score_And_Recent_Scores()
         {
             // One game per model this round (models are ordered cem, genetic, hillclimb, random, neuro).

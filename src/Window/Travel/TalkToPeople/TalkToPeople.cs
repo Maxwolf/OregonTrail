@@ -59,10 +59,12 @@ namespace OregonTrailDotNet.Window.Travel.TalkToPeople
             // Grab single random piece of advice from that collection.
             var randomAdvice = advice.PickRandom(1).FirstOrDefault();
 
-            // Render out the advice to the form.
+            // Render out the advice the way the 1985 game did (TALK.LIB: PRINT A$" tells you:" then the quote wrapped
+            // in double quotation marks) — speaker names that end in a comma ("A lady, Marnie Stewart,") depend on it.
             return randomAdvice == null
                 ? $"{Environment.NewLine}You find no one here who wishes to talk.{Environment.NewLine}"
-                : $"{Environment.NewLine}{randomAdvice.Name},{Environment.NewLine}{randomAdvice.Quote.WordWrap()}{Environment.NewLine}";
+                : $"{Environment.NewLine}{randomAdvice.Name} tells you:{Environment.NewLine}{Environment.NewLine}" +
+                  $"{$"\"{randomAdvice.Quote}\"".WordWrap()}{Environment.NewLine}";
         }
 
         /// <summary>

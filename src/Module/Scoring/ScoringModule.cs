@@ -16,6 +16,13 @@ namespace OregonTrailDotNet.Module.Scoring
     public sealed class ScoringModule : WolfCurses.Module.Module
     {
         /// <summary>
+        ///     The highest score the game can award, matching the 1985 Apple II original: a farmer party of five arriving
+        ///     in good health with every capped item maxed — (5x500 people + 50 wagon + 20x4 oxen + 9x2 spare parts +
+        ///     255x2 clothes + 65,535/50 bullets + 2,000/25 food + $360/5 cash) x 3 = (2500+50+80+18+510+1310+80+72) x 3.
+        /// </summary>
+        public const int MaxPossibleScore = 13860;
+
+        /// <summary>
         ///     Keeps track of the total number of points the player has earned through the course of the game.
         /// </summary>
         private List<Highscore> _highScores;

@@ -6,8 +6,9 @@ using WolfCurses.Window.Form;
 namespace OregonTrailDotNet.Bot.Ui
 {
     /// <summary>
-    ///     Configures a benchmark before it starts: the goal each model races to (a first win, or Stephen Meek's 7650) and the
-    ///     time limit (minutes, 0 = run until every model reaches it or Esc). ENTER records the request and hands off to Program.
+    ///     Configures a benchmark before it starts: the goal each model races to (a first win, Stephen Meek's 7650, or the
+    ///     game's 13,860 ceiling) and the time limit (minutes, 0 = run until every model reaches it or Esc). ENTER records
+    ///     the request and hands off to Program.
     /// </summary>
     [ParentWindow(typeof(BotMainMenu))]
     public sealed class BenchmarkConfigForm : Form<BotAppData>
@@ -28,7 +29,7 @@ namespace OregonTrailDotNet.Bot.Ui
             sb.AppendLine($"  Goal:        {GoalLabel(UserData.BenchmarkGoal)}");
             sb.AppendLine($"  Time limit:  {DurationLabel(UserData.BenchmarkMinutes)}");
             sb.AppendLine();
-            sb.AppendLine("  g - switch goal (first win  /  Meek test: 7650)");
+            sb.AppendLine("  g - switch goal (first win / Meek test: 7650 / max score: 13,860)");
             sb.AppendLine("  Type a number to set the minutes (0 = run until every model reaches it).");
             sb.AppendLine("  ENTER - start benchmark          b - go back");
             sb.Append("  (Press Esc during the run to stop and see the results.)");
@@ -54,9 +55,13 @@ namespace OregonTrailDotNet.Bot.Ui
 
             if (text.Equals("g", StringComparison.OrdinalIgnoreCase))
             {
-                UserData.BenchmarkGoal = UserData.BenchmarkGoal == BenchmarkGoalEnum.FirstWin
-                    ? BenchmarkGoalEnum.MeekScore
-                    : BenchmarkGoalEnum.FirstWin;
+                // Cycle the three goals in escalating order: first win -> Meek's 7650 -> the 13,860 ceiling -> back.
+                UserData.BenchmarkGoal = UserData.BenchmarkGoal switch
+                {
+                    BenchmarkGoalEnum.FirstWin => BenchmarkGoalEnum.MeekScore,
+                    BenchmarkGoalEnum.MeekScore => BenchmarkGoalEnum.MaxScore,
+                    _ => BenchmarkGoalEnum.FirstWin
+                };
                 return;
             }
 
@@ -74,6 +79,8 @@ namespace OregonTrailDotNet.Bot.Ui
         private static string GoalLabel(BenchmarkGoalEnum goal) => goal switch
         {
             BenchmarkGoalEnum.MeekScore => "Meek test — reach Stephen Meek's 7650 (Trail Guide)",
+            BenchmarkGoalEnum.MaxScore =>
+                $"Max score test — reach the game's ceiling of {OregonTrailDotNet.Module.Scoring.ScoringModule.MaxPossibleScore:N0}",
             _ => "First win — reach Oregon"
         };
 

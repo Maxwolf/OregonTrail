@@ -507,7 +507,8 @@ namespace OregonTrailDotNet.Bot
         }
 
         // Maps a benchmark goal to its display label and the predicate that decides whether a game reached it. The Meek
-        // target is read from the game's own original high-score list so it can never drift out of sync.
+        // target is read from the game's own original high-score list so it can never drift out of sync, and the max
+        // target from the game's own scoring ceiling constant.
         private static (string Label, Func<RunResult, bool> Reached) BenchmarkGoalSpec(BenchmarkGoalEnum goal)
         {
             if (goal == BenchmarkGoalEnum.MeekScore)
@@ -515,6 +516,12 @@ namespace OregonTrailDotNet.Bot
                 var meek = OregonTrailDotNet.Module.Scoring.ScoringModule.DefaultTopTen
                     .OrderByDescending(h => h.Points).First();
                 return ($"{meek.Name}'s {meek.Points} (Trail Guide)", result => result.Score >= meek.Points);
+            }
+
+            if (goal == BenchmarkGoalEnum.MaxScore)
+            {
+                const int max = OregonTrailDotNet.Module.Scoring.ScoringModule.MaxPossibleScore;
+                return ($"the highest possible score ({max:N0})", result => result.Score >= max);
             }
 
             return ("a first win", result => result.Outcome == GameOutcomeEnum.Win);

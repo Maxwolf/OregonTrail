@@ -81,6 +81,9 @@ namespace OregonTrailDotNet.Bot.Tests
             // base = 2500 people + 50 wagon + 80 oxen + 18 parts + 510 clothes + 1310 bullets + 80 food + 72 cash = 4620.
             Assert.Equal(4620, ScoreCalculator.ComputeBase(vehicle));
             Assert.Equal(13860, ScoreCalculator.Compute(vehicle));
+
+            // The game's published ceiling constant (top-ten note, max-score benchmark) must equal the real computed max.
+            Assert.Equal(OregonTrailDotNet.Module.Scoring.ScoringModule.MaxPossibleScore, ScoreCalculator.Compute(vehicle));
         }
     }
 }

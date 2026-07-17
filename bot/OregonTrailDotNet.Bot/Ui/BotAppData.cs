@@ -56,7 +56,7 @@ namespace OregonTrailDotNet.Bot.Ui
         /// <summary>Benchmark time limit in minutes chosen on its config screen (0 = until every model reaches the goal or Esc).</summary>
         public int BenchmarkMinutes { get; set; } = 5;
 
-        /// <summary>Which goal the benchmark races each model to: a first win, or Stephen Meek's 7650.</summary>
+        /// <summary>Which goal the benchmark races each model to: a first win, Stephen Meek's 7650, or the 13,860 ceiling.</summary>
         public Testing.BenchmarkGoalEnum BenchmarkGoal { get; set; } = Testing.BenchmarkGoalEnum.FirstWin;
     }
 }

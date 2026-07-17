@@ -21,13 +21,13 @@ namespace OregonTrailDotNet.Window.Travel.TalkToPeople
             {
                 var startingAdvice = new[]
                 {
-                    new Advice("A trader named Jimmy",
+                    new Advice("A trader named Jim",
                         "Better take extra sets of clothing. Trade 'em to Indians for fresh vegetables, fish, or meat. It's well worth hiring an Indian guide at river crossings. Expect to pay them! They're sharp traders, not easily cheated."),
-                    new Advice("A traveler",
+                    new Advice("A traveler, Miles Hendricks,",
                         "Did you read the Missouri Republican today? --Says some folk start for Oregon without carrying spare parts, not even an extra wagon axle. Must think they grow on trees! Hope they're lucky enough to find an abandoned wagon."),
                     new Advice("A town resident",
                         "Some folks seem to think that two oxen are enough to get them to Oregon! Two oxen can barely move a fully loaded wagon, and if one of them gets sick or dies, you won't be going anywhere. I wouldn't go overland with less than six."),
-                    new Advice("Aunt Rebecca",
+                    new Advice("Aunt Rebecca Sims",
                         "With the crowds of people waiting to get on the ferry, we could be stranded here for days! Hope there's enough graze for all those animals -- not many people carry feed! I'd rather wait, though, than cross in a rickety wagon boat!")
                 };
                 return startingAdvice;
@@ -43,23 +43,23 @@ namespace OregonTrailDotNet.Window.Travel.TalkToPeople
             {
                 var advice = new[]
                 {
-                    new Advice("Sam Hendricks",
+                    new Advice("A stranger",
                         "Can't afford to take a ferry. We're making our wagon into a boat. We'll turn it over, caulk the bottom and sides with pitch, and use it to float our goods across. Have to swim the animals. Hope it doesn't rain -- the river's high enough!"),
                     new Advice("A ferry operator",
                         "Don't try to ford any river deeper than the wagon bed -- about two and a half feet. You'll swamp your wagon and lose your supplies. You can caulk the wagon bed and float it -- or be smart and hire me to take your wagon on my ferry!"),
                     new Advice("A party leader heading east",
                         "We've had enough! Pesky flies all day and mosquitoes all night! It's either baking sun or oceans of mud -- and sometimes both. Worry over Indians attacking -- haven't seen any yet, but still a worry."),
-                    new Advice("A lady",
+                    new Advice("A lady, Marnie Stewart,",
                         "This prairie is mighty pretty with all the wild flowers and tall grasses. But there's too much of it! I miss not having a town nearby. I wonder how many days until I see a town -- a town with real shops, a church, people..."),
-                    new Advice("Big Louie",
-                        "Be careful you don't push those animals too hard! Keep 'em moving but set them a fair pace. Can't keep driving 'em so fast or you'll end up with lame-footed animals. A lame ox is about as good to you as a dead one!"),
+                    new Advice("Big Louie, a trail driver,",
+                        "Be careful you don't push those animals too hard! Keep'em moving but set them a fair pace. Can't keep driving'em too fast or you'll end up with lame-footed animals. A lame ox is about as good to you as a dead one!"),
                     new Advice("A fort soldier",
                         "The trails from the jumping off places -- Independence, St. Joseph, Council Bluffs -- come together at Fort Kearney. This new fort was built by the U.S. Army to protect those bound for California and Oregon."),
                     new Advice("Big Louie",
                         "The Platte River valley forms a natural roadway from Fort Kearney to Fort Laramie. Travelers bound for California, Utah, and Oregon all take this road. Could be the easiest stretch of the whole trip. Should see antelope and plenty of buffalo."),
                     new Advice("A Fort Kearney scout",
                         "The game is still plentiful along here, but gettin' harder to find. With so many overlanders, I don't expect it to last more'n a few years. Folks shoot the game for sport, take a small piece, and let the rest rot in the sun."),
-                    new Advice("Aunt Rebecca",
+                    new Advice("Aunt Rebecca Sims",
                         "I hear terrible stories about wagon parties running out of food before Oregon -- the whole party starving to death. We must check our supplies often; we might not get there as soon as we think. Always plan for the worst, I say.")
                 };
                 return advice;
@@ -80,7 +80,7 @@ namespace OregonTrailDotNet.Window.Travel.TalkToPeople
                         "Chimney Rock by moonlight is awfully sublime. Many Indians came to our wagon with fish to exchange for clothing. We bought a number. They understand 'swap' and 'no swap.' Seem most anxious to get shirts and socks."),
                     new Advice("Alonzo Delano",
                         "About noon yesterday we came in sight of Chimney Rock looming up in the distance like the lofty tower of some town. We did not tire gazing on it. It was about 20 miles from us, and stayed in sight 'til we reached it today."),
-                    new Advice("A Sioux hunter",
+                    new Advice("A Sioux brave",
                         "The Pawnee are the mortal enemies of the Sioux. I would not hesitate to kill any Pawnee I met. But I have never killed a white man. All I ask from the white man is to leave me alone, and to leave my buffalo alone."),
                     new Advice("A woman traveler",
                         "Be warned, stranger. Don't dig a water hole! Drink only river water. Salty as the Platte River is -- it's better than the cholera. We buried my husband last week. Could use some help with this harness, if you can spare the time."),
@@ -88,7 +88,7 @@ namespace OregonTrailDotNet.Window.Travel.TalkToPeople
                         "These greenhorns heading across the Rockies know nothing about surviving in the mountains. It gets awful cold up there, even in summer. Many a traveler crossing the mountains too late in the year has gotten snowbound and died!"),
                     new Advice("A young boy",
                         "I carved my name way up the side of Independence Rock, near the top. There are hundreds of names up there! The oldest ones were carved by mountain men and fur trappers -- famous names like Fremont, Bonneville, and DeSmet!"),
-                    new Advice("Aunt Rebecca",
+                    new Advice("Aunt Rebecca Sims",
                         "No butter or cheese or fresh fruit since Fort Laramie! Bless me, but I'd rather have my larder full of food back East than have our names carved on that rock! Well, tis a sight more cheery than all the graves we passed."),
                     new Advice("Big Louie",
                         "Goodbye Platte River! Goodbye sand hills and white buffalo skulls! Now we climb the Sweetwater valley to cross the Continental Divide at South Pass. Once across the Rockies, we'll make a steep descent into the Green River valley."),
@@ -132,7 +132,7 @@ namespace OregonTrailDotNet.Window.Travel.TalkToPeople
                     new Advice("A young boy",
                         "My job every day is to find wood for the cook fire. Sometimes it's very hard to find enough, so I store extra pieces in a box under the wagon. On the prairie I gathered buffalo chips to burn when there wasn't any wood."),
                     new Advice("Miles Hendrick",
-                        "Well, friend, this is where we part. I'm bound for California with an imposing desert to cross. And you -- you've got the Snake River to cross, which I hear is no picnic! Write us, you or the Missus, just as soon as you reach Oregon."),
+                        "Well, friend, this is where we part. I'm bound for California with an imposing desert to cross. And you -- you've got the Snake River to cross, which I hear is no picnic! Write us, you or the Missus, just as soon as you reach Oregon!"),
                     new Advice("Aunt Rebecca",
                         "Hear there's mountain sheep around here. Enough water too, but hardly a stick of wood. Thank heaven for Fort Hall! But I'm real sorry to be saying goodbye to cousin Miles and all the folks heading for California."),
                     new Advice("A fellow traveler",
@@ -162,8 +162,8 @@ namespace OregonTrailDotNet.Window.Travel.TalkToPeople
                         "You'll not get yer wagon over them Blue Mountains, mister. Leave it! Cross yer goods over with pack animals. Get yerself a couple of good mules. Pieces of wagons litter the trail -- left by them folks who don't heed good advice!"),
                     new Advice("Aunt Rebecca",
                         "At every fort along the trail, prices have been higher than at the previous fort! This is outrageous! They're taking advantage of us! If I had the chance to do it again, I'd buy more supplies in Independence."),
-                    new Advice("Jacob Hofstead",
-                        "Every night, even though I ache from the day's toils, my head is filled with dreams of the rich farm land of the Willamette Valley. I will build myself a fine, handsome homestead -- and I'm certain I'll be rich within five years!"),
+                    new Advice("Jacob Hofsteader",
+                        "Every night, even though I ache from the day's toils, my head is filled with dreams of the rich farm land of the Willamette Valley. I will build myself a fine, handsome homestead -- and I'm certain I'll be rich within five years."),
                     new Advice("A tired overlander",
                         "Since crossing the Snake at Fort Boise, it's been just mountains and desert. Dust deeper each day -- six inches at times. No tracks, just clouds of dust. Many cattle choked on the dust after swimming the river, then bled and died.")
                 };
@@ -183,7 +183,7 @@ namespace OregonTrailDotNet.Window.Travel.TalkToPeople
                 {
                     new Advice("Marnie Stewart",
                         "We followed the edge of the desert from Fort Boise to the forbidding wall of the Blue Mountains. The hills were dreadful steep! Locking both wheels and coming down slow, we got down safe. Poor animals! No grass or water for days."),
-                    new Advice("Jacob Hofstead",
+                    new Advice("Jacob Hofsteader",
                         "This valley of the Grande Ronde is the most beautiful sight I've seen in months. Water and graze in abundance! And if this valley is so fine, the Willamette must be twice as fine! We'll be sittin' pretty in our new homestead!"),
                     new Advice("A young mother",
                         "I've traveled in fear of Indians since our journey began. As of yet we've seen few. Those we met helped us cross rivers or sold us vegetables. Still I fear. I've read grave markers and heard stories of killings in these mountains."),
