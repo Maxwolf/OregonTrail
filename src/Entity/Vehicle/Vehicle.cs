@@ -630,15 +630,26 @@ namespace OregonTrailDotNet.Entity.Vehicle
         /// <param name="transaction">The transaction.</param>
         public void Purchase(SimItem transaction)
         {
-            // Check of the player can afford this item.
-            if (Balance < transaction.TotalValue)
+            // Only charge for what actually fits: the inventory clamps additions at the item's ceiling, so billing the
+            // full transaction would silently take money for goods that vanish (visible when topping up near a cap,
+            // e.g. oxen at the 20-animal limit).
+            var inventoryItem = _inventory[transaction.Category];
+            var addableQuantity = transaction.Quantity;
+            if (inventoryItem.Quantity + addableQuantity > inventoryItem.MaxQuantity)
+                addableQuantity = inventoryItem.MaxQuantity - inventoryItem.Quantity;
+
+            if (addableQuantity <= 0)
+                return;
+
+            // Check the player can afford what will actually be charged — the part that fits, not the full request.
+            if (Balance < transaction.Cost*addableQuantity)
                 return;
 
             // Create new item based on old one, with new quantity value from store, trader, random event, etc.
-            Balance -= transaction.TotalValue;
+            Balance -= transaction.Cost*addableQuantity;
 
             // Make sure we add the quantity and not just replace it.
-            _inventory[transaction.Category].AddQuantity(transaction.Quantity);
+            inventoryItem.AddQuantity(addableQuantity);
         }
 
         /// <summary>Resets the vehicle status to the defaults.</summary>
@@ -694,6 +705,25 @@ namespace OregonTrailDotNet.Entity.Vehicle
         }
 
         /// <summary>
+        ///     Upper bound on how many of an item a random emigrant trade offer or abandoned-wagon find may contain. Most
+        ///     items scale off their inventory ceiling, but clothing and ammunition keep their historic lot sizes: their
+        ///     MaxQuantity values (255 sets / 65,535 bullets) exist only so the score ceiling matches the 1985 game's
+        ///     endgame byte limits, and scaling offers off them would hand out wagonloads in a single roll.
+        /// </summary>
+        private static int RandomLotCeiling(SimItem item)
+        {
+            switch (item.Category)
+            {
+                case EntitiesEnum.Clothes:
+                    return 12;
+                case EntitiesEnum.Ammo:
+                    return 24;
+                default:
+                    return item.MaxQuantity/4;
+            }
+        }
+
+        /// <summary>
         ///     Selects a random item from the default inventory layout a vehicle would have. It will also generate a random
         ///     quantity it desires for the item within the bounds of the minimum and maximum quantities.
         /// </summary>
@@ -722,7 +752,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
                     case EntitiesEnum.Person:
                     {
                         // Create a random number within the range we need to create an item.
-                        var amountToMake = itemPair.Value.MaxQuantity/4;
+                        var amountToMake = RandomLotCeiling(itemPair.Value);
 
                         // Check if created amount goes above ceiling.
                         if (amountToMake > itemPair.Value.MaxQuantity)
@@ -791,7 +821,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
                     continue;
 
                 // Determine amount of item to create, never let it fall below one for low maximum quantities.
-                var amountToMake = itemPair.Value.MaxQuantity/4;
+                var amountToMake = RandomLotCeiling(itemPair.Value);
                 if (amountToMake <= 0)
                     amountToMake = 1;
 

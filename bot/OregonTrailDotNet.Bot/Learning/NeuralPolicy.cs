@@ -28,11 +28,26 @@ namespace OregonTrailDotNet.Bot.Learning
         // Per-game supply decisions (fort restocking, rescue/opportunistic trades) with their own loop guards.
         private readonly SupplyPlanner _supplies = new();
 
+        // Per-game endgame score grind (trade browses at the final stops) with its own budget counter.
+        private readonly EndgameGrinder _grinder = new();
+
         public NeuralPolicy(double[] vector, string leaderName)
         {
             LeaderName = leaderName;
 
-            // Tolerate a stored vector of a different length (e.g. a best-genome saved before the layout changed): copy what
+            // A vector saved under the previous 28-gene genome layout (before the two grind genes) must be spliced, not
+            // flat-copied: its MLP weights start two slots earlier, and a flat copy would read the first two weights as
+            // grind genes and shift every remaining weight. Splicing keeps the old genome AND the trained weights intact
+            // (the new grind genes decode from zero-fill to "grind off", the legacy behavior).
+            if (vector.Length == VectorLength - 2)
+            {
+                var spliced = new double[VectorLength];
+                Array.Copy(vector, spliced, SetupLength - 2);
+                Array.Copy(vector, SetupLength - 2, spliced, SetupLength, Mlp.WeightCount);
+                vector = spliced;
+            }
+
+            // Tolerate a stored vector of any other length (e.g. a best-genome saved before the layout changed): copy what
             // fits and zero-pad the rest so decoding/replay never indexes out of range. A fresh training run always matches.
             if (vector.Length != VectorLength)
             {
@@ -77,8 +92,11 @@ namespace OregonTrailDotNet.Bot.Learning
 
             // Rest: the expert rule (stop when the weakest member has fallen to the genome's health threshold) plus the
             // network's state-adaptive nudge o[0]. At zero weights o[0] is 0, so this is exactly the expert decision.
+            // The schedule guard only applies mid-journey — near the trail's end (and in long, no-time-limit games where
+            // DaysRemaining goes negative) recovery must stay available, especially during the endgame grind.
             var restMargin = (_setup.RestHealthThreshold - (int) state.LowestHealth) / 500.0 + o[0];
-            if (available.Contains(TravelCommandsEnum.StopToRest) && restMargin > 0 && state.DaysRemaining > 40)
+            if (available.Contains(TravelCommandsEnum.StopToRest) && restMargin > 0 &&
+                (state.DaysRemaining > 40 || state.NearTrailEnd))
                 return TravelCommandsEnum.StopToRest;
 
             // Hunt: the expert rule (top up the larder below the genome's food threshold) plus the network's nudge o[1], still
@@ -86,6 +104,11 @@ namespace OregonTrailDotNet.Bot.Learning
             var huntMargin = (_setup.HuntFoodThreshold - state.Food) / 500.0 + o[1];
             if (available.Contains(TravelCommandsEnum.HuntForFood) && huntMargin > 0 && state.Ammo > 0)
                 return TravelCommandsEnum.HuntForFood;
+
+            // Endgame score grind from the genome slice: at the final stops before Oregon City, browse emigrant trades to
+            // convert hunted food into clothes and bullets. Runs after the hunt rule so the trade currency refills first.
+            if (_grinder.WantTrade(state, _setup.GrindTrades, _setup.GrindHealthFloor, available))
+                return TravelCommandsEnum.AttemptToTrade;
 
             return available.Contains(TravelCommandsEnum.ContinueOnTrail)
                 ? TravelCommandsEnum.ContinueOnTrail
@@ -152,10 +175,12 @@ namespace OregonTrailDotNet.Bot.Learning
             return new[]
             {
                 Norm(s.Food, 2000),
-                Norm(s.Ammo, 99),
+                // Ammo's inventory ceiling is 65,535 (the 1985 score cap), but decisions live in the hunting range —
+                // normalize to the first 1,000 bullets so the feature keeps its resolution where choices happen.
+                Norm(s.Ammo, 1000),
                 Norm(s.Cash, 1600),
                 Norm(s.Oxen, 20),
-                Norm(s.Clothing, 50),
+                Norm(s.Clothing, 255),
                 Norm(s.Medicine, 99),
                 Norm((int) s.LowestHealth, 500), // the weakest member's health — the one at risk of dying next
                 Norm(s.DaysElapsed, 246),

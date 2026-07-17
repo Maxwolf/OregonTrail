@@ -11,14 +11,18 @@ namespace OregonTrailDotNet.Entity.Item
         /// <summary>
         ///     Worn by the vehicle party members to keep them warm when it is cold outside from climate simulation, without them
         ///     the players risk Person and death.
+        ///     Capped at 255 sets: the 1985 game had no in-play clothing limit, but its endgame handed inventory to the scoring
+        ///     program through a single memory byte, so 255 is the effective original ceiling (510 base points).
         /// </summary>
-        public static SimItem Clothing => new SimItem(EntitiesEnum.Clothes, "Clothing", "sets", "set", 50,
+        public static SimItem Clothing => new SimItem(EntitiesEnum.Clothes, "Clothing", "sets", "set", 255,
             StorePrice.Scaled(10f, 2.5f), 1, 1, 0, 2);
 
         /// <summary>
         ///     Ammunition used in hunting game Windows so the players can acquire food by hunting animals.
+        ///     Capped at 65,535 bullets: the 1985 game had no in-play ammunition limit, but its endgame handed inventory to the
+        ///     scoring program through a two-byte pair, so 65,535 is the effective original ceiling (1,310 base points).
         /// </summary>
-        public static SimItem Bullets => new SimItem(EntitiesEnum.Ammo, "Ammunition", "boxes", "box", 99,
+        public static SimItem Bullets => new SimItem(EntitiesEnum.Ammo, "Ammunition", "boxes", "box", 65535,
             StorePrice.Scaled(2f, 2.5f), 0, 20, 0, 1, 50);
 
         /// <summary>
@@ -43,9 +47,10 @@ namespace OregonTrailDotNet.Entity.Item
 
         /// <summary>
         ///     Represents a person entity, this is not used as actual person but rather a reference to a person object in the
-        ///     collection of vehicle entities.
+        ///     collection of vehicle entities. Worth 500 points on the help screens to match what the tally actually awards
+        ///     for a survivor in good health (the health bands pay 500/400/300/200 per person).
         /// </summary>
-        public static SimItem Person => new SimItem(EntitiesEnum.Person, "Person", "people", "person", 2000, 0, 1, 1, 0, 800);
+        public static SimItem Person => new SimItem(EntitiesEnum.Person, "Person", "people", "person", 2000, 0, 1, 1, 0, 500);
 
         /// <summary>
         ///     Represents monies the player can spend, rather than just binding some integer to a property it makes more sense to

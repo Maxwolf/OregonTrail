@@ -12,13 +12,14 @@ namespace OregonTrailDotNet.Tests.Module
     /// </summary>
     public class ScoringTests
     {
+        // Thresholds match the 1985 endgame code (R = (SC<6000) + (SC<3000)): Trail Guide 6000+, Adventurer 3000+.
         [Theory]
         [InlineData(0, PerformanceEnum.Greenhorn)]
         [InlineData(2999, PerformanceEnum.Greenhorn)]
         [InlineData(3000, PerformanceEnum.Adventurer)]
-        [InlineData(6999, PerformanceEnum.Adventurer)]
-        [InlineData(7000, PerformanceEnum.TrailGuide)]
-        [InlineData(9999, PerformanceEnum.TrailGuide)]
+        [InlineData(5999, PerformanceEnum.Adventurer)]
+        [InlineData(6000, PerformanceEnum.TrailGuide)]
+        [InlineData(13860, PerformanceEnum.TrailGuide)]
         public void Highscore_RatesPerformanceByPointThresholds(int points, PerformanceEnum expected)
         {
             var highscore = new Highscore("Test Player", points);

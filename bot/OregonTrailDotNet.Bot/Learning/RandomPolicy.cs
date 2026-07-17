@@ -16,8 +16,8 @@ namespace OregonTrailDotNet.Bot.Learning
         // legal store target (buying nothing is legal too), matching the bounds the strategy genome searches within.
         private static readonly IReadOnlyDictionary<EntitiesEnum, int> BuyCeiling = new Dictionary<EntitiesEnum, int>
         {
-            { EntitiesEnum.Animal, 20 }, { EntitiesEnum.Food, 2000 }, { EntitiesEnum.Clothes, 50 }, { EntitiesEnum.Medicine, 99 },
-            { EntitiesEnum.Ammo, 99 }, { EntitiesEnum.Wheel, 3 }, { EntitiesEnum.Axle, 3 }, { EntitiesEnum.Tongue, 3 }
+            { EntitiesEnum.Animal, 20 }, { EntitiesEnum.Food, 2000 }, { EntitiesEnum.Clothes, 255 }, { EntitiesEnum.Medicine, 99 },
+            { EntitiesEnum.Ammo, 1000 }, { EntitiesEnum.Wheel, 3 }, { EntitiesEnum.Axle, 3 }, { EntitiesEnum.Tongue, 3 }
         };
 
         // Chosen once (lazily, on first read after the game has booted) so the profession/month don't wobble between reads.

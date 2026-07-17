@@ -58,12 +58,19 @@ namespace OregonTrailDotNet.Window.Travel.Store
         }
 
         /// <summary>
+        ///     Minimum number of oxen the party must buy before leaving Matt's General Store: a single yoke of two, the same
+        ///     forced $40 spend the 1985 game required to start the trip (which is what pins the farmer's best possible
+        ///     leftover cash at $360 and the maximum score at 13,860).
+        /// </summary>
+        internal const int MinimumOxen = 2;
+
+        /// <summary>
         ///     Checks if the player has enough animals to pull their vehicle.
         /// </summary>
         /// <returns>TRUE if player is missing enough items to correctly start the game, FALSE if everything is OK.</returns>
         internal bool MissingImportantItems => GameSimulationApp.Instance.Trail.IsFirstLocation &&
                                                (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Unreached) &&
-                                               (_totalTransactions[EntitiesEnum.Animal].Quantity <= 0);
+                                               (_totalTransactions[EntitiesEnum.Animal].Quantity < MinimumOxen);
 
         /// <summary>
         ///     Processes all of the pending transactions in the store receipt info object.

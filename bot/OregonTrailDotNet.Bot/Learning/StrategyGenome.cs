@@ -35,8 +35,10 @@ namespace OregonTrailDotNet.Bot.Learning
         private const int RationIdx = 25;
         private const int TradeMarginIdx = 26;
         private const int RestockReserveIdx = 27;
+        private const int GrindTradesIdx = 28;
+        private const int GrindHealthFloorIdx = 29;
 
-        public const int Length = 28;
+        public const int Length = 30;
 
         public double[] Raw { get; init; } = new double[Length];
 
@@ -51,9 +53,11 @@ namespace OregonTrailDotNet.Bot.Learning
         // Food floor is 300, not 0: a five-person party burns ~25 lb/day (ration x livingCount^2 at Filling), so a
         // near-empty larder starves out of the gate before hunting can ever backfill it.
         public int FoodTarget => ClampRound(Raw[FoodIdx], 300, 2000);
-        public int ClothesTarget => ClampRound(Raw[ClothesIdx], 0, 50);
+        // Clothes/ammo store targets range up to what money could ever buy, not the inventory ceilings (255 sets /
+        // 65,535 bullets, which exist to match the 1985 score caps and are only reachable by the endgame trade grind).
+        public int ClothesTarget => ClampRound(Raw[ClothesIdx], 0, 255);
         public int MedicineTarget => ClampRound(Raw[MedicineIdx], 0, 99);
-        public int AmmoTarget => ClampRound(Raw[AmmoIdx], 0, 99);
+        public int AmmoTarget => ClampRound(Raw[AmmoIdx], 0, 1000);
         public int WheelTarget => ClampRound(Raw[WheelIdx], 0, 3);
         public int AxleTarget => ClampRound(Raw[AxleIdx], 0, 3);
         public int TongueTarget => ClampRound(Raw[TongueIdx], 0, 3);
@@ -79,6 +83,15 @@ namespace OregonTrailDotNet.Bot.Learning
 
         // Cash ($) held back from fort restocking so ferries and tolls stay affordable; the opening store ignores it.
         public int RestockReserve => ClampRound(Raw[RestockReserveIdx], 0, 150);
+
+        // Endgame score grind: how many emigrant-trade browses to spend at the final stops before Oregon City,
+        // converting hunted food into clothes and bullets — the strategy that pushes toward the 13,860 ceiling.
+        // Zero disables the grind entirely, which is also what legacy zero-filled genomes decode to.
+        public int GrindTrades => ClampRound(Raw[GrindTradesIdx], 0, 400);
+
+        // Stop grinding the moment the weakest living member falls to this health value: every trade browse ticks the
+        // party, and five heads at Good health (2,500 base points) are worth more than any pile of clothes.
+        public double GrindHealthFloor => Math.Clamp(Raw[GrindHealthFloorIdx], 200, 500);
 
         public int TargetQuantity(EntitiesEnum item) => item switch
         {
@@ -181,6 +194,10 @@ namespace OregonTrailDotNet.Bot.Learning
                                      // that mid-trail goods beat book value, more generous)
             m[RestockReserveIdx] = 25; // keep ferry/toll money in the sock when restocking at forts (a broke party is forced
                                        // into ford/caulk crossings, which are what drown oxen)
+            m[GrindTradesIdx] = 250;   // spend a solid block of endgame trade browses turning hunted food into clothes and
+                                       // bullets: that grind is what separates a Meek-beating ~7650 run from a 10,000+ one
+            m[GrindHealthFloorIdx] = 300; // but stop the moment anyone falls to Poor — the party's 500-a-head is the
+                                          // biggest single line on the score card
             return m;
         }
 
@@ -197,6 +214,7 @@ namespace OregonTrailDotNet.Bot.Learning
             s[ForkSecondIdx] = 1.0;
             s[PaceIdx] = 0.9; s[RationIdx] = 0.9; // enough spread to explore Strenuous/Steady and Meager/BareBones
             s[TradeMarginIdx] = 20; s[RestockReserveIdx] = 15;
+            s[GrindTradesIdx] = 120; s[GrindHealthFloorIdx] = 60; // genuinely explore no-grind through max-grind endgames
             return s;
         }
 

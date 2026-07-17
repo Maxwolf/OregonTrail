@@ -60,10 +60,13 @@ namespace OregonTrailDotNet.Bot.Learning
             if (available.Contains(TravelCommandsEnum.ChangeFoodRations) && state.Ration != desiredRation)
                 return TravelCommandsEnum.ChangeFoodRations;
 
-            // Recover when ANY party member is sick (not just when the average dips) and there's still time — keeping every
-            // member alive and healthy is what maximizes the final score. Resting heals through natural recovery with or
-            // without medicine, and medicine now also treats the sick on the move, so resting is no longer gated on it.
-            if (available.Contains(TravelCommandsEnum.StopToRest) && recovering && state.DaysRemaining > 60)
+            // Recover when ANY party member is sick (not just when the average dips) — keeping every member alive and
+            // healthy is what maximizes the final score. Resting heals through natural recovery with or without medicine,
+            // and medicine now also treats the sick on the move, so resting is no longer gated on it. The schedule guard
+            // only applies mid-journey: the game has no time limit, so near the trail's end (and in long games where
+            // DaysRemaining goes negative) recovery stays available.
+            if (available.Contains(TravelCommandsEnum.StopToRest) && recovering &&
+                (state.DaysRemaining > 60 || state.NearTrailEnd))
                 return TravelCommandsEnum.StopToRest;
 
             // Top up food by hunting only if it runs dangerously low and we can shoot.

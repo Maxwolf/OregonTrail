@@ -269,6 +269,53 @@ namespace OregonTrailDotNet.Tests.Entity
         }
 
         [Fact]
+        public void Purchase_AtInventoryCap_ChargesOnlyForWhatFits()
+        {
+            // Own 15 of the 20-oxen cap, then buy 10 more: only 5 fit, so only 5 may be billed ($20 each at the trail
+            // head). Billing the full 10 would silently take $100 for oxen that vanish at the inventory clamp.
+            var vehicle = new VehicleEntity();
+            vehicle.ResetVehicle(1000);
+            vehicle.Inventory[EntitiesEnum.Animal].AddQuantity(15);
+
+            vehicle.Purchase(new SimItem(Parts.Oxen, 10));
+
+            Assert.Equal(20, vehicle.Inventory[EntitiesEnum.Animal].Quantity);
+            Assert.Equal(1000f - 5*20f, vehicle.Balance);
+        }
+
+        [Fact]
+        public void Purchase_WhenInventoryIsFull_ChargesNothing()
+        {
+            var vehicle = new VehicleEntity();
+            vehicle.ResetVehicle(1000);
+            vehicle.Inventory[EntitiesEnum.Animal].AddQuantity(20);
+
+            vehicle.Purchase(new SimItem(Parts.Oxen, 2));
+
+            Assert.Equal(20, vehicle.Inventory[EntitiesEnum.Animal].Quantity);
+            Assert.Equal(1000f, vehicle.Balance);
+        }
+
+        [Fact]
+        public void CreateRandomItem_KeepsHistoricTradeLotSizes_ForClothesAndAmmo()
+        {
+            // Clothing and ammunition carry huge inventory ceilings (255 sets / 65,535 bullets) purely so the score
+            // ceiling matches the 1985 game; a single emigrant trade offer must stay at its historic lot size instead
+            // of scaling off those caps and handing out wagonloads in one roll.
+            for (var i = 0; i < 500; i++)
+            {
+                var offer = VehicleEntity.CreateRandomItem();
+                if (offer == null)
+                    continue;
+
+                if (offer.Category == EntitiesEnum.Clothes)
+                    Assert.InRange(offer.Quantity, 1, 12);
+                if (offer.Category == EntitiesEnum.Ammo)
+                    Assert.InRange(offer.Quantity, 1, 24);
+            }
+        }
+
+        [Fact]
         public void CreateRandomItems_NeverExceedsInventoryMaximums()
         {
             var vehicle = new VehicleEntity();

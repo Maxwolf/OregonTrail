@@ -41,8 +41,9 @@ reimplements a rule from the original 1980s/1990s game differently, that is call
    landmark until it is reached *(differs from original, which used fixed two-week segments)*
  2. A turn counter increments once per simulated day; there is no fixed 18-turn cap
    *(differs from original's up-to-18 two-week turns)*
- 3. Reaching 246 days (20+ weeks) on the trail forces the end-game routine even if the party has
-   not yet reached Oregon
+ 3. There is no time limit: like the 1985 game (which let a party idle for years and still finish),
+   only reaching Oregon or losing the whole party ends the trip. The 246-day figure survives solely
+   as the training bot's pacing horizon
  4. Each day's ideal mileage is calculated from the value of the party's oxen plus a small random
    amount *(differs from original's per-two-week ~200 mile projection)*
  5. Mileage is an ideal figure; problems (dead/wandering oxen, floods, fog, hail, illness) subtract
@@ -129,3 +130,11 @@ reimplements a rule from the original 1980s/1990s game differently, that is call
 ### Winning ###
  1. Displays the total time and distance of the journey
  2. Remaining supplies are shown
+ 3. Scoring matches the 1985 Apple II game, verified against its decompiled disk: 500/400/300/200
+   points per survivor by party health, 50 for the wagon, 4 per ox (cap 20), 2 per spare part
+   (cap 3 of each of 3 types), 2 per set of clothing (cap 255), 1 per 50 bullets (cap 65,535),
+   1 per 25 lb of food (cap 2,000), 1 per $5 cash — floored per line, then multiplied x1/x2/x3 for
+   Banker/Carpenter/Farmer. Ratings: Trail Guide 6000+, Adventurer 3000+, Greenhorn below
+ 4. The highest possible score is 13,860: a farmer party of five arriving in good health with every
+   capped item maxed and $360 of the $400 stake unspent (the $40 minimum is the required yoke of
+   oxen). The clothing and bullet caps mirror the original's endgame memory-handoff limits

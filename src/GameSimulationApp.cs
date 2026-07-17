@@ -32,9 +32,10 @@ namespace OregonTrailDotNet
         ///     names are asked for in new game Windows.
         /// </summary>
         // ReSharper disable once InconsistentNaming
-        // Five colonists (leader + four companions), matching the original MECC game. This is the score ceiling: five
-        // members in Good health (500 each) plus the wagon (50), multiplied by the Farmer's x3, is exactly Stephen Meek's
-        // 7650 — the seeded record. A party of four cannot reach it.
+        // Five colonists (leader + four companions), matching the original MECC game. Five members in Good health
+        // (500 each) plus the wagon (50), multiplied by the Farmer's x3, is exactly Stephen Meek's seeded 7650 — a
+        // strong conventional run. The true ceiling, matching the 1985 game's caps (20 oxen, 9 spare parts, 255
+        // clothes, 65,535 bullets, 2,000 lb food, $360 leftover cash), is 13,860.
         public const int MAXPLAYERS = 5;
 
         /// <summary>

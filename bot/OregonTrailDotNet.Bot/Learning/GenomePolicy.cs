@@ -16,6 +16,9 @@ namespace OregonTrailDotNet.Bot.Learning
         // Per-game supply decisions (fort restocking, rescue/opportunistic trades) with their own loop guards.
         private readonly SupplyPlanner _supplies = new();
 
+        // Per-game endgame score grind (trade browses at the final stops) with its own budget counter.
+        private readonly EndgameGrinder _grinder = new();
+
         public GenomePolicy(StrategyGenome genome, string leaderName)
         {
             _genome = genome;
@@ -50,11 +53,20 @@ namespace OregonTrailDotNet.Bot.Learning
             // survivor, so every member in danger is worth stopping for. Resting is no longer gated on carrying medicine -
             // stopping heals through natural recovery either way, and medicine now also treats the sick while moving, so the
             // old "only rest if we have medicine" gate perversely taught the optimizer to drop medicine to avoid resting.
-            if (available.Contains(TravelCommandsEnum.StopToRest) && WantRecovery(state) && state.DaysRemaining > 40)
+            // The schedule guard (don't rest away the margin) only applies mid-journey: DaysRemaining goes negative in
+            // long games now that the 246-day forced ending is gone, and near the trail's end — especially during the
+            // endgame grind — recovery must stay available or lost health could never be won back.
+            if (available.Contains(TravelCommandsEnum.StopToRest) && WantRecovery(state) &&
+                (state.DaysRemaining > 40 || state.NearTrailEnd))
                 return TravelCommandsEnum.StopToRest;
 
             if (available.Contains(TravelCommandsEnum.HuntForFood) && state.Food < _genome.HuntFoodThreshold && state.Ammo > 0)
                 return TravelCommandsEnum.HuntForFood;
+
+            // Endgame score grind: at the final stops before Oregon City, browse emigrant trades to convert hunted food
+            // into clothes and bullets. Runs after the hunt rule so the larder (the trade currency) refills first.
+            if (_grinder.WantTrade(state, _genome.GrindTrades, _genome.GrindHealthFloor, available))
+                return TravelCommandsEnum.AttemptToTrade;
 
             return available.Contains(TravelCommandsEnum.ContinueOnTrail)
                 ? TravelCommandsEnum.ContinueOnTrail

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using OregonTrailDotNet.Entity;
@@ -12,9 +13,11 @@ using OregonTrailDotNet.Event.Vehicle;
 using OregonTrailDotNet.Event.Weather;
 using OregonTrailDotNet.Module.Director;
 using OregonTrailDotNet.Module.Time;
+using OregonTrailDotNet.Window.MainMenu;
 using OregonTrailDotNet.Window.Travel.Hunt;
 using WolfCurses.Utility;
 using Xunit;
+using TravelWindow = OregonTrailDotNet.Window.Travel.Travel;
 using VehicleEntity = OregonTrailDotNet.Entity.Vehicle.Vehicle;
 
 namespace OregonTrailDotNet.Tests
@@ -27,13 +30,46 @@ namespace OregonTrailDotNet.Tests
     /// </summary>
     public class ReadmeFeaturesTests : SimulationTestBase
     {
-        // ---- Travel #3 / Winning #1: journey day tracking and the 20+ week cap ----
+        // ---- Travel #3: journey day tracking. MaxTravelDays survives as the bot's pacing horizon only — the 1985 game
+        // had no time limit (a party could idle for years and still finish) and neither does this port.
 
         [Fact]
         public void TimeModule_ExposesTotalDaysAndMaxTravelDays()
         {
             Assert.Equal(246, TimeModule.MaxTravelDays);
             Assert.True(Game.Time.TotalDays >= 0);
+        }
+
+        [Fact]
+        public void Journey_DoesNotEndAtMaxTravelDays()
+        {
+            // Boot a real party, then advance the clock far past the old 246-day forced ending. Keep the party fed and
+            // clothed while the clock runs — the test is about the calendar, and a starved-out party would legitimately
+            // end the game through the death path instead.
+            Game.SetStartInfo(new NewGameInfo
+            {
+                PlayerNames = new List<string> {"Alice", "Bob", "Carol", "Dan", "Eve"},
+                PlayerProfession = ProfessionEnum.Farmer,
+                StartingMonies = 400,
+                StartingMonth = MonthEnum.April
+            });
+            Game.Vehicle.Inventory[EntitiesEnum.Clothes].AddQuantity(255);
+            for (var day = 0; day < TimeModule.MaxTravelDays + 30; day++)
+            {
+                Game.Vehicle.Inventory[EntitiesEnum.Food].AddQuantity(200);
+                Game.TakeTurn(false);
+            }
+
+            Assert.True(Game.Time.TotalDays > TimeModule.MaxTravelDays);
+            Assert.False(Game.Vehicle.PassengersDead); // a fed, clothed, idle party survives the long calendar
+
+            // Activate the travel window — the exact seam where the old day cap forced the end-game routine — and let
+            // any queued window attach. With a living party short of Oregon, nothing may end the game anymore.
+            var travel = new TravelWindow(GameSimulationApp.Instance);
+            travel.OnWindowActivate();
+            Game.OnTick(false);
+
+            Assert.NotEqual("GameOver", Game.WindowManager.FocusedWindow?.GetType().Name);
         }
 
         // ---- Mountains #2/#3: high-ground passes carry a stuck chance ----

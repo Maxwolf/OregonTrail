@@ -28,10 +28,11 @@ namespace OregonTrailDotNet.Module.Scoring
             Name = name;
             Points = points;
 
-            // Rank the players performance based on the number of points they have.
-            if (points >= 7000)
+            // Rank the players performance based on the number of points they have. Thresholds match the 1985 game's
+            // endgame code (R = (SC<6000) + (SC<3000)): Trail Guide at 6000+, Adventurer at 3000+, Greenhorn below.
+            if (points >= 6000)
                 _rating = PerformanceEnum.TrailGuide;
-            else if ((points >= 3000) && (points < 7000))
+            else if ((points >= 3000) && (points < 6000))
                 _rating = PerformanceEnum.Adventurer;
             else if (points < 3000)
                 _rating = PerformanceEnum.Greenhorn;

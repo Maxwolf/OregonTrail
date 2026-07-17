@@ -88,6 +88,12 @@ namespace OregonTrailDotNet.Bot.Game
         /// <summary>True while nobody in the party has died yet.</summary>
         public bool AllAlive => LivingCount >= PartySize && PartySize > 0;
 
+        /// <summary>
+        ///     True at the last few stops before Oregon City, where the journey is effectively made: schedule pressure no
+        ///     longer applies (the game has no time limit), so policies may rest freely and run the endgame score grind.
+        /// </summary>
+        public bool NearTrailEnd => LocationIndex >= LocationCount - 3;
+
         /// <summary>Current owned quantity of a purchasable store item.</summary>
         public int OwnedOf(EntitiesEnum item) => item switch
         {

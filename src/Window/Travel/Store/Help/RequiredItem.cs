@@ -3,6 +3,7 @@
 
 using System;
 using System.Text;
+using OregonTrailDotNet.Entity;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
 using WolfCurses.Window.Form.Input;
@@ -36,10 +37,14 @@ namespace OregonTrailDotNet.Window.Travel.Store.Help
         /// </returns>
         protected override string OnDialogPrompt()
         {
+            // Oxen are required as a full yoke of two, everything else that lands here needs just one.
+            var requiredItem = UserData.Store.SelectedItem;
+            var requiredQuantity = requiredItem.Category == EntitiesEnum.Animal ? StoreGenerator.MinimumOxen : 1;
+
             var missingItem = new StringBuilder();
             missingItem.AppendLine(
                 $"{Environment.NewLine}You need to purchase at {Environment.NewLine}" +
-                $"least a single {UserData.Store.SelectedItem.DelineatingUnit} in order {Environment.NewLine}" +
+                $"least {requiredItem.ToQuantityString(requiredQuantity)} in order {Environment.NewLine}" +
                 $"to begin your trip!{Environment.NewLine}");
 
             return missingItem.ToString();

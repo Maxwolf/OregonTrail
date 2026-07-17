@@ -54,18 +54,29 @@ namespace OregonTrailDotNet.Window.Travel.Store
         {
             base.OnFormPostCreate();
 
-            // Figure out what we owe already from other store items, then how many of the SimItem we can afford.
+            // Figure out what we owe already from other store items, then how many of the SimItem we can afford. A new
+            // entry REPLACES any pending order for this same item (StoreGenerator.AddItem), so the item's own pending
+            // cost is money this purchase frees up again — count it back in, or re-opening an item would quote against
+            // its own reservation.
+            var pendingSameItem = UserData.Store.Transactions[UserData.Store.SelectedItem.Category];
             var currentBalance =
-                (int) (GameSimulationApp.Instance.Vehicle.Balance - UserData.Store.TotalTransactionCost);
+                (int) (GameSimulationApp.Instance.Vehicle.Balance - UserData.Store.TotalTransactionCost +
+                       pendingSameItem.TotalValue);
             _purchaseLimit = (int) (currentBalance/UserData.Store.SelectedItem.Cost);
 
             // Prevent negative numbers and set credit limit to zero if it drops below that.
             if (_purchaseLimit < 0)
                 _purchaseLimit = 0;
 
-            // Set the credit limit to be the carry limit if they player has lots of monies and can buy many, we must limit them!
-            if (_purchaseLimit > UserData.Store.SelectedItem.MaxQuantity)
-                _purchaseLimit = UserData.Store.SelectedItem.MaxQuantity;
+            // Cap the quote at the space left in the wagon for this item: the ceiling minus what the party already
+            // owns. The pending receipt entry is NOT subtracted — the new order replaces it. Quoting the full ceiling
+            // would offer goods that the inventory clamp discards at checkout.
+            var alreadyOwned = GameSimulationApp.Instance.Vehicle.Inventory[UserData.Store.SelectedItem.Category].Quantity;
+            var remainingCapacity = UserData.Store.SelectedItem.MaxQuantity - alreadyOwned;
+            if (remainingCapacity < 0)
+                remainingCapacity = 0;
+            if (_purchaseLimit > remainingCapacity)
+                _purchaseLimit = remainingCapacity;
 
             // Items sold in a minimum lot (e.g. a 20-round box of ammunition) charge for the whole lot even when fewer are
             // requested, because the item enforces a minimum quantity that a purchase is silently clamped up to. If the

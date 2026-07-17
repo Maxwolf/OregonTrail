@@ -52,8 +52,9 @@ namespace OregonTrailDotNet.Module.Time
         private int TotalMonths { get; set; }
 
         /// <summary>
-        ///     Maximum number of days the journey may last before the end-game routine is forced. Represents the ~20+ weeks
-        ///     (246 days) the original game allowed before ending the trip regardless of the party's position on the trail.
+        ///     Planning horizon (~20 weeks) used by the training bot's pacing features to judge whether a journey is on
+        ///     schedule. The game itself does NOT enforce it: the 1985 original had no time limit (a party could idle for
+        ///     years and still finish), and neither does this port — only reaching Oregon or dying ends the trip.
         /// </summary>
         public const int MaxTravelDays = 246;
 

@@ -18,7 +18,10 @@ namespace OregonTrailDotNet.Bot.Learning
         ///     persisted learning state so a champion's BestFitness measured under an old objective is never compared against
         ///     new-scale fitness on resume — a stale cross-scale champion could otherwise never be displaced and the profile
         ///     would keep replaying it as its "best" genome forever.</summary>
-        internal const int FitnessVersion = 5;
+        // v6: the game's score ceiling moved from ~8,715 to the 1985-faithful 13,860 (clothes cap 50->255, bullets
+        // 99->65,535, no 246-day limit, $40 oxen minimum) and policies gained the endgame trade grind — score-scale
+        // change, so champions measured under the old ceiling must not survive a resume.
+        internal const int FitnessVersion = 6;
 
         /// <summary>Weight of the real game score inside the win branch of <see cref="Fitness" />. At 1x the optimizer
         ///     settled on the most RELIABLE win it could find — Banker (x1 multiplier, $1600 restocking warchest), ~2750
@@ -286,6 +289,7 @@ namespace OregonTrailDotNet.Bot.Learning
             return result.Miles * 0.25 + survivalReward * (0.15 + 0.85 * progress) - deaths * 100.0;
         }
 
-        public static string Rating(int score) => score >= 7000 ? "Trail Guide" : score >= 3000 ? "Adventurer" : "Greenhorn";
+        // Thresholds mirror the game's Highscore rating bands, which match the 1985 endgame code (Trail Guide at 6000+).
+        public static string Rating(int score) => score >= 6000 ? "Trail Guide" : score >= 3000 ? "Adventurer" : "Greenhorn";
     }
 }

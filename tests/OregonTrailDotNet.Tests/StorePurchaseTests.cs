@@ -94,5 +94,44 @@ namespace OregonTrailDotNet.Tests
 
             Assert.DoesNotContain("afford 0 ", form.OnRenderForm());
         }
+
+        [Fact]
+        public void StorePurchase_ReopeningAPendingItem_QuotesFullCapacity()
+        {
+            // StoreGenerator.AddItem REPLACES a pending order for the same item, so re-opening the purchase screen must
+            // quote against the full remaining capacity (and the money the old order reserved), not double-count the
+            // pending quantity — otherwise raising a 15-oxen order to 18 reads "You can afford 5" and wipes the order.
+            StartWithBalance(1600);
+
+            var window = new TravelWindow(GameSimulationApp.Instance);
+            var userData = UserDataOf(window);
+            userData.Store.AddItem(Parts.Oxen, 15);
+            userData.Store.SelectedItem = Parts.Oxen;
+
+            var form = new StorePurchase(window);
+            form.OnFormPostCreate();
+
+            Assert.Contains("afford 20 oxen", form.OnRenderForm());
+
+            form.OnInputBufferReturned("18");
+            Assert.Equal(18, userData.Store.Transactions[EntitiesEnum.Animal].Quantity);
+        }
+
+        [Fact]
+        public void MissingImportantItems_RequiresAFullYokeOfTwoOxen()
+        {
+            // Matt's General Store must not let the party leave with fewer than 2 oxen (a $40 yoke) — the 1985 game's
+            // forced minimum spend, which pins the farmer's best leftover cash at $360 and the score ceiling at 13,860.
+            StartWithBalance(400);
+
+            var store = new StoreGenerator();
+            Assert.True(store.MissingImportantItems); // no oxen at all
+
+            store.AddItem(Parts.Oxen, 1);
+            Assert.True(store.MissingImportantItems); // a single ox cannot pull the wagon out of Independence
+
+            store.AddItem(Parts.Oxen, 2);
+            Assert.False(store.MissingImportantItems); // a full yoke satisfies the gate
+        }
     }
 }

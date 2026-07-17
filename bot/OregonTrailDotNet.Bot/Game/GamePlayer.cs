@@ -75,9 +75,11 @@ namespace OregonTrailDotNet.Bot.Game
 
         /// <summary>
         ///     Drives the booted game to completion. Caps guard against infinite loops; the soft-lock detector trips when the
-        ///     screen fingerprint stops changing for too long (a screen we don't know how to answer).
+        ///     screen fingerprint stops changing for too long (a screen we don't know how to answer). The command/tick caps
+        ///     are sized so a full endgame trade grind (up to 400 browses plus the hunts that feed it) finishes with room to
+        ///     spare; a genuinely stuck game still trips the stall limit long before these.
         /// </summary>
-        public RunResult Run(int maxCommands = 4000, int maxTicks = 60000, int stallLimit = 400, Func<bool>? shouldAbort = null)
+        public RunResult Run(int maxCommands = 9000, int maxTicks = 135000, int stallLimit = 400, Func<bool>? shouldAbort = null)
         {
             var lastFingerprint = string.Empty;
             var stall = 0;
