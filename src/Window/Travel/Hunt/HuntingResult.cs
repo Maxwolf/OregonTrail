@@ -63,9 +63,14 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             _huntScore.Clear();
 
             // Total weight of everything shot, how many animals that was, and the ammunition the outing cost.
-            var killWeight = UserData.Hunt.KillWeight;
             var killCount = UserData.Hunt.KillCount;
             var bulletsFired = UserData.Hunt.BulletsFired;
+
+            // Only half of a big animal is meat you can actually use; the rest is hide, bone and what spoils before it can
+            // be carried off. Small game is too little to bother halving - a rabbit is a rabbit.
+            var killWeight = UserData.Hunt.KillWeight;
+            if (killWeight >= 3)
+                killWeight /= 2;
 
             // Work out how much of the kill actually reaches the wagon. Two separate limits apply, in the original's
             // order: first the room left in the wagon, then how much one hunter can drag home in a day. A wagon already
