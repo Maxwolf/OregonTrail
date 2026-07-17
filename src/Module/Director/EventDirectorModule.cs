@@ -56,6 +56,12 @@ namespace OregonTrailDotNet.Module.Director
         /// <param name="eventCategory">Event type the dice will be rolled against and attempted to trigger.</param>
         public void TriggerEventByType(IEntity sourceEntity, EventCategoryEnum eventCategory)
         {
+            // A few events have known odds of happening on any given day rather than merely being likelier than their
+            // neighbours, so they get their own roll before the rest take their shared chance. Only one thing is allowed
+            // to happen per category per day either way.
+            if (TriggerEventWithOwnOdds(sourceEntity, eventCategory))
+                return;
+
             // Roll the dice here to determine if the event is triggered at all.
             var diceRoll = GameSimulationApp.Instance.Random.Next(100);
             if (diceRoll > 0)
@@ -76,6 +82,31 @@ namespace OregonTrailDotNet.Module.Director
 
             // Invokes the event which will give it full control over simulation.
             ExecuteEvent(sourceEntity, randomEventProduct);
+        }
+
+        /// <summary>
+        ///     Rolls each event in a category that carries its own daily odds, in turn, and fires the first one that both
+        ///     comes up and is eligible today.
+        /// </summary>
+        /// <param name="sourceEntity">Entities which will be affected by event if triggered.</param>
+        /// <param name="eventCategory">Category being rolled for the day.</param>
+        /// <returns>TRUE if one of them happened, so the category's shared roll is not also taken.</returns>
+        private bool TriggerEventWithOwnOdds(IEntity sourceEntity, EventCategoryEnum eventCategory)
+        {
+            foreach (var candidate in _eventFactory.EventsWithOwnOdds(eventCategory))
+            {
+                if (GameSimulationApp.Instance.Random.NextDouble()*100 >= candidate.Item2)
+                    continue;
+
+                var eventProduct = _eventFactory.CreateInstance(candidate.Item1);
+                if ((eventProduct == null) || !eventProduct.CanExecute(sourceEntity))
+                    continue;
+
+                ExecuteEvent(sourceEntity, eventProduct);
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

@@ -24,15 +24,35 @@ namespace OregonTrailDotNet.Module.Director
         ///     likely; the default of 100 keeps every event equally likely (preserving the original uniform behavior). Negative
         ///     values are clamped to zero so a mis-tagged event simply never rolls.
         /// </param>
+        /// <param name="dailyChance">
+        ///     Odds out of a hundred that this event happens on any given day, for the handful of events whose real frequency
+        ///     is known rather than merely relative. An event that declares this is rolled on its own each day and takes no
+        ///     part in the shared category roll, which is how the original worked: it kept a table of per-event daily odds
+        ///     and walked the whole of it every day rather than picking one event out of a hat. Zero (the default) leaves the
+        ///     event in the hat with everything else.
+        /// </param>
         public DirectorEventAttribute(
             EventCategoryEnum eventCategory,
             EventExecutionEnum eventExecutionType = EventExecutionEnum.RandomOrManual,
-            int eventProbability = 100)
+            int eventProbability = 100,
+            double dailyChance = 0)
         {
             EventCategory = eventCategory;
             EventExecutionType = eventExecutionType;
             EventProbability = eventProbability < 0 ? 0 : eventProbability;
+            DailyChance = dailyChance < 0 ? 0 : dailyChance;
         }
+
+        /// <summary>
+        ///     Odds out of a hundred that this event happens on any given day, or zero if it takes its chances in the shared
+        ///     category roll like most events do.
+        /// </summary>
+        public double DailyChance { get; }
+
+        /// <summary>
+        ///     Whether this event is rolled on its own each day rather than competing for the category's single roll.
+        /// </summary>
+        public bool HasOwnOdds => DailyChance > 0;
 
         /// <summary>
         ///     References what type of event this event is going to register as, allows for easy sorting and filtering by event

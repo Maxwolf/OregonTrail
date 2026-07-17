@@ -1,6 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OregonTrailDotNet.Entity;
+using OregonTrailDotNet.Entity.Person;
+using OregonTrailDotNet.Entity.Vehicle;
+using OregonTrailDotNet.Module.Time;
+using OregonTrailDotNet.Window.MainMenu;
 using OregonTrailDotNet.Entity.Location;
 using OregonTrailDotNet.Entity.Location.Point;
 using OregonTrailDotNet.Entity.Location.Weather;
@@ -123,6 +128,43 @@ namespace OregonTrailDotNet.Tests.Module
             Assert.Equal(640, Game.Trail.Locations
                 .Where(l => plains.Contains(l.Name))
                 .Sum(l => l.TotalDistance));
+        }
+
+        [Fact]
+        public void DailyMileage_IsSlowedByTheSickAndCanFallToNothingInSnow()
+        {
+            var game = GameSimulationApp.Instance;
+            game.SetStartInfo(new NewGameInfo
+            {
+                PlayerNames = new List<string> {"Alice", "Bob", "Carol"},
+                PlayerProfession = ProfessionEnum.Banker,
+                StartingMonies = 1600,
+                StartingMonth = MonthEnum.July
+            });
+
+            var vehicle = game.Vehicle;
+            vehicle.Inventory[EntitiesEnum.Animal].AddQuantity(8);
+            game.Trail.ArriveAtNextLocation();
+            game.Trail.CurrentLocation.Status = LocationStatusEnum.Departed;
+
+            // A healthy team on the plains makes the leg's full rate.
+            vehicle.Status = VehicleStatusEnum.Moving;
+            var before = vehicle.Odometer;
+            game.TakeTurn(false);
+            var healthyDay = vehicle.Odometer - before;
+            Assert.True(healthyDay > 0, "A healthy party with a full team should cover ground.");
+
+            // Every sick traveller costs the day a tenth of its distance.
+            foreach (var person in vehicle.Passengers)
+                person.Infect();
+
+            vehicle.Status = VehicleStatusEnum.Moving;
+            before = vehicle.Odometer;
+            game.TakeTurn(false);
+            var sickDay = vehicle.Odometer - before;
+
+            Assert.True(sickDay < healthyDay,
+                $"A party carrying sick people should travel less far ({sickDay} vs {healthyDay}).");
         }
 
         [Fact]

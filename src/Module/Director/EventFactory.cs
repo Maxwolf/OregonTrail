@@ -94,16 +94,52 @@ namespace OregonTrailDotNet.Module.Director
             return eventInstance;
         }
 
+        /// <summary>
+        ///     The [DirectorEvent] attribute an event type was tagged with.
+        /// </summary>
+        /// <param name="eventType">Event type to read.</param>
+        /// <returns>The attribute describing how the director should treat this event.</returns>
+        private static DirectorEventAttribute AttributeOf(Type eventType)
+        {
+            return eventType.GetTypeInfo().GetAttributes<DirectorEventAttribute>(true).First();
+        }
+
+        /// <summary>
+        ///     Every event in a category whose real daily odds are known, paired with those odds. These are rolled one by one
+        ///     each day instead of competing for the category's single roll, because their frequency is a fact about the game
+        ///     rather than a matter of taste - wild fruit really is found on about one summer day in twenty-five.
+        /// </summary>
+        /// <param name="eventCategory">Category being rolled.</param>
+        /// <returns>Event types and their chance out of a hundred per day.</returns>
+        public IEnumerable<Tuple<Type, double>> EventsWithOwnOdds(EventCategoryEnum eventCategory)
+        {
+            var found = new List<Tuple<Type, double>>();
+            foreach (var type in EventReference)
+            {
+                if (!type.Key.Category.Equals(eventCategory) ||
+                    (type.Key.ExecutionType != EventExecutionEnum.RandomOrManual))
+                    continue;
+
+                var attribute = AttributeOf(type.Value);
+                if (attribute.HasOwnOdds)
+                    found.Add(new Tuple<Type, double>(type.Value, attribute.DailyChance));
+            }
+
+            return found;
+        }
+
         /// <summary>Gathers all of the events by specified type and picks one of them at random to return.</summary>
         /// <param name="eventCategory">Enum value of the type of event such as medical, person, vehicle, etc.</param>
         /// <returns>Created event product based on enum value.</returns>
         public EventProduct CreateRandomByType(EventCategoryEnum eventCategory)
         {
-            // Query all of the reference event types that match the given enumeration value.
+            // Query all of the reference event types that match the given enumeration value. Events that carry their own
+            // daily odds are excluded: they are rolled separately every day and would otherwise get two bites at happening.
             var groupedEventList = new List<Type>();
             foreach (var type in EventReference)
                 if (type.Key.Category.Equals(eventCategory) &&
-                    (type.Key.ExecutionType == EventExecutionEnum.RandomOrManual))
+                    (type.Key.ExecutionType == EventExecutionEnum.RandomOrManual) &&
+                    !AttributeOf(type.Value).HasOwnOdds)
                     groupedEventList.Add(type.Value);
 
             // Check to make sure there is at least one type of event of this type.

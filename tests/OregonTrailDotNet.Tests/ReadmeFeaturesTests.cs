@@ -10,6 +10,7 @@ using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Event;
 using OregonTrailDotNet.Event.Prefab;
 using OregonTrailDotNet.Event.Vehicle;
+using OregonTrailDotNet.Event.Wild;
 using OregonTrailDotNet.Event.Weather;
 using OregonTrailDotNet.Module.Director;
 using OregonTrailDotNet.Module.Time;
@@ -139,8 +140,58 @@ namespace OregonTrailDotNet.Tests
         // ---- Random Events #2/#3: per-event probability weighting ----
 
         [Fact]
+        public void EventsWithKnownDailyOdds_CarryThemAndLeaveTheSharedCategoryRoll()
+        {
+            // Wild fruit turns up on about one day in twenty-five, and the Indians only ever show up when the larder is
+            // empty. Those are facts about the game rather than relative preferences, so they are rolled on their own each
+            // day instead of competing for the Wild category's single roll - which would have fired fruit on roughly one
+            // day in seven hundred.
+            var fruit = typeof(FindFruit).GetCustomAttributes<DirectorEventAttribute>(false).First();
+            Assert.Equal(4d, fruit.DailyChance);
+            Assert.True(fruit.HasOwnOdds);
+
+            var indians = typeof(IndiansHelp).GetCustomAttributes<DirectorEventAttribute>(false).First();
+            Assert.Equal(5d, indians.DailyChance);
+
+            // Anything rolled on its own must be kept out of the category hat, or it gets two chances a day.
+            var factory = new EventFactory();
+            for (var i = 0; i < 200; i++)
+            {
+                var created = factory.CreateRandomByType(EventCategoryEnum.Wild);
+                Assert.IsNotType<FindFruit>(created);
+                Assert.IsNotType<IndiansHelp>(created);
+            }
+
+            Assert.Contains(factory.EventsWithOwnOdds(EventCategoryEnum.Wild), e => e.Item1 == typeof(FindFruit));
+        }
+
+        [Fact]
+        public void WildFruit_IsOnlyFoundInTheGrowingSeason()
+        {
+            var fruit = new FindFruit();
+
+            Game.Time.SetMonth(MonthEnum.July);
+            Assert.True(fruit.CanExecute(Game.Vehicle));
+
+            Game.Time.SetMonth(MonthEnum.January);
+            Assert.False(fruit.CanExecute(Game.Vehicle));
+
+            // The season runs May through September inclusive; April and October are outside it.
+            Game.Time.SetMonth(MonthEnum.April);
+            Assert.False(fruit.CanExecute(Game.Vehicle));
+            Game.Time.SetMonth(MonthEnum.May);
+            Assert.True(fruit.CanExecute(Game.Vehicle));
+            Game.Time.SetMonth(MonthEnum.September);
+            Assert.True(fruit.CanExecute(Game.Vehicle));
+            Game.Time.SetMonth(MonthEnum.October);
+            Assert.False(fruit.CanExecute(Game.Vehicle));
+        }
+
+        [Fact]
         public void DirectorEventAttribute_DefaultsToEqualWeightAndClampsNegatives()
         {
+            Assert.Equal(0d, new DirectorEventAttribute(EventCategoryEnum.Person).DailyChance);
+            Assert.False(new DirectorEventAttribute(EventCategoryEnum.Person).HasOwnOdds);
             Assert.Equal(100, new DirectorEventAttribute(EventCategoryEnum.Person).EventProbability);
             Assert.Equal(25, new DirectorEventAttribute(EventCategoryEnum.Person, EventExecutionEnum.RandomOrManual, 25)
                 .EventProbability);
