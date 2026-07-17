@@ -12,7 +12,7 @@ namespace OregonTrailDotNet.Event.Wild
     ///     Indians help you find some free food. This is a rescue rather than a windfall: it only ever fires when the party
     ///     has run completely out of food, which is how the original gated it.
     /// </summary>
-    [DirectorEvent(EventCategoryEnum.Wild)]
+    [DirectorEvent(EventCategoryEnum.Wild, EventExecutionEnum.RandomOrManual, 100, 5)]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class IndiansHelp : EventProduct
     {
