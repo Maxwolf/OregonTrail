@@ -32,15 +32,10 @@ namespace OregonTrailDotNet.Window.Travel.Trade
         private bool _playerCanTrade;
 
         /// <summary>
-        ///     Index of the item which we are going to use as the trade the player is going to make and be offered, if it exists.
+        ///     The swap the emigrant the party met today has put to them, or null if nobody wanted to trade. One emigrant
+        ///     comes by per visit and makes one offer; there is no picking through a list of them.
         /// </summary>
-        private int _tradeIndex;
-
-        /// <summary>
-        ///     References all of the possible trades this location will be able to offer the player. If the list is empty that
-        ///     means nobody wants to trade with the player at this time.
-        /// </summary>
-        private List<TradeOffer> _trades;
+        private TradeOffer _offer;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Trading" /> class.
@@ -57,7 +52,7 @@ namespace OregonTrailDotNet.Window.Travel.Trade
         ///     The trade currently on the table, or null when nobody wants to trade. Exposed read-only for the headless bot,
         ///     the same way <see cref="Travel.ActiveHunt" /> exposes the live hunt.
         /// </summary>
-        public TradeOffer CurrentOffer => (_trades != null) && (_trades.Count > 0) ? _trades[_tradeIndex] : null;
+        public TradeOffer CurrentOffer => _offer;
 
         /// <summary>
         ///     Whether the player holds the full quantity the current offer demands (the Y/N prompt only shows when true).
@@ -73,7 +68,7 @@ namespace OregonTrailDotNet.Window.Travel.Trade
             get
             {
                 // Dialog type is determined by players ability to trade against the generated offer.
-                if ((_trades != null) && (_trades.Count > 0) && _playerCanTrade)
+                if ((_offer != null) && _playerCanTrade)
                     return DialogTypeEnum.YesNo;
 
                 return DialogTypeEnum.Prompt;
@@ -121,25 +116,21 @@ namespace OregonTrailDotNet.Window.Travel.Trade
             _supplyPrompt.AppendLine($"{Environment.NewLine}Your Supplies{Environment.NewLine}");
             _supplyPrompt.AppendLine(SupplyPanel.Build(includeCash: false));
 
-            // Trades are randomly generated when ticking the location.
-            GenerateTrades();
-
-            // Generate a random number based on trade count and what our trade will be.
-            _tradeIndex = GameSimulationApp.Instance.Random.Next(_trades.Count);
+            // One emigrant comes by, and either has something to propose or does not.
+            _offer = GenerateOffer();
 
             // Check the player actually holds the full quantity the trader is demanding, not merely the item's minimum.
             // ContainsItem only compares against MinQuantity, so it would green-light a trade the player cannot honor,
             // letting them hand over less than agreed while still receiving the full offered item.
-            _playerCanTrade = (_trades.Count > 0) &&
-                             (GameSimulationApp.Instance.Vehicle.Inventory[_trades[_tradeIndex].WantedItem.Category]
-                                  .Quantity >= _trades[_tradeIndex].WantedItem.Quantity);
+            _playerCanTrade = (_offer != null) &&
+                              (GameSimulationApp.Instance.Vehicle.Inventory[_offer.WantedItem.Category].Quantity >=
+                               _offer.WantedItem.Quantity);
 
-            // Select one of the trades to use, or say there are none if none generated.
-            if (_trades.Count > 0)
+            if (_offer != null)
             {
                 // Generates the default prompt for trading that is shown if you have items to trade back or not.
-                var wantedItem = _trades[_tradeIndex].WantedItem;
-                var offeredItem = _trades[_tradeIndex].OfferedItem;
+                var wantedItem = _offer.WantedItem;
+                var offeredItem = _offer.OfferedItem;
                 var wrapText =
                     $"You meet another emigrant who wants {wantedItem.ToQuantityString(wantedItem.Quantity)}. " +
                     $"He will trade you {offeredItem.ToQuantityString(offeredItem.Quantity)}.";
@@ -151,52 +142,34 @@ namespace OregonTrailDotNet.Window.Travel.Trade
             }
             else
             {
-                // Prompt is not shown if we have no traders generated, or every offer they had was for goods the wagon
-                // cannot hold.
+                // Nobody came by today, or the one who did wanted to hand over goods the wagon has no room for.
                 _supplyPrompt.AppendLine($"No one wants to trade with you today.{Environment.NewLine}");
             }
         }
 
         /// <summary>
-        ///     Creates some possible trades the player can have selected at random.
+        ///     Works out what the emigrant the party met today is proposing, if anything. Most days somebody has something;
+        ///     one day in twenty nobody does. An offer of goods the wagon cannot hold is quietly dropped rather than shown,
+        ///     because taking it would mean handing over the party's side and watching the overflow of the other side be
+        ///     thrown away - which is why a party already carrying three of every spare part is so often told nobody wants
+        ///     to trade.
         /// </summary>
-        private void GenerateTrades()
+        /// <returns>The swap on the table, or NULL when there is none.</returns>
+        private static TradeOffer GenerateOffer()
         {
-            // Creates new list of trade offers.
-            _trades = new List<TradeOffer>();
+            if (GameSimulationApp.Instance.Random.NextDouble() > 0.95)
+                return null;
 
-            // Figure out how many trades, if any we will have this time the player checks.
-            var totalTrades = GameSimulationApp.Instance.Random.Next(0, GameSimulationApp.Instance.Random.Next(1, 100));
+            var offer = TradeOffer.Generate();
+            if (offer == null)
+                return null;
 
-            // Check if we just stop here.
-            if (totalTrades <= 0)
-                return;
-
-            // Creates as many trade offers as generator says we should.
-            for (var i = 0; i < totalTrades; i++)
-                _trades.Add(new TradeOffer());
-
-            // Cleanup the generated trades.
             var inventory = GameSimulationApp.Instance.Vehicle.Inventory;
-            var copyTrades = new List<TradeOffer>(_trades);
-            foreach (var trade in copyTrades)
-            {
-                // Remove trades that are null on either side, or that are the same item twice.
-                if ((trade.WantedItem == null) || (trade.OfferedItem == null) ||
-                    (trade.WantedItem.Category == trade.OfferedItem.Category))
-                {
-                    _trades.Remove(trade);
-                    continue;
-                }
+            var offered = offer.OfferedItem;
+            if (inventory[offered.Category].Quantity + offered.Quantity > offered.MaxQuantity)
+                return null;
 
-                // Never offer goods the wagon has no room for. The inventory clamps at the item's ceiling, so accepting
-                // such a trade would hand over the player's side and silently discard the overflow of what they were
-                // given. The original suppressed these offers before they ever reached the screen, which is why a party
-                // holding three of every spare part is told nobody wants to trade rather than being offered a fourth.
-                var offered = trade.OfferedItem;
-                if (inventory[offered.Category].Quantity + offered.Quantity > offered.MaxQuantity)
-                    _trades.Remove(trade);
-            }
+            return offer;
         }
 
         /// <summary>
@@ -220,12 +193,12 @@ namespace OregonTrailDotNet.Window.Travel.Trade
                 case DialogResponseEnum.Yes:
                 {
                     // Remove the quantity of item from the vehicle inventory the trader wants.
-                    GameSimulationApp.Instance.Vehicle.Inventory[_trades[_tradeIndex].WantedItem.Category].ReduceQuantity(
-                        _trades[_tradeIndex].WantedItem.Quantity);
+                    GameSimulationApp.Instance.Vehicle.Inventory[_offer.WantedItem.Category].ReduceQuantity(
+                        _offer.WantedItem.Quantity);
 
                     // Give the vehicle the item the trade said he would.
-                    GameSimulationApp.Instance.Vehicle.Inventory[_trades[_tradeIndex].OfferedItem.Category].AddQuantity(
-                        _trades[_tradeIndex].OfferedItem.Quantity);
+                    GameSimulationApp.Instance.Vehicle.Inventory[_offer.OfferedItem.Category].AddQuantity(
+                        _offer.OfferedItem.Quantity);
 
                     // A wagon sitting on a broken part is repaired on the spot when the party now holds a matching
                     // spare — completing the "trade for the part you need" rescue the stranding screens point toward.

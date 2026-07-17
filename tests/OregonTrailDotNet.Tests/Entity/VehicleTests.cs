@@ -375,25 +375,6 @@ namespace OregonTrailDotNet.Tests.Entity
         }
 
         [Fact]
-        public void CreateRandomItem_KeepsHistoricTradeLotSizes_ForClothesAndAmmo()
-        {
-            // Clothing and ammunition carry huge inventory ceilings (255 sets / 65,535 bullets) purely so the score
-            // ceiling matches the 1985 game; a single emigrant trade offer must stay at its historic lot size instead
-            // of scaling off those caps and handing out wagonloads in one roll.
-            for (var i = 0; i < 500; i++)
-            {
-                var offer = VehicleEntity.CreateRandomItem();
-                if (offer == null)
-                    continue;
-
-                if (offer.Category == EntitiesEnum.Clothes)
-                    Assert.InRange(offer.Quantity, 1, 12);
-                if (offer.Category == EntitiesEnum.Ammo)
-                    Assert.InRange(offer.Quantity, 1, 24);
-            }
-        }
-
-        [Fact]
         public void CreateRandomItems_NeverExceedsInventoryMaximums()
         {
             var vehicle = new VehicleEntity();

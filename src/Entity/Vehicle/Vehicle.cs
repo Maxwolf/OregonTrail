@@ -800,64 +800,6 @@ namespace OregonTrailDotNet.Entity.Vehicle
         }
 
         /// <summary>
-        ///     Selects a random item from the default inventory layout a vehicle would have. It will also generate a random
-        ///     quantity it desires for the item within the bounds of the minimum and maximum quantities.
-        /// </summary>
-        /// <returns>Returns a randomly created item with random quantity. Returns NULL if anything bad happens.</returns>
-        public static SimItem CreateRandomItem()
-        {
-            // Loop through the inventory and decide which items to give free copies of.
-            foreach (var itemPair in DefaultInventory)
-            {
-                // Determine if we will be making more of this item, if it's the last one then we have to.
-                if (GameSimulationApp.Instance.Random.NextBool())
-                    continue;
-
-                // Skip certain items that cannot be traded.
-                switch (itemPair.Value.Category)
-                {
-                    case EntitiesEnum.Food:
-                    case EntitiesEnum.Clothes:
-                    case EntitiesEnum.Ammo:
-                    case EntitiesEnum.Medicine:
-                    case EntitiesEnum.Wheel:
-                    case EntitiesEnum.Axle:
-                    case EntitiesEnum.Tongue:
-                    case EntitiesEnum.Vehicle:
-                    case EntitiesEnum.Animal:
-                    case EntitiesEnum.Person:
-                    {
-                        // Create a random number within the range we need to create an item.
-                        var amountToMake = RandomLotCeiling(itemPair.Value);
-
-                        // Check if created amount goes above ceiling.
-                        if (amountToMake > itemPair.Value.MaxQuantity)
-                            amountToMake = itemPair.Value.MaxQuantity;
-
-                        // Check if created amount goes below floor.
-                        if (amountToMake <= 0)
-                            amountToMake = 1;
-
-                        // Add some random amount of the item from one to total amount.
-                        var createdAmount = GameSimulationApp.Instance.Random.Next(1, amountToMake);
-
-                        // Create a new item with generated quantity.
-                        var createdItem = new SimItem(itemPair.Value, createdAmount);
-                        return createdItem;
-                    }
-                    case EntitiesEnum.Cash:
-                    case EntitiesEnum.Location:
-                        continue;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-
-            // Default response is to return a NULL item if something terrible happens.
-            return null;
-        }
-
-        /// <summary>
         ///     Creates some random items that will be given to the player, this is normally used when the player encounters a
         ///     abandoned vehicle.
         /// </summary>
@@ -877,8 +819,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
             {
                 // Never loot cash (or any other non-physical bookkeeping entity). Cash has a MaxQuantity of int.MaxValue,
                 // so the amountToMake = MaxQuantity/4 roll below would hand the player up to ~536 million dollars from a
-                // single abandoned-wagon find, inflating the end-of-game score into the hundreds of millions. The singular
-                // CreateRandomItem (used for trades) already excludes these categories; this plural method must too.
+                // single abandoned-wagon find, inflating the end-of-game score into the hundreds of millions.
                 switch (itemPair.Value.Category)
                 {
                     case EntitiesEnum.Cash:

@@ -15,7 +15,7 @@ namespace OregonTrailDotNet.Entity.Item
         ///     program through a single memory byte, so 255 is the effective original ceiling (510 base points).
         /// </summary>
         public static SimItem Clothing => new SimItem(EntitiesEnum.Clothes, "Clothing", "sets", "set", 255,
-            StorePrice.Scaled(10f), 1, 1, 0, 2);
+            StorePrice.Scaled(ItemPrices.ClothingSet), 1, 1, 0, 2);
 
         /// <summary>
         ///     Ammunition used in hunting game Windows so the players can acquire food by hunting animals.
@@ -27,14 +27,14 @@ namespace OregonTrailDotNet.Entity.Item
         ///     from the original's "how many boxes".
         /// </summary>
         public static SimItem Bullets => new SimItem(EntitiesEnum.Ammo, "Ammunition", "bullets", "bullet", 65535,
-            StorePrice.Scaled(0.10f), 0, 20, 0, 1, 50);
+            StorePrice.Scaled(ItemPrices.Bullet), 0, 20, 0, 1, 50);
 
         /// <summary>
         ///     Serves as a generic reference item that represents a given amount of food. This could be from any animal or known
         ///     game resource marked as such.
         /// </summary>
         public static SimItem Food => new SimItem(EntitiesEnum.Food, "Food", "pounds", "pound", 2000,
-            StorePrice.Scaled(0.20f), 1, 1, 0, 1, 25);
+            StorePrice.Scaled(ItemPrices.FoodPound), 1, 1, 0, 1, 25);
 
         /// <summary>
         ///     Medical supplies used to cure serious illness and infection among the party members. Sold in kits like other store
@@ -42,7 +42,7 @@ namespace OregonTrailDotNet.Entity.Item
         ///     the store this is not an original line item, so its price is ours rather than MECC's.
         /// </summary>
         public static SimItem Medicine => new SimItem(EntitiesEnum.Medicine, "Medicine", "kits", "kit", 99,
-            StorePrice.Scaled(15f), 1, 1, 0, 1);
+            StorePrice.Scaled(ItemPrices.MedicineKit), 1, 1, 0, 1);
 
         /// <summary>
         ///     Represents a vehicle entity, this is not used as actual vehicle the people travel in but rather a reference to a
