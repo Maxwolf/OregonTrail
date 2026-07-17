@@ -1,7 +1,6 @@
 ﻿// Created by Maxwolf (bigmaxwolf.com) 
 // Timestamp 01/03/2016@1:50 AM
 
-using System;
 using System.Text;
 using OregonTrailDotNet.Entity;
 using WolfCurses.Window;
@@ -68,11 +67,34 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             var killCount = UserData.Hunt.KillCount;
             var bulletsFired = UserData.Hunt.BulletsFired;
 
-            // The wagon can only carry MAXFOOD pounds home regardless of how much was shot; the rest is wasted meat.
-            _finalKillWeight = Math.Min(killWeight, HuntManager.MAXFOOD);
+            // Work out how much of the kill actually reaches the wagon. Two separate limits apply, in the original's
+            // order: first the room left in the wagon, then how much one hunter can drag home in a day. A wagon already
+            // at its food ceiling takes nothing at all, and says so rather than silently voiding the meat.
+            var food = GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Food];
+            string capacityNote = null;
+            _finalKillWeight = killWeight;
+
+            if (_finalKillWeight > 0 && food.Quantity >= food.MaxQuantity)
+            {
+                _finalKillWeight = 0;
+                capacityNote = "However, your wagon is full.";
+            }
+            else if (_finalKillWeight > 0 && _finalKillWeight + food.Quantity > food.MaxQuantity)
+            {
+                _finalKillWeight = food.MaxQuantity - food.Quantity;
+                if (_finalKillWeight > 0 && _finalKillWeight <= HuntManager.MAXFOOD)
+                    capacityNote = $"However, your wagon will only hold another {_finalKillWeight:N0} pounds of food.";
+            }
+
+            if (_finalKillWeight > HuntManager.MAXFOOD)
+            {
+                _finalKillWeight = HuntManager.MAXFOOD;
+                capacityNote =
+                    $"However, you were only able to carry {HuntManager.MAXFOOD:N0} pounds back to the wagon.";
+            }
 
             // Framed summary panel that echoes the hunt HUD's food meter, so the result reads as "how full a load did I
-            // haul back?" against the same 250 lb ceiling.
+            // haul back?" against the same ceiling.
             var foodBar = new ProgressBar {Width = 20, Label = "Food bag"}.Render(_finalKillWeight, HuntManager.MAXFOOD);
             var panel = new StringBuilder();
             panel.AppendLine(foodBar);
@@ -85,7 +107,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             _huntScore.AppendLine(FramedPanel.Render("HUNT OVER", panel.ToString()));
             _huntScore.AppendLine();
 
-            // A short line under the panel: empty-handed, a clean haul, or an over-the-limit haul that wasted meat.
+            // A short line under the panel: empty-handed, a clean haul, or a haul the wagon could not take in full.
             if (killWeight <= 0)
             {
                 _huntScore.Append("  You came back empty-handed.");
@@ -93,15 +115,13 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
             else
             {
                 var animalText = killCount == 1 ? "animal" : "animals";
-                if (killWeight <= HuntManager.MAXFOOD)
+                _huntScore.AppendLine($"  You bagged {killCount:N0} {animalText} for");
+                _huntScore.Append($"  {killWeight:N0} pounds of meat.");
+
+                if (capacityNote != null)
                 {
-                    _huntScore.AppendLine($"  You bagged {killCount:N0} {animalText} for");
-                    _huntScore.Append($"  {killWeight:N0} pounds of meat.");
-                }
-                else
-                {
-                    _huntScore.AppendLine($"  You bagged {killCount:N0} {animalText} —");
-                    _huntScore.Append($"  {killWeight:N0} lb shot, {HuntManager.MAXFOOD:N0} lb carried.");
+                    _huntScore.AppendLine();
+                    _huntScore.Append($"  {capacityNote}");
                 }
             }
 

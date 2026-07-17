@@ -46,10 +46,10 @@ namespace OregonTrailDotNet.Tests.Entity
             var vehicle = new VehicleEntity();
             vehicle.ResetVehicle(100);
 
-            // 50 pounds of food at $0.10 per pound (the starting price, before any forts are departed) is a $5 transaction.
+            // 50 pounds of food at $0.20 per pound (the starting price, before any forts are departed) is a $10 transaction.
             vehicle.Purchase(new SimItem(Resources.Food, 50));
 
-            Assert.Equal(95f, vehicle.Balance);
+            Assert.Equal(90f, vehicle.Balance);
             Assert.Equal(50, vehicle.Inventory[EntitiesEnum.Food].Quantity);
         }
 
@@ -71,12 +71,65 @@ namespace OregonTrailDotNet.Tests.Entity
             var vehicle = new VehicleEntity();
             vehicle.ResetVehicle(100);
 
-            // 15 pounds of food at $0.10/lb is a $1.50 charge, leaving $98.50. That balance is rounded to the nearest
+            // 7 pounds of food at $0.20/lb is a $1.40 charge, leaving $98.60. That balance is rounded to the nearest
             // whole dollar ($99); the old code truncated toward zero to $98, silently overcharging the player.
-            vehicle.Purchase(new SimItem(Resources.Food, 15));
+            vehicle.Purchase(new SimItem(Resources.Food, 7));
 
             Assert.Equal(99f, vehicle.Balance);
-            Assert.Equal(15, vehicle.Inventory[EntitiesEnum.Food].Quantity);
+            Assert.Equal(7, vehicle.Inventory[EntitiesEnum.Food].Quantity);
+        }
+
+        [Fact]
+        public void LockPartyHealth_FreezesTheScoringHealth_AndIgnoresLaterDecline()
+        {
+            var vehicle = new VehicleEntity();
+            vehicle.AddPerson(new PersonEntity(ProfessionEnum.Banker, "Alice", true));
+            vehicle.AddPerson(new PersonEntity(ProfessionEnum.Banker, "Bob", false));
+
+            // Nothing is frozen until the party commits to the Columbia.
+            Assert.Null(vehicle.LockedHealthStatus);
+            Assert.Equal(HealthStatusEnum.Good, vehicle.PassengerHealthStatus);
+
+            vehicle.LockPartyHealth();
+            Assert.Equal(HealthStatusEnum.Good, vehicle.LockedHealthStatus);
+
+            // Whatever the river does afterwards, the locked-in health is what the tally sees. Bob takes the beating
+            // because the leader is spared while anyone else is alive.
+            foreach (var person in vehicle.Passengers)
+                person.Damage(400);
+
+            Assert.True(vehicle.PassengerHealthStatus < HealthStatusEnum.Good);
+            Assert.Equal(HealthStatusEnum.Good, vehicle.LockedHealthStatus);
+        }
+
+        [Fact]
+        public void LockPartyHealth_IsIgnoredOnceAlreadyFrozen()
+        {
+            var vehicle = new VehicleEntity();
+            vehicle.AddPerson(new PersonEntity(ProfessionEnum.Banker, "Alice", true));
+            vehicle.AddPerson(new PersonEntity(ProfessionEnum.Banker, "Bob", false));
+
+            vehicle.LockPartyHealth();
+
+            foreach (var person in vehicle.Passengers)
+                person.Damage(400);
+
+            vehicle.LockPartyHealth();
+
+            Assert.Equal(HealthStatusEnum.Good, vehicle.LockedHealthStatus);
+        }
+
+        [Fact]
+        public void ResetVehicle_ClearsTheLockedHealth_ForAFreshJourney()
+        {
+            var vehicle = new VehicleEntity();
+            vehicle.AddPerson(new PersonEntity(ProfessionEnum.Banker, "Alice", true));
+            vehicle.LockPartyHealth();
+            Assert.NotNull(vehicle.LockedHealthStatus);
+
+            vehicle.ResetVehicle();
+
+            Assert.Null(vehicle.LockedHealthStatus);
         }
 
         [Fact]

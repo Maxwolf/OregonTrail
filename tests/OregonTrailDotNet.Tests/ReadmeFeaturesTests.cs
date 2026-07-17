@@ -166,9 +166,9 @@ namespace OregonTrailDotNet.Tests
         // ---- Travel #20/#21: hunting tally and food cap ----
 
         [Fact]
-        public void HuntManager_CarryCapIsTwoHundredFiftyPounds()
+        public void HuntManager_CarryCapIsOneHundredPounds()
         {
-            Assert.Equal(250, HuntManager.MAXFOOD);
+            Assert.Equal(100, HuntManager.MAXFOOD);
         }
 
         [Fact]
@@ -230,26 +230,41 @@ namespace OregonTrailDotNet.Tests
         [Fact]
         public void StorePrices_StartAtBaseValuesBeforeAnyFortDeparted()
         {
-            // Booted simulation has every location Unreached, so no forts have been departed yet.
-            Assert.Equal(0.10, (double) Resources.Food.Cost, 2);
-            Assert.Equal(10f, Resources.Clothing.Cost);
-            Assert.Equal(2f, Resources.Bullets.Cost);
-            Assert.Equal(20f, Parts.Oxen.Cost);
+            // Booted simulation has every location Unreached, so no forts have been departed yet. These are the prices
+            // Matt's General Store quotes in the 1985 original, read out of its VAR.BIN price table.
+            Assert.Equal(0.20, (double) Resources.Food.Cost, 2); // $0.20 per pound
+            Assert.Equal(10f, Resources.Clothing.Cost); // $10.00 per set
+            Assert.Equal(0.10, (double) Resources.Bullets.Cost, 2); // $2.00 per box of 20 bullets
+            Assert.Equal(20f, Parts.Oxen.Cost); // $40.00 per yoke of two
             Assert.Equal(10f, Parts.Axle.Cost);
         }
 
         [Fact]
-        public void StorePrices_RiseByPerFortDeltaAfterDepartingASettlement()
+        public void StorePrices_RiseByAQuarterOfBaseAfterDepartingASettlement()
         {
             // Mark the first settlement on the trail as departed to simulate leaving one fort behind.
             var firstFort = Game.Trail.Locations.First(location => location is Settlement);
             firstFort.Status = LocationStatusEnum.Departed;
 
-            Assert.Equal(0.20, (double) Resources.Food.Cost, 2); // +$0.10 per fort
-            Assert.Equal(12.5f, Resources.Clothing.Cost); // +$2.5 per fort
-            Assert.Equal(4.5f, Resources.Bullets.Cost); // +$2.5 per fort
-            Assert.Equal(25f, Parts.Oxen.Cost); // +$5 per fort
-            Assert.Equal(12.5f, Parts.Axle.Cost); // +$2.5 per fort
+            // The original marked every quoted price up by a quarter of its base at each fort: cost * (1 + .25 * Q).
+            Assert.Equal(0.25, (double) Resources.Food.Cost, 2);
+            Assert.Equal(12.5f, Resources.Clothing.Cost);
+            Assert.Equal(0.125, (double) Resources.Bullets.Cost, 3);
+            Assert.Equal(25f, Parts.Oxen.Cost);
+            Assert.Equal(12.5f, Parts.Axle.Cost);
+        }
+
+        [Fact]
+        public void StorePrices_StopClimbingAfterTheOriginalsSixThresholds()
+        {
+            // Departing every settlement on the trail reaches (and, once fork branches insert their own forts, exceeds)
+            // the original's six price thresholds. The markup must stop at 2.5x base either way.
+            foreach (var fort in Game.Trail.Locations.Where(location => location is Settlement))
+                fort.Status = LocationStatusEnum.Departed;
+
+            Assert.Equal(25f, Resources.Clothing.Cost); // 10 * (1 + .25 * 6)
+            Assert.Equal(50f, Parts.Oxen.Cost); // 20 * (1 + .25 * 6)
+            Assert.Equal(0.50, (double) Resources.Food.Cost, 2); // 0.20 * (1 + .25 * 6)
         }
 
         // ---- Death #2: cause of death renders a human-readable reason ----

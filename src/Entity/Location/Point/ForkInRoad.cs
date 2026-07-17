@@ -12,6 +12,10 @@ namespace OregonTrailDotNet.Entity.Location.Point
     ///     Depending on the choice the player makes the selected skip choice will be inserted into the trail as the next
     ///     location. After this happens the trail module will automatically re-calculate all the total distances and other
     ///     needed variables to make sure the map stays in sync.
+    ///     A skip choice may be NULL, which represents staying on the main trail rather than detouring: nothing is inserted
+    ///     and the party simply carries on to whatever location already follows this one. Some of the original's forks are
+    ///     shaped that way - the Blue Mountains offer a detour to Fort Walla Walla against pressing straight on to The
+    ///     Dalles, which both routes reach either way.
     /// </summary>
     public sealed class ForkInRoad : Location
     {

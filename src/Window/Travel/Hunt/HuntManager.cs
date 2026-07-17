@@ -42,9 +42,12 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
 
         /// <summary>
         ///     Determines the total weight of all the food the player is allowed to take away from a given hunting session.
+        ///     One hunter can drag a hundred pounds back to the wagon in a day and no more, however much was shot; the rest
+        ///     is left where it fell. This is the original's limit, and it is what stops a single lucky buffalo from filling
+        ///     the wagon in one outing.
         /// </summary>
         // ReSharper disable once InconsistentNaming
-        public const int MAXFOOD = 250;
+        public const int MAXFOOD = 100;
 
         /// <summary>
         ///     Determines the total number of seconds a given prey item is allowed to be a target by the player, if this value is

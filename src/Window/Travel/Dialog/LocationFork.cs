@@ -83,17 +83,33 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
                 if (skipChoice.Key == _skipChoices.Last().Key)
                 {
                     // Final skip choice and special option normally done when sizing up situation.
-                    _forkPrompt.AppendLine($"  {skipChoice.Key}. head for {skipChoice.Value.Name}");
+                    _forkPrompt.AppendLine($"  {skipChoice.Key}. head for {DestinationName(skipChoice.Value)}");
                     _forkPrompt.Append($"  {skipChoice.Key + 1}. see the map");
                 }
                 else
                 {
                     // Standard skip location entry for the list.
-                    _forkPrompt.AppendLine($"  {skipChoice.Key}. head for {skipChoice.Value.Name}");
+                    _forkPrompt.AppendLine($"  {skipChoice.Key}. head for {DestinationName(skipChoice.Value)}");
                 }
 
             // Rendering of the fork in the road as text user interface.
             return _forkPrompt.ToString();
+        }
+
+        /// <summary>
+        ///     Name to show for a fork choice. A null choice is not a detour at all but the main trail itself, so it is named
+        ///     after whatever location already comes next rather than after a branch that does not exist.
+        /// </summary>
+        /// <param name="skipChoice">The branch to name, or null for staying on the main trail.</param>
+        /// <returns>Location name to render against this choice.</returns>
+        private static string DestinationName(Location skipChoice)
+        {
+            if (skipChoice != null)
+                return skipChoice.Name;
+
+            var trail = GameSimulationApp.Instance.Trail;
+            var nextIndex = trail.LocationIndex + 1;
+            return nextIndex < trail.Locations.Count ? trail.Locations[nextIndex].Name : "the trail ahead";
         }
 
         /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>
@@ -111,8 +127,10 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
             // Dictionary of skip choices must contain key with input number.
             if (_skipChoices.ContainsKey(parsedInputNumber))
             {
+                var chosen = _skipChoices[parsedInputNumber];
+
                 // Check if the selected fork is a toll road (that changes things).
-                if (_skipChoices[parsedInputNumber] is TollRoad tollRoad)
+                if (chosen is TollRoad tollRoad)
                 {
                     // Creates a toll and adds location we would like to fork to.
                     UserData.GenerateToll(tollRoad);
@@ -120,8 +138,15 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
                 }
                 else
                 {
-                    // Insert the skip location into location list after current location.
-                    GameSimulationApp.Instance.Trail.InsertLocation(_skipChoices[parsedInputNumber]);
+                    // Committing to a crossing that scores the party where they stand freezes their health here and now,
+                    // before the journey to it can undo the rest they took to earn it.
+                    if (chosen is Entity.Location.Point.RiverCrossing river && river.LocksPartyHealth)
+                        GameSimulationApp.Instance.Vehicle.LockPartyHealth();
+
+                    // A null choice means staying on the main trail, so there is no detour to splice in - the party just
+                    // carries on to the location that already follows this one.
+                    if (chosen != null)
+                        GameSimulationApp.Instance.Trail.InsertLocation(chosen);
 
                     // Start going there...
                     SetForm(typeof(LocationDepart));

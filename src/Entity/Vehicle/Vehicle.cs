@@ -318,6 +318,22 @@ namespace OregonTrailDotNet.Entity.Vehicle
         }
 
         /// <summary>
+        ///     Health the party's score will be tallied against once frozen, or NULL while it still tracks their real health.
+        ///     Committing to run the Columbia locks this in: the original wrote the whole scorecard to memory the moment that
+        ///     choice was made and the rafting program afterwards rewrote every figure on it except the health, so a party who
+        ///     rested up to good health at The Dalles is scored in good health however the ride down actually goes.
+        /// </summary>
+        public HealthStatusEnum? LockedHealthStatus { get; private set; }
+
+        /// <summary>
+        ///     Freezes the party's health for scoring at whatever it is right now. Has no effect once already frozen.
+        /// </summary>
+        public void LockPartyHealth()
+        {
+            LockedHealthStatus ??= PassengerHealthStatus;
+        }
+
+        /// <summary>
         ///     Grabs the averaged health of all the passengers in the vehicle, only adds towards total if they are alive. Will be
         ///     recalculated each time this is called.
         /// </summary>
@@ -488,55 +504,65 @@ namespace OregonTrailDotNet.Entity.Vehicle
             if (systemTick)
                 return;
 
-            // Loop through all the people in the vehicle and tick them moving or ticking time or not.
+            // Ground is only covered, and trail events only rolled, on a real day of actual travel.
+            var traveling = (Status == VehicleStatusEnum.Moving) && !skipDay;
+
+            if (traveling)
+            {
+                // Figure out how far we need to go to reach the next point.
+                Mileage = RandomMileage;
+
+                // Sometimes things just go slow on the trail, cut mileage in half if above zero randomly.
+                if (GameSimulationApp.Instance.Random.NextBool() && (Mileage > 0))
+                    Mileage = Mileage/2;
+
+                // Stopping at a fort to resupply costs the party most of the day getting back on the trail, so the first
+                // turn after departing a settlement covers dramatically fewer miles.
+                if (FortDeparturePenalty)
+                {
+                    Mileage = Mileage/4;
+                    FortDeparturePenalty = false;
+                }
+
+                // Check for random events that might trigger regardless of calculations made. Roll each travel category
+                // independently (each has its own ~1% per-day chance inside TriggerEventByType): vehicle mishaps, plus
+                // wild-animal encounters (snakebite, wolf attack, buffalo stampede) and wilderness happenings (bandits,
+                // thieves, wild fruit, helpful Indians). The Animal and Wild categories were previously never rolled, so
+                // every event registered under them was dead code.
+                GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategoryEnum.Vehicle);
+                GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategoryEnum.Animal);
+                GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategoryEnum.Wild);
+
+                // Higher elevations make for slow going and risk a cave-in blocking the trail.
+                var currentLocation = GameSimulationApp.Instance.Trail.CurrentLocation;
+                if ((currentLocation != null) && currentLocation.HighGround)
+                {
+                    ReduceMileage(Mileage/3);
+                    if (GameSimulationApp.Instance.Random.NextDouble() <= 0.05d)
+                        GameSimulationApp.Instance.EventDirector.TriggerEvent(this,
+                            typeof(OregonTrailDotNet.Event.Vehicle.CaveIn));
+                }
+            }
+
+            // The day's encounters resolve before the party lives through the day. The original ran its whole event table
+            // first and only then fed everyone and recomputed health, which is what makes a wild-fruit find part of the
+            // larder the party eats from that same evening. Ticking the people first also meant any mileage penalty an
+            // illness applied was immediately overwritten by the fresh RandomMileage roll above, so falling sick never
+            // actually slowed the wagon down.
             foreach (var person in _passengers)
                 person.OnTick(false, skipDay);
 
-            // Oxen have to eat too. On a real day with the larder run dry, the team starves and an ox is lost - so letting food
-            // hit zero doesn't just kill the party's people, it can also cost the animals that pull the wagon and leave them
-            // stranded. This happens whether stopped or moving (the animals go hungry either way), before the travel check.
+            // Oxen have to eat too. On a real day with the larder run dry, the team starves and an ox is lost - so letting
+            // food hit zero doesn't just kill the party's people, it can also cost the animals that pull the wagon and
+            // leave them stranded. This happens whether stopped or moving (the animals go hungry either way).
             if (!skipDay &&
                 (_inventory[EntitiesEnum.Food].Quantity <= 0) &&
                 (_inventory[EntitiesEnum.Animal].Quantity > 0))
                 _inventory[EntitiesEnum.Animal].ReduceQuantity(1);
 
             // Only advance the vehicle if we are actually traveling and not skipping a day of simulation.
-            if ((Status != VehicleStatusEnum.Moving) || skipDay)
+            if (!traveling)
                 return;
-
-            // Figure out how far we need to go to reach the next point.
-            Mileage = RandomMileage;
-
-            // Sometimes things just go slow on the trail, cut mileage in half if above zero randomly.
-            if (GameSimulationApp.Instance.Random.NextBool() && (Mileage > 0))
-                Mileage = Mileage/2;
-
-            // Stopping at a fort to resupply costs the party most of the day getting back on the trail, so the first turn
-            // after departing a settlement covers dramatically fewer miles.
-            if (FortDeparturePenalty)
-            {
-                Mileage = Mileage/4;
-                FortDeparturePenalty = false;
-            }
-
-            // Check for random events that might trigger regardless of calculations made. Roll each travel category
-            // independently (each has its own ~1% per-day chance inside TriggerEventByType): vehicle mishaps, plus
-            // wild-animal encounters (snakebite, wolf attack, buffalo stampede) and wilderness happenings (bandits,
-            // thieves, wild fruit, helpful Indians). The Animal and Wild categories were previously never rolled, so
-            // every event registered under them was dead code.
-            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategoryEnum.Vehicle);
-            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategoryEnum.Animal);
-            GameSimulationApp.Instance.EventDirector.TriggerEventByType(this, EventCategoryEnum.Wild);
-
-            // Higher elevations make for slow going and risk a cave-in blocking the trail.
-            var currentLocation = GameSimulationApp.Instance.Trail.CurrentLocation;
-            if ((currentLocation != null) && currentLocation.HighGround)
-            {
-                ReduceMileage(Mileage/3);
-                if (GameSimulationApp.Instance.Random.NextDouble() <= 0.05d)
-                    GameSimulationApp.Instance.EventDirector.TriggerEvent(this,
-                        typeof(OregonTrailDotNet.Event.Vehicle.CaveIn));
-            }
 
             // Check to make sure mileage is never below or at zero.
             if (Mileage <= 0)
@@ -670,6 +696,9 @@ namespace OregonTrailDotNet.Entity.Vehicle
 
             // Determines amount of food consumed per day.
             Ration = RationLevelEnum.Filling;
+
+            // Fresh journey: the party's health counts for scoring until they commit to the Columbia.
+            LockedHealthStatus = null;
 
             // Number of miles the vehicle has traveled.
             Odometer = 0;

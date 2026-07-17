@@ -39,9 +39,11 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             switch (riverLocation.RiverCrossOption)
             {
                 case RiverOptionEnum.FerryOperator:
+                    // The ferryman's price is fixed at five dollars; what varies is how backed up he is, anywhere from
+                    // two to six days' worth of wagons ahead of yours.
                     IndianCost = 0;
-                    FerryCost = game.Random.Next(3, 8);
-                    FerryDelayInDays = game.Random.Next(1, 10);
+                    FerryCost = 5;
+                    FerryDelayInDays = game.Random.Next(2, 7);
                     break;
                 case RiverOptionEnum.FloatAndFord:
                     IndianCost = 0;
@@ -49,11 +51,9 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                     FerryDelayInDays = 0;
                     break;
                 case RiverOptionEnum.IndianGuide:
-                    // The Shoshoni guide wants 1-5 sets of clothing to float the wagon across. The more animals the party has
-                    // killed while hunting, the greedier he gets (the less impressed he is), so his price climbs with kills.
-                    // Players who hunt sparingly receive the better deal. Scaling is capped so the price can never soft-lock the
-                    // crossing by demanding more clothing than a player could reasonably carry.
-                    IndianCost = game.Random.Next(1, 6) + Math.Min(game.Vehicle.AnimalsKilled / 5, 5);
+                    // The Shoshoni guide asks two or three sets of clothing to take the wagon across, and that is the whole
+                    // of it - he does not haggle, and he does not care how much game you have shot.
+                    IndianCost = game.Random.Next(2, 4);
                     FerryCost = 0;
                     FerryDelayInDays = 0;
                     break;

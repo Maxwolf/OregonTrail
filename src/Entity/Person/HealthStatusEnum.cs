@@ -33,8 +33,9 @@ namespace OregonTrailDotNet.Entity.Person
 
         /// <summary>
         ///     Player is dead and no longer living. This means they also will no longer consume resources, or check of illnesses
-        ///     or participate in point count at the end of the game if the player wins. If the person that died was the leader of
-        ///     the party then the game ends entirely.
+        ///     or participate in point count at the end of the game if the player wins. The leader dying does not end the game;
+        ///     the journey is only over once every passenger is dead. In practice the leader dies last anyway, since they are
+        ///     spared all harm while anyone else is still alive.
         /// </summary>
         Dead = 0
     }

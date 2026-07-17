@@ -68,6 +68,12 @@ namespace OregonTrailDotNet.Module.Director
             if (randomEventProduct == null)
                 return;
 
+            // Some events only exist for a particular situation and are not eligible the rest of the time; rolling one of
+            // those outside its situation produces no event at all, which mirrors the original recomputing that event's
+            // probability as zero for the day.
+            if (!randomEventProduct.CanExecute(sourceEntity))
+                return;
+
             // Invokes the event which will give it full control over simulation.
             ExecuteEvent(sourceEntity, randomEventProduct);
         }

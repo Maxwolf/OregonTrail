@@ -162,6 +162,25 @@ namespace OregonTrailDotNet.Entity.Person
         /// </summary>
         internal bool IsInfected => Infected;
 
+        /// <summary>
+        ///     The party leader is spared every misfortune for as long as anyone else is still alive to suffer it instead.
+        ///     The original picked a victim at random for each illness, injury and drowning and then explicitly stepped that
+        ///     choice past index zero whenever the party held more than one living member, so the leader could only ever be
+        ///     hurt once they were the last one left. Everything that harms a person routes through Damage, so the rule is
+        ///     enforced there rather than at each call site.
+        /// </summary>
+        private bool ShieldedAsLeader
+        {
+            get
+            {
+                if (!Leader)
+                    return false;
+
+                var vehicle = GameSimulationApp.Instance?.Vehicle;
+                return vehicle != null && vehicle.PassengerLivingCount > 1;
+            }
+        }
+
         /// <summary>The compare.</summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
@@ -615,6 +634,10 @@ namespace OregonTrailDotNet.Entity.Person
             if (HealthStatus == HealthStatusEnum.Dead)
                 return;
 
+            // Misfortune lands on somebody else while the leader still has company.
+            if (ShieldedAsLeader)
+                return;
+
             // Grab instance of the game simulation to increase readability.
             var game = GameSimulationApp.Instance;
 
@@ -648,6 +671,10 @@ namespace OregonTrailDotNet.Entity.Person
         {
             // Skip if the amount is less than or equal to zero.
             if (amount <= 0)
+                return;
+
+            // Misfortune lands on somebody else while the leader still has company.
+            if (ShieldedAsLeader)
                 return;
 
             // Remove the health from the person.

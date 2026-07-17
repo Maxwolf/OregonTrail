@@ -37,9 +37,10 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void SmallHungryParty_StillKeepsHuntingBelowTheCap()
         {
-            // The stop rule must never cut a hungry party's haul short regardless of party size.
-            Assert.False(HuntStrategy.HasEnoughFood(Hunt(bagged: 200, food: 20, living: 2)));
-            Assert.False(HuntStrategy.HasEnoughFood(Hunt(bagged: 200, food: 20, living: 1)));
+            // The stop rule must never cut a hungry party's haul short regardless of party size. Stated against the carry
+            // cap rather than a literal, so it keeps testing the rule rather than the cap's current value.
+            Assert.False(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntManager.MAXFOOD - 1, food: 20, living: 2)));
+            Assert.False(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntManager.MAXFOOD - 1, food: 20, living: 1)));
         }
 
         [Fact]

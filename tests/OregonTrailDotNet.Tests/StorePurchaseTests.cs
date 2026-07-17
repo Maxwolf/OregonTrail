@@ -39,8 +39,8 @@ namespace OregonTrailDotNet.Tests
         [Fact]
         public void PurchaseItems_WhenBillExceedsBalance_DoesNotThrowAndDoesNotOverspend()
         {
-            // $8 cannot cover a 20-round box of ammo (20 x $2 = $40 at the start of the trail).
-            StartWithBalance(8);
+            // $1 cannot cover a 20-round box of ammo (20 x $0.10 = $2.00 at the start of the trail).
+            StartWithBalance(1);
 
             var store = new StoreGenerator();
             store.AddItem(Resources.Bullets, 1); // copy ctor clamps the quantity up to the minimum lot of 20
@@ -57,7 +57,8 @@ namespace OregonTrailDotNet.Tests
         [Fact]
         public void StorePurchase_QuotesZero_AndRejectsBuy_ForAnUnaffordableAmmoBox()
         {
-            StartWithBalance(8);
+            // $1 buys only ten bullets' worth, short of the twenty-round minimum lot.
+            StartWithBalance(1);
 
             var window = new TravelWindow(GameSimulationApp.Instance);
             var userData = UserDataOf(window);

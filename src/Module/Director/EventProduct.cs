@@ -1,6 +1,7 @@
 ﻿// Created by Maxwolf (bigmaxwolf.com) 
 // Timestamp 01/03/2016@1:50 AM
 
+using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Window.RandomEvent;
 
 namespace OregonTrailDotNet.Module.Director
@@ -71,6 +72,20 @@ namespace OregonTrailDotNet.Module.Director
         {
             // Default action is to let the event execute normally.
             return false;
+        }
+
+        /// <summary>
+        ///     Determines whether this event may fire against the given entity under the current simulation state. Only consulted
+        ///     when the director rolls a random event; triggering an event by type always executes it. The original game gave each
+        ///     event its own probability recomputed daily, and some of those probabilities collapse to zero unless the party is in
+        ///     a particular state - this is how those conditions are expressed here.
+        /// </summary>
+        /// <param name="sourceEntity">Entity the event would be executed against.</param>
+        /// <returns>TRUE if the event is eligible to fire, FALSE to have the director roll nothing at all.</returns>
+        public virtual bool CanExecute(IEntity sourceEntity)
+        {
+            // Most events are eligible whenever their category is rolled.
+            return true;
         }
 
         /// <summary>

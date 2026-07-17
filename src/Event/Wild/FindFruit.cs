@@ -28,7 +28,10 @@ namespace OregonTrailDotNet.Event.Wild
             // Cast the source entity as vehicle.
             var vehicle = eventExecutor.SourceEntity as Entity.Vehicle.Vehicle;
 
-            vehicle?.Inventory[EntitiesEnum.Food].AddQuantity(17);
+            // Twenty pounds, per the original's "Find wild fruit." handler (PF = PF + 20). Note the original neglected to
+            // check the 2000 pound ceiling here, letting food overflow slightly past maximum; AddQuantity clamps instead,
+            // so that overflow is deliberately not reproduced.
+            vehicle?.Inventory[EntitiesEnum.Food].AddQuantity(20);
         }
 
         /// <summary>

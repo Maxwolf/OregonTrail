@@ -34,6 +34,13 @@ namespace OregonTrailDotNet.Entity.Location.Point
         public RiverOptionEnum RiverCrossOption { get; }
 
         /// <summary>
+        ///     Whether choosing this crossing freezes the party's health for the endgame tally. Only the Columbia run does:
+        ///     committing to it is the last decision of the journey, and whatever health the party carries into the water is
+        ///     the health they are scored on no matter what the river does to them afterwards.
+        /// </summary>
+        public bool LocksPartyHealth { get; set; }
+
+        /// <summary>
         ///     Determines if the location allows the player to chat to other NPC's in the area which can offer up advice about the
         ///     trail ahead.
         /// </summary>

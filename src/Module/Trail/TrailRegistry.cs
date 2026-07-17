@@ -30,25 +30,33 @@ namespace OregonTrailDotNet.Module.Trail
                     new Landmark("Chimney Rock", ClimateEnum.Moderate),
                     new Settlement("Fort Laramie", ClimateEnum.Moderate),
                     new Landmark("Independence Rock", ClimateEnum.Moderate),
+                    // Taking the Fort Bridger road means one less river to cross: the Green River crossing is the other
+                    // branch of this same fork, not a location on the main trail, so choosing the fort skips it outright.
                     new ForkInRoad("South Pass", ClimateEnum.Dry, new List<Location>
                     {
                         new Settlement("Fort Bridger", ClimateEnum.Dry),
-                        new Landmark("Green River Shortcut", ClimateEnum.Dry)
+                        new RiverCrossing("Green River Crossing", ClimateEnum.Dry)
                     }) { HighGround = true, StuckChance = 80 },
-                    new RiverCrossing("Green River Crossing", ClimateEnum.Dry),
                     new Landmark("Soda Springs", ClimateEnum.Dry),
                     new Settlement("Fort Hall", ClimateEnum.Moderate),
                     new RiverCrossing("Snake River Crossing", ClimateEnum.Moderate, RiverOptionEnum.IndianGuide),
                     new Settlement("Fort Boise", ClimateEnum.Polar),
+
+                    // Fort Walla Walla is a detour, not a parting of ways: both routes out of the Blue Mountains arrive at
+                    // The Dalles, so the second choice is a null - stay on the main trail - rather than a branch.
                     new ForkInRoad("Blue Mountains", ClimateEnum.Polar, new List<Location>
                     {
                         new Settlement("Fort Walla Walla", ClimateEnum.Polar),
-                        new ForkInRoad("The Dalles", ClimateEnum.Polar, new List<Location>
-                        {
-                            new RiverCrossing("Columbia River", ClimateEnum.Moderate),
-                            new TollRoad("Barlow Toll Road", ClimateEnum.Moderate)
-                        })
+                        null
                     }) { HighGround = true, StuckChance = 70 },
+
+                    // The Dalles sits on the main trail and cannot be avoided, which is what makes its choice - run the
+                    // Columbia for free, or pay the Barlow toll - the last real decision of the journey.
+                    new ForkInRoad("The Dalles", ClimateEnum.Polar, new List<Location>
+                    {
+                        new RiverCrossing("Columbia River", ClimateEnum.Moderate) { LocksPartyHealth = true },
+                        new TollRoad("Barlow Toll Road", ClimateEnum.Moderate)
+                    }),
                     new Settlement("Oregon City", ClimateEnum.Moderate)
                 };
 

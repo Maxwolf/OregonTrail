@@ -121,6 +121,11 @@ namespace OregonTrailDotNet.Module.Trail
             // Loop through every location we have been given access to via parameter.
             foreach (var location in locations)
             {
+                // A null skip choice is a fork branch that stays on the main trail rather than detouring anywhere, so
+                // there is no location of its own to measure or descend into.
+                if (location == null)
+                    continue;
+
                 // Work on the current item we have.
                 location.Depth = locationDepth;
                 location.TotalDistance = CreateRandomLength();

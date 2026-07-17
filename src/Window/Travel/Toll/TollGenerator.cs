@@ -17,7 +17,10 @@ namespace OregonTrailDotNet.Window.Travel.Toll
         /// <param name="tollRoad">Location that is going to cost the player money in order to use the path to travel to it.</param>
         public TollGenerator(TollRoad tollRoad)
         {
-            Cost = GameSimulationApp.Instance.Random.Next(1, 13);
+            // The Barlow road is not priced at random: it is five dollars for the wagon plus fifty cents a head for the
+            // oxen pulling it, so a party dragging a full team of twenty pays fifteen dollars where a lean one pays six.
+            var oxen = GameSimulationApp.Instance.Vehicle.Inventory[Entity.EntitiesEnum.Animal].Quantity;
+            Cost = (int) (5f + oxen*0.5f);
             Road = tollRoad;
         }
 

@@ -224,7 +224,7 @@ namespace OregonTrailDotNet.Tests.Entity
         [Fact]
         public void ToQuantityString_AmmunitionAndMedicine_MeasuredInTheirUnits()
         {
-            Assert.Equal("5 boxes of ammunition", Resources.Bullets.ToQuantityString(5));
+            Assert.Equal("5 bullets of ammunition", Resources.Bullets.ToQuantityString(5));
             Assert.Equal("3 kits of medicine", Resources.Medicine.ToQuantityString(3));
         }
     }

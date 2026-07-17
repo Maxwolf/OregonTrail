@@ -15,29 +15,34 @@ namespace OregonTrailDotNet.Entity.Item
         ///     program through a single memory byte, so 255 is the effective original ceiling (510 base points).
         /// </summary>
         public static SimItem Clothing => new SimItem(EntitiesEnum.Clothes, "Clothing", "sets", "set", 255,
-            StorePrice.Scaled(10f, 2.5f), 1, 1, 0, 2);
+            StorePrice.Scaled(10f), 1, 1, 0, 2);
 
         /// <summary>
         ///     Ammunition used in hunting game Windows so the players can acquire food by hunting animals.
         ///     Capped at 65,535 bullets: the 1985 game had no in-play ammunition limit, but its endgame handed inventory to the
         ///     scoring program through a two-byte pair, so 65,535 is the effective original ceiling (1,310 base points).
+        ///     Priced per bullet at a twentieth of the original's $2.00 box of twenty, with a minimum purchase of one box worth.
+        ///     Quantity counts bullets everywhere else in the simulation (hunting, scoring, the supply panel), so pricing the
+        ///     bullet rather than the box keeps one unit throughout; the money works out identically, only the prompt differs
+        ///     from the original's "how many boxes".
         /// </summary>
-        public static SimItem Bullets => new SimItem(EntitiesEnum.Ammo, "Ammunition", "boxes", "box", 65535,
-            StorePrice.Scaled(2f, 2.5f), 0, 20, 0, 1, 50);
+        public static SimItem Bullets => new SimItem(EntitiesEnum.Ammo, "Ammunition", "bullets", "bullet", 65535,
+            StorePrice.Scaled(0.10f), 0, 20, 0, 1, 50);
 
         /// <summary>
         ///     Serves as a generic reference item that represents a given amount of food. This could be from any animal or known
         ///     game resource marked as such.
         /// </summary>
         public static SimItem Food => new SimItem(EntitiesEnum.Food, "Food", "pounds", "pound", 2000,
-            StorePrice.Scaled(0.10f, 0.10f), 1, 1, 0, 1, 25);
+            StorePrice.Scaled(0.20f), 1, 1, 0, 1, 25);
 
         /// <summary>
         ///     Medical supplies used to cure serious illness and infection among the party members. Sold in kits like other store
-        ///     goods; without one on hand a seriously ill traveler cannot be treated and may worsen.
+        ///     goods; without one on hand a seriously ill traveler cannot be treated and may worsen. Unlike everything else in
+        ///     the store this is not an original line item, so its price is ours rather than MECC's.
         /// </summary>
         public static SimItem Medicine => new SimItem(EntitiesEnum.Medicine, "Medicine", "kits", "kit", 99,
-            StorePrice.Scaled(15f, 2.5f), 1, 1, 0, 1);
+            StorePrice.Scaled(15f), 1, 1, 0, 1);
 
         /// <summary>
         ///     Represents a vehicle entity, this is not used as actual vehicle the people travel in but rather a reference to a

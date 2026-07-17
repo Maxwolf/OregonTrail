@@ -79,8 +79,9 @@ namespace OregonTrailDotNet.Window.GameOver
                 "spare wagon parts",
                 spareAxles.Item3 + spareTongues.Item3 + spareWheels.Item3);
 
-            // Calculates the average health just once because we need it many times.
-            var avgHealth = game.Vehicle.PassengerHealthStatus;
+            // Calculates the health the party is scored on just once because we need it many times. A party who committed
+            // to the Columbia is scored on the health they had when they chose it, not on whatever the river left them.
+            var avgHealth = game.Vehicle.LockedHealthStatus ?? game.Vehicle.PassengerHealthStatus;
 
             // Figures out who the leader is among the vehicle passengers.
             var leaderPerson = game.Vehicle.PassengerLeader;

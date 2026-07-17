@@ -112,7 +112,8 @@ namespace OregonTrailDotNet.Window.Travel.Trade
         private void UpdateTrade()
         {
             // Tick the people, but not the trail or the day. Passing false here advanced a real calendar day every
-            // time the trade screen opened or refocused (unlike CheckSupplies, which correctly skips the day).
+            // time the trade screen opened or refocused (unlike CheckSupplies, which correctly skips the day). Merely
+            // looking over an offer is free; it is accepting one that costs the day, which OnDialogResponse charges.
             GameSimulationApp.Instance.TakeTurn(true);
 
             // Grabs all the data for the player current vehicle inventory (cash is excluded — it is not bartered).
@@ -150,8 +151,9 @@ namespace OregonTrailDotNet.Window.Travel.Trade
             }
             else
             {
-                // Prompt is not shown if we have no traders generated.
-                _supplyPrompt.AppendLine($"Nobody wants to trade with you.{Environment.NewLine}");
+                // Prompt is not shown if we have no traders generated, or every offer they had was for goods the wagon
+                // cannot hold.
+                _supplyPrompt.AppendLine($"No one wants to trade with you today.{Environment.NewLine}");
             }
         }
 
@@ -175,16 +177,25 @@ namespace OregonTrailDotNet.Window.Travel.Trade
                 _trades.Add(new TradeOffer());
 
             // Cleanup the generated trades.
+            var inventory = GameSimulationApp.Instance.Vehicle.Inventory;
             var copyTrades = new List<TradeOffer>(_trades);
             foreach (var trade in copyTrades)
             {
-                // Remove trades that are null on either side.
-                if ((trade.WantedItem != null) && (trade.OfferedItem != null) &&
-                    (trade.WantedItem.Category != trade.OfferedItem.Category))
+                // Remove trades that are null on either side, or that are the same item twice.
+                if ((trade.WantedItem == null) || (trade.OfferedItem == null) ||
+                    (trade.WantedItem.Category == trade.OfferedItem.Category))
+                {
+                    _trades.Remove(trade);
                     continue;
+                }
 
-                // Remove any trades that are the same item twice.
-                _trades.Remove(trade);
+                // Never offer goods the wagon has no room for. The inventory clamps at the item's ceiling, so accepting
+                // such a trade would hand over the player's side and silently discard the overflow of what they were
+                // given. The original suppressed these offers before they ever reached the screen, which is why a party
+                // holding three of every spare part is told nobody wants to trade rather than being offered a fourth.
+                var offered = trade.OfferedItem;
+                if (inventory[offered.Category].Quantity + offered.Quantity > offered.MaxQuantity)
+                    _trades.Remove(trade);
             }
         }
 
@@ -227,6 +238,11 @@ namespace OregonTrailDotNet.Window.Travel.Trade
                         GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Animal].Quantity <= 0
                             ? VehicleStatusEnum.Disabled
                             : VehicleStatusEnum.Moving;
+
+                    // Striking the deal costs a day: the party eats, and winter comes a day closer. Browsing offers is
+                    // free, but every accepted trade burns a day exactly as it did in the original. Without this the
+                    // trade screen is an unlimited free reroll, since re-entering it regenerates the offer at no cost.
+                    GameSimulationApp.Instance.TakeTurn(false);
 
                     // Return to the travel menu.
                     ClearForm();
