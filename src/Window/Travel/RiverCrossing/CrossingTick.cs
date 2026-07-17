@@ -4,9 +4,11 @@
 using System;
 using System.Text;
 using OregonTrailDotNet.Entity;
+using OregonTrailDotNet.Entity.Location.Point;
 using OregonTrailDotNet.Entity.Vehicle;
 using OregonTrailDotNet.Event;
 using OregonTrailDotNet.Event.River;
+using OregonTrailDotNet.Event.Vehicle;
 using WolfCurses.Core;
 using WolfCurses.Utility;
 using WolfCurses.Window;
@@ -202,33 +204,15 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             switch (UserData.River.CrossingType)
             {
                 case RiverCrossChoiceEnum.Ford:
-                    if ((UserData.River.RiverDepth > 3) && !UserData.River.DisasterHappened &&
+                    // Whatever the river is going to do, it does it midstream, and only once.
+                    if (!UserData.River.DisasterHappened &&
                         (_riverCrossingOfTotalWidth >= UserData.River.RiverWidth/2))
-                    {
-                        UserData.River.DisasterHappened = true;
-                        game.EventDirector.TriggerEvent(game.Vehicle, typeof(VehicleWashOut));
-                    }
-                    else
-                    {
-                        // Check that we don't flood the user twice, that is just annoying.
-                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategoryEnum.RiverCross);
-                    }
-
+                        FordMidstream(game);
                     break;
                 case RiverCrossChoiceEnum.Float:
-                    if ((UserData.River.RiverDepth > 5) && !UserData.River.DisasterHappened &&
-                        (_riverCrossingOfTotalWidth >= UserData.River.RiverWidth/2) &&
-                        game.Random.NextBool())
-                    {
-                        UserData.River.DisasterHappened = true;
-                        game.EventDirector.TriggerEvent(game.Vehicle, typeof(VehicleFloods));
-                    }
-                    else
-                    {
-                        // Check that we don't flood the user twice, that is just annoying.
-                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategoryEnum.RiverCross);
-                    }
-
+                    if (!UserData.River.DisasterHappened &&
+                        (_riverCrossingOfTotalWidth >= UserData.River.RiverWidth/2))
+                        FloatMidstream(game);
                     break;
                 case RiverCrossChoiceEnum.Ferry:
                 case RiverCrossChoiceEnum.Indian:
@@ -242,6 +226,64 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        /// <summary>
+        ///     Works out what a ford costs the party, which is decided almost entirely by how deep the water is. Anything up
+        ///     to two and a half feet is safe and the only question is what the riverbed does to you; up to three feet soaks
+        ///     the supplies and costs a day; deeper than that and the river starts taking things, and the deeper it runs the
+        ///     more it takes - it is never certain, but by five or six feet it very nearly is.
+        /// </summary>
+        /// <param name="game">Running simulation.</param>
+        private void FordMidstream(GameSimulationApp game)
+        {
+            var river = UserData.River;
+            river.DisasterHappened = true;
+
+            // Shallow enough to walk across; only the going underfoot is in question.
+            if (river.RiverDepth < RiverGenerator.SafeFordDepth)
+            {
+                switch (river.RiverBottom)
+                {
+                    case RiverBottomEnum.Muddy when game.Random.NextDouble() < 0.4:
+                        game.EventDirector.TriggerEvent(game.Vehicle, typeof(StuckInMud));
+                        break;
+                    case RiverBottomEnum.Rough when game.Random.NextDouble() < 0.16:
+                        game.EventDirector.TriggerEvent(game.Vehicle, typeof(VehicleFloods));
+                        break;
+                }
+
+                return;
+            }
+
+            // Deep enough to come over the wagon bed and wet everything in it, but not to carry it off.
+            if (river.RiverDepth < RiverGenerator.DangerousFordDepth)
+            {
+                game.EventDirector.TriggerEvent(game.Vehicle, typeof(SuppliesWet));
+                return;
+            }
+
+            // Past that the river is genuinely taking things, and how much rides on how deep it is.
+            if (game.Random.NextDouble() < river.RiverDepth/10.0)
+                game.EventDirector.TriggerEvent(game.Vehicle, typeof(VehicleWashOut));
+        }
+
+        /// <summary>
+        ///     Works out what floating the wagon costs. Depth is not the danger here - the wagon is already swimming - it is
+        ///     how fast the water is moving, so a deep slow river is a better bet than a shallow fast one.
+        /// </summary>
+        /// <param name="game">Running simulation.</param>
+        private void FloatMidstream(GameSimulationApp game)
+        {
+            var river = UserData.River;
+            river.DisasterHappened = true;
+
+            // Still water carries a caulked wagon across without complaint.
+            if (river.RiverDepth <= RiverGenerator.SafeFordDepth)
+                return;
+
+            if (game.Random.NextDouble() < river.RiverSpeed/20.0)
+                game.EventDirector.TriggerEvent(game.Vehicle, typeof(VehicleFloods));
         }
 
         /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>

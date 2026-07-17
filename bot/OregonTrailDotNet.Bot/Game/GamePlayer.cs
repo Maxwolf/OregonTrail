@@ -15,11 +15,15 @@ namespace OregonTrailDotNet.Bot.Game
         // Store forms keep their per-visit purchase session; anything else resets it.
         private static readonly HashSet<string> StoreForms = new() { "Store", "StorePurchase" };
 
-        // The whole river-crossing subsystem; while inside it the per-crossing bounce counter must persist.
+        // The whole river-crossing subsystem; while inside it the per-crossing bounce counter must persist. Every screen
+        // that can send the player back to the river menu belongs here, including the refusals — a shallow river turns down
+        // both floating and the ferry, and without the counter surviving those the bot can ask for the same impossible
+        // crossing forever instead of noticing it is getting nowhere and fording instead.
         private static readonly HashSet<string> RiverForms = new()
         {
             "RiverCross", "RiverCrossHelp", "UseFerryConfirm", "FerryNoMonies", "IndianGuidePrompt",
-            "UseIndianConfirm", "CrossingTick", "CrossingResult", "FordRiverHelp", "CaulkRiverHelp", "FerryHelp"
+            "UseIndianConfirm", "CrossingTick", "CrossingResult", "FordRiverHelp", "CaulkRiverHelp", "FerryHelp",
+            "RiverTooShallow", "FerryNotRunning"
         };
 
         // A fork and its toll-road prompt; the bounce counter persists across the pair.

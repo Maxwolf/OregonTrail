@@ -32,9 +32,15 @@ namespace OregonTrailDotNet.Module.Trail
                     new Settlement("Independence", ClimateEnum.MissouriValley)
                         { TotalDistance = 102, BaseMilesPerDay = Location.PlainsMilesPerDay },
                     new RiverCrossing("Kansas River Crossing", ClimateEnum.MissouriValley, RiverOptionEnum.FerryOperator)
-                        { TotalDistance = 83, BaseMilesPerDay = Location.PlainsMilesPerDay },
+                    {
+                        TotalDistance = 83, BaseMilesPerDay = Location.PlainsMilesPerDay,
+                        BaseDepth = 1.0, BaseWidth = 600, BaseSpeed = 3.0, Bottom = RiverBottomEnum.Firm
+                    },
                     new RiverCrossing("Big Blue River Crossing", ClimateEnum.MissouriValley)
-                        { TotalDistance = 119, BaseMilesPerDay = Location.PlainsMilesPerDay },
+                    {
+                        TotalDistance = 119, BaseMilesPerDay = Location.PlainsMilesPerDay,
+                        BaseDepth = 1.0, BaseWidth = 220, BaseSpeed = 2.0, Bottom = RiverBottomEnum.Muddy
+                    },
                     new Settlement("Fort Kearney", ClimateEnum.GreatPlains)
                         { TotalDistance = 250, BaseMilesPerDay = Location.PlainsMilesPerDay },
                     new Landmark("Chimney Rock", ClimateEnum.GreatPlains)
@@ -50,13 +56,20 @@ namespace OregonTrailDotNet.Module.Trail
                     {
                         new Settlement("Fort Bridger", ClimateEnum.HighCountry) { LegDistance = 125, TotalDistance = 162 },
                         new RiverCrossing("Green River Crossing", ClimateEnum.HighCountry, RiverOptionEnum.FerryOperator)
-                            { LegDistance = 57, TotalDistance = 144 }
+                        {
+                            LegDistance = 57, TotalDistance = 144,
+                            // Twenty feet deep in its own bed: the reason the Fort Bridger road exists.
+                            BaseDepth = 20.0, BaseWidth = 400, BaseSpeed = 5.0, Bottom = RiverBottomEnum.Rough
+                        }
                     }) { HighGround = true, StuckChance = 80, TotalDistance = 57 },
 
                     new Landmark("Soda Springs", ClimateEnum.HighCountry) { TotalDistance = 57 },
                     new Settlement("Fort Hall", ClimateEnum.SnakeRiverPlain) { TotalDistance = 182 },
                     new RiverCrossing("Snake River Crossing", ClimateEnum.SnakeRiverPlain, RiverOptionEnum.IndianGuide)
-                        { TotalDistance = 114 },
+                    {
+                        TotalDistance = 114,
+                        BaseDepth = 6.0, BaseWidth = 1000, BaseSpeed = 7.0, Bottom = RiverBottomEnum.Rough
+                    },
                     new Settlement("Fort Boise", ClimateEnum.SnakeRiverPlain) { TotalDistance = 160 },
 
                     // Fort Walla Walla is a detour, not a parting of ways: both routes out of the Blue Mountains arrive at
@@ -73,8 +86,13 @@ namespace OregonTrailDotNet.Module.Trail
                     // the same 100 miles to the valley.
                     new ForkInRoad("The Dalles", ClimateEnum.PacificSlope, new List<Location>
                     {
+                        // The Columbia is not forded or floated in the original at all - it is run on a raft, which this port has no
+                        // equivalent of - so it is given the deepest, fastest water on the trail and left at that.
                         new RiverCrossing("Columbia River", ClimateEnum.PacificSlope)
-                            { LocksPartyHealth = true, TotalDistance = 100 },
+                        {
+                            LocksPartyHealth = true, TotalDistance = 100,
+                            BaseDepth = 20.0, BaseWidth = 600, BaseSpeed = 8.0, Bottom = RiverBottomEnum.Rough
+                        },
                         new TollRoad("Barlow Toll Road", ClimateEnum.PacificSlope) { TotalDistance = 100 }
                     }) { TotalDistance = 100 },
 

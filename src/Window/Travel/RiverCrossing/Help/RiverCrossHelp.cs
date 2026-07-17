@@ -43,7 +43,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Help
             riverPrompt.AppendLine("order to continue. The");
             riverPrompt.AppendLine("river at this point is");
             riverPrompt.AppendLine($"currently {UserData.River.RiverWidth} feet across,");
-            riverPrompt.AppendLine($"and {UserData.River.RiverDepth} feet deep in the");
+            riverPrompt.AppendLine($"and {UserData.River.RiverDepth:N1} feet deep in the");
             riverPrompt.AppendLine($"middle.{Environment.NewLine}");
             return riverPrompt.ToString();
         }

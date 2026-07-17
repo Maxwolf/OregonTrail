@@ -34,6 +34,28 @@ namespace OregonTrailDotNet.Entity.Location.Point
         public RiverOptionEnum RiverCrossOption { get; }
 
         /// <summary>
+        ///     How deep this river runs in feet before any rain, from the original's own river table. What the party actually
+        ///     finds is this plus twice however wet the country has become, which is why the same ford is a two-foot paddle in
+        ///     high summer and nine feet of snowmelt in March.
+        /// </summary>
+        public double BaseDepth { get; set; } = 1.0;
+
+        /// <summary>
+        ///     How wide this river runs in feet before any rain. Rain widens it as well as deepening it.
+        /// </summary>
+        public int BaseWidth { get; set; } = 600;
+
+        /// <summary>
+        ///     How fast the water moves before any rain. Speed is what capsizes a floating wagon rather than depth.
+        /// </summary>
+        public double BaseSpeed { get; set; } = 3.0;
+
+        /// <summary>
+        ///     What the riverbed is like underfoot, which decides what can go wrong on an otherwise safe ford.
+        /// </summary>
+        public RiverBottomEnum Bottom { get; set; } = RiverBottomEnum.Firm;
+
+        /// <summary>
         ///     Whether choosing this crossing freezes the party's health for the endgame tally. Only the Columbia run does:
         ///     committing to it is the last decision of the journey, and whatever health the party carries into the water is
         ///     the health they are scored on no matter what the river does to them afterwards.

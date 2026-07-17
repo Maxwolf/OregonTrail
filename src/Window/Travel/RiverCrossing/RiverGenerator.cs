@@ -2,6 +2,7 @@
 // Timestamp 01/03/2016@1:50 AM
 
 using System;
+using OregonTrailDotNet.Entity.Location.Point;
 
 namespace OregonTrailDotNet.Window.Travel.RiverCrossing
 {
@@ -26,11 +27,14 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                 throw new InvalidCastException(
                     "Unable to cast location as river crossing even though it returns as one!");
 
-            // Randomly generates statistics about the river each time you cross it.
-            RiverDepth = game.Random.Next(1, 20);
-
-            // Determines how long the player will spend crossing river.
-            RiverWidth = game.Random.Next(100, 1500);
+            // A river is not a dice roll: it is however deep this particular river runs, plus everything that has rained
+            // on the country lately. That is the whole reason a summer crossing is a paddle and a spring one drowns
+            // people - the Kansas is a foot deep in its bed, but April snowmelt puts nine feet of water over it.
+            var wetness = game.Climate?.Wetness ?? 0;
+            RiverDepth = Math.Round(riverLocation.BaseDepth + 2*wetness, 1);
+            RiverWidth = (int) (riverLocation.BaseWidth + 15*wetness);
+            RiverSpeed = riverLocation.BaseSpeed + wetness;
+            RiverBottom = riverLocation.Bottom;
 
             // Determines how the player will want to cross the river.
             CrossingType = RiverCrossChoiceEnum.None;
@@ -77,9 +81,44 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         public RiverCrossChoiceEnum CrossingType { get; set; }
 
         /// <summary>
+        ///     A ford deeper than this starts costing the party something.
+        /// </summary>
+        public const double SafeFordDepth = 2.5;
+
+        /// <summary>
+        ///     Past this depth a ford is genuinely dangerous rather than merely wet, and can drown people.
+        /// </summary>
+        public const double DangerousFordDepth = 3.0;
+
+        /// <summary>
+        ///     A river shallower than this cannot be floated - there is not enough water to carry a wagon.
+        /// </summary>
+        public const double FloatableDepth = 1.5;
+
+        /// <summary>
         ///     Determines how deep the river is in feet.
         /// </summary>
-        public int RiverDepth { get; }
+        public double RiverDepth { get; }
+
+        /// <summary>
+        ///     How fast the water is moving. Speed rather than depth is what rolls a floating wagon.
+        /// </summary>
+        public double RiverSpeed { get; }
+
+        /// <summary>
+        ///     What the riverbed is like underfoot on a crossing shallow enough to be safe.
+        /// </summary>
+        public RiverBottomEnum RiverBottom { get; }
+
+        /// <summary>
+        ///     Whether the water is shallow enough that a wagon would ground rather than float.
+        /// </summary>
+        public bool TooShallowToFloat => RiverDepth < FloatableDepth;
+
+        /// <summary>
+        ///     Whether the water is too shallow for the ferry to run today.
+        /// </summary>
+        public bool TooShallowForFerry => RiverDepth < SafeFordDepth;
 
         /// <summary>
         ///     Determines how much the ferry operator will charge to cross the river.

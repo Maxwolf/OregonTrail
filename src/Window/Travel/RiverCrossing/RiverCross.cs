@@ -93,7 +93,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             header.AppendLine($"{game.Time.Date}");
             header.AppendLine($"Weather: {riverLocation.Weather.ToDescriptionAttribute()}");
             header.AppendLine($"River width: {UserData.River.RiverWidth:N0} feet");
-            header.Append($"River depth: {UserData.River.RiverDepth:N0} feet");
+            header.Append($"River depth: {UserData.River.RiverDepth:N1} feet");
             _riverInfo.AppendLine(FramedPanel.Render(riverLocation.Name, header.ToString()));
             _riverInfo.AppendLine($"You may:{Environment.NewLine}");
 
@@ -176,6 +176,13 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                 case RiverCrossChoiceEnum.Float:
                     _riverActions.Add(riverChoice, delegate
                     {
+                        // There has to be enough water under the wagon to carry it; in a shallow river it simply grounds.
+                        if (UserData.River.TooShallowToFloat)
+                        {
+                            SetForm(typeof(RiverTooShallow));
+                            return;
+                        }
+
                         // Floating wagon manually without any help.
                         UserData.River.CrossingType = RiverCrossChoiceEnum.Float;
                         SetForm(typeof(CrossingTick));
@@ -184,6 +191,13 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                 case RiverCrossChoiceEnum.Ferry:
                     _riverActions.Add(riverChoice, delegate
                     {
+                        // The ferryman will not run his boat over a riverbed.
+                        if (UserData.River.TooShallowForFerry)
+                        {
+                            SetForm(typeof(FerryNotRunning));
+                            return;
+                        }
+
                         // Ferry operator charges money and time before player can cross.
                         UserData.River.CrossingType = RiverCrossChoiceEnum.Ferry;
                         SetForm(typeof(UseFerryConfirm));
