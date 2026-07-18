@@ -29,7 +29,10 @@ namespace OregonTrailDotNet.Minigames.Windows
                 Environment.NewLine +
                 "In a section:  ESC returns here   -/+ changes the tick rate";
 
-            MenuFooter = Environment.NewLine + "Art: legacy/art/apple2   Spec: docs/minigames.md";
+            MenuFooter = Environment.NewLine +
+                         "Art: legacy/art/dos — the 1990 MCGA set, 117 sprites" + Environment.NewLine +
+                         "     (the tombstone is Apple II; no DOS library has a card for it)" +
+                         Environment.NewLine + "Spec: docs/minigames.md";
 
             AddCommand(Raft, MinigameCommandsEnum.ColumbiaRaft);
             AddCommand(Hunt, MinigameCommandsEnum.Hunt);

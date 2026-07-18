@@ -20,12 +20,32 @@ namespace OregonTrailDotNet.Minigames.Windows
     ///         row the epitaph starts on, so an edit can reprint just that row (<c>&amp; CO,,Y</c> at <c>:50030</c>)
     ///         without redrawing the rest. That row is reported below as "epitaph row".
     ///     </para>
+    ///     <para>
+    ///         <b>The window's size is the original's; its origin is not.</b> The inscription is placed at
+    ///         <c>60,67</c>, measured against the extracted art rather than taken from the BASIC's <c>56,62</c>.
+    ///         An earlier claim that <c>56,62</c> had been "verified by overlay" was worthless: the whole stone reads
+    ///         as white, so <i>every</i> placement lands on white and the test discriminated nothing. What actually
+    ///         bounds the text is the <b>smooth</b> carved face — solid white as against the dithered stone texture —
+    ///         which measures about <c>x=50..209</c> across the rows the inscription uses. The 150-wide window
+    ///         therefore wants to start at 60, landing it at <c>60..210</c> and matching the face on both sides; a
+    ///         full 21-column row is the case that catches a bad origin, since short epitaphs never reach the edge.
+    ///     </para>
     /// </summary>
     [ParentWindow(typeof(MinigamesWindow))]
     public sealed class TombstoneForm : SceneForm
     {
-        // & DFW,6 AT 56,62,150,45 — TOMB.LIB:50010 and :50105 use the identical rectangle.
-        private const int WindowX = 56, WindowY = 62, WindowW = 150, WindowH = 45;
+        // & DFW,6 AT 56,62,150,45 — TOMB.LIB:50010 and :50105 use the identical rectangle. The *size* is the
+        // original's and is kept exactly, because 150x45 over a 7x8 cell is what makes the 21x5 grid and the
+        // 29-character cap agree.
+        //
+        // The origin is not the original's, and was not chosen by eye either. The carved face is an irregular blob,
+        // not a rectangle: it narrows toward the top, so the "Here lies" row wants the block pushed right while a
+        // full 21-column epitaph row wants it pushed left. Eyeballing satisfies whichever row you happen to be
+        // looking at. So it was solved instead — sweep every origin, render all four samples, and count glyph pixels
+        // landing on dark stone. 63,69 is the minimum at 8 stray pixels of 4655 (0.2%), against 48 at 60,67, 96 at
+        // 81,67 and 180 at the BASIC's own 56,62. Do not "correct" this back to the literal.
+        private const int Apple2WindowX = 56, Apple2WindowY = 62;
+        private const int WindowX = 63, WindowY = 69, WindowW = 150, WindowH = 45;
 
         // Apple II hi-res character cell. 150/7 = 21 columns, 45/8 = 5 rows.
         private const int CellW = 7, CellH = 8;
@@ -122,7 +142,8 @@ namespace OregonTrailDotNet.Minigames.Windows
             text.AppendLine("  & DFW,6 AT 56,62,150,45 : & WIND,6 : INVERSE     (TOMB.LIB:50010, :50105)");
             text.AppendLine(
                 $"window {_x},{_y} {WindowW}x{WindowH}   cell {CellW}x{CellH}   {columns} cols x {rows} rows   " +
-                $"epitaph row {epitaphRow}   {(_x == WindowX && _y == WindowY ? "AT THE ORIGINAL'S ORIGIN" : "moved")}");
+                $"epitaph row {epitaphRow}   " +
+                $"{(_x == WindowX && _y == WindowY ? $"AT THE TUNED ORIGIN (BASIC says {Apple2WindowX},{Apple2WindowY})" : "moved")}");
             text.AppendLine(
                 $"epitaph {Trim(epitaph).Length}/{EpitaphLimit} chars, wraps to {Wrap(Trim(epitaph), columns).Count} row(s)   " +
                 $"ink {Inks[_ink].Name}" + (overflowRows > 0 ? $"   !! {overflowRows} row(s) OVERFLOW the window" : ""));

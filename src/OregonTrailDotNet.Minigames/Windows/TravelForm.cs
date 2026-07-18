@@ -134,7 +134,11 @@ namespace OregonTrailDotNet.Minigames.Windows
             });
 
             text.AppendLine(Footer("T terrain   W weather   P pace   B wagon   N next leg   R restart"));
-            text.Append(_scene.ToAnsi(PictureOptions()));
+
+            // Compose to pixels first so the panel can be drawn over the finished frame, then resample once.
+            var frame = _scene.Compose();
+            DrawStatusPanel(frame);
+            text.Append(AnsiImage.FromPixels(frame).ToAnsi(PictureOptions()));
             return text.ToString();
         }
 
@@ -176,20 +180,24 @@ namespace OregonTrailDotNet.Minigames.Windows
         }
 
         /// <summary>
-        ///     Sky, ground, horizon. The ground colour is the whole of what weather does to this screen, and it is one
-        ///     line in the original (`:310`):
+        ///     Sky, ground, horizon. The <b>sky is black</b> — this is a 1980s micro, not a painted backdrop, and the
+        ///     only two things ever coloured in are the ground box and the status panel.
+        ///     <para>
+        ///         The ground colour is the whole of what weather does to this screen, and it is one line (`:310`):
+        ///     </para>
         ///     <code>CC = 3*(AS&gt;=1) + (AS&lt;1)*(5*(AR&lt;=.2) + (AR&gt;.2))</code>
-        ///     Colour 3 is white, 5 orange, 1 green — snow if there is any lying (which before April there always is),
-        ///     otherwise arid if the rain accumulator has stayed low, otherwise green. It is a flood fill, not a
-        ///     picture, which is why the whole country can change season for the cost of one <c>&amp; BOX</c>.
+        ///     <para>
+        ///         Colour 3 is white, 5 orange, 1 green — snow if there is any lying (which before April there always
+        ///         is), otherwise arid if the rain accumulator has stayed low, otherwise green. A flood fill, not a
+        ///         picture, which is why the whole country can change season for the cost of one <c>&amp; BOX</c>.
+        ///     </para>
         /// </summary>
         private PixelBuffer BuildBackdrop()
         {
             var backdrop = new PixelBuffer(TravelGame.ScreenWidth, TravelGame.ScreenHeight);
 
-            var sky = _game.Weather == TravelWeatherEnum.Snow
-                ? new Rgba32(168, 192, 216, 255)     // overcast, so white ground still reads against it
-                : new Rgba32(84, 168, 252, 255);
+            var black = new Rgba32(0, 0, 0, 255);
+            var white = new Rgba32(255, 255, 255, 255);
 
             var ground = _game.Weather switch
             {
@@ -200,17 +208,53 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             for (var y = 0; y < backdrop.Height; y++)
             {
-                var colour = y < TravelGame.GroundY ? sky : ground;
+                var colour = y >= TravelGame.PanelY && y < TravelGame.PanelBottomY ? white
+                    : y >= TravelGame.GroundY && y < TravelGame.GroundBottomY ? ground
+                    : black;
+
                 for (var x = 0; x < backdrop.Width; x++)
                     backdrop.SetPixel(x, y, colour);
             }
 
-            // The strip is exactly as wide as the screen, and hangs from the ground line so the hills rise out of the
-            // horizon instead of floating above it.
+            // The strip is exactly as wide as the screen and hangs well above the ground, with black between the two.
+            // That black band is not empty space — it is where the team walks.
             var strip = Assets.Dos("scenery", _game.Terrain == TravelTerrainEnum.Plains ? PlainsStrip : MountainStrip);
-            backdrop.DrawImage(strip, 0, TravelGame.GroundY - strip.Height);
+            backdrop.DrawImage(strip, 0, TravelGame.StripY);
 
             return backdrop;
+        }
+
+        /// <summary>
+        ///     Draws the prompt and the status panel over a composed frame. This cannot live in the cached backdrop,
+        ///     because every reading on it changes as the team walks.
+        /// </summary>
+        private void DrawStatusPanel(PixelBuffer frame)
+        {
+            var black = new Rgba32(0, 0, 0, 255);
+            var white = new Rgba32(255, 255, 255, 255);
+
+            PixelFont.DrawFixed(frame, "Press ENTER to size up the situation",
+                (TravelGame.ScreenWidth - 36 * 8) / 2, TravelGame.PromptY, white, 8);
+
+            // Labels right-aligned onto a shared colon column, values all starting on the next — which is what gives
+            // the panel its ragged left edge and dead-straight middle.
+            var rows = new (string Label, string Value)[]
+            {
+                ("Date:", _game.Date.ToString("MMMM d, yyyy")),
+                ("Weather:", _game.WeatherWord),
+                ("Health:", _game.Health),
+                ("Food:", $"{_game.Food} pounds"),
+                ("Next landmark:", $"{Math.Ceiling(_game.MilesRemaining):0} miles"),
+                ("Miles traveled:", $"{_game.MilesTravelled:0} miles")
+            };
+
+            var y = TravelGame.PanelY + 2;
+            foreach (var (label, value) in rows)
+            {
+                PixelFont.DrawFixed(frame, label, TravelGame.PanelLabelRight - label.Length * 8, y, black, 8);
+                PixelFont.DrawFixed(frame, value, TravelGame.PanelValueLeft, y, black, 8);
+                y += TravelGame.PanelLineHeight;
+            }
         }
     }
 }

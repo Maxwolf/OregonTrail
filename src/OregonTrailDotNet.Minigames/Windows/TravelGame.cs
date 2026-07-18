@@ -90,32 +90,54 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <summary>`:3246` — the wagon's x in Apple II pixels. It never changes; the world moves instead.</summary>
         public const int Apple2WagonX = 186;
 
-        /// <summary>`:310` — <c>&amp; BOX,0,60,...</c>, the y the flooded ground begins at, in Apple II pixels.</summary>
-        public const int Apple2GroundY = 60;
+        /// <summary>Composition height: the whole 320x200 screen, status panel and all.</summary>
+        public const int ScreenHeight = 200;
 
         /// <summary>
-        ///     `Y5`, which `:29004` sets to <b>111</b> — the ground box runs <c>60</c> to <c>Y5-1</c>, and `:355` paints
-        ///     a white ten-row bar at <c>Y5</c> for the status line. So the picture is only the top 111 rows of the
-        ///     Apple II's 192, and the band beneath it is text rather than country.
+        ///     The wagon's x. Converting the Apple II's 186 gives <b>212</b>, and measuring a screen capture of the DOS
+        ///     port gives 212 with a 78-pixel frame — five years apart, the two ports park the wagon on the same pixel.
         /// </summary>
-        public const int Apple2PictureHeight = 111;
-
-        /// <summary>
-        ///     Composition height: the picture band alone, converted from <see cref="Apple2PictureHeight" />. Getting
-        ///     this wrong is very visible — running the ground to the foot of the screen instead of stopping it at
-        ///     <c>Y5</c> leaves the team stranded on the horizon above an empty field two thirds of a screen deep.
-        /// </summary>
-        public const int ScreenHeight = Apple2PictureHeight * 200 / Assets.Apple2Height;
-
-        /// <summary>The wagon's x, converted into the composition surface.</summary>
         public const int WagonX = Apple2WagonX * ScreenWidth / Assets.Apple2Width;
 
         /// <summary>
-        ///     Where the ground begins, converted from <see cref="Apple2GroundY" />. Everything on the ground — team,
-        ///     scenery, the bottom of the horizon strip — is seated on this line rather than positioned independently,
-        ///     which is what keeps the composition together when the strip art changes height.
+        ///     Where the horizon strip hangs. It is <b>not</b> seated on the ground: a wide black band separates the
+        ///     bottom of the strip from the top of the ground box, and that band is where the team walks. Seating the
+        ///     strip on the ground line instead — which looks like the sensible thing to do, and is what this port did
+        ///     first — turns a distant horizon into a hedgerow standing at the oxen's feet.
         /// </summary>
-        public const int GroundY = Apple2GroundY * Assets.DosHeight / Assets.Apple2Height;
+        public const int StripY = 17;
+
+        /// <summary>
+        ///     The top of the flooded ground box, and the line every standing thing is seated on. The BASIC's
+        ///     <c>&amp; BOX,0,60,...</c> (`:310`) converts to 62, but the DOS port measures at <b>71</b>; since the art
+        ///     here is the DOS port's, its own number is the one that lines up with its own sprites. Seating the wagon
+        ///     on it puts the team on rows 40-70 with the ground opening at 71, which is what the capture shows.
+        /// </summary>
+        public const int GroundY = 71;
+
+        /// <summary>
+        ///     The bottom of the ground box. Here the two ports agree: the Apple II's <c>Y5 = 111</c> (`:29004`, with
+        ///     `:355` painting the status bar at <c>Y5</c>) scales to 115, and the DOS capture measures 115.
+        /// </summary>
+        public const int GroundBottomY = 115;
+
+        /// <summary>The black band under the picture, carrying the prompt.</summary>
+        public const int PromptY = 118;
+
+        /// <summary>The top of the white status panel.</summary>
+        public const int PanelY = 128;
+
+        /// <summary>The bottom of it. The panel stops short of the screen foot, leaving a black margin.</summary>
+        public const int PanelBottomY = 189;
+
+        /// <summary>Status-panel labels are right-aligned so their colons end on this column.</summary>
+        public const int PanelLabelRight = 160;
+
+        /// <summary>...and their values all start on this one.</summary>
+        public const int PanelValueLeft = 168;
+
+        /// <summary>Rows between status-panel lines.</summary>
+        public const int PanelLineHeight = 10;
 
         /// <summary>`C4` — how far the world slides per step. The original's value is not recoverable, so this is a
         ///     tuning knob; it only sets how finely distance is quantised into strides.</summary>
@@ -181,6 +203,30 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>Miles run since the workbench started, for the readout.</summary>
         public double MilesTravelled { get; private set; }
+
+        /// <summary>
+        ///     Days on the trail, at the original's rough fifteen miles to a day. There is no simulation behind this
+        ///     workbench, so this and the three readings below are <b>stand-ins derived from distance</b> — enough for
+        ///     the status panel to look alive and for its layout to be checked, and not to be mistaken for game state.
+        /// </summary>
+        private int Days => (int) (MilesTravelled / 15.0);
+
+        /// <summary>The date, counted off from the departure the screenshot happens to show.</summary>
+        public DateTime Date => new DateTime(1848, 6, 15).AddDays(Days);
+
+        /// <summary>Pounds of food left. A stand-in; see <see cref="Days" />.</summary>
+        public int Food => Math.Max(0, 1895 - Days * 5);
+
+        /// <summary>The party's health. A stand-in; see <see cref="Days" />.</summary>
+        public string Health => "good";
+
+        /// <summary>What the panel calls the weather, as against what the ground does about it.</summary>
+        public string WeatherWord => Weather switch
+        {
+            TravelWeatherEnum.Arid => "hot",
+            TravelWeatherEnum.Snow => "snowy",
+            _ => "fair"
+        };
 
         /// <summary>Which scenery piece this leg drew.</summary>
         public TravelProp Scenery { get; private set; }
