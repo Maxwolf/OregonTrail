@@ -1,4 +1,3 @@
-using System.Reflection;
 using OregonTrailDotNet.Bot.Game;
 using OregonTrailDotNet.Bot.Learning;
 using Xunit;
@@ -13,7 +12,6 @@ namespace OregonTrailDotNet.Bot.Tests
     /// </summary>
     public sealed class NaiveBaselineTests : IDisposable
     {
-        static NaiveBaselineTests() => Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
 
         public void Dispose() => GameSimulationApp.Instance?.Destroy();
 

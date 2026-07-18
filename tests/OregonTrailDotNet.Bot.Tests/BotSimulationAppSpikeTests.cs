@@ -1,5 +1,3 @@
-using System.Reflection;
-using OregonTrailDotNet;
 using OregonTrailDotNet.Bot.Ui;
 using Xunit;
 
@@ -8,16 +6,10 @@ namespace OregonTrailDotNet.Bot.Tests
     /// <summary>
     ///     De-risk spike for the plan's Section A: proves that the bot's own WolfCurses application
     ///     (<see cref="BotSimulationApp" />) can be created inside the same process as the game and discovers and renders its
-    ///     own forms, even though the process entry assembly is pinned to the game (which the game's own EventFactory requires).
+    ///     own forms — from its own assembly, with no process-entry-assembly juggling.
     /// </summary>
     public sealed class BotSimulationAppSpikeTests : IDisposable
     {
-        static BotSimulationAppSpikeTests()
-        {
-            // Mirror the production/entry-assembly pin. Form discovery for the bot must still work because
-            // FormFactory also scans the hosting app's own assembly + AdditionalFormAssemblies.
-            Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
-        }
 
         public BotSimulationAppSpikeTests()
         {

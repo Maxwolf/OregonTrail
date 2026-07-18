@@ -1,4 +1,3 @@
-using System.Reflection;
 using OregonTrailDotNet.Bot.Game;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Item;
@@ -16,7 +15,6 @@ namespace OregonTrailDotNet.Bot.Tests
     /// </summary>
     public sealed class MeekReachabilityTests : IDisposable
     {
-        static MeekReachabilityTests() => Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
         public void Dispose() => GameSimulationApp.Instance?.Destroy();
 
         [Fact]

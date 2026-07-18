@@ -22,53 +22,27 @@ namespace OregonTrailDotNet
             Console.CursorVisible = false;
             Console.CancelKeyPress += Console_CancelKeyPress;
 
-            // Because I want things to look correct like progress bars.
-            Console.OutputEncoding = System.Text.Encoding.Unicode;
-
             // The real game persists high scores and tombstones to game.db next to the executable (headless hosts like the
             // training bot leave this off and stay in-memory).
             GameSimulationApp.PersistenceEnabled = true;
 
-            // Create game simulation singleton instance, and start it.
+            // Create game simulation singleton instance, and start it. Constructing it also probes the terminal for the
+            // best graphics protocol it can draw with — once, and before any key is read — so it has to come before the
+            // tick loop below.
             GameSimulationApp.Create();
 
-            // Hook event to know when screen buffer wants to redraw the entire console screen.
-            GameSimulationApp.Instance.SceneGraph.ScreenBufferDirtyEvent += Simulation_ScreenBufferDirtyEvent;
-
-            // Prevent console session from closing.
+            // Nothing here draws the screen or reads the keyboard, and both absences are deliberate. While no one is
+            // subscribed to the scene graph's ScreenBufferDirtyEvent, WolfCurses presents every changed frame to this
+            // console itself: flicker-free, only the rows that actually changed, one write per update — and it readies the
+            // console for ANSI escapes and UTF-8 the first time it draws, which is why the old manual OutputEncoding line
+            // is gone with it. Input is automatic in the same way: each tick the InputManager drains the console's key
+            // buffer and routes it the standard way — ENTER submits the typed command, BACKSPACE edits it, and every other
+            // key both fills the prompt and reaches the focused form. Escape leaving a hunt early now rides that last path
+            // (see Hunting.OnKeyPressed) instead of being special-cased here.
             while (GameSimulationApp.Instance != null)
             {
                 // Simulation takes any numbers of pulses to determine seconds elapsed.
                 GameSimulationApp.Instance.OnTick(true);
-
-                // Check if a key is being pressed, without blocking thread.
-                if (Console.KeyAvailable)
-                {
-                    // GetModule the key that was pressed, without printing it to console.
-                    var key = Console.ReadKey(true);
-
-                    // If enter is pressed, pass whatever we have to simulation.
-                    // ReSharper disable once SwitchStatementMissingSomeCases
-                    switch (key.Key)
-                    {
-                        case ConsoleKey.Enter:
-                            GameSimulationApp.Instance.InputManager.SendInputBufferAsCommand();
-                            break;
-                        case ConsoleKey.Backspace:
-                            GameSimulationApp.Instance.InputManager.RemoveLastCharOfInputBuffer();
-                            break;
-                        case ConsoleKey.Escape:
-                            // Escape is a universal "I'm done here" — right now that means bailing out of a hunt early and
-                            // keeping whatever food was already bagged. On any other screen it simply does nothing.
-                            if (GameSimulationApp.Instance.WindowManager.FocusedWindow?.CurrentForm is
-                                Window.Travel.Hunt.Hunting huntForm)
-                                huntForm.StopHunting();
-                            break;
-                        default:
-                            GameSimulationApp.Instance.InputManager.AddCharToInputBuffer(key.KeyChar);
-                            break;
-                    }
-                }
 
                 // Do not consume all of the CPU, allow other messages to occur.
                 Thread.Sleep(1);
@@ -82,28 +56,6 @@ namespace OregonTrailDotNet
             return 0;
         }
 
-        /// <summary>Write all text from objects to screen.</summary>
-        /// <param name="tuiContent">The text user interface content.</param>
-        private static void Simulation_ScreenBufferDirtyEvent(string tuiContent)
-        {
-            var tuiContentSplit = tuiContent.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-
-            for (var index = 0; index < Console.WindowHeight - 1; index++)
-            {
-                Console.CursorLeft = 0;
-                Console.SetCursorPosition(0, index);
-
-                var emptyStringData = new string(' ', Console.WindowWidth);
-
-                if (tuiContentSplit.Length > index)
-                {
-                    emptyStringData = tuiContentSplit[index].PadRight(Console.WindowWidth);
-                }
-
-                Console.Write(emptyStringData);
-            }
-        }
-
         /// <summary>
         ///     Fired when the user presses CTRL-C on their keyboard, this is only relevant to operating system tick and this view
         ///     of simulation. If moved into another framework like game engine this statement would be removed and just destroy
@@ -113,8 +65,8 @@ namespace OregonTrailDotNet
         /// <param name="e">The e.</param>
         private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            // Destroy the simulation.
-            GameSimulationApp.Instance.Destroy();
+            // Destroy the simulation, unless it is already gone (CTRL-C pressed at the goodbye prompt).
+            GameSimulationApp.Instance?.Destroy();
 
             // Stop the operating system from killing the entire process.
             e.Cancel = true;

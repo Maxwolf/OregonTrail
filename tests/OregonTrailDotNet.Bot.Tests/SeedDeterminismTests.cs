@@ -1,4 +1,3 @@
-using System.Reflection;
 using OregonTrailDotNet.Bot.Game;
 using OregonTrailDotNet.Bot.Learning;
 using Xunit;
@@ -12,10 +11,6 @@ namespace OregonTrailDotNet.Bot.Tests
     /// </summary>
     public sealed class SeedDeterminismTests : IDisposable
     {
-        static SeedDeterminismTests()
-        {
-            Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
-        }
 
         public void Dispose()
         {

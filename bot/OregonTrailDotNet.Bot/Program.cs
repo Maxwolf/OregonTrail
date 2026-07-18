@@ -1,4 +1,3 @@
-using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using OregonTrailDotNet.Bot.Data;
@@ -22,10 +21,6 @@ namespace OregonTrailDotNet.Bot
 
         public static int Main()
         {
-            // WolfCurses' event discovery reflects the ENTRY assembly; pin it to the game once (the bot's own forms are found
-            // via the hosting app's own assembly). This never changes for the life of the process.
-            Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
-
             Console.Title = "Oregon Trail Bot";
             Console.OutputEncoding = Encoding.Unicode;
             TrySetCursorVisible(false);

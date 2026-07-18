@@ -1,4 +1,3 @@
-using System.Reflection;
 using OregonTrailDotNet;
 using OregonTrailDotNet.Bot.Game;
 using OregonTrailDotNet.Bot.Learning;
@@ -10,7 +9,6 @@ namespace OregonTrailDotNet.Bot.Tests
     /// <summary>Covers the "watch a game" narration and confirms the paced/rendered code path still drives a full game.</summary>
     public sealed class WatchModeTests : IDisposable
     {
-        static WatchModeTests() => Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
         public void Dispose() => GameSimulationApp.Instance?.Destroy();
 
         [Fact]

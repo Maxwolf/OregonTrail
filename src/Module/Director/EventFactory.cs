@@ -24,8 +24,12 @@ namespace OregonTrailDotNet.Module.Director
             // Create dictionaries for storing event reference types, history of execution, and execution count.
             EventReference = new Dictionary<EventKey, Type>();
 
-            // Collect all of the event types with the attribute decorated on them.
-            var randomEvents = AttributeExtensions.GetTypesWith<DirectorEventAttribute>(true);
+            // Collect all of the event types with the attribute decorated on them by scanning this game's own
+            // assembly (where every [DirectorEvent] lives) rather than the process entry assembly — so discovery
+            // works when the game is hosted by another entry point (the tests, the training bot) with no
+            // Assembly.SetEntryAssembly juggling required.
+            var randomEvents =
+                AttributeExtensions.GetTypesWith<DirectorEventAttribute>(typeof(GameSimulationApp).Assembly, true);
             foreach (var eventObject in randomEvents)
             {
                 // Check if the class is abstract base class, we don't want to add that.

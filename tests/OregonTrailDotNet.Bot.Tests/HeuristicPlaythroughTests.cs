@@ -1,4 +1,3 @@
-using System.Reflection;
 using OregonTrailDotNet;
 using OregonTrailDotNet.Bot.Game;
 using OregonTrailDotNet.Bot.Learning;
@@ -14,10 +13,6 @@ namespace OregonTrailDotNet.Bot.Tests
     /// </summary>
     public sealed class HeuristicPlaythroughTests : IDisposable
     {
-        static HeuristicPlaythroughTests()
-        {
-            Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
-        }
 
         public void Dispose()
         {

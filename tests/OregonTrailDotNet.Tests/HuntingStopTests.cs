@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using OregonTrailDotNet.Window.Travel;
 using OregonTrailDotNet.Window.Travel.Hunt;
@@ -7,8 +8,9 @@ namespace OregonTrailDotNet.Tests
 {
     /// <summary>
     ///     Covers the ability to leave a hunt early instead of being forced to wait out the whole session: typing a stop word
-    ///     (or pressing Escape, which the game loop routes to <see cref="Hunting.StopHunting" />) jumps straight to the results
-    ///     screen with whatever food was already bagged, while ordinary input keeps the hunt going.
+    ///     (or pressing Escape, which the form routes to <see cref="Hunting.StopHunting" /> from
+    ///     <see cref="Hunting.OnKeyPressed" />) jumps straight to the results screen with whatever food was already bagged,
+    ///     while ordinary input keeps the hunt going.
     /// </summary>
     public class HuntingStopTests : SimulationTestBase
     {
@@ -59,6 +61,30 @@ namespace OregonTrailDotNet.Tests
             form.StopHunting();
 
             Assert.IsType<HuntingResult>(window.CurrentForm);
+        }
+
+        [Fact]
+        public void PressingEscape_EndsTheHunt()
+        {
+            // The console loop no longer special-cases Escape; WolfCurses' InputManager delivers it to the focused
+            // window, which forwards it to the current form's OnKeyPressed. So the key handling lives here now.
+            var (window, form) = StartHunt();
+
+            form.OnKeyPressed(ConsoleKey.Escape);
+
+            Assert.IsType<HuntingResult>(window.CurrentForm);
+        }
+
+        [Fact]
+        public void PressingAnyOtherKey_KeepsHunting()
+        {
+            // Only Escape leaves the hunt. Any other key reaching the form is ignored; typed text still flows through
+            // the input buffer and OnInputBufferReturned as before.
+            var (window, form) = StartHunt();
+
+            form.OnKeyPressed(ConsoleKey.Spacebar);
+
+            Assert.Null(window.CurrentForm);
         }
 
         [Fact]

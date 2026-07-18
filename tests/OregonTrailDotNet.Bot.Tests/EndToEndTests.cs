@@ -1,4 +1,3 @@
-using System.Reflection;
 using OregonTrailDotNet.Bot.Data;
 using OregonTrailDotNet.Bot.Game;
 using OregonTrailDotNet.Bot.Learning;
@@ -15,7 +14,6 @@ namespace OregonTrailDotNet.Bot.Tests
     {
         private readonly string _dbPath = Path.Combine(Path.GetTempPath(), $"bote2e_{Guid.NewGuid():N}.db");
 
-        static EndToEndTests() => Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
 
         public void Dispose()
         {

@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using OregonTrailDotNet.Module.Scoring;
 using OregonTrailDotNet.Persistence;
 using Xunit;
@@ -19,8 +18,6 @@ namespace OregonTrailDotNet.Tests.Persistence
         private readonly string _dbPath = Path.Combine(Path.GetTempPath(), $"gamedbint_{Guid.NewGuid():N}.db");
         private readonly string _previousEnv;
 
-        static GamePersistenceIntegrationTests() =>
-            Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
 
         public GamePersistenceIntegrationTests()
         {

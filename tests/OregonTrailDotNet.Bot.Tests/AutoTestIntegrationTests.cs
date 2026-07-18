@@ -1,4 +1,3 @@
-using System.Reflection;
 using OregonTrailDotNet;
 using OregonTrailDotNet.Bot.Learning;
 using OregonTrailDotNet.Bot.Testing;
@@ -9,7 +8,6 @@ namespace OregonTrailDotNet.Bot.Tests
     /// <summary>Runs the real automated-testing pipeline (fuzzed policies driving live games) for one round across every model.</summary>
     public sealed class AutoTestIntegrationTests : IDisposable
     {
-        static AutoTestIntegrationTests() => Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
         public void Dispose() => GameSimulationApp.Instance?.Destroy();
 
         [Fact]

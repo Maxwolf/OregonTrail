@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 
 namespace OregonTrailDotNet.Tests
 {
@@ -11,13 +10,6 @@ namespace OregonTrailDotNet.Tests
     /// </summary>
     public abstract class SimulationTestBase : IDisposable
     {
-        static SimulationTestBase()
-        {
-            // WolfCurses discovers windows, forms, and random events by reflecting over the process
-            // entry assembly, which inside a test host is the runner rather than the game. Point it
-            // at the game assembly so the factories can see every game type.
-            Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
-        }
 
         protected SimulationTestBase()
         {
@@ -53,10 +45,10 @@ namespace OregonTrailDotNet.Tests
 
             Game.InputManager.SendInputBufferAsCommand();
 
-            // First tick dispatches the queued command, second renders the resulting screen so the
-            // next command finds its menu mappings in place.
-            Game.OnTick(false);
-            Game.OnTick(false);
+            // Pump until the command has fully landed — dispatched, the window stack settled, and rendered — so the
+            // next command finds its menu mappings in place. Settles on state (not the spinner-animated frame text)
+            // and is bounded, replacing the old fixed two-tick dance.
+            Game.PumpInput();
         }
     }
 }

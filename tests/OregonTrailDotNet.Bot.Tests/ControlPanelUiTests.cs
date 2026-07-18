@@ -1,4 +1,3 @@
-using System.Reflection;
 using OregonTrailDotNet;
 using OregonTrailDotNet.Bot;
 using OregonTrailDotNet.Bot.Data;
@@ -13,7 +12,6 @@ namespace OregonTrailDotNet.Bot.Tests
     {
         private readonly string _dbPath = Path.Combine(Path.GetTempPath(), $"botui_{Guid.NewGuid():N}.db");
 
-        static ControlPanelUiTests() => Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
 
         public ControlPanelUiTests()
         {

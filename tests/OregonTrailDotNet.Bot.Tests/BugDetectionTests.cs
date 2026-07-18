@@ -1,4 +1,3 @@
-using System.Reflection;
 using OregonTrailDotNet;
 using OregonTrailDotNet.Bot.Diagnostics;
 using OregonTrailDotNet.Bot.Game;
@@ -12,7 +11,6 @@ namespace OregonTrailDotNet.Bot.Tests
     /// <summary>Verifies the bot stops and produces a developer report when a game/driving error occurs.</summary>
     public sealed class BugDetectionTests : IDisposable
     {
-        static BugDetectionTests() => Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
         public void Dispose() => GameSimulationApp.Instance?.Destroy();
 
         [Fact]

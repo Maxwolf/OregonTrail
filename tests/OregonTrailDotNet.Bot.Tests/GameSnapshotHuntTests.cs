@@ -18,7 +18,6 @@ namespace OregonTrailDotNet.Bot.Tests
     /// </summary>
     public sealed class GameSnapshotHuntTests : IDisposable
     {
-        static GameSnapshotHuntTests() => Assembly.SetEntryAssembly(typeof(GameSimulationApp).Assembly);
 
         public GameSnapshotHuntTests()
         {

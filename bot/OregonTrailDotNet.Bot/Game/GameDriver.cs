@@ -6,9 +6,10 @@ namespace OregonTrailDotNet.Bot.Game
     /// <summary>
     ///     Drives the game's <c>GameSimulationApp</c> headlessly and deterministically, reproducing the exact boot and
     ///     command pattern the game's own test harness uses (<c>SimulationTestBase</c>): create the singleton, tick twice to
-    ///     build modules and menu mappings, then type-and-submit input followed by two ticks (dispatch, render). Screen text is
-    ///     captured from the <c>ScreenBufferDirtyEvent</c> (the only way to read it — the buffer property is private).
-    ///     When <see cref="WatchOptions" /> is supplied the frames are drawn to the console and paced for a human to watch;
+    ///     build modules and menu mappings, then type-and-submit input and pump the simulation until the command has fully
+    ///     landed. Screen text is read straight from <c>SceneGraph.ScreenBuffer</c> after each tick. The built-in presenter is
+    ///     turned off (<c>SceneGraph.AutoPresent = false</c>) so it never draws the game over our own output; when
+    ///     <see cref="WatchOptions" /> is supplied this driver draws and paces the frames itself for a human to watch,
     ///     otherwise nothing is rendered and there are no delays (training speed).
     /// </summary>
     public sealed class GameDriver : IDisposable
@@ -17,7 +18,6 @@ namespace OregonTrailDotNet.Bot.Game
 
         private readonly WatchOptions? _watch;
         private readonly LinkedList<string> _inputHistory = new();
-        private bool _subscribed;
 
         public GameDriver(WatchOptions? watch = null)
         {
@@ -61,8 +61,9 @@ namespace OregonTrailDotNet.Bot.Game
                 GameSimulationApp.Create(randomSeed.Value);
             else
                 GameSimulationApp.Create();
-            GameSimulationApp.Instance!.SceneGraph.ScreenBufferDirtyEvent += OnScreen;
-            _subscribed = true;
+            // Headless: turn the framework's own presenter off so it never draws the game over the bot's control
+            // panel or dashboards. Frames are read from SceneGraph.ScreenBuffer after each tick instead.
+            GameSimulationApp.Instance!.SceneGraph.AutoPresent = false;
 
             // Tick 1 runs OnFirstTick -> Restart (build modules, attach Travel+MainMenu); tick 2 renders/builds mappings.
             RawTick();
@@ -80,8 +81,18 @@ namespace OregonTrailDotNet.Bot.Game
                 input.AddCharToInputBuffer(keyChar);
             input.SendInputBufferAsCommand();
 
-            RawTick(); // dispatch queued command
-            RawTick(); // render resulting screen
+            // Pump until the command has fully landed — dispatched, the window stack settled, then rendered — the
+            // same rule as SimulationApp.PumpInput, but via RawTick so watch mode still paints and counts each tick.
+            // Judged on state (input drained + no window awaiting removal), never the spinner-animated frame text,
+            // and bounded so a command that keeps generating input cannot spin forever.
+            for (var i = 0; i < 8; i++)
+            {
+                var app = GameSimulationApp.Instance;
+                var settled = app != null && app.InputManager.IsIdle && !app.WindowManager.HasPendingRemovals;
+                RawTick();
+                if (!Alive || settled)
+                    break;
+            }
         }
 
         /// <summary>Advances one deterministic logic tick without sending input (for self-advancing screens).</summary>
@@ -102,6 +113,11 @@ namespace OregonTrailDotNet.Bot.Game
             TickCount++;
             GameSimulationApp.Instance!.OnTick(false);
 
+            // Read the freshly rendered frame straight off the scene graph — the same text the dirty event used to
+            // hand us. Guarded because a tick can end the game and tear the singleton down.
+            if (GameSimulationApp.Instance != null)
+                LastScreen = GameSimulationApp.Instance.SceneGraph.ScreenBuffer;
+
             if (_watch != null)
             {
                 RenderFrame();
@@ -109,8 +125,6 @@ namespace OregonTrailDotNet.Bot.Game
                     Thread.Sleep(_watch.TickDelayMs);
             }
         }
-
-        private void OnScreen(string content) => LastScreen = content;
 
         private void RecordInput(string command)
         {
@@ -121,9 +135,6 @@ namespace OregonTrailDotNet.Bot.Game
 
         public void Dispose()
         {
-            if (_subscribed && GameSimulationApp.Instance != null)
-                GameSimulationApp.Instance.SceneGraph.ScreenBufferDirtyEvent -= OnScreen;
-            _subscribed = false;
             GameSimulationApp.Instance?.Destroy();
         }
 

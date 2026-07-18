@@ -20,7 +20,7 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
     {
         /// <summary>
         ///     Words the player can type to leave the hunt early once they have bagged enough food, instead of waiting out the
-        ///     whole session. Pressing Escape (handled by the game loop) does the same thing.
+        ///     whole session. Pressing Escape (handled in <see cref="OnKeyPressed" />) does the same thing.
         /// </summary>
         private static readonly string[] StopWords = { "stop", "quit", "done", "leave", "exit", "q" };
         /// <summary>
@@ -150,8 +150,24 @@ namespace OregonTrailDotNet.Window.Travel.Hunt
         }
 
         /// <summary>
-        ///     Ends the hunt right now and moves on to tally up whatever the party managed to bag. Exposed so the game loop can
-        ///     hook the Escape key to it, and shared by the typed stop words. Safe to call at any point during a hunt.
+        ///     Fired when the host reports a key press while this form is the focused one. Escape is the player's universal
+        ///     "I'm done" — it leaves the hunt at once, keeping whatever food was already bagged, exactly as typing a stop
+        ///     word does. WolfCurses routes every key from the focused window down to its current form here (see
+        ///     <see cref="WolfCurses.Window.IWindow.OnKeyPressed" />), so this is where Escape is handled now rather than in
+        ///     the console loop that used to own it.
+        /// </summary>
+        /// <param name="key">The key that was pressed.</param>
+        public override void OnKeyPressed(ConsoleKey key)
+        {
+            base.OnKeyPressed(key);
+
+            if (key == ConsoleKey.Escape)
+                StopHunting();
+        }
+
+        /// <summary>
+        ///     Ends the hunt right now and moves on to tally up whatever the party managed to bag. Shared by the typed stop
+        ///     words and by <see cref="OnKeyPressed" /> when Escape is pressed. Safe to call at any point during a hunt.
         /// </summary>
         public void StopHunting()
         {
