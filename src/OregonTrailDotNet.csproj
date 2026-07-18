@@ -21,6 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- The minigame workbench is its own project nested inside this folder, so keep its sources out of the
+         game's default **/*.cs glob — otherwise the game tries to compile the workbench into itself. -->
+    <Compile Remove="OregonTrailDotNet.Minigames\**" />
+    <EmbeddedResource Remove="OregonTrailDotNet.Minigames\**" />
+    <None Remove="OregonTrailDotNet.Minigames\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <InternalsVisibleTo Include="OregonTrailDotNet.Tests" />
     <InternalsVisibleTo Include="OregonTrailDotNet.Bot" />
     <InternalsVisibleTo Include="OregonTrailDotNet.Bot.Tests" />

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>OregonTrailDotNet.Minigames</RootNamespace>
+    <AssemblyName>OregonTrailDotNet.Minigames</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Same WolfCurses the game and bot use; this harness deliberately references nothing else, so a
+         minigame can be built and felt without any of the game's simulation on top of it. -->
+    <PackageReference Include="WolfCurses" Version="2026.7.18.12" />
+  </ItemGroup>
+
+</Project>
