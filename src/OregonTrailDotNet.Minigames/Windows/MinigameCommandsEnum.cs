@@ -22,7 +22,10 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <summary>Every trail stop's card, in order, named from the original's own tables.</summary>
         [Description("Trail stops          (all 18 location cards)")] Landmarks = 5,
 
+        /// <summary>The walking team, the sliding world, and the ground colour weather paints it.</summary>
+        [Description("Travel screen        (ox walk, scrolling world)")] Travel = 6,
+
         /// <summary>Close the workbench.</summary>
-        [Description("Quit")] Quit = 6
+        [Description("Quit")] Quit = 7
     }
 }

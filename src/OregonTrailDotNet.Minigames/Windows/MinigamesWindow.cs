@@ -36,6 +36,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             AddCommand(Tombstone, MinigameCommandsEnum.Tombstone);
             AddCommand(Sprites, MinigameCommandsEnum.Sprites);
             AddCommand(Landmarks, MinigameCommandsEnum.Landmarks);
+            AddCommand(Travel, MinigameCommandsEnum.Travel);
             AddCommand(Quit, MinigameCommandsEnum.Quit);
         }
 
@@ -44,6 +45,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         private void Tombstone() => SetForm(typeof(TombstoneForm));
         private void Sprites() => SetForm(typeof(SpriteSheetForm));
         private void Landmarks() => SetForm(typeof(LandmarkSlideshowForm));
+        private void Travel() => SetForm(typeof(TravelForm));
         private static void Quit() => MinigamesApp.Instance?.Destroy();
     }
 }
