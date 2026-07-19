@@ -16,22 +16,9 @@ namespace OregonTrailDotNet.Minigames.Windows
     [ParentWindow(typeof(MinigamesWindow))]
     public sealed class MapForm : SceneForm
     {
-        /// <summary>
-        ///     How much map the close-up shows, as a multiple of what the terminal can display one-for-one.
-        ///     <para>
-        ///         Picked by measuring where the map's own 4x5 lettering stops resolving rather than by eye. At 1.0
-        ///         the names are crisp but the window is tight, about a fifth of the map across; at 1.4 they still
-        ///         read cleanly with some 40% more country in view each way; by 1.8 they are going soft and by 2.4
-        ///         they are gone. So 1.4 is very nearly the whole useful range, and one level is enough — between it
-        ///         and the full map there is nothing legible left to offer.
-        ///     </para>
-        /// </summary>
-        private const double ZoomScale = 1.4;
-
         private MapGame _game = null!;
         private PixelBuffer _map = null!;
         private bool _paused;
-        private bool _zoom;
 
         /// <summary>Initializes a new instance of the <see cref="MapForm" /> class.</summary>
         /// <param name="window">The parent window.</param>
@@ -93,9 +80,6 @@ namespace OregonTrailDotNet.Minigames.Windows
                 case ConsoleKey.R:
                     _game.Reset();
                     break;
-                case ConsoleKey.Z:
-                    _zoom = !_zoom;
-                    break;
                 case ConsoleKey.F:
                     // Step through: random at forks, then force each branch, so both can be seen.
                     _game.PreferSecondAtForks = _game.PreferSecondAtForks switch
@@ -120,8 +104,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         ///         with a lot to say about them. This one is the opposite: the map is the whole point, it wants every
         ///         row it can get, and the readable-lettering problem is entirely a matter of how many rows are left
         ///         over. So the caption sits underneath and is kept to two lines, which is where the map gets the
-        ///         space from. The same move is what would let this fill a window in the game proper and need no
-        ///         close-up at all.
+        ///         space from — enough of it that the close-up this section used to carry is gone.
         ///     </para>
         /// </summary>
         protected override string Compose()
@@ -151,24 +134,23 @@ namespace OregonTrailDotNet.Minigames.Windows
                   $"{_game.MilesRemaining,4:0} of {_game.LegMiles} to go");
 
             text.Append(Footer(
-                $"SPACE {(_paused ? "resume" : "pause")}   Z {(_zoom ? "whole map" : "zoom in")}   " +
-                $"F forks: {forks}   R restart"));
+                $"SPACE {(_paused ? "resume" : "pause")}   F forks: {forks}   R restart"));
             return text.ToString();
         }
 
         /// <summary>
-        ///     The finished frame, either the whole map or a close-up that follows the party.
+        ///     The whole map, shaped to fill the console.
         ///     <para>
-        ///         Both exist because neither is enough on its own. Fitting all of the map into a terminal lands it in
-        ///         something like 145x45 pixels, and its lettering is 4x5 — so the labels reduce to about one pixel and
-        ///         no amount of care in the resampling brings them back. The close-up crops instead of scaling, so a
-        ///         pixel of map is a cell of terminal and the names read.
+        ///         It used to be a choice between this and a close-up that cropped around the party, because at the
+        ///         sizes the map was then drawn its 4x5 lettering reduced to about a pixel and no care in the
+        ///         resampling brought it back. Giving the map the whole window instead is what made the labels read,
+        ///         and it retired the close-up: there is nothing it could show that is not already legible here.
         ///     </para>
         ///     <para>
-        ///         <b>Both work at the map's own 640-wide grid, unsqueezed.</b> Halving the width first is what makes
-        ///         the aspect true — a 640x200 mode has half-width pixels — but it costs half the horizontal detail,
-        ///         and in a terminal there is none to spare. It also strands the picture: at 320x200 the map is 1.6
-        ///         wide to 1 tall against a console nearer 2.7, so it fits by height and leaves the last third of the
+        ///         <b>Works at the map's own 640-wide grid, unsqueezed.</b> Halving the width first is what makes the
+        ///         aspect true — a 640x200 mode has half-width pixels — but it costs half the horizontal detail, and
+        ///         in a terminal there is none to spare. It also strands the picture: at 320x200 the map is 1.6 wide
+        ///         to 1 tall against a console nearer 2.7, so it fits by height and leaves the last third of the
         ///         window empty. At 640 it is 3.2 and fills the width instead, which is both the bigger picture and
         ///         nearly twice the lettering. The cost is that the map reads wider than its true proportions.
         ///     </para>
@@ -185,28 +167,8 @@ namespace OregonTrailDotNet.Minigames.Windows
             // renderer do the reduction.
             //
             // Stretching at all is faithful: the DOS game spreads this same 640x200 picture over a whole screen.
-            if (!_zoom)
-            {
-                var stretched = frame.Width * (rows * 2) / Math.Max(1, columns);
-                return stretched == frame.Height ? frame : FitTo(frame, frame.Width, Math.Max(1, stretched));
-            }
-
-            // Clamped against the frame itself rather than the map constants, so a frame of unexpected size comes
-            // out small instead of reading off the end. Widening by the zoom scale is what pulls the view back: a
-            // bigger window of map, resampled down into the same cells.
-            var width = Math.Clamp((int) (columns * ZoomScale), 40, frame.Width);
-            var height = Math.Clamp((int) (rows * 2 * ZoomScale), 20, frame.Height);
-
-            var (px, py) = Party();
-            var left = Math.Clamp(px - width / 2, 0, frame.Width - width);
-            var top = Math.Clamp(py - height / 2, 0, frame.Height - height);
-
-            var view = new PixelBuffer(width, height);
-            for (var y = 0; y < height; y++)
-            for (var x = 0; x < width; x++)
-                view.SetPixel(x, y, frame.GetPixel(left + x, top + y));
-
-            return view;
+            var stretched = frame.Width * (rows * 2) / Math.Max(1, columns);
+            return stretched == frame.Height ? frame : FitTo(frame, frame.Width, Math.Max(1, stretched));
         }
 
         /// <summary>
@@ -265,19 +227,6 @@ namespace OregonTrailDotNet.Minigames.Windows
             }
 
             return target;
-        }
-
-        /// <summary>Where the party is on the map right now — the far end of the segment being drawn.</summary>
-        private (int X, int Y) Party()
-        {
-            var from = MapGame.Landmarks[_game.From];
-            if (_game.Finished)
-                return (from.X, from.Y);
-
-            var to = MapGame.Landmarks[_game.To];
-            var t = _game.LegProgress;
-            return ((int) Math.Round(from.X + (to.X - from.X) * t),
-                (int) Math.Round(from.Y + (to.Y - from.Y) * t));
         }
 
         /// <summary>
@@ -351,9 +300,9 @@ namespace OregonTrailDotNet.Minigames.Windows
         }
 
         /// <summary>
-        ///     Marks one pixel of the route, and the one under it. The map is a 640-wide picture that will be squeezed
-        ///     back to 320, so a single-pixel line would half-vanish into the resample; two rows keep it as solid as
-        ///     the printed route in the legend.
+        ///     Marks one pixel of the route and its neighbours, a 2x2 block. The map is drawn far wider than the
+        ///     console has cells, so a single-pixel line would half-vanish into the reduction; a 2x2 mark keeps it as
+        ///     solid as the printed route in the legend.
         /// </summary>
         private static void Plot(PixelBuffer canvas, int x, int y)
         {
