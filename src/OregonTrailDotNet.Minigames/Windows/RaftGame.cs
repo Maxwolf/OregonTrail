@@ -30,6 +30,21 @@ namespace OregonTrailDotNet.Minigames.Windows
     ///     The Columbia River raft, transcribed from <c>legacy/source/v1.1-sideB/FLOAT.txt</c>. Pure logic — it draws
     ///     nothing and knows nothing about WolfCurses, so it can be stepped in a test or a loop as easily as on screen.
     ///     Every constant below is the original's, cited to its line; see <c>docs/minigames.md</c> for the derivation.
+    ///     <para>
+    ///         <b>A collision does not end the run</b>, here or in the original. <c>:700</c> rolls the party and the
+    ///         inventory against the odds below, <c>:800</c> lists what was lost, and the loop carries straight on; the
+    ///         raft only breaks up when more than nine things go at once (<c>:730</c>, <c>IF Z &gt; 9</c>) or when the
+    ///         last of the party drowns (<c>:760</c>). Both need an inventory and a party the workbench does not have,
+    ///         so hits are counted here and the odds carried as text, ready for <c>:700</c> to be restored around them.
+    ///     </para>
+    ///     <para>
+    ///         Making contact fatal was tried and is wrong — and instructively so. A rock's <c>(+8, -4)</c> drift
+    ///         preserves the lane coordinate, so it lives its whole life in the lane it spawned in, and <c>:300</c>
+    ///         cannot spawn one past lane 15.9. Lane 16 is therefore untouchable... and <c>:1030</c> starts the raft
+    ///         there. Fatal collisions turn the game into "press right once, then wait": 4000 runs, 4000 landings, no
+    ///         rock ever reached. The original is playable precisely <i>because</i> a hit costs supplies instead of the
+    ///         run. See <c>docs/minigames.md</c> for the per-lane measurements.
+    ///     </para>
     /// </summary>
     public sealed class RaftGame
     {
@@ -90,11 +105,13 @@ namespace OregonTrailDotNet.Minigames.Windows
         private const int RaftBoxX = 6, RaftBoxY = 18, RaftBoxW = 20, RaftBoxH = 7;
         private const int RockBoxX = 11, RockBoxY = 1, RockBoxW = 20, RockBoxH = 6;
 
-        // Where bank scenery enters. The original's spawn coordinate is not in the listing, so this one is derived:
-        // it sits just past lane 17 (so it is ON the near bank rather than in the water), and drifting +6/-3 keeps
-        // its lane exactly constant, so it runs along that bank. It also works out that the landing marker, appearing
-        // on tick 175, arrives beside the raft's landing spot right as the window opens on tick 205.
-        private const int SceneryStartX = 40, SceneryStartY = 182;
+        // Where bank scenery enters, straight out of the listing — the signs at `:1145` (`SX = 62 : SY = 189`) and the
+        // landing at `:1146` (`TX = -8 : TY = 218`), which are NOT the same spot. Both work out at lane 20.4 and 19.8,
+        // comfortably past the near bank at 17.5, so each rides the sand rather than the waterline; drifting +6/-3
+        // holds that lane exactly, so they run along the bank. The landing starts below the bottom of the screen and
+        // climbs into view, arriving beside the raft about when the window opens on tick 205.
+        private const int SignStartX = 62, SignStartY = 189;
+        private const int LandingStartX = -8, LandingStartY = 218;
 
         private readonly Random _random;
 
@@ -252,8 +269,8 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             if (Array.IndexOf(SignTicks, Tick) >= 0)
             {
-                Sign.X = SceneryStartX;
-                Sign.Y = SceneryStartY;
+                Sign.X = SignStartX;
+                Sign.Y = SignStartY;
                 Sign.Active = true;
             }
             else if (Array.IndexOf(SignClearTicks, Tick) >= 0)
@@ -263,21 +280,23 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             if (Tick == LandingAppearsTick)
             {
-                Landing.X = SceneryStartX;
-                Landing.Y = SceneryStartY;
+                Landing.X = LandingStartX;
+                Landing.Y = LandingStartY;
                 Landing.Active = true;
             }
         }
 
         private void CheckShore()
         {
-            // `:400` — the banks are lanes 0 and 17; the raft bounces off rather than sticking.
+            // `:400` — the banks are lanes 0 and 17.
             if (Lane >= 1 && Lane <= 16)
                 return;
 
+            // `:700` charges it and the loop goes on; `:400` also reverses the drift, so the raft is pushed back
+            // off the bank rather than grinding along it.
             ShoreHits++;
             Drift = -Drift;
-            LastEvent = "Ran against the bank — drown 0.15 / oxen 0.30 / supplies 0.50.";
+            LastEvent = "The raft has hit the shore — drown 0.15 / oxen 0.30 / supplies 0.50.";
         }
 
         private void CheckRocks()
@@ -294,6 +313,7 @@ namespace OregonTrailDotNet.Minigames.Windows
                         rock.X + RockBoxX, rock.Y + RockBoxY, RockBoxW, RockBoxH))
                     continue;
 
+                // `:710` clears the rock that struck (`FL(ROCK) = 0`) so the slot can respawn, and plays on.
                 RockHits++;
                 rock.Active = false;
                 LastEvent = "The raft has hit a rock — drown 0.60 / oxen 0.60 / supplies 0.70.";
