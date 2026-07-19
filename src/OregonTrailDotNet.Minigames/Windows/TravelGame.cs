@@ -150,31 +150,47 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <summary>Miles in a leg. Stands in for the trail's real spacing, which this workbench has no trail for.</summary>
         public const int LegMiles = 120;
 
-        private static readonly Random Rng = new();
-
-        /// <summary>Scenery that belongs on the plains: the timber forts, the mission, and river-bottom country.</summary>
-        public static readonly TravelProp[] PlainsScenery =
+        /// <summary>
+        ///     The real trail, in order: what scrolls past on the way to each landmark.
+        ///     <para>
+        ///         This was guesswork — two pools picked at random by terrain — until <c>L%</c> was decoded out of
+        ///         <c>VAR.BIN</c>. It is <c>DIM L%(16,1)</c>, indexed by <b>destination landmark - 1</b>, and
+        ///         <c>OREGON TRAIL:3000</c> reads it as <c>NI = L%(NM-1,0)</c> for the image and
+        ///         <c>FX = 180 - L%(NM-1,1)</c> for where that image parks. See the table at the foot of
+        ///         <c>legacy/source/VAR.BIN.txt</c>, which <c>tools/varbin.py</c> now emits.
+        ///     </para>
+        ///     <para>
+        ///         What it says is that the roadside object is <b>a miniature of the landmark you are heading
+        ///         toward</b> — so the travel screen is a slow reveal of the next stop, drawing level with the wagon
+        ///         exactly as the leg runs out, rather than the random scenery this had before.
+        ///     </para>
+        ///     <para>
+        ///         <c>Apple</c> records the original's own <c>(table, NI)</c> so the mapping stays checkable against
+        ///         the disk. The DOS sprite ids are a <b>correspondence</b>, not a decode: the DOS port re-drew this
+        ///         art and its own table is locked inside an LZEXE-packed <c>OREGON.EXE</c>. The two sets do match
+        ///         one-to-one — 15 roadside pieces each — and every pairing below is by subject, but they have not
+        ///         been read out of the DOS binary.
+        ///     </para>
+        /// </summary>
+        public static readonly TravelLeg[] Trail =
         [
-            new(3, "timber stockade"),
-            new(5, "log fort"),
-            new(8, "mission house"),
-            new(9, "flagpole"),
-            new(11, "river bend"),
-            new(12, "farmstead"),
-            new(13, "chalk boulders"),
-            new(14, "grey boulders")
-        ];
-
-        /// <summary>Scenery that belongs in the mountains: the adobe forts, and country that only exists up there.</summary>
-        public static readonly TravelProp[] MountainScenery =
-        [
-            new(4, "adobe fort"),
-            new(6, "adobe fort, flying colours"),
-            new(7, "fort complex"),
-            new(10, "rock spire"),
-            new(15, "frozen shallows"),
-            new(16, "purple ridge"),
-            new(17, "river through the peaks")
+            new("the Kansas River crossing", 11, "river", "PRAIRIE #8", 102),
+            new("the Big Blue River crossing", 11, "river", "PRAIRIE #8", 102),
+            new("Fort Kearney", 3, "timber stockade", "PRAIRIE #5", 130),
+            new("Chimney Rock", 10, "rock spire", "PRAIRIE #6", 144),
+            new("Fort Laramie", 6, "adobe fort", "PRAIRIE #7", 130),
+            new("Independence Rock", 13, "bare dome", "MOUNTAINS #6", 144),
+            new("South Pass", 14, "grey outcrops", "MOUNTAINS #7", 124),
+            new("Fort Bridger", 5, "log stockade", "MOUNTAINS #8", 124),
+            new("the Green River crossing", 11, "river", "MOUNTAINS #14", 102),
+            new("Soda Springs", 15, "spring shallows", "MOUNTAINS #9", 116),
+            new("Fort Hall", 4, "adobe walls", "MOUNTAINS #10", 110),
+            new("the Snake River crossing", 11, "river", "MOUNTAINS #14", 102),
+            new("Fort Boise", 7, "fort complex", "MOUNTAINS #11", 124),
+            new("the Blue Mountains", 16, "snow-capped ridge", "MOUNTAINS #15", 124),
+            new("Fort Walla Walla", 8, "post and colours", "MOUNTAINS #12", 124),
+            new("The Dalles", 17, "river through timber", "MOUNTAINS #13", 68),
+            new("the Willamette Valley", 12, "valley timber", "MOUNTAINS #16", 130)
         ];
 
         /// <summary>Initializes a new instance of the <see cref="TravelGame" /> class.</summary>
@@ -228,10 +244,10 @@ namespace OregonTrailDotNet.Minigames.Windows
             _ => "fair"
         };
 
-        /// <summary>Which scenery piece this leg drew.</summary>
-        public TravelProp Scenery { get; private set; }
+        /// <summary>The leg being travelled, and so the scenery scrolling past.</summary>
+        public TravelLeg Scenery { get; private set; }
 
-        /// <summary>How many legs have been completed.</summary>
+        /// <summary>Which leg of the trail this is, 0-16.</summary>
         public int Leg { get; private set; }
 
         /// <summary>Strides taken in the last tick — the original's <c>VP</c>, and the reason the legs cycle.</summary>
@@ -265,18 +281,28 @@ namespace OregonTrailDotNet.Minigames.Windows
             NextLeg(false);
         }
 
-        /// <summary>Draws a new scenery piece and refills the leg.</summary>
+        /// <summary>Moves on to the next leg of the trail and refills it.</summary>
         /// <param name="count">Whether this counts as a leg completed, as opposed to a restart or a terrain change.</param>
         public void NextLeg(bool count = true)
         {
-            var pool = Terrain == TravelTerrainEnum.Plains ? PlainsScenery : MountainScenery;
-            Scenery = pool[Rng.Next(pool.Length)];
-            MilesRemaining = LegMiles;
             if (count)
-                Leg++;
+                Leg = (Leg + 1) % Trail.Length;
+
+            // The terrain follows the trail rather than the operator's switch, because the original's does: the
+            // world turns from green rolling hills to purple peaks at the disk flip, which falls after Fort
+            // Laramie -- PRAIRIE.IMA ships on side A with L0-L4.PCK, MOUNTAINS.IMA on side B with the rest.
+            Terrain = Leg < PrairieLegs ? TravelTerrainEnum.Plains : TravelTerrainEnum.Mountains;
+            Scenery = Trail[Leg];
+            MilesRemaining = LegMiles;
 
             Recompute();
         }
+
+        /// <summary>
+        ///     Legs still on side A, and so still on the prairie. The fifth leg ends at Fort Laramie; everything
+        ///     after it is drawn from <c>MOUNTAINS.IMA</c>.
+        /// </summary>
+        private const int PrairieLegs = 5;
 
         /// <summary>
         ///     One tick. Converts the tick's miles into whole strides and takes them, which is the original's inner
@@ -307,7 +333,9 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <summary>Flips the horizon, which on the Apple II meant turning the disk over.</summary>
         public void ToggleTerrain()
         {
-            Terrain = Terrain == TravelTerrainEnum.Plains ? TravelTerrainEnum.Mountains : TravelTerrainEnum.Plains;
+            // Terrain is a property of where you are on the trail now, not a switch, so this jumps to the other
+            // side of the disk flip rather than repainting the leg you are on.
+            Leg = Terrain == TravelTerrainEnum.Plains ? PrairieLegs : 0;
             NextLeg(false);
         }
 
@@ -346,10 +374,19 @@ namespace OregonTrailDotNet.Minigames.Windows
         }
     }
 
-    /// <summary>A piece of roadside scenery: its id on the DOS <c>scenery</c> sheet, and what it is.</summary>
+    /// <summary>One leg of the trail, and the roadside piece that scrolls past on the way to its landmark.</summary>
+    /// <param name="Toward">The landmark this leg ends at — which is what chooses the scenery.</param>
     /// <param name="SpriteId">1-based id within <c>legacy/art/dos/rgba/dos-scenery-NN.png</c>.</param>
     /// <param name="Name">What the artist drew, for the readout.</param>
-    public readonly record struct TravelProp(int SpriteId, string Name)
+    /// <param name="Apple">
+    ///     The original's own <c>(terrain table, NI)</c>, kept so the mapping stays checkable against the disk.
+    /// </param>
+    /// <param name="RestX">
+    ///     <c>FX = 180 - L%(NM-1,1)</c>, in the Apple II's 280-wide space: where the piece stops. Carried for
+    ///     reference — this workbench solves its own scroll from the art's width, since the DOS art is not the
+    ///     art those offsets were authored against.
+    /// </param>
+    public readonly record struct TravelLeg(string Toward, int SpriteId, string Name, string Apple, int RestX)
     {
         /// <summary>The art's own width, which the leg's pixels-per-mile is solved against.</summary>
         public int Width => Assets.Dos("scenery", SpriteId).Width;

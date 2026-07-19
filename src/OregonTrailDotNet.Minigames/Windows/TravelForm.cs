@@ -117,13 +117,16 @@ namespace OregonTrailDotNet.Minigames.Windows
                 : "mountains  (MOUNTAINS.IMA, side B)";
 
             text.AppendLine(
-                $"leg {_game.Leg,2}   {_game.MilesRemaining,5:0.0} miles to go   " +
-                $"{_game.MilesTravelled,6:0} travelled   pace {_game.Pace}   " +
+                $"leg {_game.Leg + 1,2}/{TravelGame.Trail.Length}   toward {_game.Scenery.Toward}   " +
+                $"{_game.MilesRemaining,5:0.0} miles to go   pace {_game.Pace}   " +
                 $"strides this tick {_game.LastStrides}");
 
+            // The Apple II reference is on screen because this mapping is the whole point of the leg table: the
+            // scenery is a miniature of the landmark ahead, and that is easiest to believe while watching it.
             text.AppendLine(
                 $"{terrain}   ground {_game.Weather}   " +
-                $"ahead: {_game.Scenery.Name}   world offset {_game.SceneryX,3}/{TravelGame.SceneryRestX}");
+                $"ahead: {_game.Scenery.Name} ({_game.Scenery.Apple})   " +
+                $"world offset {_game.SceneryX,3}/{TravelGame.SceneryRestX}");
 
             text.AppendLine(_game.Wagon switch
             {

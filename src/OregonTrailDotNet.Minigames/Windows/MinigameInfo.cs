@@ -9,11 +9,26 @@ namespace OregonTrailDotNet.Minigames.Windows
     /// </summary>
     public sealed class MinigameInfo : WindowData
     {
+        private readonly Dictionary<string, int> _rates = new();
+
         /// <summary>
-        ///     Frames per second the real-time sections run at, remembered across sections so a rate that feels right
-        ///     in one is still there in the next. The original's rate is unknowable from the listing (its loop had no
-        ///     delay, so it ran at whatever Applesoft managed), which is exactly why this is a live knob.
+        ///     Frames per second a real-time section runs at, kept <i>per section</i> and remembered across visits.
+        ///     <para>
+        ///         These were shared at first, on the theory that a rate which feels right in one section feels right
+        ///         in the next. It does not: the sections have genuinely different natural cadences. The hunt is a
+        ///         walking pace, while the raft moves a whole lane per tick — a seventeenth of the river — so the rate
+        ///         that makes the hunt read smoothly puts the raft across the water in under a second. Each section
+        ///         declares its own starting rate and <c>-</c>/<c>+</c> tunes that one alone.
+        ///     </para>
         /// </summary>
-        public int TicksPerSecond { get; set; } = 20;
+        /// <param name="section">The section's type name.</param>
+        /// <param name="fallback">The section's declared starting rate, used the first time it is asked for.</param>
+        public int TicksPerSecond(string section, int fallback) =>
+            _rates.TryGetValue(section, out var rate) ? rate : fallback;
+
+        /// <summary>Records a section's rate after the speed keys have moved it.</summary>
+        /// <param name="section">The section's type name.</param>
+        /// <param name="rate">Ticks per second, already clamped.</param>
+        public void SetTicksPerSecond(string section, int rate) => _rates[section] = rate;
     }
 }

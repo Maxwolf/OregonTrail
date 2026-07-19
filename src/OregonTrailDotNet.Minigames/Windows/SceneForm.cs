@@ -20,6 +20,7 @@ namespace OregonTrailDotNet.Minigames.Windows
     {
         private readonly Stopwatch _clock = new();
         private bool _dirty = true;
+        private int _subFrame;
 
         /// <summary>Initializes a new instance of the <see cref="SceneForm" /> class.</summary>
         /// <param name="window">The parent window.</param>
@@ -36,14 +37,43 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <summary>Whether this section advances on its own; a still screen only recomposes when invalidated.</summary>
         protected virtual bool Animated => true;
 
+        /// <summary>
+        ///     Frames drawn per step of the section's logic. One means the picture changes only when the logic does,
+        ///     which is right for anything whose logic already steps at a natural animation rate.
+        ///     <para>
+        ///         Raise it where a single step moves things a long way. A section is then free to draw the in-between
+        ///         positions using <see cref="FrameProgress" />, which keeps the simulation on the original's integer
+        ///         grid — the thing collision boxes and lane maths depend on — while the motion on screen stays smooth.
+        ///     </para>
+        /// </summary>
+        protected virtual int FramesPerStep => 1;
+
+        /// <summary>
+        ///     How far the picture is between the previous step and the current one, from 0 up to but not reaching 1.
+        ///     Always 0 when <see cref="FramesPerStep" /> is 1.
+        ///     <para>
+        ///         Note this runs <i>behind</i> the logic rather than ahead of it: the frame drawn immediately after a
+        ///         step shows the state <b>before</b> that step, and the following frames close the gap. Interpolating
+        ///         forward would mean guessing at a step that has not happened, which shows up as things visibly
+        ///         snapping back whenever the guess is wrong.
+        ///     </para>
+        /// </summary>
+        protected double FrameProgress { get; private set; }
+
         /// <summary>Rows of text this section prints above its picture, reserved so the picture still fits.</summary>
         protected virtual int ReservedRows => 8;
 
-        /// <summary>Ticks per second, shared across sections through the window's user data.</summary>
+        /// <summary>
+        ///     The rate this section starts at, before the speed keys touch it. Overridden by any section whose
+        ///     natural cadence is not a general-purpose animation speed.
+        /// </summary>
+        protected virtual int DefaultTicksPerSecond => 20;
+
+        /// <summary>Ticks per second, kept per section in the window's user data so each keeps its own tuning.</summary>
         protected int TicksPerSecond
         {
-            get => UserData.TicksPerSecond;
-            private set => UserData.TicksPerSecond = Math.Clamp(value, 1, 60);
+            get => UserData.TicksPerSecond(GetType().Name, DefaultTicksPerSecond);
+            private set => UserData.SetTicksPerSecond(GetType().Name, Math.Clamp(value, 1, 60));
         }
 
         /// <summary>The finished frame — heads-up text plus the rendered picture — rebuilt on the clock.</summary>
@@ -65,8 +95,11 @@ namespace OregonTrailDotNet.Minigames.Windows
             base.OnFormActivate();
 
             // Back from a dialog, with the clock having run the whole time it was up; without this the next frame
-            // thinks it has a huge amount of time to make up.
+            // thinks it has a huge amount of time to make up. Restart mid-step too, so the first frame back is a
+            // whole one rather than a fragment of the step that was interrupted.
             _clock.Restart();
+            _subFrame = 0;
+            FrameProgress = 0;
             Invalidate();
         }
 
@@ -77,11 +110,17 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             if (Animated)
             {
-                if (_clock.Elapsed < TimeSpan.FromSeconds(1.0 / TicksPerSecond))
+                // The clock runs at the frame rate, which is the logic rate multiplied out by the sub-frames.
+                var frames = Math.Max(1, FramesPerStep);
+                if (_clock.Elapsed < TimeSpan.FromSeconds(1.0 / (TicksPerSecond * frames)))
                     return;
 
                 _clock.Restart();
-                Advance();
+                if (_subFrame == 0)
+                    Advance();
+
+                FrameProgress = (double) _subFrame / frames;
+                _subFrame = (_subFrame + 1) % frames;
                 Recompose();
                 return;
             }
