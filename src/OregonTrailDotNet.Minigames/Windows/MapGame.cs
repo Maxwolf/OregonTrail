@@ -92,18 +92,28 @@ namespace OregonTrailDotNet.Minigames.Windows
         ];
 
         /// <summary>
-        ///     <c>LM()</c> from <c>VAR.BIN</c>: how long each leg is and where it ends. Indices are route numbers, not
-        ///     landmark numbers, which is what makes the forks expressible — routes 7 and 8 both leave South Pass.
+        ///     <c>LM()</c> from <c>VAR.BIN</c>: how long each leg is, how fast it is walked, and where it ends.
+        ///     Indices are route numbers, not landmark numbers, which is what makes the forks expressible — routes 7
+        ///     and 8 both leave South Pass.
+        ///     <para>
+        ///         The columns are in the source's own order. The middle one is <c>MD</c>, the leg's base miles per
+        ///         day, and it is not a constant: 20 across the plains, dropping to 12 from Fort Laramie on, where
+        ///         the trail starts to climb. <b>Nothing here uses it</b> — the map does not care how fast a leg is
+        ///         walked. It is transcribed because it is the third column of the table the other two came from, and
+        ///         leaving it out is how a half-copied table later gets mistaken for the whole one.
+        ///     </para>
         /// </summary>
         public static readonly MapRoute[] Routes =
         [
-            new(102, 1), new(83, 2), new(119, 3), new(250, 4), new(86, 5), new(190, 6), new(102, 7),
-            new(57, 9),    // South Pass -> Green River, the short way
-            new(125, 8),   // South Pass -> Fort Bridger, the long way
-            new(162, 10), new(144, 10), new(57, 11), new(182, 12), new(114, 13), new(160, 14),
-            new(55, 15),   // Blue Mountains -> Fort Walla Walla
-            new(125, 16),  // Blue Mountains -> The Dalles direct
-            new(120, 16), new(100, 17)
+            new(102, 20, 1), new(83, 20, 2), new(119, 20, 3), new(250, 20, 4), new(86, 20, 5),
+            new(190, 12, 6), new(102, 12, 7),
+            new(57, 12, 9),    // South Pass -> Green River, the short way
+            new(125, 12, 8),   // South Pass -> Fort Bridger, the long way
+            new(162, 12, 10), new(144, 12, 10), new(57, 12, 11), new(182, 12, 12), new(114, 12, 13),
+            new(160, 12, 14),
+            new(55, 12, 15),   // Blue Mountains -> Fort Walla Walla
+            new(125, 12, 16),  // Blue Mountains -> The Dalles direct
+            new(120, 12, 16), new(100, 12, 17)
         ];
 
         /// <summary>
@@ -216,8 +226,9 @@ namespace OregonTrailDotNet.Minigames.Windows
     /// <param name="Marker">What is drawn there, if anything.</param>
     public readonly record struct MapLandmark(string Name, int X, int Y, MapMarkerEnum Marker);
 
-    /// <summary>One leg of the trail: how long it is and which landmark it ends at.</summary>
+    /// <summary>One leg of the trail: how long it is, how fast it is walked, and which landmark it ends at.</summary>
     /// <param name="Miles">Length in miles, from <c>LM(route,0)</c>.</param>
+    /// <param name="MilesPerDay">The leg's base daily distance <c>MD</c>, from <c>LM(route,1)</c>.</param>
     /// <param name="Destination">Landmark index, from <c>LM(route,2)</c>.</param>
-    public readonly record struct MapRoute(int Miles, int Destination);
+    public readonly record struct MapRoute(int Miles, int MilesPerDay, int Destination);
 }

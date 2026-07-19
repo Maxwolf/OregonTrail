@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Text;
+using OregonTrailDotNet.Minigames.Audio;
 using WolfCurses.Graphics;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
@@ -59,6 +60,21 @@ namespace OregonTrailDotNet.Minigames.Windows
         ///     </para>
         /// </summary>
         protected double FrameProgress { get; private set; }
+
+        /// <summary>
+        ///     The tune that belongs on this screen, as a score under <c>legacy/music/</c> without its extension, or
+        ///     null for a section the original played no music on — which is most of them.
+        ///     <para>
+        ///         Sections declare a cue and do nothing else about it: the base class starts it, swaps it when the
+        ///         property's answer changes, stops it on the way out, and <see cref="Music" /> owns the one mute and
+        ///         the one volume for the whole workbench. There is deliberately no way for a section to have its own.
+        ///     </para>
+        ///     <para>
+        ///         Read every frame and safe to compute, so a section whose music depends on what it is showing — the
+        ///         slideshow changes tune with the card, and with which port's card — just returns a different string.
+        ///     </para>
+        /// </summary>
+        protected virtual string? MusicCue => null;
 
         /// <summary>Rows of text this section prints above its picture, reserved so the picture still fits.</summary>
         protected virtual int ReservedRows => 8;
@@ -144,7 +160,20 @@ namespace OregonTrailDotNet.Minigames.Windows
             {
                 case ConsoleKey.Escape:
                     // Back to the menu. The window is still underneath with its choices already built.
+                    Music.Stop();
                     ClearForm();
+                    return;
+                case ConsoleKey.F8:
+                    Music.ToggleMute();
+                    Invalidate();
+                    return;
+                case ConsoleKey.F9:
+                    Music.Adjust(-0.1);
+                    Invalidate();
+                    return;
+                case ConsoleKey.F10:
+                    Music.Adjust(0.1);
+                    Invalidate();
                     return;
                 case ConsoleKey.OemMinus:
                 case ConsoleKey.Subtract:
@@ -240,11 +269,30 @@ namespace OregonTrailDotNet.Minigames.Windows
             var text = new StringBuilder();
             text.AppendLine($"{keys}");
             text.Append($"ESC menu   -/+ speed ({TicksPerSecond}/sec)");
+
+            // Only where there is music to control. On the silent sections — which is most of them, because the
+            // original was silent there too — offering a mute key would be inviting the reader to go looking for
+            // sound that was never meant to be playing.
+            if (MusicCue == null)
+                return text.ToString();
+
+            text.Append(Music.Audible
+                ? $"   F8 {(Music.Muted ? "unmute" : "mute")}   F9/F10 vol {Music.Volume * 100:0}%"
+                : "   (no audio device)");
+
             return text.ToString();
         }
 
         private void Recompose()
         {
+            // Follows the section's answer wherever it goes, which is what lets a cue track what is on screen
+            // without any section having to start, stop or swap it for itself.
+            var cue = MusicCue;
+            if (cue == null)
+                Music.Stop();
+            else
+                Music.Play(cue);
+
             Frame = Compose();
             _dirty = false;
         }

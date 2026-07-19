@@ -1,3 +1,4 @@
+using OregonTrailDotNet.Minigames.Audio;
 using WolfCurses.Graphics;
 
 namespace OregonTrailDotNet.Minigames
@@ -15,6 +16,7 @@ namespace OregonTrailDotNet.Minigames
             Console.CursorVisible = false;
             Console.CancelKeyPress += (_, e) =>
             {
+                Music.Shutdown();
                 MinigamesApp.Instance?.Destroy();
                 e.Cancel = true;
             };
@@ -50,6 +52,10 @@ namespace OregonTrailDotNet.Minigames
                 MinigamesApp.Instance.OnTick(true);
                 Thread.Sleep(1);
             }
+
+            // Hands the sound device back. Without this a tune that is still playing carries on after the workbench
+            // has gone, since waveOut plays from a buffer the driver owns and does not care that we have exited.
+            Music.Shutdown();
 
             Console.Clear();
             Console.WriteLine("Workbench closed.");

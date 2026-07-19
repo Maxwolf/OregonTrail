@@ -1,4 +1,5 @@
 using System.Text;
+using OregonTrailDotNet.Minigames.Audio;
 using WolfCurses.Graphics;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
@@ -62,6 +63,31 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <inheritdoc />
         protected override int ReservedRows => 9;
 
+        /// <summary>
+        ///     The card's own tune, from whichever port's card is on screen.
+        ///     <para>
+        ///         This pairing is the original's, and it is computed rather than chosen: on arrival the 1985 loader
+        ///         builds the score's filename out of the landmark index exactly as it builds the picture's
+        ///         (<c>OREGON TRAIL.txt:1005</c>: <c>Z$ = "MS" + STR$(LM) + ".BIN"</c> against <c>:300</c>'s
+        ///         <c>V$ = "L" + STR$(LM) + ".PCK"</c>), then plays it under the picture while the card is up. So
+        ///         score <c>MS4</c> belongs to picture <c>L4</c> by construction, and the eighteen DOS songs sit in
+        ///         the same order — the same eighteen melodies, re-registered for the PC speaker.
+        ///     </para>
+        ///     <para>
+        ///         Following the <c>A</c> key means the comparison works on the ear as well as the eye: the same stop
+        ///         switches between the 1985 card with its Apple II score and the 1990 redraw with its DOS one, which
+        ///         is where you can hear the re-registration — mostly two octaves up, several stops also re-keyed.
+        ///     </para>
+        /// </summary>
+        protected override string? MusicCue
+        {
+            get
+            {
+                var stop = Stops[_slide];
+                return _dos ? $"dos/song-{stop.Slug}" : $"apple2/ms{stop.Slug}";
+            }
+        }
+
         /// <inheritdoc />
         protected override void Build()
         {
@@ -73,7 +99,16 @@ namespace OregonTrailDotNet.Minigames.Windows
             if (!_running)
                 return;
 
-            if (++_ticksOnSlide < TicksPerSecond * SecondsPerSlide)
+            _ticksOnSlide++;
+
+            // A card holds until its tune has played out, which is what the original does — it puts the picture up,
+            // starts the score and waits on the space bar. The fixed dwell is the floor, and it is the whole rule
+            // when there is no music: a run of cards flicking past at three seconds each while eighteen sixteen-
+            // second tunes restart over the top of one another is not a comparison of anything.
+            if (!Music.Finished)
+                return;
+
+            if (_ticksOnSlide < TicksPerSecond * SecondsPerSlide)
                 return;
 
             _ticksOnSlide = 0;
@@ -154,6 +189,15 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <param name="Name">Name from the <c>LM$</c> table in <c>VAR.BIN</c>.</param>
         /// <param name="Kind">What the stop is, from that table's flag column plus the route table's forks.</param>
         /// <param name="Apple2File">The extracted Apple II card for the same index.</param>
-        private sealed record Stop(int Index, string Name, string Kind, string Apple2File);
+        private sealed record Stop(int Index, string Name, string Kind, string Apple2File)
+        {
+            /// <summary>
+            ///     The stop's name as the extractors spell it — <c>04-chimney-rock</c>. Both music folders and the
+            ///     Apple II art are named on this stem (<c>ms04-chimney-rock</c>, <c>song-04-chimney-rock</c>,
+            ///     <c>l04-chimney-rock.png</c>), so it is taken off the picture rather than written out a third time
+            ///     and left to drift.
+            /// </summary>
+            public string Slug => Apple2File[1..^".png".Length];
+        }
     }
 }

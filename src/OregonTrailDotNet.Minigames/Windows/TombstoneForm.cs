@@ -91,6 +91,20 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <inheritdoc />
         protected override int ReservedRows => 11;
 
+        /// <summary>
+        ///     <i>Taps</i>, which is what the original plays here — <c>TOMB.LIB:50010</c> loads the stone and the
+        ///     score together (<c>&amp; DUN,"TS.PCK"</c> then <c>&amp; RFL,"TS.BIN"</c>) before printing the
+        ///     inscription and waiting.
+        ///     <para>
+        ///         The Apple II's, necessarily. This is the one screen where the workbench cannot use the 1990 port's
+        ///         assets, and it is the same reason in both media: <c>OTMCGA.PCL</c> has no tombstone picture because
+        ///         the DOS port draws that screen with BGI primitives, and <c>SONGS.TXT</c> has no nineteenth line
+        ///         because it carries the eighteen landmark tunes and nothing else. <b>The DOS port has no graveyard
+        ///         music at all.</b>
+        ///     </para>
+        /// </summary>
+        protected override string? MusicCue => "apple2/ts-tombstone";
+
         // The DOS port has no tombstone bitmap — neither picture library holds one, because it draws that screen with
         // BGI primitives — so this is the one screen that stays on the 1985 card.
         protected override void Build() => _stone = Assets.Apple2Backdrop("ts-tombstone.png");

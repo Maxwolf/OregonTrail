@@ -38,6 +38,19 @@ namespace OregonTrailDotNet.Minigames
         public static string? ArtRoot { get; } = FindArtRoot();
 
         /// <summary>
+        ///     The <c>legacy/music</c> folder — the decoded scores — or null when it is not there. Derived from
+        ///     <see cref="ArtRoot" />'s parent rather than searched for separately, since both are folders of the one
+        ///     <c>legacy/</c> tree and finding one locates the other.
+        ///     <para>
+        ///         Unlike the artwork this is <b>optional</b>: without it the workbench runs silently rather than
+        ///         refusing to start. Music is the one thing here you can do without.
+        ///     </para>
+        /// </summary>
+        public static string? MusicRoot { get; } = ArtRoot == null
+            ? null
+            : Path.Combine(Directory.GetParent(ArtRoot)!.FullName, "music");
+
+        /// <summary>
         ///     True when the DOS artwork is present. That is the only hard requirement: every minigame is drawn with
         ///     the 1990 port's art.
         /// </summary>
