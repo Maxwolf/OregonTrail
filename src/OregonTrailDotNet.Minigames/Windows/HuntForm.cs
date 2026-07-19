@@ -34,15 +34,11 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// </summary>
         private static readonly int[] SpeciesToRow = [2, 1, 0, 3, 4, 5];
 
-        /// <summary>terrain.png ids that are trees, bushes and boulders (the 17x15 keypad tiles were never cut).</summary>
-        private static readonly (int Id, int X, int Y)[] Scenery =
-        [
-            (1, 6, 8), (4, 108, 2), (2, 214, 6), (10, 268, 40),
-            (9, 40, 132), (11, 244, 140), (6, 150, 96), (8, 76, 74),
-            (7, 288, 108), (13, 120, 168), (12, 6, 176), (3, 196, 178), (5, 250, 186)
-        ];
-
         private HuntGame _game = null!;
+        private HuntLandscape _landscape = null!;
+
+        /// <summary>`ZO`, which on the trail is <c>(LM&gt;2)+(LM&gt;5)+(LM&gt;10)+(LM&gt;13)</c>. No trail here, so it is a key.</summary>
+        private int _zone;
         private SpriteScene _scene = null!;
         private Sprite _hunter = null!;
         private Sprite _bullet = null!;
@@ -57,13 +53,13 @@ namespace OregonTrailDotNet.Minigames.Windows
         }
 
         /// <inheritdoc />
-        protected override int ReservedRows => 9;
+        protected override int ReservedRows => 10;
 
         /// <inheritdoc />
         protected override void Build()
         {
             _game = new HuntGame();
-            _scene = new SpriteScene(BuildField());
+            _scene = new SpriteScene(NewGround());
 
             _animals =
             [
@@ -113,8 +109,23 @@ namespace OregonTrailDotNet.Minigames.Windows
                     _game.Walking = !_game.Walking;
                     return;
                 case ConsoleKey.R:
+                    // A new hunt is new country, so the ground is rescattered with it.
                     _game.Reset();
                     ClearCarcassSprites();
+                    RebuildScene();
+                    SyncSprites();
+                    Invalidate();
+                    return;
+                case ConsoleKey.L:
+                    // Just the ground, leaving the hunt running — for judging the scatter without replaying.
+                    RebuildScene();
+                    SyncSprites();
+                    Invalidate();
+                    return;
+                case ConsoleKey.Z:
+                    // Walk the trail's five climate zones, which is the whole of what varies the country.
+                    _zone = (_zone + 1) % HuntLandscape.ZoneScenery.Length;
+                    RebuildScene();
                     SyncSprites();
                     Invalidate();
                     return;
@@ -137,7 +148,11 @@ namespace OregonTrailDotNet.Minigames.Windows
                 $"bullets {_game.Bullets,2}   carried {_game.Pounds,3} lb   " +
                 $"{(_game.Walking ? "walking" : "still")}   carcasses {_game.Carcasses.Count}");
             text.AppendLine(_game.Finished ? "*** OUT OF TIME ***  R to hunt again." : _game.LastEvent);
-            text.AppendLine(Footer("ARROWS turn/snap   I O P ; / . , K aim outright   SPACE fire   ENTER walk   R restart"));
+            text.AppendLine(
+                $"ground: ZO {_landscape.Zone} {_landscape.ZoneName}   " +
+                $"{_landscape.Props.Count} pieces (RND 0-3 +4)   seed {_landscape.Seed}");
+            text.AppendLine(Footer(
+                "ARROWS turn/snap   I O P ; / . , K aim   SPACE fire   ENTER walk   Z zone   L ground   R restart"));
             text.Append(_scene.ToAnsi(PictureOptions()));
             return text.ToString();
         }
@@ -195,8 +210,34 @@ namespace OregonTrailDotNet.Minigames.Windows
             _carcasses.Clear();
         }
 
+        /// <summary>
+        ///     Swaps in freshly scattered ground. The scene's background cannot be replaced in place, so the sprites
+        ///     are lifted off and rehung on a new one — carried across in their existing order, which is their draw
+        ///     order, so carcasses stay behind the animals that are still on their feet.
+        /// </summary>
+        private void RebuildScene()
+        {
+            var standing = _scene.Sprites.ToList();
+            _scene = new SpriteScene(NewGround());
+            foreach (var sprite in standing)
+                _scene.Sprites.Add(sprite);
+        }
+
+        /// <summary>
+        ///     Scatters a fresh hunting ground and paints it. The seed is taken from the clock rather than fixed, so
+        ///     every hunt looks different; it is reported on screen so a ground worth keeping can be asked for again.
+        /// </summary>
+        private PixelBuffer NewGround()
+        {
+            _landscape = HuntLandscape.Generate(Environment.TickCount, _zone,
+                HuntGame.FieldWidth, HuntGame.FieldHeight,
+                HuntGame.FieldWidth / 2, HuntGame.FieldHeight / 2);
+
+            return BuildField();
+        }
+
         /// <summary>Grass with the scenery painted straight in, since none of it ever moves.</summary>
-        private static PixelBuffer BuildField()
+        private PixelBuffer BuildField()
         {
             var field = new PixelBuffer(HuntGame.FieldWidth, HuntGame.FieldHeight);
             var ground = new Rgba32(4, 156, 0, 255);
@@ -204,8 +245,8 @@ namespace OregonTrailDotNet.Minigames.Windows
             for (var x = 0; x < field.Width; x++)
                 field.SetPixel(x, y, ground);
 
-            foreach (var (id, x, y) in Scenery)
-                field.DrawImage(Assets.Dos("terrain", id), x, y);
+            foreach (var prop in _landscape.Props)
+                field.DrawImage(Assets.Dos("terrain", prop.SpriteId), prop.X, prop.Y);
 
             return field;
         }
