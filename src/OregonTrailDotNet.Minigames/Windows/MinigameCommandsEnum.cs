@@ -25,7 +25,10 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <summary>The walking team, the sliding world, and the ground colour weather paints it.</summary>
         [Description("Travel screen        (ox walk, scrolling world)")] Travel = 6,
 
+        /// <summary>Every crossing type in turn: ford, float, ferry, guide, and each way they go wrong.</summary>
+        [Description("River crossings      (all types, in sequence)")] RiverCrossing = 7,
+
         /// <summary>Close the workbench.</summary>
-        [Description("Quit")] Quit = 7
+        [Description("Quit")] Quit = 8
     }
 }

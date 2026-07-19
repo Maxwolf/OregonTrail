@@ -40,6 +40,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             AddCommand(Sprites, MinigameCommandsEnum.Sprites);
             AddCommand(Landmarks, MinigameCommandsEnum.Landmarks);
             AddCommand(Travel, MinigameCommandsEnum.Travel);
+            AddCommand(RiverCrossing, MinigameCommandsEnum.RiverCrossing);
             AddCommand(Quit, MinigameCommandsEnum.Quit);
         }
 
@@ -49,6 +50,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         private void Sprites() => SetForm(typeof(SpriteSheetForm));
         private void Landmarks() => SetForm(typeof(LandmarkSlideshowForm));
         private void Travel() => SetForm(typeof(TravelForm));
+        private void RiverCrossing() => SetForm(typeof(RiverCrossingForm));
         private static void Quit() => MinigamesApp.Instance?.Destroy();
     }
 }
