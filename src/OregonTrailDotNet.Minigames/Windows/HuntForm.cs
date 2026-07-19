@@ -45,18 +45,6 @@ namespace OregonTrailDotNet.Minigames.Windows
             [ConsoleKey.D2] = 4, [ConsoleKey.D1] = 5, [ConsoleKey.D4] = 6, [ConsoleKey.D7] = 7
         };
 
-        /// <summary>
-        ///     Our compass (0=N, clockwise) onto the hunter sheet's groups of three. The sheet stores each drawn strip
-        ///     immediately followed by its mirror, so its groups run N, NE, NW, E, W, SE, SW, S rather than clockwise.
-        /// </summary>
-        private static readonly int[] AimToGroup = [0, 1, 3, 5, 7, 6, 4, 2];
-
-        /// <summary>
-        ///     Our species order is the Apple II's table at <c>$E068</c>; the DOS sheet's rows are bison, bear, antlered
-        ///     deer, doe, rabbit, squirrel. This maps one onto the other.
-        /// </summary>
-        private static readonly int[] SpeciesToRow = [2, 1, 0, 3, 4, 5];
-
         private HuntGame _game = null!;
         private HuntLandscape _landscape = null!;
 
@@ -237,7 +225,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         private void SyncSprites()
         {
             var frame = HuntGame.WalkCycle[_game.Walking ? _game.WalkPhase : 0];
-            _hunter.Image = Assets.Dos("hunter", AimToGroup[_game.Aim] * 3 + frame + 1);
+            _hunter.Image = DosFrames.Hunter(_game.Aim, frame);
             _hunter.X = _game.HunterX;
             _hunter.Y = _game.HunterY;
 
@@ -248,7 +236,7 @@ namespace OregonTrailDotNet.Minigames.Windows
                 if (!animal.Active)
                     continue;
 
-                _animals[i].Image = Assets.Dos("animals", AnimalFrame(animal.Species, animal.Frame, animal.Facing));
+                _animals[i].Image = DosFrames.Animal(animal.Species, animal.Frame, animal.Facing);
                 _animals[i].X = animal.X;
                 _animals[i].Y = animal.Y;
             }
@@ -257,7 +245,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             while (_carcasses.Count < _game.Carcasses.Count)
             {
                 var carcass = _game.Carcasses[_carcasses.Count];
-                var sprite = new Sprite(Assets.Dos("animals", DeadFrame(carcass.Species)), carcass.X, carcass.Y);
+                var sprite = new Sprite(DosFrames.DeadAnimal(carcass.Species), carcass.X, carcass.Y);
                 _carcasses.Add(sprite);
                 _scene.Sprites.Insert(0, sprite);
             }
@@ -267,17 +255,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             _bullet.Y = _game.Shot.Y;
         }
 
-        /// <summary>
-        ///     A walking frame. Each sheet row is <c>[dead, walk1..3, mirrored walk3..1, mirrored dead]</c>, so walking
-        ///     the other way is the mirrored half read backwards, which keeps the cycle in step.
-        /// </summary>
-        private static int AnimalFrame(int species, int frame, int facing)
-        {
-            var column = facing < 0 ? 6 - frame : 1 + frame;
-            return SpeciesToRow[species] * 8 + column + 1;
-        }
 
-        private static int DeadFrame(int species) => SpeciesToRow[species] * 8 + 1;
 
         private void ClearCarcassSprites()
         {
@@ -313,11 +291,19 @@ namespace OregonTrailDotNet.Minigames.Windows
             return BuildField();
         }
 
-        /// <summary>Grass with the scenery painted straight in, since none of it ever moves.</summary>
+        /// <summary>
+        ///     The field, with the scenery painted straight in since none of it ever moves.
+        ///     <para>
+        ///         <b>The ground is black</b>, in both ports — there is no grass. This port drew it green for a while,
+        ///         which was invention: the Apple II OR-blits its scenery onto a cleared hi-res screen (which is why
+        ///         <c>apple2_hunt.py</c> decodes black as transparent), and a capture of the DOS hunt shows the same
+        ///         thing, scenery and hunter standing on plain black.
+        ///     </para>
+        /// </summary>
         private PixelBuffer BuildField()
         {
             var field = new PixelBuffer(HuntGame.FieldWidth, HuntGame.FieldHeight);
-            var ground = new Rgba32(4, 156, 0, 255);
+            var ground = new Rgba32(0, 0, 0, 255);
             for (var y = 0; y < field.Height; y++)
             for (var x = 0; x < field.Width; x++)
                 field.SetPixel(x, y, ground);
