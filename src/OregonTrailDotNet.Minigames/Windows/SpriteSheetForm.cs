@@ -160,8 +160,8 @@ namespace OregonTrailDotNet.Minigames.Windows
             var rows = (cycles.Length + columns - 1) / columns;
 
             var canvas = new PixelBuffer(columns * cellWidth + 4, rows * cellHeight + 4);
-            var field = new Rgba32(48, 48, 56, 255);
-            var label = new Rgba32(200, 200, 200, 255);
+            var field = Palette.Chrome.Field;
+            var label = Palette.Chrome.Label;
             for (var y = 0; y < canvas.Height; y++)
             for (var x = 0; x < canvas.Width; x++)
                 canvas.SetPixel(x, y, field);
@@ -192,8 +192,8 @@ namespace OregonTrailDotNet.Minigames.Windows
             var rows = (frames.Length + columns - 1) / columns;
 
             var canvas = new PixelBuffer(columns * cellWidth + 4, rows * cellHeight + 4);
-            var field = new Rgba32(48, 48, 56, 255);
-            var label = new Rgba32(200, 200, 200, 255);
+            var field = Palette.Chrome.Field;
+            var label = Palette.Chrome.Label;
             for (var y = 0; y < canvas.Height; y++)
             for (var x = 0; x < canvas.Width; x++)
                 canvas.SetPixel(x, y, field);

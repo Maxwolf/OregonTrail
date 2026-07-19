@@ -62,11 +62,13 @@ namespace OregonTrailDotNet.Minigames.Windows
             ("Ann", "")
         ];
 
+        // Apple II inks, not DOS ones: this screen is drawn over 1985 artwork, whose white is a true 255. The grey
+        // is not a hi-res colour at all -- the Apple II cannot make one -- it is here to test legibility.
         private static readonly (string Name, Rgba32 Colour)[] Inks =
         [
-            ("black (INVERSE on the white panel)", new Rgba32(0, 0, 0, 255)),
-            ("white", new Rgba32(255, 255, 255, 255)),
-            ("chisel grey", new Rgba32(72, 72, 72, 255))
+            ("black (INVERSE on the white panel)", Palette.Apple2.Black),
+            ("white", Palette.Apple2.White),
+            ("chisel grey (not a hi-res colour)", new Rgba32(72, 72, 72, 255))
         ];
 
         private PixelBuffer _stone = null!;
@@ -189,7 +191,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <summary>Draws the character cells, which is what makes a position checkable rather than eyeballed.</summary>
         private void DrawGrid(PixelBuffer canvas, int columns, int rows)
         {
-            var line = new Rgba32(255, 96, 0, 255);
+            var line = Palette.Chrome.Rule;
             for (var column = 0; column <= columns; column++)
             for (var y = 0; y <= rows * CellH; y++)
                 Plot(canvas, _x + column * CellW, _y + y, line);

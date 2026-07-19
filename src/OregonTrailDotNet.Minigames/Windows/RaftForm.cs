@@ -268,7 +268,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <param name="right">True for the right-hand marker (the landing), false for the left (the direction sign).</param>
         private static PixelBuffer Marker(PixelBuffer block, bool right)
         {
-            var sand = new Rgba32(252, 184, 144, 255);
+            var sand = Palette.Sand;
             bool IsSand(int x, int y)
             {
                 var pixel = block.GetPixel(x, y);
@@ -314,7 +314,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             for (var y = top; y <= bottom; y++)
             for (var x = start; x <= end; x++)
                 marker.SetPixel(x - start, y - top,
-                    IsSand(x, y) ? new Rgba32(0, 0, 0, 0) : block.GetPixel(x, y));
+                    IsSand(x, y) ? Palette.Clear : block.GetPixel(x, y));
 
             return marker;
         }
@@ -342,8 +342,8 @@ namespace OregonTrailDotNet.Minigames.Windows
             // Both colours are read off float.png itself rather than picked: the sheet is keyed on its water, and the
             // shore block it ships is that tan. Those two are the whole palette — the banks of the Columbia here are
             // bare arid sand, with no grass and no shallows, and the water meets them on one hard diagonal edge.
-            var water = new Rgba32(64, 176, 252, 255);
-            var sand = new Rgba32(252, 184, 144, 255);
+            var water = Palette.Water;
+            var sand = Palette.Sand;
 
             for (var y = 0; y < river.Height; y++)
             for (var x = 0; x < river.Width; x++)

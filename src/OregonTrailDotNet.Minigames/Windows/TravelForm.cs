@@ -199,14 +199,19 @@ namespace OregonTrailDotNet.Minigames.Windows
         {
             var backdrop = new PixelBuffer(TravelGame.ScreenWidth, TravelGame.ScreenHeight);
 
-            var black = new Rgba32(0, 0, 0, 255);
-            var white = new Rgba32(255, 255, 255, 255);
+            var black = Palette.Black;
+            var white = Palette.White;
 
+            // The original floods the ground with `& BOX ,CC` where CC is 3, 5 or 1 (:310). Those are Apple II hi-res
+            // colour numbers, but the art on top of them here is the DOS port's, so each is taken as the nearest DOS
+            // palette entry rather than as the 1985 colour -- otherwise the flood is a shade no sprite above it can
+            // contain. Snow and grass land on real palette entries either way; the arid case is the one that moved,
+            // from a mixed-by-hand orange that is in NEITHER palette to the sand the port's own dry ground uses.
             var ground = _game.Weather switch
             {
-                TravelWeatherEnum.Snow => new Rgba32(252, 252, 252, 255),      // colour 3
-                TravelWeatherEnum.Arid => new Rgba32(216, 132, 60, 255),       // colour 5
-                _ => new Rgba32(4, 156, 0, 255)                                // colour 1
+                TravelWeatherEnum.Snow => Palette.Snow,     // CC=3
+                TravelWeatherEnum.Arid => Palette.Sand,     // CC=5
+                _ => Palette.Grass                          // CC=1
             };
 
             for (var y = 0; y < backdrop.Height; y++)
@@ -233,8 +238,8 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// </summary>
         private void DrawStatusPanel(PixelBuffer frame)
         {
-            var black = new Rgba32(0, 0, 0, 255);
-            var white = new Rgba32(255, 255, 255, 255);
+            var black = Palette.Black;
+            var white = Palette.White;
 
             PixelFont.DrawFixed(frame, "Press ENTER to size up the situation",
                 (TravelGame.ScreenWidth - 36 * 8) / 2, TravelGame.PromptY, white, 8);

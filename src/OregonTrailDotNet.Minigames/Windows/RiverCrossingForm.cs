@@ -33,13 +33,12 @@ namespace OregonTrailDotNet.Minigames.Windows
         private const int FerrySprite = 3;
         private const int WreckSprite = 8;
 
-        // Both read off float.png rather than picked: the sheet is keyed on its water blue, and the shore block it
-        // ships is that sand. The bank is the SAME sand as the Columbia raft screen's -- arid, not mud. It had been
-        // a hand-chosen brown here, which is the one colour on screen that never appears in the DOS art.
-        private static readonly Rgba32 Water = new(64, 176, 252, 255);
-        private static readonly Rgba32 Land = new(252, 184, 144, 255);
-        private static readonly Rgba32 Frame = new(255, 255, 255, 255);
-        private static readonly Rgba32 Backdrop = new(0, 0, 0, 255);
+        // The bank is the SAME arid sand as the Columbia raft screen's, not mud -- see Palette for why these are
+        // shared rather than mixed per screen.
+        private static readonly Rgba32 Water = Palette.Water;
+        private static readonly Rgba32 Land = Palette.Sand;
+        private static readonly Rgba32 Frame = Palette.White;
+        private static readonly Rgba32 Backdrop = Palette.Black;
 
         private RiverCrossingGame _game = null!;
 

@@ -303,7 +303,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         private PixelBuffer BuildField()
         {
             var field = new PixelBuffer(HuntGame.FieldWidth, HuntGame.FieldHeight);
-            var ground = new Rgba32(0, 0, 0, 255);
+            var ground = Palette.Black;
             for (var y = 0; y < field.Height; y++)
             for (var x = 0; x < field.Width; x++)
                 field.SetPixel(x, y, ground);
@@ -317,7 +317,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         private static PixelBuffer BuildBullet()
         {
             var bullet = new PixelBuffer(2, 2);
-            var white = new Rgba32(252, 252, 252, 255);
+            var white = Palette.White;
             for (var y = 0; y < 2; y++)
             for (var x = 0; x < 2; x++)
                 bullet.SetPixel(x, y, white);
