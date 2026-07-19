@@ -219,9 +219,20 @@ namespace OregonTrailDotNet.Minigames.Windows
             {
                 Fit = AnsiImageFitEnum.Contain,
                 MaxRows = Math.Max(4, rows),
-                CenterHorizontally = true
+                CenterHorizontally = CenterPicture
             };
         }
+
+        /// <summary>
+        ///     Whether to centre the picture in the console.
+        ///     <para>
+        ///         Turn it off for a section whose picture is the first thing it prints. Centring indents each row, and
+        ///         the console is not cleared between frames, so those indented columns keep whatever the previous
+        ///         screen left there — the menu shows through down the side of the artwork. A section that prints text
+        ///         above its picture never notices, because the text has already overwritten that area.
+        ///     </para>
+        /// </summary>
+        protected virtual bool CenterPicture => true;
 
         /// <summary>Builds the standard footer every section shows under its picture.</summary>
         protected string Footer(string keys)

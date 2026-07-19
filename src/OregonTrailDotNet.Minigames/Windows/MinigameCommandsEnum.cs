@@ -28,7 +28,10 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <summary>Every crossing type in turn: ford, float, ferry, guide, and each way they go wrong.</summary>
         [Description("River crossings      (all types, in sequence)")] RiverCrossing = 7,
 
+        /// <summary>The trail map, drawing the route in as the party walks to Oregon.</summary>
+        [Description("Trail map            (route fills in to Oregon)")] TrailMap = 8,
+
         /// <summary>Close the workbench.</summary>
-        [Description("Quit")] Quit = 8
+        [Description("Quit")] Quit = 9
     }
 }
