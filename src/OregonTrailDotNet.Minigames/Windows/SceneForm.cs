@@ -92,12 +92,16 @@ namespace OregonTrailDotNet.Minigames.Windows
             Recompose();
         }
 
-        /// <inheritdoc />
-        public override void OnKeyPressed(ConsoleKey key)
+        /// <summary>
+        ///     Takes the whole <see cref="ConsoleKeyInfo" /> rather than the bare key, because a section may need to
+        ///     tell a shifted key from its unshifted twin — <c>ConsoleKey.OemComma</c> is reported for both <c>,</c>
+        ///     and <c>&lt;</c>, and only <c>KeyChar</c> separates them. This is the overload the framework dispatches;
+        ///     its base implementation is what forwards to the <see cref="ConsoleKey" /> one.
+        /// </summary>
+        /// <param name="keyInfo">The key exactly as the console reported it.</param>
+        public override void OnKeyPressed(ConsoleKeyInfo keyInfo)
         {
-            base.OnKeyPressed(key);
-
-            switch (key)
+            switch (keyInfo.Key)
             {
                 case ConsoleKey.Escape:
                     // Back to the menu. The window is still underneath with its choices already built.
@@ -114,7 +118,7 @@ namespace OregonTrailDotNet.Minigames.Windows
                     Invalidate();
                     return;
                 default:
-                    OnSectionKey(key);
+                    OnSectionKey(keyInfo);
                     return;
             }
         }
@@ -143,6 +147,14 @@ namespace OregonTrailDotNet.Minigames.Windows
         protected virtual void OnSectionKey(ConsoleKey key)
         {
         }
+
+        /// <summary>
+        ///     The same, with the shift state and character still attached. Sections that do not care about either
+        ///     override <see cref="OnSectionKey(ConsoleKey)" /> and are unaffected; a section that needs to tell
+        ///     <c>&lt;</c> from <c>,</c> overrides this one instead and falls back to <c>base</c> for the rest.
+        /// </summary>
+        /// <param name="keyInfo">The key exactly as the console reported it.</param>
+        protected virtual void OnSectionKey(ConsoleKeyInfo keyInfo) => OnSectionKey(keyInfo.Key);
 
         /// <summary>Marks a still section as needing one more compose.</summary>
         protected void Invalidate() => _dirty = true;

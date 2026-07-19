@@ -15,12 +15,35 @@ namespace OregonTrailDotNet.Minigames.Windows
     [ParentWindow(typeof(MinigamesWindow))]
     public sealed class HuntForm : SceneForm
     {
-        /// <summary>The ring of keys around L, in compass order from North — the original's expert aiming.</summary>
+        /// <summary>
+        ///     The Apple II's expert aiming, verified against its own key table at <c>$ED1E</c>:
+        ///     <c>3B 50 4F 49 4B 2C 2E 2F</c> = <c>; P O I K , . /</c> — the ring of keys around <b>L</b>, which the
+        ///     handler at <c>$ECC8</c> searches for the pressed key and uses the table index as an absolute heading.
+        ///     Listed here in our compass order (0 = N, clockwise).
+        /// </summary>
         private static readonly ConsoleKey[] ExpertKeys =
         [
             ConsoleKey.O, ConsoleKey.P, ConsoleKey.Oem1, ConsoleKey.Oem2,
             ConsoleKey.OemPeriod, ConsoleKey.OemComma, ConsoleKey.K, ConsoleKey.I
         ];
+
+        /// <summary>
+        ///     The <b>1990 DOS port's</b> expert aiming: the numeric keypad read as the compass it already looks like.
+        ///     The Apple II never used it — its ring is <see cref="ExpertKeys" /> — but both ports keep every aiming
+        ///     scheme live at once rather than switching modes, so adding this one alongside is in that spirit.
+        ///     <para>
+        ///         The top-row digits are mapped to the same headings purely as a convenience for keyboards with no
+        ///         separate keypad; that part is ours, not either port's.
+        ///     </para>
+        /// </summary>
+        private static readonly Dictionary<ConsoleKey, int> KeypadAim = new()
+        {
+            [ConsoleKey.NumPad8] = 0, [ConsoleKey.NumPad9] = 1, [ConsoleKey.NumPad6] = 2,
+            [ConsoleKey.NumPad3] = 3, [ConsoleKey.NumPad2] = 4, [ConsoleKey.NumPad1] = 5,
+            [ConsoleKey.NumPad4] = 6, [ConsoleKey.NumPad7] = 7,
+            [ConsoleKey.D8] = 0, [ConsoleKey.D9] = 1, [ConsoleKey.D6] = 2, [ConsoleKey.D3] = 3,
+            [ConsoleKey.D2] = 4, [ConsoleKey.D1] = 5, [ConsoleKey.D4] = 6, [ConsoleKey.D7] = 7
+        };
 
         /// <summary>
         ///     Our compass (0=N, clockwise) onto the hunter sheet's groups of three. The sheet stores each drawn strip
@@ -85,6 +108,35 @@ namespace OregonTrailDotNet.Minigames.Windows
             SyncSprites();
         }
 
+        /// <summary>
+        ///     The 1990 DOS port's <b>novice</b> aiming, which rotates one step per press. Its instruction screen
+        ///     draws these as two keycaps — <c>&lt;</c> printed above <c>,</c>, and <c>&gt;</c> above <c>.</c> — so
+        ///     they are the comma and period <i>keys</i>, exactly the two the Apple II's expert ring already uses for
+        ///     absolute SW and S. The two ports collide on the same physical keys.
+        ///     <para>
+        ///         Since this workbench runs both schemes at once, the collision is resolved by shift: <b>unshifted
+        ///         <c>,</c> and <c>.</c> aim absolutely</b> (Apple II), <b>shifted <c>&lt;</c> and <c>&gt;</c> rotate a
+        ///         step</b> (DOS). That reconciliation is ours — neither port had to make it — and it needs
+        ///         <c>KeyChar</c>, because <c>ConsoleKey.OemComma</c> is reported for both.
+        ///     </para>
+        /// </summary>
+        /// <param name="keyInfo">The key exactly as the console reported it.</param>
+        protected override void OnSectionKey(ConsoleKeyInfo keyInfo)
+        {
+            switch (keyInfo.KeyChar)
+            {
+                case '<':
+                    _game.Nudge(-1);
+                    return;
+                case '>':
+                    _game.Nudge(1);
+                    return;
+                default:
+                    base.OnSectionKey(keyInfo);
+                    return;
+            }
+        }
+
         /// <inheritdoc />
         protected override void OnSectionKey(ConsoleKey key)
         {
@@ -103,10 +155,10 @@ namespace OregonTrailDotNet.Minigames.Windows
                     _game.AimAt(4);
                     return;
                 case ConsoleKey.Spacebar:
+                case ConsoleKey.NumPad5:
+                case ConsoleKey.D5:
+                    // SPACE is the original's ($EC6B). The keypad's centre is ours, to keep a hand on the pad.
                     _game.Fire();
-                    return;
-                case ConsoleKey.Enter:
-                    _game.Walking = !_game.Walking;
                     return;
                 case ConsoleKey.R:
                     // A new hunt is new country, so the ground is rescattered with it.
@@ -133,7 +185,31 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             var expert = Array.IndexOf(ExpertKeys, key);
             if (expert >= 0)
+            {
                 _game.AimAt(expert);
+                return;
+            }
+
+            if (KeypadAim.TryGetValue(key, out var heading))
+                _game.AimAt(heading);
+        }
+
+        /// <summary>
+        ///     Walking is toggled here rather than from <see cref="OnSectionKey" /> because <b>ENTER never arrives as
+        ///     a key press</b>: WolfCurses' <c>InputManager.SendConsoleKey</c> treats it as "submit the buffer" and
+        ///     returns without calling <c>SendKeyPress</c>, so a <c>case ConsoleKey.Enter</c> in the key handler is
+        ///     dead code — which is exactly what it was, and why walking did nothing.
+        ///     <para>
+        ///         RETURN is the original's own binding for it: <c>HUNT.LIB</c>'s instruction screen prints "Return
+        ///         Key" against "To start or stop walking", and the handler at <c>$EC7F</c> flips bit 7 of
+        ///         <c>$EE08</c> on <c>$0D</c>.
+        ///     </para>
+        /// </summary>
+        /// <param name="input">Ignored; this section reads keys, not lines.</param>
+        public override void OnInputBufferReturned(string input)
+        {
+            _game.Walking = !_game.Walking;
+            Invalidate();
         }
 
         /// <inheritdoc />
@@ -152,7 +228,8 @@ namespace OregonTrailDotNet.Minigames.Windows
                 $"ground: ZO {_landscape.Zone} {_landscape.ZoneName}   " +
                 $"{_landscape.Props.Count} pieces (RND 0-3 +4)   seed {_landscape.Seed}");
             text.AppendLine(Footer(
-                "ARROWS turn/snap   I O P ; / . , K aim   SPACE fire   ENTER walk   Z zone   L ground   R restart"));
+                "ARROWS or < > turn   I O P ; / . , K or NUMPAD aim   SPACE/5 fire   ENTER walk   " +
+                "Z zone   L ground   R restart"));
             text.Append(_scene.ToAnsi(PictureOptions()));
             return text.ToString();
         }

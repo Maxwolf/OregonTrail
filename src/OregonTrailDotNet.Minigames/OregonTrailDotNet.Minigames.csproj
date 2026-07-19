@@ -12,7 +12,7 @@
   <ItemGroup>
     <!-- Same WolfCurses the game and bot use; this harness deliberately references nothing else, so a
          minigame can be built and felt without any of the game's simulation on top of it. -->
-    <PackageReference Include="WolfCurses" Version="2026.7.18.12" />
+    <PackageReference Include="WolfCurses" Version="2026.7.19.13" />
   </ItemGroup>
 
 </Project>
