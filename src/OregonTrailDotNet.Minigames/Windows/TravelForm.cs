@@ -37,7 +37,18 @@ namespace OregonTrailDotNet.Minigames.Windows
         private SpriteScene _scene = null!;
         private Sprite _scenery = null!;
         private Sprite _wagon = null!;
+        private Sprite _eventIcon = null!;
         private string _backdropKey = string.Empty;
+
+        /// <summary>
+        ///     Which event picture is parked in the sky, or null for none.
+        ///     <para>
+        ///         The events themselves are deliberately <b>not</b> wired up — nothing here rolls for weather or takes
+        ///         a day off the clock. This is a cycle key so the art is loaded, positioned and checkable, ready for
+        ///         whatever drives it later.
+        ///     </para>
+        /// </summary>
+        private EventIconEnum? _icon;
 
         /// <summary>Initializes a new instance of the <see cref="TravelForm" /> class.</summary>
         /// <param name="window">The parent window.</param>
@@ -49,6 +60,14 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <inheritdoc />
         protected override int ReservedRows => 9;
 
+        /// <summary>
+        ///     Faster than the workbench default, to pay back the small per-tick distances
+        ///     <see cref="TravelGame.MilesPerTick" /> has to use so the walk cycle cannot alias. A leg runs about
+        ///     16 seconds at a grueling pace and 40 at a steady one, and the team's legs cycle roughly two and a half
+        ///     times a second against one — which is the difference pace is meant to show and previously did not.
+        /// </summary>
+        protected override int DefaultTicksPerSecond => 15;
+
         /// <inheritdoc />
         protected override void Build()
         {
@@ -56,6 +75,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             _scenery = new Sprite(Assets.Dos("scenery", _game.Scenery.SpriteId));
             _wagon = new Sprite(Assets.Dos("travelox", FirstWalkFrame));
+            _eventIcon = new Sprite(DosFrames.EventIcon(EventIconEnum.Thunderstorm)) { Visible = false };
 
             RebuildScene();
             SyncSprites();
@@ -93,6 +113,9 @@ namespace OregonTrailDotNet.Minigames.Windows
                     break;
                 case ConsoleKey.N:
                     _game.NextLeg();
+                    break;
+                case ConsoleKey.E:
+                    CycleEventIcon();
                     break;
                 case ConsoleKey.R:
                     _game.Reset();
@@ -136,13 +159,26 @@ namespace OregonTrailDotNet.Minigames.Windows
                      "so the legs cycle faster the harder you drive."
             });
 
-            text.AppendLine(Footer("T terrain   W weather   P pace   B wagon   N next leg   R restart"));
+            text.AppendLine(Footer(
+                $"T terrain   W weather   P pace   B wagon   N next leg   E sky ({_icon?.ToString() ?? "none"})   " +
+                "R restart"));
 
             // Compose to pixels first so the panel can be drawn over the finished frame, then resample once.
             var frame = _scene.Compose();
             DrawStatusPanel(frame);
             text.Append(AnsiImage.FromPixels(frame).ToAnsi(PictureOptions()));
             return text.ToString();
+        }
+
+        /// <summary>
+        ///     Steps through the event pictures and back to none, so every one can be seen in place. Cycling art is
+        ///     all this does — no event fires, nothing is lost and no time passes.
+        /// </summary>
+        private void CycleEventIcon()
+        {
+            var icons = Enum.GetValues<EventIconEnum>();
+            var next = _icon is null ? 0 : Array.IndexOf(icons, _icon.Value) + 1;
+            _icon = next >= icons.Length ? null : icons[next];
         }
 
         /// <summary>Seats the sprites on the ground line and points the wagon at the right frame.</summary>
@@ -168,6 +204,20 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             _scenery.X = _game.SceneryX - _scenery.Image.Width;
             _scenery.Y = TravelGame.GroundY - _scenery.Image.Height;
+
+            _eventIcon.Visible = _icon.HasValue;
+            if (!_icon.HasValue)
+                return;
+
+            _eventIcon.Image = DosFrames.EventIcon(_icon.Value);
+            var (x, y) = DosFrames.EventIconSpot(_icon.Value);
+            _eventIcon.X = x * TravelGame.ScreenWidth / Assets.Apple2Width;
+
+            // Anything on the ground is seated on the ground line, exactly as the scenery and the team are, rather
+            // than positioned by a y meant for a differently sized 1985 sprite.
+            _eventIcon.Y = DosFrames.EventIconStandsOnGround(_icon.Value)
+                ? TravelGame.GroundY - _eventIcon.Image.Height
+                : y * TravelGame.ScreenHeight / Assets.Apple2Height;
         }
 
         /// <summary>
@@ -180,6 +230,10 @@ namespace OregonTrailDotNet.Minigames.Windows
             _scene = new SpriteScene(BuildBackdrop());
             _scene.Sprites.Add(_scenery);
             _scene.Sprites.Add(_wagon);
+
+            // Last, so an event picture sits over the horizon strip rather than behind it — the original blits it
+            // after the scene is drawn, for the same reason.
+            _scene.Sprites.Add(_eventIcon);
         }
 
         /// <summary>

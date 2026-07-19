@@ -83,5 +83,98 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// </summary>
         /// <param name="walkFrame">Walk frame 0-2.</param>
         public static PixelBuffer Ox(int walkFrame) => Assets.Dos("travelox", walkFrame + 1);
+
+        /// <summary>
+        ///     The picture an event paints into the travel screen's sky.
+        ///     <para>
+        ///         Named from the Apple II's <c>EVENTS.IMA</c>, whose slots the BASIC calls out by number, so these are
+        ///         not guesses at what the artist drew: <c>:10605</c> blits <c>I=1</c> for "Severe thunderstorm" and
+        ///         <c>I=3</c> for "Severe blizzard", <c>:10705</c> blits 2 for "Hail storm.", <c>:11100</c> blits 6 for
+        ///         "Find wild fruit." and <c>:10000</c> blits 8 for "Snow bound". Lining that table up against the DOS
+        ///         sheet settles which cloud is which — the one shedding cyan stones is hail and the white-flecked one
+        ///         is the blizzard, which is the opposite of what the colours suggest at a glance.
+        ///     </para>
+        ///     <para>
+        ///         The DOS sheet carries seven where the Apple II carries eight: it drops that table's plain and
+        ///         burning wagons, which the port keeps on <c>travelox</c> as frames 4 and 5 instead.
+        ///     </para>
+        /// </summary>
+        /// <param name="icon">Which event picture is wanted.</param>
+        public static PixelBuffer EventIcon(EventIconEnum icon) => Assets.Dos("events", (int) icon);
+
+        /// <summary>
+        ///     Where each event picture is blitted, in the Apple II's 280x192 space.
+        ///     <para>
+        ///         These are <b>not</b> one shared spot — the BASIC gives every event its own coordinates, and putting
+        ///         them all in the same place looks wrong immediately: the storms hang at the top of the sky
+        ///         (<c>105,0</c> and <c>118,0</c>) while the rest belong down on the ground.
+        ///     </para>
+        ///     <para>
+        ///         <see cref="EventIconEnum.Trader" /> is the one with no coordinate to copy. It has no counterpart in
+        ///         the Apple II table at all — that table's remaining slots are the plain and burning wagons, which the
+        ///         DOS port keeps on <c>travelox</c> — so it is placed beside the figure it resembles rather than
+        ///         given a made-up position of its own.
+        ///     </para>
+        /// </summary>
+        /// <param name="icon">Which event picture is wanted.</param>
+        public static (int X, int Y) EventIconSpot(EventIconEnum icon) => icon switch
+        {
+            EventIconEnum.Thunderstorm => (105, 0),   // :10605, I=1
+            EventIconEnum.Blizzard => (105, 0),       // :10605, I=3 -- same call, same spot
+            EventIconEnum.HailStorm => (118, 0),      // :10705
+            EventIconEnum.WildFruit => (150, 32),     // :11100
+            EventIconEnum.SnowBound => (130, 47),     // :10000
+            EventIconEnum.Traveller => (263, 35),     // :11330
+            _ => (263, 35)
+        };
+
+        /// <summary>
+        ///     Whether this picture stands on the ground rather than hanging in the sky, in which case only the
+        ///     <c>X</c> of <see cref="EventIconSpot" /> is any use.
+        ///     <para>
+        ///         The listing's <c>Y</c> values cannot be copied across for these, because they are not really
+        ///         positions — they are <c>60 - height</c> for the <i>Apple II's</i> sprite, and 60 is where
+        ///         <c>:310</c> starts flooding the ground. It comes out exact for three of the four: the burning wagon
+        ///         (32+28), the figure (35+25) and the snow drift (47+13) all finish precisely on 60. The DOS art is
+        ///         cut tight to its content and is a different size, so reusing those numbers leaves it hanging in
+        ///         mid-air — which is exactly what it did.
+        ///     </para>
+        ///     <para>
+        ///         Wild fruit is the one that does not fit the rule: its <c>32+12</c> stops at 44, a good 16 rows shy
+        ///         of the ground. Seated here anyway, because a berry bush floating at chest height reads as a bug
+        ///         whatever the 1985 listing says, and the DOS bush is a taller sprite than the Apple II's besides.
+        ///     </para>
+        /// </summary>
+        /// <param name="icon">Which event picture is wanted.</param>
+        public static bool EventIconStandsOnGround(EventIconEnum icon) =>
+            icon is not (EventIconEnum.Thunderstorm or EventIconEnum.Blizzard or EventIconEnum.HailStorm);
+    }
+
+    /// <summary>
+    ///     The <c>events</c> sheet in cut order. Values are the sprite ids themselves, so the enum can be cast
+    ///     straight to one.
+    /// </summary>
+    public enum EventIconEnum
+    {
+        /// <summary>Berries on the bush — the Apple II's slot 6, <c>:11100</c> "Find wild fruit."</summary>
+        WildFruit = 1,
+
+        /// <summary>A bank of drifted snow — slot 8, <c>:10000</c> "Snow bound".</summary>
+        SnowBound = 2,
+
+        /// <summary>Cloud shedding white flakes — slot 3, <c>:10605</c> with <c>I=3</c>, "Severe blizzard".</summary>
+        Blizzard = 3,
+
+        /// <summary>Cloud shedding cyan stones — slot 2, <c>:10705</c> "Hail storm."</summary>
+        HailStorm = 4,
+
+        /// <summary>Cloud with a yellow bolt — slot 1, <c>:10605</c> with <c>I=1</c>, "Severe thunderstorm".</summary>
+        Thunderstorm = 5,
+
+        /// <summary>A figure with a bundle. The Apple II's nearest is slot 7, blitted at <c>:11330</c>.</summary>
+        Traveller = 6,
+
+        /// <summary>A figure with goods to hand — the trading counterpart of <see cref="Traveller" />.</summary>
+        Trader = 7
     }
 }

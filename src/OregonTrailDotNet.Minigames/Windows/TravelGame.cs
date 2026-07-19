@@ -256,12 +256,28 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <summary>True once the leg has run out, which is when the scenery has reached its resting place.</summary>
         public bool Arrived => MilesRemaining <= 0;
 
-        /// <summary>Miles a tick buys at the current pace.</summary>
+        /// <summary>
+        ///     Miles a tick buys at the current pace. Kept in the same 1 : 1.7 : 2.5 proportion the original drives
+        ///     the team at, but small in absolute terms, and that part is not a taste decision — see below.
+        ///     <para>
+        ///         <b>These numbers have to stay low enough that a tick is well under one walk cycle.</b> The walk is
+        ///         three frames and the frame advances once per stride, so if a tick covers three strides the legs land
+        ///         back on the frame they started on and the team appears frozen. That is not a subtle effect: at the
+        ///         first values here (1.2 / 2.0 / 3.0 miles) grueling worked out at 3.24 strides a tick and looked
+        ///         <i>slower</i> than steady's 1.29, which is the exact opposite of what pace is supposed to show.
+        ///     </para>
+        ///     <para>
+        ///         At these values the fastest pace is around half a stride per tick, so the cycle can never alias, and
+        ///         <see cref="TravelForm" /> runs its clock faster to keep the journey taking about as long as before.
+        ///         The rule of thumb for changing them: strides a tick is roughly <c>miles x 1.1</c>, and it wants to
+        ///         stay under about 1.5 even for the widest scenery.
+        ///     </para>
+        /// </summary>
         public double MilesPerTick => Pace switch
         {
-            TravelPaceEnum.Strenuous => 2.0,
-            TravelPaceEnum.Grueling => 3.0,
-            _ => 1.2
+            TravelPaceEnum.Strenuous => 0.33,
+            TravelPaceEnum.Grueling => 0.50,
+            _ => 0.20
         };
 
         /// <summary>

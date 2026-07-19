@@ -29,6 +29,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             new("hunter — 8 aim directions x 3 walk, in N NE NW E W SE SW S order", "hunter", 24),
             new("animals — 6 species x [dead, walk x3, mirrored walk x3, mirrored dead]", "animals", 48),
             new("terrain — hunting-field scenery (the keypad tiles are filtered out)", "terrain", 14),
+            new("events — what an event paints into the sky; see EventIconEnum for which is which", "events", 7),
             new("animations — every walk cycle at once, running the game's own frame maps", "", 0, true)
         ];
 
