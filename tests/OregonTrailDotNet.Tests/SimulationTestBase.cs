@@ -1,4 +1,5 @@
 using System;
+using OregonTrailDotNet.Module.Director;
 
 namespace OregonTrailDotNet.Tests
 {
@@ -18,6 +19,11 @@ namespace OregonTrailDotNet.Tests
             // graphical scene forms into the text-form assertions that follow.
             GameSimulationApp.PresentationEnabled = false;
             GameSimulationApp.Instance?.Destroy();
+
+            // The scene-event recorder is a process-wide static that outlives the singleton; clear it so an assert
+            // on "the last event executed" can never be satisfied by an event a previous test fired.
+            SceneEvents.Record(null);
+
             GameSimulationApp.Create();
 
             // The first tick creates the modules and windows, the second renders the attached
