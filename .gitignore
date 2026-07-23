@@ -153,6 +153,10 @@ publish/
 *.pubxml
 *.publishproj
 
+# ...but our self-contained publish profiles carry only build settings (no secrets),
+# so keep them in source control.
+!**/PublishProfiles/SelfContained.pubxml
+
 # Microsoft Azure Web App publish settings. Comment the next line if you want to
 # checkin your Azure Web App publish settings, but sensitive information contained
 # in these scripts will be unencrypted
