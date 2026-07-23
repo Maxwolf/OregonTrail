@@ -265,12 +265,14 @@ namespace OregonTrailDotNet.Window.Travel
                 return;
             }
 
-            // Check if player is just arriving at a new location.
+            // Check if player is just arriving at a new location. The first location's "Going back to 1848" moment
+            // is the opening, and with presentation on it plays graphically — the Independence card under the
+            // opening tune; every other arrival (and every headless host) keeps the text prompt.
             if ((game.Trail.CurrentLocation.Status == LocationStatusEnum.Arrived) && !game.Trail.CurrentLocation.ArrivalFlag &&
                 !GameOver)
             {
                 game.Trail.CurrentLocation.ArrivalFlag = true;
-                SetForm(typeof(LocationArrive));
+                SetForm(Scene.OpeningCard.ShouldShow ? typeof(Scene.OpeningCard) : typeof(LocationArrive));
                 return;
             }
 

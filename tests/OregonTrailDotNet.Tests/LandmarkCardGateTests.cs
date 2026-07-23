@@ -71,6 +71,35 @@ namespace OregonTrailDotNet.Tests
         }
 
         [Fact]
+        public void FlagOff_Opening_StaysTheTextPrompt()
+        {
+            Assert.False(OpeningCard.ShouldShow);
+        }
+
+        [Fact]
+        public void FlagOn_Opening_ShowsTheIndependenceCard()
+        {
+            GameSimulationApp.PresentationEnabled = true;
+
+            // Boot state sits at the trail's first location.
+            Assert.True(OpeningCard.ShouldShow);
+        }
+
+        [Fact]
+        public void OpeningCard_Composes_WithTheTimeTravelLine()
+        {
+            GameSimulationApp.PresentationEnabled = true;
+
+            var window = new Travel(GameSimulationApp.Instance);
+            var card = new OpeningCard(window);
+            card.OnFormPostCreate();
+
+            var frame = card.OnRenderForm();
+            Assert.Contains("Going back to", frame);
+            Assert.Contains("Press ENTER to continue", frame);
+        }
+
+        [Fact]
         public void ArrivalCard_Composes_WithCaptionAndDismissHint()
         {
             GameSimulationApp.PresentationEnabled = true;

@@ -2,23 +2,21 @@
 using System.Text;
 using OregonTrailDotNet.Presentation;
 using OregonTrailDotNet.Presentation.Audio;
-using WolfCurses.Graphics;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
 
 namespace OregonTrailDotNet.Window.Travel.Scene
 {
     /// <summary>
-    ///     The departure card: the graphical sibling of <see cref="Dialog.LocationDepart" />, chosen by
-    ///     <see cref="TravelInfo.DepartFormType" /> when presentation is on. Shows the same "From X it is N miles
-    ///     to Y" text over the current stop's card while its tune plays — the original's <c>:2200</c> placement,
-    ///     the second of the two moments the 1985 game put music on the trail.
+    ///     The departure screen with its tune: the graphical sibling of <see cref="Dialog.LocationDepart" />, chosen
+    ///     by <see cref="TravelInfo.DepartFormType" /> when presentation is on. Same "From X it is N miles to Y"
+    ///     words, plus the current stop's tune — the original's <c>:2200</c> placement. Deliberately no picture: the
+    ///     cards belong to the look-around arrival (and the opening at Independence), not to setting out.
     /// </summary>
     [ParentWindow(typeof(Travel))]
     public sealed class LandmarkDepartCard : SceneForm<TravelInfo>
     {
         private OriginalStop _stop;
-        private PixelBuffer _picture;
 
         /// <summary>Initializes a new instance of the <see cref="LandmarkDepartCard" /> class.</summary>
         /// <param name="window">The parent window.</param>
@@ -28,11 +26,11 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         }
 
         /// <summary>
-        ///     Whether the current stop has a card to depart under; without one (the Columbia and Barlow branches)
+        ///     Whether the current stop has a tune to depart under; without one (the Columbia and Barlow branches)
         ///     the plain text form runs instead.
         /// </summary>
         internal static bool CanShow =>
-            (OriginalTrail.ForLocation(GameSimulationApp.Instance.Trail.CurrentLocation?.Name)?.CardArt ?? -1) >= 0;
+            OriginalTrail.ForLocation(GameSimulationApp.Instance.Trail.CurrentLocation?.Name)?.MusicSlug != null;
 
         /// <inheritdoc />
         protected override bool Animated => false;
@@ -60,16 +58,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         /// <inheritdoc />
         protected override void Build()
         {
-            var game = GameSimulationApp.Instance;
-            _stop = OriginalTrail.ForLocation(game.Trail.CurrentLocation?.Name);
-            if (_stop == null || _stop.CardArt < 0)
-                return;
-
-            var date = game.Time.Date;
-            _picture = LandmarkArt.WithCaption(
-                LandmarkArt.Card(_stop.CardArt),
-                LandmarkArt.CaptionName(_stop.OriginalName),
-                $"{date.Month} {date.Day}, {date.Year}");
+            _stop = OriginalTrail.ForLocation(GameSimulationApp.Instance.Trail.CurrentLocation?.Name);
         }
 
         /// <inheritdoc />
@@ -81,10 +70,6 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             text.AppendLine(
                 $"{Environment.NewLine}From {game.Trail.CurrentLocation.Name} it is {game.Trail.DistanceToNextLocation}");
             text.AppendLine($"miles to {game.Trail.NextLocation.Name}");
-
-            if (_picture != null)
-                text.AppendLine(AnsiImage.FromPixels(_picture).ToAnsi(PictureOptions()));
-
             text.Append(Footer(string.Empty));
             return text.ToString();
         }
