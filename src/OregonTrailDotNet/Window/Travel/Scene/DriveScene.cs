@@ -259,14 +259,27 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             SceneEvents.LastEventName != null &&
             GameSimulationApp.Instance.TotalTurns <= SceneEvents.LastEventTurn + 1;
 
-        /// <summary>The fixed sky picture for a freshly executed weather event, or null.</summary>
+        /// <summary>
+        ///     The fixed sky picture for today, or null. A freshly executed weather event wins; otherwise the day's
+        ///     own conditions hang the cloud — the clone's weather-event classes are ManualOnly and nothing triggers
+        ///     them, so severe weather would never show at all if the sky waited on events. Presentation only: the
+        ///     downpour and the blizzard already exist in the simulation, this just draws them.
+        /// </summary>
         private static EventIconEnum? CurrentSkyIcon()
         {
-            if (!EventIsFresh())
-                return null;
+            if (EventIsFresh())
+            {
+                var icon = MapIcon(SceneEvents.LastEventName);
+                if (icon.HasValue && !DosFrames.EventIconStandsOnGround(icon.Value))
+                    return icon;
+            }
 
-            var icon = MapIcon(SceneEvents.LastEventName);
-            return icon.HasValue && !DosFrames.EventIconStandsOnGround(icon.Value) ? icon : null;
+            return GameSimulationApp.Instance.Trail.CurrentLocation.Weather switch
+            {
+                Entity.Location.Weather.WeatherConditionsEnum.VeryRainy => EventIconEnum.Thunderstorm,
+                Entity.Location.Weather.WeatherConditionsEnum.VerySnowy => EventIconEnum.Blizzard,
+                _ => null
+            };
         }
 
         /// <summary>

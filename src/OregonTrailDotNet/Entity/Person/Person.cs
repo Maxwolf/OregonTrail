@@ -284,6 +284,17 @@ namespace OregonTrailDotNet.Entity.Person
                 {
                     Infected = false;
                     Injured = false;
+
+                    // The recovery this countdown used to make silently is announced — and completed — by the
+                    // event: no longer afflicted, and healed of what the illness took.
+                    GameSimulationApp.Instance?.EventDirector?.TriggerEvent(this, typeof(WellAgain));
+                }
+                else if ((_ailment >= AilmentMax/2) && (GameSimulationApp.Instance?.EventDirector != null) &&
+                         (GameSimulationApp.Instance.Random.NextDouble() < 0.05))
+                {
+                    // A sick person still being worn down by the trail can crash instead of mending — the turn
+                    // for the worse that was always in the event roster and never had a trigger.
+                    GameSimulationApp.Instance.EventDirector.TriggerEvent(this, typeof(TurnForWorse));
                 }
             }
 

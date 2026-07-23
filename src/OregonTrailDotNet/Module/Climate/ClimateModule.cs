@@ -1,6 +1,9 @@
 ﻿// Created by Maxwolf (bigmaxwolf.com)
 
 using OregonTrailDotNet.Entity.Location.Weather;
+using OregonTrailDotNet.Entity.Vehicle;
+using OregonTrailDotNet.Event;
+using OregonTrailDotNet.Event.Weather;
 
 namespace OregonTrailDotNet.Module.Climate
 {
@@ -96,11 +99,47 @@ namespace OregonTrailDotNet.Module.Climate
         }
 
         /// <summary>
-        ///     Advances the weather by a day.
+        ///     Advances the weather by a day, and lets the day's sky visit its events on a travelling party.
         /// </summary>
         public void Tick()
         {
             Roll(force: false);
+            FireWeatherEvents();
+        }
+
+        /// <summary>
+        ///     The sky's own events, fired from the sky rather than a blind category roll so a blizzard only ever
+        ///     strikes out of blizzard weather. Only a travelling party is exposed — a party resting, trading or
+        ///     waiting out a storm is already stopped, which is also what stops a lost-time event chaining into
+        ///     another storm before the first has cleared.
+        /// </summary>
+        private void FireWeatherEvents()
+        {
+            var game = GameSimulationApp.Instance;
+            var director = game?.EventDirector;
+            var vehicle = game?.Vehicle;
+            if (director == null || vehicle == null || vehicle.Status != VehicleStatusEnum.Moving)
+                return;
+
+            switch (Condition)
+            {
+                case WeatherConditionsEnum.VerySnowy:
+                    // The worst travelling weather in the game sometimes pins the party down for days.
+                    if (game.Random.NextDouble() < 0.15)
+                        director.TriggerEvent(vehicle, typeof(Blizzard));
+                    break;
+                case WeatherConditionsEnum.VeryRainy:
+                    // A downpour sometimes turns violent: usually a destructive storm, occasionally hail.
+                    if (game.Random.NextDouble() < 0.15)
+                        director.TriggerEvent(vehicle,
+                            game.Random.NextDouble() < 0.33 ? typeof(HailStorm) : typeof(SevereWeather));
+                    break;
+                default:
+                    // The mundane sky (heavy fog and whatever joins it) rolls at the same ~1% a day every other
+                    // event category gets.
+                    director.TriggerEventByType(vehicle, EventCategoryEnum.Weather);
+                    break;
+            }
         }
 
         /// <summary>
