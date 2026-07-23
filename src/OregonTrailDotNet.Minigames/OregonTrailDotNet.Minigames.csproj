@@ -7,6 +7,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>OregonTrailDotNet.Minigames</RootNamespace>
     <AssemblyName>OregonTrailDotNet.Minigames</AssemblyName>
+    <!-- Multi-size .ico built from the thief event sprite (Assets: art/sprites/events/07.png). -->
+    <ApplicationIcon>appicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
-    <!-- The ox-team-and-wagon travel sprite, generated into a multi-size .ico by tools/generate_icon.py. -->
+    <!-- Multi-size .ico built from the ox-team-and-wagon travel sprite (Assets: art/sprites/travelox/01.png). -->
     <ApplicationIcon>appicon.ico</ApplicationIcon>
   </PropertyGroup>
 
