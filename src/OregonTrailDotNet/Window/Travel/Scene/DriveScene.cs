@@ -34,6 +34,9 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         private double _displayMiles;
         private int _sceneryX;
         private int _walkFrame = 1;
+        private int _seenEventTurn = -1;
+        private EventIconEnum? _groundIcon;
+        private double _groundIconX;
 
         /// <summary>Initializes a new instance of the <see cref="DriveScene" /> class.</summary>
         /// <param name="window">The parent window.</param>
@@ -85,6 +88,20 @@ namespace OregonTrailDotNet.Window.Travel.Scene
                 _backdrop = TravelArt.BuildBackdrop(_terrain, _weather);
                 Invalidate();
             }
+
+            // A freshly executed ground event plants its picture in the world at the original's spot; from there
+            // the wagon rolls past it. Sky events stay put — weather hangs over the scene, it is not passed by.
+            if (SceneEvents.LastEventTurn != _seenEventTurn && SceneEvents.LastEventName != null)
+            {
+                _seenEventTurn = SceneEvents.LastEventTurn;
+                var icon = MapIcon(SceneEvents.LastEventName);
+                if (icon.HasValue && DosFrames.EventIconStandsOnGround(icon.Value))
+                {
+                    _groundIcon = icon;
+                    var (spotX, _) = DosFrames.EventIconSpot(icon.Value);
+                    _groundIconX = spotX * TravelGame.ScreenWidth / Art.Apple2Width;
+                }
+            }
         }
 
         /// <summary>
@@ -112,6 +129,17 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             var strides = Math.Max(0, (_sceneryX - before) / TravelGame.StepPixels);
             for (var stride = 0; stride < strides; stride++)
                 _walkFrame = _walkFrame % 3 + 1;
+
+            // A planted ground event falls behind with the ground covered — geared to the strides like the legs,
+            // a few times ground speed so passing it takes about a day of travel rather than a week. It moves the
+            // way this screen's world moves: left to right, the direction the scenery already slides, so the wagon
+            // overtakes it and it exits past the right edge.
+            if (_groundIcon.HasValue && strides > 0)
+            {
+                _groundIconX += strides * 6;
+                if (_groundIconX > TravelGame.ScreenWidth)
+                    _groundIcon = null;
+            }
         }
 
         /// <inheritdoc />
@@ -134,18 +162,22 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             var wagon = Art.Dos("travelox", wagonFrame);
             frame.DrawImage(wagon, TravelGame.WagonX, TravelGame.GroundY - wagon.Height);
 
-            // The day's event picture, blitted last so a storm cloud sits over the horizon strip — the original
-            // draws its event slots after the scene for the same reason.
-            var icon = CurrentEventIcon();
-            if (icon.HasValue)
+            // The day's event pictures, blitted last so a storm cloud sits over the horizon strip — the original
+            // draws its event slots after the scene for the same reason. Sky pictures hang fixed for the day the
+            // weather happened; ground pictures were planted in the world and slide past as the wagon rolls on.
+            var sky = CurrentSkyIcon();
+            if (sky.HasValue)
             {
-                var art = DosFrames.EventIcon(icon.Value);
-                var (spotX, spotY) = DosFrames.EventIconSpot(icon.Value);
-                var x = spotX * TravelGame.ScreenWidth / Art.Apple2Width;
-                var y = DosFrames.EventIconStandsOnGround(icon.Value)
-                    ? TravelGame.GroundY - art.Height
-                    : spotY * TravelGame.ScreenHeight / Art.Apple2Height;
-                frame.DrawImage(art, x, y);
+                var art = DosFrames.EventIcon(sky.Value);
+                var (spotX, spotY) = DosFrames.EventIconSpot(sky.Value);
+                frame.DrawImage(art, spotX * TravelGame.ScreenWidth / Art.Apple2Width,
+                    spotY * TravelGame.ScreenHeight / Art.Apple2Height);
+            }
+
+            if (_groundIcon.HasValue)
+            {
+                var art = DosFrames.EventIcon(_groundIcon.Value);
+                frame.DrawImage(art, (int) Math.Round(_groundIconX), TravelGame.GroundY - art.Height);
             }
 
             TravelArt.DrawPrompt(frame, "Press ENTER to size up the situation");
@@ -227,27 +259,33 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             SceneEvents.LastEventName != null &&
             GameSimulationApp.Instance.TotalTurns <= SceneEvents.LastEventTurn + 1;
 
-        /// <summary>
-        ///     The event picture for the freshly executed event, or null. The mapping is by subject: the original's
-        ///     events sheet carries seven pictures and the clone's roster covers five of them.
-        /// </summary>
-        private static EventIconEnum? CurrentEventIcon()
+        /// <summary>The fixed sky picture for a freshly executed weather event, or null.</summary>
+        private static EventIconEnum? CurrentSkyIcon()
         {
             if (!EventIsFresh())
                 return null;
 
-            return SceneEvents.LastEventName switch
-            {
-                "Blizzard" => EventIconEnum.Blizzard,
-                "HailStorm" => EventIconEnum.HailStorm,
-                "SevereWeather" => EventIconEnum.Thunderstorm,
-                "FindBerries" => EventIconEnum.WildFruit,
-                "FindFruit" => EventIconEnum.WildFruit,
-                "StuckInMountains" => EventIconEnum.SnowBound,
-                "IndiansHelp" => EventIconEnum.Traveller,
-                _ => null
-            };
+            var icon = MapIcon(SceneEvents.LastEventName);
+            return icon.HasValue && !DosFrames.EventIconStandsOnGround(icon.Value) ? icon : null;
         }
+
+        /// <summary>
+        ///     The event picture for an executed event, or null. The mapping is by subject: the original's events
+        ///     sheet carries seven pictures and the clone's roster covers six of them — the thief gets the
+        ///     goods-carrying figure, the helpful Indians the one with the bundle.
+        /// </summary>
+        private static EventIconEnum? MapIcon(string eventName) => eventName switch
+        {
+            "Blizzard" => EventIconEnum.Blizzard,
+            "HailStorm" => EventIconEnum.HailStorm,
+            "SevereWeather" => EventIconEnum.Thunderstorm,
+            "FindBerries" => EventIconEnum.WildFruit,
+            "FindFruit" => EventIconEnum.WildFruit,
+            "StuckInMountains" => EventIconEnum.SnowBound,
+            "IndiansHelp" => EventIconEnum.Traveller,
+            "Thief" => EventIconEnum.Trader,
+            _ => null
+        };
 
         /// <summary>
         ///     The original's one-line weather formula mapped onto the live simulation: white ground under snow,

@@ -98,11 +98,14 @@ namespace OregonTrailDotNet.Window.Travel.Scene
                     // The trouble is still on screen; the river waits for the animation.
                     return;
                 case DisasterPhaseEnum.Fired:
-                    // Ticking again means the event window has been read and closed. Settle what it actually cost
-                    // before the wagon moves on — that delta decides whether it stays wrecked for the rest.
+                    // Ticking again means the event window has been read and closed. Settle what it actually cost,
+                    // then land the wagon: after a midstream disaster the party has suffered enough, and a wrecked
+                    // wagon paddling on for the rest of the river reads wrong anyway — the far shore is next.
                     _midstreamLost = InventoryCount() < _itemsBefore ||
                                      GameSimulationApp.Instance.Vehicle.PassengerLivingCount < _livingBefore;
                     _disaster = DisasterPhaseEnum.Settled;
+                    _sim.FinishNow();
+                    _lost = _midstreamLost;
                     return;
             }
 
@@ -153,11 +156,11 @@ namespace OregonTrailDotNet.Window.Travel.Scene
                 _displayCrossing += Math.Min(gap, Math.Max(0.008, gap * 0.15));
 
             // The outcome sweep plays once the water is visibly behind the wagon: the far-bank fan over about
-            // three seconds, or the swamping wedge in one.
+            // three seconds on a clean crossing, or just a short beat when the damage is already on screen.
             if (_sim is not { Finished: true } || _outcomeShown || _displayCrossing < 0.995)
                 return;
 
-            _outcomeProgress = Math.Min(1.0, _outcomeProgress + 1.0 / 60);
+            _outcomeProgress = Math.Min(1.0, _outcomeProgress + (_lost ? 1.0 / 20 : 1.0 / 60));
             if (_outcomeProgress >= 1.0)
                 _outcomeShown = true;
         }

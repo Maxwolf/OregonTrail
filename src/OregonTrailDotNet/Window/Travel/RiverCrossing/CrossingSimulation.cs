@@ -168,6 +168,17 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                 Trigger(game, typeof(VehicleWashOut));
         }
 
+        /// <summary>
+        ///     Lands the wagon now. The graphical scene's mercy rule: once a midstream disaster has played and its
+        ///     message has been read, the party has suffered enough — the rest of the river is skipped and the
+        ///     crossing ends on the far shore. The text form never calls this.
+        /// </summary>
+        internal void FinishNow()
+        {
+            FeetCrossed = _river.RiverWidth;
+            Finished = true;
+        }
+
         /// <summary>Fires a midstream disaster now, or parks it for the host when deferral is on.</summary>
         private void Trigger(GameSimulationApp game, Type eventType)
         {
