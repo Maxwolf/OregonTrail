@@ -14,7 +14,7 @@
          minigame can be built and felt in isolation. The one project it does lean on is the shared assets
          library, which carries the art and music as embedded resources so this ships as a single executable
          with no loose files to load. -->
-    <PackageReference Include="WolfCurses" Version="2026.7.19.13" />
+    <PackageReference Include="WolfCurses" Version="2026.7.22.16" />
     <ProjectReference Include="..\OregonTrailDotNet.Assets\OregonTrailDotNet.Assets.csproj" />
   </ItemGroup>
 

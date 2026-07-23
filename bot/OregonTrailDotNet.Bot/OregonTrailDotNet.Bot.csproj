@@ -10,11 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WolfCurses" Version="2026.7.19.13" />
+    <PackageReference Include="WolfCurses" Version="2026.7.22.16" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
     <!-- Pin the native SQLite bundle forward to 3.0.0, which patches the advisory (GHSA-2m69-gcr7-jv3q)
          that Microsoft.Data.Sqlite's transitive 2.1.11 carries. -->
-    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.3" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.4" />
   </ItemGroup>
 
   <ItemGroup>
