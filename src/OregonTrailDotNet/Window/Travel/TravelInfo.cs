@@ -76,6 +76,12 @@ namespace OregonTrailDotNet.Window.Travel
         public HuntManager Hunt { get; private set; }
 
         /// <summary>
+        ///     What the real-time hunt brought back, handed from <see cref="Scene.HuntScene" /> to its result screen
+        ///     and cleared once applied. Null outside that handoff; the word hunt never touches it.
+        /// </summary>
+        public Scene.HuntOutcome HuntOutcome { get; set; }
+
+        /// <summary>
         ///     Gets the current cost of the toll road that would like to be inserted into the trail, normally this is done from a
         ///     fork in the road however it could be on a linear path without any decision making.
         /// </summary>

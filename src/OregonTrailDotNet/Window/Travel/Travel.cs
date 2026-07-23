@@ -141,9 +141,10 @@ namespace OregonTrailDotNet.Window.Travel
         /// </summary>
         private void HuntForFood()
         {
-            // Check if the player even has enough bullets to go hunting.
+            // Check if the player even has enough bullets to go hunting. With presentation on the hunt is the
+            // real-time field; every headless host keeps the word-typing game.
             SetForm(GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Ammo].Quantity > 0
-                ? typeof(HuntingPrompt)
+                ? Scene.HuntSceneHelp.FormType
                 : typeof(NoAmmo));
         }
 

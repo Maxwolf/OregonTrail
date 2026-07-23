@@ -210,7 +210,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             text.AppendLine("HUNTING — the rifle turns one step per three ticks, the shorter way round.");
             text.AppendLine(
                 $"tick {_game.Tick,4}/{HuntGame.TimeLimit}   aim {compass[_game.Aim],-2} -> {compass[_game.TargetAim],-2}   " +
-                $"bullets {_game.Bullets,2}   carried {_game.Pounds,3} lb   " +
+                $"bullets {_game.Bullets,2}   shot {_game.Pounds,4} lb   " +
                 $"{(_game.Walking ? "walking" : "still")}   carcasses {_game.Carcasses.Count}");
             text.AppendLine(_game.Finished ? "*** OUT OF TIME ***  R to hunt again." : _game.LastEvent);
             text.AppendLine(

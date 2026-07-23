@@ -81,14 +81,33 @@ namespace OregonTrailDotNet.Presentation
         ];
 
         private readonly Random _random;
+        private readonly int[] _roster;
         private int _rotationTimer;
         private int _walkTimer;
 
         /// <summary>Initializes a new instance of the <see cref="HuntGame" /> class.</summary>
         /// <param name="seed">Fixed seed for a reproducible run, or null for the clock.</param>
-        public HuntGame(int? seed = null)
+        /// <param name="bullets">Rounds the hunter carries in — the original's arg 1, <c>Z = I(4)</c>.</param>
+        /// <param name="antleredDeer">Species 0 roams here — <c>LM &gt; 3 AND LM &lt; 13</c>, the original's arg 2.</param>
+        /// <param name="bear">Species 1 roams here — <c>LM &gt; 6</c>, arg 3.</param>
+        /// <param name="bison">Species 2 roams here — <c>LM &lt; 7</c>, arg 4.</param>
+        public HuntGame(int? seed = null, int bullets = 20, bool antleredDeer = true, bool bear = true,
+            bool bison = true)
         {
             _random = seed.HasValue ? new Random(seed.Value) : new Random();
+            StartingBullets = bullets;
+
+            // Uniform over the available roster, which is gated by landmark: doe, rabbit and squirrel are always
+            // on it; the three big species come and go with the country.
+            var roster = new List<int> { 3, 4, 5 };
+            if (antleredDeer)
+                roster.Add(0);
+            if (bear)
+                roster.Add(1);
+            if (bison)
+                roster.Add(2);
+            _roster = roster.ToArray();
+
             Animals = [new Animal(), new Animal()];
             Reset();
         }
@@ -123,10 +142,23 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>The single bullet; the original allows exactly one in flight.</summary>
         public Bullet Shot { get; } = new();
 
+        /// <summary>Rounds the hunt began with.</summary>
+        public int StartingBullets { get; }
+
         /// <summary>Rounds left.</summary>
         public int Bullets { get; private set; }
 
-        /// <summary>Meat carried back, after the wrapper's halving and the 100 lb cap.</summary>
+        /// <summary>Trigger pulls this hunt — the original decrements exactly one round per shot.</summary>
+        public int ShotsFired => StartingBullets - Bullets;
+
+        /// <summary>Animals brought down this hunt.</summary>
+        public int Kills { get; private set; }
+
+        /// <summary>
+        ///     Raw pounds shot this hunt. The wrapper's dressing (halve anything from 3 lb up) and the caps — wagon
+        ///     space and the 100 lb carry — are applied <b>once, at the end of the hunt</b>, exactly as
+        ///     <c>HUNT.LIB:50011-50015</c> does; applying them per kill integer-divides differently.
+        /// </summary>
         public int Pounds { get; private set; }
 
         /// <summary>What just happened, for the heads-up display.</summary>
@@ -145,8 +177,9 @@ namespace OregonTrailDotNet.Presentation
             Walking = false;
             HunterX = FieldWidth / 2;
             HunterY = FieldHeight / 2;
-            Bullets = 20;
+            Bullets = StartingBullets;
             Pounds = 0;
+            Kills = 0;
             LastEvent = "Ready.";
             Carcasses.Clear();
             Shot.Active = false;
@@ -280,18 +313,13 @@ namespace OregonTrailDotNet.Presentation
                 animal.Active = false;
                 Carcasses.Add(new Carcass { Species = animal.Species, X = animal.X, Y = animal.Y });
 
-                // The wrapper dresses the kill (halving anything from 3 lb up), then caps what the whole hunt
-                // carries home at 100 lb — which is why a bison and a bear come to exactly the same thing.
+                // Raw pounds accumulate; the wrapper dresses and caps the whole bag once at hunt's end (see
+                // Pounds), which is the original's order and why a bison and a bear still come to the same thing.
                 var shot = _random.Next(info.MinimumPounds, info.MaximumPounds + 1);
-                var dressed = Bag(shot);
-                var before = Pounds;
-                Pounds = Math.Min(CarryCap, Pounds + dressed);
-                var carried = Pounds - before;
+                Pounds += shot;
+                Kills++;
 
-                var name = info.Name.ToLowerInvariant();
-                LastEvent = carried < dressed
-                    ? $"Shot a {name} — {shot} lb, {dressed} lb dressed; carried {carried} lb ({CarryCap} lb cap)."
-                    : $"Shot a {name} — {shot} lb, {dressed} lb dressed; carried {carried} lb.";
+                LastEvent = $"Shot a {info.Name.ToLowerInvariant()} — {shot} lb.";
                 return;
             }
         }
@@ -306,7 +334,7 @@ namespace OregonTrailDotNet.Presentation
                 if (animal.Active || _random.NextDouble() >= SpawnChance)
                     continue;
 
-                animal.Species = _random.Next(Species.Length);
+                animal.Species = _roster[_random.Next(_roster.Length)];
                 var fromLeft = _random.Next(2) == 0;
                 animal.Facing = fromLeft ? 1 : -1;
                 animal.X = fromLeft ? -30 : FieldWidth + 10;
