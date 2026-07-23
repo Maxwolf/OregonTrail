@@ -101,7 +101,10 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             if (gap <= 0 || game.Vehicle.Status != VehicleStatusEnum.Moving)
                 return;
 
-            var step = Math.Min(gap, 2 * TravelGame.StepPixels / _pixelsPerMile);
+            // Two strides a tick keeps the walk cycle honest; the gap/8 term lets a whole simulated day's jump
+            // catch up within about half a second, so the scenery closes its final stretch to the wagon before the
+            // arrival screen can interrupt the approach.
+            var step = Math.Min(gap, Math.Max(2 * TravelGame.StepPixels / _pixelsPerMile, gap / 8.0));
             _displayMiles -= step;
 
             var before = _sceneryX;
@@ -191,7 +194,11 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             var stop = _destinationName != null ? OriginalTrail.ForLocation(_destinationName) : null;
             _terrain = stop is { Mountains: false } ? TravelTerrainEnum.Plains : TravelTerrainEnum.Mountains;
             _sceneryArt = stop is { ScenerySpriteId: > 0 } ? Art.Dos("scenery", stop.ScenerySpriteId) : null;
-            _sceneryRestX = stop is { SceneryRestX: > 0 } ? stop.SceneryRestX : 130;
+
+            // Every piece rests at the same solved position: right edge just left of the wagon, so arriving reads
+            // as pulling up alongside the landmark. (OriginalTrail's per-leg SceneryRestX is the raw L% reference
+            // column, NOT a position — using it parked the scenery a third of a screen short of the team.)
+            _sceneryRestX = TravelGame.SceneryRestX;
 
             // The leg's real length: a fork branch's own road overrides the leg the fork set on arrival, exactly
             // as LocationFork does when it splices the branch in.

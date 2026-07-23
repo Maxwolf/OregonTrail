@@ -30,7 +30,12 @@ namespace OregonTrailDotNet.Presentation
     ///     ahead, from <c>L%</c> — or -1 where no leg leads here (Independence, and the two Dalles branches, whose
     ///     leg reuses The Dalles' own piece).
     /// </param>
-    /// <param name="SceneryRestX">Where that piece comes to rest as the leg runs out, in 320-wide screen space.</param>
+    /// <param name="SceneryRestX">
+    ///     The original's <c>L%(NM-1,1)</c> resting-offset column, carried <b>for reference only</b> — it was
+    ///     authored against the Apple II art and does not position the DOS pieces. The travel screen rests every
+    ///     piece at the solved <see cref="TravelGame.SceneryRestX" /> instead (right edge just left of the wagon);
+    ///     using this column as a position parks the scenery far short of the team.
+    /// </param>
     public sealed record OriginalStop(
         int Index,
         string GameName,
