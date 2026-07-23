@@ -1,4 +1,4 @@
-namespace OregonTrailDotNet.Minigames.Audio
+namespace OregonTrailDotNet.Presentation.Audio
 {
     /// <summary>
     ///     Turns a <see cref="Chiptune" /> into PCM the sound card can play.

@@ -1,6 +1,6 @@
 using WolfCurses.Graphics;
 
-namespace OregonTrailDotNet.Minigames.Windows
+namespace OregonTrailDotNet.Presentation
 {
     /// <summary>
     ///     Where a walking thing's frames live on the DOS sheets — the single answer to "which cut sprite is species
@@ -35,7 +35,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <param name="aim">Heading, 0 = N clockwise.</param>
         /// <param name="walkFrame">Walk frame 0-2, as <see cref="HuntGame.WalkCycle" /> orders them.</param>
         public static PixelBuffer Hunter(int aim, int walkFrame) =>
-            Assets.Dos("hunter", AimToGroup[aim] * 3 + walkFrame + 1);
+            Art.Dos("hunter", AimToGroup[aim] * 3 + walkFrame + 1);
 
         /// <summary>
         ///     Which column of a sheet row holds the dead pose.
@@ -66,7 +66,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         {
             var row = SpeciesToRow[species];
             var column = facing < 0 ? 6 - frame : (DeadColumnByRow[row] == 0 ? 1 : 0) + frame;
-            return Assets.Dos("animals", row * 8 + column + 1);
+            return Art.Dos("animals", row * 8 + column + 1);
         }
 
         /// <summary>The dead pose, wherever this species' row happens to keep it.</summary>
@@ -74,7 +74,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         public static PixelBuffer DeadAnimal(int species)
         {
             var row = SpeciesToRow[species];
-            return Assets.Dos("animals", row * 8 + DeadColumnByRow[row] + 1);
+            return Art.Dos("animals", row * 8 + DeadColumnByRow[row] + 1);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         ///     order, and 4 and 5 are the wrecked and burning wagons the loss events swap in.
         /// </summary>
         /// <param name="walkFrame">Walk frame 0-2.</param>
-        public static PixelBuffer Ox(int walkFrame) => Assets.Dos("travelox", walkFrame + 1);
+        public static PixelBuffer Ox(int walkFrame) => Art.Dos("travelox", walkFrame + 1);
 
         /// <summary>
         ///     The picture an event paints into the travel screen's sky.
@@ -100,7 +100,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         ///     </para>
         /// </summary>
         /// <param name="icon">Which event picture is wanted.</param>
-        public static PixelBuffer EventIcon(EventIconEnum icon) => Assets.Dos("events", (int) icon);
+        public static PixelBuffer EventIcon(EventIconEnum icon) => Art.Dos("events", (int) icon);
 
         /// <summary>
         ///     Where each event picture is blitted, in the Apple II's 280x192 space.

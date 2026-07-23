@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace OregonTrailDotNet.Minigames.Audio
+namespace OregonTrailDotNet.Presentation.Audio
 {
     /// <summary>
     ///     The workbench's music, as one shared player with one shared mute.

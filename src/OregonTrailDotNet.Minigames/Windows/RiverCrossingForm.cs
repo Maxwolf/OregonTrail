@@ -1,3 +1,4 @@
+using OregonTrailDotNet.Presentation;
 using System.Text;
 using WolfCurses.Graphics;
 using WolfCurses.Window;
@@ -24,14 +25,14 @@ namespace OregonTrailDotNet.Minigames.Windows
     ///     </para>
     /// </summary>
     [ParentWindow(typeof(MinigamesWindow))]
-    public sealed class RiverCrossingForm : SceneForm
+    public sealed class RiverCrossingForm : WorkbenchSceneForm
     {
-        // float.png ids. The DOS port draws all four states the Apple II's RIVER.IMA carries, so the mapping is
-        // one-for-one: I=2 ford, I=3 float, I=1 ferry, I=4 wreck.
-        private const int FordSprite = 1;
-        private const int FloatSprite = 2;
-        private const int FerrySprite = 3;
-        private const int WreckSprite = 8;
+        // The sprite ids, fan sweeps and drawing primitives live in CrossingArt now — they are the pieces a
+        // game-side crossing scene reuses verbatim.
+        private const int FordSprite = CrossingArt.FordSprite;
+        private const int FloatSprite = CrossingArt.FloatSprite;
+        private const int FerrySprite = CrossingArt.FerrySprite;
+        private const int WreckSprite = CrossingArt.WreckSprite;
 
         // The bank is the SAME arid sand as the Columbia raft screen's, not mud -- see Palette for why these are
         // shared rather than mixed per screen.
@@ -148,13 +149,13 @@ namespace OregonTrailDotNet.Minigames.Windows
             // The bank at rest is exactly the region :50010 sweeps, so it is drawn by running that same fan to
             // completion in land — no second derivation to get wrong. The crossing then repaints the leading part of
             // it in water, which is the animation.
-            NearBank(canvas, 1.0, Land);
+            CrossingArt.NearBank(canvas, 1.0, Land);
             if (!_game.Refused)
-                NearBank(canvas, Progress(CrossingPhaseEnum.Crossing), Water);
+                CrossingArt.NearBank(canvas, Progress(CrossingPhaseEnum.Crossing), Water);
 
             // :50030 — on a clean crossing, land fans into the opposite corner. That is the far shore arriving.
             if (!_game.Failed && !_game.Refused)
-                FarBank(canvas, Progress(CrossingPhaseEnum.Outcome));
+                CrossingArt.FarBank(canvas, Progress(CrossingPhaseEnum.Outcome), Land);
 
             DrawVehicle(canvas);
             return canvas;
@@ -172,7 +173,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             var showWreck = _game.ShowsWreck &&
                             _game.Phase is CrossingPhaseEnum.Outcome or CrossingPhaseEnum.Done;
 
-            var sprite = Assets.Dos("float", showWreck
+            var sprite = Art.Dos("float", showWreck
                 ? WreckSprite
                 : _game.Vehicle switch
                 {
@@ -188,48 +189,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             if (!_game.ShowsSwamping || _game.Phase is not (CrossingPhaseEnum.Outcome or CrossingPhaseEnum.Done))
                 return;
 
-            // FOR L = 0 TO 21: HPLOT 80+2*L,71 TO 180,100-L — a wedge of water fanned across the wagon's middle. It
-            // covers everything below y=71, so what is left showing is the top of the canvas: swamped, not removed.
-            foreach (var l in Fan(RiverCrossingGame.SwampSteps, Progress(CrossingPhaseEnum.Outcome)))
-                Line(canvas,
-                    RiverCrossingGame.ToX(80 + 2 * l), RiverCrossingGame.ToY(71.0),
-                    RiverCrossingGame.ToX(180.0), RiverCrossingGame.ToY(100 - l), Water);
-        }
-
-        /// <summary>
-        ///     `:50010` — <c>FOR L = 0 TO 52: HPLOT 114+2*L,136 TO 218,77+L</c>. The fan pivots off the bottom-right
-        ///     corner: its start slides along the foot of the picture while its end slides down the right-hand side,
-        ///     so the region swept is the triangle <c>(114,136) (218,136) (218,77)</c> — which is exactly where the
-        ///     Apple II's river picture puts the bank. Run to completion it paints that bank; run partway in water it
-        ///     is the party pulling away from it.
-        /// </summary>
-        private static void NearBank(PixelBuffer canvas, double progress, Rgba32 colour)
-        {
-            foreach (var l in Fan(RiverCrossingGame.CrossingSteps, progress))
-                Line(canvas,
-                    RiverCrossingGame.ToX(114 + 2 * l), RiverCrossingGame.ToY(136.0),
-                    RiverCrossingGame.ToX(218.0), RiverCrossingGame.ToY(77 + l), colour);
-        }
-
-        /// <summary>
-        ///     `:50030` — <c>FOR L = 0 TO 60: HPLOT 58,24+L TO 58+2*L,24</c>, in <c>HCOLOR=4</c>, which is black, and
-        ///     black is what this scene draws land in. The same primitive as the near bank, fired into the opposite
-        ///     corner: the far shore coming into view, and the only thing that marks a clean crossing.
-        /// </summary>
-        private static void FarBank(PixelBuffer canvas, double progress)
-        {
-            foreach (var l in Fan(RiverCrossingGame.LandingSteps, progress))
-                Line(canvas,
-                    RiverCrossingGame.ToX(58.0), RiverCrossingGame.ToY(24 + l),
-                    RiverCrossingGame.ToX(58 + 2 * l), RiverCrossingGame.ToY(24.0), Land);
-        }
-
-        /// <summary>The sub-step positions of a sweep that is <paramref name="progress" /> of the way through.</summary>
-        private static IEnumerable<double> Fan(int steps, double progress)
-        {
-            var last = steps * progress * RiverCrossingGame.FanSubdivision;
-            for (var s = 0; s < last; s++)
-                yield return s / (double) RiverCrossingGame.FanSubdivision;
+            CrossingArt.SwampWedge(canvas, Progress(CrossingPhaseEnum.Outcome), Water);
         }
 
         /// <summary>How far through the given beat, 0 to 1, or 1 once it is behind us.</summary>
@@ -240,43 +200,7 @@ namespace OregonTrailDotNet.Minigames.Windows
                     ? 1.0
                     : 0.0;
 
-        private static void Fill(PixelBuffer canvas, int x, int y, int width, int height, Rgba32 colour)
-        {
-            for (var dy = 0; dy < height; dy++)
-            for (var dx = 0; dx < width; dx++)
-                canvas.SetPixel(x + dx, y + dy, colour);
-        }
-
-        /// <summary>The original draws these sweeps with <c>HPLOT ... TO ...</c>; this is that, clipped.</summary>
-        private static void Line(PixelBuffer canvas, int x1, int y1, int x2, int y2, Rgba32 colour)
-        {
-            var dx = Math.Abs(x2 - x1);
-            var dy = -Math.Abs(y2 - y1);
-            var stepX = x1 < x2 ? 1 : -1;
-            var stepY = y1 < y2 ? 1 : -1;
-            var error = dx + dy;
-
-            while (true)
-            {
-                if (x1 >= 0 && x1 < canvas.Width && y1 >= 0 && y1 < canvas.Height)
-                    canvas.SetPixel(x1, y1, colour);
-
-                if (x1 == x2 && y1 == y2)
-                    return;
-
-                var doubled = 2 * error;
-                if (doubled >= dy)
-                {
-                    error += dy;
-                    x1 += stepX;
-                }
-
-                if (doubled > dx)
-                    continue;
-
-                error += dx;
-                y1 += stepY;
-            }
-        }
+        private static void Fill(PixelBuffer canvas, int x, int y, int width, int height, Rgba32 colour) =>
+            CrossingArt.Fill(canvas, x, y, width, height, colour);
     }
 }

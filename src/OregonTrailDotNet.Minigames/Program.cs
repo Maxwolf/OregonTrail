@@ -1,4 +1,5 @@
-using OregonTrailDotNet.Minigames.Audio;
+using OregonTrailDotNet.Presentation;
+using OregonTrailDotNet.Presentation.Audio;
 using WolfCurses.Graphics;
 
 namespace OregonTrailDotNet.Minigames
@@ -23,7 +24,7 @@ namespace OregonTrailDotNet.Minigames
 
             // Fail loudly rather than showing a screen full of magenta "missing texture" checkerboards. The art is
             // embedded in OregonTrailDotNet.Assets, so this only trips on a broken build, not a misplaced folder.
-            if (!Assets.Ready)
+            if (!Art.Ready)
             {
                 Console.WriteLine("The embedded artwork is missing from this build of OregonTrailDotNet.Assets.");
                 Console.WriteLine("This is a packaging problem, not something a file in the right place would fix.");

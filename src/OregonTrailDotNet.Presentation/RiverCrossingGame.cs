@@ -1,4 +1,4 @@
-namespace OregonTrailDotNet.Minigames.Windows
+namespace OregonTrailDotNet.Presentation
 {
     /// <summary>How the party is trying to get across. This is the menu the player picks from.</summary>
     public enum CrossingMethodEnum
@@ -397,20 +397,20 @@ namespace OregonTrailDotNet.Minigames.Windows
         ///     code can quote the BASIC's own numbers rather than re-deriving the shapes by hand — which is how the
         ///     near bank first came out as a band across the middle instead of a corner.
         /// </summary>
-        public static int ToX(int apple2X) => apple2X * ScreenWidth / Assets.Apple2Width;
+        public static int ToX(int apple2X) => apple2X * ScreenWidth / Art.Apple2Width;
 
         /// <summary>Converts one of <c>CROSS.LIB</c>'s y coordinates; see <see cref="ToX" />.</summary>
-        public static int ToY(int apple2Y) => apple2Y * ScreenHeight / Assets.Apple2Height;
+        public static int ToY(int apple2Y) => apple2Y * ScreenHeight / Art.Apple2Height;
 
         /// <summary>
         ///     Fractional forms of the same conversion. The sweeps step one Apple II pixel at a time, and widening
         ///     280 to 320 pushes adjacent lines about 1.3 pixels apart — enough to leave the filled banks visibly
         ///     striped. Drawing the fans at sub-step positions closes that up without changing their shape.
         /// </summary>
-        public static int ToX(double apple2X) => (int) Math.Round(apple2X * ScreenWidth / Assets.Apple2Width);
+        public static int ToX(double apple2X) => (int) Math.Round(apple2X * ScreenWidth / Art.Apple2Width);
 
         /// <summary>Fractional y conversion; see <see cref="ToX(double)" />.</summary>
-        public static int ToY(double apple2Y) => (int) Math.Round(apple2Y * ScreenHeight / Assets.Apple2Height);
+        public static int ToY(double apple2Y) => (int) Math.Round(apple2Y * ScreenHeight / Art.Apple2Height);
 
         /// <summary>Sub-steps drawn per original step, to keep the swept regions solid.</summary>
         public const int FanSubdivision = 3;

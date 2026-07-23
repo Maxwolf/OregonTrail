@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using WolfCurses.Graphics;
 using AssetStore = OregonTrailDotNet.Assets.AssetStore;
 
-namespace OregonTrailDotNet.Minigames
+namespace OregonTrailDotNet.Presentation
 {
     /// <summary>
     ///     Decodes and caches the artwork the minigames draw with. The pictures are compiled into the
@@ -21,7 +21,7 @@ namespace OregonTrailDotNet.Minigames
     ///         is ever cut without its art.
     ///     </para>
     /// </summary>
-    public static class Assets
+    public static class Art
     {
         /// <summary>MCGA width. Every DOS-drawn scene is composed at this size and scaled by the renderer.</summary>
         public const int DosWidth = 320;

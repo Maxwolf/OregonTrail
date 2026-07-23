@@ -1,3 +1,4 @@
+using OregonTrailDotNet.Presentation;
 using System.Text;
 using WolfCurses.Graphics;
 using WolfCurses.Window;
@@ -13,7 +14,7 @@ namespace OregonTrailDotNet.Minigames.Windows
     ///     </para>
     /// </summary>
     [ParentWindow(typeof(MinigamesWindow))]
-    public sealed class HuntForm : SceneForm
+    public sealed class HuntForm : WorkbenchSceneForm
     {
         /// <summary>
         ///     The Apple II's expert aiming, verified against its own key table at <c>$ED1E</c>:
@@ -74,8 +75,8 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             _animals =
             [
-                new Sprite(Assets.Dos("animals", 2)) { Visible = false },
-                new Sprite(Assets.Dos("animals", 2)) { Visible = false }
+                new Sprite(Art.Dos("animals", 2)) { Visible = false },
+                new Sprite(Art.Dos("animals", 2)) { Visible = false }
             ];
             foreach (var animal in _animals)
                 _scene.Sprites.Add(animal);
@@ -83,7 +84,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             _bullet = new Sprite(BuildBullet()) { Visible = false };
             _scene.Sprites.Add(_bullet);
 
-            _hunter = new Sprite(Assets.Dos("hunter", 1));
+            _hunter = new Sprite(Art.Dos("hunter", 1));
             _scene.Sprites.Add(_hunter);
 
             SyncSprites();
@@ -309,7 +310,7 @@ namespace OregonTrailDotNet.Minigames.Windows
                 field.SetPixel(x, y, ground);
 
             foreach (var prop in _landscape.Props)
-                field.DrawImage(Assets.Dos("terrain", prop.SpriteId), prop.X, prop.Y);
+                field.DrawImage(Art.Dos("terrain", prop.SpriteId), prop.X, prop.Y);
 
             return field;
         }

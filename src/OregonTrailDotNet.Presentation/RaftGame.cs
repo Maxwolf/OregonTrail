@@ -1,4 +1,4 @@
-namespace OregonTrailDotNet.Minigames.Windows
+namespace OregonTrailDotNet.Presentation
 {
     /// <summary>How the player is leaning on the tiller this tick.</summary>
     public enum RaftSteerEnum

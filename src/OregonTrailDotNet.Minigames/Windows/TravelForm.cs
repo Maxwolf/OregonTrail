@@ -1,3 +1,4 @@
+using OregonTrailDotNet.Presentation;
 using System.Text;
 using WolfCurses.Graphics;
 using WolfCurses.Window;
@@ -22,16 +23,13 @@ namespace OregonTrailDotNet.Minigames.Windows
     ///     </para>
     /// </summary>
     [ParentWindow(typeof(MinigamesWindow))]
-    public sealed class TravelForm : SceneForm
+    public sealed class TravelForm : WorkbenchSceneForm
     {
-        // travelox.png, cut in reading order: the three walk frames first, then the two the loss events swap in.
-        private const int FirstWalkFrame = 1;
-        private const int BrokenWagon = 4;
-        private const int BurningWagon = 5;
-
-        // scenery.png's two full-width horizon strips.
-        private const int PlainsStrip = 1;
-        private const int MountainStrip = 2;
+        // The sheet frame ids, backdrop layering and status-panel drawing live in TravelArt now — they are the
+        // pieces a game-side drive scene reuses verbatim.
+        private const int FirstWalkFrame = TravelArt.FirstWalkFrame;
+        private const int BrokenWagon = TravelArt.BrokenWagon;
+        private const int BurningWagon = TravelArt.BurningWagon;
 
         private TravelGame _game = null!;
         private SpriteScene _scene = null!;
@@ -73,8 +71,8 @@ namespace OregonTrailDotNet.Minigames.Windows
         {
             _game = new TravelGame();
 
-            _scenery = new Sprite(Assets.Dos("scenery", _game.Scenery.SpriteId));
-            _wagon = new Sprite(Assets.Dos("travelox", FirstWalkFrame));
+            _scenery = new Sprite(Art.Dos("scenery", _game.Scenery.SpriteId));
+            _wagon = new Sprite(Art.Dos("travelox", FirstWalkFrame));
             _eventIcon = new Sprite(DosFrames.EventIcon(EventIconEnum.Thunderstorm)) { Visible = false };
 
             RebuildScene();
@@ -188,14 +186,14 @@ namespace OregonTrailDotNet.Minigames.Windows
             if (backdrop != _backdropKey)
                 RebuildScene();
 
-            _wagon.Image = Assets.Dos("travelox", _game.Wagon switch
+            _wagon.Image = Art.Dos("travelox", _game.Wagon switch
             {
                 TravelWagonEnum.Broken => BrokenWagon,
                 TravelWagonEnum.Burning => BurningWagon,
                 _ => _game.WalkFrame
             });
 
-            _scenery.Image = Assets.Dos("scenery", _game.Scenery.SpriteId);
+            _scenery.Image = Art.Dos("scenery", _game.Scenery.SpriteId);
 
             // Everything stands on the ground line rather than at a hard-coded y, which is what keeps the composition
             // together when a frame changes height — the broken wagon is 3px taller than the walking one.
@@ -211,13 +209,13 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             _eventIcon.Image = DosFrames.EventIcon(_icon.Value);
             var (x, y) = DosFrames.EventIconSpot(_icon.Value);
-            _eventIcon.X = x * TravelGame.ScreenWidth / Assets.Apple2Width;
+            _eventIcon.X = x * TravelGame.ScreenWidth / Art.Apple2Width;
 
             // Anything on the ground is seated on the ground line, exactly as the scenery and the team are, rather
             // than positioned by a y meant for a differently sized 1985 sprite.
             _eventIcon.Y = DosFrames.EventIconStandsOnGround(_icon.Value)
                 ? TravelGame.GroundY - _eventIcon.Image.Height
-                : y * TravelGame.ScreenHeight / Assets.Apple2Height;
+                : y * TravelGame.ScreenHeight / Art.Apple2Height;
         }
 
         /// <summary>
@@ -227,7 +225,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         private void RebuildScene()
         {
             _backdropKey = $"{_game.Terrain}/{_game.Weather}";
-            _scene = new SpriteScene(BuildBackdrop());
+            _scene = new SpriteScene(TravelArt.BuildBackdrop(_game.Terrain, _game.Weather));
             _scene.Sprites.Add(_scenery);
             _scene.Sprites.Add(_wagon);
 
@@ -237,70 +235,13 @@ namespace OregonTrailDotNet.Minigames.Windows
         }
 
         /// <summary>
-        ///     Sky, ground, horizon. The <b>sky is black</b> — this is a 1980s micro, not a painted backdrop, and the
-        ///     only two things ever coloured in are the ground box and the status panel.
-        ///     <para>
-        ///         The ground colour is the whole of what weather does to this screen, and it is one line (`:310`):
-        ///     </para>
-        ///     <code>CC = 3*(AS&gt;=1) + (AS&lt;1)*(5*(AR&lt;=.2) + (AR&gt;.2))</code>
-        ///     <para>
-        ///         Colour 3 is white, 5 orange, 1 green — snow if there is any lying (which before April there always
-        ///         is), otherwise arid if the rain accumulator has stayed low, otherwise green. A flood fill, not a
-        ///         picture, which is why the whole country can change season for the cost of one <c>&amp; BOX</c>.
-        ///     </para>
-        /// </summary>
-        private PixelBuffer BuildBackdrop()
-        {
-            var backdrop = new PixelBuffer(TravelGame.ScreenWidth, TravelGame.ScreenHeight);
-
-            var black = Palette.Black;
-            var white = Palette.White;
-
-            // The original floods the ground with `& BOX ,CC` where CC is 3, 5 or 1 (:310). Those are Apple II hi-res
-            // colour numbers, but the art on top of them here is the DOS port's, so each is taken as the nearest DOS
-            // palette entry rather than as the 1985 colour -- otherwise the flood is a shade no sprite above it can
-            // contain. Snow and grass land on real palette entries either way; the arid case is the one that moved,
-            // from a mixed-by-hand orange that is in NEITHER palette to the sand the port's own dry ground uses.
-            var ground = _game.Weather switch
-            {
-                TravelWeatherEnum.Snow => Palette.Snow,     // CC=3
-                TravelWeatherEnum.Arid => Palette.Sand,     // CC=5
-                _ => Palette.Grass                          // CC=1
-            };
-
-            for (var y = 0; y < backdrop.Height; y++)
-            {
-                var colour = y >= TravelGame.PanelY && y < TravelGame.PanelBottomY ? white
-                    : y >= TravelGame.GroundY && y < TravelGame.GroundBottomY ? ground
-                    : black;
-
-                for (var x = 0; x < backdrop.Width; x++)
-                    backdrop.SetPixel(x, y, colour);
-            }
-
-            // The strip is exactly as wide as the screen and hangs well above the ground, with black between the two.
-            // That black band is not empty space — it is where the team walks.
-            var strip = Assets.Dos("scenery", _game.Terrain == TravelTerrainEnum.Plains ? PlainsStrip : MountainStrip);
-            backdrop.DrawImage(strip, 0, TravelGame.StripY);
-
-            return backdrop;
-        }
-
-        /// <summary>
-        ///     Draws the prompt and the status panel over a composed frame. This cannot live in the cached backdrop,
-        ///     because every reading on it changes as the team walks.
+        ///     Draws the prompt and the status panel over a composed frame, feeding TravelArt the workbench's
+        ///     stand-in readings — the game's drive scene feeds the same rows from the real simulation.
         /// </summary>
         private void DrawStatusPanel(PixelBuffer frame)
         {
-            var black = Palette.Black;
-            var white = Palette.White;
-
-            PixelFont.DrawFixed(frame, "Press ENTER to size up the situation",
-                (TravelGame.ScreenWidth - 36 * 8) / 2, TravelGame.PromptY, white, 8);
-
-            // Labels right-aligned onto a shared colon column, values all starting on the next — which is what gives
-            // the panel its ragged left edge and dead-straight middle.
-            var rows = new (string Label, string Value)[]
+            TravelArt.DrawPrompt(frame, "Press ENTER to size up the situation");
+            TravelArt.DrawStatusPanel(frame, new (string Label, string Value)[]
             {
                 ("Date:", _game.Date.ToString("MMMM d, yyyy")),
                 ("Weather:", _game.WeatherWord),
@@ -308,15 +249,7 @@ namespace OregonTrailDotNet.Minigames.Windows
                 ("Food:", $"{_game.Food} pounds"),
                 ("Next landmark:", $"{Math.Ceiling(_game.MilesRemaining):0} miles"),
                 ("Miles traveled:", $"{_game.MilesTravelled:0} miles")
-            };
-
-            var y = TravelGame.PanelY + 2;
-            foreach (var (label, value) in rows)
-            {
-                PixelFont.DrawFixed(frame, label, TravelGame.PanelLabelRight - label.Length * 8, y, black, 8);
-                PixelFont.DrawFixed(frame, value, TravelGame.PanelValueLeft, y, black, 8);
-                y += TravelGame.PanelLineHeight;
-            }
+            });
         }
     }
 }

@@ -3,6 +3,7 @@
 
 using System;
 using System.Threading;
+using OregonTrailDotNet.Presentation.Audio;
 
 namespace OregonTrailDotNet
 {
@@ -52,6 +53,10 @@ namespace OregonTrailDotNet
                 Thread.Sleep(1);
             }
 
+            // The waveOut driver plays from its own buffer and would keep sounding after the loop ends; stop it before
+            // the goodbye screen. Harmless when nothing ever played.
+            Music.Shutdown();
+
             // Make user press any key to close out the simulation completely, this way they know it closed without error.
             Console.Clear();
             Console.WriteLine("Goodbye!");
@@ -69,6 +74,9 @@ namespace OregonTrailDotNet
         /// <param name="e">The e.</param>
         private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
+            // Silence the waveOut device first — its driver-owned buffer outlives the process's playback intent.
+            Music.Shutdown();
+
             // Destroy the simulation, unless it is already gone (CTRL-C pressed at the goodbye prompt).
             GameSimulationApp.Instance?.Destroy();
 

@@ -1,3 +1,4 @@
+using OregonTrailDotNet.Presentation;
 using System.Text;
 using WolfCurses.Graphics;
 using WolfCurses.Window;
@@ -15,7 +16,7 @@ namespace OregonTrailDotNet.Minigames.Windows
     ///     </para>
     /// </summary>
     [ParentWindow(typeof(MinigamesWindow))]
-    public sealed class SpriteSheetForm : SceneForm
+    public sealed class SpriteSheetForm : WorkbenchSceneForm
     {
         /// <summary>
         ///     Ticks each frame is held, matching <c>HuntGame</c>'s own walk timer so the cycles run at the speed they
@@ -102,7 +103,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             var frames = sheet.Load();
             if (_mirror)
-                frames = frames.Select(Assets.Mirror).ToArray();
+                frames = frames.Select(Art.Mirror).ToArray();
 
             var canvas = Layout(frames, out var columns);
             text.AppendLine(
@@ -157,7 +158,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             var cellWidth = Math.Max(widest, longestLabel) + 8;
             var cellHeight = tallest + PixelFont.LineHeight() + 8;
-            var columns = Math.Max(1, (Assets.DosWidth - 4) / cellWidth);
+            var columns = Math.Max(1, (Art.DosWidth - 4) / cellWidth);
             var rows = (cycles.Length + columns - 1) / columns;
 
             var canvas = new PixelBuffer(columns * cellWidth + 4, rows * cellHeight + 4);
@@ -189,7 +190,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             var cellWidth = widest + 6;
             var cellHeight = tallest + PixelFont.LineHeight() + 8;
 
-            columns = Math.Max(1, (Assets.DosWidth - 4) / cellWidth);
+            columns = Math.Max(1, (Art.DosWidth - 4) / cellWidth);
             var rows = (frames.Length + columns - 1) / columns;
 
             var canvas = new PixelBuffer(columns * cellWidth + 4, rows * cellHeight + 4);
@@ -230,7 +231,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         {
             /// <summary>Loads every frame, in the order the cutter numbered them.</summary>
             public PixelBuffer[] Load() =>
-                Enumerable.Range(1, Count).Select(id => Assets.Dos(Name, id)).ToArray();
+                Enumerable.Range(1, Count).Select(id => Art.Dos(Name, id)).ToArray();
         }
     }
 }

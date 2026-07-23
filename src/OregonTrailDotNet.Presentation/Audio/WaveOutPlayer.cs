@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
-namespace OregonTrailDotNet.Minigames.Audio
+namespace OregonTrailDotNet.Presentation.Audio
 {
     /// <summary>
     ///     Pushes a block of PCM at the sound card through <c>winmm</c>'s <c>waveOut</c> API.

@@ -1,4 +1,4 @@
-namespace OregonTrailDotNet.Minigames.Windows
+namespace OregonTrailDotNet.Presentation
 {
     /// <summary>
     ///     The hunt, rebuilt from the disassembled <c>&amp; HUNT</c> machine code and its BASIC wrapper (see

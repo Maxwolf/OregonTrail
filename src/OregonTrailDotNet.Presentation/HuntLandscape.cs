@@ -1,4 +1,4 @@
-namespace OregonTrailDotNet.Minigames.Windows
+namespace OregonTrailDotNet.Presentation
 {
     /// <summary>One piece of scenery: which sprite it is, and where it stands.</summary>
     /// <param name="SpriteId">1-based id on the DOS <c>terrain</c> sheet.</param>
@@ -131,7 +131,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             {
                 // $E2D3: the image is chosen once, from this zone's window...
                 var spriteId = SceneryToDos[window[random.Next(window.Length)]];
-                var sprite = Assets.Dos("terrain", spriteId);
+                var sprite = Art.Dos("terrain", spriteId);
                 var slots = Math.Max(1, (width - sprite.Width) / GridX + 1);
 
                 // ...and only the position is re-rolled on a clash ($E341 branches back to $E30C, not $E2D3).
@@ -152,8 +152,8 @@ namespace OregonTrailDotNet.Minigames.Windows
             }
 
             props.Sort((a, b) =>
-                (a.Y + Assets.Dos("terrain", a.SpriteId).Height)
-                .CompareTo(b.Y + Assets.Dos("terrain", b.SpriteId).Height));
+                (a.Y + Art.Dos("terrain", a.SpriteId).Height)
+                .CompareTo(b.Y + Art.Dos("terrain", b.SpriteId).Height));
 
             return new HuntLandscape(seed, zone, props);
         }

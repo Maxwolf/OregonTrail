@@ -1,6 +1,6 @@
 using WolfCurses.Graphics;
 
-namespace OregonTrailDotNet.Minigames
+namespace OregonTrailDotNet.Presentation
 {
     /// <summary>
     ///     A 5x7 bitmap font drawn straight into a <see cref="PixelBuffer" />.

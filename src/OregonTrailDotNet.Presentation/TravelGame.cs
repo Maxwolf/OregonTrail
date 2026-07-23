@@ -1,4 +1,4 @@
-namespace OregonTrailDotNet.Minigames.Windows
+namespace OregonTrailDotNet.Presentation
 {
     /// <summary>Which horizon the leg is drawn against.</summary>
     public enum TravelTerrainEnum
@@ -97,7 +97,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         ///     The wagon's x. Converting the Apple II's 186 gives <b>212</b>, and measuring a screen capture of the DOS
         ///     port gives 212 with a 78-pixel frame — five years apart, the two ports park the wagon on the same pixel.
         /// </summary>
-        public const int WagonX = Apple2WagonX * ScreenWidth / Assets.Apple2Width;
+        public const int WagonX = Apple2WagonX * ScreenWidth / Art.Apple2Width;
 
         /// <summary>
         ///     Where the horizon strip hangs. It is <b>not</b> seated on the ground: a wide black band separates the
@@ -145,7 +145,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>`FX = 180 - L%(NM-1,1)` — where the leg's scenery comes to rest. The table is not decoded, so the
         ///     bare 180 stands in for it.</summary>
-        public const int SceneryRestX = 180 * ScreenWidth / Assets.Apple2Width;
+        public const int SceneryRestX = 180 * ScreenWidth / Art.Apple2Width;
 
         /// <summary>Miles in a leg. Stands in for the trail's real spacing, which this workbench has no trail for.</summary>
         public const int LegMiles = 120;
@@ -405,6 +405,6 @@ namespace OregonTrailDotNet.Minigames.Windows
     public readonly record struct TravelLeg(string Toward, int SpriteId, string Name, string Apple, int RestX)
     {
         /// <summary>The art's own width, which the leg's pixels-per-mile is solved against.</summary>
-        public int Width => Assets.Dos("scenery", SpriteId).Width;
+        public int Width => Art.Dos("scenery", SpriteId).Width;
     }
 }

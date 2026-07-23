@@ -20,6 +20,10 @@
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
     <!-- Pin the native SQLite bundle forward past the vulnerable transitive 2.1.11 (GHSA-2m69-gcr7-jv3q). -->
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.4" />
+    <!-- The shared presentation layer (scene forms, art decode, chiptune audio) plus the embedded original MECC
+         assets it draws from. Only forms gated behind GameSimulationApp.PresentationEnabled ever touch it, so the
+         bot and tests carry it as a dormant dependency. -->
+    <ProjectReference Include="..\OregonTrailDotNet.Presentation\OregonTrailDotNet.Presentation.csproj" />
   </ItemGroup>
 
   <ItemGroup>

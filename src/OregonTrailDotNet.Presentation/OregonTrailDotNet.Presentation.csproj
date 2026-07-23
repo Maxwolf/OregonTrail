@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>OregonTrailDotNet.Presentation</RootNamespace>
+    <AssemblyName>OregonTrailDotNet.Presentation</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The shared presentation layer: the minigames' pure logic (HuntGame, RaftGame, TravelGame, ...), the
+         asset decode cache, palette, pixel font, DOS sprite-sheet maps, the chiptune audio stack, and the
+         generic SceneForm base. Referenced by both the minigame workbench (which keeps only its harness and
+         form shells) and the main game (whose gated graphical sibling forms are chosen by
+         GameSimulationApp.PresentationEnabled). It references only WolfCurses and the embedded-asset library,
+         never the game, so the dependency arrow always points game -> presentation -> assets.
+         See docs/minigame-integration-plan.md. -->
+    <PackageReference Include="WolfCurses" Version="2026.7.22.16" />
+    <ProjectReference Include="..\OregonTrailDotNet.Assets\OregonTrailDotNet.Assets.csproj" />
+  </ItemGroup>
+
+</Project>

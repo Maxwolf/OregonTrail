@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using System.Text.Json;
 using AssetStore = OregonTrailDotNet.Assets.AssetStore;
 
-namespace OregonTrailDotNet.Minigames.Audio
+namespace OregonTrailDotNet.Presentation.Audio
 {
     /// <summary>
     ///     One of the original's tunes, as a list of notes.

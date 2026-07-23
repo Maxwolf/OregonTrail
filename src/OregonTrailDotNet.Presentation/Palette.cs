@@ -2,7 +2,7 @@ using System.Diagnostics;
 using WolfCurses.Graphics;
 using AssetStore = OregonTrailDotNet.Assets.AssetStore;
 
-namespace OregonTrailDotNet.Minigames
+namespace OregonTrailDotNet.Presentation
 {
     /// <summary>
     ///     The colours the minigames paint with, in one place, so a screen drawn <i>around</i> the DOS art matches the

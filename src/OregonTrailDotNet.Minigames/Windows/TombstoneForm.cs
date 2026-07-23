@@ -1,3 +1,4 @@
+using OregonTrailDotNet.Presentation;
 using System.Text;
 using WolfCurses.Graphics;
 using WolfCurses.Window;
@@ -32,26 +33,16 @@ namespace OregonTrailDotNet.Minigames.Windows
     ///     </para>
     /// </summary>
     [ParentWindow(typeof(MinigamesWindow))]
-    public sealed class TombstoneForm : SceneForm
+    public sealed class TombstoneForm : WorkbenchSceneForm
     {
-        // & DFW,6 AT 56,62,150,45 — TOMB.LIB:50010 and :50105 use the identical rectangle. The *size* is the
-        // original's and is kept exactly, because 150x45 over a 7x8 cell is what makes the 21x5 grid and the
-        // 29-character cap agree.
-        //
-        // The origin is not the original's, and was not chosen by eye either. The carved face is an irregular blob,
-        // not a rectangle: it narrows toward the top, so the "Here lies" row wants the block pushed right while a
-        // full 21-column epitaph row wants it pushed left. Eyeballing satisfies whichever row you happen to be
-        // looking at. So it was solved instead — sweep every origin, render all four samples, and count glyph pixels
-        // landing on dark stone. 63,69 is the minimum at 8 stray pixels of 4655 (0.2%), against 48 at 60,67, 96 at
-        // 81,67 and 180 at the BASIC's own 56,62. Do not "correct" this back to the literal.
-        private const int Apple2WindowX = 56, Apple2WindowY = 62;
-        private const int WindowX = 63, WindowY = 69, WindowW = 150, WindowH = 45;
-
-        // Apple II hi-res character cell. 150/7 = 21 columns, 45/8 = 5 rows.
-        private const int CellW = 7, CellH = 8;
-
-        // & INP,29,"-09-AZ-az ,.'-",0,A$ — the epitaph's length cap and its allowed alphabet.
-        private const int EpitaphLimit = 29;
+        // The window rectangle, cell, cap, and the solved 63,69 origin all live in TombstoneArt now (with the
+        // sweep-and-count story of why the origin is not the BASIC's 56,62); these aliases keep this form reading
+        // the way it always did.
+        private const int Apple2WindowX = TombstoneArt.Apple2WindowX, Apple2WindowY = TombstoneArt.Apple2WindowY;
+        private const int WindowX = TombstoneArt.WindowX, WindowY = TombstoneArt.WindowY;
+        private const int WindowW = TombstoneArt.WindowW, WindowH = TombstoneArt.WindowH;
+        private const int CellW = TombstoneArt.CellW, CellH = TombstoneArt.CellH;
+        private const int EpitaphLimit = TombstoneArt.EpitaphLimit;
 
         private static readonly (string Name, string Epitaph)[] Samples =
         [
@@ -107,7 +98,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         // The DOS port has no tombstone bitmap — neither picture library holds one, because it draws that screen with
         // BGI primitives — so this is the one screen that stays on the 1985 card.
-        protected override void Build() => _stone = Assets.Apple2Backdrop("tombstone.png");
+        protected override void Build() => _stone = Art.Apple2Backdrop("tombstone.png");
 
         /// <inheritdoc />
         protected override void OnSectionKey(ConsoleKey key)
@@ -136,20 +127,15 @@ namespace OregonTrailDotNet.Minigames.Windows
         protected override string Compose()
         {
             var canvas = new PixelBuffer(_stone.Width, _stone.Height, (byte[]) _stone.Data.Clone());
-            var columns = WindowW / CellW;
-            var rows = WindowH / CellH;
+            var columns = TombstoneArt.Columns;
+            var rows = TombstoneArt.Rows;
             var (name, epitaph) = Samples[_sample];
 
             if (_grid)
                 DrawGrid(canvas, columns, rows);
 
-            // The inscription exactly as TOMB.LIB prints it: "Here lies", the name, a blank line, then the epitaph.
-            var lines = new List<string> { "Here lies", name, string.Empty };
-            var epitaphRow = lines.Count;
-            lines.AddRange(Wrap(Trim(epitaph), columns));
-
-            for (var row = 0; row < lines.Count && row < rows; row++)
-                PixelFont.DrawFixed(canvas, lines[row], _x, _y + row * CellH, Inks[_ink].Colour, CellW);
+            var lines = TombstoneArt.Inscription(name, epitaph, out var epitaphRow);
+            TombstoneArt.Draw(canvas, lines, _x, _y, Inks[_ink].Colour);
 
             var overflowRows = Math.Max(0, lines.Count - rows);
             var text = new StringBuilder();
@@ -161,45 +147,14 @@ namespace OregonTrailDotNet.Minigames.Windows
                 $"epitaph row {epitaphRow}   " +
                 $"{(_x == WindowX && _y == WindowY ? $"AT THE TUNED ORIGIN (BASIC says {Apple2WindowX},{Apple2WindowY})" : "moved")}");
             text.AppendLine(
-                $"epitaph {Trim(epitaph).Length}/{EpitaphLimit} chars, wraps to {Wrap(Trim(epitaph), columns).Count} row(s)   " +
+                $"epitaph {TombstoneArt.Trim(epitaph).Length}/{EpitaphLimit} chars, wraps to " +
+                $"{TombstoneArt.Wrap(TombstoneArt.Trim(epitaph), columns).Count} row(s)   " +
                 $"ink {Inks[_ink].Name}" + (overflowRows > 0 ? $"   !! {overflowRows} row(s) OVERFLOW the window" : ""));
             text.Append(AnsiImage.FromPixels(canvas).ToAnsi(PictureOptions()));
             text.AppendLine();
             text.AppendLine($"        HERE LIES {name.ToUpperInvariant()}");
             text.Append(Footer("ARROWS move window   G cell grid   TAB sample   C ink   HOME original origin"));
             return text.ToString();
-        }
-
-        /// <summary>Clips an epitaph to the length the original's input routine allowed.</summary>
-        private static string Trim(string epitaph) =>
-            epitaph.Length <= EpitaphLimit ? epitaph : epitaph[..EpitaphLimit];
-
-        /// <summary>Word-wraps into the window's column count, which is what the text window did for free.</summary>
-        private static List<string> Wrap(string text, int columns)
-        {
-            var wrapped = new List<string>();
-            if (string.IsNullOrWhiteSpace(text))
-                return wrapped;
-
-            var line = new StringBuilder();
-            foreach (var word in text.Split(' ', StringSplitOptions.RemoveEmptyEntries))
-            {
-                if (line.Length > 0 && line.Length + 1 + word.Length > columns)
-                {
-                    wrapped.Add(line.ToString());
-                    line.Clear();
-                }
-
-                if (line.Length > 0)
-                    line.Append(' ');
-
-                line.Append(word);
-            }
-
-            if (line.Length > 0)
-                wrapped.Add(line.ToString());
-
-            return wrapped;
         }
 
         /// <summary>Draws the character cells, which is what makes a position checkable rather than eyeballed.</summary>

@@ -1,4 +1,4 @@
-namespace OregonTrailDotNet.Minigames.Windows
+namespace OregonTrailDotNet.Presentation
 {
     /// <summary>What a landmark is, which is what the map draws it as.</summary>
     public enum MapMarkerEnum

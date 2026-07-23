@@ -18,6 +18,7 @@
          with no loose files to load. -->
     <PackageReference Include="WolfCurses" Version="2026.7.22.16" />
     <ProjectReference Include="..\OregonTrailDotNet.Assets\OregonTrailDotNet.Assets.csproj" />
+    <ProjectReference Include="..\OregonTrailDotNet.Presentation\OregonTrailDotNet.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

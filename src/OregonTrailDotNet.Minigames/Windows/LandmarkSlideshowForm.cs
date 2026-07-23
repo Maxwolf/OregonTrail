@@ -1,5 +1,6 @@
+using OregonTrailDotNet.Presentation;
 using System.Text;
-using OregonTrailDotNet.Minigames.Audio;
+using OregonTrailDotNet.Presentation.Audio;
 using WolfCurses.Graphics;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
@@ -17,7 +18,7 @@ namespace OregonTrailDotNet.Minigames.Windows
     ///     </para>
     /// </summary>
     [ParentWindow(typeof(MinigamesWindow))]
-    public sealed class LandmarkSlideshowForm : SceneForm
+    public sealed class LandmarkSlideshowForm : WorkbenchSceneForm
     {
         private const int SecondsPerSlide = 3;
 
@@ -130,7 +131,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         protected override string Compose()
         {
             var stop = Stops[_slide];
-            var picture = Assets.Load($"landmarks/p{stop.Index}.png");
+            var picture = Art.Load($"landmarks/p{stop.Index}.png");
             var source = $"DOS MCGA  p{stop.Index}.png";
 
             var text = new StringBuilder();
