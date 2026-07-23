@@ -98,7 +98,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
             // same picture rides above the unchanged text (headless hosts see only the text they have always
             // typed against). Reserved rows cover the question, the name list, the hint and the prompt.
             return GameSimulationApp.PresentationEnabled
-                ? FamilyArt.Banner(reservedRows: 12) + _inputNamesHelp
+                ? Banners.Family(reservedRows: 12) + _inputNamesHelp
                 : _inputNamesHelp.ToString();
         }
 

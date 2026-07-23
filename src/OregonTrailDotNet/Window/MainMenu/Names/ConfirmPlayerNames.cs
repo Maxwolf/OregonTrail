@@ -83,7 +83,7 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
             // The family picture stays up while the party reads their names back, exactly as the original keeps
             // it above the whole naming exchange; the text beneath is unchanged for headless hosts.
             return GameSimulationApp.PresentationEnabled
-                ? FamilyArt.Banner(reservedRows: 12) + base.OnRenderForm()
+                ? Banners.Family(reservedRows: 12) + base.OnRenderForm()
                 : base.OnRenderForm();
         }
 

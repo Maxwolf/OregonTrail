@@ -3,6 +3,8 @@
 
 using System;
 using System.Text;
+using OregonTrailDotNet.Presentation;
+using OregonTrailDotNet.Presentation.Audio;
 using OregonTrailDotNet.Window.MainMenu.Help;
 using OregonTrailDotNet.Window.MainMenu.Options;
 using OregonTrailDotNet.Window.MainMenu.Profession;
@@ -40,12 +42,15 @@ namespace OregonTrailDotNet.Window.MainMenu
         }
 
         /// <summary>
-        ///     Resets the input prompt so a context-specific prompt set by one form does not leak into the next.
+        ///     Resets the input prompt so a context-specific prompt set by one form does not leak into the next,
+        ///     and rebuilds the header so the title banner is re-measured for the console whenever a form clears
+        ///     back to the menu.
         /// </summary>
         protected override void OnFormChange()
         {
             base.OnFormChange();
             PromptText = SceneGraph.PROMPT_TEXT_DEFAULT;
+            BuildHeader();
         }
 
         /// <summary>
@@ -53,16 +58,50 @@ namespace OregonTrailDotNet.Window.MainMenu
         /// </summary>
         public override void OnWindowPostCreate()
         {
-            var headerText = new StringBuilder();
-            headerText.Append($"{Environment.NewLine}The Oregon Trail{Environment.NewLine}{Environment.NewLine}");
-            headerText.Append("You may:");
-            MenuHeader = headerText.ToString();
+            BuildHeader();
 
             AddCommand(TravelTheTrail, MainMenuCommandsEnum.TravelTheTrail);
             AddCommand(LearnAboutTrail, MainMenuCommandsEnum.LearnAboutTheTrail);
             AddCommand(SeeTopTen, MainMenuCommandsEnum.SeeTheOregonTopTen);
             AddCommand(ChooseManagementOptions, MainMenuCommandsEnum.ChooseManagementOptions);
             AddCommand(CloseSimulation, MainMenuCommandsEnum.CloseSimulation);
+
+            // The original's "Turn sound off", offered only where sound exists: headless hosts run without the
+            // audio stack and their menu text must stay exactly as the bot has always read it.
+            if (GameSimulationApp.PresentationEnabled)
+                AddCommand(ToggleSound, MainMenuCommandsEnum.ToggleSound);
+        }
+
+        /// <summary>
+        ///     Flips the one process-wide mute and rebuilds the header so the menu reads the new state back —
+        ///     the original relabelled its menu entry, but command labels are fixed, so the masthead answers.
+        /// </summary>
+        private void ToggleSound()
+        {
+            Music.ToggleMute();
+            BuildHeader();
+        }
+
+        /// <summary>
+        ///     The menu's masthead. The original draws its title lettering and scroll flourish over the menu; with
+        ///     presentation on the same picture replaces the plain text title (headless hosts keep the text).
+        /// </summary>
+        private void BuildHeader()
+        {
+            var headerText = new StringBuilder();
+            if (GameSimulationApp.PresentationEnabled)
+            {
+                headerText.Append($"{Banners.Title(reservedRows: 12)}{Environment.NewLine}");
+                if (Music.Muted)
+                    headerText.Append($"(sound is off){Environment.NewLine}{Environment.NewLine}");
+            }
+            else
+            {
+                headerText.Append($"{Environment.NewLine}The Oregon Trail{Environment.NewLine}{Environment.NewLine}");
+            }
+
+            headerText.Append("You may:");
+            MenuHeader = headerText.ToString();
         }
 
         /// <summary>

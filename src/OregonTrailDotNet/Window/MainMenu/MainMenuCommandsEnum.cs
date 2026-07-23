@@ -33,6 +33,13 @@ namespace OregonTrailDotNet.Window.MainMenu
         /// <summary>
         ///     Exits the application, clears in memory in holding.
         /// </summary>
-        [Description("End")] CloseSimulation = 5
+        [Description("End")] CloseSimulation = 5,
+
+        /// <summary>
+        ///     Mutes and unmutes the music, the original's "Turn sound off". Only offered when presentation is on —
+        ///     headless hosts have no sound and their menu text must not change. Value 6 because the printed number
+        ///     IS the enum value and 1-5 are frozen (the original's slot 4 belongs to Management Options here).
+        /// </summary>
+        [Description("Turn sound on/off")] ToggleSound = 6
     }
 }
