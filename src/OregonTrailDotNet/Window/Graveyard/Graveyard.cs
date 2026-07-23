@@ -29,6 +29,12 @@ namespace OregonTrailDotNet.Window.Graveyard
         {
             base.OnFormChange();
             PromptText = SceneGraph.PROMPT_TEXT_DEFAULT;
+
+            // A scene form's tune must not outlive it: SetForm has no teardown, so stop Taps whenever a plain form
+            // (the epitaph editor, the confirm dialog) takes over — the same guard Travel carries.
+            if (GameSimulationApp.PresentationEnabled &&
+                CurrentForm is not OregonTrailDotNet.Presentation.SceneForm<TombstoneInfo>)
+                OregonTrailDotNet.Presentation.Audio.Music.Stop();
         }
 
         /// <summary>
@@ -38,10 +44,11 @@ namespace OregonTrailDotNet.Window.Graveyard
         {
             base.OnWindowPostCreate();
 
-            // Depending on the living status of passengers in current player vehicle we will attach a different form.
+            // Depending on the living status of passengers in current player vehicle we will attach a different
+            // form; with presentation on, both are the stone scenes (the Apple II tombstone with Taps).
             SetForm(GameSimulationApp.Instance.Vehicle.PassengerLivingCount <= 0
-                ? typeof(EpitaphQuestion)
-                : typeof(TombstoneView));
+                ? EpitaphQuestionScene.QuestionFormType
+                : TombstoneScene.ViewFormType);
         }
     }
 }

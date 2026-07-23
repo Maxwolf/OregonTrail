@@ -62,7 +62,12 @@ namespace OregonTrailDotNet.Presentation
         public static string Trim(string epitaph) =>
             epitaph.Length <= EpitaphLimit ? epitaph : epitaph[..EpitaphLimit];
 
-        /// <summary>Word-wraps into the window's column count, which is what the text window did for free.</summary>
+        /// <summary>
+        ///     Word-wraps into the window's column count, which is what the text window did for free. A single word
+        ///     longer than a row is hard-broken at the column edge — the original's 29-character alphabet-capped
+        ///     input could not produce one, but the game's 38-character epitaphs can, and the text window would have
+        ///     broken it exactly there rather than let it vanish off the stone.
+        /// </summary>
         public static List<string> Wrap(string text, int columns)
         {
             var wrapped = new List<string>();
@@ -70,8 +75,21 @@ namespace OregonTrailDotNet.Presentation
                 return wrapped;
 
             var line = new System.Text.StringBuilder();
-            foreach (var word in text.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+            foreach (var whole in text.Split(' ', StringSplitOptions.RemoveEmptyEntries))
             {
+                var word = whole;
+                while (word.Length > columns)
+                {
+                    if (line.Length > 0)
+                    {
+                        wrapped.Add(line.ToString());
+                        line.Clear();
+                    }
+
+                    wrapped.Add(word[..columns]);
+                    word = word[columns..];
+                }
+
                 if (line.Length > 0 && line.Length + 1 + word.Length > columns)
                 {
                     wrapped.Add(line.ToString());
@@ -94,12 +112,24 @@ namespace OregonTrailDotNet.Presentation
         ///     The inscription exactly as <c>TOMB.LIB</c> prints it: "Here lies", the name, a blank line, then the
         ///     wrapped epitaph. <paramref name="epitaphRow" /> is the row the epitaph starts on — the value the
         ///     original remembers with <c>&amp; GCP</c> so an edit can reprint just that row.
+        ///     <para>
+        ///         <paramref name="epitaphLimit" /> defaults to the original's 29; the game passes its own 38-char
+        ///         cap. A 38-character epitaph can wrap to three rows where 29 always fit in two — the blank spacer
+        ///         is dropped in that case so the whole inscription still fits the five-row window.
+        ///     </para>
         /// </summary>
-        public static List<string> Inscription(string name, string epitaph, out int epitaphRow)
+        public static List<string> Inscription(string name, string epitaph, out int epitaphRow,
+            int epitaphLimit = EpitaphLimit)
         {
-            var lines = new List<string> { "Here lies", name, string.Empty };
+            var clipped = epitaph.Length <= epitaphLimit ? epitaph : epitaph[..epitaphLimit];
+            var wrapped = Wrap(clipped, Columns);
+
+            var lines = new List<string> { "Here lies", name };
+            if (wrapped.Count <= Rows - lines.Count - 1)
+                lines.Add(string.Empty);
+
             epitaphRow = lines.Count;
-            lines.AddRange(Wrap(Trim(epitaph), Columns));
+            lines.AddRange(wrapped);
             return lines;
         }
 

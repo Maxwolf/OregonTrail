@@ -81,7 +81,7 @@ namespace OregonTrailDotNet.Window.Graveyard
                 case DialogResponseEnum.Custom:
                 case DialogResponseEnum.No:
                     GameSimulationApp.Instance.Tombstone.Add(UserData.Tombstone.Clone() as Tombstone);
-                    SetForm(typeof(TombstoneView));
+                    SetForm(TombstoneScene.ViewFormType);
                     break;
                 case DialogResponseEnum.Yes:
                     UserData.Tombstone.Epitaph = string.Empty;

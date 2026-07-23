@@ -74,7 +74,7 @@ namespace OregonTrailDotNet.Window.Graveyard
                 case DialogResponseEnum.No:
                 case DialogResponseEnum.Custom:
                     GameSimulationApp.Instance.Tombstone.Add(UserData.Tombstone);
-                    SetForm(typeof(TombstoneView));
+                    SetForm(TombstoneScene.ViewFormType);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);

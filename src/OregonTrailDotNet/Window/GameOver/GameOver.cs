@@ -30,6 +30,12 @@ namespace OregonTrailDotNet.Window.GameOver
         {
             base.OnFormChange();
             PromptText = SceneGraph.PROMPT_TEXT_DEFAULT;
+
+            // A scene form's tune must not outlive it: stop the victory music when a plain form (the scoring
+            // table) takes over — the same guard Travel and the Graveyard carry.
+            if (GameSimulationApp.PresentationEnabled &&
+                CurrentForm is not OregonTrailDotNet.Presentation.SceneForm<GameOverInfo>)
+                OregonTrailDotNet.Presentation.Audio.Music.Stop();
         }
 
         /// <summary>
@@ -39,17 +45,17 @@ namespace OregonTrailDotNet.Window.GameOver
         {
             base.OnWindowPostCreate();
 
-            // Check if passengers in the vehicle are dead.
+            // Reaching the last location wins; with presentation on the victory is the Willamette card + tune.
             if (GameSimulationApp.Instance.Trail.CurrentLocation.LastLocation)
             {
-                SetForm(typeof(GameWin));
+                SetForm(GameSimulationApp.PresentationEnabled ? typeof(VictoryScene) : typeof(GameWin));
                 return;
             }
 
-            // Check if player reached end of the trail.
+            // A dead party fails; with presentation on the death screen is the wrecked wagon.
             if (GameSimulationApp.Instance.Vehicle.PassengersDead)
             {
-                SetForm(typeof(GameFail));
+                SetForm(GameSimulationApp.PresentationEnabled ? typeof(DeathScene) : typeof(GameFail));
                 return;
             }
 
