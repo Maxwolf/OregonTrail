@@ -3,6 +3,7 @@
 
 using System;
 using System.Text;
+using OregonTrailDotNet.Presentation;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
 
@@ -92,7 +93,13 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
         public override string OnRenderForm()
         {
             ParentWindow.PromptText = "Enter a name:";
-            return _inputNamesHelp.ToString();
+
+            // The original draws the family by their wagon above every naming question; with presentation on the
+            // same picture rides above the unchanged text (headless hosts see only the text they have always
+            // typed against). Reserved rows cover the question, the name list, the hint and the prompt.
+            return GameSimulationApp.PresentationEnabled
+                ? FamilyArt.Banner(reservedRows: 12) + _inputNamesHelp
+                : _inputNamesHelp.ToString();
         }
 
         /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>

@@ -3,6 +3,7 @@
 
 using System;
 using System.Text;
+using OregonTrailDotNet.Presentation;
 using OregonTrailDotNet.Window.MainMenu.Start_Month;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
@@ -78,7 +79,12 @@ namespace OregonTrailDotNet.Window.MainMenu.Names
         public override string OnRenderForm()
         {
             ParentWindow.PromptText = "Yes or no?";
-            return base.OnRenderForm();
+
+            // The family picture stays up while the party reads their names back, exactly as the original keeps
+            // it above the whole naming exchange; the text beneath is unchanged for headless hosts.
+            return GameSimulationApp.PresentationEnabled
+                ? FamilyArt.Banner(reservedRows: 12) + base.OnRenderForm()
+                : base.OnRenderForm();
         }
 
         /// <summary>
