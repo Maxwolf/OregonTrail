@@ -117,7 +117,12 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
                     travelMode.ContinueOnTrail();
                     break;
                 case DialogResponseEnum.Yes:
-                    ClearForm();
+                    // Looking around a stop is where the original shows the landmark card and plays its tune
+                    // (:1010, gated on answering Y). Headless hosts and card-less stops keep today's behavior.
+                    if (Scene.LandmarkCard.ShouldShow)
+                        SetForm(typeof(Scene.LandmarkCard));
+                    else
+                        ClearForm();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reponse), reponse, null);

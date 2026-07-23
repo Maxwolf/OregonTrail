@@ -31,7 +31,7 @@ namespace OregonTrailDotNet.Tests
         /// </summary>
         protected static GameSimulationApp Game => GameSimulationApp.Instance;
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             GameSimulationApp.Instance?.Destroy();
         }

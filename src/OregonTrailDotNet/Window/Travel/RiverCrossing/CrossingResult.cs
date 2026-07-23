@@ -145,7 +145,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             GameSimulationApp.Instance.TakeTurn(false);
 
             // Start going there...
-            SetForm(typeof(LocationDepart));
+            SetForm(TravelInfo.DepartFormType);
         }
     }
 }

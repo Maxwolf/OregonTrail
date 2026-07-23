@@ -77,7 +77,7 @@ namespace OregonTrailDotNet.Window.Travel
             if (GameSimulationApp.Instance.Trail.CurrentLocation is Landmark ||
                 GameSimulationApp.Instance.Trail.CurrentLocation is Settlement ||
                 GameSimulationApp.Instance.Trail.CurrentLocation is TollRoad)
-                SetForm(typeof(LocationDepart));
+                SetForm(TravelInfo.DepartFormType);
             else if (GameSimulationApp.Instance.Trail.CurrentLocation is Entity.Location.Point.RiverCrossing)
                 SetForm(typeof(RiverCrossHelp));
             else if (GameSimulationApp.Instance.Trail.CurrentLocation is ForkInRoad)

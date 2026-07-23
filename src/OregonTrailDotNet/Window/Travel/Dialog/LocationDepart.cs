@@ -53,7 +53,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
         /// <param name="reponse">The response the dialog parsed from simulation input buffer.</param>
         protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
-            SetForm(typeof(ContinueOnTrail));
+            SetForm(TravelInfo.DriveFormType);
         }
     }
 }

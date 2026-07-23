@@ -33,6 +33,23 @@ namespace OregonTrailDotNet.Window.Travel
         }
 
         /// <summary>
+        ///     Which form plays the departure card. The graphical sibling (card art + tune, the original's :2200
+        ///     placement) is chosen only when presentation is on and the current stop has a card; every headless host
+        ///     always gets the plain <see cref="Dialog.LocationDepart" />. All SetForm sites that used to name
+        ///     LocationDepart directly route through here so the gate cannot miss one.
+        /// </summary>
+        public static Type DepartFormType =>
+            GameSimulationApp.PresentationEnabled && Scene.LandmarkDepartCard.CanShow
+                ? typeof(Scene.LandmarkDepartCard)
+                : typeof(Dialog.LocationDepart);
+
+        /// <summary>
+        ///     Which form drives the trail. Always the text drive form today; the travel-screen phase gates this to
+        ///     the graphical drive scene, and every dispatch into driving already routes through here.
+        /// </summary>
+        public static Type DriveFormType => typeof(Command.ContinueOnTrail);
+
+        /// <summary>
         ///     Reference for any river information that we might need to be holding when we encounter one it will be generated and
         ///     this object filled with needed data that can be accessed by the other states as we attach them.
         /// </summary>

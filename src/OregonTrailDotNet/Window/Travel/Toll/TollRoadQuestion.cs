@@ -145,7 +145,7 @@ namespace OregonTrailDotNet.Window.Travel.Toll
                     UserData.DestroyToll();
 
                     // Onward to the next location!
-                    SetForm(typeof(LocationDepart));
+                    SetForm(TravelInfo.DepartFormType);
                     break;
                 case DialogResponseEnum.No:
                 case DialogResponseEnum.Custom:

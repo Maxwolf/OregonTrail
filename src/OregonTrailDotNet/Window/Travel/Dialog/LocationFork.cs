@@ -156,7 +156,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
                     }
 
                     // Start going there...
-                    SetForm(typeof(LocationDepart));
+                    SetForm(TravelInfo.DepartFormType);
                 }
             }
             else
