@@ -98,6 +98,16 @@ namespace OregonTrailDotNet
         internal static bool PersistenceEnabled { get; set; }
 
         /// <summary>
+        ///     When true, forms that have a graphical sibling (scene forms drawing the original MECC artwork with music) are
+        ///     chosen at their SetForm sites instead of the plain-text forms. Off by default for the same reason as
+        ///     <see cref="PersistenceEnabled" />: the training bot regex-scrapes rendered form text and the test suite pins the
+        ///     text forms' behavior, so with the flag off every headless host runs exactly the code it ran before the
+        ///     presentation layer existed. The real game turns it on in <see cref="Program" /> before creating the simulation;
+        ///     it is a plain static, so it survives <see cref="Restart" />. See docs/minigame-integration-plan.md.
+        /// </summary>
+        internal static bool PresentationEnabled { get; set; }
+
+        /// <summary>
         ///     The player's persistent game database, or null when persistence is disabled or the file could not be opened. Owned
         ///     by the simulation: created in <see cref="OnPostCreate" /> and disposed in <see cref="OnPreDestroy" />.
         /// </summary>

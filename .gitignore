@@ -298,3 +298,5 @@ bot.db
 bot.db-wal
 bot.db-shm
 bot.db-journal
+/legacy
+/docs

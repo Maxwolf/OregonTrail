@@ -13,7 +13,10 @@ namespace OregonTrailDotNet.Tests
 
         protected SimulationTestBase()
         {
-            // A previously failed test could leave the singleton alive, clear it out first.
+            // A previously failed test could leave the singleton alive, clear it out first. The presentation flag is a
+            // process-wide static in a serial suite: force it off so a gate-on test that forgot its reset can never leak
+            // graphical scene forms into the text-form assertions that follow.
+            GameSimulationApp.PresentationEnabled = false;
             GameSimulationApp.Instance?.Destroy();
             GameSimulationApp.Create();
 

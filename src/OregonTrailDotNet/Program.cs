@@ -26,6 +26,10 @@ namespace OregonTrailDotNet
             // training bot leave this off and stay in-memory).
             GameSimulationApp.PersistenceEnabled = true;
 
+            // The real game also gets the graphical scene forms (original MECC artwork and music at the dramatic moments);
+            // headless hosts leave this off so the bot's text scraping and the test suite see the unchanged text forms.
+            GameSimulationApp.PresentationEnabled = true;
+
             // Create game simulation singleton instance, and start it. Constructing it also probes the terminal for the
             // best graphics protocol it can draw with — once, and before any key is read — so it has to come before the
             // tick loop below.
