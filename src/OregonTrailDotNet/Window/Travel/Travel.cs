@@ -99,7 +99,7 @@ namespace OregonTrailDotNet.Window.Travel
         /// </summary>
         private void LookAtMap()
         {
-            SetForm(typeof(LookAtMap));
+            SetForm(Scene.MapScene.FormType);
         }
 
         /// <summary>

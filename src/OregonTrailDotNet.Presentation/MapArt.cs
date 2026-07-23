@@ -38,24 +38,47 @@ namespace OregonTrailDotNet.Presentation
         /// <param name="game">The journey whose route is drawn.</param>
         public static void PlotRoute(PixelBuffer picture, MapGame game)
         {
-            // :50000 -- the finished route, a polyline through every landmark actually reached.
-            for (var i = 0; i + 1 < game.Visited.Count; i++)
-            {
-                var a = MapGame.Landmarks[game.Visited[i]];
-                var b = MapGame.Landmarks[game.Visited[i + 1]];
-                Line(picture, a.X, a.Y, b.X, b.Y);
-            }
+            var visited = new List<(int X, int Y)>();
+            foreach (var index in game.Visited)
+                visited.Add((MapGame.Landmarks[index].X, MapGame.Landmarks[index].Y));
 
-            // :50010 -- the leg in progress, growing out of the landmark just left.
             if (game.Finished)
+            {
+                PlotRoute(picture, visited, null, null, 0);
                 return;
+            }
 
             var from = MapGame.Landmarks[game.From];
             var to = MapGame.Landmarks[game.To];
-            var t = game.LegProgress;
-            Line(picture, from.X, from.Y,
-                (int) Math.Round(from.X + (to.X - from.X) * t),
-                (int) Math.Round(from.Y + (to.Y - from.Y) * t));
+            PlotRoute(picture, visited, (from.X, from.Y), (to.X, to.Y), game.LegProgress);
+        }
+
+        /// <summary>
+        ///     The same plot from bare coordinates, for a host whose journey is not a <see cref="MapGame" /> — the
+        ///     real game feeds its own visited locations (mapped through <see cref="OriginalTrail" />) and live leg
+        ///     progress. A null leg endpoint skips the in-progress segment.
+        /// </summary>
+        /// <param name="picture">The frame to draw on, in the map's own 640-wide pixel space.</param>
+        /// <param name="visited">Every stop reached, in order; the polyline joins consecutive pairs.</param>
+        /// <param name="legFrom">Where the current leg grows out of, or null when there is no leg to draw.</param>
+        /// <param name="legTo">Where the current leg is headed, or null when there is no leg to draw.</param>
+        /// <param name="legProgress">How far along the leg is, 0 (just left) to 1 (arriving).</param>
+        public static void PlotRoute(PixelBuffer picture, IReadOnlyList<(int X, int Y)> visited,
+            (int X, int Y)? legFrom, (int X, int Y)? legTo, double legProgress)
+        {
+            // :50000 -- the finished route, a polyline through every landmark actually reached.
+            for (var i = 0; i + 1 < visited.Count; i++)
+                Line(picture, visited[i].X, visited[i].Y, visited[i + 1].X, visited[i + 1].Y);
+
+            // :50010 -- the leg in progress. Read Z = D*(X2-X1)/DD carefully: the line grows out of the landmark
+            // just left and reaches the destination exactly as the distance remaining hits zero.
+            if (legFrom == null || legTo == null)
+                return;
+
+            var t = Math.Clamp(legProgress, 0, 1);
+            Line(picture, legFrom.Value.X, legFrom.Value.Y,
+                (int) Math.Round(legFrom.Value.X + (legTo.Value.X - legFrom.Value.X) * t),
+                (int) Math.Round(legFrom.Value.Y + (legTo.Value.Y - legFrom.Value.Y) * t));
         }
 
         /// <summary>

@@ -162,7 +162,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
             else
             {
                 // Invalid selection will result in looking at the map screen.
-                SetForm(typeof(LookAtMap));
+                SetForm(Scene.MapScene.FormType);
             }
         }
     }
