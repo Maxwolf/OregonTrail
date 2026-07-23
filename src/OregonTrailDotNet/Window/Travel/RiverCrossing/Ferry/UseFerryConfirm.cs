@@ -89,7 +89,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Ferry
                         return;
                     }
 
-                    SetForm(typeof(CrossingTick));
+                    SetForm(TravelInfo.CrossingFormType);
                     break;
                 case DialogResponseEnum.No:
                 case DialogResponseEnum.Custom:

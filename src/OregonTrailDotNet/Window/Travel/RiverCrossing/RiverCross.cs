@@ -170,7 +170,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                     {
                         // Driving straight into the river and hoping you don't drown.
                         UserData.River.CrossingType = RiverCrossChoiceEnum.Ford;
-                        SetForm(typeof(CrossingTick));
+                        SetForm(TravelInfo.CrossingFormType);
                     });
                     break;
                 case RiverCrossChoiceEnum.Float:
@@ -185,7 +185,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
 
                         // Floating wagon manually without any help.
                         UserData.River.CrossingType = RiverCrossChoiceEnum.Float;
-                        SetForm(typeof(CrossingTick));
+                        SetForm(TravelInfo.CrossingFormType);
                     });
                     break;
                 case RiverCrossChoiceEnum.Ferry:

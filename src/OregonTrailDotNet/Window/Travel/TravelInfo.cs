@@ -48,6 +48,17 @@ namespace OregonTrailDotNet.Window.Travel
             GameSimulationApp.PresentationEnabled ? typeof(Scene.DriveScene) : typeof(Command.ContinueOnTrail);
 
         /// <summary>
+        ///     Which form runs a river crossing. All five dispatch sites — ford, float, the ferry (immediate and
+        ///     after a wait at Resting), and the Indian guide — route through here: the CROSS.LIB picture when
+        ///     presentation is on, the text marquee for every headless host. Both drive the identical
+        ///     <see cref="RiverCrossing.CrossingSimulation" />.
+        /// </summary>
+        public static Type CrossingFormType =>
+            GameSimulationApp.PresentationEnabled
+                ? typeof(Scene.CrossingScene)
+                : typeof(RiverCrossing.CrossingTick);
+
+        /// <summary>
         ///     Reference for any river information that we might need to be holding when we encounter one it will be generated and
         ///     this object filled with needed data that can be accessed by the other states as we attach them.
         /// </summary>

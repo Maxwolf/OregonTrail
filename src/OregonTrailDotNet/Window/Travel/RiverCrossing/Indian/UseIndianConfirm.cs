@@ -49,7 +49,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Indian
         protected override void OnDialogResponse(DialogResponseEnum reponse)
         {
             // Player has enough clothing to satisfy the Indians cost.
-            SetForm(typeof(CrossingTick));
+            SetForm(TravelInfo.CrossingFormType);
         }
     }
 }

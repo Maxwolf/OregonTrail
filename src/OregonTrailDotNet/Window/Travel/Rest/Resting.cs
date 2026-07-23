@@ -186,7 +186,7 @@ namespace OregonTrailDotNet.Window.Travel.Rest
                     (UserData.River.CrossingType == RiverCrossChoiceEnum.Ferry) &&
                     (UserData.River.FerryDelayInDays <= 0) &&
                     (UserData.River.FerryCost >= 0))
-                    SetForm(typeof(CrossingTick));
+                    SetForm(TravelInfo.CrossingFormType);
                 else
                     SetForm(typeof(RiverCross));
             }

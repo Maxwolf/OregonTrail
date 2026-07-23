@@ -30,21 +30,15 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         private readonly StringBuilder _crossingPrompt;
 
         /// <summary>
-        ///     Determines if this state has performed it's duties and helped get the players and their vehicle across the river.
+        ///     The crossing itself — payment, progress, and dangers — shared verbatim with the graphical scene.
         /// </summary>
-        private bool _finishedCrossingRiver;
+        private CrossingSimulation _sim;
 
         /// <summary>
         ///     Animated sway bar that prints out as text, ping-pongs back and fourth between left and right side, moved by
         ///     stepping it with tick.
         /// </summary>
         private readonly MarqueeBar _marqueeBar;
-
-        /// <summary>
-        ///     Defines the current amount of feet we have crossed of the river, this will tick up to the total length of the
-        ///     river.
-        /// </summary>
-        private int _riverCrossingOfTotalWidth;
 
         /// <summary>
         ///     Holds the text related to animated sway bar, each tick of simulation steps it.
@@ -65,10 +59,6 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             // Animated sway bar.
             _marqueeBar = new MarqueeBar();
             _swayBarText = _marqueeBar.Step();
-
-            // Sets the crossing percentage to zero.
-            _riverCrossingOfTotalWidth = 0;
-            _finishedCrossingRiver = false;
         }
 
         /// <summary>
@@ -81,7 +71,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         ///     Determines if this dialog state is allowed to receive any input at all, even empty line returns. This is useful for
         ///     preventing the player from leaving a particular dialog until you are ready or finished processing some data.
         /// </summary>
-        public override bool AllowInput => _finishedCrossingRiver;
+        public override bool AllowInput => _sim is { Finished: true };
 
         /// <summary>
         ///     Fired after the state has been completely attached to the simulation letting the state know it can browse the user
@@ -91,32 +81,9 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         {
             base.OnFormPostCreate();
 
-            // Grab instance of the game simulation.
-            var game = GameSimulationApp.Instance;
-
-            // Park the vehicle if it is not somehow by now.
-            game.Vehicle.Status = VehicleStatusEnum.Stopped;
-
-            // Check if ferry operator wants players monies for trip across river.
-            if ((UserData.River.FerryCost > 0) &&
-                (game.Vehicle.Inventory[EntitiesEnum.Cash].TotalValue > UserData.River.FerryCost))
-            {
-                game.Vehicle.Inventory[EntitiesEnum.Cash].ReduceQuantity((int) UserData.River.FerryCost);
-
-                // Clear out the cost for the ferry since it has been paid for now.
-                UserData.River.FerryCost = 0;
-            }
-
-            // Check if the Indian guide wants his clothes for the trip that you agreed to. Use >= to match the offer
-            // gate in IndianGuidePrompt (Clothes >= IndianCost); a strict > let a party with exactly the cost cross free.
-            if ((UserData.River.IndianCost > 0) &&
-                (game.Vehicle.Inventory[EntitiesEnum.Clothes].Quantity >= UserData.River.IndianCost))
-            {
-                game.Vehicle.Inventory[EntitiesEnum.Clothes].ReduceQuantity(UserData.River.IndianCost);
-
-                // Clear out the cost for the ferry since it has been paid for now.
-                UserData.River.IndianCost = 0;
-            }
+            // The crossing itself — parking the vehicle and taking the agreed payment — is the shared simulation's.
+            _sim = new CrossingSimulation(UserData.River);
+            _sim.Begin();
         }
 
         /// <summary>
@@ -144,11 +111,11 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             body.AppendLine($"Health: {game.Vehicle.PassengerHealthStatus.ToDescriptionAttribute()}");
             body.AppendLine($"Crossing By: {UserData.River.CrossingType}");
             body.AppendLine($"River width: {UserData.River.RiverWidth:N0} feet");
-            body.Append($"River crossed: {_riverCrossingOfTotalWidth:N0} feet");
+            body.Append($"River crossed: {_sim?.FeetCrossed ?? 0:N0} feet");
             _crossingPrompt.AppendLine(FramedPanel.Render(game.Trail.CurrentLocation.Name, body.ToString()));
 
             // Wait for user input...
-            if (_finishedCrossingRiver)
+            if (_sim is { Finished: true })
                 _crossingPrompt.AppendLine(InputManager.PRESSENTER);
 
             return _crossingPrompt.ToString();
@@ -177,113 +144,15 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                 return;
 
             // Stop crossing if we have finished.
-            if (_finishedCrossingRiver)
+            if (_sim is not { Finished: false })
                 return;
-
-            // Grab instance of game simulation for easy reading.
-            var game = GameSimulationApp.Instance;
 
             // Advance the progress bar, step it to next phase.
             _swayBarText = _marqueeBar.Step();
 
-            // Increment the amount we have floated over the river.
-            _riverCrossingOfTotalWidth += game.Random.Next(1, UserData.River.RiverWidth/4);
-
-            // Check to see if we will finish crossing river before crossing more.
-            if (_riverCrossingOfTotalWidth >= UserData.River.RiverWidth)
-            {
-                _riverCrossingOfTotalWidth = UserData.River.RiverWidth;
-                _finishedCrossingRiver = true;
-                return;
-            }
-
-            // River crossing will allow ticking of people, vehicle, and other important events but others like consuming food are disabled.
-            GameSimulationApp.Instance.TakeTurn(true);
-
-            // Attempt to throw a random event related to some failure happening with river crossing.
-            switch (UserData.River.CrossingType)
-            {
-                case RiverCrossChoiceEnum.Ford:
-                    // Whatever the river is going to do, it does it midstream, and only once.
-                    if (!UserData.River.DisasterHappened &&
-                        (_riverCrossingOfTotalWidth >= UserData.River.RiverWidth/2))
-                        FordMidstream(game);
-                    break;
-                case RiverCrossChoiceEnum.Float:
-                    if (!UserData.River.DisasterHappened &&
-                        (_riverCrossingOfTotalWidth >= UserData.River.RiverWidth/2))
-                        FloatMidstream(game);
-                    break;
-                case RiverCrossChoiceEnum.Ferry:
-                case RiverCrossChoiceEnum.Indian:
-                    game.EventDirector.TriggerEventByType(game.Vehicle, EventCategoryEnum.RiverCross);
-                    break;
-                case RiverCrossChoiceEnum.None:
-                case RiverCrossChoiceEnum.WaitForWeather:
-                case RiverCrossChoiceEnum.GetMoreInformation:
-                    throw new InvalidOperationException(
-                        $"Invalid river crossing result choice {UserData.River.CrossingType}.");
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        /// <summary>
-        ///     Works out what a ford costs the party, which is decided almost entirely by how deep the water is. Anything up
-        ///     to two and a half feet is safe and the only question is what the riverbed does to you; up to three feet soaks
-        ///     the supplies and costs a day; deeper than that and the river starts taking things, and the deeper it runs the
-        ///     more it takes - it is never certain, but by five or six feet it very nearly is.
-        /// </summary>
-        /// <param name="game">Running simulation.</param>
-        private void FordMidstream(GameSimulationApp game)
-        {
-            var river = UserData.River;
-            river.DisasterHappened = true;
-
-            // Shallow enough to walk across; only the going underfoot is in question.
-            if (river.RiverDepth < RiverGenerator.SafeFordDepth)
-            {
-                switch (river.RiverBottom)
-                {
-                    case RiverBottomEnum.Muddy when game.Random.NextDouble() < 0.4:
-                        game.EventDirector.TriggerEvent(game.Vehicle, typeof(StuckInMud));
-                        break;
-                    case RiverBottomEnum.Rough when game.Random.NextDouble() < 0.16:
-                        game.EventDirector.TriggerEvent(game.Vehicle, typeof(VehicleFloods));
-                        break;
-                }
-
-                return;
-            }
-
-            // Deep enough to come over the wagon bed and wet everything in it, but not to carry it off.
-            if (river.RiverDepth < RiverGenerator.DangerousFordDepth)
-            {
-                game.EventDirector.TriggerEvent(game.Vehicle, typeof(SuppliesWet));
-                return;
-            }
-
-            // Past that the river is genuinely taking things, and how much rides on how deep it is.
-            if (game.Random.NextDouble() < river.RiverDepth/10.0)
-                game.EventDirector.TriggerEvent(game.Vehicle, typeof(VehicleWashOut));
-        }
-
-        /// <summary>
-        ///     Works out what floating the wagon costs. Depth is not the danger here - the wagon is already swimming - it is
-        ///     how fast the water is moving, so a deep slow river is a better bet than a shallow fast one.
-        /// </summary>
-        /// <param name="game">Running simulation.</param>
-        private void FloatMidstream(GameSimulationApp game)
-        {
-            var river = UserData.River;
-            river.DisasterHappened = true;
-
-            // Still water carries a caulked wagon across without complaint.
-            if (river.RiverDepth <= RiverGenerator.SafeFordDepth)
-                return;
-
-            if (game.Random.NextDouble() < river.RiverSpeed/20.0)
-                game.EventDirector.TriggerEvent(game.Vehicle, typeof(VehicleFloods));
+            // The crossing itself — progress, the finishing freeze, the skip-day turn, and the danger rolls — is
+            // the shared simulation's, in the characterized order.
+            _sim.Tick();
         }
 
         /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>
@@ -291,7 +160,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         public override void OnInputBufferReturned(string input)
         {
             // Skip if we are still crossing the river.
-            if (_riverCrossingOfTotalWidth < UserData.River.RiverWidth)
+            if (_sim is not { Finished: true })
                 return;
 
             SetForm(typeof(CrossingResult));
