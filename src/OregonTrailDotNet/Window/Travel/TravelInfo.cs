@@ -82,6 +82,12 @@ namespace OregonTrailDotNet.Window.Travel
         public Scene.HuntOutcome HuntOutcome { get; set; }
 
         /// <summary>
+        ///     How the Columbia run ended, handed from <see cref="Scene.RaftScene" /> to its result screen and
+        ///     cleared once read. Null outside that handoff.
+        /// </summary>
+        public Scene.RaftReport RaftReport { get; set; }
+
+        /// <summary>
         ///     Gets the current cost of the toll road that would like to be inserted into the trail, normally this is done from a
         ///     fork in the road however it could be on a linear path without any decision making.
         /// </summary>

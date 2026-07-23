@@ -79,8 +79,12 @@ namespace OregonTrailDotNet.Window.Travel
                 GameSimulationApp.Instance.Trail.CurrentLocation is Settlement ||
                 GameSimulationApp.Instance.Trail.CurrentLocation is TollRoad)
                 SetForm(TravelInfo.DepartFormType);
-            else if (GameSimulationApp.Instance.Trail.CurrentLocation is Entity.Location.Point.RiverCrossing)
-                SetForm(typeof(RiverCrossHelp));
+            else if (GameSimulationApp.Instance.Trail.CurrentLocation is Entity.Location.Point.RiverCrossing river)
+                // The Columbia is run on a raft. With presentation on that is the FLOAT minigame; headless hosts
+                // (and every other river) keep the crossing menu.
+                SetForm(GameSimulationApp.PresentationEnabled && river.RaftCrossing
+                    ? typeof(Scene.RaftIntro)
+                    : typeof(RiverCrossHelp));
             else if (GameSimulationApp.Instance.Trail.CurrentLocation is ForkInRoad)
                 SetForm(typeof(LocationFork));
         }

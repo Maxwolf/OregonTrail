@@ -63,6 +63,13 @@ namespace OregonTrailDotNet.Entity.Location.Point
         public bool LocksPartyHealth { get; set; }
 
         /// <summary>
+        ///     Whether this crossing is run on a raft — the Columbia, and only the Columbia. With presentation on it
+        ///     plays as the original's FLOAT minigame instead of the ford/float menu; headless hosts keep the
+        ///     deep-water stand-in either way.
+        /// </summary>
+        public bool RaftCrossing { get; set; }
+
+        /// <summary>
         ///     Determines if the location allows the player to chat to other NPC's in the area which can offer up advice about the
         ///     trail ahead.
         /// </summary>

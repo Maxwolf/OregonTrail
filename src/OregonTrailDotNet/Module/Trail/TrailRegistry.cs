@@ -90,7 +90,7 @@ namespace OregonTrailDotNet.Module.Trail
                         // equivalent of - so it is given the deepest, fastest water on the trail and left at that.
                         new RiverCrossing("Columbia River", ClimateEnum.PacificSlope)
                         {
-                            LocksPartyHealth = true, TotalDistance = 100,
+                            LocksPartyHealth = true, RaftCrossing = true, TotalDistance = 100,
                             BaseDepth = 20.0, BaseWidth = 600, BaseSpeed = 8.0, Bottom = RiverBottomEnum.Rough
                         },
                         new TollRoad("Barlow Toll Road", ClimateEnum.PacificSlope) { TotalDistance = 100 }
