@@ -72,10 +72,10 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         {
             switch (DriveTick.Run())
             {
-                case DriveTick.Result.Disabled:
+                case DriveTick.ResultEnum.Disabled:
                     SetForm(typeof(UnableToContinue));
                     return;
-                case DriveTick.Result.GraveCrossed:
+                case DriveTick.ResultEnum.GraveCrossed:
                     SetForm(typeof(TombstoneQuestion));
                     return;
             }
@@ -261,9 +261,10 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>
         ///     The fixed sky picture for today, or null. A freshly executed weather event wins; otherwise the day's
-        ///     own conditions hang the cloud — the clone's weather-event classes are ManualOnly and nothing triggers
-        ///     them, so severe weather would never show at all if the sky waited on events. Presentation only: the
-        ///     downpour and the blizzard already exist in the simulation, this just draws them.
+        ///     own conditions hang the cloud — ClimateModule fires the weather events from the day's sky on only a
+        ///     small fraction of bad days, and an event picture expires after a day, so the sky tracks the conditions
+        ///     directly instead of waiting on an event. Presentation only: the downpour and the blizzard already
+        ///     exist in the simulation, this just draws them.
         /// </summary>
         private static EventIconEnum? CurrentSkyIcon()
         {

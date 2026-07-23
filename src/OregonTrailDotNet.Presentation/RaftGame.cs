@@ -34,8 +34,9 @@ namespace OregonTrailDotNet.Presentation
     ///         <b>A collision does not end the run</b>, here or in the original. <c>:700</c> rolls the party and the
     ///         inventory against the odds below, <c>:800</c> lists what was lost, and the loop carries straight on; the
     ///         raft only breaks up when more than nine things go at once (<c>:730</c>, <c>IF Z &gt; 9</c>) or when the
-    ///         last of the party drowns (<c>:760</c>). Both need an inventory and a party the workbench does not have,
-    ///         so hits are counted here and the odds carried as text, ready for <c>:700</c> to be restored around them.
+    ///         last of the party drowns (<c>:760</c>). Both need an inventory and a party this pure-logic class does
+    ///         not touch, so hits are counted here and the odds carried as text; the game restores <c>:700</c> around
+    ///         these counters in <c>RaftDamage</c>/<c>RaftScene</c>, while the workbench just displays them.
     ///     </para>
     ///     <para>
     ///         Making contact fatal was tried and is wrong — and instructively so. A rock's <c>(+8, -4)</c> drift

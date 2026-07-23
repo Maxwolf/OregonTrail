@@ -2,8 +2,10 @@
 // Timestamp 01/01/2016@7:40 PM
 
 using System;
+using System.Linq;
 using System.Threading;
 using OregonTrailDotNet.Presentation.Audio;
+using WolfCurses.Graphics;
 
 namespace OregonTrailDotNet
 {
@@ -15,7 +17,8 @@ namespace OregonTrailDotNet
         /// <summary>
         ///     Example console app for game simulation entry point.
         /// </summary>
-        public static int Main()
+        /// <param name="args">Optional renderer override: --halfblock, --sixel, or --kitty.</param>
+        public static int Main(string[] args)
         {
             // Create console with title, no cursor, make CTRL-C act as input.
             Console.Title = "Oregon Trail Clone";
@@ -30,6 +33,13 @@ namespace OregonTrailDotNet
             // The real game also gets the graphical scene forms (original MECC artwork and music at the dramatic moments);
             // headless hosts leave this off so the bot's text scraping and the test suite see the unchanged text forms.
             GameSimulationApp.PresentationEnabled = true;
+
+            // Overrule the terminal's own answer when asked to, so a picture can be compared across renderers.
+            // (Creating the simulation below probes the terminal and picks the best one by itself.) Same flags as
+            // the minigame workbench.
+            if (args.Contains("--halfblock")) ImageRenderers.Default = new HalfBlockImageRenderer();
+            else if (args.Contains("--sixel")) ImageRenderers.Default = new SixelImageRenderer();
+            else if (args.Contains("--kitty")) ImageRenderers.Default = new KittyImageRenderer();
 
             // Create game simulation singleton instance, and start it. Constructing it also probes the terminal for the
             // best graphics protocol it can draw with — once, and before any key is read — so it has to come before the

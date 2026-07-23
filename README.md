@@ -7,28 +7,20 @@ Clone of popular 90's computer game for C#.
 ## Cloning Instructions ##
 
 ```cmd
-git clone --recursive https://github.com/Maxwolf/OregonTrail.git
+git clone https://github.com/Maxwolf/OregonTrail.git
 ```
-
-Make sure your git client recursively grabs all the sub-modules for the repo. Most Git GUI's (e.g, SourceTree, SmartGit, GitEye) will all do this automatically for you. 
 
 ## Compilation Instructions ##
 
-You *should* be able to run the Cake build script by invoking the bootstrapper with a script tailored to the target platform.
-
-### Windows ###
+The solution builds with the standard .NET CLI on any platform:
 
 ```cmd
-build.bat
+dotnet build OregonTrailDotNet.sln
+dotnet run --project src/OregonTrailDotNet
+dotnet test OregonTrailDotNet.sln
 ```
 
-If script execution fail due to the execution policy, you might have to tell PowerShell to allow running scripts. You do this by [changing the execution policy](https://technet.microsoft.com/en-us/library/ee176961.aspx).
-
-### Linux/OS X ###
-
-```bash
-bash build.sh
-```
+On Windows, `./publish.ps1` produces self-contained single-file executables (game, minigame workbench, and training bot) in the repo-root `publish` folder.
 
 ## Simulation Features ##
 
@@ -71,22 +63,24 @@ reimplements a rule from the original 1980s/1990s game differently, that is call
    medical supplies, slowly otherwise)
  19. Locations carry a fresh-water flag; a bad-water location doubles the daily chance of contracting
    dysentery or cholera
- 20. The maximum weight of food that can be carried back from a single hunt is 250 lbs
+ 20. The maximum weight of food that can be carried back from a single hunt is 100 lbs
  21. The fewer animals you kill while hunting, the cheaper the Shoshoni river guide's price in clothing
  22. A river configured for an Indian guide will ferry the wagon across for a base of 1-5 sets of
    clothing (rising with the number of animals killed)
 
 ### Hunting ###
- 1. A random shooting word is selected for the player to type
- 2. Each animal is given a randomized on-screen "targeting" lifetime measured in simulation ticks
-   *(differs from original's real-clock start time)*
- 3. The player must type the correct shooting word while an animal is targeted
- 4. Reaction speed is measured by how many ticks the animal has been targeted
-   *(differs from original's end-minus-start-time subtraction)*
- 5. Firing within the first half of the animal's targeting lifetime is a good (successful) shot
-   *(differs from original's fixed 2-second threshold)*
- 6. Ammunition is consumed on each kill, based on current ammo and a random factor
-   *(differs from original's shoot-time-based consumption)*
+ 1. Hunting is the original's real-time field hunt: the hunter walks a scrolling field and animals
+   wander through, with the roster (bison, antlered deer, bear, small game) gated by how far down
+   the trail the party is
+ 2. Aim with the arrow keys (or the ring of keys around L, or the numpad); SPACE fires one shot,
+   and each shot costs exactly one bullet
+ 3. RETURN toggles walking in the aim direction; ESC ends the hunt early keeping the bag; the hunt
+   otherwise runs out its timer
+ 4. Dressed meat is halved on the walk back, zeroed if the wagon is already full, clamped to the
+   space left, and capped at 100 lbs
+ 5. Headless hosts (the training bot and the test suites) play the earlier word-typing hunt — a
+   port invention, retained as the text-mode implementation: type the shooting word while an
+   animal is targeted, with reaction speed measured in simulation ticks
 
 ### Eating ###
  1. Food consumption in pounds is calculated from the ration level each day (a higher ration level

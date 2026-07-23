@@ -11,9 +11,10 @@
   <!-- The original MECC artwork (PNG) and its decoded chiptune scores (JSON) are compiled straight into this
        assembly as embedded resources, so the game ships as a single executable with no loose asset files to
        find, load, or lose. This library references nothing and does no decoding: it hands back bytes and
-       streams keyed by the asset's path under Resources/ (art/dos/mcga/p3.png, music/dos/song-04-chimney-rock.json,
+       streams keyed by the asset's path under Resources/ (art/landmarks/p3.png, music/landmarks/04-chimney-rock.json,
        data/PAL.256), leaving the image and audio stacks to the caller so both the minigame workbench and the
-       main game can share it. Migrated out of legacy/art + legacy/music, which are transitional. -->
+       main game can share it. Extracted from the originals under legacy/ (untracked), which stays the authoring
+       source. -->
   <ItemGroup>
     <None Remove="Resources\**\*" />
     <EmbeddedResource Include="Resources\**\*.png">

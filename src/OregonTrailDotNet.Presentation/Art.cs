@@ -5,11 +5,11 @@ using AssetStore = OregonTrailDotNet.Assets.AssetStore;
 namespace OregonTrailDotNet.Presentation
 {
     /// <summary>
-    ///     Decodes and caches the artwork the minigames draw with. The pictures are compiled into the
-    ///     <c>OregonTrailDotNet.Assets</c> library as embedded resources rather than read off disk, so the workbench
-    ///     ships as a single executable with no loose art files to find, ship alongside, or lose.
+    ///     Decodes and caches the artwork the graphical scenes draw with. The pictures are compiled into the
+    ///     <c>OregonTrailDotNet.Assets</c> library as embedded resources rather than read off disk, so both the
+    ///     workbench and the game ship as single executables with no loose art files to find, ship alongside, or lose.
     ///     <para>
-    ///         The minigames are drawn with the <b>1990 DOS port's</b> art: 320x200 in 256 colours against the Apple II's
+    ///         The scenes are drawn with the <b>1990 DOS port's</b> art: 320x200 in 256 colours against the Apple II's
     ///         280x192 in six, and — decisively for a terminal — its sprites are shaded illustrations where the Apple II's
     ///         are white silhouettes. Terminal rendering widens that gap rather than narrowing it, because area-averaging
     ///         a picture down to character cells preserves colour but destroys the Apple II's dithering.
@@ -64,7 +64,10 @@ namespace OregonTrailDotNet.Presentation
         ///     A sprite cut out of one of the DOS sheets by <c>legacy/tools/dos_sprites.py</c>. Ids are 1-based and follow
         ///     the sheet's reading order.
         /// </summary>
-        /// <param name="sheet">One of <c>hunter</c>, <c>animals</c>, <c>float</c>, <c>terrain</c>.</param>
+        /// <param name="sheet">
+        ///     One of <c>hunter</c>, <c>animals</c>, <c>float</c>, <c>terrain</c>, <c>scenery</c>, <c>travelox</c>,
+        ///     <c>events</c> — the sheet directories under <c>art/sprites/</c> in the assets library.
+        /// </param>
         /// <param name="id">1-based sprite id within that sheet.</param>
         public static PixelBuffer Dos(string sheet, int id) => Load($"sprites/{sheet}/{id:00}.png");
 
@@ -72,7 +75,7 @@ namespace OregonTrailDotNet.Presentation
         ///     An Apple II full-screen card, scaled to that machine's own grid. Used for the tombstone, which the DOS
         ///     port has no equivalent of.
         /// </summary>
-        /// <param name="fileName">For example <c>ts-tombstone.png</c>.</param>
+        /// <param name="fileName">For example <c>tombstone.png</c>.</param>
         public static PixelBuffer Apple2Backdrop(string fileName)
         {
             return Cache.GetOrAdd("a2backdrop:" + fileName, _ =>

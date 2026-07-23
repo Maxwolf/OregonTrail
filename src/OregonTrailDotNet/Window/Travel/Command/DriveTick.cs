@@ -14,7 +14,7 @@ namespace OregonTrailDotNet.Window.Travel.Command
     internal static class DriveTick
     {
         /// <summary>What the day's tick amounted to, for the hosting form to dispatch on.</summary>
-        internal enum Result
+        internal enum ResultEnum
         {
             /// <summary>The vehicle is stopped; nothing happened.</summary>
             Stopped,
@@ -64,7 +64,7 @@ namespace OregonTrailDotNet.Window.Travel.Command
         ///     the vehicle so a grave in the last stretch before a landmark is caught on the following leg), and the
         ///     turn is only taken when no grave interrupted.
         /// </summary>
-        internal static Result Run()
+        internal static ResultEnum Run()
         {
             var game = GameSimulationApp.Instance;
 
@@ -74,22 +74,22 @@ namespace OregonTrailDotNet.Window.Travel.Command
             switch (game.Vehicle.Status)
             {
                 case VehicleStatusEnum.Stopped:
-                    return Result.Stopped;
+                    return ResultEnum.Stopped;
                 case VehicleStatusEnum.Disabled:
-                    return Result.Disabled;
+                    return ResultEnum.Disabled;
                 case VehicleStatusEnum.Moving:
                     if (game.Tombstone.FindTombstoneBetween(game.Vehicle.LastGraveCheckOdometer,
                             game.Vehicle.Odometer, out _))
                     {
                         game.Vehicle.LastGraveCheckOdometer = game.Vehicle.Odometer;
-                        return Result.GraveCrossed;
+                        return ResultEnum.GraveCrossed;
                     }
 
                     game.Vehicle.LastGraveCheckOdometer = game.Vehicle.Odometer;
 
                     // Processes the next turn in the game simulation.
                     game.TakeTurn(false);
-                    return Result.Traveled;
+                    return ResultEnum.Traveled;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

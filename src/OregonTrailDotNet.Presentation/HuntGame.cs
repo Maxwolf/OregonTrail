@@ -127,10 +127,10 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>Whether the hunter is walking (RETURN toggles it).</summary>
         public bool Walking { get; set; }
 
-        /// <summary>Hunter position, native Apple II pixels.</summary>
+        /// <summary>Hunter position, in field (DOS MCGA) pixels.</summary>
         public int HunterX { get; private set; }
 
-        /// <summary>Hunter position, native Apple II pixels.</summary>
+        /// <summary>Hunter position, in field (DOS MCGA) pixels.</summary>
         public int HunterY { get; private set; }
 
         /// <summary>The live animal slots.</summary>

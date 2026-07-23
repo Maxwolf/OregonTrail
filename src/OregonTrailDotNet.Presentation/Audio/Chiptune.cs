@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Presentation.Audio
     ///         over and over. The scores are embedded in the <c>OregonTrailDotNet.Assets</c> library under
     ///         <c>music/</c>, originally decoded off the disks by <c>legacy/tools/apple2_music.py</c> (the Apple II
     ///         <c>MS&lt;n&gt;.BIN</c> scores) and <c>legacy/tools/dos_music.py</c> (the DOS <c>SONGS.TXT</c> MML).
-    ///         Nothing here is sampled audio — the workbench synthesizes the sound from these note lists.
+    ///         Nothing here is sampled audio — the presentation layer synthesizes the sound from these note lists.
     ///     </para>
     /// </summary>
     public sealed class Chiptune
@@ -53,7 +53,7 @@ namespace OregonTrailDotNet.Presentation.Audio
                 }
                 catch (Exception)
                 {
-                    // A score that will not parse is a missing score. The workbench stays silent and keeps drawing;
+                    // A score that will not parse is a missing score. The host stays silent and keeps drawing;
                     // it is not worth taking the screen down over.
                     return null;
                 }

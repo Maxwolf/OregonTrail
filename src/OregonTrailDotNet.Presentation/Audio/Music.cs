@@ -3,7 +3,8 @@ using System.Diagnostics;
 namespace OregonTrailDotNet.Presentation.Audio
 {
     /// <summary>
-    ///     The workbench's music, as one shared player with one shared mute.
+    ///     The presentation layer's music — one shared player with one shared mute for whichever host, workbench
+    ///     or game, is running.
     ///     <para>
     ///         Static on purpose. There is one sound card and one pair of ears, so there is one cue playing at a time
     ///         and one place that decides whether it is audible — a section says <i>what</i> should be playing and
@@ -25,7 +26,7 @@ namespace OregonTrailDotNet.Presentation.Audio
         private static bool _muted;
         private static double _volume = 0.4;
 
-        /// <summary>Whether sound is currently silenced. Global, and the only mute in the workbench.</summary>
+        /// <summary>Whether sound is currently silenced. Global, and the only mute in the process.</summary>
         public static bool Muted
         {
             get
@@ -81,7 +82,7 @@ namespace OregonTrailDotNet.Presentation.Audio
             }
         }
 
-        /// <summary>True when a sound device was opened; false means the workbench is running silent.</summary>
+        /// <summary>True when a sound device was opened; false means the host is running silent.</summary>
         public static bool Audible => Player.Ready;
 
         /// <summary>
@@ -167,7 +168,7 @@ namespace OregonTrailDotNet.Presentation.Audio
             }
         }
 
-        /// <summary>Shuts the device down. Called when the workbench exits.</summary>
+        /// <summary>Shuts the device down. Called when the host process — game or workbench — exits.</summary>
         public static void Shutdown()
         {
             lock (Gate)

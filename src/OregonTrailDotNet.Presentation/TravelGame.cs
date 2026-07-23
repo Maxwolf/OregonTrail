@@ -143,8 +143,10 @@ namespace OregonTrailDotNet.Presentation
         ///     tuning knob; it only sets how finely distance is quantised into strides.</summary>
         public const int StepPixels = 2;
 
-        /// <summary>`FX = 180 - L%(NM-1,1)` — where the leg's scenery comes to rest. The table is not decoded, so the
-        ///     bare 180 stands in for it.</summary>
+        /// <summary>`FX = 180 - L%(NM-1,1)` — where the leg's scenery comes to rest. The L% offset column is decoded
+        ///     now (<see cref="OriginalTrail.SceneryRestX" /> carries it) but was authored against the Apple II art,
+        ///     not the DOS pieces drawn here, so every piece rests at the bare 180 and the decoded offsets stay
+        ///     reference-only.</summary>
         public const int SceneryRestX = 180 * ScreenWidth / Art.Apple2Width;
 
         /// <summary>Miles in a leg. Stands in for the trail's real spacing, which this workbench has no trail for.</summary>

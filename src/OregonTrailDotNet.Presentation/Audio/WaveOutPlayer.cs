@@ -13,8 +13,8 @@ namespace OregonTrailDotNet.Presentation.Audio
     ///     </para>
     ///     <para>
     ///         Everything is best-effort. No device, no driver, or not Windows at all, and every method here quietly
-    ///         does nothing — a workbench for looking at sprites must not fail to start because a machine has no sound
-    ///         card. <see cref="Ready" /> reports which way it went.
+    ///         does nothing — neither the sprite workbench nor the game must fail to start because a machine has no
+    ///         sound card. <see cref="Ready" /> reports which way it went.
     ///     </para>
     /// </summary>
     public sealed class WaveOutPlayer : IDisposable

@@ -165,10 +165,9 @@ namespace OregonTrailDotNet.Minigames.Windows
                 _ => "holding"
             };
 
-            // No hit counters: a run now ends on the first contact, so they only ever read 0 or 1.
             text.AppendLine(
                 $"tick {_game.Tick,3}/{RaftGame.LandingClosesAfter}   lane {_game.Lane,2}/{RaftGame.LastLane}   " +
-                $"drift {_game.Drift,2} ({drift})");
+                $"drift {_game.Drift,2} ({drift})   hits {_game.ShoreHits} shore / {_game.RockHits} rock");
 
             text.AppendLine(_game.Outcome switch
             {

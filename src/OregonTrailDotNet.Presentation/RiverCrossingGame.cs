@@ -160,8 +160,9 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     Every case worth looking at, in order. Outcomes are <b>forced</b> rather than rolled, because the point
-        ///     of the workbench is to see all of them — the real probabilities are on <see cref="RiskOf" /> and are
-        ///     what a wired-up game would roll against.
+        ///     of the workbench is to see all of them — the original's probabilities are documented on
+        ///     <see cref="RiskOf" /> for the HUD; the game's crossing scene does not replay these scenarios but rolls
+        ///     its own dangers through its crossing simulation.
         /// </summary>
         public static readonly CrossingScenario[] Scenarios =
         [

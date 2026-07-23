@@ -130,9 +130,9 @@ namespace OregonTrailDotNet.Presentation
         ///         authoring this file, not a runtime condition.
         ///     </para>
         ///     <para>
-        ///         Silently skipped when the palette resource is absent. The workbench is expected to run without it — the
-        ///         art loader says so by handing back a missing-texture checkerboard rather than throwing — and a
-        ///         verification step must not be the thing that makes a working setup fail.
+        ///         Silently skipped when the palette resource is absent. Both hosts — game and workbench — are expected
+        ///         to run without it; the art loader says so by handing back a missing-texture checkerboard rather than
+        ///         throwing, and a verification step must not be the thing that makes a working setup fail.
         ///     </para>
         /// </summary>
         static Palette() => VerifyAgainstPal256();

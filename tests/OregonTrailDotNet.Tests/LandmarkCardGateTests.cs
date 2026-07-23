@@ -7,9 +7,11 @@ using Xunit;
 namespace OregonTrailDotNet.Tests
 {
     /// <summary>
-    ///     Pins the phase-3 gate sites: with PresentationEnabled off (every headless host) the depart chooser and the
-    ///     look-around branch resolve to the plain text forms exactly as before; with it on they choose the card
-    ///     scenes. Flag hygiene per the plan: the flag is a process-wide static in a serial suite, so it is reset in
+    ///     Pins the phase-3 gate sites: with PresentationEnabled off (every headless host) the look-around branch and
+    ///     the opening chooser resolve to the plain text forms exactly as before; with it on they choose the card
+    ///     scenes. The depart chooser is deliberately ungated — the musical departure sibling was cut on playtest, so
+    ///     departures are the plain text form in both flag states.
+    ///     Flag hygiene per the plan: the flag is a process-wide static in a serial suite, so it is reset in
     ///     Dispose (SimulationTestBase also force-clears it before every test). Audio hygiene: attaching a cued scene
     ///     would open a real waveOut device, so the fixture mutes first and shuts the player down afterwards.
     /// </summary>

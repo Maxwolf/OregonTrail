@@ -61,7 +61,7 @@ namespace OregonTrailDotNet.Tests
         }
 
         [Fact]
-        public void HuntScene_Composes_WithTheHud()
+        public void HuntScene_Composes_ThePureFieldPicture()
         {
             GameSimulationApp.PresentationEnabled = true;
 
@@ -69,7 +69,8 @@ namespace OregonTrailDotNet.Tests
             var scene = new HuntScene(window);
             scene.OnFormPostCreate();
 
-            // The HUD is pixel-font text inside the picture now, so the frame is pure ANSI imagery.
+            // The game's hunt carries no HUD text at all — the frame is the pure ANSI field picture (the tally
+            // waits for the result screen) — so all this can pin is that a frame composes.
             var frame = scene.OnRenderForm();
             Assert.False(string.IsNullOrWhiteSpace(frame));
         }

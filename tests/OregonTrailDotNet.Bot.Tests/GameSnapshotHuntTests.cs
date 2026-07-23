@@ -24,8 +24,8 @@ namespace OregonTrailDotNet.Bot.Tests
             GameSimulationApp.Instance?.Destroy();
             GameSimulationApp.Create();
             // Two ticks run Restart (builds modules + windows) and render, mirroring the game/bot boot.
-            GameSimulationApp.Instance.OnTick(false);
-            GameSimulationApp.Instance.OnTick(false);
+            GameSimulationApp.Instance!.OnTick(false);
+            GameSimulationApp.Instance!.OnTick(false);
         }
 
         public void Dispose() => GameSimulationApp.Instance?.Destroy();

@@ -86,8 +86,9 @@ namespace OregonTrailDotNet.Module.Trail
                     // the same 100 miles to the valley.
                     new ForkInRoad("The Dalles", ClimateEnum.PacificSlope, new List<Location>
                     {
-                        // The Columbia is not forded or floated in the original at all - it is run on a raft, which this port has no
-                        // equivalent of - so it is given the deepest, fastest water on the trail and left at that.
+                        // The Columbia is not forded or floated in the original at all - it is run on a raft. RaftCrossing routes
+                        // human players to the FLOAT minigame; the deepest, fastest water on the trail stands in for it on
+                        // headless hosts, which keep the ordinary crossing menu.
                         new RiverCrossing("Columbia River", ClimateEnum.PacificSlope)
                         {
                             LocksPartyHealth = true, RaftCrossing = true, TotalDistance = 100,

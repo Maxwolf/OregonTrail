@@ -125,7 +125,7 @@ namespace OregonTrailDotNet.Presentation
         public static int LineHeight(int scale = 1) => GlyphHeight * scale;
 
         /// <summary>
-        ///     Draws a single line, upper-cased, at a pixel position. Anything falling outside the target is clipped,
+        ///     Draws a single line at a pixel position. Anything falling outside the target is clipped,
         ///     so a caller nudging text around never has to bounds-check first.
         /// </summary>
         /// <param name="target">Buffer to draw into.</param>

@@ -22,13 +22,10 @@ namespace OregonTrailDotNet.Minigames.Windows
     ///         without redrawing the rest. That row is reported below as "epitaph row".
     ///     </para>
     ///     <para>
-    ///         <b>The window's size is the original's; its origin is not.</b> The inscription is placed at
-    ///         <c>60,67</c>, measured against the extracted art rather than taken from the BASIC's <c>56,62</c>.
-    ///         An earlier claim that <c>56,62</c> had been "verified by overlay" was worthless: the whole stone reads
-    ///         as white, so <i>every</i> placement lands on white and the test discriminated nothing. What actually
-    ///         bounds the text is the <b>smooth</b> carved face — solid white as against the dithered stone texture —
-    ///         which measures about <c>x=50..209</c> across the rows the inscription uses. The 150-wide window
-    ///         therefore wants to start at 60, landing it at <c>60..210</c> and matching the face on both sides; a
+    ///         <b>The window's size is the original's; its origin is not.</b> The inscription sits at the solved
+    ///         <c>63,69</c> from <see cref="TombstoneArt" />, not the BASIC's <c>56,62</c> — see the sweep-and-count
+    ///         comment there for how the origin was solved (render every origin, count glyph pixels straying off the
+    ///         smooth carved face) and why eyeball or overlay checks discriminate nothing on an all-white stone. A
     ///         full 21-column row is the case that catches a bad origin, since short epitaphs never reach the edge.
     ///     </para>
     /// </summary>

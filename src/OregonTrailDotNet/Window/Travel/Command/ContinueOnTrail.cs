@@ -126,17 +126,17 @@ namespace OregonTrailDotNet.Window.Travel.Command
             // result into its own visuals and form changes.
             switch (DriveTick.Run())
             {
-                case DriveTick.Result.Stopped:
+                case DriveTick.ResultEnum.Stopped:
                     return;
-                case DriveTick.Result.Disabled:
+                case DriveTick.ResultEnum.Disabled:
                     // Check if vehicle was able to obtain spare parts for repairs.
                     SetForm(typeof(UnableToContinue));
                     break;
-                case DriveTick.Result.GraveCrossed:
+                case DriveTick.ResultEnum.GraveCrossed:
                     _swayBarText = _marqueeBar.Step();
                     SetForm(typeof(TombstoneQuestion));
                     return;
-                case DriveTick.Result.Traveled:
+                case DriveTick.ResultEnum.Traveled:
                     _swayBarText = _marqueeBar.Step();
                     break;
                 default:
