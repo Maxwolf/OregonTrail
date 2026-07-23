@@ -5,7 +5,7 @@ namespace OregonTrailDotNet.Bot.Game
 {
     /// <summary>
     ///     Recomputes the end-of-game score directly from live <see cref="Entity.Vehicle.Vehicle" /> state, mirroring the
-    ///     tabulation in <c>src/Window/GameOver/FinalPoints.cs</c> line-for-line. The game itself only ever holds the final
+    ///     tabulation in <c>src/OregonTrailDotNet/Window/GameOver/FinalPoints.cs</c> line-for-line. The game itself only ever holds the final
     ///     number as a local variable inside that form (it is added to the scoring module and then discarded), so the bot
     ///     reproduces the formula here to obtain its own fitness signal. A test asserts this equals the value the game records.
     /// </summary>

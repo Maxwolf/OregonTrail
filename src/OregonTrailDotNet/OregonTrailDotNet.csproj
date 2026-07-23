@@ -21,18 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- The minigame workbench and the shared assets library are their own projects nested inside this folder,
-         so keep their sources out of the game's default **/*.cs glob — otherwise the game tries to compile them
-         into itself, and would embed the assets library's art/music into the game exe. -->
-    <Compile Remove="OregonTrailDotNet.Minigames\**" />
-    <EmbeddedResource Remove="OregonTrailDotNet.Minigames\**" />
-    <None Remove="OregonTrailDotNet.Minigames\**" />
-    <Compile Remove="OregonTrailDotNet.Assets\**" />
-    <EmbeddedResource Remove="OregonTrailDotNet.Assets\**" />
-    <None Remove="OregonTrailDotNet.Assets\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <InternalsVisibleTo Include="OregonTrailDotNet.Tests" />
     <InternalsVisibleTo Include="OregonTrailDotNet.Bot" />
     <InternalsVisibleTo Include="OregonTrailDotNet.Bot.Tests" />

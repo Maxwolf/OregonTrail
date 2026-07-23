@@ -37,7 +37,7 @@ New-Item -ItemType Directory -Force -Path $publishDir | Out-Null
 # The three executables that ship. Each uses its own SelfContained profile,
 # which anchors PublishDir back to this same ./publish folder.
 $projects = @(
-    'src\OregonTrailDotNet.csproj',
+    'src\OregonTrailDotNet\OregonTrailDotNet.csproj',
     'src\OregonTrailDotNet.Minigames\OregonTrailDotNet.Minigames.csproj',
     'bot\OregonTrailDotNet.Bot\OregonTrailDotNet.Bot.csproj'
 )
