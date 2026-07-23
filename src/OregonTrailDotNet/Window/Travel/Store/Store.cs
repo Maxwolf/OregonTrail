@@ -276,8 +276,11 @@ namespace OregonTrailDotNet.Window.Travel.Store
                 // Sets up vehicle, location, and all other needed variables for simulation.
                 GameSimulationApp.Instance.Trail.ArriveAtNextLocation();
 
-                // Attach state that will ask if we want to check status or keep driving on trail.
-                SetForm(typeof(LocationArrive));
+                // Attach state that will ask if we want to check status or keep driving on trail. This is the
+                // "Going back to 1848" moment, and with presentation on it is the opening card (Independence art +
+                // the opening tune) — arriving above may already have attached it via the window re-add, but this
+                // explicit set must name the same form or it clobbers the card with the text prompt mid-tune.
+                SetForm(Scene.OpeningCard.ShouldShow ? typeof(Scene.OpeningCard) : typeof(LocationArrive));
             }
             else
             {

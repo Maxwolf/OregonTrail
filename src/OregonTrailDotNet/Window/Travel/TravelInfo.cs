@@ -33,15 +33,12 @@ namespace OregonTrailDotNet.Window.Travel
         }
 
         /// <summary>
-        ///     Which form plays the departure card. The graphical sibling (card art + tune, the original's :2200
-        ///     placement) is chosen only when presentation is on and the current stop has a card; every headless host
-        ///     always gets the plain <see cref="Dialog.LocationDepart" />. All SetForm sites that used to name
-        ///     LocationDepart directly route through here so the gate cannot miss one.
+        ///     Which form plays the departure screen. Always the plain text form: a graphical/musical sibling was
+        ///     built (the original's :2200 plays the loaded score at departure) and removed on playtest — the tune
+        ///     belongs to the opening and the look-around arrivals, and hearing it again on the way out cheapened
+        ///     it. All SetForm sites route through here, so restoring a sibling later is a one-line change.
         /// </summary>
-        public static Type DepartFormType =>
-            GameSimulationApp.PresentationEnabled && Scene.LandmarkDepartCard.CanShow
-                ? typeof(Scene.LandmarkDepartCard)
-                : typeof(Dialog.LocationDepart);
+        public static Type DepartFormType => typeof(Dialog.LocationDepart);
 
         /// <summary>
         ///     Which form drives the trail. Always the text drive form today; the travel-screen phase gates this to

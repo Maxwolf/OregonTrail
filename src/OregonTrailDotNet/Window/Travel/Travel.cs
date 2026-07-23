@@ -7,6 +7,7 @@ using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Location;
 using OregonTrailDotNet.Entity.Location.Point;
 using OregonTrailDotNet.Module.Tombstone;
+using OregonTrailDotNet.Presentation;
 using OregonTrailDotNet.Window.Travel.Command;
 using OregonTrailDotNet.Window.Travel.Dialog;
 using OregonTrailDotNet.Window.Travel.Hunt.Help;
@@ -205,6 +206,14 @@ namespace OregonTrailDotNet.Window.Travel
 
             // Reset the input prompt so a context-specific prompt set by one form does not leak into the next.
             PromptText = SceneGraph.PROMPT_TEXT_DEFAULT;
+
+            // A scene form's tune must not outlive it. Scenes stop their own cue on dismissal, but SetForm has no
+            // teardown — any path that replaces a scene with a plain form would leave the music playing (the store's
+            // first-location exit did exactly that). Stopping here whenever a non-scene form takes over makes that
+            // whole class of leak impossible; scene-to-scene handoffs keep their cue because the incoming scene
+            // re-asserts it on its first compose.
+            if (GameSimulationApp.PresentationEnabled && CurrentForm is not SceneForm<TravelInfo>)
+                Presentation.Audio.Music.Stop();
 
             // Update menu with proper choices.
             UpdateLocation();

@@ -34,9 +34,11 @@ namespace OregonTrailDotNet.Tests
         }
 
         [Fact]
-        public void FlagOff_DepartChooser_PicksThePlainTextForm()
+        public void DepartChooser_IsAlwaysThePlainTextForm()
         {
-            Assert.False(GameSimulationApp.PresentationEnabled);
+            // The musical departure sibling was removed on playtest: departures are silent in both flag states.
+            Assert.Equal(typeof(LocationDepart), TravelInfo.DepartFormType);
+            GameSimulationApp.PresentationEnabled = true;
             Assert.Equal(typeof(LocationDepart), TravelInfo.DepartFormType);
         }
 
@@ -44,15 +46,6 @@ namespace OregonTrailDotNet.Tests
         public void FlagOff_LookAround_ShowsNoCard()
         {
             Assert.False(LandmarkCard.ShouldShow);
-        }
-
-        [Fact]
-        public void FlagOn_DepartChooser_PicksTheCardScene()
-        {
-            GameSimulationApp.PresentationEnabled = true;
-
-            // The boot state sits at Independence, which has card p0.
-            Assert.Equal(typeof(LandmarkDepartCard), TravelInfo.DepartFormType);
         }
 
         [Fact]
@@ -113,18 +106,5 @@ namespace OregonTrailDotNet.Tests
             Assert.Contains("Press ENTER to continue", frame);
         }
 
-        [Fact]
-        public void DepartCard_Composes_WithTheDepartSentence()
-        {
-            GameSimulationApp.PresentationEnabled = true;
-
-            var window = new Travel(GameSimulationApp.Instance);
-            var card = new LandmarkDepartCard(window);
-            card.OnFormPostCreate();
-
-            var frame = card.OnRenderForm();
-            Assert.Contains("From Independence it is", frame);
-            Assert.Contains("miles to", frame);
-        }
     }
 }
