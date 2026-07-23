@@ -392,7 +392,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
     /// <summary>One leg of the trail, and the roadside piece that scrolls past on the way to its landmark.</summary>
     /// <param name="Toward">The landmark this leg ends at — which is what chooses the scenery.</param>
-    /// <param name="SpriteId">1-based id within <c>legacy/art/dos/rgba/dos-scenery-NN.png</c>.</param>
+    /// <param name="SpriteId">1-based id within the scenery sheet (<c>art/sprites/scenery/NN.png</c>).</param>
     /// <param name="Name">What the artist drew, for the readout.</param>
     /// <param name="Apple">
     ///     The original's own <c>(terrain table, NI)</c>, kept so the mapping stays checkable against the disk.

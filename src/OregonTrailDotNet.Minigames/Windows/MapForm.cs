@@ -59,7 +59,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         protected override void Build()
         {
             _game = new MapGame();
-            _map = Assets.Load("dos/mcga/map.png");
+            _map = Assets.Load("map.png");
         }
 
         /// <inheritdoc />

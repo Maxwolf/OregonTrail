@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>OregonTrailDotNet.Assets</RootNamespace>
+    <AssemblyName>OregonTrailDotNet.Assets</AssemblyName>
+  </PropertyGroup>
+
+  <!-- The original MECC artwork (PNG) and its decoded chiptune scores (JSON) are compiled straight into this
+       assembly as embedded resources, so the game ships as a single executable with no loose asset files to
+       find, load, or lose. This library references nothing and does no decoding: it hands back bytes and
+       streams keyed by the asset's path under Resources/ (art/dos/mcga/p3.png, music/dos/song-04-chimney-rock.json,
+       data/PAL.256), leaving the image and audio stacks to the caller so both the minigame workbench and the
+       main game can share it. Migrated out of legacy/art + legacy/music, which are transitional. -->
+  <ItemGroup>
+    <None Remove="Resources\**\*" />
+    <EmbeddedResource Include="Resources\**\*.png">
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\**\*.json">
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\data\PAL.256">
+      <LogicalName>data/PAL.256</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

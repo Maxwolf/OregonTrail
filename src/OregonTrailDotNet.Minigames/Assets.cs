@@ -1,10 +1,13 @@
 using System.Collections.Concurrent;
 using WolfCurses.Graphics;
+using AssetStore = OregonTrailDotNet.Assets.AssetStore;
 
 namespace OregonTrailDotNet.Minigames
 {
     /// <summary>
-    ///     Finds and caches the artwork extracted from the original disks (see <c>docs/minigames.md</c>).
+    ///     Decodes and caches the artwork the minigames draw with. The pictures are compiled into the
+    ///     <c>OregonTrailDotNet.Assets</c> library as embedded resources rather than read off disk, so the workbench
+    ///     ships as a single executable with no loose art files to find, ship alongside, or lose.
     ///     <para>
     ///         The minigames are drawn with the <b>1990 DOS port's</b> art: 320x200 in 256 colours against the Apple II's
     ///         280x192 in six, and — decisively for a terminal — its sprites are shaded illustrations where the Apple II's
@@ -12,10 +15,10 @@ namespace OregonTrailDotNet.Minigames
     ///         a picture down to character cells preserves colour but destroys the Apple II's dithering.
     ///     </para>
     ///     <para>
-    ///         Everything loads off disk rather than being embedded, so a sprite can be re-cut with
-    ///         <c>legacy/tools/dos_sprites.py</c> and looked at again without rebuilding. A missing file is not an
-    ///         exception: WolfCurses hands back the magenta-and-black "missing texture" checkerboard, which is exactly
-    ///         what should appear on screen.
+    ///         Everything is addressed by its path within the art set — <c>sprites/hunter/01.png</c>,
+    ///         <c>tombstone.png</c>. A key with no matching resource is not an exception: it comes back as the
+    ///         magenta-and-black "missing texture" checkerboard, which is exactly what should appear on screen if a build
+    ///         is ever cut without its art.
     ///     </para>
     /// </summary>
     public static class Assets
@@ -34,46 +37,26 @@ namespace OregonTrailDotNet.Minigames
 
         private static readonly ConcurrentDictionary<string, PixelBuffer> Cache = new();
 
-        /// <summary>The <c>legacy/art</c> folder, or null when it could not be found.</summary>
-        public static string? ArtRoot { get; } = FindArtRoot();
-
         /// <summary>
-        ///     The <c>legacy/music</c> folder — the decoded scores — or null when it is not there. Derived from
-        ///     <see cref="ArtRoot" />'s parent rather than searched for separately, since both are folders of the one
-        ///     <c>legacy/</c> tree and finding one locates the other.
-        ///     <para>
-        ///         Unlike the artwork this is <b>optional</b>: without it the workbench runs silently rather than
-        ///         refusing to start. Music is the one thing here you can do without.
-        ///     </para>
+        ///     True when the embedded artwork is present. Since the pictures are compiled into
+        ///     <c>OregonTrailDotNet.Assets</c> they always should be, so this is a sanity check on the build rather than
+        ///     on the file system — a guard against a broken package, not a missing folder.
         /// </summary>
-        public static string? MusicRoot { get; } = ArtRoot == null
-            ? null
-            : Path.Combine(Directory.GetParent(ArtRoot)!.FullName, "music");
+        public static bool Ready => AssetStore.Has("art/map.png");
 
-        /// <summary>
-        ///     True when the DOS artwork is present. That is the only hard requirement: every minigame is drawn with
-        ///     the 1990 port's art.
-        /// </summary>
-        public static bool Ready =>
-            ArtRoot != null &&
-            Directory.Exists(Path.Combine(ArtRoot, "dos", "rgba")) &&
-            Directory.Exists(Path.Combine(ArtRoot, "dos", "mcga"));
-
-        /// <summary>
-        ///     True when the 1985 cards are present too. They are <b>optional</b>, and needed for exactly two things:
-        ///     the tombstone — the one screen neither DOS picture library has a bitmap for, since the DOS port draws
-        ///     it with BGI primitives — and the slideshow's side-by-side comparison.
-        /// </summary>
-        public static bool HasApple2 => ArtRoot != null && Directory.Exists(Path.Combine(ArtRoot, "apple2"));
-
-        /// <summary>Loads a picture relative to <see cref="ArtRoot" />, decoded once and kept.</summary>
-        /// <param name="relativePath">For example <c>dos/rgba/dos-float-05.png</c>.</param>
+        /// <summary>Loads a picture from the assets library, decoded once and kept.</summary>
+        /// <param name="relativePath">
+        ///     The picture's path within the art set, for example <c>sprites/hunter/01.png</c>. The <c>art/</c>
+        ///     prefix that namespaces it inside the assets library is added here.
+        /// </param>
         public static PixelBuffer Load(string relativePath)
         {
             return Cache.GetOrAdd(relativePath, key =>
             {
-                var full = Path.Combine(ArtRoot ?? ".", key.Replace('/', Path.DirectorySeparatorChar));
-                return AnsiImage.FromFile(full).Pixels;
+                using var stream = AssetStore.Open($"art/{key}");
+                return stream == null
+                    ? ImageErrorTexture.Create(DosWidth, DosHeight, 8)
+                    : AnsiImage.FromStream(stream).Pixels;
             });
         }
 
@@ -83,7 +66,7 @@ namespace OregonTrailDotNet.Minigames
         /// </summary>
         /// <param name="sheet">One of <c>hunter</c>, <c>animals</c>, <c>float</c>, <c>terrain</c>.</param>
         /// <param name="id">1-based sprite id within that sheet.</param>
-        public static PixelBuffer Dos(string sheet, int id) => Load($"dos/rgba/dos-{sheet}-{id:00}.png");
+        public static PixelBuffer Dos(string sheet, int id) => Load($"sprites/{sheet}/{id:00}.png");
 
         /// <summary>
         ///     An Apple II full-screen card, scaled to that machine's own grid. Used for the tombstone, which the DOS
@@ -94,7 +77,7 @@ namespace OregonTrailDotNet.Minigames
         {
             return Cache.GetOrAdd("a2backdrop:" + fileName, _ =>
             {
-                var picture = Load($"apple2/{fileName}");
+                var picture = Load(fileName);
                 return picture.Width == Apple2Width && picture.Height == Apple2Height
                     ? picture
                     : picture.Resize(Apple2Width, Apple2Height);
@@ -113,28 +96,6 @@ namespace OregonTrailDotNet.Minigames
                 flipped.SetPixel(source.Width - 1 - x, y, source.GetPixel(x, y));
 
             return flipped;
-        }
-
-        /// <summary>
-        ///     Walks up from the build output and the working directory looking for the extracted art, so the workbench
-        ///     runs from an IDE, from <c>dotnet run</c>, or from its output folder without being told where anything is.
-        /// </summary>
-        private static string? FindArtRoot()
-        {
-            foreach (var start in new[] { AppContext.BaseDirectory, Environment.CurrentDirectory })
-            {
-                var directory = new DirectoryInfo(start);
-                while (directory != null)
-                {
-                    var candidate = Path.Combine(directory.FullName, "legacy", "art");
-                    if (Directory.Exists(candidate))
-                        return candidate;
-
-                    directory = directory.Parent;
-                }
-            }
-
-            return null;
         }
     }
 }

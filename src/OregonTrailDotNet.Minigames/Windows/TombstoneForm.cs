@@ -103,11 +103,11 @@ namespace OregonTrailDotNet.Minigames.Windows
         ///         music at all.</b>
         ///     </para>
         /// </summary>
-        protected override string? MusicCue => "apple2/ts-tombstone";
+        protected override string? MusicCue => "tombstone";
 
         // The DOS port has no tombstone bitmap — neither picture library holds one, because it draws that screen with
         // BGI primitives — so this is the one screen that stays on the 1985 card.
-        protected override void Build() => _stone = Assets.Apple2Backdrop("ts-tombstone.png");
+        protected override void Build() => _stone = Assets.Apple2Backdrop("tombstone.png");
 
         /// <inheritdoc />
         protected override void OnSectionKey(ConsoleKey key)

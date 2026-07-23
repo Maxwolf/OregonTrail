@@ -124,8 +124,8 @@ reimplements a rule from the original 1980s/1990s game differently, that is call
    with no medical supplies; running out of both food and ammunition accelerates starvation
  2. A short message tells you the cause of death
  3. How far you traveled and the supplies you had left are shown on the death screen
- 4. Historically fewer than 50% (realistically ~20%) of emigrants completed the journey — flavor only,
-   not modeled in code
+ 4. Historically fewer than 50% (realistically ~20%) of emigrants completed the journey (flavor only,
+   not modeled in code)
 
 ### Winning ###
  1. Displays the total time and distance of the journey
@@ -133,7 +133,7 @@ reimplements a rule from the original 1980s/1990s game differently, that is call
  3. Scoring matches the 1985 Apple II game, verified against its decompiled disk: 500/400/300/200
    points per survivor by party health, 50 for the wagon, 4 per ox (cap 20), 2 per spare part
    (cap 3 of each of 3 types), 2 per set of clothing (cap 255), 1 per 50 bullets (cap 65,535),
-   1 per 25 lb of food (cap 2,000), 1 per $5 cash — floored per line, then multiplied x1/x2/x3 for
+   1 per 25 lb of food (cap 2,000), 1 per $5 cash; floored per line, then multiplied x1/x2/x3 for
    Banker/Carpenter/Farmer. Ratings: Trail Guide 6000+, Adventurer 3000+, Greenhorn below
  4. The highest possible score is 13,860: a farmer party of five arriving in good health with every
    capped item maxed and $360 of the $400 stake unspent (the $40 minimum is the required yoke of

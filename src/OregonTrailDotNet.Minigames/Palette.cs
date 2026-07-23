@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using WolfCurses.Graphics;
+using AssetStore = OregonTrailDotNet.Assets.AssetStore;
 
 namespace OregonTrailDotNet.Minigames
 {
@@ -129,7 +130,7 @@ namespace OregonTrailDotNet.Minigames
         ///         authoring this file, not a runtime condition.
         ///     </para>
         ///     <para>
-        ///         Silently skipped when the legacy tree is absent. The workbench is expected to run without it — the
+        ///         Silently skipped when the palette resource is absent. The workbench is expected to run without it — the
         ///         art loader says so by handing back a missing-texture checkerboard rather than throwing — and a
         ///         verification step must not be the thing that makes a working setup fail.
         ///     </para>
@@ -139,12 +140,11 @@ namespace OregonTrailDotNet.Minigames
         [Conditional("DEBUG")]
         private static void VerifyAgainstPal256()
         {
-            var pal = Path.Combine(Assets.ArtRoot ?? ".", "..", "dos", "PAL.256");
-            if (!File.Exists(pal))
+            var bytes = AssetStore.Bytes("data/PAL.256");
+            if (bytes == null)
                 return;
 
             // The palette is the last 768 bytes, behind the 0x0C marker that introduces a PCX 256-colour trailer.
-            var bytes = File.ReadAllBytes(pal);
             if (bytes.Length < 769 || bytes[^769] != 0x0C)
                 return;
 

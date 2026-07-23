@@ -88,8 +88,8 @@ namespace OregonTrailDotNet.Minigames.Audio
         ///     Starts a cue, or does nothing if that same cue is already playing.
         /// </summary>
         /// <param name="key">
-        ///     A score under <c>legacy/music/</c> without its extension — <c>dos/song-04-chimney-rock</c>,
-        ///     <c>apple2/ts-tombstone</c>. An unknown key stops the music rather than throwing.
+        ///     A score in the embedded music set, without its extension — <c>landmarks/04-chimney-rock</c>,
+        ///     <c>tombstone</c>. An unknown key stops the music rather than throwing.
         /// </param>
         public static void Play(string key)
         {

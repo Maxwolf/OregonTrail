@@ -28,30 +28,29 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// </summary>
         private static readonly Stop[] Stops =
         [
-            new(0, "Independence", "settlement", "l00-independence.png"),
-            new(1, "The Kansas River crossing", "river", "l01-kansas-river.png"),
-            new(2, "The Big Blue River crossing", "river", "l02-big-blue-river.png"),
-            new(3, "Fort Kearney", "fort", "l03-fort-kearney.png"),
-            new(4, "Chimney Rock", "landmark", "l04-chimney-rock.png"),
-            new(5, "Fort Laramie", "fort", "l05-fort-laramie.png"),
-            new(6, "Independence Rock", "landmark", "l06-independence-rock.png"),
-            new(7, "South Pass", "fork", "l07-south-pass.png"),
-            new(8, "Fort Bridger", "fort", "l08-fort-bridger.png"),
-            new(9, "The Green River crossing", "river", "l09-green-river.png"),
-            new(10, "Soda Springs", "landmark", "l10-soda-springs.png"),
-            new(11, "Fort Hall", "fort", "l11-fort-hall.png"),
-            new(12, "The Snake River crossing", "river", "l12-snake-river.png"),
-            new(13, "Fort Boise", "fort", "l13-fort-boise.png"),
-            new(14, "The Blue Mountains", "fork", "l14-blue-mountains.png"),
-            new(15, "Fort Walla Walla", "fort", "l15-fort-walla-walla.png"),
-            new(16, "The Dalles", "fork", "l16-the-dalles.png"),
-            new(17, "The Willamette Valley", "journey's end", "l17-willamette-valley.png")
+            new(0, "Independence", "settlement", "00-independence"),
+            new(1, "The Kansas River crossing", "river", "01-kansas-river"),
+            new(2, "The Big Blue River crossing", "river", "02-big-blue-river"),
+            new(3, "Fort Kearney", "fort", "03-fort-kearney"),
+            new(4, "Chimney Rock", "landmark", "04-chimney-rock"),
+            new(5, "Fort Laramie", "fort", "05-fort-laramie"),
+            new(6, "Independence Rock", "landmark", "06-independence-rock"),
+            new(7, "South Pass", "fork", "07-south-pass"),
+            new(8, "Fort Bridger", "fort", "08-fort-bridger"),
+            new(9, "The Green River crossing", "river", "09-green-river"),
+            new(10, "Soda Springs", "landmark", "10-soda-springs"),
+            new(11, "Fort Hall", "fort", "11-fort-hall"),
+            new(12, "The Snake River crossing", "river", "12-snake-river"),
+            new(13, "Fort Boise", "fort", "13-fort-boise"),
+            new(14, "The Blue Mountains", "fork", "14-blue-mountains"),
+            new(15, "Fort Walla Walla", "fort", "15-fort-walla-walla"),
+            new(16, "The Dalles", "fork", "16-the-dalles"),
+            new(17, "The Willamette Valley", "journey's end", "17-willamette-valley")
         ];
 
         private int _slide;
         private int _ticksOnSlide;
         private bool _running = true;
-        private bool _dos = true;
 
         /// <summary>Initializes a new instance of the <see cref="LandmarkSlideshowForm" /> class.</summary>
         /// <param name="window">The parent window.</param>
@@ -64,7 +63,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         protected override int ReservedRows => 9;
 
         /// <summary>
-        ///     The card's own tune, from whichever port's card is on screen.
+        ///     The card's own tune — the DOS port's score for the stop on screen.
         ///     <para>
         ///         This pairing is the original's, and it is computed rather than chosen: on arrival the 1985 loader
         ///         builds the score's filename out of the landmark index exactly as it builds the picture's
@@ -73,20 +72,8 @@ namespace OregonTrailDotNet.Minigames.Windows
         ///         score <c>MS4</c> belongs to picture <c>L4</c> by construction, and the eighteen DOS songs sit in
         ///         the same order — the same eighteen melodies, re-registered for the PC speaker.
         ///     </para>
-        ///     <para>
-        ///         Following the <c>A</c> key means the comparison works on the ear as well as the eye: the same stop
-        ///         switches between the 1985 card with its Apple II score and the 1990 redraw with its DOS one, which
-        ///         is where you can hear the re-registration — mostly two octaves up, several stops also re-keyed.
-        ///     </para>
         /// </summary>
-        protected override string? MusicCue
-        {
-            get
-            {
-                var stop = Stops[_slide];
-                return _dos ? $"dos/song-{stop.Slug}" : $"apple2/ms{stop.Slug}";
-            }
-        }
+        protected override string? MusicCue => $"landmarks/{Stops[_slide].Slug}";
 
         /// <inheritdoc />
         protected override void Build()
@@ -131,15 +118,6 @@ namespace OregonTrailDotNet.Minigames.Windows
                     _ticksOnSlide = 0;
                     Invalidate();
                     return;
-                case ConsoleKey.A:
-                    // Flip between the two ports' art for the same stop, which is the quickest way to see how much
-                    // the 1990 redraw actually changed. The 1985 set is optional, so this does nothing without it.
-                    if (!Assets.HasApple2)
-                        return;
-
-                    _dos = !_dos;
-                    Invalidate();
-                    return;
                 case ConsoleKey.Home:
                     _slide = 0;
                     _ticksOnSlide = 0;
@@ -152,27 +130,21 @@ namespace OregonTrailDotNet.Minigames.Windows
         protected override string Compose()
         {
             var stop = Stops[_slide];
-            var picture = _dos
-                ? Assets.Load($"dos/mcga/p{stop.Index}.png")
-                : Assets.Load($"apple2/{stop.Apple2File}");
-
-            var source = _dos ? $"DOS MCGA  p{stop.Index}.png" : $"Apple II  {stop.Apple2File}";
+            var picture = Assets.Load($"landmarks/p{stop.Index}.png");
+            var source = $"DOS MCGA  p{stop.Index}.png";
 
             var text = new StringBuilder();
             text.AppendLine();
             text.AppendLine($"TRAIL STOPS — {_slide + 1} of {Stops.Length}   {source}   " +
                             $"{picture.Width}x{picture.Height}   {(_running ? "playing" : "paused")}");
-            text.AppendLine(_dos
-                ? "The 1985 loader picks this card by index: V$ = \"L\" + STR$(LM) + \".PCK\"  (OREGON TRAIL.txt:300)"
-                : "Named from the LM$ table in VAR.BIN; picture L<n> is landmark <n> by construction.");
+            text.AppendLine(
+                "The 1985 loader picks this card by index: V$ = \"L\" + STR$(LM) + \".PCK\"  (OREGON TRAIL.txt:300)");
             text.Append(AnsiImage.FromPixels(picture).ToAnsi(PictureOptions()));
 
             // The name goes under the picture, the way the cards are captioned in the game itself.
             text.AppendLine();
             text.AppendLine($"        {stop.Index,2}.  {stop.Name.ToUpperInvariant()}   ({stop.Kind})");
-            text.Append(Footer(Assets.HasApple2
-                ? "LEFT/RIGHT step   SPACE play/pause   A Apple II <-> DOS   HOME first"
-                : "LEFT/RIGHT step   SPACE play/pause   HOME first   (no Apple II set to compare against)"));
+            text.Append(Footer("LEFT/RIGHT step   SPACE play/pause   HOME first"));
             return text.ToString();
         }
 
@@ -188,16 +160,10 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <param name="Index">The <c>LM</c> landmark index, which is also the picture number.</param>
         /// <param name="Name">Name from the <c>LM$</c> table in <c>VAR.BIN</c>.</param>
         /// <param name="Kind">What the stop is, from that table's flag column plus the route table's forks.</param>
-        /// <param name="Apple2File">The extracted Apple II card for the same index.</param>
-        private sealed record Stop(int Index, string Name, string Kind, string Apple2File)
-        {
-            /// <summary>
-            ///     The stop's name as the extractors spell it — <c>04-chimney-rock</c>. Both music folders and the
-            ///     Apple II art are named on this stem (<c>ms04-chimney-rock</c>, <c>song-04-chimney-rock</c>,
-            ///     <c>l04-chimney-rock.png</c>), so it is taken off the picture rather than written out a third time
-            ///     and left to drift.
-            /// </summary>
-            public string Slug => Apple2File[1..^".png".Length];
-        }
+        /// <param name="Slug">
+        ///     The stop's name as the extractors spell it — <c>04-chimney-rock</c>. It names the landmark's tune
+        ///     (<c>music/landmarks/04-chimney-rock.json</c>), the one thing still keyed off it.
+        /// </param>
+        private sealed record Stop(int Index, string Name, string Kind, string Slug);
     }
 }

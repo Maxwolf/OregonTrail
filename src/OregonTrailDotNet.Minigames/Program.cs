@@ -21,18 +21,12 @@ namespace OregonTrailDotNet.Minigames
                 e.Cancel = true;
             };
 
-            // Fail loudly and early rather than showing a screen full of magenta "missing texture" checkerboards.
+            // Fail loudly rather than showing a screen full of magenta "missing texture" checkerboards. The art is
+            // embedded in OregonTrailDotNet.Assets, so this only trips on a broken build, not a misplaced folder.
             if (!Assets.Ready)
             {
-                Console.WriteLine("Could not find the extracted DOS artwork, which every minigame is drawn with.");
-                Console.WriteLine();
-                Console.WriteLine("Looked for a 'legacy/art' folder (with 'dos/rgba' and 'dos/mcga' inside) walking up from:");
-                Console.WriteLine("  " + AppContext.BaseDirectory);
-                Console.WriteLine("  " + Environment.CurrentDirectory);
-                Console.WriteLine($"Found: {Assets.ArtRoot ?? "(nothing)"}");
-                Console.WriteLine();
-                Console.WriteLine("The DOS sprites are cut by legacy/tools/dos_sprites.py; run that, then try again,");
-                Console.WriteLine("or start this from inside the repository.");
+                Console.WriteLine("The embedded artwork is missing from this build of OregonTrailDotNet.Assets.");
+                Console.WriteLine("This is a packaging problem, not something a file in the right place would fix.");
                 Console.WriteLine();
                 Console.WriteLine("Press ANY KEY to close...");
                 Console.ReadKey(true);

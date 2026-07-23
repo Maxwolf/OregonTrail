@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Text.Json;
+using AssetStore = OregonTrailDotNet.Assets.AssetStore;
 
 namespace OregonTrailDotNet.Minigames.Audio
 {
@@ -7,11 +8,10 @@ namespace OregonTrailDotNet.Minigames.Audio
     ///     One of the original's tunes, as a list of notes.
     ///     <para>
     ///         Both ports are single-voice square-wave beepers, so a score really is just this: a pitch and a duration,
-    ///         over and over. The notes come from <c>legacy/music/</c>, decoded off the disks by
-    ///         <c>legacy/tools/apple2_music.py</c> (the Apple II <c>MS&lt;n&gt;.BIN</c> scores) and
-    ///         <c>legacy/tools/dos_music.py</c> (the DOS <c>SONGS.TXT</c> MML). Nothing here is sampled audio — the
-    ///         <c>.wav</c> files beside the JSON are renders for listening to, not assets, and the workbench
-    ///         synthesizes from the note lists instead.
+    ///         over and over. The scores are embedded in the <c>OregonTrailDotNet.Assets</c> library under
+    ///         <c>music/</c>, originally decoded off the disks by <c>legacy/tools/apple2_music.py</c> (the Apple II
+    ///         <c>MS&lt;n&gt;.BIN</c> scores) and <c>legacy/tools/dos_music.py</c> (the DOS <c>SONGS.TXT</c> MML).
+    ///         Nothing here is sampled audio — the workbench synthesizes the sound from these note lists.
     ///     </para>
     /// </summary>
     public sealed class Chiptune
@@ -25,7 +25,7 @@ namespace OregonTrailDotNet.Minigames.Audio
             Duration = TimeSpan.FromMilliseconds(notes.Sum(n => n.Milliseconds));
         }
 
-        /// <summary>The path this was loaded from, relative to <c>legacy/music/</c> and without the extension.</summary>
+        /// <summary>The key this was loaded by — its path within the music set, without the extension.</summary>
         public string Key { get; }
 
         /// <summary>The score, in order.</summary>
@@ -35,25 +35,21 @@ namespace OregonTrailDotNet.Minigames.Audio
         public TimeSpan Duration { get; }
 
         /// <summary>
-        ///     Loads a decoded score, or null when it is not on disk. Cached, including the misses — a section is free
+        ///     Loads a decoded score, or null when it is not embedded. Cached, including the misses — a section is free
         ///     to ask for its tune every frame.
         /// </summary>
-        /// <param name="key">For example <c>dos/song-05-fort-laramie</c> or <c>apple2/ts-tombstone</c>.</param>
+        /// <param name="key">For example <c>landmarks/05-fort-laramie</c> or <c>tombstone</c>.</param>
         public static Chiptune? Load(string key)
         {
             return Cache.GetOrAdd(key, path =>
             {
-                var root = Assets.MusicRoot;
-                if (root == null)
-                    return null;
-
-                var file = Path.Combine(root, path.Replace('/', Path.DirectorySeparatorChar) + ".json");
-                if (!File.Exists(file))
+                var bytes = AssetStore.Bytes($"music/{path}.json");
+                if (bytes == null)
                     return null;
 
                 try
                 {
-                    return new Chiptune(path, Read(file));
+                    return new Chiptune(path, Read(bytes));
                 }
                 catch (Exception)
                 {
@@ -64,9 +60,9 @@ namespace OregonTrailDotNet.Minigames.Audio
             });
         }
 
-        private static List<Note> Read(string file)
+        private static List<Note> Read(byte[] bytes)
         {
-            using var document = JsonDocument.Parse(File.ReadAllBytes(file));
+            using var document = JsonDocument.Parse(bytes);
 
             var notes = new List<Note>();
             foreach (var element in document.RootElement.GetProperty("events").EnumerateArray())
