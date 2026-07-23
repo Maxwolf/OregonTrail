@@ -186,11 +186,14 @@ namespace OregonTrailDotNet.Window.Travel
                     // No hunting while stopped at a landmark: you cannot shoot game in a fort or a settled place, and the
                     // original swapped the hunting slot on the menu for talking to the people who live there. Hunting is a
                     // thing you do out on the trail, which the Departed branch below allows.
-                    if (location.ChattingAllowed)
-                        AddCommand(TalkToPeople, TravelCommandsEnum.TalkToPeople);
-
+                    //
+                    // Buy (9) is added before Talk (10) so the printed menu numbers ascend — the number IS the enum
+                    // value (which the bot's trained policies depend on), so ordering is the only thing free to fix.
                     if (location.ShoppingAllowed)
                         AddCommand(BuySupplies, TravelCommandsEnum.BuySupplies);
+
+                    if (location.ChattingAllowed)
+                        AddCommand(TalkToPeople, TravelCommandsEnum.TalkToPeople);
                     break;
                 case LocationStatusEnum.Departed:
                     AddCommand(AttemptToTrade, TravelCommandsEnum.AttemptToTrade);

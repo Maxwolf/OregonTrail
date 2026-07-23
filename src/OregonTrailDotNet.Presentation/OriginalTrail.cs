@@ -98,9 +98,10 @@ namespace OregonTrailDotNet.Presentation
 
             // The Dalles fork's spliced branches. LM 16 for hunting roster/zone; fitted points on the
             // Dalles-to-valley line (the Barlow road swings south of the river); no marker, card or tune of their
-            // own, and their leg to Oregon City reuses The Dalles' scenery treatment.
-            new(16, "Columbia River", "the Columbia River", MapMarkerEnum.River, 128, 60, null, -1, true, -1, 0),
-            new(16, "Barlow Toll Road", "the Barlow Toll Road", MapMarkerEnum.River, 126, 65, null, -1, true, -1, 0)
+            // own. The leg toward the Columbia shows the river piece like every other crossing's approach; the
+            // Barlow road's shows the valley timber the country actually is there.
+            new(16, "Columbia River", "the Columbia River", MapMarkerEnum.River, 128, 60, null, -1, true, 11, 102),
+            new(16, "Barlow Toll Road", "the Barlow Toll Road", MapMarkerEnum.River, 126, 65, null, -1, true, 12, 130)
         ];
 
         private static readonly Dictionary<string, OriginalStop> ByName =

@@ -43,15 +43,10 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         /// <inheritdoc />
         protected override void Build()
         {
-            var game = GameSimulationApp.Instance;
-            var stop = OriginalTrail.ForLocation(game.Trail.CurrentLocation?.Name);
-
-            // The Dalles' card (p16) backs the instructions; the caption dates the departure onto the water.
-            var date = game.Time.Date;
-            _picture = LandmarkArt.WithCaption(
-                LandmarkArt.Card(stop is { CardArt: >= 0 } ? stop.CardArt : 16),
-                "The Dalles",
-                $"{date.Month} {date.Day}, {date.Year}");
+            // The Dalles' card backs the instructions because the original's FLOAT loads L16.PCK as the raft's own
+            // backdrop — it is literally a raft on this river. No caption box: the party stands at the Columbia,
+            // and naming the picture "The Dalles" here read as the wrong place.
+            _picture = LandmarkArt.Card(16);
         }
 
         /// <inheritdoc />

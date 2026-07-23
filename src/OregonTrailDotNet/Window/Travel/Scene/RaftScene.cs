@@ -85,9 +85,12 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         /// <inheritdoc />
         protected override void Advance()
         {
-            // The run is over; hold the last picture for a second so the ending reads, then reckon up.
+            // The run is over; hold the last picture for a second so the ending reads, then reckon up. The
+            // interpolation is collapsed first — without it the frames keep easing from the previous step's
+            // positions and snapping back, which shook the whole picture against the bank.
             if (_destroyed || _game.Outcome != RaftOutcomeEnum.Running)
             {
+                Rewind();
                 if (++_endBeat >= 9)
                     GoToResult();
                 return;
