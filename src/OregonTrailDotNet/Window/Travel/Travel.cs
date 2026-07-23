@@ -70,7 +70,7 @@ namespace OregonTrailDotNet.Window.Travel
             // Check if player has already departed and we are just moving along again.
             if (GameSimulationApp.Instance.Trail.CurrentLocation.Status == LocationStatusEnum.Departed)
             {
-                SetForm(typeof(ContinueOnTrail));
+                SetForm(TravelInfo.DriveFormType);
                 return;
             }
 

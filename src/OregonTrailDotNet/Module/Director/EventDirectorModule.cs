@@ -132,6 +132,9 @@ namespace OregonTrailDotNet.Module.Director
         /// <param name="directorEvent">Created instance of event that will be executed on simulation in random game Windows.</param>
         private void ExecuteEvent(IEntity sourceEntity, EventProduct directorEvent)
         {
+            // Remember what happened and when, so the graphical travel screen can show the day's event picture.
+            SceneEvents.Record(directorEvent);
+
             // Attach random event game Windows before triggering event since it will listen for it using event delegate.
             GameSimulationApp.Instance.WindowManager.Add(typeof(RandomEvent));
 

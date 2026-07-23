@@ -70,7 +70,7 @@ namespace OregonTrailDotNet.Window.Travel.Dialog
             switch (reponse)
             {
                 case DialogResponseEnum.No:
-                    SetForm(typeof(ContinueOnTrail));
+                    SetForm(TravelInfo.DriveFormType);
                     break;
                 case DialogResponseEnum.Yes:
                 case DialogResponseEnum.Custom:

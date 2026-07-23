@@ -41,10 +41,11 @@ namespace OregonTrailDotNet.Window.Travel
         public static Type DepartFormType => typeof(Dialog.LocationDepart);
 
         /// <summary>
-        ///     Which form drives the trail. Always the text drive form today; the travel-screen phase gates this to
-        ///     the graphical drive scene, and every dispatch into driving already routes through here.
+        ///     Which form drives the trail. Every dispatch into driving routes through here: the animated travel
+        ///     screen when presentation is on, the text marquee for every headless host.
         /// </summary>
-        public static Type DriveFormType => typeof(Command.ContinueOnTrail);
+        public static Type DriveFormType =>
+            GameSimulationApp.PresentationEnabled ? typeof(Scene.DriveScene) : typeof(Command.ContinueOnTrail);
 
         /// <summary>
         ///     Reference for any river information that we might need to be holding when we encounter one it will be generated and

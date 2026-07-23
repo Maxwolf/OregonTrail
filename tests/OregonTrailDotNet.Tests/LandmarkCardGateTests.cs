@@ -56,11 +56,25 @@ namespace OregonTrailDotNet.Tests
         }
 
         [Fact]
-        public void DriveChooser_IsTheTextDriveForm_UntilTheTravelScenePhase()
+        public void DriveChooser_GatesBetweenTheTextFormAndTheScene()
         {
             Assert.Equal(typeof(OregonTrailDotNet.Window.Travel.Command.ContinueOnTrail), TravelInfo.DriveFormType);
             GameSimulationApp.PresentationEnabled = true;
-            Assert.Equal(typeof(OregonTrailDotNet.Window.Travel.Command.ContinueOnTrail), TravelInfo.DriveFormType);
+            Assert.Equal(typeof(DriveScene), TravelInfo.DriveFormType);
+        }
+
+        [Fact]
+        public void DriveScene_Composes_TheTravelTableau()
+        {
+            GameSimulationApp.PresentationEnabled = true;
+
+            var window = new Travel(GameSimulationApp.Instance);
+            var scene = new DriveScene(window);
+            scene.OnFormPostCreate();
+
+            // The whole output is the picture — an ANSI frame, no dialog text.
+            var frame = scene.OnRenderForm();
+            Assert.False(string.IsNullOrWhiteSpace(frame));
         }
 
         [Fact]

@@ -61,9 +61,6 @@ namespace OregonTrailDotNet.Window.Travel.Command
         {
             base.OnFormPostCreate();
 
-            // Get instance of game simulation for easy reading.
-            var game = GameSimulationApp.Instance;
-
             // We don't create it in the constructor, will update with ticks.
             _drive = new StringBuilder();
 
@@ -71,25 +68,9 @@ namespace OregonTrailDotNet.Window.Travel.Command
             _marqueeBar = new MarqueeBar();
             _swayBarText = _marqueeBar.Step();
 
-            // Vehicle has departed the current location for the next one but you can only depart once.
-            if ((game.Trail.DistanceToNextLocation > 0) &&
-                (game.Trail.CurrentLocation.Status == LocationStatusEnum.Arrived))
-            {
-                var departingLocation = game.Trail.CurrentLocation;
-
-                // Leaving a fort costs the party most of a day getting resupplied and back on the trail, so the next travel
-                // turn covers dramatically fewer miles.
-                if (departingLocation is Settlement)
-                    game.Vehicle.FortDeparturePenalty = true;
-
-                departingLocation.Status = LocationStatusEnum.Departed;
-
-                // High mountain passes have a chance to leave the party stuck for several days as they head out.
-                if ((departingLocation.StuckChance > 0) &&
-                    (game.Random.Next(100) < departingLocation.StuckChance))
-                    game.EventDirector.TriggerEvent(game.Vehicle,
-                        typeof(OregonTrailDotNet.Event.Vehicle.StuckInMountains));
-            }
+            // Vehicle has departed the current location for the next one but you can only depart once. The duties
+            // live in DriveTick so the graphical drive scene departs identically.
+            DriveTick.Depart();
         }
 
         /// <summary>
@@ -139,46 +120,24 @@ namespace OregonTrailDotNet.Window.Travel.Command
             if (systemTick)
                 return;
 
-            // Get instance of game simulation for easy reading.
-            var game = GameSimulationApp.Instance;
-
-            // Checks if the vehicle is stuck or broken, if not it is set to moving state.
-            game.Vehicle.CheckStatus();
-
-            // Determine if we should continue down the trail based on current vehicle status.
-            switch (game.Vehicle.Status)
+            // The day itself — vehicle status, the grave scan over the stretch covered since the last look, and the
+            // turn — lives in DriveTick, shared verbatim with the graphical drive scene. (See DriveTick.Run for the
+            // history of the grave-scan cursor and why it lives on the vehicle.) This form only translates the
+            // result into its own visuals and form changes.
+            switch (DriveTick.Run())
             {
-                case VehicleStatusEnum.Stopped:
+                case DriveTick.Result.Stopped:
                     return;
-                case VehicleStatusEnum.Disabled:
+                case DriveTick.Result.Disabled:
                     // Check if vehicle was able to obtain spare parts for repairs.
                     SetForm(typeof(UnableToContinue));
                     break;
-                case VehicleStatusEnum.Moving:
+                case DriveTick.Result.GraveCrossed:
                     _swayBarText = _marqueeBar.Step();
-
-                    // If the miles covered since we last looked carried the party past a grave an earlier party left, stop
-                    // and offer to look closer, just like the original game did when you crossed a tombstone on the trail. We
-                    // are always mid-leg here (VehicleStatus.Moving, having already departed the last location), so no arrival
-                    // guard is needed. An earlier version also required !CurrentLocation.ArrivalFlag, but during a leg
-                    // CurrentLocation is the location the party just departed — its ArrivalFlag was set the moment they
-                    // reached it — so that guard was always false and silently suppressed every grave crossing. That is why
-                    // passing a marker never offered the tombstone. The scan cursor lives on the vehicle (see
-                    // Vehicle.LastGraveCheckOdometer) rather than this form, so a grave sitting in the last stretch before a
-                    // landmark — where this form is replaced by the arrival screen before its next tick can check — is picked
-                    // up at the start of the following leg instead of being skipped for good.
-                    if (game.Tombstone.FindTombstoneBetween(game.Vehicle.LastGraveCheckOdometer, game.Vehicle.Odometer,
-                            out _))
-                    {
-                        game.Vehicle.LastGraveCheckOdometer = game.Vehicle.Odometer;
-                        SetForm(typeof(TombstoneQuestion));
-                        return;
-                    }
-
-                    game.Vehicle.LastGraveCheckOdometer = game.Vehicle.Odometer;
-
-                    // Processes the next turn in the game simulation.
-                    game.TakeTurn(false);
+                    SetForm(typeof(TombstoneQuestion));
+                    return;
+                case DriveTick.Result.Traveled:
+                    _swayBarText = _marqueeBar.Step();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -194,8 +153,7 @@ namespace OregonTrailDotNet.Window.Travel.Command
                 return;
 
             // Stop ticks and close this state.
-            if (GameSimulationApp.Instance.Vehicle.Status == VehicleStatusEnum.Moving)
-                GameSimulationApp.Instance.Vehicle.Status = VehicleStatusEnum.Stopped;
+            DriveTick.Stop();
 
             // Remove the this form.
             ClearForm();
