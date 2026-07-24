@@ -136,6 +136,14 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>The live animal slots.</summary>
         public Animal[] Animals { get; }
 
+        /// <summary>
+        ///     The scenery's solid footprints, supplied by whichever host grew the ground (an empty list is an open
+        ///     field). Solid to everything: the original's bullet probe tested the drawn screen itself, so a tree
+        ///     stopped a shot dead, and no body could stand where scenery stood — cover has to be walked around,
+        ///     not shot through.
+        /// </summary>
+        public IReadOnlyList<HuntObstacle> Obstacles { get; set; } = [];
+
         /// <summary>Animals shot and still lying on the field.</summary>
         public List<Carcass> Carcasses { get; } = [];
 
@@ -262,8 +270,19 @@ namespace OregonTrailDotNet.Presentation
             }
 
             var vector = AimVectors[Aim];
-            HunterX = Math.Clamp(HunterX + vector.X, 0, FieldWidth - 21);
-            HunterY = Math.Clamp(HunterY + vector.Y, 0, FieldHeight - 28);
+            var nextX = Math.Clamp(HunterX + vector.X, 0, FieldWidth - 21);
+            var nextY = Math.Clamp(HunterY + vector.Y, 0, FieldHeight - 28);
+
+            // Scenery is solid: the step is refused whole, so the hunter marks time against a trunk until the
+            // player turns him — walking behind cover is not a thing on this flat field. Only a step from open
+            // ground is refused, though: the workbench can regrow the ground under his feet (its L key), and an
+            // overlapped hunter must be able to walk out rather than lock in place.
+            if (Blocked(nextX, nextY, HunterWidth, HunterHeight) &&
+                !Blocked(HunterX, HunterY, HunterWidth, HunterHeight))
+                return;
+
+            HunterX = nextX;
+            HunterY = nextY;
         }
 
         private void MoveAnimals()
@@ -273,7 +292,15 @@ namespace OregonTrailDotNet.Presentation
                 if (!animal.Active)
                     continue;
 
-                animal.X += animal.Facing;
+                // An animal walks until the scenery stops it, then turns back the way it came. Same escape rule
+                // as the hunter's: one already overlapped (a reground field) walks on out instead of jittering.
+                var info = Species[animal.Species];
+                if (Blocked(animal.X + animal.Facing, animal.Y, info.Width, info.Height) &&
+                    !Blocked(animal.X, animal.Y, info.Width, info.Height))
+                    animal.Facing = -animal.Facing;
+                else
+                    animal.X += animal.Facing;
+
                 if (++animal.FrameTimer >= 6)
                 {
                     animal.FrameTimer = 0;
@@ -296,6 +323,15 @@ namespace OregonTrailDotNet.Presentation
             if (Shot.X < 0 || Shot.Y < 0 || Shot.X >= FieldWidth || Shot.Y >= FieldHeight)
             {
                 Shot.Active = false;
+                return;
+            }
+
+            // Cover absorbs the round before any animal behind it can be hit — the checks are ordered so a
+            // bullet can never reach through a tree.
+            if (Blocked(Shot.X, Shot.Y, 1, 1))
+            {
+                Shot.Active = false;
+                LastEvent = "The shot hit cover.";
                 return;
             }
 
@@ -322,6 +358,34 @@ namespace OregonTrailDotNet.Presentation
                 LastEvent = $"Shot a {info.Name.ToLowerInvariant()} — {shot} lb.";
                 return;
             }
+        }
+
+        /// <summary>Whether a rectangle overlaps any solid scenery.</summary>
+        private bool Blocked(int x, int y, int width, int height)
+        {
+            foreach (var box in Obstacles)
+            {
+                if (x >= box.X + box.Width || box.X >= x + width ||
+                    y >= box.Y + box.Height || box.Y >= y + height)
+                    continue;
+
+                // No mask means the whole rectangle is solid; with one, only the sprite's drawn pixels are —
+                // the shipped terrain sprites are mostly transparent margin, and a hunt that collides with a
+                // tree's bounding air reads as hitting nothing.
+                if (box.Mask == null)
+                    return true;
+
+                var left = Math.Max(x, box.X);
+                var right = Math.Min(x + width, box.X + box.Width);
+                var top = Math.Max(y, box.Y);
+                var bottom = Math.Min(y + height, box.Y + box.Height);
+                for (var py = top; py < bottom; py++)
+                    for (var px = left; px < right; px++)
+                        if (box.Mask[(py - box.Y) * box.Width + (px - box.X)])
+                            return true;
+            }
+
+            return false;
         }
 
         private void Spawn()
@@ -357,8 +421,17 @@ namespace OregonTrailDotNet.Presentation
         /// <param name="MaximumPounds">Base plus the table's random range.</param>
         public sealed record SpeciesInfo(string Name, int MinimumPounds, int MaximumPounds)
         {
-            /// <summary>Sprite width, taken from the extracted frames.</summary>
-            public int Width => MinimumPounds >= 100 ? 28 : 21;
+            /// <summary>
+            ///     Sprite width, taken from the extracted frames. The rabbit and squirrel are measured
+            ///     individually — the old shared 21 had the rabbit turning at scenery it visibly had not reached
+            ///     and the squirrel's nose inside it.
+            /// </summary>
+            public int Width => Name switch
+            {
+                "Rabbit" => 14,
+                "Squirrel" => 25,
+                _ => 28
+            };
 
             /// <summary>Sprite height, taken from the extracted frames.</summary>
             public int Height => Name switch

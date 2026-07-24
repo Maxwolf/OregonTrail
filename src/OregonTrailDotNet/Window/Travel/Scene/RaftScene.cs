@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OregonTrailDotNet.Presentation;
+using OregonTrailDotNet.Presentation.Audio;
 using WolfCurses.Graphics;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
@@ -105,17 +106,26 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
             // The stakes: each fresh collision runs the original's loss routines against the real party. A single
             // catastrophic hit can destroy the raft outright, which ends the run where it happened.
+            var collided = false;
             while (_shoreHitsSeen < _game.ShoreHits && !_destroyed)
             {
                 _shoreHitsSeen++;
+                collided = true;
                 Suffer(RaftDamage.ShoreHit(_damageRandom));
             }
 
             while (_rockHitsSeen < _game.RockHits && !_destroyed)
             {
                 _rockHitsSeen++;
+                collided = true;
                 Suffer(RaftDamage.RockHit(_damageRandom));
             }
+
+            // Every collision sounded the DOS port's crash — rock and shore alike, raft-destroyed included —
+            // while a clean landing and even a missed one stayed silent in both originals
+            // (docs/legacy-sounds.md §§1.2, 2).
+            if (collided)
+                Sfx.Crash();
 
             // Missing the landing is survivable: supplies only, and the raft comes ashore regardless (:950/:960).
             if (!_destroyed && _game.Outcome == RaftOutcomeEnum.Missed)

@@ -44,6 +44,13 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         internal Type PendingDisaster { get; set; }
 
         /// <summary>
+        ///     True when this tick's ferry/guide category roll actually fired an accident. That path executes its
+        ///     event immediately and never touches <see cref="PendingDisaster" />, so this flag is the graphical
+        ///     scene's only way to hear it; the text form never reads it. Cleared at the start of every tick.
+        /// </summary>
+        internal bool AccidentThisTick { get; private set; }
+
+        /// <summary>
         ///     Parks the vehicle and takes the agreed payment. The ferryman charges only a party with strictly more
         ///     cash than his fare; the Shoshoni guide takes an exact payment — greater-or-equal, matching the offer
         ///     gate in IndianGuidePrompt, since a strict compare let a party with exactly the price cross free.
@@ -86,6 +93,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             if (Finished)
                 return;
 
+            AccidentThisTick = false;
             var game = GameSimulationApp.Instance;
 
             // Increment the amount we have floated over the river.
@@ -117,8 +125,22 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
                     break;
                 case RiverCrossChoiceEnum.Ferry:
                 case RiverCrossChoiceEnum.Indian:
-                    game.EventDirector.TriggerEventByType(game.Vehicle, EventCategoryEnum.RiverCross);
+                {
+                    // The director owns the odds; the scene only needs to know whether the roll struck, so
+                    // listen for the fire rather than duplicating those odds here.
+                    Module.Director.EventDirectorModule.EventTriggered struck = (_, _) => AccidentThisTick = true;
+                    game.EventDirector.OnEventTriggered += struck;
+                    try
+                    {
+                        game.EventDirector.TriggerEventByType(game.Vehicle, EventCategoryEnum.RiverCross);
+                    }
+                    finally
+                    {
+                        game.EventDirector.OnEventTriggered -= struck;
+                    }
+
                     break;
+                }
                 case RiverCrossChoiceEnum.None:
                 case RiverCrossChoiceEnum.WaitForWeather:
                 case RiverCrossChoiceEnum.GetMoreInformation:

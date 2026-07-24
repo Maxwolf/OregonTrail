@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using OregonTrailDotNet.Presentation;
+using OregonTrailDotNet.Presentation.Audio;
 using OregonTrailDotNet.Window.Travel.RiverCrossing;
 using WolfCurses.Graphics;
 using WolfCurses.Window;
@@ -114,11 +115,24 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
             _sim.Tick();
 
+            // A ferry or guide accident executes its event inside the tick — that path never defers, so there
+            // is no disaster beat to carry the sound and the crash lands with the event window instead. The DOS
+            // port crashed ferry sinkings exactly like float ones (docs/legacy-sounds.md §1.2).
+            if (_sim.AccidentThisTick)
+                Sfx.Crash();
+
             // A midstream disaster: hold the simulation and let the scene show it before the message.
             if (_sim.PendingDisaster != null)
             {
                 _disaster = DisasterPhaseEnum.Playing;
                 _disasterProgress = 0;
+
+                // Only a ford or a float defers, and only the float goes visibly under — the crash sounds over
+                // the wreck sprite this branch swaps in, never over a fording swamp, which the DOS port left
+                // silent (docs/legacy-sounds.md §1.2).
+                if (UserData.River.CrossingType != RiverCrossChoiceEnum.Ford)
+                    Sfx.Crash();
+
                 return;
             }
 

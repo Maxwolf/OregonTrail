@@ -10,8 +10,9 @@ namespace OregonTrailDotNet.Window.Travel.Scene
     /// <summary>
     ///     The raft's instruction card: The Dalles over its own picture, with FLOAT's instruction text verbatim
     ///     (<c>:1010/:1015</c>) — the original loads <c>L16.PCK</c> as the raft's backdrop the same way. Silent,
-    ///     because the raft is: <c>FLOAT</c> plays a loaded score on a collision but never loads one, and the doc
-    ///     leaves that loose end silent rather than guessed at.
+    ///     because the raft has no melody: <c>FLOAT</c>'s only audio is the descending crash score it hand-pokes
+    ///     at init and plays on a collision (docs/legacy-sounds.md §2), which this port renders as the crash
+    ///     effect in <see cref="RaftScene" />.
     /// </summary>
     [ParentWindow(typeof(Travel))]
     public sealed class RaftIntro : SceneForm<TravelInfo>

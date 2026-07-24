@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Presentation;
+using OregonTrailDotNet.Presentation.Audio;
 using WolfCurses.Graphics;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
@@ -74,6 +75,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             var landscape = HuntLandscape.Generate(Environment.TickCount, OriginalTrail.ClimateZone(lm),
                 HuntGame.FieldWidth, HuntGame.FieldHeight,
                 HuntGame.FieldWidth / 2, HuntGame.FieldHeight / 2);
+            _game.Obstacles = landscape.Obstacles;
 
             _scene = new SpriteScene(BuildField(landscape));
 
@@ -143,7 +145,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
                 case ConsoleKey.Spacebar:
                 case ConsoleKey.NumPad5:
                 case ConsoleKey.D5:
-                    _game.Fire();
+                    Fire();
                     return;
             }
 
@@ -170,6 +172,21 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>ESC ends the hunt early and keeps the bag — the parity of the text hunt's stop words.</summary>
         protected override void OnEscape() => GoToResult();
+
+        /// <summary>
+        ///     Fires, with the DOS port's 10 ms muzzle pop when a round actually leaves — pitched at the muzzle's
+        ///     screen row plus 50 Hz, so a shot fired high in the field thuds and one fired low cracks
+        ///     (docs/legacy-sounds.md §1.2). A blocked trigger — bullet already out, ammunition gone — is silent,
+        ///     and so are hits, misses and kills, exactly as the original left them.
+        /// </summary>
+        private void Fire()
+        {
+            var before = _game.Bullets;
+            _game.Fire();
+
+            if (_game.Bullets < before)
+                Sfx.Gunshot(_game.Shot.Y + 50);
+        }
 
         /// <summary>
         ///     The whole output is the field itself — no heads-up text at all, exactly as the original played it:

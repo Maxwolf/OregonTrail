@@ -288,6 +288,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             _landscape = HuntLandscape.Generate(Environment.TickCount, _zone,
                 HuntGame.FieldWidth, HuntGame.FieldHeight,
                 HuntGame.FieldWidth / 2, HuntGame.FieldHeight / 2);
+            _game.Obstacles = _landscape.Obstacles;
 
             return BuildField();
         }

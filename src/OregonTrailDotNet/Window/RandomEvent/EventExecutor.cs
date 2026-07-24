@@ -3,6 +3,9 @@
 
 using System;
 using System.Text;
+using OregonTrailDotNet.Event.Vehicle;
+using OregonTrailDotNet.Event.Weather;
+using OregonTrailDotNet.Presentation.Audio;
 using WolfCurses.Window;
 using WolfCurses.Window.Form;
 using WolfCurses.Window.Form.Input;
@@ -46,6 +49,20 @@ namespace OregonTrailDotNet.Window.RandomEvent
             // Execute the event which should return us some text to display to user about what it did to running simulation.
             UserData.DirectorEvent.Execute(UserData);
             var eventText = UserData.DirectorEvent.Render(UserData);
+
+            // The 1990 DOS port sounded exactly two random events — the severe thunderstorm and the wagon-part
+            // breakdown; hail, fog, blizzard and the rest were silent (docs/legacy-sounds.md §1.2). Gated because
+            // this form runs for the bot and the suites too.
+            if (GameSimulationApp.PresentationEnabled)
+                switch (UserData.DirectorEvent)
+                {
+                    case SevereWeather:
+                        Sfx.Thunderstorm();
+                        break;
+                    case BrokenVehiclePart:
+                        Sfx.Breakdown();
+                        break;
+                }
 
             // Complain if the event text is empty.
             if (string.IsNullOrEmpty(eventText) || string.IsNullOrWhiteSpace(eventText))

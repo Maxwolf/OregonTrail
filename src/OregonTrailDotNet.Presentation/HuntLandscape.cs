@@ -6,6 +6,18 @@ namespace OregonTrailDotNet.Presentation
     /// <param name="Y">Top edge in field pixels.</param>
     public readonly record struct ScenicProp(int SpriteId, int X, int Y);
 
+    /// <summary>A solid footprint on the hunting ground — scenery the simulation treats as impassable.</summary>
+    /// <param name="X">Left edge in field pixels.</param>
+    /// <param name="Y">Top edge in field pixels.</param>
+    /// <param name="Width">Footprint width.</param>
+    /// <param name="Height">Footprint height.</param>
+    /// <param name="Mask">
+    ///     Row-major <c>Width×Height</c> opacity bits, true where the sprite actually draws — the shipped terrain
+    ///     sprites are mostly transparent margin, and colliding with a tree's bounding air reads as hitting
+    ///     nothing. Null means the whole rectangle is solid.
+    /// </param>
+    public readonly record struct HuntObstacle(int X, int Y, int Width, int Height, bool[]? Mask = null);
+
     /// <summary>
     ///     The hunting ground, generated the way the 1985 original generates it.
     ///     <para>
@@ -84,11 +96,13 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>The hunter's frame, kept clear because `$E39D` tests every candidate against him first.</summary>
         private const int HunterWidth = 21, HunterHeight = 28;
 
-        private HuntLandscape(int seed, int zone, IReadOnlyList<ScenicProp> props)
+        private HuntLandscape(int seed, int zone, IReadOnlyList<ScenicProp> props,
+            IReadOnlyList<HuntObstacle> obstacles)
         {
             Seed = seed;
             Zone = zone;
             Props = props;
+            Obstacles = obstacles;
         }
 
         /// <summary>The seed this ground grew from. Shown on screen so a good one can be asked for again.</summary>
@@ -108,6 +122,24 @@ namespace OregonTrailDotNet.Presentation
         public IReadOnlyList<ScenicProp> Props { get; }
 
         /// <summary>
+        ///     The props as collision footprints, for <see cref="HuntGame.Obstacles" /> — each rectangle carries
+        ///     the sprite's drawn-pixel mask, so the hunt collides with the tree itself and not its bounding
+        ///     air, which is the original's own behavior (its bullet probe tested the drawn screen).
+        /// </summary>
+        public IReadOnlyList<HuntObstacle> Obstacles { get; }
+
+        /// <summary>The sprite's drawn pixels, so the hunt collides with the trunk and not the bounding air.</summary>
+        private static bool[] Opacity(WolfCurses.Graphics.PixelBuffer sprite)
+        {
+            var mask = new bool[sprite.Width * sprite.Height];
+            for (var y = 0; y < sprite.Height; y++)
+                for (var x = 0; x < sprite.Width; x++)
+                    mask[y * sprite.Width + x] = sprite.GetPixel(x, y).A != 0;
+
+            return mask;
+        }
+
+        /// <summary>
         ///     Grows a ground for a zone, following <c>$E2A7</c>.
         /// </summary>
         /// <param name="seed">Seed to grow from; the same seed and zone always give the same ground.</param>
@@ -122,6 +154,7 @@ namespace OregonTrailDotNet.Presentation
             var random = new Random(seed);
             var window = ZoneScenery[Math.Clamp(zone, 0, ZoneScenery.Length - 1)];
             var props = new List<ScenicProp>();
+            var obstacles = new List<HuntObstacle>();
 
             // $E39D tests the hunter first, then every piece already down, so he goes in as the first obstacle.
             var placed = new List<(int X, int Y, int W, int H)> { (hunterX, hunterY, HunterWidth, HunterHeight) };
@@ -147,6 +180,7 @@ namespace OregonTrailDotNet.Presentation
 
                     placed.Add((x, y, sprite.Width, sprite.Height));
                     props.Add(new ScenicProp(spriteId, x, y));
+                    obstacles.Add(new HuntObstacle(x, y, sprite.Width, sprite.Height, Opacity(sprite)));
                     break;
                 }
             }
@@ -155,7 +189,7 @@ namespace OregonTrailDotNet.Presentation
                 (a.Y + Art.Dos("terrain", a.SpriteId).Height)
                 .CompareTo(b.Y + Art.Dos("terrain", b.SpriteId).Height));
 
-            return new HuntLandscape(seed, zone, props);
+            return new HuntLandscape(seed, zone, props, obstacles);
         }
     }
 }

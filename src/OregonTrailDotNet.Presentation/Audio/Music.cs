@@ -168,7 +168,11 @@ namespace OregonTrailDotNet.Presentation.Audio
             }
         }
 
-        /// <summary>Shuts the device down. Called when the host process — game or workbench — exits.</summary>
+        /// <summary>
+        ///     Shuts the audio down — this device and the effect player's with it, so a host that tears down music
+        ///     can never leave an effect's buffer alive in the driver. Called when the host process — game or
+        ///     workbench — exits.
+        /// </summary>
         public static void Shutdown()
         {
             lock (Gate)
@@ -176,6 +180,9 @@ namespace OregonTrailDotNet.Presentation.Audio
                 StopLocked();
                 Player.Dispose();
             }
+
+            // Outside the gate: Sfx takes Music's lock when it reads the mute, never the other way round.
+            Sfx.Shutdown();
         }
 
         private static void StopLocked()
