@@ -56,9 +56,13 @@ reimplements a rule from the original 1980s/1990s game differently, that is call
    river events at crossings, cave-ins/blizzards in the high country)
  14. Snow appears through the cold-weather climate system, river disasters occur at river crossings,
    and blizzards occur at high elevations
- 15. Clothing and wagon parts cost 2.5 dollars more at each fort further down the trail
- 16. Food costs 0.10 dollars more and bullets 2.5 dollars more at each fort
- 17. Oxen cost 5 dollars more at each fort
+ 15. Every price is marked up by a quarter of its base at each of six fort thresholds along the
+   trail, topping out at 2.5x base; the markup follows trail position, so a fork that skips a
+   fort does not skip the price rise
+ 16. In dollars, each threshold adds 2.50 to a set of clothing and to each wagon part, 0.50 to a
+   box of ammunition, 0.05 to a pound of food, and 10.00 to a yoke of oxen
+ 17. Goods are sold in the units the store quotes: oxen by the yoke of two at 40 dollars,
+   ammunition by the box of twenty bullets at 2 dollars, food by the pound, clothing by the set
  18. Resting at a landmark lets sick or injured party members recover (quickly if the party carries
    medical supplies, slowly otherwise)
  19. Locations carry a fresh-water flag; a bad-water location doubles the daily chance of contracting

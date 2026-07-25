@@ -1,9 +1,9 @@
 ﻿// Created by Maxwolf (bigmaxwolf.com)
 // Timestamp 01/03/2016@1:50 AM
 
+using System;
 using System.Linq;
 using OregonTrailDotNet.Entity.Location;
-using OregonTrailDotNet.Entity.Location.Point;
 
 namespace OregonTrailDotNet.Entity.Item
 {
@@ -28,12 +28,18 @@ namespace OregonTrailDotNet.Entity.Item
         private const int MaxMarkupSteps = 6;
 
         /// <summary>
-        ///     Number of settlement (fort) locations the party has already departed. Standing at a fort, every earlier fort
-        ///     (including Independence) has been departed, which makes this count line up with the original's threshold count.
-        ///     Null-guards the singleton and trail so it is safe to call during early construction and teardown, returning zero
-        ///     when nothing is available yet.
+        ///     How many of the original's six price thresholds the party has passed, keyed to WHERE they are on the
+        ///     trail rather than to which forts they happened to stop at.
+        ///     <para>
+        ///         The original counts trail position outright — <c>Q = (LM&gt;2)+(LM&gt;4)+(LM&gt;7)+(LM&gt;10)+(LM&gt;12)+(LM&gt;13)</c>
+        ///         at <c>BUY.LIB:50003</c> — so the markup is the same however you got there. Counting departed forts
+        ///         instead let a fork dodge the price rise: taking Green River rather than Fort Bridger never splices a
+        ///         settlement into the trail, so every store for the rest of the journey stayed a step cheap (Fort Hall
+        ///         1.75x instead of 2.00x, and so on down to Walla Walla) on the branch that already saves 86 miles.
+        ///         Naming the thresholds fixes that, because a name does not move when the trail is re-spliced.
+        ///     </para>
         /// </summary>
-        internal static int FortsDeparted
+        internal static int MarkupSteps
         {
             get
             {
@@ -41,10 +47,42 @@ namespace OregonTrailDotNet.Entity.Item
                 if (locations == null)
                     return 0;
 
-                return locations.Count(location =>
-                    location is Settlement && location.Status == LocationStatusEnum.Departed);
+                // Each fort is one threshold, in trail order. A threshold is behind the party when the fort itself has
+                // been reached or left behind.
+                var passed = new bool[Thresholds.Length];
+                var onTrail = new bool[Thresholds.Length];
+                for (var i = 0; i < Thresholds.Length; i++)
+                {
+                    var fort = locations.FirstOrDefault(location =>
+                        string.Equals(location.Name, Thresholds[i], StringComparison.OrdinalIgnoreCase));
+
+                    onTrail[i] = fort != null;
+                    passed[i] = fort != null && fort.Status != LocationStatusEnum.Unreached;
+                }
+
+                // A fort a fork spliced out of the trail (Fort Bridger when the party takes Green River, Fort Walla
+                // Walla when it takes the Barlow road) is never reached and so never marks itself passed. But the
+                // party got past that stretch of country all the same, and the original charged them for it — its Q
+                // counts trail position, not shopping trips. So an absent threshold inherits from the one before it,
+                // forward, which lets a run of skipped forts propagate. This is what stops a fork from buying at a
+                // permanently cheaper price than the branch that keeps its fort. Nothing inherits at Independence,
+                // where no threshold has been passed yet, so the opening store still quotes base prices.
+                for (var i = 1; i < Thresholds.Length; i++)
+                    if (!onTrail[i] && passed[i - 1])
+                        passed[i] = true;
+
+                return passed.Count(step => step);
             }
         }
+
+        /// <summary>
+        ///     The six forts whose price thresholds the original hard-coded, in trail order. Named rather than counted
+        ///     so a re-spliced trail cannot shift them.
+        /// </summary>
+        private static readonly string[] Thresholds =
+        {
+            "Fort Kearney", "Fort Laramie", "Fort Bridger", "Fort Hall", "Fort Boise", "Fort Walla Walla"
+        };
 
         /// <summary>
         ///     Returns the base cost of an item marked up by a quarter of that base for each fort the party has left behind,
@@ -54,7 +92,7 @@ namespace OregonTrailDotNet.Entity.Item
         /// <returns>The scaled cost.</returns>
         internal static float Scaled(float baseCost)
         {
-            var steps = FortsDeparted;
+            var steps = MarkupSteps;
             if (steps > MaxMarkupSteps)
                 steps = MaxMarkupSteps;
 

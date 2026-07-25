@@ -37,6 +37,12 @@ namespace OregonTrailDotNet.Window.Travel.Store
         private int _purchaseLimit;
 
         /// <summary>
+        ///     Matt's answer when the player asks for more than they can have, shown above the question until they
+        ///     answer again. Null when the last answer was fine.
+        /// </summary>
+        private string _refusal;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="StorePurchase" /> class.
         ///     Attaches a state that will allow the player to purchase a certain number of a particular SimItem.
         /// </summary>
@@ -58,46 +64,58 @@ namespace OregonTrailDotNet.Window.Travel.Store
             // entry REPLACES any pending order for this same item (StoreGenerator.AddItem), so the item's own pending
             // cost is money this purchase frees up again — count it back in, or re-opening an item would quote against
             // its own reservation.
-            var pendingSameItem = UserData.Store.Transactions[UserData.Store.SelectedItem.Category];
+            // Everything here counts in SALE LOTS, not in single units: a yoke of two oxen, a box of twenty bullets,
+            // one pound of food. The one conversion back to units happens when the order is placed, so the wagon and
+            // the scoring never see a lot.
+            var item = UserData.Store.SelectedItem;
+            var lotCost = item.Cost*item.LotSize;
+
+            var pendingSameItem = UserData.Store.Transactions[item.Category];
             var currentBalance =
-                (int) (GameSimulationApp.Instance.Vehicle.Balance - UserData.Store.TotalTransactionCost +
-                       pendingSameItem.TotalValue);
-            _purchaseLimit = (int) (currentBalance/UserData.Store.SelectedItem.Cost);
+                GameSimulationApp.Instance.Vehicle.Balance - UserData.Store.TotalTransactionCost +
+                pendingSameItem.TotalValue;
+            _purchaseLimit = lotCost > 0 ? (int) (currentBalance/lotCost) : 0;
 
             // Prevent negative numbers and set credit limit to zero if it drops below that.
             if (_purchaseLimit < 0)
                 _purchaseLimit = 0;
 
             // Cap the quote at the space left in the wagon for this item: the ceiling minus what the party already
-            // owns. The pending receipt entry is NOT subtracted — the new order replaces it. Quoting the full ceiling
-            // would offer goods that the inventory clamp discards at checkout.
-            var alreadyOwned = GameSimulationApp.Instance.Vehicle.Inventory[UserData.Store.SelectedItem.Category].Quantity;
-            var remainingCapacity = UserData.Store.SelectedItem.MaxQuantity - alreadyOwned;
+            // owns, in whole lots. The pending receipt entry is NOT subtracted — the new order replaces it. Quoting the
+            // full ceiling would offer goods that the inventory clamp discards at checkout.
+            var alreadyOwned = GameSimulationApp.Instance.Vehicle.Inventory[item.Category].Quantity;
+            var remainingCapacity = (item.MaxQuantity - alreadyOwned)/item.LotSize;
             if (remainingCapacity < 0)
                 remainingCapacity = 0;
             if (_purchaseLimit > remainingCapacity)
                 _purchaseLimit = remainingCapacity;
 
-            // Items sold in a minimum lot (e.g. a 20-round box of ammunition) charge for the whole lot even when fewer are
-            // requested, because the item enforces a minimum quantity that a purchase is silently clamped up to. If the
-            // player cannot afford one full lot they can afford none of this item; otherwise the quote below would offer a
-            // quantity that becomes an unaffordable purchase once clamped.
-            if (_purchaseLimit < UserData.Store.SelectedItem.MinQuantity)
-                _purchaseLimit = 0;
+            // The original's prompts were fixed-width character fields, so the field itself capped a single purchase:
+            // one digit for oxen (nine yoke), two for ammunition (ninety-nine boxes). A player who wants more comes
+            // back to the counter, which is exactly what they had to do in 1990.
+            if (_purchaseLimit > item.MaxSaleLots)
+                _purchaseLimit = item.MaxSaleLots;
 
             // Add some information about how many you can buy and total amount you can carry.
             _itemBuyText = new StringBuilder();
 
-            // Print text about purchasing the selected item, using natural singular/plural phrasing so vehicle parts
-            // read as "3 wheels" rather than "3 wheels of vehicle wheel" while bulk goods stay "300 pounds of food".
+            // Matt's own advice for this item, as the original gave it — how much a party this size needs, and what
+            // it costs. Only at Independence: out on the trail the forts just quote a price.
+            var advice = StoreAdvice.For(item);
+            if (advice != null)
+                _itemBuyText.AppendLine($"{Environment.NewLine}{advice}");
+
+            // BOT CONTRACT: the literal "You can afford " prefix is scraped by the headless training bot
+            // (ScreenRecognizer.AffordRx) to size its order. The number after it is now in SALE LOTS — boxes of
+            // ammunition, yoke of oxen — so any change here needs the bot's StoreQuantity updated in tandem.
             _itemBuyText.AppendLine(
-                $"{Environment.NewLine}You can afford {UserData.Store.SelectedItem.ToQuantityString(_purchaseLimit)}.");
+                $"{Environment.NewLine}You can afford {item.ToLotString(_purchaseLimit)}.");
 
             // Wait for user input...
-            _itemBuyText.Append($"How many {UserData.Store.SelectedItem.PluralForm.ToLowerInvariant()} to buy?");
+            _itemBuyText.Append($"How many {item.LotPluralForm.ToLowerInvariant()} do you want?");
 
             // Set the SimItem to buy text.
-            _itemToBuy = UserData.Store.SelectedItem;
+            _itemToBuy = item;
         }
 
         /// <summary>
@@ -110,19 +128,33 @@ namespace OregonTrailDotNet.Window.Travel.Store
         public override string OnRenderForm()
         {
             ParentWindow.PromptText = "Enter a quantity:";
-            return _itemBuyText.ToString();
+
+            // A refusal sits above the question, and the running bill under it the way the original's counter did.
+            var screen = new StringBuilder();
+            if (_refusal != null)
+                screen.AppendLine($"{Environment.NewLine}{_refusal}");
+
+            screen.Append(_itemBuyText);
+
+            var runningBill = StoreAdvice.RunningBill(UserData.Store);
+            if (runningBill != null)
+                screen.Append($"{Environment.NewLine}{Environment.NewLine}{runningBill}");
+
+            return screen.ToString();
         }
 
         /// <summary>Fired when the game Windows current state is not null and input buffer does not match any known command.</summary>
         /// <param name="input">Contents of the input buffer which didn't match any known command in parent game Windows.</param>
         public override void OnInputBufferReturned(string input)
         {
-            // Parse the user input buffer as a unsigned int.
-            if (!int.TryParse(input, out var parsedInputNumber))
+            // Parse the user input buffer as a quantity of SALE LOTS. Anything that is not a number is simply not an
+            // answer — re-ask rather than treating it as a cancellation.
+            if (!int.TryParse(input, out var parsedLots))
                 return;
 
-            // If the number is zero remove the purchase state for this SimItem and back to store menu.
-            if (parsedInputNumber <= 0)
+            // Zero (or an outright negative) is the player backing out of this item. This is the ONLY path that
+            // discards a pending order, because it is the only one where the player asked for that.
+            if (parsedLots <= 0)
             {
                 UserData.Store.RemoveItem(_itemToBuy);
                 UserData.Store.SelectedItem = null;
@@ -130,40 +162,21 @@ namespace OregonTrailDotNet.Window.Travel.Store
                 return;
             }
 
-            // Check that number is less than maximum quantity based on monies.
-            if (parsedInputNumber > _purchaseLimit)
+            // Too many. Say so and re-ask, keeping whatever was already on the receipt for this item: silently
+            // bouncing back to the menu wiped a carefully chosen order and never told the player why.
+            if (parsedLots > _purchaseLimit)
             {
-                UserData.Store.RemoveItem(_itemToBuy);
-                UserData.Store.SelectedItem = null;
-                SetForm(typeof(Store));
+                _refusal = parsedLots > _itemToBuy.MaxSaleLots
+                    ? $"I can only sell you {_itemToBuy.ToLotString(_itemToBuy.MaxSaleLots)} at a time."
+                    : _purchaseLimit <= 0
+                        ? "You cannot afford that."
+                        : $"You cannot afford that many. I can do {_itemToBuy.ToLotString(_purchaseLimit)}.";
                 return;
             }
 
-            // Check that number is less than or equal to limit that is hard-coded.
-            if (parsedInputNumber > _itemToBuy.MaxQuantity)
-            {
-                UserData.Store.RemoveItem(_itemToBuy);
-                UserData.Store.SelectedItem = null;
-                SetForm(typeof(Store));
-                return;
-            }
-
-            // Check that the player can actually afford this purchase. A purchase is charged for at least the item's
-            // minimum lot (e.g. a 20-round box of ammunition), so validate against the quantity that will really be added
-            // and against the balance left after any other items already on the pending receipt. The previous check used
-            // _itemToBuy.TotalValue, which was always zero (SelectedItem's quantity is zero), so it never caught anything.
-            var chargedQuantity = Math.Max(parsedInputNumber, _itemToBuy.MinQuantity);
-            var balanceAfterPending = GameSimulationApp.Instance.Vehicle.Balance - UserData.Store.TotalTransactionCost;
-            if (balanceAfterPending < _itemToBuy.Cost*chargedQuantity)
-            {
-                UserData.Store.RemoveItem(_itemToBuy);
-                UserData.Store.SelectedItem = null;
-                SetForm(typeof(Store));
-                return;
-            }
-
-            // First location on the trail uses receipt to keep track of all the purchases player wants.
-            UserData.Store.AddItem(_itemToBuy, parsedInputNumber);
+            // First location on the trail uses receipt to keep track of all the purchases player wants. This is the
+            // one place lots become units — everything downstream counts single oxen, bullets and pounds.
+            UserData.Store.AddItem(_itemToBuy, parsedLots*_itemToBuy.LotSize);
 
             // If we are not on the first location we will add the item right away.
             if (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Arrived)

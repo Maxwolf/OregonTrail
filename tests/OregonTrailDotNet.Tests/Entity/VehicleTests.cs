@@ -67,17 +67,36 @@ namespace OregonTrailDotNet.Tests.Entity
         }
 
         [Fact]
-        public void Purchase_FractionalDollarTotal_RoundsBalanceToNearestInsteadOfFlooring()
+        public void Purchase_FractionalDollarTotal_IsChargedUpToTheWholeDollar_SoNothingIsEverFree()
         {
             var vehicle = new VehicleEntity();
             vehicle.ResetVehicle(100);
 
-            // 7 pounds of food at $0.20/lb is a $1.40 charge, leaving $98.60. That balance is rounded to the nearest
-            // whole dollar ($99); the old code truncated toward zero to $98, silently overcharging the player.
+            // 7 pounds of food at $0.20/lb is a $1.40 charge. The wagon's purse holds whole dollar bills, so the
+            // charge is rounded UP to $2 and the balance lands on $98.
+            //
+            // Rounding the charge to the NEAREST dollar instead reads as fairer and is in fact the old bug: $1.40
+            // would round to $1, and by the same rule a single pound at $0.20 rounds to $0 — which is exactly what
+            // used to happen, one pound at a time, all the way to the 2,000 lb ceiling at every store in the game.
+            // Ceiling is the only whole-dollar rule under which the store can never be robbed.
             vehicle.Purchase(new SimItem(Resources.Food, 7));
 
-            Assert.Equal(99f, vehicle.Balance);
+            Assert.Equal(98f, vehicle.Balance);
             Assert.Equal(7, vehicle.Inventory[EntitiesEnum.Food].Quantity);
+        }
+
+        [Fact]
+        public void Purchase_OfASinglePound_IsNotFree()
+        {
+            var vehicle = new VehicleEntity();
+            vehicle.ResetVehicle(100);
+
+            // The regression this guards: a pound of food costs $0.20, the old code debited $99.80 and stored it back
+            // as $100, and the pound arrived anyway. Repeated, it filled the wagon for nothing.
+            vehicle.Purchase(new SimItem(Resources.Food, 1));
+
+            Assert.Equal(1, vehicle.Inventory[EntitiesEnum.Food].Quantity);
+            Assert.True(vehicle.Balance < 100f, "a purchase must always cost the party something");
         }
 
         [Fact]

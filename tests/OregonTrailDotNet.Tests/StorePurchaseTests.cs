@@ -101,21 +101,104 @@ namespace OregonTrailDotNet.Tests
         {
             // StoreGenerator.AddItem REPLACES a pending order for the same item, so re-opening the purchase screen must
             // quote against the full remaining capacity (and the money the old order reserved), not double-count the
-            // pending quantity — otherwise raising a 15-oxen order to 18 reads "You can afford 5" and wipes the order.
+            // pending quantity — otherwise raising a 7-yoke order to 9 reads "You can afford 2" and wipes the order.
             StartWithBalance(1600);
 
             var window = new TravelWindow(GameSimulationApp.Instance);
             var userData = UserDataOf(window);
-            userData.Store.AddItem(Parts.Oxen, 15);
+            userData.Store.AddItem(Parts.Oxen, 14);
             userData.Store.SelectedItem = Parts.Oxen;
 
             var form = new StorePurchase(window);
             form.OnFormPostCreate();
 
-            Assert.Contains("afford 20 oxen", form.OnRenderForm());
+            // Quoted in the unit Matt sells: yoke. The wagon's twenty-ox ceiling is ten yoke, but the original's
+            // one-character field only ever accepted nine at a time, so nine is the quote.
+            Assert.Contains("afford 9 yoke", form.OnRenderForm());
 
-            form.OnInputBufferReturned("18");
+            // Nine yoke is eighteen oxen — the receipt keeps counting individual animals.
+            form.OnInputBufferReturned("9");
             Assert.Equal(18, userData.Store.Transactions[EntitiesEnum.Animal].Quantity);
+        }
+
+        [Fact]
+        public void StorePurchase_CannotBuyASingleOx()
+        {
+            // The bug this guards: oxen were sold one at a time, so a player could order 1, or 3, or any odd number.
+            // Matt sells yokes — "There are 2 oxen in a yoke" — so every order is an even number of animals.
+            StartWithBalance(1600);
+
+            var window = new TravelWindow(GameSimulationApp.Instance);
+            var userData = UserDataOf(window);
+            userData.Store.SelectedItem = Parts.Oxen;
+
+            var form = new StorePurchase(window);
+            form.OnFormPostCreate();
+
+            // The screen asks for yoke, not oxen, and quotes Matt's $40 a yoke.
+            var screen = form.OnRenderForm();
+            Assert.Contains("How many yoke do you want?", screen);
+            Assert.Contains("2 oxen in a yoke", screen);
+            Assert.Contains("$40.00 a yoke", screen);
+
+            // "1" is one yoke: two animals. There is no answer that produces one ox.
+            form.OnInputBufferReturned("1");
+            Assert.Equal(2, userData.Store.Transactions[EntitiesEnum.Animal].Quantity);
+        }
+
+        [Fact]
+        public void StorePurchase_AmmunitionIsSoldByTheTwentyRoundBox_CappedAtNinetyNine()
+        {
+            // The original's counter sold boxes ("I sell ammunition in boxes of 20 bullets. Each box costs $2.00.")
+            // through a two-character field, so a single purchase topped out at 99 boxes — 1,980 bullets.
+            StartWithBalance(1600);
+
+            var window = new TravelWindow(GameSimulationApp.Instance);
+            var userData = UserDataOf(window);
+            userData.Store.SelectedItem = Resources.Bullets;
+
+            var form = new StorePurchase(window);
+            form.OnFormPostCreate();
+
+            var screen = form.OnRenderForm();
+            Assert.Contains("How many boxes do you want?", screen);
+            Assert.Contains("boxes of 20", screen);
+
+            // $1,600 would buy 800 boxes; the field allows 99.
+            Assert.Contains("afford 99 boxes", screen);
+
+            // Ten boxes is two hundred bullets — inventory keeps counting single rounds.
+            form.OnInputBufferReturned("10");
+            Assert.Equal(200, userData.Store.Transactions[EntitiesEnum.Ammo].Quantity);
+        }
+
+        [Fact]
+        public void StorePurchase_AnOverLargeOrder_IsRefusedWithAReason_AndKeepsThePendingOrder()
+        {
+            // The bug this guards: any quantity above the limit silently dumped the player back to the store menu AND
+            // reset their pending order for that item, with nothing on screen to say why. Fat-fingering a zero onto a
+            // carefully chosen food order threw the order away.
+            StartWithBalance(400);
+
+            var window = new TravelWindow(GameSimulationApp.Instance);
+            var userData = UserDataOf(window);
+            userData.Store.AddItem(Resources.Food, 200);
+            userData.Store.SelectedItem = Resources.Food;
+
+            var form = new StorePurchase(window);
+            form.OnFormPostCreate();
+
+            // 5,000 lb fits the four-character field the original gave food, but $400 only buys 2,000.
+            form.OnInputBufferReturned("5000");
+
+            // Still on the purchase screen, told why, and the 200 lb order is untouched.
+            Assert.Contains("cannot afford", form.OnRenderForm());
+            Assert.Equal(200, userData.Store.Transactions[EntitiesEnum.Food].Quantity);
+
+            // An answer too wide for the field is refused on its own terms, and still keeps the order.
+            form.OnInputBufferReturned("999999");
+            Assert.Contains("at a time", form.OnRenderForm());
+            Assert.Equal(200, userData.Store.Transactions[EntitiesEnum.Food].Quantity);
         }
 
         [Fact]

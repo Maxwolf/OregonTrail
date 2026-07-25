@@ -40,12 +40,15 @@ namespace OregonTrailDotNet.Window.Travel.Store.Help
         /// </returns>
         protected override string OnDialogPrompt()
         {
+            // The count used to come from Transactions.Count, which is a copy of the wagon's whole default inventory
+            // and therefore always nine, whatever was actually ordered. Matt's own wording never counted items — he
+            // reads back the total and the money on hand and sends you back to the list.
             _storeDebt.Clear();
             _storeDebt.AppendLine($"{Environment.NewLine}Whoa there partner!");
             _storeDebt.AppendLine(
-                $"I see you got {UserData.Store.Transactions.Count} items worth {UserData.Store.TotalTransactionCost:C2}.");
-            _storeDebt.AppendLine($"You only got {GameSimulationApp.Instance.Vehicle.Balance:C2}!");
-            _storeDebt.AppendLine($"Put some items back in order to leave the store...{Environment.NewLine}");
+                $"Okay, that comes to a total of {UserData.Store.TotalTransactionCost:C2}.");
+            _storeDebt.AppendLine($"But I see that you only have {GameSimulationApp.Instance.Vehicle.Balance:C2}.");
+            _storeDebt.AppendLine($"We'd better go over the list again...{Environment.NewLine}");
             return _storeDebt.ToString();
         }
 

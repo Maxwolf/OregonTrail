@@ -714,12 +714,28 @@ namespace OregonTrailDotNet.Entity.Vehicle
             if (addableQuantity <= 0)
                 return;
 
+            // Work out the charge to the whole dollar the wagon's purse can actually hold, rounding UP.
+            //
+            // The purse counts dollar bills (Resources.Cash, one dollar apiece) and Balance re-quantizes to a whole
+            // dollar on every write, so a fractional charge used to be rounded straight back out of existence: a pound
+            // of food at $0.20 debited $399.80 from $400, which stored as $400 again. Food was therefore FREE by the
+            // pound at every store in the game, one pound at a time, all the way to the 2,000 lb ceiling — and a
+            // three-pound order billed $1.00 instead of $0.60, so the same rounding overcharged as readily as it gave
+            // goods away. Ceiling the charge here makes both impossible: nothing is ever free, and the wagon is never
+            // billed for money it does not spend.
+            //
+            // The original tracked cents ("Bill so far: $270.00", "My price is 20 cents a pound"), so a party buying an
+            // odd handful of pounds pays a few cents more here than Matt would have charged. Everything sold in the
+            // store except food by the single pound is a whole number of dollars — a $40 yoke, a $10 set of clothing, a
+            // $2 box of ammunition, a $10 spare part — so this rounds nothing in practice.
+            var charge = (float) Math.Ceiling(Math.Round(transaction.Cost*addableQuantity, 2));
+
             // Check the player can afford what will actually be charged — the part that fits, not the full request.
-            if (Balance < transaction.Cost*addableQuantity)
+            if (Balance < charge)
                 return;
 
             // Create new item based on old one, with new quantity value from store, trader, random event, etc.
-            Balance -= transaction.Cost*addableQuantity;
+            Balance -= charge;
 
             // Make sure we add the quantity and not just replace it.
             inventoryItem.AddQuantity(addableQuantity);

@@ -23,6 +23,10 @@ namespace OregonTrailDotNet.Entity.Item
         /// <param name="startingQuantity">The starting Quantity.</param>
         /// <param name="pointsAwarded">The points Awarded.</param>
         /// <param name="pointsPerAmount">The points Per Amount.</param>
+        /// <param name="lotSize">How many units make up one thing the store sells. See <see cref="LotSize" />.</param>
+        /// <param name="lotUnit">Singular name of a sale lot, e.g. "yoke", "box". Defaults to the unit itself.</param>
+        /// <param name="lotPluralForm">Plural name of a sale lot. Defaults to the item's own plural.</param>
+        /// <param name="maxSaleDigits">Width of the store's quantity field; 0 for no limit. See <see cref="MaxSaleDigits" />.</param>
         public SimItem(
             EntitiesEnum category,
             string name,
@@ -34,12 +38,26 @@ namespace OregonTrailDotNet.Entity.Item
             int minimumQuantity = 1,
             int startingQuantity = 0,
             int pointsAwarded = 1,
-            int pointsPerAmount = 1)
+            int pointsPerAmount = 1,
+            int lotSize = 1,
+            string lotUnit = null,
+            string lotPluralForm = null,
+            int maxSaleDigits = 0)
         {
             // Complain if minimum amount is zero, you cannot have zero of something.
             if (minimumQuantity <= 0)
                 throw new ArgumentException(
                     "Cannot set minimum quantity of an SimItem to be zero, you cannot have nothing of something!");
+
+            // Same reasoning for the sale lot: a store cannot sell nothing at a time.
+            if (lotSize <= 0)
+                throw new ArgumentException(
+                    "Cannot set the sale lot of an SimItem to be zero, a store has to sell at least one at a time!");
+
+            LotSize = lotSize;
+            LotUnit = lotUnit ?? delineatingUnit;
+            LotPluralForm = lotPluralForm ?? pluralForm;
+            MaxSaleDigits = maxSaleDigits;
 
             // Setup quantity based on minimum amount.
             StartingQuantity = startingQuantity;
@@ -107,6 +125,48 @@ namespace OregonTrailDotNet.Entity.Item
             DelineatingUnit = oldItem.DelineatingUnit;
             PluralForm = oldItem.PluralForm;
             Weight = oldItem.Weight;
+
+            // Every store path re-creates the item through this constructor, so the sale lot has to survive it or
+            // the shop forgets that oxen come two to a yoke the moment anything is added to the receipt.
+            LotSize = oldItem.LotSize;
+            LotUnit = oldItem.LotUnit;
+            LotPluralForm = oldItem.LotPluralForm;
+            MaxSaleDigits = oldItem.MaxSaleDigits;
+        }
+
+        /// <summary>
+        ///     How many units the store sells at a time. One for most goods; two for oxen (a yoke) and twenty for
+        ///     ammunition (a box), which is how the original sold them.
+        ///     <para>
+        ///         This is a <b>shop counter</b> concept and nothing else. Inventory, mileage, hunting and scoring all
+        ///         keep counting single oxen and single bullets — only the purchase screen speaks in lots, and it
+        ///         multiplies back out before anything reaches the wagon.
+        ///     </para>
+        /// </summary>
+        public int LotSize { get; }
+
+        /// <summary>Singular name of one sale lot ("yoke", "box"), or the item's own unit where a lot is one.</summary>
+        public string LotUnit { get; }
+
+        /// <summary>Plural name of a sale lot ("yoke", "boxes"), or the item's own plural where a lot is one.</summary>
+        public string LotPluralForm { get; }
+
+        /// <summary>
+        ///     How many digits wide the store's quantity field is, or zero for no limit. The original's prompts were
+        ///     fixed-width character fields, so the field itself was the per-purchase cap: at Matt's, oxen took one
+        ///     digit (nine yoke) and ammunition two (ninety-nine boxes, which is 1,980 bullets). It is a real limit a
+        ///     player runs into, not a display detail.
+        /// </summary>
+        public int MaxSaleDigits { get; }
+
+        /// <summary>The largest quantity, in lots, the store's field can accept; int.MaxValue when unconstrained.</summary>
+        public int MaxSaleLots => MaxSaleDigits <= 0 ? int.MaxValue : (int) Math.Pow(10, MaxSaleDigits) - 1;
+
+        /// <summary>Renders a count of sale lots with the right noun, e.g. "3 yoke", "1 box", "12 boxes".</summary>
+        /// <param name="lots">How many lots.</param>
+        public string ToLotString(int lots)
+        {
+            return $"{lots:N0} {(lots == 1 ? LotUnit : LotPluralForm)}";
         }
 
         /// <summary>Calculates the total points that should be given for inputted quantity of the object in question.</summary>

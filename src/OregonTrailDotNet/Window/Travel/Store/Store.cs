@@ -136,16 +136,28 @@ namespace OregonTrailDotNet.Window.Travel.Store
         }
 
         /// <summary>
+        ///     TRUE while the party is still outfitting at Matt's in Independence, before the journey has begun. The
+        ///     location index alone is not enough: the party passes back through Independence's index once it departs.
+        /// </summary>
+        private static bool AtOpeningStore =>
+            GameSimulationApp.Instance.Trail.IsFirstLocation &&
+            GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Unreached;
+
+        /// <summary>
         ///     Creates store from enumeration of simulation entities and ignoring the ones the player cannot purchase like
         ///     vehicle, people, and cash itself.
         /// </summary>
         private void UpdateStore()
         {
             // Clear previous prompt and rebuild it. The store name and date title a framed header panel above the menu.
+            // The opening store is Matt's, by name, in Independence — the original titled it that and only that, and
+            // it is the one shop in the game with a shopkeeper. The forts on the trail get their own name instead.
             _storePrompt.Clear();
-            _storePrompt.AppendLine(FramedPanel.Render(
-                $"{GameSimulationApp.Instance.Trail.CurrentLocation?.Name} General Store",
-                $"{GameSimulationApp.Instance.Time.Date}"));
+            _storePrompt.AppendLine(AtOpeningStore
+                ? FramedPanel.Render("Matt's General Store",
+                    $"Independence, Missouri{Environment.NewLine}{GameSimulationApp.Instance.Time.Date}")
+                : FramedPanel.Render($"{GameSimulationApp.Instance.Trail.CurrentLocation?.Name} General Store",
+                    $"{GameSimulationApp.Instance.Time.Date}"));
 
             // Loop through all the store assets commands and print them out for the state.
             var storeAssets = new List<EntitiesEnum>(Enum.GetValues(typeof(EntitiesEnum)).Cast<EntitiesEnum>());
@@ -168,30 +180,29 @@ namespace OregonTrailDotNet.Window.Travel.Store
                             GameSimulationApp.Instance.Trail.IsFirstLocation &&
                             (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Unreached)));
 
-                // Last line should not print new line.
-                if (index == storeAssets.Count - 5)
-                {
-                    _storePrompt.AppendLine($"  {(int) storeItem}. {storeTag}");
-                    _storePrompt.AppendLine($"  {storeAssets.Count - 3}. Leave store");
-                }
-                else
-                {
-                    _storePrompt.AppendLine($"  {(int) storeItem}. {storeTag}");
-                }
+                _storePrompt.AppendLine($"  {(int) storeItem}. {storeTag}");
+
+                // "Leave store" closes the list, under the last thing that is actually for sale. Keyed to the item and
+                // to the exit's own enum value rather than counted backwards from the end of the enumeration: the old
+                // `Count - 5` / `Count - 3` arithmetic silently mis-numbered the exit the moment anything was added to
+                // EntitiesEnum, and the printed number IS what the bot's trained policies send.
+                if (storeItem == EntitiesEnum.Medicine)
+                    _storePrompt.AppendLine($"  {(int) EntitiesEnum.Vehicle}. Leave store");
             }
 
             // Footer text for below menu.
             _storePrompt.AppendLine("--------------------------------");
 
-            // Calculate how much monies the player has and the total amount of monies owed to store for pending transaction receipt.
+            // Calculate the total owed to the store for the pending receipt. "Amount you have" is the money in the
+            // party's pocket, NOT what is left after the bill — the original printed the two side by side precisely so
+            // the player could compare them ("Total bill: $120.00" against "Amount you have: $400.00"), and netting one
+            // off the other threw that comparison away and made the running bill look like it cost nothing.
             var totalBill = UserData.Store.TotalTransactionCost;
-            var amountPlayerHas = GameSimulationApp.Instance.Vehicle.Balance - totalBill;
 
             // If at first location we show the total cost of the bill so far the player has racked up.
-            _storePrompt.Append(GameSimulationApp.Instance.Trail.IsFirstLocation &&
-                                (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Unreached)
+            _storePrompt.Append(AtOpeningStore
                 ? $"Total bill:            {totalBill:C2}" +
-                  $"{Environment.NewLine}Amount you have:       {amountPlayerHas:C2}"
+                  $"{Environment.NewLine}Amount you have:       {GameSimulationApp.Instance.Vehicle.Balance:C2}"
                 : $"You have {GameSimulationApp.Instance.Vehicle.Balance:C2} to spend.");
         }
 
@@ -203,8 +214,14 @@ namespace OregonTrailDotNet.Window.Travel.Store
             if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
                 return;
 
-            // Attempt to cast string to enum value, can be characters or integer.
-            Enum.TryParse(input, out EntitiesEnum selectedItem);
+            // Attempt to cast string to enum value, can be characters or integer. A fat-fingered answer must not be
+            // mistaken for "leave": Enum.TryParse happily accepts any number in range of the underlying int (so "0",
+            // "10" and "99" all parsed) as well as enum NAMES, and the old default arm walked every one of them out of
+            // the store — which at Independence bought the receipt and departed for Oregon with no way back. An answer
+            // that is not on the menu is not an answer; re-ask, exactly as the original's masked field did.
+            if (!Enum.TryParse(input, out EntitiesEnum selectedItem) ||
+                !Enum.IsDefined(typeof(EntitiesEnum), selectedItem))
+                return;
 
             // Figure out what to do based on selection.
             switch (selectedItem)
@@ -233,13 +250,15 @@ namespace OregonTrailDotNet.Window.Travel.Store
                 case EntitiesEnum.Tongue:
                     BuySpareTongues();
                     break;
+                // The one way out, and the number the printed menu shows against "Leave store" — which is also the
+                // number the bot's trained policies send, so it is frozen.
                 case EntitiesEnum.Vehicle:
-                case EntitiesEnum.Person:
-                case EntitiesEnum.Cash:
                     LeaveStore();
                     break;
+
+                // Everything else on the entity enumeration is not for sale and is not the exit either: Person, Cash
+                // and Location are simulation bookkeeping that the menu never prints. Ignore and re-ask.
                 default:
-                    LeaveStore();
                     break;
             }
         }

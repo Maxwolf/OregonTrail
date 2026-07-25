@@ -182,7 +182,13 @@ namespace OregonTrailDotNet.Bot.Game
         private string StoreQuantity(string screen, GameSnapshot state)
         {
             var item = _storeSelected ?? EntitiesEnum.Food;
-            var afford = ParseAfford(screen);
+
+            // The store counter sells in LOTS, and both the "You can afford N" quote and the answer it wants are in
+            // those lots: a yoke is two oxen, a box is twenty bullets, everything else is one to one. Work the whole
+            // decision in units (which is what the policy's targets and the wagon's inventory are in) and divide at
+            // the very end, so an ammunition target of 200 bullets asks for 10 boxes rather than 200 of them.
+            var lot = LotSizeOf(item);
+            var afford = ParseAfford(screen)*lot;
 
             // Mid-trail restocking holds back the policy's cash reserve so ferries and tolls stay payable (a broke party
             // gets forced into ford/caulk crossings, which are what drown oxen). The opening store (Independence, index 0)
@@ -199,17 +205,34 @@ namespace OregonTrailDotNet.Bot.Game
             var gap = Math.Max(0, _policy.TargetQuantity(item, state) - state.OwnedOf(item));
             var qty = Math.Min(gap, afford);
 
-            // Ammunition sells in 20-box lots and the store silently rounds a smaller answer UP, charging the whole lot
-            // against the full balance — which would blow straight through the reserve. Answer a full lot or nothing.
-            if (item == EntitiesEnum.Ammo && qty > 0 && qty < 20)
-                qty = afford >= 20 ? 20 : 0;
-
-            // Never leave the first store unable to move: guarantee at least a few oxen while we can afford them.
+            // Never leave the first store unable to move: guarantee at least three yoke while we can afford them, which
+            // is also the six oxen Matt recommends.
             if (item == EntitiesEnum.Animal && state.OwnedOf(EntitiesEnum.Animal) == 0)
-                qty = Math.Max(qty, Math.Min(3, ParseAfford(screen)));
+                qty = Math.Max(qty, Math.Min(3*lot, afford));
 
-            return qty <= 0 ? "0" : qty.ToString();
+            // Back into whole lots, rounding UP so a target that lands mid-lot is met rather than missed — the store
+            // charges by the lot either way, so asking for the fraction below would just leave the party short.
+            var lots = qty <= 0 ? 0 : (qty + lot - 1)/lot;
+
+            // Never order more lots than the quote allows, whatever the rounding did.
+            var affordableLots = afford/lot;
+            if (lots > affordableLots)
+                lots = affordableLots;
+
+            return lots <= 0 ? "0" : lots.ToString();
         }
+
+        /// <summary>
+        ///     How many units the store sells at a time for this good. Mirrors the sale lots declared on the item
+        ///     definitions (Parts.Oxen, Resources.Bullets) — kept as a small local table rather than reading the
+        ///     SimItem, because those getters re-price themselves off the live trail position on every call.
+        /// </summary>
+        private static int LotSizeOf(EntitiesEnum item) => item switch
+        {
+            EntitiesEnum.Animal => 2, // a yoke
+            EntitiesEnum.Ammo => 20,  // a box
+            _ => 1
+        };
 
         private string RiverChoice(string screen, GameSnapshot state)
         {

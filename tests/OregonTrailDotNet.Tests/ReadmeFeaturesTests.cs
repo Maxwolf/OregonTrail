@@ -295,8 +295,11 @@ namespace OregonTrailDotNet.Tests
         [Fact]
         public void StorePrices_RiseByAQuarterOfBaseAfterDepartingASettlement()
         {
-            // Mark the first settlement on the trail as departed to simulate leaving one fort behind.
-            var firstFort = Game.Trail.Locations.First(location => location is Settlement);
+            // Leave the FIRST PRICE THRESHOLD behind. That is Fort Kearney, not Independence: the original's markup
+            // counts trail position from the first fort out (BUY.LIB:50003's Q = (LM>2)+(LM>4)+...), so walking out of
+            // Matt's own door does not put the party's prices up. Naming the fort rather than taking the first
+            // Settlement on the trail is deliberate — Independence is a Settlement too.
+            var firstFort = Game.Trail.Locations.First(location => location.Name == "Fort Kearney");
             firstFort.Status = LocationStatusEnum.Departed;
 
             // The original marked every quoted price up by a quarter of its base at each fort: cost * (1 + .25 * Q).
