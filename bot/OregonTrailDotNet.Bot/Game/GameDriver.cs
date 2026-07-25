@@ -95,6 +95,20 @@ namespace OregonTrailDotNet.Bot.Game
             }
         }
 
+        /// <summary>
+        ///     Presses a single key, the way a player does on a screen that is steered rather than typed at — the
+        ///     hunt's aiming and trigger, the raft's rudder. Goes to the focused form's key handler without touching
+        ///     the input buffer, then advances one tick so the press lands.
+        /// </summary>
+        /// <param name="key">The key to press.</param>
+        public void SendKey(ConsoleKey key)
+        {
+            RecordInput($"<{key}>");
+            CommandCount++;
+            GameSimulationApp.Instance!.InputManager.SendKeyPress(key);
+            RawTick();
+        }
+
         /// <summary>Advances one deterministic logic tick without sending input (for self-advancing screens).</summary>
         public void Tick() => RawTick();
 

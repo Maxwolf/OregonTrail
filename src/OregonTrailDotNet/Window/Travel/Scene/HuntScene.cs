@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Presentation;
 using OregonTrailDotNet.Presentation.Audio;
@@ -69,13 +68,26 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             var lm = stop?.Index ?? 8;
             var bullets = game.Vehicle.Inventory[EntitiesEnum.Ammo].Quantity;
 
-            _game = new HuntGame(null, bullets,
+            // Both the field and the country it grows on are drawn from the simulation's own randomizer rather than
+            // a fresh clock-seeded one, so a seeded playthrough replays its hunts exactly. The old Environment.TickCount
+            // landscape seed made every hunt unreproducible, which is invisible to a player and fatal to a headless
+            // host trying to compare two policies on the same trail.
+            _game = new HuntGame(game.Random.Next(), bullets,
                 OriginalTrail.AntleredDeerAt(lm), OriginalTrail.BearAt(lm), OriginalTrail.BisonAt(lm));
 
-            var landscape = HuntLandscape.Generate(Environment.TickCount, OriginalTrail.ClimateZone(lm),
+            var landscape = HuntLandscape.Generate(game.Random.Next(), OriginalTrail.ClimateZone(lm),
                 HuntGame.FieldWidth, HuntGame.FieldHeight,
                 HuntGame.FieldWidth / 2, HuntGame.FieldHeight / 2);
             _game.Obstacles = landscape.Obstacles;
+
+            // Publish the live hunt so a headless driver can read the field. Same object the picture is drawn from.
+            UserData.Hunt = _game;
+
+            // Everything above is the hunt; everything below is the picture of it. The obstacles in particular are
+            // simulation — a tree stops a bullet — so the landscape is generated on every host and only the sprites
+            // that portray it are skipped when there is nobody to show them to.
+            if (!SceneHost.Graphical)
+                return;
 
             _scene = new SpriteScene(BuildField(landscape));
 
@@ -194,6 +206,12 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         /// </summary>
         protected override string Compose() => _scene.ToAnsi(PictureOptions());
 
+        /// <summary>
+        ///     Headless, the field is not drawn. The screen is named so a driver can tell where it is; everything it
+        ///     needs to aim with it reads off <see cref="TravelInfo.Hunt" />, which is this scene's own live game.
+        /// </summary>
+        protected override string ComposeHeadless() => "[HuntScene]";
+
         /// <summary>Hands the bag to the result screen, which applies the wrapper and charges the day.</summary>
         private void GoToResult()
         {
@@ -203,6 +221,10 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         private void SyncSprites()
         {
+            // No sprites were built for a headless host, and none are needed: nothing is drawn.
+            if (!SceneHost.Graphical)
+                return;
+
             var frame = HuntGame.WalkCycle[_game.Walking ? _game.WalkPhase : 0];
             _hunter.Image = DosFrames.Hunter(_game.Aim, frame);
             _hunter.X = _game.HunterX;

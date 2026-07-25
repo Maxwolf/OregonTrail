@@ -6,7 +6,6 @@ using System.Text;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Location;
 using OregonTrailDotNet.Entity.Location.Point;
-using OregonTrailDotNet.Window.Travel.Hunt;
 using OregonTrailDotNet.Window.Travel.RiverCrossing;
 using OregonTrailDotNet.Window.Travel.Store;
 using OregonTrailDotNet.Window.Travel.Toll;
@@ -70,16 +69,28 @@ namespace OregonTrailDotNet.Window.Travel
         public StoreGenerator Store { get; }
 
         /// <summary>
-        ///     Holds all the important information related to a hunt for animals using bullets. When hunting form is attached this
-        ///     will be used to maintain the state of the hunt and manage all the data related to it and scoring.
+        ///     The hunt currently being played, or null when the party is not out hunting. Set by
+        ///     <see cref="Scene.HuntScene" /> when it builds the field and cleared when the bag is applied.
+        ///     <para>
+        ///         Exposed so a headless driver can read the field it is shooting at — where the animals are, where
+        ///         the rifle points, how much has been bagged — the same things a player reads off the picture. It is
+        ///         the live simulation object, not a copy: there is exactly one hunt and everybody plays it.
+        ///     </para>
         /// </summary>
-        public HuntManager Hunt { get; private set; }
+        public Presentation.HuntGame Hunt { get; internal set; }
 
         /// <summary>
-        ///     What the real-time hunt brought back, handed from <see cref="Scene.HuntScene" /> to its result screen
-        ///     and cleared once applied. Null outside that handoff; the word hunt never touches it.
+        ///     What the hunt brought back, handed from <see cref="Scene.HuntScene" /> to its result screen and
+        ///     cleared once applied. Null outside that handoff.
         /// </summary>
         public Scene.HuntOutcome HuntOutcome { get; set; }
+
+        /// <summary>
+        ///     The Columbia run currently under way, or null when the party is not on the raft. Set by
+        ///     <see cref="Scene.RaftScene" /> and cleared when it hands off to the result screen. Exposed for the
+        ///     same reason <see cref="Hunt" /> is: a headless driver steers by reading the live run.
+        /// </summary>
+        public Presentation.RaftGame Raft { get; internal set; }
 
         /// <summary>
         ///     How the Columbia run ended, handed from <see cref="Scene.RaftScene" /> to its result screen and
@@ -160,28 +171,6 @@ namespace OregonTrailDotNet.Window.Travel
                 // Trailing newline so a caller appending a menu ("You may:") below the panel starts on its own line.
                 return FramedPanel.Render(title, locationStatus.ToString()) + Environment.NewLine;
             }
-        }
-
-        /// <summary>
-        ///     Creates a new hunt with prey for the player to hunt with their ammunition.
-        /// </summary>
-        public void GenerateHunt()
-        {
-            if (Hunt != null)
-                return;
-
-            Hunt = new HuntManager();
-        }
-
-        /// <summary>
-        ///     Destroys all the data about animals the player can hunt.
-        /// </summary>
-        public void DestroyHunt()
-        {
-            if (Hunt == null)
-                return;
-
-            Hunt = null;
         }
 
         /// <summary>

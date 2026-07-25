@@ -40,11 +40,17 @@ namespace OregonTrailDotNet.Window.Travel
         private bool GameOver { get; set; }
 
         /// <summary>
-        ///     The hunting session currently in progress on this window, or NULL when the party is not hunting. Exposed so the
-        ///     headless bot can read how much meat it has bagged so far and decide, like a player, when it has enough and can
-        ///     stop the hunt early.
+        ///     The hunt currently in progress on this window, or NULL when the party is not hunting. Exposed so the
+        ///     headless bot can read the field it is shooting at — the same live simulation the player's picture is
+        ///     drawn from — and decide, like a player, when it has bagged enough and can leave.
         /// </summary>
-        internal Hunt.HuntManager ActiveHunt => UserData?.Hunt;
+        internal Presentation.HuntGame ActiveHunt => UserData?.Hunt;
+
+        /// <summary>
+        ///     The Columbia run in progress on this window, or NULL when the party is not on the raft. Exposed for
+        ///     the same reason <see cref="ActiveHunt" /> is.
+        /// </summary>
+        internal Presentation.RaftGame ActiveRaft => UserData?.Raft;
 
         /// <summary>
         ///     Attaches state that picks strings from array at random to show from point of interest.
@@ -80,9 +86,11 @@ namespace OregonTrailDotNet.Window.Travel
                 GameSimulationApp.Instance.Trail.CurrentLocation is TollRoad)
                 SetForm(TravelInfo.DepartFormType);
             else if (GameSimulationApp.Instance.Trail.CurrentLocation is Entity.Location.Point.RiverCrossing river)
-                // The Columbia is run on a raft. With presentation on that is the FLOAT minigame; headless hosts
-                // (and every other river) keep the crossing menu.
-                SetForm(GameSimulationApp.PresentationEnabled && river.RaftCrossing
+                // The Columbia is run on a raft — the FLOAT minigame, for every host. Every other river keeps the
+                // crossing menu. This branch is on the location, never on whether anyone is watching: the raft's
+                // loss table and the crossing menu's are different games, and the party's last hundred miles must
+                // not depend on which host is playing.
+                SetForm(river.RaftCrossing
                     ? typeof(Scene.RaftIntro)
                     : typeof(RiverCrossHelp));
             else if (GameSimulationApp.Instance.Trail.CurrentLocation is ForkInRoad)
@@ -145,10 +153,9 @@ namespace OregonTrailDotNet.Window.Travel
         /// </summary>
         private void HuntForFood()
         {
-            // Check if the player even has enough bullets to go hunting. With presentation on the hunt is the
-            // real-time field; every headless host keeps the word-typing game.
+            // Check if the player even has enough bullets to go hunting. One hunt, every host: the real-time field.
             SetForm(GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Ammo].Quantity > 0
-                ? Scene.HuntSceneHelp.FormType
+                ? typeof(Scene.HuntSceneHelp)
                 : typeof(NoAmmo));
         }
 

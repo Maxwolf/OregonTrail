@@ -1,18 +1,15 @@
 using System.Reflection;
 using OregonTrailDotNet.Bot.Game;
-using OregonTrailDotNet.Entity;
-using OregonTrailDotNet.Entity.Person;
+using OregonTrailDotNet.Presentation;
 using OregonTrailDotNet.Window.Travel;
-using OregonTrailDotNet.Window.Travel.Hunt;
 using Xunit;
-using PersonEntity = OregonTrailDotNet.Entity.Person.Person;
 
 namespace OregonTrailDotNet.Bot.Tests
 {
     /// <summary>
     ///     Proves the load-bearing plumbing behind the bot's "stop when the wagon is full" behavior actually works end to end:
     ///     <see cref="GameSnapshot.Capture" /> must read the meat bagged so far straight off the live hunt on the focused
-    ///     Travel window (Capture -> BaggedThisHunt -> Travel.ActiveHunt -> HuntManager.KillWeight). Without this, HuntBagged
+    ///     Travel window (Capture -> BaggedThisHunt -> Travel.ActiveHunt -> HuntGame.Pounds, dressed). Without this, HuntBagged
     ///     could silently read 0 forever — the bot would never stop early and every other test would still pass, since the
     ///     HuntStrategy tests inject HuntBagged directly and the playthrough tests don't assert early stopping.
     /// </summary>
@@ -22,6 +19,10 @@ namespace OregonTrailDotNet.Bot.Tests
         public GameSnapshotHuntTests()
         {
             GameSimulationApp.Instance?.Destroy();
+
+            // A bot host draws nothing. Stated rather than assumed, because the flag is a process-wide static.
+            SceneHost.Graphical = false;
+
             GameSimulationApp.Create();
             // Two ticks run Restart (builds modules + windows) and render, mirroring the game/bot boot.
             GameSimulationApp.Instance!.OnTick(false);
@@ -30,7 +31,7 @@ namespace OregonTrailDotNet.Bot.Tests
 
         public void Dispose() => GameSimulationApp.Instance?.Destroy();
 
-        // Make the Travel window the focused one — exactly the situation during a real hunt, where the Hunting form is a
+        // Make the Travel window the focused one — exactly the situation during a real hunt, where the hunt scene is a
         // child of Travel. Boot leaves the main menu focused on top of Travel, so drop windows until Travel surfaces, then
         // return its shared UserData (a protected WolfCurses member) so a hunt can be seeded on the very instance
         // GameSnapshot.Capture will read back.
@@ -58,33 +59,43 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
-        public void HuntBagged_ReflectsLiveKillWeight_OfTheFocusedTravelWindowsHunt()
+        public void HuntBagged_IsZero_WhenTheTravelWindowIsFocusedButNoHuntIsRunning()
+        {
+            // The discriminating case for the null guard: Travel is on top, which is the ordinary state of the game,
+            // and only the absence of a hunt keeps the reading at zero.
+            var travelInfo = FocusTravelWindow();
+            Assert.Null(travelInfo.Hunt);
+
+            Assert.Equal(0, GameSnapshot.Capture(GameSimulationApp.Instance).HuntBagged);
+        }
+
+        [Fact]
+        public void HuntBagged_IsTheDressedWeight_OfTheFocusedTravelWindowsLiveHunt()
         {
             var game = GameSimulationApp.Instance;
-            var vehicle = game.Vehicle;
-            vehicle.ResetVehicle();
-            vehicle.AddPerson(new PersonEntity(ProfessionEnum.Farmer, "Hunter", true)); // leader for TryShoot's miss roll
-            var ammo = vehicle.Inventory[EntitiesEnum.Ammo];
-            ammo.AddQuantity(ammo.MaxQuantity);
-
             var travelInfo = FocusTravelWindow();
-            travelInfo.GenerateHunt();
-            var hunt = travelInfo.Hunt;
 
-            // Force a deterministic kill so KillWeight > 0 — a freshly generated prey has TargetTime 0, so it clears both the
-            // miss roll and the on-time gate. The target field is private; set it directly like the game's own hunt tests do.
-            typeof(HuntManager).GetField("_target", BindingFlags.NonPublic | BindingFlags.Instance)!
-                .SetValue(hunt, new PreyItem());
-            Assert.True(hunt.TryShoot());
-            Assert.True(hunt.KillWeight > 0, "the forced kill should have registered weight");
+            // The same object HuntScene publishes when it builds the field; seeded so nothing here depends on a roll.
+            var hunt = new HuntGame(seed: 1, bullets: 20);
+            travelInfo.Hunt = hunt;
 
-            // The whole point: Capture reads that live weight off the focused Travel window rather than a hardcoded 0.
+            // Raw pounds only move when a bullet lands on an animal, and where the animals spawn is the hunt's own
+            // seeded roll — there is no bounded way to walk one under the muzzle from out here without writing a
+            // second hunter. So the shot game is planted straight on the live object through Pounds' backing field:
+            // what is under test is the wiring from that number to the snapshot, not how the number got there.
+            typeof(HuntGame)
+                .GetField("<Pounds>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!
+                .SetValue(hunt, 350);
+
+            // The whole point: Capture reads that live hunt off the focused Travel window rather than a hardcoded 0 —
+            // and reports DRESSED pounds, what actually reaches the wagon, because that is what the bot's carry cap is
+            // stated against. 350 lb on the ground is 175 lb on the walk back.
             var snapshot = GameSnapshot.Capture(game);
-            Assert.Equal(hunt.KillWeight, snapshot.HuntBagged);
-            Assert.True(snapshot.HuntBagged > 0);
+            Assert.Equal(HuntGame.Bag(350), snapshot.HuntBagged);
+            Assert.Equal(175, snapshot.HuntBagged);
 
-            // And it falls back to 0 the moment the hunt is over.
-            travelInfo.DestroyHunt();
+            // And it falls back to 0 the moment the hunt is over — which is what HuntSceneResult does with it.
+            travelInfo.Hunt = null;
             Assert.Equal(0, GameSnapshot.Capture(game).HuntBagged);
         }
     }

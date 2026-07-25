@@ -34,8 +34,6 @@ namespace OregonTrailDotNet.Bot.Game
         // The affordable quantity is rendered with thousands separators (e.g. "You can afford 2,600 pounds of food"), so match
         // digits AND commas - a bare \d+ stops at the comma and reads 2,600 as 2, which had the bot buying 2 lb of cheap food.
         private static readonly Regex AffordRx = new(@"You can afford\s+([\d,]+)", RegexOptions.Compiled);
-        private static readonly Regex ShootingWordRx = new(@"Shooting Word:\s*([A-Za-z]+)", RegexOptions.Compiled);
-        private static readonly Regex TypeWordRx = new(@"Type the word '([A-Za-z]+)'", RegexOptions.Compiled);
 
         private readonly IPolicy _policy;
 
@@ -131,10 +129,6 @@ namespace OregonTrailDotNet.Bot.Game
                     return RiverChoice(screen, state);
                 case "LocationFork":
                     return ForkChoice(screen, state);
-                case "Hunting":
-                    // Once we have bagged enough food, quit the hunt like a player would instead of firing until dark; the
-                    // game's Hunting form treats "stop" as an early exit that keeps whatever meat we already have.
-                    return HuntStrategy.HasEnoughFood(state) ? "stop" : HuntWord(screen);
                 case "EpitaphEditor":
                     // Party wiped; leave a random silly epitaph like a person would (rarely reached — the run ends at the
                     // game-over screen first, and the grave already gets a silly default when the party dies).
@@ -257,16 +251,6 @@ namespace OregonTrailDotNet.Bot.Game
 
             var pick = Math.Clamp(_policy.Fork(state, branches.Count), 1, branches.Count);
             return branches[pick - 1].Number.ToString();
-        }
-
-        private static string HuntWord(string screen)
-        {
-            var m = ShootingWordRx.Match(screen);
-            if (m.Success && !m.Groups[1].Value.Equals("NONE", StringComparison.OrdinalIgnoreCase))
-                return m.Groups[1].Value.ToLowerInvariant();
-
-            var m2 = TypeWordRx.Match(screen);
-            return m2.Success ? m2.Groups[1].Value.ToLowerInvariant() : string.Empty;
         }
 
         private static RiverChoiceKindEnum? ClassifyRiver(string label)

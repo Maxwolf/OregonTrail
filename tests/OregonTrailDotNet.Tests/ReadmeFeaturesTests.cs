@@ -14,8 +14,8 @@ using OregonTrailDotNet.Event.Wild;
 using OregonTrailDotNet.Event.Weather;
 using OregonTrailDotNet.Module.Director;
 using OregonTrailDotNet.Module.Time;
+using OregonTrailDotNet.Presentation;
 using OregonTrailDotNet.Window.MainMenu;
-using OregonTrailDotNet.Window.Travel.Hunt;
 using WolfCurses.Utility;
 using Xunit;
 using TravelWindow = OregonTrailDotNet.Window.Travel.Travel;
@@ -217,9 +217,11 @@ namespace OregonTrailDotNet.Tests
         // ---- Travel #20/#21: hunting tally and food cap ----
 
         [Fact]
-        public void HuntManager_CarryCapIsOneHundredPounds()
+        public void HuntGame_CarryCapIsOneHundredPounds()
         {
-            Assert.Equal(100, HuntManager.MAXFOOD);
+            // The wrapper's own limit on what one hunter walks back with, whoever is playing - there is a single
+            // hunt now, so this is the cap for the player and the training bot alike.
+            Assert.Equal(100, HuntGame.CarryCap);
         }
 
         [Fact]

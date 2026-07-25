@@ -2,9 +2,11 @@ using System.Reflection;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Event.Vehicle;
-using OregonTrailDotNet.Window.Travel.Hunt;
+using OregonTrailDotNet.Window.Travel;
+using OregonTrailDotNet.Window.Travel.Scene;
 using Xunit;
 using PersonEntity = OregonTrailDotNet.Entity.Person.Person;
+using TravelWindow = OregonTrailDotNet.Window.Travel.Travel;
 
 namespace OregonTrailDotNet.Tests
 {
@@ -80,37 +82,44 @@ namespace OregonTrailDotNet.Tests
         }
 
         /// <summary>
-        ///     A successful hunting shot must strictly consume bullets. The bug derived the cost from the ammo stack's
-        ///     monetary TotalValue and could produce a negative amount, which ReduceQuantity turned into a gain (clamped
-        ///     up to the maximum) - so bagging an animal could add ammunition or, when large, wipe the stack to zero.
+        ///     Hunting must strictly consume bullets. The bug derived the cost from the ammo stack's monetary
+        ///     TotalValue and could produce a negative amount, which ReduceQuantity turned into a gain (clamped up to
+        ///     the maximum) - so bagging an animal could add ammunition or, when large, wipe the stack to zero. The
+        ///     word hunt that carried the defect is gone, but the invariant belongs to whichever screen charges the
+        ///     rounds, so it is pinned on the one that does now: the field hunt's result screen, which takes exactly
+        ///     one round per trigger pull out of the wagon and never puts one back.
         /// </summary>
         [Fact]
-        public void TryShoot_SuccessfulKill_StrictlyConsumesTenToThirteenBullets()
+        public void HuntResult_ChargesOneRoundPerShot_AndNeverHandsAmmunitionBack()
         {
             var vehicle = Game.Vehicle;
             vehicle.ResetVehicle();
 
-            // The miss roll reads the party leader's profession, so the vehicle needs a leader aboard.
+            // The turn the result screen charges runs the party through a day, so the vehicle needs a leader aboard.
             vehicle.AddPerson(new PersonEntity(ProfessionEnum.Farmer, "Hunter", true));
 
             var ammo = vehicle.Inventory[EntitiesEnum.Ammo];
-            ammo.AddQuantity(ammo.MaxQuantity); // top the stack off to a known amount that a single shot cannot floor.
+            ammo.AddQuantity(ammo.MaxQuantity); // top the stack off to a known amount that a short hunt cannot floor.
             var ammoBefore = ammo.Quantity;
             Assert.True(ammoBefore > 13);
 
-            var hunt = new HuntManager();
+            var window = new TravelWindow(GameSimulationApp.Instance);
 
-            // A freshly generated prey has TargetTime 0, so it passes both the miss roll and the on-time-shot gate,
-            // deterministically reaching the ammunition-deduction path. The target field is private; set it directly.
-            typeof(HuntManager)
-                .GetField("_target", BindingFlags.NonPublic | BindingFlags.Instance)
-                .SetValue(hunt, new PreyItem());
+            // The window's UserData (shared with its forms) is protected; reach it to hand the result screen a hunt
+            // exactly as HuntScene does on its way out.
+            var data = (TravelInfo) window.GetType().BaseType
+                .GetProperty("UserData", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                .GetValue(window);
+            data.HuntOutcome = new HuntOutcome(350, 12, 1);
 
-            Assert.True(hunt.TryShoot());
+            var result = new HuntSceneResult(window);
+            result.OnFormPostCreate();
+            result.OnRenderForm(); // the prompt is where the wrapper is applied and the tally is read.
+            result.OnInputBufferReturned(string.Empty);
 
             var consumed = ammoBefore - ammo.Quantity;
-            Assert.InRange(consumed, 10, 13);
-            Assert.True(ammo.Quantity < ammoBefore, "a kill must never increase ammunition");
+            Assert.Equal(12, consumed);
+            Assert.True(ammo.Quantity < ammoBefore, "a hunt must never increase ammunition");
             Assert.True(ammo.Quantity >= 0);
         }
 

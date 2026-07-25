@@ -7,10 +7,15 @@ using WolfCurses.Window.Form.Input;
 namespace OregonTrailDotNet.Window.Travel.Scene
 {
     /// <summary>
-    ///     The real-time hunt's instruction card — the graphical sibling of <see cref="Hunt.Help.HuntingPrompt" />,
-    ///     describing the controls the 1985 original taught on its own instruction screen: the ring of keys around L
-    ///     (and the keypad) aim outright, the arrows turn a step at a time, SPACE fires the one bullet the rifle
-    ///     keeps in the air, and RETURN starts and stops walking.
+    ///     The hunt's instruction card, describing the controls the 1985 original taught on its own instruction
+    ///     screen: the ring of keys around L (and the keypad) aim outright, the arrows turn a step at a time, SPACE
+    ///     fires the one bullet the rifle keeps in the air, and RETURN starts and stops walking.
+    ///     <para>
+    ///         There is one hunt and every host plays it. This screen used to be the graphical half of a pair, with
+    ///         a word-typing hunt behind the same menu entry for headless hosts — a genuinely different game with its
+    ///         own species, its own hit rule and ammunition charged per kill rather than per shot, which meant the
+    ///         training bot spent its whole life optimizing an economy no player ever saw. That fork is gone.
+    ///     </para>
     /// </summary>
     [ParentWindow(typeof(Travel))]
     public sealed class HuntSceneHelp : InputForm<TravelInfo>
@@ -21,13 +26,6 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         public HuntSceneHelp(IWindow window) : base(window)
         {
         }
-
-        /// <summary>
-        ///     Which form opens a hunt: the real-time hunt's instructions when presentation is on, the word-typing
-        ///     hunt's for every headless host. The no-ammo refusal is shared and upstream of this choice.
-        /// </summary>
-        internal static Type FormType =>
-            GameSimulationApp.PresentationEnabled ? typeof(HuntSceneHelp) : typeof(Hunt.Help.HuntingPrompt);
 
         /// <inheritdoc />
         protected override string OnDialogPrompt()

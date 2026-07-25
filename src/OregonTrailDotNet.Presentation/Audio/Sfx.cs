@@ -124,6 +124,14 @@ namespace OregonTrailDotNet.Presentation.Audio
             {
                 LastCue = cue;
 
+                // A headless host has no business making noise. This matters now that the hunt and the raft are
+                // played by the training bot too: their gunshot and crash are fired from scene logic, not from a
+                // draw call, so without this guard a training run on a Windows box with a sound card would bang
+                // away for hours. LastCue is still recorded above, so anything observing which effect was asked
+                // for keeps working; only the waveOut device is spared.
+                if (!SceneHost.Graphical)
+                    return;
+
                 if (Music.Muted)
                     return;
 

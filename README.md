@@ -78,9 +78,9 @@ reimplements a rule from the original 1980s/1990s game differently, that is call
    otherwise runs out its timer
  4. Dressed meat is halved on the walk back, zeroed if the wagon is already full, clamped to the
    space left, and capped at 100 lbs
- 5. Headless hosts (the training bot and the test suites) play the earlier word-typing hunt — a
-   port invention, retained as the text-mode implementation: type the shooting word while an
-   animal is targeted, with reaction speed measured in simulation ticks
+ 5. There is one hunt and every host plays it. The training bot and the test suites run the same
+   field hunt on the same simulation, aiming and firing with the same keys; only the drawing of it
+   is skipped when nobody is watching
 
 ### Eating ###
  1. Food consumption in pounds is calculated from the ration level each day (a higher ration level

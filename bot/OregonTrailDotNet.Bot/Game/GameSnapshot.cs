@@ -165,12 +165,14 @@ namespace OregonTrailDotNet.Bot.Game
                 offer.WantedItem.Category, offer.WantedItem.Quantity, trading.PlayerCanTrade);
         }
 
-        // Meat bagged so far in the hunt in progress, read straight off the live hunt session on the travel window, or 0 when
-        // the party is not currently hunting.
+        // Meat bagged so far in the hunt in progress, read straight off the live hunt on the travel window, or 0 when
+        // the party is not currently hunting. Dressed rather than raw: the wrapper halves anything from three pounds
+        // up on the walk back, so raw pounds compared against the hundred-pound carry would call it a full load at
+        // half of one.
         private static int BaggedThisHunt(GameSimulationApp game)
         {
             return game.WindowManager.FocusedWindow is Travel travel && travel.ActiveHunt != null
-                ? travel.ActiveHunt.KillWeight
+                ? OregonTrailDotNet.Presentation.HuntGame.Bag(travel.ActiveHunt.Pounds)
                 : 0;
         }
 

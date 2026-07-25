@@ -35,7 +35,8 @@ namespace OregonTrailDotNet.Bot.Game
                 "RestAmount" => $"Resting {input} day(s) to recover (health: {state.Health})",
                 "RiverCross" => "Deciding how to cross the river",
                 "LocationFork" => "Choosing which way to go",
-                "Hunting" => $"Taking a shot — \"{input}\"!",
+                "HuntScene" => "Working the rifle.",
+                "RaftScene" => "Running the Columbia.",
                 _ => input.ToUpperInvariant() switch
                 {
                     "Y" => YesThought(formName),

@@ -104,8 +104,31 @@ namespace OregonTrailDotNet
         ///     text forms' behavior, so with the flag off every headless host runs exactly the code it ran before the
         ///     presentation layer existed. The real game turns it on in <see cref="Program" /> before creating the simulation;
         ///     it is a plain static, so it survives <see cref="Restart" />. See docs/minigame-integration-plan.md.
+        ///     <para>
+        ///         What this must NEVER decide is which simulation runs. It picks between two drawings of the same game — the
+        ///         hunt and the Columbia raft each have exactly one implementation and every host plays it. Two of these
+        ///         siblings were once two different games, and the training bot spent its whole life optimizing rules no
+        ///         player ever saw; see <c>HuntSceneGateTests</c>.
+        ///     </para>
+        ///     <para>
+        ///         Setting it also sets <see cref="Presentation.SceneHost.Graphical" />, the drawing switch the scene base
+        ///         class reads. They are deliberately one knob rather than two: a host that turned on the artwork but left
+        ///         the scenes composing captions (or the reverse) is a bug nobody would spot until a picture went missing,
+        ///         and keeping them in lockstep here makes that unrepresentable. The minigame workbench, which has no
+        ///         simulation, sets <c>SceneHost.Graphical</c> directly.
+        ///     </para>
         /// </summary>
-        internal static bool PresentationEnabled { get; set; }
+        internal static bool PresentationEnabled
+        {
+            get => _presentationEnabled;
+            set
+            {
+                _presentationEnabled = value;
+                Presentation.SceneHost.Graphical = value;
+            }
+        }
+
+        private static bool _presentationEnabled;
 
         /// <summary>
         ///     The player's persistent game database, or null when persistence is disabled or the file could not be opened. Owned

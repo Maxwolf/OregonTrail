@@ -33,7 +33,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         private int _shoreHitsSeen;
         private int _rockHitsSeen;
         private readonly List<string> _losses = new();
-        private readonly Random _damageRandom = new();
+        private Random _damageRandom;
         private bool _destroyed;
         private int _endBeat;
 
@@ -59,7 +59,22 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         /// <inheritdoc />
         protected override void Build()
         {
-            _game = new RaftGame();
+            // The river and its loss dice both come off the simulation's randomizer, so a seeded playthrough
+            // replays the Columbia exactly rather than rolling a fresh clock-seeded run every time.
+            var game = GameSimulationApp.Instance;
+            _game = new RaftGame(game.Random.Next());
+            _damageRandom = new Random(game.Random.Next());
+
+            // Publish the live run so a headless driver can steer by the same lanes and rocks the picture shows.
+            UserData.Raft = _game;
+
+            // Below here is only the drawing of it; the run itself is already built.
+            if (!SceneHost.Graphical)
+            {
+                Rewind();
+                return;
+            }
+
             _scene = new SpriteScene(RaftArt.BuildRiver());
 
             // Draw order is list order: bank scenery first, then the rocks, then the raft over both.
@@ -163,6 +178,12 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             return _scene.ToAnsi(PictureOptions());
         }
 
+        /// <summary>
+        ///     Headless, the river is not drawn. The screen is named so a driver can tell where it is; the lane it
+        ///     is steering and the rocks coming at it read off <see cref="TravelInfo.Raft" />.
+        /// </summary>
+        protected override string ComposeHeadless() => "[RaftScene]";
+
         /// <summary>Books one collision's losses and notices a destroyed raft.</summary>
         private void Suffer(RaftDamage.Report report)
         {
@@ -176,6 +197,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         {
             UserData.RaftReport = new RaftReport(
                 _losses.ToList(), _destroyed, _game.Outcome == RaftOutcomeEnum.Missed);
+            UserData.Raft = null;
             SetForm(typeof(RaftResult));
         }
 
@@ -189,6 +211,10 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         private void SyncSprites()
         {
+            // No sprites were built for a headless host, and none are needed: nothing is drawn.
+            if (!SceneHost.Graphical)
+                return;
+
             Place(_raft, _wasRaft, RaftNow(), 0, 0);
 
             for (var i = 0; i < _rocks.Length; i++)

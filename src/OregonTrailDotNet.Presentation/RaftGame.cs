@@ -342,6 +342,34 @@ namespace OregonTrailDotNet.Presentation
         /// <param name="y">Screen row in the Apple II's 192-tall space.</param>
         public static double LaneOf(double x, double y) => ((x - 84) * 4 + (y + 6) * 8) / 72.0;
 
+        /// <summary>
+        ///     Whether a raft sitting in the given lane would be struck by any live rock within the next
+        ///     <paramref name="ticksAhead" /> ticks, rocks drifting on as they do. A query over the same boxes
+        ///     <see cref="CheckRocks" /> uses, exposed so a pilot steering this run can read the water ahead — which
+        ///     is what a player does by looking at it. Changes nothing.
+        /// </summary>
+        /// <param name="lane">The lane to test.</param>
+        /// <param name="ticksAhead">How far ahead to look.</param>
+        public bool LaneThreatened(int lane, int ticksAhead)
+        {
+            var raftX = LaneX(lane) + RaftBoxX;
+            var raftY = LaneY(lane) + RaftBoxY;
+
+            foreach (var rock in Rocks)
+            {
+                if (!rock.Active)
+                    continue;
+
+                for (var tick = 0; tick <= ticksAhead; tick++)
+                    if (Overlaps(raftX, raftY, RaftBoxW, RaftBoxH,
+                            rock.X + tick * RockDriftX + RockBoxX, rock.Y + tick * RockDriftY + RockBoxY,
+                            RockBoxW, RockBoxH))
+                        return true;
+            }
+
+            return false;
+        }
+
         private static bool Overlaps(int ax, int ay, int aw, int ah, int bx, int by, int bw, int bh)
         {
             return ax < bx + bw && bx < ax + aw && ay < by + bh && by < ay + ah;

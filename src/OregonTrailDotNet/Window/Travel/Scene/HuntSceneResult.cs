@@ -9,11 +9,16 @@ using WolfCurses.Window.Form.Input;
 namespace OregonTrailDotNet.Window.Travel.Scene
 {
     /// <summary>
-    ///     The end of a real-time hunt: the wrapper applied once to the whole bag, in the original's own order
+    ///     The end of a hunt: the wrapper applied once to the whole bag, in the original's own order
     ///     (<c>HUNT.LIB:50011-50016</c>) — dress the meat by halving anything from three pounds up, zero it against
     ///     a full wagon, clamp it to the space that remains, cap what one hunter can carry at 100 pounds — then the
-    ///     day charged and everything written back to the wagon on ENTER. Deliberately a separate form from the
-    ///     word-hunt's <see cref="Hunt.HuntingResult" />, whose rendered text the bot and tests pin.
+    ///     day charged and everything written back to the wagon on ENTER.
+    ///     <para>
+    ///         This is where the hunt's whole cost lands, and it is the same for every host: the bag into the food
+    ///         stores, <b>one round out of the wagon per trigger pull</b> (hit or miss), and every kill counted for
+    ///         the Shoshoni guide's asking price. The deleted word hunt charged 10-13 rounds per landed kill and
+    ///         nothing for a miss, which is why it could not be allowed to stand in for this one on headless hosts.
+    ///     </para>
     /// </summary>
     [ParentWindow(typeof(Travel))]
     public sealed class HuntSceneResult : InputForm<TravelInfo>
@@ -107,6 +112,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
                 game.Vehicle.IncrementAnimalKillCount();
 
             UserData.HuntOutcome = null;
+            UserData.Hunt = null;
             ClearForm();
         }
     }

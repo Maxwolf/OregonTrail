@@ -5,6 +5,7 @@ using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Location.Point;
 using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Module.Time;
+using OregonTrailDotNet.Presentation;
 using OregonTrailDotNet.Presentation.Audio;
 using OregonTrailDotNet.Window.GameOver;
 using OregonTrailDotNet.Window.MainMenu;
@@ -36,6 +37,7 @@ namespace OregonTrailDotNet.Tests
         public override void Dispose()
         {
             GameSimulationApp.PresentationEnabled = false;
+            SceneHost.Graphical = false;
             Music.Shutdown();
             if (!_wasMuted && Music.Muted)
                 Music.ToggleMute();
@@ -85,15 +87,19 @@ namespace OregonTrailDotNet.Tests
         }
 
         [Fact]
-        public void FlagOff_TheColumbia_KeepsTheCrossingMenu()
+        public void FlagOff_TheColumbia_IsStillTheRaft()
         {
+            // The Columbia used to fall back to the ford/float crossing menu for headless hosts, which meant the bot
+            // spent the party's last hundred miles against a completely different loss table than the player's — one
+            // that could take cash and medicine but never zero the wagon or drown everybody at once. The raft is the
+            // Columbia for everyone now; the flag decides only whether it is drawn.
             BootParty();
             ArriveAtTheColumbia();
 
             var (window, _) = BuildTravelWindow();
             window.ContinueOnTrail();
 
-            Assert.IsType<RiverCrossHelp>(window.CurrentForm);
+            Assert.IsType<RaftIntro>(window.CurrentForm);
         }
 
         [Fact]
@@ -102,6 +108,7 @@ namespace OregonTrailDotNet.Tests
             BootParty();
             ArriveAtTheColumbia();
             GameSimulationApp.PresentationEnabled = true;
+            SceneHost.Graphical = true;
 
             var (window, _) = BuildTravelWindow();
             window.ContinueOnTrail();

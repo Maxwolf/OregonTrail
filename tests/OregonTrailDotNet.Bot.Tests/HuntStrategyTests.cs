@@ -1,5 +1,5 @@
 using OregonTrailDotNet.Bot.Game;
-using OregonTrailDotNet.Window.Travel.Hunt;
+using OregonTrailDotNet.Presentation;
 using Xunit;
 
 namespace OregonTrailDotNet.Bot.Tests
@@ -31,7 +31,7 @@ namespace OregonTrailDotNet.Bot.Tests
         {
             // Even a solid haul below the cap is real food worth staying for — the day costs the same whether we leave now or
             // fire until dark, and stopping short would only mean re-hunting sooner.
-            Assert.False(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntManager.MAXFOOD - 1)));
+            Assert.False(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntGame.CarryCap - 1)));
         }
 
         [Fact]
@@ -39,21 +39,23 @@ namespace OregonTrailDotNet.Bot.Tests
         {
             // The stop rule must never cut a hungry party's haul short regardless of party size. Stated against the carry
             // cap rather than a literal, so it keeps testing the rule rather than the cap's current value.
-            Assert.False(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntManager.MAXFOOD - 1, food: 20, living: 2)));
-            Assert.False(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntManager.MAXFOOD - 1, food: 20, living: 1)));
+            Assert.False(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntGame.CarryCap - 1, food: 20, living: 2)));
+            Assert.False(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntGame.CarryCap - 1, food: 20, living: 1)));
         }
 
         [Fact]
         public void ReachingTheCarryCap_StopsHunting()
         {
-            Assert.True(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntManager.MAXFOOD)));
+            Assert.True(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntGame.CarryCap)));
         }
 
         [Fact]
         public void OverTheCarryCap_StopsHunting_SinceTheExtraIsDiscarded()
         {
-            // A single big animal (a buffalo is 350-500 lb) fills the cap on its own; every shot after is wasted ammunition.
-            Assert.True(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntManager.MAXFOOD + 300)));
+            // A single big animal fills the cap several times over — the bison at the top of the species table runs
+            // 1700-2000 lb on the hoof, which is 850-1000 even after dressing — so every shot after it is wasted
+            // ammunition the party will want at the next river.
+            Assert.True(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntGame.CarryCap + 300)));
         }
     }
 }

@@ -40,6 +40,9 @@ namespace OregonTrailDotNet.Minigames
             else if (args.Contains("--sixel")) ImageRenderers.Default = new SixelImageRenderer();
             else if (args.Contains("--kitty")) ImageRenderers.Default = new KittyImageRenderer();
 
+            // The workbench exists to look at the scenes, so it always draws and paces them.
+            SceneHost.Graphical = true;
+
             MinigamesApp.Create();
 
             while (MinigamesApp.Instance != null)

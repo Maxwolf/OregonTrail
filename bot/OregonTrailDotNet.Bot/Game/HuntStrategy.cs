@@ -1,4 +1,4 @@
-using OregonTrailDotNet.Window.Travel.Hunt;
+using OregonTrailDotNet.Presentation;
 
 namespace OregonTrailDotNet.Bot.Game
 {
@@ -15,16 +15,16 @@ namespace OregonTrailDotNet.Bot.Game
         /// </summary>
         /// <remarks>
         ///     The trigger is the carry cap and nothing short of it. The hunt costs one full day the moment it ends no matter
-        ///     when you leave (<c>HuntingResult</c> ticks a day either way), so quitting early never saves time — it only trades
-        ///     away food the party could have carried, which for a hungry party means re-hunting sooner. Once the haul reaches
-        ///     the cap, though, the wagon is full and the game discards anything more, so every further shot is pure wasted
-        ///     ammunition (exactly the "don't kill more than you keep" the game warns about). Stopping there is a strict win:
-        ///     same food, fewer bullets spent. A single big animal (buffalo, caribou, bear) fills the cap on its own, so this
-        ///     fires often in practice.
+        ///     when you leave (<c>HuntSceneResult</c> ticks a day either way), so quitting early never saves time — it only
+        ///     trades away food the party could have carried, which for a hungry party means re-hunting sooner. Once the haul
+        ///     reaches the cap, though, the wagon is full and the game discards anything more, so every further shot is pure
+        ///     wasted ammunition — and on this hunt a round leaves the wagon on every trigger pull, hit or miss, so the waste
+        ///     is real rather than notional. Stopping there is a strict win: same food, fewer bullets spent. A single bison
+        ///     fills the cap several times over, so this fires often in practice.
         /// </remarks>
         public static bool HasEnoughFood(GameSnapshot state)
         {
-            return state.HuntBagged >= HuntManager.MAXFOOD;
+            return state.HuntBagged >= HuntGame.CarryCap;
         }
     }
 }

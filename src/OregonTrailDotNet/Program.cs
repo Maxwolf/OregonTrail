@@ -30,8 +30,13 @@ namespace OregonTrailDotNet
             // training bot leave this off and stay in-memory).
             GameSimulationApp.PersistenceEnabled = true;
 
-            // The real game also gets the graphical scene forms (original MECC artwork and music at the dramatic moments);
+            // The real game also gets the graphical screens (original MECC artwork and music at the dramatic moments);
             // headless hosts leave this off so the bot's text scraping and the test suite see the unchanged text forms.
+            //
+            // Note what this does NOT switch: which game gets played. Every host runs the same simulation — the same
+            // field hunt, the same Columbia raft, the same crossings — and this flag only decides whether a moment is
+            // drawn as a picture with a tune under it or as plain text. Setting it also sets the scene layer's own
+            // drawing switch (Presentation.SceneHost.Graphical), so the two can never disagree.
             GameSimulationApp.PresentationEnabled = true;
 
             // Overrule the terminal's own answer when asked to, so a picture can be compared across renderers.

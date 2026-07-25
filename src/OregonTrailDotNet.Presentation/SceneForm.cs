@@ -175,6 +175,23 @@ namespace OregonTrailDotNet.Presentation
 
             if (Animated)
             {
+                // Headless: the same logic, stepped straight through. Exactly one Advance per simulation tick —
+                // deliberately keyed to the simulation's own pulse rather than to however often the host happens
+                // to poll, so the step count is a property of the game and not of the machine it runs on. No wall
+                // clock to wait on and no sub-frames, which exist only to draw the in-between positions when
+                // somebody is looking. The scene therefore runs the identical number of steps a player's scene
+                // runs for the same game; only the seconds they are spread over differ.
+                if (!SceneHost.Graphical)
+                {
+                    if (systemTick)
+                        return;
+
+                    FrameProgress = 0;
+                    Advance();
+                    Recompose();
+                    return;
+                }
+
                 // The clock runs at the frame rate, which is the logic rate multiplied out by the sub-frames.
                 var frames = Math.Max(1, FramesPerStep);
                 var interval = TimeSpan.FromSeconds(1.0 / (TicksPerSecond * frames));
@@ -357,8 +374,25 @@ namespace OregonTrailDotNet.Presentation
             return text.ToString();
         }
 
+        /// <summary>
+        ///     What a headless host shows instead of the picture. One short, stable line naming the screen, so a
+        ///     driver reading <c>ScreenBuffer</c> can still tell where it is; scenes whose state a headless driver
+        ///     needs to read expose it as properties rather than by printing it.
+        /// </summary>
+        protected virtual string ComposeHeadless() => $"[{GetType().Name}]";
+
         private void Recompose()
         {
+            // Headless: no picture to resample and no device to play through. Compose() is skipped outright rather
+            // than composed-and-discarded — it is the expensive half of a scene, and the ANSI it returns would only
+            // be thrown away. Music is skipped for the same reason.
+            if (!SceneHost.Graphical)
+            {
+                Frame = ComposeHeadless();
+                _dirty = false;
+                return;
+            }
+
             // Follows the scene's answer wherever it goes, which is what lets a cue track what is on screen
             // without any scene having to start, stop or swap it for itself.
             var cue = MusicCue;

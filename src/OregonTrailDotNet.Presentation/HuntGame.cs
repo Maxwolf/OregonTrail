@@ -360,6 +360,17 @@ namespace OregonTrailDotNet.Presentation
             }
         }
 
+        /// <summary>
+        ///     Whether a rectangle overlaps any solid scenery — the same test the bullet and the walkers use, exposed
+        ///     so a hunter driving this game can see the cover it has to shoot around. A query, not a rule: it reads
+        ///     <see cref="Obstacles" /> and changes nothing.
+        /// </summary>
+        /// <param name="x">Left edge.</param>
+        /// <param name="y">Top edge.</param>
+        /// <param name="width">Width of the rectangle.</param>
+        /// <param name="height">Height of the rectangle.</param>
+        public bool IsBlocked(int x, int y, int width, int height) => Blocked(x, y, width, height);
+
         /// <summary>Whether a rectangle overlaps any solid scenery.</summary>
         private bool Blocked(int x, int y, int width, int height)
         {

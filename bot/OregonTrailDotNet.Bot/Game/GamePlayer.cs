@@ -2,6 +2,8 @@ using OregonTrailDotNet.Bot.Diagnostics;
 using OregonTrailDotNet.Bot.Learning;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Person;
+using OregonTrailDotNet.Presentation;
+using OregonTrailDotNet.Window.Travel;
 
 namespace OregonTrailDotNet.Bot.Game
 {
@@ -82,8 +84,14 @@ namespace OregonTrailDotNet.Bot.Game
         ///     screen fingerprint stops changing for too long (a screen we don't know how to answer). The command/tick caps
         ///     are sized so a full endgame trade grind (up to 400 browses plus the hunts that feed it) finishes with room to
         ///     spare; a genuinely stuck game still trips the stall limit long before these.
+        ///     <para>
+        ///         The caps are an order of magnitude larger than they were for the word-typing hunt this bot used to play,
+        ///         because the field hunt is a real-time screen: one trigger pull is one tick out of a possible 2500, and
+        ///         every one of those ticks is a command. A hunt that fills the carry cap on an early bison ends in a few
+        ///         hundred; a barren one runs the clock out. Both are normal play, not a stall.
+        ///     </para>
         /// </summary>
-        public RunResult Run(int maxCommands = 9000, int maxTicks = 135000, int stallLimit = 400, Func<bool>? shouldAbort = null)
+        public RunResult Run(int maxCommands = 250000, int maxTicks = 400000, int stallLimit = 400, Func<bool>? shouldAbort = null)
         {
             var lastFingerprint = string.Empty;
             var stall = 0;
@@ -127,7 +135,19 @@ namespace OregonTrailDotNet.Bot.Game
                 if (strandedHits > 0 && state.Oxen > 0 && state.BrokenPart == null)
                     strandedHits = 0;
 
-                if (_driver.FormIsNull)
+                // Screens that are steered rather than typed at — the field hunt and the Columbia raft. These are
+                // played with the keyboard exactly as a person plays them, so they get handled before the generic
+                // "press ENTER to advance a prompt" path below: on the hunt ENTER means start walking, and blindly
+                // sending it would have the bot wander off across the field.
+                if (_driver.FormName == "HuntScene")
+                {
+                    PlayHuntTick(state);
+                }
+                else if (_driver.FormName == "RaftScene")
+                {
+                    PlayRaftTick();
+                }
+                else if (_driver.FormIsNull)
                 {
                     var input = _driver.WindowName switch
                     {
@@ -187,13 +207,86 @@ namespace OregonTrailDotNet.Bot.Game
             }
         }
 
+        /// <summary>
+        ///     Works the rifle for one tick of the field hunt, then leaves early once the wagon can take no more.
+        ///     Aiming and firing are <see cref="HuntPilot" />'s; the decision to walk away is the strategy layer's,
+        ///     so the learned policy still owns every choice a person would actually weigh.
+        /// </summary>
+        private void PlayHuntTick(GameSnapshot state)
+        {
+            if (_driver.Watching)
+                _driver.StatusLine = $"  » hunting — {state.HuntBagged} lb bagged";
+
+            // Enough meat to fill the carry: ESC ends the hunt keeping the bag, exactly as it does for a player.
+            if (HuntStrategy.HasEnoughFood(state))
+            {
+                _driver.SendKey(ConsoleKey.Escape);
+                return;
+            }
+
+            var hunt = ActiveHunt();
+            if (hunt == null)
+            {
+                _driver.Tick();
+                return;
+            }
+
+            var key = HuntPilot.NextKey(hunt);
+            if (key.HasValue)
+                _driver.SendKey(key.Value);
+            else
+                _driver.Tick();
+        }
+
+        /// <summary>Steers one tick of the Columbia run. There is no leaving a raft midstream, so no early exit.</summary>
+        private void PlayRaftTick()
+        {
+            if (_driver.Watching)
+                _driver.StatusLine = "  » running the Columbia";
+
+            var raft = ActiveRaft();
+            if (raft == null)
+            {
+                _driver.Tick();
+                return;
+            }
+
+            var key = RaftPilot.NextKey(raft);
+            if (key.HasValue)
+                _driver.SendKey(key.Value);
+            else
+                _driver.Tick();
+        }
+
+        private static HuntGame? ActiveHunt() =>
+            GameSimulationApp.Instance?.WindowManager.FocusedWindow is Travel travel ? travel.ActiveHunt : null;
+
+        private static RaftGame? ActiveRaft() =>
+            GameSimulationApp.Instance?.WindowManager.FocusedWindow is Travel travel ? travel.ActiveRaft : null;
+
         private string Fingerprint()
         {
             var game = GameSimulationApp.Instance;
             if (game?.Vehicle == null || game.Time == null)
                 return $"{_driver.WindowName}|{_driver.FormName}";
 
-            return $"{_driver.WindowName}|{_driver.FormName}|{game.Vehicle.Odometer}|{game.Time.TotalDays}";
+            // A steered scene advances its own clock without moving the wagon or the calendar, so its tick joins the
+            // fingerprint — otherwise a perfectly healthy 2500-tick hunt looks exactly like a wedged screen and the
+            // soft-lock detector kills the run. A scene that genuinely stops advancing still trips it.
+            var scene = SceneProgress(game);
+
+            return $"{_driver.WindowName}|{_driver.FormName}|{game.Vehicle.Odometer}|{game.Time.TotalDays}{scene}";
+        }
+
+        private static string SceneProgress(GameSimulationApp game)
+        {
+            if (game.WindowManager.FocusedWindow is not Travel travel)
+                return string.Empty;
+
+            if (travel.ActiveHunt != null)
+                return $"|h{travel.ActiveHunt.Tick}";
+
+            return travel.ActiveRaft != null ? $"|r{travel.ActiveRaft.Tick}" : string.Empty;
         }
 
         private RunResult Terminal()
