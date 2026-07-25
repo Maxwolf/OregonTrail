@@ -3,6 +3,7 @@ using OregonTrailDotNet.Bot.Learning;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Window.MainMenu;
 using OregonTrailDotNet.Window.Travel;
+using OregonTrailDotNet.Window.Travel.Store;
 
 namespace OregonTrailDotNet.Bot.Game
 {
@@ -223,16 +224,15 @@ namespace OregonTrailDotNet.Bot.Game
         }
 
         /// <summary>
-        ///     How many units the store sells at a time for this good. Mirrors the sale lots declared on the item
-        ///     definitions (Parts.Oxen, Resources.Bullets) — kept as a small local table rather than reading the
-        ///     SimItem, because those getters re-price themselves off the live trail position on every call.
+        ///     How many units the counter in front of us sells at a time for this good.
+        ///     <para>
+        ///         Asks the game rather than keeping a local table, because the answer is not a property of the goods:
+        ///         Matt's sells oxen by the yoke of two and the forts sell them singly. A hardcoded 2 had the bot
+        ///         ordering half the oxen it meant to at every fort restock, which is exactly the kind of quiet
+        ///         mis-shopping that only shows up as a worse score several thousand games later.
+        ///     </para>
         /// </summary>
-        private static int LotSizeOf(EntitiesEnum item) => item switch
-        {
-            EntitiesEnum.Animal => 2, // a yoke
-            EntitiesEnum.Ammo => 20,  // a box
-            _ => 1
-        };
+        private static int LotSizeOf(EntitiesEnum item) => StoreCounter.LotSize(item);
 
         private string RiverChoice(string screen, GameSnapshot state)
         {

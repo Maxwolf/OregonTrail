@@ -62,7 +62,7 @@ namespace OregonTrailDotNet.Window.Travel.Toll
             // Grab instance of the game simulation.
             var game = GameSimulationApp.Instance;
 
-            _canAffordToll = game.Vehicle.Inventory[EntitiesEnum.Cash].TotalValue >= UserData.Toll.Cost;
+            _canAffordToll = game.Vehicle.Balance >= UserData.Toll.Cost;
 
             // First portion of the message changes based on varying conditions.
             if (UserData.Toll.Road != null)
@@ -93,7 +93,7 @@ namespace OregonTrailDotNet.Window.Travel.Toll
             }
 
             // Check if the player has enough money to pay for the toll road.
-            if (game.Vehicle.Inventory[EntitiesEnum.Cash].TotalValue >= UserData.Toll.Cost)
+            if (game.Vehicle.Balance >= UserData.Toll.Cost)
             {
                 tollPrompt.AppendLine($"{Environment.NewLine}Are you willing");
                 tollPrompt.Append("to do this? Y/N");
@@ -134,8 +134,9 @@ namespace OregonTrailDotNet.Window.Travel.Toll
             switch (reponse)
             {
                 case DialogResponseEnum.Yes:
-                    // Remove monies for the cost of the trip on toll road.
-                    GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Cash].ReduceQuantity(UserData.Toll.Cost);
+                    // Remove monies for the cost of the trip on toll road. Charged through the vehicle so the purse
+                    // itself is debited rather than its derived whole-dollar view.
+                    GameSimulationApp.Instance.Vehicle.Charge(UserData.Toll.Cost);
 
                     // Only insert the location if there is one to actually insert.
                     if (UserData.Toll.Road != null)

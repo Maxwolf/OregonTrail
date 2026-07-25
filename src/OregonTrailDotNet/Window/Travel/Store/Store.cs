@@ -136,14 +136,6 @@ namespace OregonTrailDotNet.Window.Travel.Store
         }
 
         /// <summary>
-        ///     TRUE while the party is still outfitting at Matt's in Independence, before the journey has begun. The
-        ///     location index alone is not enough: the party passes back through Independence's index once it departs.
-        /// </summary>
-        private static bool AtOpeningStore =>
-            GameSimulationApp.Instance.Trail.IsFirstLocation &&
-            GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Unreached;
-
-        /// <summary>
         ///     Creates store from enumeration of simulation entities and ignoring the ones the player cannot purchase like
         ///     vehicle, people, and cash itself.
         /// </summary>
@@ -153,7 +145,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
             // The opening store is Matt's, by name, in Independence — the original titled it that and only that, and
             // it is the one shop in the game with a shopkeeper. The forts on the trail get their own name instead.
             _storePrompt.Clear();
-            _storePrompt.AppendLine(AtOpeningStore
+            _storePrompt.AppendLine(StoreCounter.AtMatts
                 ? FramedPanel.Render("Matt's General Store",
                     $"Independence, Missouri{Environment.NewLine}{GameSimulationApp.Instance.Time.Date}")
                 : FramedPanel.Render($"{GameSimulationApp.Instance.Trail.CurrentLocation?.Name} General Store",
@@ -200,7 +192,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
             var totalBill = UserData.Store.TotalTransactionCost;
 
             // If at first location we show the total cost of the bill so far the player has racked up.
-            _storePrompt.Append(AtOpeningStore
+            _storePrompt.Append(StoreCounter.AtMatts
                 ? $"Total bill:            {totalBill:C2}" +
                   $"{Environment.NewLine}Amount you have:       {GameSimulationApp.Instance.Vehicle.Balance:C2}"
                 : $"You have {GameSimulationApp.Instance.Vehicle.Balance:C2} to spend.");

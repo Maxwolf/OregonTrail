@@ -67,21 +67,16 @@ namespace OregonTrailDotNet.Tests.Entity
         }
 
         [Fact]
-        public void Purchase_FractionalDollarTotal_IsChargedUpToTheWholeDollar_SoNothingIsEverFree()
+        public void Purchase_FractionalDollarTotal_IsChargedToTheExactCent()
         {
             var vehicle = new VehicleEntity();
             vehicle.ResetVehicle(100);
 
-            // 7 pounds of food at $0.20/lb is a $1.40 charge. The wagon's purse holds whole dollar bills, so the
-            // charge is rounded UP to $2 and the balance lands on $98.
-            //
-            // Rounding the charge to the NEAREST dollar instead reads as fairer and is in fact the old bug: $1.40
-            // would round to $1, and by the same rule a single pound at $0.20 rounds to $0 — which is exactly what
-            // used to happen, one pound at a time, all the way to the 2,000 lb ceiling at every store in the game.
-            // Ceiling is the only whole-dollar rule under which the store can never be robbed.
+            // 7 pounds of food at $0.20/lb is $1.40, and $1.40 is what leaves the purse — the original quoted cents
+            // ("My price is 20 cents a pound", "Bill so far: $270.00") and so do we.
             vehicle.Purchase(new SimItem(Resources.Food, 7));
 
-            Assert.Equal(98f, vehicle.Balance);
+            Assert.Equal(98.60f, vehicle.Balance, 2);
             Assert.Equal(7, vehicle.Inventory[EntitiesEnum.Food].Quantity);
         }
 
@@ -91,12 +86,44 @@ namespace OregonTrailDotNet.Tests.Entity
             var vehicle = new VehicleEntity();
             vehicle.ResetVehicle(100);
 
-            // The regression this guards: a pound of food costs $0.20, the old code debited $99.80 and stored it back
-            // as $100, and the pound arrived anyway. Repeated, it filled the wagon for nothing.
+            // The regression this guards: money used to be a stack of whole dollar bills, so a pound of food at $0.20
+            // debited $99.80 and stored it straight back as $100 — and the pound arrived anyway. Repeated one pound at
+            // a time it filled the wagon to its 2,000 lb ceiling for nothing, at every store in the game.
             vehicle.Purchase(new SimItem(Resources.Food, 1));
 
             Assert.Equal(1, vehicle.Inventory[EntitiesEnum.Food].Quantity);
-            Assert.True(vehicle.Balance < 100f, "a purchase must always cost the party something");
+            Assert.Equal(99.80f, vehicle.Balance, 2);
+        }
+
+        [Fact]
+        public void Balance_KeepsCents_AndTheCashInventoryEntryTracksWholeDollars()
+        {
+            var vehicle = new VehicleEntity();
+            vehicle.ResetVehicle(100);
+
+            // Three pounds of food is $0.60.
+            vehicle.Purchase(new SimItem(Resources.Food, 3));
+            Assert.Equal(99.40f, vehicle.Balance, 2);
+
+            // The inventory entry is the derived view the end-of-game tally scores off, so it truncates: nobody is
+            // paid a point for a partial dollar.
+            Assert.Equal(99, vehicle.Inventory[EntitiesEnum.Cash].Quantity);
+        }
+
+        [Fact]
+        public void Charge_TakesTheFeeExactly_AndRefusesWhatThePartyCannotAfford()
+        {
+            var vehicle = new VehicleEntity();
+            vehicle.ResetVehicle(10);
+
+            // A ferry or a toll goes through here rather than reaching into the cash entry, which would write the
+            // derived view and quietly lose the cents.
+            Assert.True(vehicle.Charge(5.75f));
+            Assert.Equal(4.25f, vehicle.Balance, 2);
+
+            // Refused outright rather than going into debt, and nothing is taken.
+            Assert.False(vehicle.Charge(100f));
+            Assert.Equal(4.25f, vehicle.Balance, 2);
         }
 
         [Fact]

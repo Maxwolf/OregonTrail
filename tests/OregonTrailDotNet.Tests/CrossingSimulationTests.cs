@@ -38,6 +38,15 @@ namespace OregonTrailDotNet.Tests
         /// <summary>Sets an inventory item to an exact quantity regardless of its starting value.</summary>
         private static void SetQuantity(EntitiesEnum entity, int quantity)
         {
+            // Money lives in the vehicle's purse, held to the cent; the cash entry in the inventory dictionary is a
+            // derived whole-dollar view that exists for scoring and the supply list. Writing that view would leave the
+            // purse empty and the party unable to pay for anything.
+            if (entity == EntitiesEnum.Cash)
+            {
+                GameSimulationApp.Instance.Vehicle.Balance = quantity;
+                return;
+            }
+
             var item = GameSimulationApp.Instance.Vehicle.Inventory[entity];
             item.ReduceQuantity(int.MaxValue);
             item.AddQuantity(quantity);

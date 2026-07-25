@@ -62,15 +62,15 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             // Park the vehicle if it is not somehow by now.
             game.Vehicle.Status = VehicleStatusEnum.Stopped;
 
-            // Check if ferry operator wants players monies for trip across river.
-            if ((_river.FerryCost > 0) &&
-                (game.Vehicle.Inventory[EntitiesEnum.Cash].TotalValue > _river.FerryCost))
-            {
-                game.Vehicle.Inventory[EntitiesEnum.Cash].ReduceQuantity((int) _river.FerryCost);
-
+            // Check if ferry operator wants players monies for trip across river. Charged through the vehicle so the
+            // cents are taken properly: reaching into the cash inventory entry wrote to the derived whole-dollar view
+            // of the purse rather than the purse itself, and truncated the fee on the way in.
+            // The strictly-greater gate is the ferry's own and is left as it was: a party holding exactly the fare and
+            // nothing else does not get on the boat.
+            if ((_river.FerryCost > 0) && (game.Vehicle.Balance > _river.FerryCost) &&
+                game.Vehicle.Charge(_river.FerryCost))
                 // Clear out the cost for the ferry since it has been paid for now.
                 _river.FerryCost = 0;
-            }
 
             // Check if the Indian guide wants his clothes for the trip that you agreed to.
             if ((_river.IndianCost > 0) &&

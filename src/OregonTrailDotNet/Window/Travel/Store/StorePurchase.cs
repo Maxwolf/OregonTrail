@@ -43,6 +43,12 @@ namespace OregonTrailDotNet.Window.Travel.Store
         private string _refusal;
 
         /// <summary>
+        ///     How many units one answer buys at THIS counter. Captured when the screen opens so the arithmetic and the
+        ///     order that follows cannot disagree about it.
+        /// </summary>
+        private int _lotSize = 1;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="StorePurchase" /> class.
         ///     Attaches a state that will allow the player to purchase a certain number of a particular SimItem.
         /// </summary>
@@ -64,11 +70,15 @@ namespace OregonTrailDotNet.Window.Travel.Store
             // entry REPLACES any pending order for this same item (StoreGenerator.AddItem), so the item's own pending
             // cost is money this purchase frees up again — count it back in, or re-opening an item would quote against
             // its own reservation.
-            // Everything here counts in SALE LOTS, not in single units: a yoke of two oxen, a box of twenty bullets,
-            // one pound of food. The one conversion back to units happens when the order is placed, so the wagon and
-            // the scoring never see a lot.
+            //
+            // Everything below counts in SALE LOTS, not single units: a yoke of two oxen, a box of twenty bullets, one
+            // pound of food. How big a lot is depends on the counter rather than the goods — Matt's moves oxen by the
+            // yoke, a fort sells them one at a time — so it is asked for once here and held for the whole screen. The
+            // single conversion back to units happens when the order is placed, so the wagon and the scoring never see
+            // a lot at all.
             var item = UserData.Store.SelectedItem;
-            var lotCost = item.Cost*item.LotSize;
+            _lotSize = StoreCounter.LotSize(item);
+            var lotCost = item.Cost*_lotSize;
 
             var pendingSameItem = UserData.Store.Transactions[item.Category];
             var currentBalance =
@@ -84,7 +94,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
             // owns, in whole lots. The pending receipt entry is NOT subtracted — the new order replaces it. Quoting the
             // full ceiling would offer goods that the inventory clamp discards at checkout.
             var alreadyOwned = GameSimulationApp.Instance.Vehicle.Inventory[item.Category].Quantity;
-            var remainingCapacity = (item.MaxQuantity - alreadyOwned)/item.LotSize;
+            var remainingCapacity = (item.MaxQuantity - alreadyOwned)/_lotSize;
             if (remainingCapacity < 0)
                 remainingCapacity = 0;
             if (_purchaseLimit > remainingCapacity)
@@ -93,8 +103,9 @@ namespace OregonTrailDotNet.Window.Travel.Store
             // The original's prompts were fixed-width character fields, so the field itself capped a single purchase:
             // one digit for oxen (nine yoke), two for ammunition (ninety-nine boxes). A player who wants more comes
             // back to the counter, which is exactly what they had to do in 1990.
-            if (_purchaseLimit > item.MaxSaleLots)
-                _purchaseLimit = item.MaxSaleLots;
+            var fieldLimit = StoreCounter.MaxLots(item);
+            if (_purchaseLimit > fieldLimit)
+                _purchaseLimit = fieldLimit;
 
             // Add some information about how many you can buy and total amount you can carry.
             _itemBuyText = new StringBuilder();
@@ -109,10 +120,10 @@ namespace OregonTrailDotNet.Window.Travel.Store
             // (ScreenRecognizer.AffordRx) to size its order. The number after it is now in SALE LOTS — boxes of
             // ammunition, yoke of oxen — so any change here needs the bot's StoreQuantity updated in tandem.
             _itemBuyText.AppendLine(
-                $"{Environment.NewLine}You can afford {item.ToLotString(_purchaseLimit)}.");
+                $"{Environment.NewLine}You can afford {StoreCounter.ToLotString(item, _purchaseLimit)}.");
 
             // Wait for user input...
-            _itemBuyText.Append($"How many {item.LotPluralForm.ToLowerInvariant()} do you want?");
+            _itemBuyText.Append($"How many {StoreCounter.LotPluralForm(item).ToLowerInvariant()} do you want?");
 
             // Set the SimItem to buy text.
             _itemToBuy = item;
@@ -166,17 +177,18 @@ namespace OregonTrailDotNet.Window.Travel.Store
             // bouncing back to the menu wiped a carefully chosen order and never told the player why.
             if (parsedLots > _purchaseLimit)
             {
-                _refusal = parsedLots > _itemToBuy.MaxSaleLots
-                    ? $"I can only sell you {_itemToBuy.ToLotString(_itemToBuy.MaxSaleLots)} at a time."
+                var field = StoreCounter.MaxLots(_itemToBuy);
+                _refusal = parsedLots > field
+                    ? $"I can only sell you {StoreCounter.ToLotString(_itemToBuy, field)} at a time."
                     : _purchaseLimit <= 0
                         ? "You cannot afford that."
-                        : $"You cannot afford that many. I can do {_itemToBuy.ToLotString(_purchaseLimit)}.";
+                        : $"You cannot afford that many. I can do {StoreCounter.ToLotString(_itemToBuy, _purchaseLimit)}.";
                 return;
             }
 
             // First location on the trail uses receipt to keep track of all the purchases player wants. This is the
             // one place lots become units — everything downstream counts single oxen, bullets and pounds.
-            UserData.Store.AddItem(_itemToBuy, parsedLots*_itemToBuy.LotSize);
+            UserData.Store.AddItem(_itemToBuy, parsedLots*_lotSize);
 
             // If we are not on the first location we will add the item right away.
             if (GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Arrived)

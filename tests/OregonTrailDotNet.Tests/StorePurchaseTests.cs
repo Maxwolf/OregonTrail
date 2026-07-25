@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Item;
+using OregonTrailDotNet.Entity.Location;
 using OregonTrailDotNet.Entity.Person;
 using OregonTrailDotNet.Module.Time;
 using OregonTrailDotNet.Window.MainMenu;
@@ -35,6 +36,16 @@ namespace OregonTrailDotNet.Tests
             (TravelInfo) window.GetType().BaseType!
                 .GetProperty("UserData", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!
                 .GetValue(window)!;
+
+        /// <summary>
+        ///     Moves the party out of Independence and onto the trail, so the store under test is a fort counter rather
+        ///     than Matt's. It is the location's STATUS that tells the two apart, not its index — the trail comes back
+        ///     round to Independence's index the moment the party departs.
+        /// </summary>
+        private static void LeaveIndependence()
+        {
+            Game.Trail.CurrentLocation.Status = LocationStatusEnum.Arrived;
+        }
 
         [Fact]
         public void PurchaseItems_WhenBillExceedsBalance_DoesNotThrowAndDoesNotOverspend()
@@ -144,6 +155,62 @@ namespace OregonTrailDotNet.Tests
             // "1" is one yoke: two animals. There is no answer that produces one ox.
             form.OnInputBufferReturned("1");
             Assert.Equal(2, userData.Store.Transactions[EntitiesEnum.Animal].Quantity);
+        }
+
+        [Fact]
+        public void StorePurchase_AtAFort_SellsOxenSingly_NotByTheYoke()
+        {
+            // The two stores are different counters in the original. Matt's is the outfitter and sells oxen the way a
+            // teamster does, by the yoke; a fort is a price list, and a party that has lost one animal replaces one
+            // animal. So the yoke exists at Independence and nowhere else.
+            StartWithBalance(1600);
+            LeaveIndependence();
+
+            var window = new TravelWindow(GameSimulationApp.Instance);
+            var userData = UserDataOf(window);
+            userData.Store.SelectedItem = Parts.Oxen;
+
+            var form = new StorePurchase(window);
+            form.OnFormPostCreate();
+
+            var screen = form.OnRenderForm();
+            Assert.Contains("How many oxen do you want?", screen);
+            Assert.DoesNotContain("yoke", screen);
+
+            // No advice and no running tab out on the trail either — Matt is the only shopkeeper in the game.
+            Assert.DoesNotContain("I recommend", screen);
+            Assert.DoesNotContain("Bill so far", screen);
+
+            // And one really is one. A fort buys immediately rather than running a tab, so the animal lands in the
+            // wagon and the receipt is flushed — which is the other half of what makes this a different counter.
+            var oxenBefore = Game.Vehicle.Inventory[EntitiesEnum.Animal].Quantity;
+            form.OnInputBufferReturned("1");
+            Assert.Equal(oxenBefore + 1, Game.Vehicle.Inventory[EntitiesEnum.Animal].Quantity);
+        }
+
+        [Fact]
+        public void StorePurchase_AtAFort_HasAWiderQuantityFieldThanMatts()
+        {
+            // Matt's fields are tight — one character for oxen, two for ammunition. The forts give three (four for
+            // food), so the ninety-nine-box ceiling at Independence is not the ceiling for the whole game.
+            StartWithBalance(1600);
+            LeaveIndependence();
+
+            var window = new TravelWindow(GameSimulationApp.Instance);
+            var userData = UserDataOf(window);
+            userData.Store.SelectedItem = Resources.Bullets;
+
+            var form = new StorePurchase(window);
+            form.OnFormPostCreate();
+
+            // Ammunition is still sold by the box at a fort; only the field width changed. $1,600 at the marked-up
+            // fort price buys well over 99 boxes, so a quote above 99 proves the wider field.
+            var screen = form.OnRenderForm();
+            Assert.Contains("boxes do you want?", screen);
+
+            var ammoBefore = Game.Vehicle.Inventory[EntitiesEnum.Ammo].Quantity;
+            form.OnInputBufferReturned("150");
+            Assert.Equal(ammoBefore + 3000, Game.Vehicle.Inventory[EntitiesEnum.Ammo].Quantity);
         }
 
         [Fact]

@@ -160,7 +160,17 @@ namespace OregonTrailDotNet.Entity.Item
         public int MaxSaleDigits { get; }
 
         /// <summary>The largest quantity, in lots, the store's field can accept; int.MaxValue when unconstrained.</summary>
-        public int MaxSaleLots => MaxSaleDigits <= 0 ? int.MaxValue : (int) Math.Pow(10, MaxSaleDigits) - 1;
+        public int MaxSaleLots => LotsForDigits(MaxSaleDigits);
+
+        /// <summary>
+        ///     The largest number a quantity field of the given width can hold, or everything when the width is zero.
+        ///     Shared so the trail's forts, whose fields are wider than Matt's, work it out the same way.
+        /// </summary>
+        /// <param name="digits">How many characters wide the field is.</param>
+        public static int LotsForDigits(int digits)
+        {
+            return digits <= 0 ? int.MaxValue : (int) Math.Pow(10, digits) - 1;
+        }
 
         /// <summary>Renders a count of sale lots with the right noun, e.g. "3 yoke", "1 box", "12 boxes".</summary>
         /// <param name="lots">How many lots.</param>

@@ -61,8 +61,10 @@ namespace OregonTrailDotNet.Window
                         break;
                     case EntitiesEnum.Cash:
                         if (includeCash)
+                            // Read the purse itself, not its whole-dollar view: the party really does have the
+                            // cents and the panel is the one screen that tells them so.
                             suppliesList.Add(new Tuple<string, string>("money left",
-                                item.Value.TotalValue.ToString("C")));
+                                GameSimulationApp.Instance.Vehicle.Balance.ToString("C")));
                         break;
                 }
 

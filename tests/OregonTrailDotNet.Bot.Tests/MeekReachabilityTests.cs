@@ -68,7 +68,7 @@ namespace OregonTrailDotNet.Bot.Tests
             inv[EntitiesEnum.Clothes].AddQuantity(9999);
             inv[EntitiesEnum.Ammo].AddQuantity(999999);
             inv[EntitiesEnum.Food].AddQuantity(99999);
-            inv[EntitiesEnum.Cash].AddQuantity(360);
+            GameSimulationApp.Instance.Vehicle.Balance = 360; // the purse, not its derived whole-dollar view
 
             // The 1985 caps hold: 20 oxen, 3 per spare part, 255 clothes, 65,535 bullets, 2,000 lb food.
             Assert.Equal(20, inv[EntitiesEnum.Animal].Quantity);

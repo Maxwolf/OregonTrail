@@ -3,7 +3,6 @@
 using System;
 using OregonTrailDotNet.Entity;
 using OregonTrailDotNet.Entity.Item;
-using OregonTrailDotNet.Entity.Location;
 
 namespace OregonTrailDotNet.Window.Travel.Store
 {
@@ -23,22 +22,13 @@ namespace OregonTrailDotNet.Window.Travel.Store
     internal static class StoreAdvice
     {
         /// <summary>
-        ///     TRUE while the party is still outfitting at Matt's, before the journey has begun. Matches the condition
-        ///     the store menu already uses for its own first-location chrome; the location index alone is not enough,
-        ///     because the party comes back through Independence's index after departing.
-        /// </summary>
-        private static bool AtMatts =>
-            GameSimulationApp.Instance.Trail.IsFirstLocation &&
-            GameSimulationApp.Instance.Trail.CurrentLocation?.Status == LocationStatusEnum.Unreached;
-
-        /// <summary>
         ///     Matt's pitch for one good, or null where he has nothing to say (out on the trail, or for the medical
         ///     supplies that are ours rather than MECC's).
         /// </summary>
         /// <param name="item">The good the player just asked about.</param>
         internal static string For(SimItem item)
         {
-            if (item == null || !AtMatts)
+            if (item == null || !StoreCounter.AtMatts)
                 return null;
 
             switch (item.Category)
@@ -87,7 +77,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
         /// <param name="store">The pending receipt.</param>
         internal static string RunningBill(StoreGenerator store)
         {
-            if (store == null || !AtMatts)
+            if (store == null || !StoreCounter.AtMatts)
                 return null;
 
             return $"Bill so far: {store.TotalTransactionCost:C2}";

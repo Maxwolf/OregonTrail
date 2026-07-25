@@ -73,7 +73,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing.Ferry
             {
                 case DialogResponseEnum.Yes:
                     if (UserData.River.FerryCost >=
-                        GameSimulationApp.Instance.Vehicle.Inventory[EntitiesEnum.Cash].TotalValue)
+                        GameSimulationApp.Instance.Vehicle.Balance)
                     {
                         // Tell the player they do not have enough money to cross the river using the ferry.
                         SetForm(typeof(FerryNoMonies));

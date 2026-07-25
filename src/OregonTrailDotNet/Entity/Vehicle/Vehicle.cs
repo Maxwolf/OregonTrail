@@ -147,23 +147,57 @@ namespace OregonTrailDotNet.Entity.Vehicle
         /// </summary>
         public float Balance
         {
-            get => _inventory[EntitiesEnum.Cash].TotalValue;
-            private set
+            get => _balanceCents/100f;
+            internal set
             {
-                // Skip if the quantity already matches the value we are going to set it to.
-                if (value.Equals(_inventory[EntitiesEnum.Cash].Quantity))
-                    return;
+                // Money is held to the cent, because the store quotes to the cent: twenty cents a pound of food is a
+                // real price and a party that spends $1.40 has spent $1.40. The purse used to be a stack of whole
+                // dollar bills, which meant every write re-rounded the balance and a pound of food debited $399.80 out
+                // of $400 and stored $400 back — food was free by the pound, all the way to the wagon's ceiling, at
+                // every store in the game.
+                //
+                // Cents are held as an int rather than a float so the arithmetic cannot drift over a two-thousand-mile
+                // game, and the dollars/100f the getter hands back is exact for every balance this game can reach.
+                _balanceCents = value <= 0 ? 0 : (int) Math.Round(value*100f, MidpointRounding.AwayFromZero);
 
-                // Check if the value being set is zero, if so just reset it.
-                if (value <= 0)
-                    _inventory[EntitiesEnum.Cash].Reset();
-                else
-                    // Round to the nearest whole dollar rather than truncating. Truncation always floored the balance,
-                    // so a fractional total (e.g. buying an odd number of $0.10 pounds of food) silently overcharged the
-                    // player by up to $0.99 on every transaction.
-                    _inventory[EntitiesEnum.Cash] = new SimItem(_inventory[EntitiesEnum.Cash],
-                        (int) Math.Round(value, MidpointRounding.AwayFromZero));
+                // Keep the purse's inventory entry in step. It is a DERIVED view in whole dollars and exists for two
+                // readers only: the end-of-game tally, which pays a point per five dollars carried into Oregon, and the
+                // supply list. Truncating is right for both — nobody scores a partial dollar.
+                var cash = _inventory[EntitiesEnum.Cash];
+                var wholeDollars = _balanceCents/100;
+                if (wholeDollars <= 0)
+                    cash.Reset();
+                else if (cash.Quantity != wholeDollars)
+                    _inventory[EntitiesEnum.Cash] = new SimItem(cash, wholeDollars);
             }
+        }
+
+        /// <summary>
+        ///     The party's money in whole cents — the actual store of truth behind <see cref="Balance" />.
+        /// </summary>
+        private int _balanceCents;
+
+        /// <summary>
+        ///     Takes money off the party for something that is not a store purchase: a ferry, a toll, a guide's fee.
+        ///     Refuses rather than going into debt, and reports whether it managed it.
+        ///     <para>
+        ///         Everything that costs money goes through here or through <see cref="Purchase" />. Reaching into the
+        ///         cash inventory entry directly (which the ferry and the toll road both used to do) writes to the
+        ///         derived whole-dollar view instead of the purse and silently loses the cents.
+        ///     </para>
+        /// </summary>
+        /// <param name="amount">Dollars to take.</param>
+        /// <returns>TRUE if the party paid, FALSE if they could not afford it and nothing was taken.</returns>
+        public bool Charge(float amount)
+        {
+            if (amount <= 0)
+                return true;
+
+            if (Balance < amount)
+                return false;
+
+            Balance -= amount;
+            return true;
         }
 
         /// <summary>
@@ -714,21 +748,11 @@ namespace OregonTrailDotNet.Entity.Vehicle
             if (addableQuantity <= 0)
                 return;
 
-            // Work out the charge to the whole dollar the wagon's purse can actually hold, rounding UP.
-            //
-            // The purse counts dollar bills (Resources.Cash, one dollar apiece) and Balance re-quantizes to a whole
-            // dollar on every write, so a fractional charge used to be rounded straight back out of existence: a pound
-            // of food at $0.20 debited $399.80 from $400, which stored as $400 again. Food was therefore FREE by the
-            // pound at every store in the game, one pound at a time, all the way to the 2,000 lb ceiling — and a
-            // three-pound order billed $1.00 instead of $0.60, so the same rounding overcharged as readily as it gave
-            // goods away. Ceiling the charge here makes both impossible: nothing is ever free, and the wagon is never
-            // billed for money it does not spend.
-            //
-            // The original tracked cents ("Bill so far: $270.00", "My price is 20 cents a pound"), so a party buying an
-            // odd handful of pounds pays a few cents more here than Matt would have charged. Everything sold in the
-            // store except food by the single pound is a whole number of dollars — a $40 yoke, a $10 set of clothing, a
-            // $2 box of ammunition, a $10 spare part — so this rounds nothing in practice.
-            var charge = (float) Math.Ceiling(Math.Round(transaction.Cost*addableQuantity, 2));
+            // The exact price of the part that fits, to the cent — which is how the original quoted it ("My price is
+            // 20 cents a pound", "Bill so far: $270.00"). The purse holds cents, so this is charged in full: no
+            // rounding down to nothing (which once made food free by the pound) and no rounding up to a dollar the
+            // party never agreed to spend.
+            var charge = (float) Math.Round(transaction.Cost*addableQuantity, 2);
 
             // Check the player can afford what will actually be charged — the part that fits, not the full request.
             if (Balance < charge)

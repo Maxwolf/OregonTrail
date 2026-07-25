@@ -61,15 +61,21 @@ reimplements a rule from the original 1980s/1990s game differently, that is call
    fort does not skip the price rise
  16. In dollars, each threshold adds 2.50 to a set of clothing and to each wagon part, 0.50 to a
    box of ammunition, 0.05 to a pound of food, and 10.00 to a yoke of oxen
- 17. Goods are sold in the units the store quotes: oxen by the yoke of two at 40 dollars,
-   ammunition by the box of twenty bullets at 2 dollars, food by the pound, clothing by the set
- 18. Resting at a landmark lets sick or injured party members recover (quickly if the party carries
+ 17. Goods are sold in the units the store quotes: at Matt's in Independence oxen go by the yoke of
+   two at 40 dollars and ammunition by the box of twenty bullets at 2 dollars, with food by the
+   pound and clothing by the set; the forts out on the trail sell oxen singly at 20 dollars
+ 18. Each quantity prompt is a fixed-width field, which is what caps a single purchase: at Matt's
+   nine yoke of oxen, ninety-nine boxes of ammunition, ninety-nine sets of clothes, nine of any
+   spare part; the forts allow three digits, and four for food
+ 19. Money is kept to the cent, so a pound of food really costs twenty cents; points are awarded on
+   whole dollars carried into Oregon
+ 20. Resting at a landmark lets sick or injured party members recover (quickly if the party carries
    medical supplies, slowly otherwise)
- 19. Locations carry a fresh-water flag; a bad-water location doubles the daily chance of contracting
+ 21. Locations carry a fresh-water flag; a bad-water location doubles the daily chance of contracting
    dysentery or cholera
- 20. The maximum weight of food that can be carried back from a single hunt is 100 lbs
- 21. The fewer animals you kill while hunting, the cheaper the Shoshoni river guide's price in clothing
- 22. A river configured for an Indian guide will ferry the wagon across for a base of 1-5 sets of
+ 22. The maximum weight of food that can be carried back from a single hunt is 100 lbs
+ 23. The fewer animals you kill while hunting, the cheaper the Shoshoni river guide's price in clothing
+ 24. A river configured for an Indian guide will ferry the wagon across for a base of 1-5 sets of
    clothing (rising with the number of animals killed)
 
 ### Hunting ###
