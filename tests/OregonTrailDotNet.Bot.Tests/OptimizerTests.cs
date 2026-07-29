@@ -54,6 +54,34 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         [Fact]
+        public void Every_Model_Optimizer_Serializes_BeforeItsFirstUpdate()
+        {
+            foreach (var model in TrainingModels.All)
+            {
+                // A fresh optimizer has no champion yet, and TrainingSession persists in exactly that state: an Esc/Ctrl+C
+                // stop or a bug-halt during the FIRST generation calls PersistOptimizer() before any Update() has run. When
+                // BestFitness started at NegativeInfinity that threw ("cannot be written as valid JSON"), so the abort lost
+                // the whole run's learning state and a bug-halt reported the JSON error instead of the bug it caught.
+                var optimizer = model.CreateOptimizer(8);
+                Assert.Null(optimizer.BestVector);
+
+                var blob = optimizer.Serialize();
+
+                var restored = model.CreateOptimizer(8);
+                restored.Load(blob);
+                Assert.Equal(0, restored.Generation);
+                Assert.Null(restored.BestVector);
+
+                // ...and the resumed optimizer still adopts the first champion it sees, even a negative-fitness one (every
+                // party dead short of Oregon scores below zero), so nothing is frozen out by the sentinel.
+                var scored = restored.Sample().Select((v, i) => (v, -1000.0 + i)).ToList();
+                restored.Update(scored);
+                Assert.NotNull(restored.BestVector);
+                Assert.Equal(-1000.0 + (scored.Count - 1), restored.BestFitness);
+            }
+        }
+
+        [Fact]
         public void Load_DropsTheChampion_FromABlobSavedUnderAnOlderFitnessShaping()
         {
             foreach (var model in TrainingModels.All)

@@ -35,7 +35,10 @@ namespace OregonTrailDotNet.Bot.Learning
 
         public int Generation { get; private set; }
         public double[]? BestVector { get; private set; }
-        public double BestFitness { get; private set; } = double.NegativeInfinity;
+
+        // MinValue, not NegativeInfinity: a stop or a bug-halt can Serialize before the first Update, and JSON cannot
+        // express Infinity. Every real fitness still beats it, so the "first champion always wins" comparison is unchanged.
+        public double BestFitness { get; private set; } = double.MinValue;
 
         public IReadOnlyList<double[]> Sample()
         {
