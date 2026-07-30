@@ -63,13 +63,13 @@ namespace OregonTrailDotNet.Window.MainMenu
             AddCommand(TravelTheTrail, MainMenuCommandsEnum.TravelTheTrail);
             AddCommand(LearnAboutTrail, MainMenuCommandsEnum.LearnAboutTheTrail);
             AddCommand(SeeTopTen, MainMenuCommandsEnum.SeeTheOregonTopTen);
+
+            // The original's "Turn sound off", in the slot its DOS port used. Offered to every host: the menu is
+            // part of the game, not part of the drawing, so the bot must see the same six choices a player does.
+            // The presentation flag decides whether sound comes out, never whether the option is on the menu.
+            AddCommand(ToggleSound, MainMenuCommandsEnum.ToggleSound);
             AddCommand(ChooseManagementOptions, MainMenuCommandsEnum.ChooseManagementOptions);
             AddCommand(CloseSimulation, MainMenuCommandsEnum.CloseSimulation);
-
-            // The original's "Turn sound off", offered only where sound exists: headless hosts run without the
-            // audio stack and their menu text must stay exactly as the bot has always read it.
-            if (GameSimulationApp.PresentationEnabled)
-                AddCommand(ToggleSound, MainMenuCommandsEnum.ToggleSound);
         }
 
         /// <summary>
@@ -90,15 +90,13 @@ namespace OregonTrailDotNet.Window.MainMenu
         {
             var headerText = new StringBuilder();
             if (GameSimulationApp.PresentationEnabled)
-            {
                 headerText.Append($"{Banners.Title(reservedRows: 12)}{Environment.NewLine}");
-                if (Music.Muted)
-                    headerText.Append($"(sound is off){Environment.NewLine}{Environment.NewLine}");
-            }
             else
-            {
                 headerText.Append($"{Environment.NewLine}The Oregon Trail{Environment.NewLine}{Environment.NewLine}");
-            }
+
+            // Every host reads the toggle's state back, because every host is offered the toggle.
+            if (Music.Muted)
+                headerText.Append($"(sound is off){Environment.NewLine}{Environment.NewLine}");
 
             headerText.Append("You may:");
             MenuHeader = headerText.ToString();

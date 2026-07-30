@@ -26,20 +26,20 @@ namespace OregonTrailDotNet.Window.MainMenu
         [Description("See the Oregon Top Ten")] SeeTheOregonTopTen = 3,
 
         /// <summary>
+        ///     Mutes and unmutes the music, the original's "Turn sound off", in the same slot 4 its DOS port used.
+        ///     Offered by every host — a menu choice belongs to the game, not to the drawing, so the bot plays the
+        ///     same six-option menu a player does; only whether sound is audible follows the presentation flag.
+        /// </summary>
+        [Description("Turn sound on/off")] ToggleSound = 4,
+
+        /// <summary>
         ///     Shows version information, ability to clear high scores, Tombstone messages, saved games
         /// </summary>
-        [Description("Choose Management Options")] ChooseManagementOptions = 4,
+        [Description("Choose Management Options")] ChooseManagementOptions = 5,
 
         /// <summary>
-        ///     Exits the application, clears in memory in holding.
+        ///     Exits the application, clears in memory in holding. Last, as it is in the original.
         /// </summary>
-        [Description("End")] CloseSimulation = 5,
-
-        /// <summary>
-        ///     Mutes and unmutes the music, the original's "Turn sound off". Only offered when presentation is on —
-        ///     headless hosts have no sound and their menu text must not change. Value 6 because the printed number
-        ///     IS the enum value and 1-5 are frozen (the original's slot 4 belongs to Management Options here).
-        /// </summary>
-        [Description("Turn sound on/off")] ToggleSound = 6
+        [Description("End")] CloseSimulation = 6
     }
 }
