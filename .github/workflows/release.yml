@@ -1,0 +1,300 @@
+#
+# Builds the game, the minigame workbench, and the training bot as self-contained
+# single-file executables for all six runtime identifiers .NET supports on the
+# desktop, packages one archive per platform, and publishes them as a GitHub
+# Release so a player can download their machine's build and run it.
+#
+# Pushing a version tag (v2026.7.29.17) releases. A manual run builds the same
+# six platforms on demand and only releases if asked to.
+#
+# The actual publishing is ./publish.ps1 -Rid <rid> -Package, the same script a
+# developer runs locally, so there is one definition of how a build is made.
+#
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version stamp (year.month.day.hour, UTC). Blank stamps the current hour.'
+        required: false
+        type: string
+      publish_release:
+        description: 'Publish a GitHub Release (off: build the six platforms and keep them as run artifacts)'
+        type: boolean
+        default: false
+      draft:
+        description: 'Publish as a draft release'
+        type: boolean
+        default: false
+      skip_tests:
+        description: 'Skip the test gate'
+        type: boolean
+        default: false
+
+# Read-only by default; only the release job is trusted with write.
+permissions:
+  contents: read
+
+# Two runs racing each other to upload the same assets would interleave badly. The
+# group is deliberately the whole workflow, not github.ref: a tag push and a manual
+# run sit on different refs and so would NOT serialize against each other, which is
+# exactly the collision worth preventing. Releases are rare; queueing costs nothing.
+concurrency:
+  group: release-${{ github.workflow }}
+  cancel-in-progress: false
+
+env:
+  DOTNET_VERSION: '10.0.x'
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Settle the version once, so all six platform builds and the release itself
+  # agree on it (each runner asking the clock itself could straddle an hour).
+  # ---------------------------------------------------------------------------
+  version:
+    name: Stamp version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.stamp.outputs.version }}
+      tag: ${{ steps.stamp.outputs.tag }}
+      built: ${{ steps.stamp.outputs.built }}
+      release: ${{ steps.stamp.outputs.release }}
+    steps:
+      - id: stamp
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Branch on the EVENT, not on ref_type: the Run-workflow ref picker lists
+          # tags, so a manual run can sit on refs/tags/… too. Keying off ref_type
+          # would read that as a tag push, hardcode release=true, and publish a
+          # release the operator had explicitly switched off.
+          if [ "${{ github.event_name }}" = 'push' ]; then
+            tag='${{ github.ref_name }}'
+            version="${tag#v}"
+            release='true'
+          else
+            version='${{ inputs.version }}'
+            # Dispatching from a tag means "rebuild that release's commit", so take
+            # the version from the tag rather than stamping the current hour over it.
+            if [ -z "$version" ] && [ "${{ github.ref_type }}" = 'tag' ]; then
+              version='${{ github.ref_name }}'
+              version="${version#v}"
+            fi
+            # year.month.day.hour in UTC, unpadded — the same stamp the WolfCurses
+            # package this game builds on uses.
+            [ -n "$version" ] || version="$(date -u '+%Y.%-m.%-d.%-H')"
+            tag="v$version"
+            release='${{ inputs.publish_release }}'
+          fi
+
+          if ! printf '%s' "$version" | grep -Eq '^[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}$'; then
+            echo "::error::Version '$version' is not a year.month.day.hour stamp (e.g. 2026.7.29.17)."
+            exit 1
+          fi
+
+          {
+            echo "version=$version"
+            echo "tag=$tag"
+            echo "built=$(date -u '+%Y-%m-%d %H:%M UTC')"
+            echo "release=$release"
+          } >> "$GITHUB_OUTPUT"
+
+          {
+            echo "## Oregon Trail Clone \`$version\`"
+            echo
+            echo "| | |"
+            echo "| --- | --- |"
+            echo "| tag | \`$tag\` |"
+            echo "| commit | \`${{ github.sha }}\` |"
+            echo "| publishes a release | $release |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ---------------------------------------------------------------------------
+  # Gate the release on the suites. Windows only: the tests are verified there,
+  # and a release is the wrong place to find out how they behave on a host the
+  # suite has never run on.
+  # ---------------------------------------------------------------------------
+  test:
+    name: Test gate
+    if: ${{ !inputs.skip_tests }}
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: dotnet test
+        run: dotnet test OregonTrailDotNet.sln --nologo
+
+  # ---------------------------------------------------------------------------
+  # One archive per platform, each family built on its own runner on purpose:
+  #
+  #   * The .NET single-file bundler only sets the Unix executable bit when the
+  #     build host is not Windows, and nothing downstream can put it back — a
+  #     GitHub artifact upload flattens every file to 0644 regardless. So a
+  #     Linux or macOS archive has to be tarred on a Linux or macOS runner.
+  #   * macOS kills an unsigned arm64 binary on sight. The .NET 10 SDK ad-hoc
+  #     signs it from any host (the signer is managed now, gated on the target
+  #     RID), but building on a Mac means codesign is there to *verify* that
+  #     before the archive ships, which publish.ps1 does.
+  #
+  # Both macOS RIDs build on Apple silicon: it signs the Intel apphost fine, and
+  # the Intel runner image is on its way out (macos-13 is already retired).
+  # ---------------------------------------------------------------------------
+  build:
+    name: ${{ matrix.rid }}
+    needs: [version, test]
+    if: ${{ !cancelled() && needs.version.result == 'success' && needs.test.result != 'failure' }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { rid: win-x64, os: windows-latest }
+          - { rid: win-arm64, os: windows-latest }
+          - { rid: linux-x64, os: ubuntu-latest }
+          - { rid: linux-arm64, os: ubuntu-latest }
+          - { rid: osx-x64, os: macos-latest }
+          - { rid: osx-arm64, os: macos-latest }
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Publish and package ${{ matrix.rid }}
+        shell: pwsh
+        run: ./publish.ps1 -Rid '${{ matrix.rid }}' -Version '${{ needs.version.outputs.version }}' -Package
+
+      # SHA256SUMS.txt is built by the release job, which a build-only manual run
+      # never reaches — so put each archive's hash somewhere reachable regardless.
+      - name: Record the archive hash
+        shell: pwsh
+        run: |
+          $archive = Get-ChildItem publish -Filter 'OregonTrail-*' | Select-Object -First 1
+          $hash = (Get-FileHash $archive.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+          @(
+            "**$($archive.Name)**"
+            ''
+            ('{0:N1} MB, sha256 `{1}`' -f ($archive.Length / 1MB), $hash)
+          ) | Out-File -Append -Encoding utf8 $env:GITHUB_STEP_SUMMARY
+
+      - name: Upload ${{ matrix.rid }} archive
+        uses: actions/upload-artifact@v7
+        with:
+          name: archive-${{ matrix.rid }}
+          path: publish/OregonTrail-*
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+
+  # ---------------------------------------------------------------------------
+  # Collect the six archives, checksum them, and publish (or update) the release.
+  # ---------------------------------------------------------------------------
+  release:
+    name: Publish release
+    needs: [version, build]
+    if: ${{ needs.version.outputs.release == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TAG: ${{ needs.version.outputs.tag }}
+      VERSION: ${{ needs.version.outputs.version }}
+      BUILT: ${{ needs.version.outputs.built }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Download platform archives
+        uses: actions/download-artifact@v8
+        with:
+          path: dist
+          pattern: archive-*
+          merge-multiple: true
+
+      - name: Checksum the archives
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd dist
+          # Six archives and nothing else; anything missing means a platform silently
+          # dropped out of the release.
+          count=$(ls -1 OregonTrail-*.zip OregonTrail-*.tar.gz 2>/dev/null | wc -l)
+          if [ "$count" -ne 6 ]; then
+            echo "::error::Expected 6 platform archives, found $count."
+            ls -la
+            exit 1
+          fi
+          sha256sum OregonTrail-* > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Compose release notes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sed -e "s/__VERSION__/${VERSION}/g" \
+              -e "s/__BUILT__/${BUILT}/g" \
+              -e "s/__SHA__/${GITHUB_SHA}/g" \
+              .github/release-body.md > notes.md
+
+          # GitHub's own commit changelog goes underneath ours, but only once there is
+          # a previous release to diff against. On the first one the API succeeds and
+          # enumerates the entire history, which would bury the download table under
+          # hundreds of commits — so skip it rather than guarding only against failure.
+          if [ -z "$(gh release list --limit 1 --json tagName --jq '.[].tagName')" ]; then
+            echo "No previous release; publishing without a commit changelog."
+          elif gh api --method POST "repos/${GITHUB_REPOSITORY}/releases/generate-notes" \
+                 -f tag_name="${TAG}" -f target_commitish="${GITHUB_SHA}" \
+                 --jq '.body' > generated.md 2>/dev/null && [ -s generated.md ]; then
+            printf '\n---\n\n' >> notes.md
+            cat generated.md >> notes.md
+          else
+            echo "::warning::Could not generate the commit changelog; publishing the notes without it."
+          fi
+
+      - name: Publish release ${{ needs.version.outputs.tag }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # --latest explicitly: a year.month.day.hour stamp is not semver, so GitHub
+          # is not able to work out on its own which release is the newest.
+          flags=(--title "Oregon Trail Clone ${VERSION}" --notes-file notes.md --latest)
+          if [ '${{ inputs.draft }}' = 'true' ]; then flags+=(--draft); fi
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            # Re-running a release for a tag that already has one: replace the assets
+            # and the notes rather than failing.
+            echo "Release $TAG exists; updating it."
+            gh release upload "$TAG" dist/* --clobber
+            gh release edit "$TAG" --title "Oregon Trail Clone ${VERSION}" --notes-file notes.md
+          else
+            if [ '${{ github.ref_type }}' = 'tag' ]; then
+              # The tag is what triggered this run; make gh check it rather than
+              # silently creating a second one.
+              flags+=(--verify-tag)
+            else
+              # Manual run: gh creates the tag at the commit that was built.
+              flags+=(--target "$GITHUB_SHA")
+            fi
+            gh release create "$TAG" dist/* "${flags[@]}"
+          fi
+
+          {
+            echo "## Released [\`$TAG\`](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${TAG})"
+            echo
+            echo '| Asset | Size |'
+            echo '| --- | --- |'
+            for f in dist/*; do
+              printf '| `%s` | %s |\n' "$(basename "$f")" "$(du -h "$f" | cut -f1)"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"

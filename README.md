@@ -4,6 +4,29 @@ Clone of popular 90's computer game for C#.
 
 ![Oregon Trail Main Menu](https://raw.githubusercontent.com/Maxwolf/OregonTrail/master/media/TitleScreen.jpg)
 
+## Download and Play ##
+
+Ready-to-run builds are attached to every [release](https://github.com/Maxwolf/OregonTrail/releases/latest).
+There is nothing to install and no .NET runtime to fetch first — each archive holds one self-contained
+executable with the runtime, the original MECC artwork, and the chiptunes all bundled inside.
+
+| Your machine | File |
+| --- | --- |
+| Windows 10/11, Intel or AMD | `OregonTrail-<version>-win-x64.zip` |
+| Windows on ARM | `OregonTrail-<version>-win-arm64.zip` |
+| Mac with Apple silicon (M1 and later) | `OregonTrail-<version>-osx-arm64.tar.gz` |
+| Mac with an Intel processor | `OregonTrail-<version>-osx-x64.tar.gz` |
+| Linux, Intel or AMD | `OregonTrail-<version>-linux-x64.tar.gz` |
+| Linux on ARM (64-bit, e.g. Raspberry Pi 4/5) | `OregonTrail-<version>-linux-arm64.tar.gz` |
+
+Unpack it, read the `FIRST-RUN.txt` inside, and run `OregonTrailDotNet`. Give it a terminal at least
+80 columns by 25 rows — macOS Terminal and most Linux terminals open one row short of that, and the
+game silently drops whatever does not fit. The artwork draws on all three platforms; music and sound
+effects are Windows-only, because the audio stack talks to Windows' own waveOut device.
+
+Versions are `year.month.day.hour` stamps in UTC, so `2026.7.29.17` was built at 17:00 UTC on the
+29th of July 2026.
+
 ## Cloning Instructions ##
 
 ```cmd
@@ -20,7 +43,25 @@ dotnet run --project src/OregonTrailDotNet
 dotnet test OregonTrailDotNet.sln
 ```
 
-On Windows, `./publish.ps1` produces self-contained single-file executables (game, minigame workbench, and training bot) in the repo-root `publish` folder.
+`./publish.ps1` produces self-contained single-file executables (game, minigame workbench, and training
+bot) in the repo-root `publish` folder. It targets win-x64 by default; `-Rid` retargets it at any of the
+six platforms above, and `-Package` stages them into the same archive a release ships:
+
+```cmd
+./publish.ps1
+./publish.ps1 -Rid linux-arm64 -Version 2026.7.29.17 -Package
+```
+
+Releases themselves are built by `.github/workflows/release.yml`, which runs that same script once per
+platform. Pushing a `v`-prefixed version tag builds all six and publishes them:
+
+```cmd
+git tag v2026.7.29.17
+git push origin v2026.7.29.17
+```
+
+The workflow can also be started by hand from the Actions tab, where it stamps the current UTC hour
+and only publishes a release if asked to.
 
 ## Simulation Features ##
 

@@ -22,7 +22,15 @@ namespace OregonTrailDotNet.Bot
         public static int Main()
         {
             Console.Title = "Oregon Trail Bot";
-            Console.OutputEncoding = Encoding.Unicode;
+
+            // Windows only: on a Unix terminal this writes UTF-16LE bytes at something
+            // reading UTF-8, and the panel comes out as mojibake with NULs through it.
+            // The bot ships for linux-* and osx-* now, so it cannot be unconditional.
+            // (WolfCurses readies the console for UTF-8 itself the first time it draws,
+            // which is why the game's own Program.cs no longer sets this at all.)
+            if (OperatingSystem.IsWindows())
+                Console.OutputEncoding = Encoding.Unicode;
+
             TrySetCursorVisible(false);
             Console.CancelKeyPress += (_, e) =>
             {
