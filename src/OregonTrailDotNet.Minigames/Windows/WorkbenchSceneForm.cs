@@ -5,7 +5,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 {
     /// <summary>
     ///     The workbench's binding of the shared <see cref="SceneForm{TData}" />: adds back the two behaviors that
-    ///     are workbench affordances rather than game features — the -/+ speed keys, and the per-section tick-rate
+    ///     are workbench affordances rather than game features - the -/+ speed keys, and the per-section tick-rate
     ///     store in <see cref="MinigameInfo" /> so each section remembers its own tuning between visits.
     /// </summary>
     public abstract class WorkbenchSceneForm : SceneForm<MinigameInfo>

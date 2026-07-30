@@ -33,7 +33,7 @@ namespace OregonTrailDotNet.Window.Travel
 
         /// <summary>
         ///     Which form plays the departure screen. Always the plain text form: a graphical/musical sibling was
-        ///     built (the original's :2200 plays the loaded score at departure) and removed on playtest — the tune
+        ///     built (the original's :2200 plays the loaded score at departure) and removed on playtest - the tune
         ///     belongs to the opening and the look-around arrivals, and hearing it again on the way out cheapened
         ///     it. All SetForm sites route through here, so restoring a sibling later is a one-line change.
         /// </summary>
@@ -47,8 +47,8 @@ namespace OregonTrailDotNet.Window.Travel
             GameSimulationApp.PresentationEnabled ? typeof(Scene.DriveScene) : typeof(Command.ContinueOnTrail);
 
         /// <summary>
-        ///     Which form runs a river crossing. All five dispatch sites — ford, float, the ferry (immediate and
-        ///     after a wait at Resting), and the Indian guide — route through here: the CROSS.LIB picture when
+        ///     Which form runs a river crossing. All five dispatch sites - ford, float, the ferry (immediate and
+        ///     after a wait at Resting), and the Indian guide - route through here: the CROSS.LIB picture when
         ///     presentation is on, the text marquee for every headless host. Both drive the identical
         ///     <see cref="RiverCrossing.CrossingSimulation" />.
         /// </summary>
@@ -72,8 +72,8 @@ namespace OregonTrailDotNet.Window.Travel
         ///     The hunt currently being played, or null when the party is not out hunting. Set by
         ///     <see cref="Scene.HuntScene" /> when it builds the field and cleared when the bag is applied.
         ///     <para>
-        ///         Exposed so a headless driver can read the field it is shooting at — where the animals are, where
-        ///         the rifle points, how much has been bagged — the same things a player reads off the picture. It is
+        ///         Exposed so a headless driver can read the field it is shooting at - where the animals are, where
+        ///         the rifle points, how much has been bagged - the same things a player reads off the picture. It is
         ///         the live simulation object, not a copy: there is exactly one hunt and everybody plays it.
         ///     </para>
         /// </summary>
@@ -154,7 +154,7 @@ namespace OregonTrailDotNet.Window.Travel
 
                 var showLocationName = game.Trail.CurrentLocation.Status == LocationStatusEnum.Arrived;
 
-                // The location header — a landmark name once arrived, otherwise the distance to the next one — titles the
+                // The location header - a landmark name once arrived, otherwise the distance to the next one - titles the
                 // framed panel; the date and party stats form its body.
                 var title = showLocationName
                     ? game.Trail.CurrentLocation.Name

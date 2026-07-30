@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
     ///     <para>
     ///         The original had <b>two</b> stores, not one shop with two skins, and they do not sell the same way.
     ///         Matt's, at Independence, is the outfitter: he talks you through what a family needs, keeps a running
-    ///         tab, and sells oxen the way a teamster does — by the yoke, two at a time, forty dollars. The forts out
+    ///         tab, and sells oxen the way a teamster does - by the yoke, two at a time, forty dollars. The forts out
     ///         on the trail are a counter and a price list: no advice, no tab, and oxen sold <b>singly</b> at twenty,
     ///         because a party that has lost one animal needs to replace one animal.
     ///     </para>
@@ -32,7 +32,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
         /// <summary>Field width every fort counter uses, and the four the original gave food alone.</summary>
         private const int FortSaleDigits = 3;
 
-        /// <summary>How wide the fort's food field is — a wagon takes two thousand pounds, so three would not reach.</summary>
+        /// <summary>How wide the fort's food field is - a wagon takes two thousand pounds, so three would not reach.</summary>
         private const int FortFoodSaleDigits = 4;
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
 
         /// <summary>
         ///     How many units of a good this counter sells at a time, by category. The same answer
-        ///     <see cref="LotSize(SimItem)" /> gives, for callers holding only the category — the headless bot, which
+        ///     <see cref="LotSize(SimItem)" /> gives, for callers holding only the category - the headless bot, which
         ///     has to answer the quantity prompt in whatever unit the counter in front of it is using.
         /// </summary>
         /// <param name="category">The good's category.</param>
@@ -79,14 +79,14 @@ namespace OregonTrailDotNet.Window.Travel.Store
             }
         }
 
-        /// <summary>Singular name of one lot at this counter — "yoke" at Matt's, "ox" at a fort.</summary>
+        /// <summary>Singular name of one lot at this counter - "yoke" at Matt's, "ox" at a fort.</summary>
         /// <param name="item">The good being bought.</param>
         internal static string LotUnit(SimItem item)
         {
             return LotSize(item) == item.LotSize ? item.LotUnit : item.DelineatingUnit;
         }
 
-        /// <summary>Plural name of a lot at this counter — "yoke" at Matt's, "oxen" at a fort.</summary>
+        /// <summary>Plural name of a lot at this counter - "yoke" at Matt's, "oxen" at a fort.</summary>
         /// <param name="item">The good being bought.</param>
         internal static string LotPluralForm(SimItem item)
         {

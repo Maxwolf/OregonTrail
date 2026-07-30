@@ -32,7 +32,7 @@ namespace OregonTrailDotNet.Window.GameOver
             PromptText = SceneGraph.PROMPT_TEXT_DEFAULT;
 
             // A scene form's tune must not outlive it: stop the victory music when a plain form (the scoring
-            // table) takes over — the same guard Travel and the Graveyard carry.
+            // table) takes over - the same guard Travel and the Graveyard carry.
             if (GameSimulationApp.PresentationEnabled &&
                 CurrentForm is not OregonTrailDotNet.Presentation.SceneForm<GameOverInfo>)
                 OregonTrailDotNet.Presentation.Audio.Music.Stop();

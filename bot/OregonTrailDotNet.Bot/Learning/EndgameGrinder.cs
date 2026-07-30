@@ -5,7 +5,7 @@ namespace OregonTrailDotNet.Bot.Learning
 {
     /// <summary>
     ///     The endgame score grind shared by the learned policies: at the last stops before Oregon City, keep browsing
-    ///     emigrant trades so hunted food converts into clothes and bullets — the same strategy that pushes the 1985 game
+    ///     emigrant trades so hunted food converts into clothes and bullets - the same strategy that pushes the 1985 game
     ///     toward its 13,860 ceiling (clothes cap 255 sets, bullets cap 65,535). The genome decides how many browses to
     ///     spend and when the party's health calls it off; this class owns the per-game counter, mirroring SupplyPlanner.
     ///     One instance per policy per game.
@@ -24,7 +24,7 @@ namespace OregonTrailDotNet.Bot.Learning
             if (!available.Contains(TravelCommandsEnum.AttemptToTrade))
                 return false;
 
-            // Only grind once the journey is effectively over — the final stops before Oregon City.
+            // Only grind once the journey is effectively over - the final stops before Oregon City.
             if (!state.NearTrailEnd)
                 return false;
 

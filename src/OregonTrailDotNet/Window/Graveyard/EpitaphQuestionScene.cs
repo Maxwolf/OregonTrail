@@ -20,7 +20,7 @@ namespace OregonTrailDotNet.Window.Graveyard
 
         /// <summary>Initializes a new instance of the <see cref="EpitaphQuestionScene" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public EpitaphQuestionScene(IWindow window) : base(window)
         {
         }
@@ -84,7 +84,7 @@ namespace OregonTrailDotNet.Window.Graveyard
         /// <inheritdoc />
         public override void OnInputBufferReturned(string input)
         {
-            // A bare ENTER — or a typed "y"/"n" the player submitted out of habit — answers the question too.
+            // A bare ENTER - or a typed "y"/"n" the player submitted out of habit - answers the question too.
             if (input != null && input.Trim().StartsWith("y", StringComparison.OrdinalIgnoreCase))
             {
                 SetForm(typeof(EpitaphEditor));
@@ -97,7 +97,7 @@ namespace OregonTrailDotNet.Window.Graveyard
         /// <inheritdoc />
         protected override void OnEscape() => DeclineEpitaph();
 
-        /// <summary>Anything but a yes keeps the stone as it stands — the original's Custom-counts-as-No reading.</summary>
+        /// <summary>Anything but a yes keeps the stone as it stands - the original's Custom-counts-as-No reading.</summary>
         private void DeclineEpitaph()
         {
             GameSimulationApp.Instance.Tombstone.Add(UserData.Tombstone);

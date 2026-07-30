@@ -12,7 +12,7 @@ namespace OregonTrailDotNet.Window.Graveyard
     ///     The gravestone drawn as the original drew it: the Apple II tombstone card (the one screen the DOS port has
     ///     no picture for) with the inscription printed into the stone's text window while Taps plays
     ///     (<c>TOMB.LIB:50010</c> loads stone and score together). The graphical sibling of
-    ///     <see cref="TombstoneView" />, covering both its paths — the all-dead end screen and a living party
+    ///     <see cref="TombstoneView" />, covering both its paths - the all-dead end screen and a living party
     ///     reading a grave they came across on the trail.
     /// </summary>
     [ParentWindow(typeof(Graveyard))]
@@ -23,7 +23,7 @@ namespace OregonTrailDotNet.Window.Graveyard
 
         /// <summary>Initializes a new instance of the <see cref="TombstoneScene" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public TombstoneScene(IWindow window) : base(window)
         {
         }
@@ -47,7 +47,7 @@ namespace OregonTrailDotNet.Window.Graveyard
         /// <inheritdoc />
         protected override bool CenterPicture => false;
 
-        /// <summary>Taps — the Apple II's, since the DOS port has no graveyard music at all.</summary>
+        /// <summary>Taps - the Apple II's, since the DOS port has no graveyard music at all.</summary>
         protected override string MusicCue => "tombstone";
 
         /// <inheritdoc />
@@ -72,7 +72,7 @@ namespace OregonTrailDotNet.Window.Graveyard
             var canvas = new PixelBuffer(stone.Width, stone.Height, (byte[]) stone.Data.Clone());
             var epitaph = tombstone?.Epitaph ?? string.Empty;
 
-            // The game's epitaphs run to 38 characters against the original's 29 — pass the real length so nothing
+            // The game's epitaphs run to 38 characters against the original's 29 - pass the real length so nothing
             // is clipped; the stone's five-row window is the honest bound and Draw clips to it.
             TombstoneArt.Draw(canvas,
                 TombstoneArt.Inscription(tombstone?.PlayerName ?? string.Empty, epitaph, out _,

@@ -22,14 +22,14 @@ namespace OregonTrailDotNet.Bot.Ui
         public override string OnRenderForm()
         {
             var sb = new StringBuilder();
-            sb.AppendLine($"{Environment.NewLine}Watch '{BotContext.ActiveProfileName}' play — set up the experience:{Environment.NewLine}");
+            sb.AppendLine($"{Environment.NewLine}Watch '{BotContext.ActiveProfileName}' play - set up the experience:{Environment.NewLine}");
 
             sb.AppendLine($"  Speed:  {SpeedLabel(UserData.WatchSpeed)}");
             sb.AppendLine("            1. Fast     2. Medium     3. Slow");
             sb.AppendLine();
             sb.AppendLine(UserData.WatchLoop
-                ? "  Loop:   On — replay games until you press Esc"
-                : "  Loop:   Off — play a single game");
+                ? "  Loop:   On - replay games until you press Esc"
+                : "  Loop:   Off - play a single game");
             sb.AppendLine("            4. Toggle looping");
 
             sb.Append($"{Environment.NewLine}Press ENTER to start watching, or 0 to go back.");

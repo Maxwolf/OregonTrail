@@ -4,7 +4,7 @@ namespace OregonTrailDotNet.Bot.Learning
 {
     /// <summary>
     ///     A control that does not learn: every generation it draws a fresh batch of wide random vectors around a fixed centre
-    ///     and only remembers the best one it has ever seen. Useful as a baseline — the gap between this and the learning
+    ///     and only remembers the best one it has ever seen. Useful as a baseline - the gap between this and the learning
     ///     models is a direct measure of how much the learning actually helps.
     /// </summary>
     public sealed class RandomSearchOptimizer : IOptimizer
@@ -86,7 +86,7 @@ namespace OregonTrailDotNet.Bot.Learning
             if (state.BestRaw != null && state.BestRaw.Length == _length)
                 BestVector = state.BestRaw;
 
-            // A champion scored under an older fitness shaping is not comparable on the new scale — drop it so the next
+            // A champion scored under an older fitness shaping is not comparable on the new scale - drop it so the next
             // generation's champion can take over (the sampler itself is stateless, so nothing else is lost).
             if (state.FitnessVersion != TrainingSession.FitnessVersion)
             {
@@ -101,7 +101,7 @@ namespace OregonTrailDotNet.Bot.Learning
             public double[]? BestRaw { get; set; }
             public double BestFitness { get; set; }
 
-            // Absent in blobs saved before versioning existed — deserializes to 0, which never matches a real version.
+            // Absent in blobs saved before versioning existed - deserializes to 0, which never matches a real version.
             public int FitnessVersion { get; set; }
         }
     }

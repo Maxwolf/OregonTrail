@@ -86,7 +86,7 @@ jobs:
               version='${{ github.ref_name }}'
               version="${version#v}"
             fi
-            # year.month.day.hour in UTC, unpadded — the same stamp the WolfCurses
+            # year.month.day.hour in UTC, unpadded - the same stamp the WolfCurses
             # package this game builds on uses.
             [ -n "$version" ] || version="$(date -u '+%Y.%-m.%-d.%-H')"
             tag="v$version"
@@ -138,7 +138,7 @@ jobs:
   # One archive per platform, each family built on its own runner on purpose:
   #
   #   * The .NET single-file bundler only sets the Unix executable bit when the
-  #     build host is not Windows, and nothing downstream can put it back — a
+  #     build host is not Windows, and nothing downstream can put it back - a
   #     GitHub artifact upload flattens every file to 0644 regardless. So a
   #     Linux or macOS archive has to be tarred on a Linux or macOS runner.
   #   * macOS kills an unsigned arm64 binary on sight. The .NET 10 SDK ad-hoc
@@ -176,7 +176,7 @@ jobs:
         run: ./publish.ps1 -Rid '${{ matrix.rid }}' -Version '${{ needs.version.outputs.version }}' -Package
 
       # SHA256SUMS.txt is built by the release job, which a build-only manual run
-      # never reaches — so put each archive's hash somewhere reachable regardless.
+      # never reaches - so put each archive's hash somewhere reachable regardless.
       - name: Record the archive hash
         shell: pwsh
         run: |
@@ -250,7 +250,7 @@ jobs:
           # GitHub's own commit changelog goes underneath ours, but only once there is
           # a previous release to diff against. On the first one the API succeeds and
           # enumerates the entire history, which would bury the download table under
-          # hundreds of commits — so skip it rather than guarding only against failure.
+          # hundreds of commits - so skip it rather than guarding only against failure.
           if [ -z "$(gh release list --limit 1 --json tagName --jq '.[].tagName')" ]; then
             echo "No previous release; publishing without a commit changelog."
           elif gh api --method POST "repos/${GITHUB_REPOSITORY}/releases/generate-notes" \

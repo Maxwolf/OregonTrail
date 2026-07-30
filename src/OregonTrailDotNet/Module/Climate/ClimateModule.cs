@@ -109,7 +109,7 @@ namespace OregonTrailDotNet.Module.Climate
 
         /// <summary>
         ///     The sky's own events, fired from the sky rather than a blind category roll so a blizzard only ever
-        ///     strikes out of blizzard weather. Only a travelling party is exposed — a party resting, trading or
+        ///     strikes out of blizzard weather. Only a travelling party is exposed - a party resting, trading or
         ///     waiting out a storm is already stopped, which is also what stops a lost-time event chaining into
         ///     another storm before the first has cleared.
         /// </summary>

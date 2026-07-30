@@ -103,7 +103,7 @@ namespace OregonTrailDotNet.Tests
             data.River.FerryCost = 0;
             form.OnFormPostCreate();
 
-            // ENTER mid-river does nothing — the form stays put until the far bank.
+            // ENTER mid-river does nothing - the form stays put until the far bank.
             form.OnInputBufferReturned(string.Empty);
             Assert.Null(window.CurrentForm);
 

@@ -3,10 +3,10 @@ namespace OregonTrailDotNet.Presentation
     /// <summary>Which horizon the leg is drawn against.</summary>
     public enum TravelTerrainEnum
     {
-        /// <summary>Rolling green plains — the Apple II's <c>PRAIRIE.IMA</c>, side A, landmarks 0-4.</summary>
+        /// <summary>Rolling green plains - the Apple II's <c>PRAIRIE.IMA</c>, side A, landmarks 0-4.</summary>
         Plains,
 
-        /// <summary>Snow-capped peaks — the Apple II's <c>MOUNTAINS.IMA</c>, side B, landmarks 5-17.</summary>
+        /// <summary>Snow-capped peaks - the Apple II's <c>MOUNTAINS.IMA</c>, side B, landmarks 5-17.</summary>
         Mountains
     }
 
@@ -31,10 +31,10 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>The three-frame walk cycle.</summary>
         Rolling,
 
-        /// <summary>A wheel is off and the wagon is down — nothing moves.</summary>
+        /// <summary>A wheel is off and the wagon is down - nothing moves.</summary>
         Broken,
 
-        /// <summary>The wagon is alight — nothing moves.</summary>
+        /// <summary>The wagon is alight - nothing moves.</summary>
         Burning
     }
 
@@ -68,7 +68,7 @@ namespace OregonTrailDotNet.Presentation
     ///         Two things fall out of that loop, and both are reproduced here. First, the wagon is <b>nailed to
     ///         x=186</b> and the world slides past it, so the team never actually crosses the screen. Second,
     ///         <c>WG</c> (the walk frame) and <c>IX</c> (the world offset) advance <b>in the same iteration</b>, which
-    ///         means the oxen's legs are tied to <i>ground covered</i> rather than to elapsed time — drive harder and
+    ///         means the oxen's legs are tied to <i>ground covered</i> rather than to elapsed time - drive harder and
     ///         you watch them stride faster. The step count <c>VP</c> is a distance delta, not a frame rate.
     ///     </para>
     ///     <para>
@@ -87,7 +87,7 @@ namespace OregonTrailDotNet.Presentation
         /// </summary>
         public const int ScreenWidth = 320;
 
-        /// <summary>`:3246` — the wagon's x in Apple II pixels. It never changes; the world moves instead.</summary>
+        /// <summary>`:3246` - the wagon's x in Apple II pixels. It never changes; the world moves instead.</summary>
         public const int Apple2WagonX = 186;
 
         /// <summary>Composition height: the whole 320x200 screen, status panel and all.</summary>
@@ -95,15 +95,15 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     The wagon's x. Converting the Apple II's 186 gives <b>212</b>, and measuring a screen capture of the DOS
-        ///     port gives 212 with a 78-pixel frame — five years apart, the two ports park the wagon on the same pixel.
+        ///     port gives 212 with a 78-pixel frame - five years apart, the two ports park the wagon on the same pixel.
         /// </summary>
         public const int WagonX = Apple2WagonX * ScreenWidth / Art.Apple2Width;
 
         /// <summary>
         ///     Where the horizon strip hangs. It is <b>not</b> seated on the ground: a wide black band separates the
         ///     bottom of the strip from the top of the ground box, and that band is where the team walks. Seating the
-        ///     strip on the ground line instead — which looks like the sensible thing to do, and is what this port did
-        ///     first — turns a distant horizon into a hedgerow standing at the oxen's feet.
+        ///     strip on the ground line instead - which looks like the sensible thing to do, and is what this port did
+        ///     first - turns a distant horizon into a hedgerow standing at the oxen's feet.
         /// </summary>
         public const int StripY = 17;
 
@@ -139,11 +139,11 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>Rows between status-panel lines.</summary>
         public const int PanelLineHeight = 10;
 
-        /// <summary>`C4` — how far the world slides per step. The original's value is not recoverable, so this is a
+        /// <summary>`C4` - how far the world slides per step. The original's value is not recoverable, so this is a
         ///     tuning knob; it only sets how finely distance is quantised into strides.</summary>
         public const int StepPixels = 2;
 
-        /// <summary>`FX = 180 - L%(NM-1,1)` — where the leg's scenery comes to rest. The L% offset column is decoded
+        /// <summary>`FX = 180 - L%(NM-1,1)` - where the leg's scenery comes to rest. The L% offset column is decoded
         ///     now (<see cref="OriginalTrail.SceneryRestX" /> carries it) but was authored against the Apple II art,
         ///     not the DOS pieces drawn here, so every piece rests at the bare 180 and the decoded offsets stay
         ///     reference-only.</summary>
@@ -155,7 +155,7 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>
         ///     The real trail, in order: what scrolls past on the way to each landmark.
         ///     <para>
-        ///         This was guesswork — two pools picked at random by terrain — until <c>L%</c> was decoded out of
+        ///         This was guesswork - two pools picked at random by terrain - until <c>L%</c> was decoded out of
         ///         <c>VAR.BIN</c>. It is <c>DIM L%(16,1)</c>, indexed by <b>destination landmark - 1</b>, and
         ///         <c>OREGON TRAIL:3000</c> reads it as <c>NI = L%(NM-1,0)</c> for the image and
         ///         <c>FX = 180 - L%(NM-1,1)</c> for where that image parks. See the table at the foot of
@@ -163,14 +163,14 @@ namespace OregonTrailDotNet.Presentation
         ///     </para>
         ///     <para>
         ///         What it says is that the roadside object is <b>a miniature of the landmark you are heading
-        ///         toward</b> — so the travel screen is a slow reveal of the next stop, drawing level with the wagon
+        ///         toward</b> - so the travel screen is a slow reveal of the next stop, drawing level with the wagon
         ///         exactly as the leg runs out, rather than the random scenery this had before.
         ///     </para>
         ///     <para>
         ///         <c>Apple</c> records the original's own <c>(table, NI)</c> so the mapping stays checkable against
         ///         the disk. The DOS sprite ids are a <b>correspondence</b>, not a decode: the DOS port re-drew this
         ///         art and its own table is locked inside an LZEXE-packed <c>OREGON.EXE</c>. The two sets do match
-        ///         one-to-one — 15 roadside pieces each — and every pairing below is by subject, but they have not
+        ///         one-to-one - 15 roadside pieces each - and every pairing below is by subject, but they have not
         ///         been read out of the DOS binary.
         ///     </para>
         /// </summary>
@@ -210,13 +210,13 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>How hard the team is driven, which sets how many strides a tick buys.</summary>
         public TravelPaceEnum Pace { get; private set; } = TravelPaceEnum.Steady;
 
-        /// <summary>`WG` — the walk frame, 1-3, advanced once per stride rather than once per tick.</summary>
+        /// <summary>`WG` - the walk frame, 1-3, advanced once per stride rather than once per tick.</summary>
         public int WalkFrame { get; private set; } = 1;
 
-        /// <summary>`IX` — how far the world has slid. Derived from <see cref="MilesRemaining" />, never accumulated.</summary>
+        /// <summary>`IX` - how far the world has slid. Derived from <see cref="MilesRemaining" />, never accumulated.</summary>
         public int SceneryX { get; private set; }
 
-        /// <summary>`D` — miles still to run on this leg.</summary>
+        /// <summary>`D` - miles still to run on this leg.</summary>
         public double MilesRemaining { get; private set; }
 
         /// <summary>Miles run since the workbench started, for the readout.</summary>
@@ -224,7 +224,7 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     Days on the trail, at the original's rough fifteen miles to a day. There is no simulation behind this
-        ///     workbench, so this and the three readings below are <b>stand-ins derived from distance</b> — enough for
+        ///     workbench, so this and the three readings below are <b>stand-ins derived from distance</b> - enough for
         ///     the status panel to look alive and for its layout to be checked, and not to be mistaken for game state.
         /// </summary>
         private int Days => (int) (MilesTravelled / 15.0);
@@ -252,7 +252,7 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>Which leg of the trail this is, 0-16.</summary>
         public int Leg { get; private set; }
 
-        /// <summary>Strides taken in the last tick — the original's <c>VP</c>, and the reason the legs cycle.</summary>
+        /// <summary>Strides taken in the last tick - the original's <c>VP</c>, and the reason the legs cycle.</summary>
         public int LastStrides { get; private set; }
 
         /// <summary>True once the leg has run out, which is when the scenery has reached its resting place.</summary>
@@ -260,7 +260,7 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     Miles a tick buys at the current pace. Kept in the same 1 : 1.7 : 2.5 proportion the original drives
-        ///     the team at, but small in absolute terms, and that part is not a taste decision — see below.
+        ///     the team at, but small in absolute terms, and that part is not a taste decision - see below.
         ///     <para>
         ///         <b>These numbers have to stay low enough that a tick is well under one walk cycle.</b> The walk is
         ///         three frames and the frame advances once per stride, so if a tick covers three strides the legs land
@@ -283,7 +283,7 @@ namespace OregonTrailDotNet.Presentation
         };
 
         /// <summary>
-        ///     Pixels of world travel per mile — the original's <c>C2</c>. Solved rather than chosen: the scenery has to
+        ///     Pixels of world travel per mile - the original's <c>C2</c>. Solved rather than chosen: the scenery has to
         ///     start just off the left edge with the full leg to run, and rest at <see cref="SceneryRestX" /> with none
         ///     of it left.
         /// </summary>
@@ -393,7 +393,7 @@ namespace OregonTrailDotNet.Presentation
     }
 
     /// <summary>One leg of the trail, and the roadside piece that scrolls past on the way to its landmark.</summary>
-    /// <param name="Toward">The landmark this leg ends at — which is what chooses the scenery.</param>
+    /// <param name="Toward">The landmark this leg ends at - which is what chooses the scenery.</param>
     /// <param name="SpriteId">1-based id within the scenery sheet (<c>art/sprites/scenery/NN.png</c>).</param>
     /// <param name="Name">What the artist drew, for the readout.</param>
     /// <param name="Apple">
@@ -401,7 +401,7 @@ namespace OregonTrailDotNet.Presentation
     /// </param>
     /// <param name="RestX">
     ///     <c>FX = 180 - L%(NM-1,1)</c>, in the Apple II's 280-wide space: where the piece stops. Carried for
-    ///     reference — this workbench solves its own scroll from the art's width, since the DOS art is not the
+    ///     reference - this workbench solves its own scroll from the art's width, since the DOS art is not the
     ///     art those offsets were authored against.
     /// </param>
     public readonly record struct TravelLeg(string Toward, int SpriteId, string Name, string Apple, int RestX)

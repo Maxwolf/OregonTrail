@@ -15,9 +15,9 @@ namespace OregonTrailDotNet.Persistence
     {
         private static readonly string[] Migrations =
         {
-            // v1 — high scores and tombstones. Tombstones are two-per-trail (one per half, keyed by trail_half so a new
+            // v1 - high scores and tombstones. Tombstones are two-per-trail (one per half, keyed by trail_half so a new
             //      death in a half overwrites the old grave) and record the bracketing landmarks the original TOMBS.REC
-            //      stored — matching where the party died.
+            //      stored - matching where the party died.
             """
             CREATE TABLE high_scores (
                 id      INTEGER PRIMARY KEY AUTOINCREMENT,

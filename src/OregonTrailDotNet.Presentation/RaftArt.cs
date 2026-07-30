@@ -24,7 +24,7 @@ namespace OregonTrailDotNet.Presentation
         ///     <para>
         ///         The sheet is keyed on its water blue, so the sand these two are drawn on is opaque content as far as
         ///         the cutter is concerned, and the arrow post and the trail squiggle flood-fill as a single 57x35
-        ///         block. Blitting it whole put a peach rectangle on the river — and used the same picture for both
+        ///         block. Blitting it whole put a peach rectangle on the river - and used the same picture for both
         ///         markers, when the original clearly draws two: <c>:1148</c> is <c>&amp; IMAGE,5</c> for the three
         ///         direction signs and <c>:1149</c> is <c>&amp; IMAGE,6</c> for the landing.
         ///     </para>
@@ -35,7 +35,7 @@ namespace OregonTrailDotNet.Presentation
         ///     Pulls one bank marker out of the block the cutter merged, dropping the sand it was drawn on.
         ///     <para>
         ///         The split is found rather than hard-coded: the sand is a single flat colour, so the columns holding
-        ///         anything else fall into two runs with a clear gap between them — the arrow post on the left, the
+        ///         anything else fall into two runs with a clear gap between them - the arrow post on the left, the
         ///         trail squiggle on the right. Keying the sand out as well as cropping to it matters, because these
         ///         ride the bank at an angle while a sprite is an upright rectangle; carrying the sand along would put
         ///         square corners of beach out over the water as the marker drifts past the waterline.
@@ -97,15 +97,15 @@ namespace OregonTrailDotNet.Presentation
         }
 
         /// <summary>
-        ///     Paints the river the raft crosses. The DOS port ships no river backdrop — its raft sprites are keyed
-        ///     against the water colour because the water was drawn, not blitted — so this draws one, out of the game's
+        ///     Paints the river the raft crosses. The DOS port ships no river backdrop - its raft sprites are keyed
+        ///     against the water colour because the water was drawn, not blitted - so this draws one, out of the game's
         ///     own geometry rather than by eye.
         ///     <para>
         ///         The trick is to measure a pixel <i>across</i> the river rather than along it.
         ///         <see cref="RaftGame.LaneOf" /> does exactly that, and the original's own constants confirm the
         ///         orientation: a rock drifting <c>(+8, -4)</c> and bank scenery drifting <c>(+6, -3)</c> both leave the
         ///         lane coordinate <b>unchanged</b>, which is only true if that is the direction the river flows. So the
-        ///         banks land exactly on lanes 0 and 17 — the two lanes <c>FLOAT</c> scores as a crash.
+        ///         banks land exactly on lanes 0 and 17 - the two lanes <c>FLOAT</c> scores as a crash.
         ///     </para>
         /// </summary>
         public static PixelBuffer BuildRiver()
@@ -113,7 +113,7 @@ namespace OregonTrailDotNet.Presentation
             var river = new PixelBuffer(Art.DosWidth, Art.DosHeight);
 
             // Both colours are read off float.png itself rather than picked: the sheet is keyed on its water, and the
-            // shore block it ships is that tan. Those two are the whole palette — the banks of the Columbia here are
+            // shore block it ships is that tan. Those two are the whole palette - the banks of the Columbia here are
             // bare arid sand, with no grass and no shallows, and the water meets them on one hard diagonal edge.
             var water = Palette.Water;
             var sand = Palette.Sand;

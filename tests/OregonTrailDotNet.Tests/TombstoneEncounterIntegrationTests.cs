@@ -96,7 +96,7 @@ namespace OregonTrailDotNet.Tests
                     }
                     else
                     {
-                        // Arrived (or some other travel form is up) — re-depart so the drive continues onto the next leg.
+                        // Arrived (or some other travel form is up) - re-depart so the drive continues onto the next leg.
                         Game.Trail.CurrentLocation.Status = LocationStatusEnum.Departed;
                         travel.ContinueOnTrail();
                         Game.OnTick(false);
@@ -139,7 +139,7 @@ namespace OregonTrailDotNet.Tests
         {
             var distanceToKansas = SeedDepartedParty();
 
-            // A grave exactly on the landmark boundary — where deaths are recorded (a party noticed dead on arrival). This is
+            // A grave exactly on the landmark boundary - where deaths are recorded (a party noticed dead on arrival). This is
             // the stretch the old form-local cursor dropped; the vehicle-anchored cursor must pick it up as the party crosses.
             var graveMarker = distanceToKansas;
             Game.Tombstone.Add(new Tombstone(

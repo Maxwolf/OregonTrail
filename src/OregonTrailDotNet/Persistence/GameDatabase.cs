@@ -7,7 +7,7 @@ using Microsoft.Data.Sqlite;
 namespace OregonTrailDotNet.Persistence
 {
     /// <summary>
-    ///     The player's persistent game database — a single SQLite file (game.db) that sits next to the executable and holds
+    ///     The player's persistent game database - a single SQLite file (game.db) that sits next to the executable and holds
     ///     the high-score list and the tombstones left on the trail, so both survive across runs. Mirrors the bot's own
     ///     database design (single long-lived connection, WAL, hand-written stores). The file can simply be deleted by the
     ///     player to wipe it, or reset from the in-game management options.
@@ -49,7 +49,7 @@ namespace OregonTrailDotNet.Persistence
         public TombstoneStore Tombstones { get; }
 
         /// <summary>Opens the default database, returning null (persistence simply off) rather than crashing the game if the
-        ///     file can't be opened — e.g. it is locked, read-only, or corrupt.</summary>
+        ///     file can't be opened - e.g. it is locked, read-only, or corrupt.</summary>
         public static GameDatabase TryOpen()
         {
             try

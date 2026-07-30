@@ -19,10 +19,10 @@ namespace OregonTrailDotNet.Window.Travel.Command
             /// <summary>The vehicle is stopped; nothing happened.</summary>
             Stopped,
 
-            /// <summary>The vehicle broke down and cannot continue — show the repair flow.</summary>
+            /// <summary>The vehicle broke down and cannot continue - show the repair flow.</summary>
             Disabled,
 
-            /// <summary>The party crossed a gravesite this stretch — offer to look closer. No turn was taken.</summary>
+            /// <summary>The party crossed a gravesite this stretch - offer to look closer. No turn was taken.</summary>
             GraveCrossed,
 
             /// <summary>An ordinary day of travel was simulated.</summary>
@@ -32,7 +32,7 @@ namespace OregonTrailDotNet.Window.Travel.Command
         /// <summary>
         ///     The departure duties a drive form performs when it attaches mid-arrival: mark the location departed,
         ///     charge the fort-departure penalty, and roll the mountain-pass stuck chance. One-shot by the status
-        ///     check — departing is only possible once.
+        ///     check - departing is only possible once.
         /// </summary>
         internal static void Depart()
         {

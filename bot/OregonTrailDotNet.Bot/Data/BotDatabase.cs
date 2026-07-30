@@ -25,7 +25,7 @@ namespace OregonTrailDotNet.Bot.Data
             {
                 DataSource = Path,
                 // One long-lived connection per session, so pooling buys nothing and only keeps the file handle (and WAL
-                // sidecars) locked after Dispose — disable it so the database file releases cleanly.
+                // sidecars) locked after Dispose - disable it so the database file releases cleanly.
                 Pooling = false
             }.ToString());
             _connection.Open();

@@ -139,7 +139,7 @@ namespace OregonTrailDotNet.Entity.Item
         ///     ammunition (a box), which is how the original sold them.
         ///     <para>
         ///         This is a <b>shop counter</b> concept and nothing else. Inventory, mileage, hunting and scoring all
-        ///         keep counting single oxen and single bullets — only the purchase screen speaks in lots, and it
+        ///         keep counting single oxen and single bullets - only the purchase screen speaks in lots, and it
         ///         multiplies back out before anything reaches the wagon.
         ///     </para>
         /// </summary>

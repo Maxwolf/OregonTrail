@@ -32,7 +32,7 @@ namespace OregonTrailDotNet.Bot.Testing
         }
 
         /// <summary>
-        ///     Plays games — one of every model per round — until every model has reached the goal or
+        ///     Plays games - one of every model per round - until every model has reached the goal or
         ///     <paramref name="keepRunning" /> returns false. <paramref name="onProgress" /> fires after every game.
         /// </summary>
         public BenchmarkReport Run(Func<bool> keepRunning, Action<BenchmarkReport>? onProgress = null)

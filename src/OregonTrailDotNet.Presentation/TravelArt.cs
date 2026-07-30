@@ -4,7 +4,7 @@ namespace OregonTrailDotNet.Presentation
 {
     /// <summary>
     ///     The travel screen's assembled artwork, shared by every host that shows it. Everything here is assembled
-    ///     because the original assembled it — there is no travel picture on either disk: a flooded ground box, a
+    ///     because the original assembled it - there is no travel picture on either disk: a flooded ground box, a
     ///     full-width horizon strip, and the white status panel are the whole backdrop.
     /// </summary>
     public static class TravelArt
@@ -29,14 +29,14 @@ namespace OregonTrailDotNet.Presentation
         public const int MountainStrip = 2;
 
         /// <summary>
-        ///     Sky, ground, horizon. The <b>sky is black</b> — this is a 1980s micro, not a painted backdrop, and the
+        ///     Sky, ground, horizon. The <b>sky is black</b> - this is a 1980s micro, not a painted backdrop, and the
         ///     only two things ever coloured in are the ground box and the status panel.
         ///     <para>
         ///         The ground colour is the whole of what weather does to this screen, and it is one line (`:310`):
         ///     </para>
         ///     <code>CC = 3*(AS&gt;=1) + (AS&lt;1)*(5*(AR&lt;=.2) + (AR&gt;.2))</code>
         ///     <para>
-        ///         Colour 3 is white, 5 orange, 1 green — snow if there is any lying (which before April there always
+        ///         Colour 3 is white, 5 orange, 1 green - snow if there is any lying (which before April there always
         ///         is), otherwise arid if the rain accumulator has stayed low, otherwise green. A flood fill, not a
         ///         picture, which is why the whole country can change season for the cost of one <c>&amp; BOX</c>.
         ///     </para>
@@ -71,7 +71,7 @@ namespace OregonTrailDotNet.Presentation
             }
 
             // The strip is exactly as wide as the screen and hangs well above the ground, with black between the two.
-            // That black band is not empty space — it is where the team walks.
+            // That black band is not empty space - it is where the team walks.
             var strip = Art.Dos("scenery", terrain == TravelTerrainEnum.Plains ? PlainsStrip : MountainStrip);
             backdrop.DrawImage(strip, 0, TravelGame.StripY);
 
@@ -86,9 +86,9 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>
         ///     Draws the status panel's readings over a composed frame. This cannot live in a cached backdrop,
         ///     because every reading on it changes as the team walks. The rows are passed in so the host decides
-        ///     what is true — the workbench feeds stand-ins, the game feeds the simulation.
+        ///     what is true - the workbench feeds stand-ins, the game feeds the simulation.
         ///     <para>
-        ///         Labels right-aligned onto a shared colon column, values all starting on the next — which is what
+        ///         Labels right-aligned onto a shared colon column, values all starting on the next - which is what
         ///         gives the panel its ragged left edge and dead-straight middle.
         ///     </para>
         /// </summary>

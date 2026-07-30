@@ -13,21 +13,21 @@ namespace OregonTrailDotNet.Window.Travel.Scene
     ///     The hunt as the 1985 original played it: a real-time field drawn with the DOS port's sprites, the rifle
     ///     swinging a step at a time the shorter way round, one bullet in the air, animals whose species follow the
     ///     country the party is actually standing in, and scenery from the trail's own climate zone. The graphical
-    ///     sibling of the word-typing <see cref="Hunt.Hunting" /> — which remains the headless implementation — fed
+    ///     sibling of the word-typing <see cref="Hunt.Hunting" /> - which remains the headless implementation - fed
     ///     by the real simulation: the rifle carries the wagon's actual ammunition, and the bag goes back through
     ///     <see cref="HuntSceneResult" /> into the wagon's stores.
     /// </summary>
     [ParentWindow(typeof(Travel))]
     public sealed class HuntScene : SceneForm<TravelInfo>
     {
-        /// <summary>The Apple II's expert aiming — the ring of keys around L, in compass order (0 = N, clockwise).</summary>
+        /// <summary>The Apple II's expert aiming - the ring of keys around L, in compass order (0 = N, clockwise).</summary>
         private static readonly ConsoleKey[] ExpertKeys =
         [
             ConsoleKey.O, ConsoleKey.P, ConsoleKey.Oem1, ConsoleKey.Oem2,
             ConsoleKey.OemPeriod, ConsoleKey.OemComma, ConsoleKey.K, ConsoleKey.I
         ];
 
-        /// <summary>The DOS port's expert aiming — the keypad as the compass it looks like, plus the top row.</summary>
+        /// <summary>The DOS port's expert aiming - the keypad as the compass it looks like, plus the top row.</summary>
         private static readonly Dictionary<ConsoleKey, int> KeypadAim = new()
         {
             [ConsoleKey.NumPad8] = 0, [ConsoleKey.NumPad9] = 1, [ConsoleKey.NumPad6] = 2,
@@ -46,7 +46,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>Initializes a new instance of the <see cref="HuntScene" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public HuntScene(IWindow window) : base(window)
         {
         }
@@ -84,7 +84,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             UserData.Hunt = _game;
 
             // Everything above is the hunt; everything below is the picture of it. The obstacles in particular are
-            // simulation — a tree stops a bullet — so the landscape is generated on every host and only the sprites
+            // simulation - a tree stops a bullet - so the landscape is generated on every host and only the sprites
             // that portray it are skipped when there is nobody to show them to.
             if (!SceneHost.Graphical)
                 return;
@@ -173,7 +173,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         }
 
         /// <summary>
-        ///     RETURN toggles walking — bound here because the framework consumes ENTER as buffer control and it
+        ///     RETURN toggles walking - bound here because the framework consumes ENTER as buffer control and it
         ///     never arrives as a key press; the original's own binding is the Return key.
         /// </summary>
         /// <param name="input">Ignored; the hunt reads keys, not lines.</param>
@@ -182,13 +182,13 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             _game.Walking = !_game.Walking;
         }
 
-        /// <summary>ESC ends the hunt early and keeps the bag — the parity of the text hunt's stop words.</summary>
+        /// <summary>ESC ends the hunt early and keeps the bag - the parity of the text hunt's stop words.</summary>
         protected override void OnEscape() => GoToResult();
 
         /// <summary>
-        ///     Fires, with the DOS port's 10 ms muzzle pop when a round actually leaves — pitched at the muzzle's
+        ///     Fires, with the DOS port's 10 ms muzzle pop when a round actually leaves - pitched at the muzzle's
         ///     screen row plus 50 Hz, so a shot fired high in the field thuds and one fired low cracks
-        ///     (docs/legacy-sounds.md §1.2). A blocked trigger — bullet already out, ammunition gone — is silent,
+        ///     (docs/legacy-sounds.md §1.2). A blocked trigger - bullet already out, ammunition gone - is silent,
         ///     and so are hits, misses and kills, exactly as the original left them.
         /// </summary>
         private void Fire()
@@ -201,7 +201,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         }
 
         /// <summary>
-        ///     The whole output is the field itself — no heads-up text at all, exactly as the original played it:
+        ///     The whole output is the field itself - no heads-up text at all, exactly as the original played it:
         ///     the hunter, the animals, and the country, and the tally waits for the result screen.
         /// </summary>
         protected override string Compose() => _scene.ToAnsi(PictureOptions());
@@ -242,7 +242,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
                 _animals[i].Y = animal.Y;
             }
 
-            // Carcasses accumulate, so each gets a sprite as it appears — underneath everything that still moves.
+            // Carcasses accumulate, so each gets a sprite as it appears - underneath everything that still moves.
             while (_carcasses.Count < _game.Carcasses.Count)
             {
                 var carcass = _game.Carcasses[_carcasses.Count];
@@ -283,7 +283,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
     /// <summary>What a hunt brought back, handed from the scene to its result screen.</summary>
     /// <param name="RawPounds">Raw pounds shot, before the wrapper dresses and caps them.</param>
-    /// <param name="ShotsFired">Trigger pulls — one round of the wagon's ammunition each.</param>
+    /// <param name="ShotsFired">Trigger pulls - one round of the wagon's ammunition each.</param>
     /// <param name="Kills">Animals brought down, which feeds the Shoshoni guide's kill count.</param>
     public sealed record HuntOutcome(int RawPounds, int ShotsFired, int Kills);
 }

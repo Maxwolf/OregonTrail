@@ -120,8 +120,8 @@ namespace OregonTrailDotNet.Window.Travel.Command
             if (systemTick)
                 return;
 
-            // The day itself — vehicle status, the grave scan over the stretch covered since the last look, and the
-            // turn — lives in DriveTick, shared verbatim with the graphical drive scene. (See DriveTick.Run for the
+            // The day itself - vehicle status, the grave scan over the stretch covered since the last look, and the
+            // turn - lives in DriveTick, shared verbatim with the graphical drive scene. (See DriveTick.Run for the
             // history of the grave-scan cursor and why it lives on the vehicle.) This form only translates the
             // result into its own visuals and form changes.
             switch (DriveTick.Run())

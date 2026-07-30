@@ -78,14 +78,14 @@ namespace OregonTrailDotNet.Bot.Learning
 
         // Minimum $ of value an emigrant trade must gain (offered minus wanted, at store base prices) to be accepted.
         // Negative values let the optimizer learn to take slightly losing trades; desperation (a stranded wagon) bypasses
-        // this entirely in SupplyTactics. Zero — the legacy zero-fill default — accepts any value-positive trade.
+        // this entirely in SupplyTactics. Zero - the legacy zero-fill default - accepts any value-positive trade.
         public double TradeMargin => Math.Clamp(Raw[TradeMarginIdx], -60, 100);
 
         // Cash ($) held back from fort restocking so ferries and tolls stay affordable; the opening store ignores it.
         public int RestockReserve => ClampRound(Raw[RestockReserveIdx], 0, 150);
 
         // Endgame score grind: how many emigrant-trade browses to spend at the final stops before Oregon City,
-        // converting hunted food into clothes and bullets — the strategy that pushes toward the 13,860 ceiling.
+        // converting hunted food into clothes and bullets - the strategy that pushes toward the 13,860 ceiling.
         // Zero disables the grind entirely, which is also what legacy zero-filled genomes decode to.
         public int GrindTrades => ClampRound(Raw[GrindTradesIdx], 0, 400);
 
@@ -196,7 +196,7 @@ namespace OregonTrailDotNet.Bot.Learning
                                        // into ford/caulk crossings, which are what drown oxen)
             m[GrindTradesIdx] = 250;   // spend a solid block of endgame trade browses turning hunted food into clothes and
                                        // bullets: that grind is what separates a Meek-beating ~7650 run from a 10,000+ one
-            m[GrindHealthFloorIdx] = 300; // but stop the moment anyone falls to Poor — the party's 500-a-head is the
+            m[GrindHealthFloorIdx] = 300; // but stop the moment anyone falls to Poor - the party's 500-a-head is the
                                           // biggest single line on the score card
             return m;
         }

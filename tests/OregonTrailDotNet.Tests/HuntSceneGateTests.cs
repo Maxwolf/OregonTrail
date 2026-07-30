@@ -13,7 +13,7 @@ namespace OregonTrailDotNet.Tests
     ///         There used to be a gate here: with presentation off the hunt entry resolved to a word-typing game with
     ///         its own species, its own hit rule and ammunition charged per kill, and with presentation on to the
     ///         real-time field. That meant the training bot spent every hunt of its life optimizing an economy no
-    ///         player ever saw. The fork is gone and these tests exist to keep it gone — the hunt entry is the same
+    ///         player ever saw. The fork is gone and these tests exist to keep it gone - the hunt entry is the same
     ///         type whichever way the flag is set, because which game gets played must never depend on who is
     ///         watching.
     ///     </para>
@@ -75,7 +75,7 @@ namespace OregonTrailDotNet.Tests
             // 350 raw dresses to 175, room for all of it, but the carry cap holds it to 100.
             Assert.Equal(100, HuntSceneResult.DressAndLoad(350, 0, 2000));
 
-            // A 2 lb rabbit passes through whole — halving starts at three pounds.
+            // A 2 lb rabbit passes through whole - halving starts at three pounds.
             Assert.Equal(2, HuntSceneResult.DressAndLoad(2, 0, 2000));
 
             // 60 raw dresses to 30 and fits under every cap.
@@ -105,8 +105,8 @@ namespace OregonTrailDotNet.Tests
             var scene = new HuntScene(window);
             scene.OnFormPostCreate();
 
-            // The game's hunt carries no HUD text at all — the frame is the pure ANSI field picture (the tally
-            // waits for the result screen) — so all this can pin is that a frame composes.
+            // The game's hunt carries no HUD text at all - the frame is the pure ANSI field picture (the tally
+            // waits for the result screen) - so all this can pin is that a frame composes.
             var frame = scene.OnRenderForm();
             Assert.False(string.IsNullOrWhiteSpace(frame));
         }
@@ -120,7 +120,7 @@ namespace OregonTrailDotNet.Tests
             var scene = new HuntScene(window);
             scene.OnFormPostCreate();
 
-            // The simulation is live and readable — the same object the picture would be drawn from — while the
+            // The simulation is live and readable - the same object the picture would be drawn from - while the
             // frame is only a caption. That is the whole contract: same game, no pixels.
             Assert.NotNull(window.ActiveHunt);
             Assert.Equal("[HuntScene]", scene.OnRenderForm());

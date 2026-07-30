@@ -9,7 +9,7 @@ namespace OregonTrailDotNet.Persistence
     /// <summary>
     ///     Reads and writes player-earned high scores in game.db. Only the name and points are stored; the performance rating
     ///     is derived from points in code, so it is never persisted. Rows are returned best-first to match the game's top-ten
-    ///     display. This holds only scores the player actually earned — the seeded "original" list lives in code.
+    ///     display. This holds only scores the player actually earned - the seeded "original" list lives in code.
     /// </summary>
     public sealed class HighScoreStore
     {

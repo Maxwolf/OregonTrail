@@ -41,7 +41,7 @@ namespace OregonTrailDotNet.Window.Travel.Store.Help
         protected override string OnDialogPrompt()
         {
             // The count used to come from Transactions.Count, which is a copy of the wagon's whole default inventory
-            // and therefore always nine, whatever was actually ordered. Matt's own wording never counted items — he
+            // and therefore always nine, whatever was actually ordered. Matt's own wording never counted items - he
             // reads back the total and the money on hand and sends you back to the list.
             _storeDebt.Clear();
             _storeDebt.AppendLine($"{Environment.NewLine}Whoa there partner!");

@@ -6,7 +6,7 @@ namespace OregonTrailDotNet.Bot.Tests
     /// <summary>
     ///     De-risk spike for the plan's Section A: proves that the bot's own WolfCurses application
     ///     (<see cref="BotSimulationApp" />) can be created inside the same process as the game and discovers and renders its
-    ///     own forms — from its own assembly, with no process-entry-assembly juggling.
+    ///     own forms - from its own assembly, with no process-entry-assembly juggling.
     /// </summary>
     public sealed class BotSimulationAppSpikeTests : IDisposable
     {

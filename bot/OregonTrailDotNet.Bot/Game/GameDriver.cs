@@ -81,7 +81,7 @@ namespace OregonTrailDotNet.Bot.Game
                 input.AddCharToInputBuffer(keyChar);
             input.SendInputBufferAsCommand();
 
-            // Pump until the command has fully landed — dispatched, the window stack settled, then rendered — the
+            // Pump until the command has fully landed - dispatched, the window stack settled, then rendered - the
             // same rule as SimulationApp.PumpInput, but via RawTick so watch mode still paints and counts each tick.
             // Judged on state (input drained + no window awaiting removal), never the spinner-animated frame text,
             // and bounded so a command that keeps generating input cannot spin forever.
@@ -96,7 +96,7 @@ namespace OregonTrailDotNet.Bot.Game
         }
 
         /// <summary>
-        ///     Presses a single key, the way a player does on a screen that is steered rather than typed at — the
+        ///     Presses a single key, the way a player does on a screen that is steered rather than typed at - the
         ///     hunt's aiming and trigger, the raft's rudder. Goes to the focused form's key handler without touching
         ///     the input buffer, then advances one tick so the press lands.
         /// </summary>
@@ -115,7 +115,7 @@ namespace OregonTrailDotNet.Bot.Game
         /// <summary>Current window/form body text, computed on demand (side-effect free) for parsing menus and prompts.</summary>
         public string RenderWindowText() => Focused?.OnRenderWindow() ?? "";
 
-        /// <summary>Redraws the current frame immediately (watch mode only) — used to show a "thinking" line before a pause.</summary>
+        /// <summary>Redraws the current frame immediately (watch mode only) - used to show a "thinking" line before a pause.</summary>
         public void Repaint()
         {
             if (_watch != null)
@@ -127,7 +127,7 @@ namespace OregonTrailDotNet.Bot.Game
             TickCount++;
             GameSimulationApp.Instance!.OnTick(false);
 
-            // Read the freshly rendered frame straight off the scene graph — the same text the dirty event used to
+            // Read the freshly rendered frame straight off the scene graph - the same text the dirty event used to
             // hand us. Guarded because a tick can end the game and tear the singleton down.
             if (GameSimulationApp.Instance != null)
                 LastScreen = GameSimulationApp.Instance.SceneGraph.ScreenBuffer;
@@ -176,11 +176,11 @@ namespace OregonTrailDotNet.Bot.Game
             }
             catch (IOException)
             {
-                // No real console (redirected) — skip rendering.
+                // No real console (redirected) - skip rendering.
             }
             catch (ArgumentOutOfRangeException)
             {
-                // Console was resized very small — skip this frame.
+                // Console was resized very small - skip this frame.
             }
         }
     }

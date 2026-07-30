@@ -25,7 +25,7 @@ namespace OregonTrailDotNet.Module.Director
             EventReference = new Dictionary<EventKey, Type>();
 
             // Collect all of the event types with the attribute decorated on them by scanning this game's own
-            // assembly (where every [DirectorEvent] lives) rather than the process entry assembly — so discovery
+            // assembly (where every [DirectorEvent] lives) rather than the process entry assembly - so discovery
             // works when the game is hosted by another entry point (the tests, the training bot) with no
             // Assembly.SetEntryAssembly juggling required.
             var randomEvents =

@@ -5,7 +5,7 @@ namespace OregonTrailDotNet.Module.Director
     /// <summary>
     ///     Remembers the last random event executed and the turn it landed on, so the graphical travel screen can
     ///     hang the matching event picture in the sky (or swap the burning-wagon frame in) for the day that follows
-    ///     — the way the original blits an event picture over the travel screen. Pure recording: nothing here rolls,
+    ///     - the way the original blits an event picture over the travel screen. Pure recording: nothing here rolls,
     ///     ticks, or renders, so headless hosts carry it inert.
     /// </summary>
     internal static class SceneEvents

@@ -41,7 +41,7 @@ namespace OregonTrailDotNet.Tests
         {
             GameSimulationApp.PresentationEnabled = true;
 
-            // Boot state: nothing visited yet (Independence is Unreached until the store is left) — the scene
+            // Boot state: nothing visited yet (Independence is Unreached until the store is left) - the scene
             // must still render the map picture and the dismiss hint without a route to plot.
             var window = new Travel(GameSimulationApp.Instance);
             var scene = new MapScene(window);

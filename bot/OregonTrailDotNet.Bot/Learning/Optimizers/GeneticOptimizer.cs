@@ -3,7 +3,7 @@ using System.Text.Json;
 namespace OregonTrailDotNet.Bot.Learning
 {
     /// <summary>
-    ///     A genetic algorithm: it keeps a population of vectors and breeds the next generation from the current one — carry
+    ///     A genetic algorithm: it keeps a population of vectors and breeds the next generation from the current one - carry
     ///     the fittest few unchanged (elitism), pick parents by tournament selection, mix them with uniform crossover, and
     ///     apply per-gene Gaussian mutation. Explores more broadly and escapes local optima differently than CEM.
     /// </summary>
@@ -144,7 +144,7 @@ namespace OregonTrailDotNet.Bot.Learning
             if (state.BestRaw != null && state.BestRaw.Length == _length)
                 BestVector = state.BestRaw;
 
-            // A champion scored under an older fitness shaping is not comparable on the new scale — drop it (the evolved
+            // A champion scored under an older fitness shaping is not comparable on the new scale - drop it (the evolved
             // population itself remains a meaningful starting point) so the next generation's champion can take over.
             if (state.FitnessVersion != TrainingSession.FitnessVersion)
             {
@@ -160,7 +160,7 @@ namespace OregonTrailDotNet.Bot.Learning
             public double[]? BestRaw { get; set; }
             public double BestFitness { get; set; }
 
-            // Absent in blobs saved before versioning existed — deserializes to 0, which never matches a real version.
+            // Absent in blobs saved before versioning existed - deserializes to 0, which never matches a real version.
             public int FitnessVersion { get; set; }
         }
     }

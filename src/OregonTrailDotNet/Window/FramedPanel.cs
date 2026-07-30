@@ -6,9 +6,9 @@ using WolfCurses.Window.Control;
 namespace OregonTrailDotNet.Window
 {
     /// <summary>
-    ///     Central factory for the game's titled status panels. Every framed "how am I doing" readout in the UI — the
+    ///     Central factory for the game's titled status panels. Every framed "how am I doing" readout in the UI - the
     ///     on-the-trail and location status blocks, the store and river-crossing headers, and the hunting HUD and its
-    ///     results — is drawn with the same WolfCurses <see cref="Box" /> styling (double border, centered title, one row of
+    ///     results - is drawn with the same WolfCurses <see cref="Box" /> styling (double border, centered title, one row of
     ///     padding). Routing them all through here keeps that styling in one place instead of re-specifying the box at every
     ///     call site, and replaces the hand-ruled "--------------------------------" dividers those panels used to draw by
     ///     hand.
@@ -18,7 +18,7 @@ namespace OregonTrailDotNet.Window
         /// <summary>
         ///     Frames <paramref name="body" /> in a double-bordered box with <paramref name="title" /> centered in the top
         ///     border. The returned string has no trailing newline (matching <see cref="Box.Render" />), so a caller that
-        ///     appends a menu or a call-to-action beneath the panel should append it with a line break in between — e.g. via
+        ///     appends a menu or a call-to-action beneath the panel should append it with a line break in between - e.g. via
         ///     <c>StringBuilder.AppendLine(FramedPanel.Render(...))</c>.
         /// </summary>
         /// <param name="title">Heading centered in the panel's top border, e.g. "ON THE TRAIL".</param>

@@ -1,7 +1,7 @@
 namespace OregonTrailDotNet.Bot.Game
 {
     /// <summary>
-    ///     Immutable summary of one game the bot played. Descriptive only — the trainer derives a fitness value from these
+    ///     Immutable summary of one game the bot played. Descriptive only - the trainer derives a fitness value from these
     ///     facts (see the CEM policy's shaping) and persists them to the <c>runs</c> table.
     /// </summary>
     public sealed class RunResult

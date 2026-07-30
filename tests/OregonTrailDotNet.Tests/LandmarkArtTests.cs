@@ -7,8 +7,8 @@ namespace OregonTrailDotNet.Tests
     /// <summary>
     ///     Pins the landmark caption against the class of bug that got through once: the DOS cards are cropped to
     ///     varying heights, and a box placed for one height lands wrong on another. The placement itself is
-    ///     asserted — the box's white rows at the clamped proportional position, the caption text inked inside it
-    ///     — because dimension checks alone are true by construction for any placement at all.
+    ///     asserted - the box's white rows at the clamped proportional position, the caption text inked inside it
+    ///     - because dimension checks alone are true by construction for any placement at all.
     /// </summary>
     public class LandmarkArtTests
     {
@@ -50,12 +50,12 @@ namespace OregonTrailDotNet.Tests
         [Fact]
         public void TheCaptionName_StripsOnlyALeadingLowercaseThe()
         {
-            // Z$ (OREGON TRAIL:260) strips a leading "the " — and only that: leading, lowercase, once.
+            // Z$ (OREGON TRAIL:260) strips a leading "the " - and only that: leading, lowercase, once.
             Assert.Equal("Kansas River crossing", LandmarkArt.CaptionName("the Kansas River crossing"));
             Assert.Equal("The Dalles", LandmarkArt.CaptionName("The Dalles"));
             Assert.Equal("Independence", LandmarkArt.CaptionName("Independence"));
 
-            // An interior article survives — the rule is a prefix strip, not a search-and-replace.
+            // An interior article survives - the rule is a prefix strip, not a search-and-replace.
             Assert.Equal("Crossing the Kansas", LandmarkArt.CaptionName("Crossing the Kansas"));
 
             foreach (var stop in OriginalTrail.All)

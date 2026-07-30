@@ -30,7 +30,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         private readonly StringBuilder _crossingPrompt;
 
         /// <summary>
-        ///     The crossing itself — payment, progress, and dangers — shared verbatim with the graphical scene.
+        ///     The crossing itself - payment, progress, and dangers - shared verbatim with the graphical scene.
         /// </summary>
         private CrossingSimulation _sim;
 
@@ -81,7 +81,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         {
             base.OnFormPostCreate();
 
-            // The crossing itself — parking the vehicle and taking the agreed payment — is the shared simulation's.
+            // The crossing itself - parking the vehicle and taking the agreed payment - is the shared simulation's.
             _sim = new CrossingSimulation(UserData.River);
             _sim.Begin();
         }
@@ -150,7 +150,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
             // Advance the progress bar, step it to next phase.
             _swayBarText = _marqueeBar.Step();
 
-            // The crossing itself — progress, the finishing freeze, the skip-day turn, and the danger rolls — is
+            // The crossing itself - progress, the finishing freeze, the skip-day turn, and the danger rolls - is
             // the shared simulation's, in the characterized order.
             _sim.Tick();
         }

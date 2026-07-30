@@ -5,7 +5,7 @@ namespace OregonTrailDotNet.Tests
 {
     /// <summary>
     ///     Pins the inscription layout rules the game depends on: the original's 29-char epitaphs always fit the
-    ///     stone's 21x5 text window, but the game allows 38 — so over-long words hard-break at the column edge and
+    ///     stone's 21x5 text window, but the game allows 38 - so over-long words hard-break at the column edge and
     ///     the blank spacer row drops when the epitaph needs three rows, keeping the whole inscription on the stone.
     /// </summary>
     public class TombstoneArtTests

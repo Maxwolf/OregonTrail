@@ -9,7 +9,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 {
     /// <summary>
     ///     The landmark card: the stop's original MECC artwork with the name-over-date caption box, shown only when
-    ///     the player answers Yes to "Would you like to look around?" — the exact placement of the 1985 original,
+    ///     the player answers Yes to "Would you like to look around?" - the exact placement of the 1985 original,
     ///     which plays the stop's tune under the picture until a key lands. Reached solely through
     ///     <see cref="Dialog.LocationArrive" /> when <see cref="GameSimulationApp.PresentationEnabled" /> is on, so
     ///     headless hosts never see it.
@@ -22,7 +22,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>Initializes a new instance of the <see cref="LandmarkCard" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public LandmarkCard(IWindow window) : base(window)
         {
         }
@@ -30,7 +30,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         /// <summary>
         ///     Whether looking around here has a card to show: presentation on, and the current location resolves to
         ///     an original stop that has one (the Columbia and Barlow branches do not). When false the caller keeps
-        ///     today's behavior — straight back to the travel menu.
+        ///     today's behavior - straight back to the travel menu.
         /// </summary>
         internal static bool ShouldShow =>
             GameSimulationApp.PresentationEnabled &&
@@ -49,7 +49,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         protected override bool CenterPicture => false;
 
         /// <summary>
-        ///     The stop's tune — except at Independence, whose score belongs to the opening, not the stop: the
+        ///     The stop's tune - except at Independence, whose score belongs to the opening, not the stop: the
         ///     original's <c>:1005</c> loader is guarded by <c>IF LM THEN</c>.
         /// </summary>
         protected override string MusicCue =>
@@ -66,7 +66,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             if (_stop == null || _stop.CardArt < 0)
                 return;
 
-            // The caption is the original's: Z$ (name, article stripped) over TD$ (the arrival date) — the
+            // The caption is the original's: Z$ (name, article stripped) over TD$ (the arrival date) - the
             // simulation value the workbench slideshow deliberately left out because it had no journey to date.
             var date = game.Time.Date;
             _picture = LandmarkArt.WithCaption(
@@ -78,7 +78,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         /// <inheritdoc />
         protected override string Compose()
         {
-            // Fail soft: no resolvable card means nothing to show — the next key dismisses back to the menu.
+            // Fail soft: no resolvable card means nothing to show - the next key dismisses back to the menu.
             if (_picture == null)
                 return $"{Environment.NewLine}Press ENTER to continue.";
 

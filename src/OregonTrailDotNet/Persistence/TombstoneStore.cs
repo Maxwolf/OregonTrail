@@ -8,7 +8,7 @@ namespace OregonTrailDotNet.Persistence
 {
     /// <summary>
     ///     Reads and writes tombstones in game.db. The trail half (0 or 1) is the primary key, so the table holds at most two
-    ///     graves — one per half of the trail — and <c>INSERT OR REPLACE</c> overwrites the grave in a half when a new party
+    ///     graves - one per half of the trail - and <c>INSERT OR REPLACE</c> overwrites the grave in a half when a new party
     ///     dies there, matching the original game's two-record TOMBS.REC behavior. Each row also records the landmarks that
     ///     bracket the death, reproducing the location data the original file format stored.
     /// </summary>

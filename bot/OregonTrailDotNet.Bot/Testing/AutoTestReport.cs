@@ -5,7 +5,7 @@ using OregonTrailDotNet.Bot.Learning;
 namespace OregonTrailDotNet.Bot.Testing
 {
     /// <summary>
-    ///     Accumulates the results of an automated-testing session — per-model game tallies and the list of problems found —
+    ///     Accumulates the results of an automated-testing session - per-model game tallies and the list of problems found -
     ///     and formats them into a saveable, developer-facing report.
     /// </summary>
     public sealed class AutoTestReport
@@ -56,8 +56,8 @@ namespace OregonTrailDotNet.Bot.Testing
                     break;
             }
 
-            // A healthy game ends in a win, a timeout, or the party dying. Anything the bot had to abort — a crash, a
-            // soft-lock, a screen with no handler, or a broken invariant — is a problem a developer should look at.
+            // A healthy game ends in a win, a timeout, or the party dying. Anything the bot had to abort - a crash, a
+            // soft-lock, a screen with no handler, or a broken invariant - is a problem a developer should look at.
             var isProblem = result.Bug != null || result.Outcome == GameOutcomeEnum.Aborted;
             if (!isProblem)
                 return null;
@@ -122,7 +122,7 @@ namespace OregonTrailDotNet.Bot.Testing
                 {
                     var p = Problems[i];
                     sb.AppendLine();
-                    sb.AppendLine($"[{i + 1}] {p.Model} — game #{p.GameIndex} — {p.Category}");
+                    sb.AppendLine($"[{i + 1}] {p.Model} - game #{p.GameIndex} - {p.Category}");
                     sb.AppendLine(p.Detail);
                 }
             }

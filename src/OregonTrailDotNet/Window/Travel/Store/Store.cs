@@ -142,7 +142,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
         private void UpdateStore()
         {
             // Clear previous prompt and rebuild it. The store name and date title a framed header panel above the menu.
-            // The opening store is Matt's, by name, in Independence — the original titled it that and only that, and
+            // The opening store is Matt's, by name, in Independence - the original titled it that and only that, and
             // it is the one shop in the game with a shopkeeper. The forts on the trail get their own name instead.
             _storePrompt.Clear();
             _storePrompt.AppendLine(StoreCounter.AtMatts
@@ -186,7 +186,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
             _storePrompt.AppendLine("--------------------------------");
 
             // Calculate the total owed to the store for the pending receipt. "Amount you have" is the money in the
-            // party's pocket, NOT what is left after the bill — the original printed the two side by side precisely so
+            // party's pocket, NOT what is left after the bill - the original printed the two side by side precisely so
             // the player could compare them ("Total bill: $120.00" against "Amount you have: $400.00"), and netting one
             // off the other threw that comparison away and made the running bill look like it cost nothing.
             var totalBill = UserData.Store.TotalTransactionCost;
@@ -209,7 +209,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
             // Attempt to cast string to enum value, can be characters or integer. A fat-fingered answer must not be
             // mistaken for "leave": Enum.TryParse happily accepts any number in range of the underlying int (so "0",
             // "10" and "99" all parsed) as well as enum NAMES, and the old default arm walked every one of them out of
-            // the store — which at Independence bought the receipt and departed for Oregon with no way back. An answer
+            // the store - which at Independence bought the receipt and departed for Oregon with no way back. An answer
             // that is not on the menu is not an answer; re-ask, exactly as the original's masked field did.
             if (!Enum.TryParse(input, out EntitiesEnum selectedItem) ||
                 !Enum.IsDefined(typeof(EntitiesEnum), selectedItem))
@@ -242,7 +242,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
                 case EntitiesEnum.Tongue:
                     BuySpareTongues();
                     break;
-                // The one way out, and the number the printed menu shows against "Leave store" — which is also the
+                // The one way out, and the number the printed menu shows against "Leave store" - which is also the
                 // number the bot's trained policies send, so it is frozen.
                 case EntitiesEnum.Vehicle:
                     LeaveStore();
@@ -289,7 +289,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
 
                 // Attach state that will ask if we want to check status or keep driving on trail. This is the
                 // "Going back to 1848" moment, and with presentation on it is the opening card (Independence art +
-                // the opening tune) — arriving above may already have attached it via the window re-add, but this
+                // the opening tune) - arriving above may already have attached it via the window re-add, but this
                 // explicit set must name the same form or it clobbers the card with the text prompt mid-tune.
                 SetForm(Scene.OpeningCard.ShouldShow ? typeof(Scene.OpeningCard) : typeof(LocationArrive));
             }

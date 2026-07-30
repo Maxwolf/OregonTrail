@@ -50,7 +50,7 @@ namespace OregonTrailDotNet.Window.RandomEvent
             UserData.DirectorEvent.Execute(UserData);
             var eventText = UserData.DirectorEvent.Render(UserData);
 
-            // The 1990 DOS port sounded exactly two random events — the severe thunderstorm and the wagon-part
+            // The 1990 DOS port sounded exactly two random events - the severe thunderstorm and the wagon-part
             // breakdown; hail, fog, blizzard and the rest were silent (docs/legacy-sounds.md §1.2). Gated because
             // this form runs for the bot and the suites too.
             if (GameSimulationApp.PresentationEnabled)

@@ -3,11 +3,11 @@ using System.Diagnostics;
 namespace OregonTrailDotNet.Presentation.Audio
 {
     /// <summary>
-    ///     The presentation layer's music — one shared player with one shared mute for whichever host, workbench
+    ///     The presentation layer's music - one shared player with one shared mute for whichever host, workbench
     ///     or game, is running.
     ///     <para>
     ///         Static on purpose. There is one sound card and one pair of ears, so there is one cue playing at a time
-    ///         and one place that decides whether it is audible — a section says <i>what</i> should be playing and
+    ///         and one place that decides whether it is audible - a section says <i>what</i> should be playing and
     ///         nothing else. No section owns a mute key, a volume level, or a player instance, and none of them can
     ///         disagree about the state of the audio.
     ///     </para>
@@ -18,7 +18,7 @@ namespace OregonTrailDotNet.Presentation.Audio
     /// </summary>
     public static class Music
     {
-        private static readonly WaveOutPlayer Player = new();
+        private static readonly IAudioDevice Player = AudioDevice.Create();
         private static readonly Stopwatch Clock = new();
         private static readonly Lock Gate = new();
 
@@ -89,7 +89,7 @@ namespace OregonTrailDotNet.Presentation.Audio
         ///     Starts a cue, or does nothing if that same cue is already playing.
         /// </summary>
         /// <param name="key">
-        ///     A score in the embedded music set, without its extension — <c>landmarks/04-chimney-rock</c>,
+        ///     A score in the embedded music set, without its extension - <c>landmarks/04-chimney-rock</c>,
         ///     <c>tombstone</c>. An unknown key stops the music rather than throwing.
         /// </param>
         public static void Play(string key)
@@ -111,11 +111,19 @@ namespace OregonTrailDotNet.Presentation.Audio
 
                 // Muted still counts as playing: the cue and its clock run either way, and only the sound is
                 // withheld. Unmuting therefore drops back in partway through rather than restarting the tune.
-                if (_muted)
+                //
+                // A headless host is the same case for the same reason. Which cue is playing and how far into it
+                // belong to the simulation - the slideshow paces off them - while the sound belongs to the
+                // drawing, and a host that draws nothing has no business opening a device. Sfx.Play refuses on
+                // this exact test; before there was audio anywhere but Windows, the platform did the refusing.
+                if (_muted || !SceneHost.Graphical)
                     return;
 
-                Player.Play(SquareWaveSynth.Render(tune), SquareWaveSynth.SampleRate);
+                // Level first, playback second. Two of the three backends cannot retune audio once the platform
+                // has it - ALSA has no per-stream volume at all, so the gain is baked into the samples as they go
+                // out - and setting it afterwards left the front of every cue at full scale.
                 Player.SetVolume(_volume);
+                Player.Play(SquareWaveSynth.Render(tune), SquareWaveSynth.SampleRate);
             }
         }
 
@@ -147,13 +155,13 @@ namespace OregonTrailDotNet.Presentation.Audio
                     return;
                 }
 
-                // Rejoin the cue where its clock has got to, rather than starting it again from the top — the tune
+                // Rejoin the cue where its clock has got to, rather than starting it again from the top - the tune
                 // has been "playing" silently the whole time and restarting it would contradict that.
-                if (_cue == null || Clock.Elapsed >= _cue.Duration)
+                if (_cue == null || Clock.Elapsed >= _cue.Duration || !SceneHost.Graphical)
                     return;
 
-                Player.Play(Remainder(_cue, Clock.Elapsed), SquareWaveSynth.SampleRate);
                 Player.SetVolume(_volume);
+                Player.Play(Remainder(_cue, Clock.Elapsed), SquareWaveSynth.SampleRate);
             }
         }
 
@@ -169,9 +177,9 @@ namespace OregonTrailDotNet.Presentation.Audio
         }
 
         /// <summary>
-        ///     Shuts the audio down — this device and the effect player's with it, so a host that tears down music
-        ///     can never leave an effect's buffer alive in the driver. Called when the host process — game or
-        ///     workbench — exits.
+        ///     Shuts the audio down - this device and the effect player's with it, so a host that tears down music
+        ///     can never leave an effect's buffer alive in the driver. Called when the host process - game or
+        ///     workbench - exits.
         /// </summary>
         public static void Shutdown()
         {

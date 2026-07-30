@@ -11,13 +11,13 @@ namespace OregonTrailDotNet.Presentation
     ///         This exists because picking colours by eye went wrong three times, each the same way. The Columbia raft
     ///         got invented grass banks and a shallows band the port never had; the river crossing got a hand-mixed mud
     ///         brown for a bank the port draws in arid sand; the travel screen got an orange ground that is in neither
-    ///         palette. Every time, the correct value was already sitting in the sprite sheet being drawn on top of —
+    ///         palette. Every time, the correct value was already sitting in the sprite sheet being drawn on top of -
     ///         the sheets are colour-keyed, so their key colour <b>is</b> the water and their shore block <b>is</b> the
     ///         sand. Reading the art gives the right answer for free; guessing reliably does not.
     ///     </para>
     ///     <para>
-    ///         <b>Every DOS colour below is verified present in <c>PAL.256</c></b> — the 768-byte trailer palette the
-    ///         game loads at startup precisely so its 8bpp art has colours — and each cites its index. The static
+    ///         <b>Every DOS colour below is verified present in <c>PAL.256</c></b> - the 768-byte trailer palette the
+    ///         game loads at startup precisely so its 8bpp art has colours - and each cites its index. The static
     ///         constructor re-checks that against the real file whenever it can find one, so a colour cannot quietly
     ///         join the list just by looking plausible.
     ///     </para>
@@ -27,7 +27,7 @@ namespace OregonTrailDotNet.Presentation
     ///         clear that this is <b>necessary but nowhere near sufficient</b>. Of the three colours that were actually
     ///         wrong here it catches exactly one, pure <c>255,255,255</c>; the mud brown and the orange ground both
     ///         sail through, because a colour mixed by eye lands on a multiple of 4 roughly one time in sixteen and
-    ///         those two did. Membership in the palette is the real test — this one is only for a quick look.
+    ///         those two did. Membership in the palette is the real test - this one is only for a quick look.
     ///     </para>
     /// </summary>
     public static class Palette
@@ -36,7 +36,7 @@ namespace OregonTrailDotNet.Presentation
         public static readonly Rgba32 Black = new(0, 0, 0, 255);
 
         /// <summary>
-        ///     The art's white — <c>252,252,252</c>, not <c>255,255,255</c>. The DOS palette tops out at DAC 63, which
+        ///     The art's white - <c>252,252,252</c>, not <c>255,255,255</c>. The DOS palette tops out at DAC 63, which
         ///     scales to 252, and pure white appears nowhere in any sheet: <c>float</c>, <c>scenery</c>, <c>animals</c>,
         ///     <c>hunter</c>, <c>travelox</c> and the landmark cards contain zero pixels of it between them.
         ///     Palette indices 3, 15, 16 and 255 all hold this.
@@ -44,14 +44,14 @@ namespace OregonTrailDotNet.Presentation
         public static readonly Rgba32 White = new(252, 252, 252, 255);
 
         /// <summary>
-        ///     River and lake water; palette index 133. This is <c>float.png</c>'s own key colour — the sheet is keyed
-        ///     on it because the water was drawn by the game rather than blitted — so it is the water by definition.
+        ///     River and lake water; palette index 133. This is <c>float.png</c>'s own key colour - the sheet is keyed
+        ///     on it because the water was drawn by the game rather than blitted - so it is the water by definition.
         /// </summary>
         public static readonly Rgba32 Water = new(64, 176, 252, 255);
 
         /// <summary>
         ///     Arid ground: river banks, the Columbia's shores, and dry country generally; palette index 199. Taken
-        ///     from the shore block <c>float.png</c> ships, and confirmed against captures of the port — its banks are
+        ///     from the shore block <c>float.png</c> ships, and confirmed against captures of the port - its banks are
         ///     bare sand, with no grass and no shallows, meeting the water on one hard edge.
         /// </summary>
         public static readonly Rgba32 Sand = new(252, 184, 144, 255);
@@ -59,14 +59,14 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>Living ground on the plains; palette index 107.</summary>
         public static readonly Rgba32 Grass = new(4, 156, 0, 255);
 
-        /// <summary>Snow cover, which is simply <see cref="White" /> — the port has no separate snow tone.</summary>
+        /// <summary>Snow cover, which is simply <see cref="White" /> - the port has no separate snow tone.</summary>
         public static readonly Rgba32 Snow = White;
 
         /// <summary>Fully transparent, for keying a colour out of a sprite.</summary>
         public static readonly Rgba32 Clear = new(0, 0, 0, 0);
 
         /// <summary>
-        ///     The Apple II's six hi-res colours, for the few screens still drawn over 1985 artwork — the tombstone
+        ///     The Apple II's six hi-res colours, for the few screens still drawn over 1985 artwork - the tombstone
         ///     is one. Matching <c>legacy/tools/apple2_art.py</c>, which is what decoded those PNGs.
         ///     <para>
         ///         Keep these strictly apart from the DOS colours above. They are a different machine's palette and
@@ -80,7 +80,7 @@ namespace OregonTrailDotNet.Presentation
             /// <summary>Unlit pixel.</summary>
             public static readonly Rgba32 Black = new(0, 0, 0, 255);
 
-            /// <summary>Adjacent lit pixels read as white — a true 255, unlike the DOS palette's.</summary>
+            /// <summary>Adjacent lit pixels read as white - a true 255, unlike the DOS palette's.</summary>
             public static readonly Rgba32 White = new(255, 255, 255, 255);
 
             /// <summary>Even column, high bit clear.</summary>
@@ -103,7 +103,7 @@ namespace OregonTrailDotNet.Presentation
         /// </summary>
         public static class Chrome
         {
-            /// <summary>Backing field for contact sheets — mid-grey, so transparent sprite edges stay visible.</summary>
+            /// <summary>Backing field for contact sheets - mid-grey, so transparent sprite edges stay visible.</summary>
             public static readonly Rgba32 Field = new(48, 48, 56, 255);
 
             /// <summary>Captions under sprite cells.</summary>
@@ -125,12 +125,12 @@ namespace OregonTrailDotNet.Presentation
         ///     Holds the DOS colours to the real palette, once, at first use.
         ///     <para>
         ///         A predicate nobody calls prevents nothing, and <see cref="IsDosColour" /> on its own is too weak to
-        ///         lean on — it waves through most hand-mixed colours. So this reads <c>PAL.256</c> itself and checks
+        ///         lean on - it waves through most hand-mixed colours. So this reads <c>PAL.256</c> itself and checks
         ///         membership, which is the property actually claimed above. Debug-only: it guards a mistake made while
         ///         authoring this file, not a runtime condition.
         ///     </para>
         ///     <para>
-        ///         Silently skipped when the palette resource is absent. Both hosts — game and workbench — are expected
+        ///         Silently skipped when the palette resource is absent. Both hosts - game and workbench - are expected
         ///         to run without it; the art loader says so by handing back a missing-texture checkerboard rather than
         ///         throwing, and a verification step must not be the thing that makes a working setup fail.
         ///     </para>
@@ -159,7 +159,7 @@ namespace OregonTrailDotNet.Presentation
                          (nameof(Sand), Sand), (nameof(Grass), Grass)
                      })
                 Debug.Assert(entries.Contains((colour.R, colour.G, colour.B)),
-                    $"Palette.{name} is {colour.R},{colour.G},{colour.B}, which is not in PAL.256 — so it is not a " +
+                    $"Palette.{name} is {colour.R},{colour.G},{colour.B}, which is not in PAL.256 - so it is not a " +
                     "colour this game can draw, and was almost certainly mixed by eye. Read it off the sprite sheet " +
                     "being drawn on, or off PAL.256, rather than matching it against a screenshot.");
         }

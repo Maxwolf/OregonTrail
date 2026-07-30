@@ -7,7 +7,7 @@ namespace OregonTrailDotNet.Module.Tombstone
 {
     /// <summary>
     ///     Facilitates a tombstone base class that supports shallow copies of itself to be created. Mirrors the data the
-    ///     original game recorded in TOMBS.REC: the party leader's name, an epitaph, and where the last member died —
+    ///     original game recorded in TOMBS.REC: the party leader's name, an epitaph, and where the last member died -
     ///     captured as the surrounding landmarks and the distance to the next one. Only two graves exist at a time (one per
     ///     half of the trail); a fresh death in a half overwrites the grave already there.
     /// </summary>
@@ -75,7 +75,7 @@ namespace OregonTrailDotNet.Module.Tombstone
         }
 
         /// <summary>
-        ///     Which half of the trail this grave sits in — 0 for the first half, 1 for the second. The trail only ever holds
+        ///     Which half of the trail this grave sits in - 0 for the first half, 1 for the second. The trail only ever holds
         ///     one grave per half, so this doubles as the grave's slot: a new death in the same half overwrites it.
         /// </summary>
         public int TrailHalf { get; }

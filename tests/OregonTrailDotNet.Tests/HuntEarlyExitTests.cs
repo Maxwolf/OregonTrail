@@ -14,13 +14,13 @@ namespace OregonTrailDotNet.Tests
 {
     /// <summary>
     ///     Covers the ability to leave a hunt early instead of standing in the field until the countdown runs out.
-    ///     There is one hunt now — the real-time field — and ESC is its stop word: it hands whatever is already on the
+    ///     There is one hunt now - the real-time field - and ESC is its stop word: it hands whatever is already on the
     ///     ground to <see cref="HuntSceneResult" /> exactly as running out of time does, rather than throwing the meat
     ///     away for leaving before dark.
     ///     <para>
     ///         The other half of that contract matters just as much and is pinned here too: nothing else ends a hunt.
     ///         An empty ENTER in particular is what the headless training bot submits between animals, and in this
-    ///         hunt it is the original's own walk toggle — if it ever ended the day instead, every training run would
+    ///         hunt it is the original's own walk toggle - if it ever ended the day instead, every training run would
     ///         quietly stop hunting.
     ///     </para>
     /// </summary>
@@ -41,7 +41,7 @@ namespace OregonTrailDotNet.Tests
         }
 
         /// <summary>
-        ///     Puts a real party in the wagon and a live hunt on a Travel window, the way the travel menu does — the
+        ///     Puts a real party in the wagon and a live hunt on a Travel window, the way the travel menu does - the
         ///     scene builds its own field on post-create and publishes it as the window's active hunt.
         /// </summary>
         private static (Travel Window, TravelInfo Data, HuntScene Scene) StartHunt()
@@ -55,7 +55,7 @@ namespace OregonTrailDotNet.Tests
             });
 
             // The rifle is loaded straight out of the wagon, so a hunt started on an empty ammunition stack could
-            // never pull the trigger at all — which is a different screen's problem, not this one's.
+            // never pull the trigger at all - which is a different screen's problem, not this one's.
             Game.Vehicle.Inventory[EntitiesEnum.Ammo].AddQuantity(100);
 
             var window = new Travel(GameSimulationApp.Instance);
@@ -79,7 +79,7 @@ namespace OregonTrailDotNet.Tests
             Assert.NotNull(hunt);
 
             // A hunt with meat already on the ground. Pounds only ever moves when a bullet lands on an animal, and
-            // the scene seeds its field from the simulation's randomizer — which is not seedable — so there is no
+            // the scene seeds its field from the simulation's randomizer - which is not seedable - so there is no
             // bounded, honest way to put a carcass under the muzzle from out here. The bag is therefore planted on
             // the live game through Pounds' backing field; what is under test is that leaving early keeps it.
             typeof(HuntGame)
@@ -93,7 +93,7 @@ namespace OregonTrailDotNet.Tests
 
             scene.OnKeyPressed(new ConsoleKeyInfo((char) 27, ConsoleKey.Escape, false, false, false));
 
-            // Straight to the reckoning, with the whole hunt handed across intact — the meat, the rounds spent and
+            // Straight to the reckoning, with the whole hunt handed across intact - the meat, the rounds spent and
             // the kill count all travel, so the wagon gets exactly what a hunt that ran to the last tick would give.
             Assert.IsType<HuntSceneResult>(window.CurrentForm);
             Assert.NotNull(data.HuntOutcome);

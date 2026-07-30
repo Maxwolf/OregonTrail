@@ -109,8 +109,8 @@ namespace OregonTrailDotNet.Entity.Vehicle
         ///     Odometer reading up to which the trail has already been scanned for gravesites the party might pass. The drive
         ///     form checks the stretch between this and the live <see cref="Odometer" /> each turn and then advances it. It
         ///     lives on the vehicle (which spans the whole journey) rather than on the transient drive form so the final
-        ///     stretch of a leg — the miles covered on the turn the party arrives at a landmark, after which the drive form is
-        ///     torn down for the arrival screen and can no longer check — is still examined at the start of the next leg
+        ///     stretch of a leg - the miles covered on the turn the party arrives at a landmark, after which the drive form is
+        ///     torn down for the arrival screen and can no longer check - is still examined at the start of the next leg
         ///     instead of being skipped forever. That gap is why a grave sitting right before a landmark was never offered.
         /// </summary>
         internal int LastGraveCheckOdometer { get; set; }
@@ -153,7 +153,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
                 // Money is held to the cent, because the store quotes to the cent: twenty cents a pound of food is a
                 // real price and a party that spends $1.40 has spent $1.40. The purse used to be a stack of whole
                 // dollar bills, which meant every write re-rounded the balance and a pound of food debited $399.80 out
-                // of $400 and stored $400 back — food was free by the pound, all the way to the wagon's ceiling, at
+                // of $400 and stored $400 back - food was free by the pound, all the way to the wagon's ceiling, at
                 // every store in the game.
                 //
                 // Cents are held as an int rather than a float so the arithmetic cannot drift over a two-thousand-mile
@@ -162,7 +162,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
 
                 // Keep the purse's inventory entry in step. It is a DERIVED view in whole dollars and exists for two
                 // readers only: the end-of-game tally, which pays a point per five dollars carried into Oregon, and the
-                // supply list. Truncating is right for both — nobody scores a partial dollar.
+                // supply list. Truncating is right for both - nobody scores a partial dollar.
                 var cash = _inventory[EntitiesEnum.Cash];
                 var wholeDollars = _balanceCents/100;
                 if (wholeDollars <= 0)
@@ -173,7 +173,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
         }
 
         /// <summary>
-        ///     The party's money in whole cents — the actual store of truth behind <see cref="Balance" />.
+        ///     The party's money in whole cents - the actual store of truth behind <see cref="Balance" />.
         /// </summary>
         private int _balanceCents;
 
@@ -748,13 +748,13 @@ namespace OregonTrailDotNet.Entity.Vehicle
             if (addableQuantity <= 0)
                 return;
 
-            // The exact price of the part that fits, to the cent — which is how the original quoted it ("My price is
+            // The exact price of the part that fits, to the cent - which is how the original quoted it ("My price is
             // 20 cents a pound", "Bill so far: $270.00"). The purse holds cents, so this is charged in full: no
             // rounding down to nothing (which once made food free by the pound) and no rounding up to a dollar the
             // party never agreed to spend.
             var charge = (float) Math.Round(transaction.Cost*addableQuantity, 2);
 
-            // Check the player can afford what will actually be charged — the part that fits, not the full request.
+            // Check the player can afford what will actually be charged - the part that fits, not the full request.
             if (Balance < charge)
                 return;
 
@@ -991,7 +991,7 @@ namespace OregonTrailDotNet.Entity.Vehicle
             }
 
             // A disabled wagon whose part is still broken stays disabled until that part is repaired or replaced. A disabled
-            // wagon whose team has been restored (fort store, trade, abandoned wagon) rolls again — Disabled used to be
+            // wagon whose team has been restored (fort store, trade, abandoned wagon) rolls again - Disabled used to be
             // sticky here, which made buying fresh oxen at a fort useless to a stranded party.
             if ((Status == VehicleStatusEnum.Disabled) && (BrokenPart != null))
                 return;

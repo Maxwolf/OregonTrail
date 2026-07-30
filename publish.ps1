@@ -176,10 +176,13 @@ if (-not $Package) {
 Copy-Item (Join-Path $root 'README.md') $stageDir
 Copy-Item (Join-Path $root 'LICENSE') $stageDir
 
-# A player unpacking this on a Mac or a Linux box needs to know three things the
-# archive cannot tell them: how to launch it, that Gatekeeper will object, and
-# that the music is Windows-only (the audio stack talks to winmm and no-ops
-# everywhere else). Keep it short enough that it actually gets read.
+# A player unpacking this on a Mac or a Linux box needs to know two things the
+# archive cannot tell them: how to launch it, and that Gatekeeper will object.
+# All three platforms get the music and the sound effects now (winmm, AudioQueue
+# and ALSA respectively), so the only audio note worth a player's attention is
+# the Linux one: no libasound, no sound. A sound server is NOT required - the
+# backend falls back to the card itself. Keep it short enough that it actually
+# gets read.
 $firstRun = switch -Wildcard ($Rid) {
     'win-*' {
         @"
@@ -192,8 +195,9 @@ Double-click OregonTrailDotNet.exe, or run it from a terminal.
   * Use a terminal at least 80 columns by 25 rows. Anything shorter than 25
     rows starts dropping menu options off the bottom. Windows Terminal draws
     the original artwork best; the old conhost window works too.
-  * Music and sound effects play through Windows' own waveOut device. F8 mutes,
-    F9 and F10 set the volume, and the main menu can turn sound off entirely.
+  * The original music and sound effects play at the moments the 1990 version
+    played them. F8 mutes, F9 and F10 set the volume, and option 4 on the main
+    menu turns sound off entirely.
   * High scores and tombstones are kept in game.db next to the executable, so
     put it somewhere you can write to (not Program Files).
 
@@ -221,8 +225,9 @@ Open Terminal (or iTerm2), cd into this folder, and run:
   * Use a window at least 80 columns by 25 rows. Terminal.app opens at 80x24 by
     default, one row short, and the game silently drops whatever does not fit,
     menu options included. Stretch the window before you start.
-  * There is no sound on macOS. The audio stack drives Windows' waveOut device
-    directly and stays silent everywhere else; the artwork is unaffected.
+  * The original music and sound effects play through Core Audio, at the moments
+    the 1990 version played them. F8 mutes, F9 and F10 set the volume, and
+    option 4 on the main menu turns sound off entirely.
   * High scores and tombstones are kept in game.db next to the executable, so
     keep it in a folder you can write to.
 
@@ -245,8 +250,12 @@ From a terminal, cd into this folder and run:
     by default, one row short, and the game silently drops whatever does not
     fit, menu options included. Stretch the window before you start. A truecolor
     terminal draws the original artwork best.
-  * There is no sound on Linux. The audio stack drives Windows' waveOut device
-    directly and stays silent everywhere else; the artwork is unaffected.
+  * The original music and sound effects play through ALSA, at the moments the
+    1990 version played them. F8 mutes, F9 and F10 set the volume, and option 4
+    on the main menu turns sound off entirely. This needs libasound (package
+    libasound2 or alsa-lib). It plays through your sound server if you have one,
+    and straight to the ALSA card if you do not. Without libasound, or with no
+    sound card at all, the game runs exactly as it does now, just silently.
   * High scores and tombstones are kept in game.db next to the executable, so
     keep it in a folder you can write to.
 

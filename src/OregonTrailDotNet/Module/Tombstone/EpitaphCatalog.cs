@@ -7,7 +7,7 @@ namespace OregonTrailDotNet.Module.Tombstone
 {
     /// <summary>
     ///     A pool of short, silly epitaphs used as the default message on a fresh grave, in the spirit of the goofy things
-    ///     real players (and bots) scrawled on their tombstones in the original game — "pepperoni and cheese", "welp", "HECK",
+    ///     real players (and bots) scrawled on their tombstones in the original game - "pepperoni and cheese", "welp", "HECK",
     ///     and friends. A human can always overwrite the default with their own message in the epitaph editor. Every entry is
     ///     kept short so it fits the tombstone display and never blows past the epitaph length limit.
     /// </summary>

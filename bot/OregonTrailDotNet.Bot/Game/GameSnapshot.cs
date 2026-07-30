@@ -39,7 +39,7 @@ namespace OregonTrailDotNet.Bot.Game
         public HealthStatusEnum Health { get; init; }
 
         /// <summary>
-        ///     Health of the party's weakest living member — the one nearest to dying. The average can stay high while one
+        ///     Health of the party's weakest living member - the one nearest to dying. The average can stay high while one
         ///     member is failing, so policies watch this to protect every individual (each death is lost score), not just the
         ///     party as a whole.
         /// </summary>
@@ -52,13 +52,13 @@ namespace OregonTrailDotNet.Bot.Game
         public TravelPaceEnum Pace { get; init; }
         public string LocationName { get; init; } = "";
 
-        /// <summary>Current calendar month (1=January .. 12=December) — a season signal for weather and illness risk.</summary>
+        /// <summary>Current calendar month (1=January .. 12=December) - a season signal for weather and illness risk.</summary>
         public int CurrentMonth { get; init; }
 
         /// <summary>The weather condition at the party's current location.</summary>
         public WeatherCondition Weather { get; init; }
 
-        /// <summary>Outside temperature at the location, in Celsius — the cold exposure the party's clothing must offset.</summary>
+        /// <summary>Outside temperature at the location, in Celsius - the cold exposure the party's clothing must offset.</summary>
         public int Temperature { get; init; }
 
         /// <summary>True at a mountain-pass location (slow going, blizzards, a chance of getting stuck).</summary>
@@ -67,7 +67,7 @@ namespace OregonTrailDotNet.Bot.Game
         /// <summary>True where the party can resupply at a store (a fort or settlement).</summary>
         public bool ShoppingAllowed { get; init; }
 
-        /// <summary>The current location's index along the trail and the total number of locations — together, trail progress.</summary>
+        /// <summary>The current location's index along the trail and the total number of locations - together, trail progress.</summary>
         public int LocationIndex { get; init; }
 
         public int LocationCount { get; init; }

@@ -3,7 +3,7 @@ namespace OregonTrailDotNet.Bot.Learning
     /// <summary>
     ///     The neuro-evolution model: a small neural network (<see cref="NeuralPolicy" />) whose weights are searched by CEM.
     ///     The whole setup + tactical slice is warm-started from the same expert prior as the strategy models, and the network
-    ///     weights start at zero — so at generation 0 the policy plays the exact expert strategy (a zero-residual network), then
+    ///     weights start at zero - so at generation 0 the policy plays the exact expert strategy (a zero-residual network), then
     ///     evolves state-adaptive corrections on top of it. This is the warm-start that lets it reach its first win as quickly as
     ///     the linear bots instead of rediscovering a whole tactical policy from random weights.
     /// </summary>

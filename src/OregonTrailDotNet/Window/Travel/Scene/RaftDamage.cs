@@ -8,10 +8,10 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 {
     /// <summary>
     ///     The raft's loss routines, restored around <see cref="Presentation.RaftGame" />'s hit counters exactly as
-    ///     <c>FLOAT</c> calls them (<c>:700/:710/:950</c> into <c>RIVER.LIB</c>'s <c>:50175/:50185/:50205</c> — the
+    ///     <c>FLOAT</c> calls them (<c>:700/:710/:950</c> into <c>RIVER.LIB</c>'s <c>:50175/:50185/:50205</c> - the
     ///     same code a bad ford runs, which is why a rock and a bad crossing read the same way). Each collision runs
-    ///     one application: drown rolls per party member (the leader is spared while anybody else stands —
-    ///     <c>FOR L = (NP&gt;1) TO NP-1</c> — and alone, can drown), each ox rolls, each supply category can lose one
+    ///     one application: drown rolls per party member (the leader is spared while anybody else stands -
+    ///     <c>FOR L = (NP&gt;1) TO NP-1</c> - and alone, can drown), each ox rolls, each supply category can lose one
     ///     to all of itself; the loss-line counter <c>Z</c> is zeroed <b>per event</b>, and a single catastrophic hit
     ///     with more than nine loss lines destroys the raft outright.
     /// </summary>
@@ -36,7 +36,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         /// <summary>A scrape along the bank: drown 0.15, oxen 0.30, supplies 0.50.</summary>
         internal static Report ShoreHit(Random random) => Apply(random, 0.15, 0.30, 0.50);
 
-        /// <summary>A rock strike: drown 0.60, oxen 0.60, supplies 0.70 — four times the bank's menace.</summary>
+        /// <summary>A rock strike: drown 0.60, oxen 0.60, supplies 0.70 - four times the bank's menace.</summary>
         internal static Report RockHit(Random random) => Apply(random, 0.60, 0.60, 0.70);
 
         /// <summary>Missing the landing is survivable: supplies only at 0.50, and the raft lands anyway.</summary>
@@ -47,7 +47,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             var vehicle = GameSimulationApp.Instance.Vehicle;
             var lines = new List<string>();
 
-            // FLOAT 700/950: Z = 0 at the head of every application — the counter is per event, never per run,
+            // FLOAT 700/950: Z = 0 at the head of every application - the counter is per event, never per run,
             // so ordinary scrapes across a whole river can never add up to a destroyed raft.
             var z = 0;
 

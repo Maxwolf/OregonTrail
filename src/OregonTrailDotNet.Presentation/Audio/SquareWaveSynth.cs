@@ -5,7 +5,7 @@ namespace OregonTrailDotNet.Presentation.Audio
     ///     <para>
     ///         A square wave and nothing else, because that is all either machine could make: the Apple II toggles the
     ///         speaker directly and the PC speaker is a one-bit output driven by timer channel 2. There is no envelope
-    ///         to model and no timbre to choose — the only thing worth getting right is the articulation.
+    ///         to model and no timbre to choose - the only thing worth getting right is the articulation.
     ///     </para>
     /// </summary>
     public static class SquareWaveSynth
@@ -18,7 +18,7 @@ namespace OregonTrailDotNet.Presentation.Audio
         ///     <para>
         ///         This is the original's own convention, not a softening: GW-BASIC's <c>PLAY</c> defaults to
         ///         <c>MN</c> ("music normal"), which sounds 7/8 of each note's duration and rests the last eighth.
-        ///         Without it a run of repeated notes — and these tunes are full of them — fuses into one long tone,
+        ///         Without it a run of repeated notes - and these tunes are full of them - fuses into one long tone,
         ///         because nothing in a square wave separates two identical pitches laid end to end.
         ///     </para>
         /// </summary>
@@ -64,7 +64,7 @@ namespace OregonTrailDotNet.Presentation.Audio
         ///     <para>
         ///         The ramp at each end is the one liberty taken. A square wave that starts and stops at full
         ///         amplitude puts a step edge into the output, which a real speaker cone reproduces as an audible tick
-        ///         on every single note — an artefact of the sound card, not of the original hardware, whose speaker
+        ///         on every single note - an artefact of the sound card, not of the original hardware, whose speaker
         ///         was already sitting at one rail or the other. A few hundred samples of ramp removes it and is far
         ///         too short to hear as an attack.
         ///     </para>

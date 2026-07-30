@@ -3,7 +3,7 @@ using OregonTrailDotNet.Presentation;
 namespace OregonTrailDotNet.Bot.Game
 {
     /// <summary>
-    ///     Steers the Columbia run — the same <see cref="RaftGame" /> a player steers, read the same way: where the
+    ///     Steers the Columbia run - the same <see cref="RaftGame" /> a player steers, read the same way: where the
     ///     raft is, where the rocks are drifting, and how long is left before the landing. Like
     ///     <see cref="HuntPilot" /> this is hands, not judgement; the Columbia offers no choices to learn, only a
     ///     river to get down.
@@ -56,7 +56,7 @@ namespace OregonTrailDotNet.Bot.Game
             if (game.LandingWindowOpen)
                 return RaftGame.LastLane;
 
-            // Close to it: wait one lane short. Lane 17 before the window opens is not a landing at all — it is the
+            // Close to it: wait one lane short. Lane 17 before the window opens is not a landing at all - it is the
             // bank, and touching it costs a drowning roll, an oxen roll and half the supplies. Staging at 16 means
             // the landing is one tick away the moment it counts, at no risk while it does not.
             var ticksToCross = RaftGame.LastLane - game.Lane + 4;

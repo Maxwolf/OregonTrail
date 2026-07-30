@@ -41,8 +41,8 @@ namespace OregonTrailDotNet.Bot.Tests
         }
 
         /// <summary>
-        ///     Locks in the 1985-faithful score ceiling. With every scored item at its original cap — 20 oxen, 3 of each
-        ///     spare part, 255 sets of clothing, 65,535 bullets, 2,000 lb food, $360 leftover cash — a full Good-health
+        ///     Locks in the 1985-faithful score ceiling. With every scored item at its original cap - 20 oxen, 3 of each
+        ///     spare part, 255 sets of clothing, 65,535 bullets, 2,000 lb food, $360 leftover cash - a full Good-health
         ///     Farmer party scores exactly (2500+50+80+18+510+1310+80+72) x 3 = 13,860, matching the maximum computed
         ///     from the decompiled Apple II disk. Quantities are added far past each cap on purpose: the inventory clamps
         ///     are part of what this test pins.

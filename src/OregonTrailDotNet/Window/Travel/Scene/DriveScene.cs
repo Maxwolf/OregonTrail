@@ -13,7 +13,7 @@ using WolfCurses.Window.Form;
 namespace OregonTrailDotNet.Window.Travel.Scene
 {
     /// <summary>
-    ///     The travel screen: the original's one animated tableau, assembled exactly as the 1985 game assembled it —
+    ///     The travel screen: the original's one animated tableau, assembled exactly as the 1985 game assembled it -
     ///     black sky, horizon strip hanging above the ground box, the ox team walking in the black band between,
     ///     the wagon nailed to its pixel while the world slides past, and the roadside miniature of the next
     ///     landmark arriving level with the wagon as the leg runs out. The graphical sibling of
@@ -40,7 +40,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>Initializes a new instance of the <see cref="DriveScene" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public DriveScene(IWindow window) : base(window)
         {
         }
@@ -57,15 +57,15 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         /// <inheritdoc />
         protected override void Build()
         {
-            // Departing is the drive form's duty whichever sibling runs — fort penalty, Departed status, the
-            // mountain-pass stuck roll — and it must happen before the first day ticks.
+            // Departing is the drive form's duty whichever sibling runs - fort penalty, Departed status, the
+            // mountain-pass stuck roll - and it must happen before the first day ticks.
             DriveTick.Depart();
 
             BuildLeg();
         }
 
         /// <summary>
-        ///     One simulated day, exactly once per simulation tick — the same cadence and the same
+        ///     One simulated day, exactly once per simulation tick - the same cadence and the same
         ///     <see cref="DriveTick" /> the text form drives with.
         /// </summary>
         protected override void OnSimulationTick()
@@ -90,7 +90,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             }
 
             // A freshly executed ground event plants its picture in the world at the original's spot; from there
-            // the wagon rolls past it. Sky events stay put — weather hangs over the scene, it is not passed by.
+            // the wagon rolls past it. Sky events stay put - weather hangs over the scene, it is not passed by.
             if (SceneEvents.LastEventTurn != _seenEventTurn && SceneEvents.LastEventName != null)
             {
                 _seenEventTurn = SceneEvents.LastEventTurn;
@@ -106,8 +106,8 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>
         ///     One animation tick: ease the displayed distance toward the simulation's real distance remaining. The
-        ///     step is capped at two strides a tick so the three-frame walk cycle can never alias into stillness —
-        ///     the trap minigames.md documents — which on the shortest legs trades a moment of lag for legs that
+        ///     step is capped at two strides a tick so the three-frame walk cycle can never alias into stillness -
+        ///     the trap minigames.md documents - which on the shortest legs trades a moment of lag for legs that
         ///     always read.
         /// </summary>
         protected override void Advance()
@@ -130,7 +130,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             for (var stride = 0; stride < strides; stride++)
                 _walkFrame = _walkFrame % 3 + 1;
 
-            // A planted ground event falls behind with the ground covered — geared to the strides like the legs,
+            // A planted ground event falls behind with the ground covered - geared to the strides like the legs,
             // a few times ground speed so passing it takes about a day of travel rather than a week. It moves the
             // way this screen's world moves: left to right, the direction the scenery already slides, so the wagon
             // overtakes it and it exits past the right edge.
@@ -148,7 +148,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             var game = GameSimulationApp.Instance;
             var frame = _backdrop.Crop(0, 0, _backdrop.Width, _backdrop.Height);
 
-            // The roadside piece — the next landmark approaching, seated on the ground line.
+            // The roadside piece - the next landmark approaching, seated on the ground line.
             if (_sceneryArt != null)
                 frame.DrawImage(_sceneryArt, _sceneryX - _sceneryArt.Width, TravelGame.GroundY - _sceneryArt.Height);
 
@@ -162,7 +162,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             var wagon = Art.Dos("travelox", wagonFrame);
             frame.DrawImage(wagon, TravelGame.WagonX, TravelGame.GroundY - wagon.Height);
 
-            // The day's event pictures, blitted last so a storm cloud sits over the horizon strip — the original
+            // The day's event pictures, blitted last so a storm cloud sits over the horizon strip - the original
             // draws its event slots after the scene for the same reason. Sky pictures hang fixed for the day the
             // weather happened; ground pictures were planted in the world and slide past as the wagon rolls on.
             var sky = CurrentSkyIcon();
@@ -229,7 +229,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
             // Every piece rests at the same solved position: right edge just left of the wagon, so arriving reads
             // as pulling up alongside the landmark. (OriginalTrail's per-leg SceneryRestX is the raw L% reference
-            // column, NOT a position — using it parked the scenery a third of a screen short of the team.)
+            // column, NOT a position - using it parked the scenery a third of a screen short of the team.)
             _sceneryRestX = TravelGame.SceneryRestX;
 
             // The leg's real length: a fork branch's own road overrides the leg the fork set on arrival, exactly
@@ -261,7 +261,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>
         ///     The fixed sky picture for today, or null. A freshly executed weather event wins; otherwise the day's
-        ///     own conditions hang the cloud — ClimateModule fires the weather events from the day's sky on only a
+        ///     own conditions hang the cloud - ClimateModule fires the weather events from the day's sky on only a
         ///     small fraction of bad days, and an event picture expires after a day, so the sky tracks the conditions
         ///     directly instead of waiting on an event. Presentation only: the downpour and the blizzard already
         ///     exist in the simulation, this just draws them.
@@ -285,7 +285,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>
         ///     The event picture for an executed event, or null. The mapping is by subject: the original's events
-        ///     sheet carries seven pictures and the clone's roster covers six of them — the thief gets the
+        ///     sheet carries seven pictures and the clone's roster covers six of them - the thief gets the
         ///     goods-carrying figure, the helpful Indians the one with the bundle.
         /// </summary>
         private static EventIconEnum? MapIcon(string eventName) => eventName switch

@@ -42,11 +42,11 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void Stranded_Party_Accepts_Any_Payable_Oxen_Offer_And_Nothing_Else()
         {
-            // Wants 20 clothes for 1 ox — robbery at store prices, but a stranded wagon pays it.
+            // Wants 20 clothes for 1 ox - robbery at store prices, but a stranded wagon pays it.
             var oxenOffer = new TradeOfferView(EntitiesEnum.Animal, 1, EntitiesEnum.Clothes, 20, CanPay: true);
             Assert.True(SupplyTactics.AcceptTrade(Snapshot(oxen: 0, clothing: 25, trade: oxenOffer), margin: 0));
 
-            // A generous non-oxen offer does not fix the stranding — decline and keep browsing for the rescue.
+            // A generous non-oxen offer does not fix the stranding - decline and keep browsing for the rescue.
             var foodOffer = new TradeOfferView(EntitiesEnum.Food, 200, EntitiesEnum.Ammo, 1, CanPay: true);
             Assert.False(SupplyTactics.AcceptTrade(Snapshot(oxen: 0, trade: foodOffer), margin: 0));
 
@@ -66,7 +66,7 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void PartStranded_Party_Never_Hands_Over_Its_Whole_Team_For_The_Part()
         {
-            // Fixing a wheel by giving away all six oxen just re-strands the wagon on the spot — declined. Keeping even
+            // Fixing a wheel by giving away all six oxen just re-strands the wagon on the spot - declined. Keeping even
             // one ox (slow but rolling) is acceptable.
             var wheelForWholeTeam = new TradeOfferView(EntitiesEnum.Wheel, 1, EntitiesEnum.Animal, 6, CanPay: true);
             Assert.False(SupplyTactics.AcceptTrade(
@@ -80,12 +80,12 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void Healthy_Party_Trades_On_Value_At_Store_Prices()
         {
-            // 2 oxen ($40) for 10 boxes of bullets ($20): +$20 of value — accepted at margin 0, declined at margin 30.
+            // 2 oxen ($40) for 10 boxes of bullets ($20): +$20 of value - accepted at margin 0, declined at margin 30.
             var goodDeal = new TradeOfferView(EntitiesEnum.Animal, 2, EntitiesEnum.Ammo, 10, CanPay: true);
             Assert.True(SupplyTactics.AcceptTrade(Snapshot(trade: goodDeal), margin: 0));
             Assert.False(SupplyTactics.AcceptTrade(Snapshot(trade: goodDeal), margin: 30));
 
-            // 1 box of bullets ($2) for 1 ox ($20): value-negative — declined.
+            // 1 box of bullets ($2) for 1 ox ($20): value-negative - declined.
             var badDeal = new TradeOfferView(EntitiesEnum.Ammo, 1, EntitiesEnum.Animal, 1, CanPay: true);
             Assert.False(SupplyTactics.AcceptTrade(Snapshot(oxen: 10, trade: badDeal), margin: 0));
         }
@@ -93,7 +93,7 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void Survival_Guards_Block_Trades_That_Strip_The_Party()
         {
-            // Selling 2 oxen from a team of 7 would drop below the 6-ox full-speed floor — declined despite +$160 of value.
+            // Selling 2 oxen from a team of 7 would drop below the 6-ox full-speed floor - declined despite +$160 of value.
             var oxenForFood = new TradeOfferView(EntitiesEnum.Food, 2000, EntitiesEnum.Animal, 2, CanPay: true);
             Assert.False(SupplyTactics.AcceptTrade(Snapshot(oxen: 7, trade: oxenForFood), margin: 0));
 
@@ -152,7 +152,7 @@ namespace OregonTrailDotNet.Bot.Tests
         public void Stranded_At_A_Fort_With_Cash_Goes_To_The_Store_Before_Gambling_On_Trades()
         {
             // The fort store is a guaranteed oxen seller; emigrant offers are random. A stranded party with money must
-            // try the store FIRST — and must be allowed back in even if it already restocked at this fort earlier.
+            // try the store FIRST - and must be allowed back in even if it already restocked at this fort earlier.
             var policy = new GenomePolicy(StrategyGenome.Default(), "Tactician (bot)");
             var fortMenu = new[]
             {

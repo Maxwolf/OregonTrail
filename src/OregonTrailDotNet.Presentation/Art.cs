@@ -10,12 +10,12 @@ namespace OregonTrailDotNet.Presentation
     ///     workbench and the game ship as single executables with no loose art files to find, ship alongside, or lose.
     ///     <para>
     ///         The scenes are drawn with the <b>1990 DOS port's</b> art: 320x200 in 256 colours against the Apple II's
-    ///         280x192 in six, and — decisively for a terminal — its sprites are shaded illustrations where the Apple II's
+    ///         280x192 in six, and - decisively for a terminal - its sprites are shaded illustrations where the Apple II's
     ///         are white silhouettes. Terminal rendering widens that gap rather than narrowing it, because area-averaging
     ///         a picture down to character cells preserves colour but destroys the Apple II's dithering.
     ///     </para>
     ///     <para>
-    ///         Everything is addressed by its path within the art set — <c>sprites/hunter/01.png</c>,
+    ///         Everything is addressed by its path within the art set - <c>sprites/hunter/01.png</c>,
     ///         <c>tombstone.png</c>. A key with no matching resource is not an exception: it comes back as the
     ///         magenta-and-black "missing texture" checkerboard, which is exactly what should appear on screen if a build
     ///         is ever cut without its art.
@@ -40,7 +40,7 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>
         ///     True when the embedded artwork is present. Since the pictures are compiled into
         ///     <c>OregonTrailDotNet.Assets</c> they always should be, so this is a sanity check on the build rather than
-        ///     on the file system — a guard against a broken package, not a missing folder.
+        ///     on the file system - a guard against a broken package, not a missing folder.
         /// </summary>
         public static bool Ready => AssetStore.Has("art/map.png");
 
@@ -66,7 +66,7 @@ namespace OregonTrailDotNet.Presentation
         /// </summary>
         /// <param name="sheet">
         ///     One of <c>hunter</c>, <c>animals</c>, <c>float</c>, <c>terrain</c>, <c>scenery</c>, <c>travelox</c>,
-        ///     <c>events</c> — the sheet directories under <c>art/sprites/</c> in the assets library.
+        ///     <c>events</c> - the sheet directories under <c>art/sprites/</c> in the assets library.
         /// </param>
         /// <param name="id">1-based sprite id within that sheet.</param>
         public static PixelBuffer Dos(string sheet, int id) => Load($"sprites/{sheet}/{id:00}.png");

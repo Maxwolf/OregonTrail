@@ -100,7 +100,7 @@ namespace OregonTrailDotNet.Bot.Game
                 case "ProfessionSelector":
                     return _policy.Profession.ToString();
                 case "InputPlayerNames":
-                    // Name every crew member "<bot> <n>" — e.g. "Skynet 1", "Skynet 2", ... — so a viewer can tell which
+                    // Name every crew member "<bot> <n>" - e.g. "Skynet 1", "Skynet 2", ... - so a viewer can tell which
                     // one died. Crew #1 is the wagon leader (its name is what brands the in-game high-score list). Match the
                     // leader question itself: the member roster below it also says "(leader)", so a bare substring check
                     // would misfire.
@@ -131,7 +131,7 @@ namespace OregonTrailDotNet.Bot.Game
                 case "LocationFork":
                     return ForkChoice(screen, state);
                 case "EpitaphEditor":
-                    // Party wiped; leave a random silly epitaph like a person would (rarely reached — the run ends at the
+                    // Party wiped; leave a random silly epitaph like a person would (rarely reached - the run ends at the
                     // game-over screen first, and the grave already gets a silly default when the party dies).
                     return OregonTrailDotNet.Module.Tombstone.EpitaphCatalog.Random();
                 case "ManagementOptions":
@@ -176,7 +176,7 @@ namespace OregonTrailDotNet.Bot.Game
                 }
             }
 
-            // Everything handled — leave the store (menu key 9 maps to Entities.Vehicle which triggers LeaveStore).
+            // Everything handled - leave the store (menu key 9 maps to Entities.Vehicle which triggers LeaveStore).
             return "9";
         }
 
@@ -193,7 +193,7 @@ namespace OregonTrailDotNet.Bot.Game
 
             // Mid-trail restocking holds back the policy's cash reserve so ferries and tolls stay payable (a broke party
             // gets forced into ford/caulk crossings, which are what drown oxen). The opening store (Independence, index 0)
-            // spends freely, and a party buying the oxen that un-strand it ignores the reserve — moving again comes first.
+            // spends freely, and a party buying the oxen that un-strand it ignores the reserve - moving again comes first.
             // The screen only shows the affordable QUANTITY, so back the unit price out of cash/afford (rounding the kept
             // quantity up, which errs toward keeping slightly more cash than asked).
             var reserve = state.LocationIndex > 0 ? _policy.CashReserve(state) : 0;
@@ -211,7 +211,7 @@ namespace OregonTrailDotNet.Bot.Game
             if (item == EntitiesEnum.Animal && state.OwnedOf(EntitiesEnum.Animal) == 0)
                 qty = Math.Max(qty, Math.Min(3*lot, afford));
 
-            // Back into whole lots, rounding UP so a target that lands mid-lot is met rather than missed — the store
+            // Back into whole lots, rounding UP so a target that lands mid-lot is met rather than missed - the store
             // charges by the lot either way, so asking for the fraction below would just leave the party short.
             var lots = qty <= 0 ? 0 : (qty + lot - 1)/lot;
 
@@ -249,7 +249,7 @@ namespace OregonTrailDotNet.Bot.Game
 
             RiverChoiceKindEnum chosen;
             if (_riverVisits > 2)
-                // We keep landing back on the river menu — the policy's pick isn't executable (can't afford it). Force a
+                // We keep landing back on the river menu - the policy's pick isn't executable (can't afford it). Force a
                 // free crossing that always proceeds.
                 chosen = options.Any(o => o.Kind == RiverChoiceKindEnum.Ford) ? RiverChoiceKindEnum.Ford : RiverChoiceKindEnum.Caulk;
             else
@@ -268,7 +268,7 @@ namespace OregonTrailDotNet.Bot.Game
 
             _forkVisits++;
             if (_forkVisits > 2)
-                // We keep returning to this fork — the chosen branch isn't executable (an unaffordable toll). Take the first
+                // We keep returning to this fork - the chosen branch isn't executable (an unaffordable toll). Take the first
                 // branch, which is never a toll road, so we always make progress.
                 return branches[0].Number.ToString();
 

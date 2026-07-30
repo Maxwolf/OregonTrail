@@ -54,7 +54,7 @@ namespace OregonTrailDotNet.Tests
 
             Game.InputManager.SendInputBufferAsCommand();
 
-            // Pump until the command has fully landed — dispatched, the window stack settled, and rendered — so the
+            // Pump until the command has fully landed - dispatched, the window stack settled, and rendered - so the
             // next command finds its menu mappings in place. Settles on state (not the spinner-animated frame text)
             // and is bounded, replacing the old fixed two-tick dance.
             Game.PumpInput();

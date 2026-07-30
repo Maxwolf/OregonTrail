@@ -15,7 +15,7 @@ namespace OregonTrailDotNet.Entity.Item
         ///         Sold by the yoke, two at a time, because that is how a wagon is pulled and how Matt sold them: "There
         ///         are 2 oxen in a yoke; I recommend at least 3 yoke. I charge $40 a yoke." A single ox is not a thing
         ///         you can buy. The price stays per-ox at $20 so a yoke bills exactly the original's $40, and the wagon
-        ///         still counts individual animals — the mileage formula, the ox-lost events and the 4-points-per-ox
+        ///         still counts individual animals - the mileage formula, the ox-lost events and the 4-points-per-ox
         ///         tally all work in single oxen. The one-digit field is the original's too: nine yoke at a time.
         ///     </para>
         /// </summary>

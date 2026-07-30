@@ -11,14 +11,14 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 {
     /// <summary>
     ///     The river crossing drawn as <c>CROSS.LIB</c> drew it: a framed picture of the water with one vehicle
-    ///     sprite, the near bank turning to water as the party pulls away, and then the outcome — the far shore
+    ///     sprite, the near bank turning to water as the party pulls away, and then the outcome - the far shore
     ///     fanning into view on a clean crossing, the wreck swapped in place or the swamping wedge over a ford when
     ///     the river took something. The graphical sibling of <see cref="CrossingTick" />, driving the identical
-    ///     <see cref="CrossingSimulation" /> underneath; the branch is the original's <c>Z&gt;0</c> — on what was
+    ///     <see cref="CrossingSimulation" /> underneath; the branch is the original's <c>Z&gt;0</c> - on what was
     ///     actually <b>lost</b>, not on which event fired, so a loss-free scare lands like a clean crossing.
     ///     <para>
     ///         A midstream disaster plays in the right order: the simulation defers its event so the scene can show
-    ///         the wagon in trouble first — the wreck swap or the swamping sweep — and only then fires the event
+    ///         the wagon in trouble first - the wreck swap or the swamping sweep - and only then fires the event
     ///         window with its message; when that clears, the crossing carries on, wrecked if something was really
     ///         lost and righted if it was only a scare.
     ///     </para>
@@ -32,7 +32,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             /// <summary>No disaster has struck.</summary>
             None,
 
-            /// <summary>The trouble is on screen — the sweep or the wreck — and the simulation holds its breath.</summary>
+            /// <summary>The trouble is on screen - the sweep or the wreck - and the simulation holds its breath.</summary>
             Playing,
 
             /// <summary>The event window is up with the message; waiting for the player to clear it.</summary>
@@ -55,7 +55,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>Initializes a new instance of the <see cref="CrossingScene" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public CrossingScene(IWindow window) : base(window)
         {
         }
@@ -101,7 +101,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
                 case DisasterPhaseEnum.Fired:
                     // Ticking again means the event window has been read and closed. Settle what it actually cost,
                     // then land the wagon: after a midstream disaster the party has suffered enough, and a wrecked
-                    // wagon paddling on for the rest of the river reads wrong anyway — the far shore is next.
+                    // wagon paddling on for the rest of the river reads wrong anyway - the far shore is next.
                     _midstreamLost = InventoryCount() < _itemsBefore ||
                                      GameSimulationApp.Instance.Vehicle.PassengerLivingCount < _livingBefore;
                     _disaster = DisasterPhaseEnum.Settled;
@@ -115,7 +115,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
             _sim.Tick();
 
-            // A ferry or guide accident executes its event inside the tick — that path never defers, so there
+            // A ferry or guide accident executes its event inside the tick - that path never defers, so there
             // is no disaster beat to carry the sound and the crash lands with the event window instead. The DOS
             // port crashed ferry sinkings exactly like float ones (docs/legacy-sounds.md §1.2).
             if (_sim.AccidentThisTick)
@@ -127,7 +127,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
                 _disaster = DisasterPhaseEnum.Playing;
                 _disasterProgress = 0;
 
-                // Only a ford or a float defers, and only the float goes visibly under — the crash sounds over
+                // Only a ford or a float defers, and only the float goes visibly under - the crash sounds over
                 // the wreck sprite this branch swaps in, never over a fording swamp, which the DOS port left
                 // silent (docs/legacy-sounds.md §1.2).
                 if (UserData.River.CrossingType != RiverCrossChoiceEnum.Ford)
@@ -186,7 +186,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             var frame = new PixelBuffer(RiverCrossingGame.ScreenWidth, RiverCrossingGame.ScreenHeight);
             CrossingArt.Fill(frame, 0, 0, frame.Width, frame.Height, Palette.Black);
 
-            // The white picture frame, the water, and the near bank fully in earth — the standing scene.
+            // The white picture frame, the water, and the near bank fully in earth - the standing scene.
             CrossingArt.Fill(frame, RiverCrossingGame.FrameX1, RiverCrossingGame.FrameY1,
                 RiverCrossingGame.FrameX2 - RiverCrossingGame.FrameX1,
                 RiverCrossingGame.FrameY2 - RiverCrossingGame.FrameY1, Palette.White);
@@ -198,7 +198,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             // The near bank turns to water as the party pulls away.
             CrossingArt.NearBank(frame, _displayCrossing, Palette.Water);
 
-            // One vehicle sprite — the whole of "which picture": the guide has no sprite of his own and borrows
+            // One vehicle sprite - the whole of "which picture": the guide has no sprite of his own and borrows
             // the float or the ford by depth, exactly as :50140 does.
             var fording = river.CrossingType == RiverCrossChoiceEnum.Ford;
             var wrecked = !fording && ShowTrouble(persistedOnly: false);
@@ -206,7 +206,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             var vehicle = Art.Dos("float", sprite);
             frame.DrawImage(vehicle, RiverCrossingGame.VehicleX, RiverCrossingGame.VehicleY);
 
-            // A fording wagon in trouble is not replaced — the water fans over it where it stands.
+            // A fording wagon in trouble is not replaced - the water fans over it where it stands.
             if (fording)
             {
                 if (_disaster == DisasterPhaseEnum.Playing)
@@ -215,7 +215,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
                     CrossingArt.SwampWedge(frame, 1.0, Palette.Water);
             }
 
-            // The far shore fans into view only on a crossing that lost nothing — the original's Z>0 branch.
+            // The far shore fans into view only on a crossing that lost nothing - the original's Z>0 branch.
             if (_sim is { Finished: true } && !_lost)
                 CrossingArt.FarBank(frame, _outcomeProgress, Palette.Sand);
 
@@ -238,7 +238,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>
         ///     Whether the wagon shows its trouble right now. During the beat and the message it always does; once
-        ///     the message settles (or the crossing ends) only a real loss keeps the damage on screen — a scare
+        ///     the message settles (or the crossing ends) only a real loss keeps the damage on screen - a scare
         ///     rights itself and carries on.
         /// </summary>
         private bool ShowTrouble(bool persistedOnly)
@@ -259,7 +259,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         private static int InventoryCount() =>
             GameSimulationApp.Instance.Vehicle.Inventory.Values.Sum(item => item.Quantity);
 
-        /// <summary>`I` — ford 1, float 2, ferry 3; the Indian guide borrows by depth (`:50140`).</summary>
+        /// <summary>`I` - ford 1, float 2, ferry 3; the Indian guide borrows by depth (`:50140`).</summary>
         private static int VehicleSprite(RiverGenerator river) => river.CrossingType switch
         {
             RiverCrossChoiceEnum.Ford => CrossingArt.FordSprite,

@@ -6,7 +6,7 @@ namespace OregonTrailDotNet.Bot.Tests
 {
     /// <summary>
     ///     Freezes the wire format of the persisted learning genome. <see cref="StrategyGenome" /> serializes ONLY its raw
-    ///     double vector, as a bare JSON array (positional — no property names), so the BestGenomeJson / GenomeJson columns in
+    ///     double vector, as a bare JSON array (positional - no property names), so the BestGenomeJson / GenomeJson columns in
     ///     the bot database carry no C# member names and are immune to renaming the genome's decode members. This test fails if
     ///     serialization ever starts emitting a named object, which would break every genome saved by an earlier build.
     /// </summary>

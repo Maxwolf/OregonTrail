@@ -24,7 +24,7 @@ namespace OregonTrailDotNet.Bot.Learning
         // five alive - the learning genome chases that fragile frontier; this expert's job is to finish healthy, every time.
         public int Profession => 2;
 
-        // May — enough grass, not so late that the party hits the winter mountains.
+        // May - enough grass, not so late that the party hits the winter mountains.
         public int StartMonth => 3;
 
         public string LeaderName => "Trailblazer (bot)";
@@ -60,7 +60,7 @@ namespace OregonTrailDotNet.Bot.Learning
             if (available.Contains(TravelCommandsEnum.ChangeFoodRations) && state.Ration != desiredRation)
                 return TravelCommandsEnum.ChangeFoodRations;
 
-            // Recover when ANY party member is sick (not just when the average dips) — keeping every member alive and
+            // Recover when ANY party member is sick (not just when the average dips) - keeping every member alive and
             // healthy is what maximizes the final score. Resting heals through natural recovery with or without medicine,
             // and medicine now also treats the sick on the move, so resting is no longer gated on it. The schedule guard
             // only applies mid-journey: the game has no time limit, so near the trail's end (and in long games where

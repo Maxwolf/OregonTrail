@@ -31,7 +31,7 @@ namespace OregonTrailDotNet.Tests
     /// </summary>
     public class ReadmeFeaturesTests : SimulationTestBase
     {
-        // ---- Travel #3: journey day tracking. MaxTravelDays survives as the bot's pacing horizon only — the 1985 game
+        // ---- Travel #3: journey day tracking. MaxTravelDays survives as the bot's pacing horizon only - the 1985 game
         // had no time limit (a party could idle for years and still finish) and neither does this port.
 
         [Fact]
@@ -45,7 +45,7 @@ namespace OregonTrailDotNet.Tests
         public void Journey_DoesNotEndAtMaxTravelDays()
         {
             // Boot a real party, then advance the clock far past the old 246-day forced ending. Keep the party fed and
-            // clothed while the clock runs — the test is about the calendar, and a starved-out party would legitimately
+            // clothed while the clock runs - the test is about the calendar, and a starved-out party would legitimately
             // end the game through the death path instead.
             Game.SetStartInfo(new NewGameInfo
             {
@@ -64,7 +64,7 @@ namespace OregonTrailDotNet.Tests
             Assert.True(Game.Time.TotalDays > TimeModule.MaxTravelDays);
             Assert.False(Game.Vehicle.PassengersDead); // a fed, clothed, idle party survives the long calendar
 
-            // Activate the travel window — the exact seam where the old day cap forced the end-game routine — and let
+            // Activate the travel window - the exact seam where the old day cap forced the end-game routine - and let
             // any queued window attach. With a living party short of Oregon, nothing may end the game anymore.
             var travel = new TravelWindow(GameSimulationApp.Instance);
             travel.OnWindowActivate();
@@ -298,7 +298,7 @@ namespace OregonTrailDotNet.Tests
             // Leave the FIRST PRICE THRESHOLD behind. That is Fort Kearney, not Independence: the original's markup
             // counts trail position from the first fort out (BUY.LIB:50003's Q = (LM>2)+(LM>4)+...), so walking out of
             // Matt's own door does not put the party's prices up. Naming the fort rather than taking the first
-            // Settlement on the trail is deliberate — Independence is a Settlement too.
+            // Settlement on the trail is deliberate - Independence is a Settlement too.
             var firstFort = Game.Trail.Locations.First(location => location.Name == "Fort Kearney");
             firstFort.Status = LocationStatusEnum.Departed;
 

@@ -9,7 +9,7 @@ namespace OregonTrailDotNet.Tests.Module
     /// </summary>
     public class EpitaphCatalogTests
     {
-        // Mirrors EpitaphEditor.EPITAPH_MAXLENGTH — the longest an epitaph is allowed to be once typed and truncated.
+        // Mirrors EpitaphEditor.EPITAPH_MAXLENGTH - the longest an epitaph is allowed to be once typed and truncated.
         private const int EpitaphMaxLength = 38;
 
         [Fact]

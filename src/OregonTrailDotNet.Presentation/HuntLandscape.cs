@@ -6,13 +6,13 @@ namespace OregonTrailDotNet.Presentation
     /// <param name="Y">Top edge in field pixels.</param>
     public readonly record struct ScenicProp(int SpriteId, int X, int Y);
 
-    /// <summary>A solid footprint on the hunting ground — scenery the simulation treats as impassable.</summary>
+    /// <summary>A solid footprint on the hunting ground - scenery the simulation treats as impassable.</summary>
     /// <param name="X">Left edge in field pixels.</param>
     /// <param name="Y">Top edge in field pixels.</param>
     /// <param name="Width">Footprint width.</param>
     /// <param name="Height">Footprint height.</param>
     /// <param name="Mask">
-    ///     Row-major <c>Width×Height</c> opacity bits, true where the sprite actually draws — the shipped terrain
+    ///     Row-major <c>Width×Height</c> opacity bits, true where the sprite actually draws - the shipped terrain
     ///     sprites are mostly transparent margin, and colliding with a tree's bounding air reads as hitting
     ///     nothing. Null means the whole rectangle is solid.
     /// </param>
@@ -35,16 +35,16 @@ namespace OregonTrailDotNet.Presentation
     ///     $E373  repeat until count pieces are down
     ///     </code>
     ///     <para>
-    ///         <b>The ground is regional.</b> <c>ZO</c> — which <c>HUNT.LIB:50011</c> passes straight through as the
+    ///         <b>The ground is regional.</b> <c>ZO</c> - which <c>HUNT.LIB:50011</c> passes straight through as the
     ///         sixth argument to <c>&amp; HUNT</c>, and which the trail computes as
-    ///         <c>(LM&gt;2)+(LM&gt;5)+(LM&gt;10)+(LM&gt;13)</c> — indexes a 30-byte table at <c>$E04A</c>, five zones of
+    ///         <c>(LM&gt;2)+(LM&gt;5)+(LM&gt;10)+(LM&gt;13)</c> - indexes a 30-byte table at <c>$E04A</c>, five zones of
     ///         six entries each. The fifteen scenery images are five families of three, and each zone draws from two of
     ///         them (sometimes the same one twice, which narrows it to one). The result tracks the real country:
     ///         woodland in Missouri, a <b>treeless</b> high plains, conifers and boulders in the Rockies, sagebrush on
     ///         the Snake River plain, and solid evergreen over the Blue Mountains.
     ///     </para>
     ///     <para>
-    ///         Two details are the Apple II showing through. <b>x lands on a 14-pixel grid</b> — two byte columns —
+    ///         Two details are the Apple II showing through. <b>x lands on a 14-pixel grid</b> - two byte columns -
     ///         which is what keeps a hi-res sprite's NTSC colour phase intact; y is unquantised because vertical
     ///         position does not affect colour. And the re-roll has <b>no attempt limit</b>: with at most seven pieces
     ///         on an open field it always terminates, but it is a spin, not a bounded search.
@@ -53,7 +53,7 @@ namespace OregonTrailDotNet.Presentation
     public sealed class HuntLandscape
     {
         /// <summary>
-        ///     The table at <c>$E04A</c>, verbatim: five zones, six scenery indices each. It is exactly 30 bytes —
+        ///     The table at <c>$E04A</c>, verbatim: five zones, six scenery indices each. It is exactly 30 bytes -
         ///     reading a sixth row runs straight into the species table at <c>$E068</c>, which is how the length is
         ///     known rather than guessed.
         /// </summary>
@@ -90,7 +90,7 @@ namespace OregonTrailDotNet.Presentation
             13, 14, 13    // boulders -- only two exist, so the third repeats
         ];
 
-        /// <summary>`$E30C` — the horizontal grid the original snaps to, in pixels.</summary>
+        /// <summary>`$E30C` - the horizontal grid the original snaps to, in pixels.</summary>
         private const int GridX = 14;
 
         /// <summary>The hunter's frame, kept clear because `$E39D` tests every candidate against him first.</summary>
@@ -116,13 +116,13 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     Everything standing on it, <b>ordered by foot position</b> so anything nearer the bottom paints later
-        ///     and therefore in front. The original blits in placement order and does not sort — it does not need to,
+        ///     and therefore in front. The original blits in placement order and does not sort - it does not need to,
         ///     since nothing may overlap anything else.
         /// </summary>
         public IReadOnlyList<ScenicProp> Props { get; }
 
         /// <summary>
-        ///     The props as collision footprints, for <see cref="HuntGame.Obstacles" /> — each rectangle carries
+        ///     The props as collision footprints, for <see cref="HuntGame.Obstacles" /> - each rectangle carries
         ///     the sprite's drawn-pixel mask, so the hunt collides with the tree itself and not its bounding
         ///     air, which is the original's own behavior (its bullet probe tested the drawn screen).
         /// </summary>

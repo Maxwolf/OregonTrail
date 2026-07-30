@@ -11,8 +11,8 @@ namespace OregonTrailDotNet.Window.GameOver
 {
     /// <summary>
     ///     The party's end: the wrecked wagon composed large on a dark field over the cause of death, distance, and
-    ///     remaining supplies — the graphical sibling of <see cref="GameFail" />. There is no dedicated 1985 death
-    ///     card, so the art is the DOS travel sheet's broken-wagon frame; and deliberately no music — Taps belongs
+    ///     remaining supplies - the graphical sibling of <see cref="GameFail" />. There is no dedicated 1985 death
+    ///     card, so the art is the DOS travel sheet's broken-wagon frame; and deliberately no music - Taps belongs
     ///     to the Graveyard stone that immediately follows, and playing it twice back-to-back would cheapen it.
     /// </summary>
     [ParentWindow(typeof(GameOver))]
@@ -22,7 +22,7 @@ namespace OregonTrailDotNet.Window.GameOver
 
         /// <summary>Initializes a new instance of the <see cref="DeathScene" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public DeathScene(IWindow window) : base(window)
         {
         }

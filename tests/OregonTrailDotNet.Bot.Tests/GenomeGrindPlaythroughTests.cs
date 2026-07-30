@@ -6,8 +6,8 @@ namespace OregonTrailDotNet.Bot.Tests
 {
     /// <summary>
     ///     Exercises the endgame trade grind through the whole real game stack: the default (warm-start) genome now
-    ///     budgets 250 endgame trade browses, so a full playthrough must survive that loop — no soft-lock, no unknown
-    ///     screens, no blowing the GamePlayer command/tick caps — whatever the run's outcome. Random events make each
+    ///     budgets 250 endgame trade browses, so a full playthrough must survive that loop - no soft-lock, no unknown
+    ///     screens, no blowing the GamePlayer command/tick caps - whatever the run's outcome. Random events make each
     ///     run different, so we play a few.
     /// </summary>
     public sealed class GenomeGrindPlaythroughTests : IDisposable

@@ -90,7 +90,7 @@ namespace OregonTrailDotNet.Bot.Tests
         {
             // Both parties finish with five healthy members; one arrives as a Farmer with supplies to spare (Meek's 7650),
             // the other ground out the cheapest tally that still counts as a win (2550). The score term is amplified so
-            // chasing the great score pays even at a somewhat lower win rate — without it, training settled on reliable
+            // chasing the great score pays even at a somewhat lower win rate - without it, training settled on reliable
             // ~2700-point finishes and never pushed higher.
             var meekGrade = Fitness(Run(GameOutcomeEnum.Win, survivors: 5, partyHealth: 500, miles: 2040, score: 7650));
             var cheapWin = Fitness(Run(GameOutcomeEnum.Win, survivors: 5, partyHealth: 500, miles: 2040, score: 2550));

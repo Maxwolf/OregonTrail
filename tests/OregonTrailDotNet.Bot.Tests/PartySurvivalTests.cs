@@ -7,7 +7,7 @@ using Xunit;
 namespace OregonTrailDotNet.Bot.Tests
 {
     /// <summary>
-    ///     Every party member counts toward the score, so the policies must protect the weakest individual — not just react to
+    ///     Every party member counts toward the score, so the policies must protect the weakest individual - not just react to
     ///     the party average, which can stay high while one member is dying.
     /// </summary>
     public sealed class PartySurvivalTests

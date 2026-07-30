@@ -18,7 +18,7 @@ using Xunit;
 namespace OregonTrailDotNet.Tests
 {
     /// <summary>
-    ///     Pins the one scene chain that had no flow coverage — the game's ending. The Columbia routes to the raft
+    ///     Pins the one scene chain that had no flow coverage - the game's ending. The Columbia routes to the raft
     ///     only with presentation on (headless hosts keep the crossing menu), the intro hands off to the run, and
     ///     the result form's two exits both work: survivors depart down the last leg, and a dead party raises the
     ///     normal game-over flow. Same flag/audio hygiene as the other gate fixtures.
@@ -90,7 +90,7 @@ namespace OregonTrailDotNet.Tests
         public void FlagOff_TheColumbia_IsStillTheRaft()
         {
             // The Columbia used to fall back to the ford/float crossing menu for headless hosts, which meant the bot
-            // spent the party's last hundred miles against a completely different loss table than the player's — one
+            // spent the party's last hundred miles against a completely different loss table than the player's - one
             // that could take cash and medicine but never zero the wagon or drown everybody at once. The raft is the
             // Columbia for everyone now; the flag decides only whether it is drawn.
             BootParty();
@@ -118,7 +118,7 @@ namespace OregonTrailDotNet.Tests
             window.CurrentForm.OnInputBufferReturned(string.Empty);
             var scene = Assert.IsType<RaftScene>(window.CurrentForm);
 
-            // The run's frame is the pure river picture — no footer, no prompt; the intro's "Press ENTER" hint
+            // The run's frame is the pure river picture - no footer, no prompt; the intro's "Press ENTER" hint
             // must not survive into it.
             var frame = scene.OnRenderForm();
             Assert.False(string.IsNullOrWhiteSpace(frame));
@@ -165,7 +165,7 @@ namespace OregonTrailDotNet.Tests
             ArriveAtTheColumbia();
 
             // The discriminating case: the raft came through INTACT but the party drowned across ordinary hits
-            // (each rock rolls each swimmer at 0.60 — no destruction needed). The result form must key on the
+            // (each rock rolls each swimmer at 0.60 - no destruction needed). The result form must key on the
             // dead party, not the destroyed-raft flag; a destroyed raft always implies a dead party, so testing
             // that corner would prove nothing about which signal the code reads.
             foreach (var passenger in Game.Vehicle.Passengers)
@@ -180,7 +180,7 @@ namespace OregonTrailDotNet.Tests
             result.OnInputBufferReturned(string.Empty);
 
             // The form clears itself and re-adds Travel; the arrival check sees the dead party and raises the
-            // game-over window — the same path any fatal day on the trail takes.
+            // game-over window - the same path any fatal day on the trail takes.
             Assert.Null(window.CurrentForm);
             Game.PumpInput();
             Assert.IsType<GameOver>(Game.WindowManager.FocusedWindow);

@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Presentation.Audio
     ///         over and over. The scores are embedded in the <c>OregonTrailDotNet.Assets</c> library under
     ///         <c>music/</c>, originally decoded off the disks by <c>legacy/tools/apple2_music.py</c> (the Apple II
     ///         <c>MS&lt;n&gt;.BIN</c> scores) and <c>legacy/tools/dos_music.py</c> (the DOS <c>SONGS.TXT</c> MML).
-    ///         Nothing here is sampled audio — the presentation layer synthesizes the sound from these note lists.
+    ///         Nothing here is sampled audio - the presentation layer synthesizes the sound from these note lists.
     ///     </para>
     /// </summary>
     public sealed class Chiptune
@@ -25,7 +25,7 @@ namespace OregonTrailDotNet.Presentation.Audio
             Duration = TimeSpan.FromMilliseconds(notes.Sum(n => n.Milliseconds));
         }
 
-        /// <summary>The key this was loaded by — its path within the music set, without the extension.</summary>
+        /// <summary>The key this was loaded by - its path within the music set, without the extension.</summary>
         public string Key { get; }
 
         /// <summary>The score, in order.</summary>
@@ -35,7 +35,7 @@ namespace OregonTrailDotNet.Presentation.Audio
         public TimeSpan Duration { get; }
 
         /// <summary>
-        ///     Loads a decoded score, or null when it is not embedded. Cached, including the misses — a section is free
+        ///     Loads a decoded score, or null when it is not embedded. Cached, including the misses - a section is free
         ///     to ask for its tune every frame.
         /// </summary>
         /// <param name="key">For example <c>landmarks/05-fort-laramie</c> or <c>tombstone</c>.</param>
@@ -86,7 +86,7 @@ namespace OregonTrailDotNet.Presentation.Audio
         /// <param name="Hertz">
         ///     The frequency actually synthesized by the original hardware. Used in preference to the JSON's
         ///     <c>midi</c> column, which for the Apple II is a nominal mapping of a note ladder that runs about 50
-        ///     cents sharp of concert pitch — the <c>hz</c> value is what the machine really played.
+        ///     cents sharp of concert pitch - the <c>hz</c> value is what the machine really played.
         /// </param>
         /// <param name="Milliseconds">How long it sounds, including its share of the gap to the next note.</param>
         public readonly record struct Note(double? Hertz, double Milliseconds);

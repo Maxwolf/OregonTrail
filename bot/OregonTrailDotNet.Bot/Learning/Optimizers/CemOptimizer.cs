@@ -111,7 +111,7 @@ namespace OregonTrailDotNet.Bot.Learning
 
             var state = JsonSerializer.Deserialize<PersistedState>(blob);
             if (state?.Mean == null || state.Std == null || state.Mean.Length != _length)
-                return; // absent or stale (different model/length) — start fresh
+                return; // absent or stale (different model/length) - start fresh
 
             Mean = state.Mean;
             Std = state.Std;
@@ -119,7 +119,7 @@ namespace OregonTrailDotNet.Bot.Learning
             BestFitness = state.BestFitness;
             BestVector = state.BestRaw;
 
-            // A champion scored under an older fitness shaping is not comparable on the new scale — drop it (the search
+            // A champion scored under an older fitness shaping is not comparable on the new scale - drop it (the search
             // distribution itself remains a meaningful starting point) so the next generation's champion can take over.
             if (state.FitnessVersion != TrainingSession.FitnessVersion)
             {
@@ -136,7 +136,7 @@ namespace OregonTrailDotNet.Bot.Learning
             public double[]? BestRaw { get; set; }
             public double BestFitness { get; set; }
 
-            // Absent in blobs saved before versioning existed — deserializes to 0, which never matches a real version.
+            // Absent in blobs saved before versioning existed - deserializes to 0, which never matches a real version.
             public int FitnessVersion { get; set; }
         }
     }

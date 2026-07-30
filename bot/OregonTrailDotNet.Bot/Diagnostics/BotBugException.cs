@@ -6,7 +6,7 @@ namespace OregonTrailDotNet.Bot.Diagnostics
     /// </summary>
     public sealed class BotBugException : Exception
     {
-        public BotBugException(BugReport report) : base($"Bot stopped: {report.Category} — {report.Detail}")
+        public BotBugException(BugReport report) : base($"Bot stopped: {report.Category} - {report.Detail}")
         {
             Report = report;
         }

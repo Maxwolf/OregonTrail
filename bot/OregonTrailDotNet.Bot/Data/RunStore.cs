@@ -51,7 +51,7 @@ namespace OregonTrailDotNet.Bot.Data
             return Convert.ToInt32(cmd.ExecuteScalar());
         }
 
-        /// <summary>Deletes every run at or after the given iteration index — the tail written by a generation that was
+        /// <summary>Deletes every run at or after the given iteration index - the tail written by a generation that was
         ///     abandoned mid-batch (Esc). Leaderboard rows referencing a deleted run keep their name/score via the
         ///     ON DELETE SET NULL foreign key.</summary>
         public void DeleteFromIteration(long profileId, int fromIterationIndex)
@@ -76,7 +76,7 @@ namespace OregonTrailDotNet.Bot.Data
             return list;
         }
 
-        /// <summary>Mean and best score per completed generation, oldest first — the learning curve.</summary>
+        /// <summary>Mean and best score per completed generation, oldest first - the learning curve.</summary>
         public IReadOnlyList<GenerationStat> GenerationSummary(long profileId)
         {
             var list = new List<GenerationStat>();

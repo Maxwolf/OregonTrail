@@ -11,8 +11,8 @@ using Xunit;
 namespace OregonTrailDotNet.Tests
 {
     /// <summary>
-    ///     Pins the sound-effect funnel in EventExecutor. The 1990 DOS port sounded exactly two random events —
-    ///     the severe-thunderstorm rumble and the wagon-part breakdown whoops (docs/legacy-sounds.md §1.2) — and
+    ///     Pins the sound-effect funnel in EventExecutor. The 1990 DOS port sounded exactly two random events -
+    ///     the severe-thunderstorm rumble and the wagon-part breakdown whoops (docs/legacy-sounds.md §1.2) - and
     ///     only for a human player: with presentation off (the bot and these suites) no effect may ever fire, and
     ///     with it on the noisiest-looking of the silent events, the hail storm, must stay silent too. The suite
     ///     runs muted throughout so asserting the funnel never actually plays anything; Sfx records the cue
@@ -59,7 +59,7 @@ namespace OregonTrailDotNet.Tests
 
             // Seed a cue the event funnel can never emit (muted, so it only records): LastCue is process-wide
             // and sticky, and asserting against whatever an earlier test left behind would let the exact
-            // regression this test exists for — a dropped presentation gate — pass unnoticed.
+            // regression this test exists for - a dropped presentation gate - pass unnoticed.
             Sfx.Gunshot(100);
 
             Game.EventDirector.TriggerEvent(Game.Vehicle, typeof(SevereWeather));

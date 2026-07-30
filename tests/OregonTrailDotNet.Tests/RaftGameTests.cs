@@ -5,7 +5,7 @@ using Xunit;
 namespace OregonTrailDotNet.Tests
 {
     /// <summary>
-    ///     Pins the FLOAT fidelity contract the raft scene runs on — with the 1985 BASIC's numbers asserted as
+    ///     Pins the FLOAT fidelity contract the raft scene runs on - with the 1985 BASIC's numbers asserted as
     ///     literals, so a drifted constant fails rather than moving the expectation with it: the raft casts off in
     ///     lane 16 already sliding away, steering nudges a drift rather than moving the raft, the banks bounce
     ///     (:400 reverses the drift), lane-17 contact before tick 206 is a shore hit and after 225 a miss, rocks
@@ -28,7 +28,7 @@ namespace OregonTrailDotNet.Tests
         {
             var game = new RaftGame(seed: 1);
 
-            // :1030 — the raft starts one lane off the landing bank with the current already carrying it away,
+            // :1030 - the raft starts one lane off the landing bank with the current already carrying it away,
             // which is what makes the opening urgent.
             Assert.Equal(16, game.Lane);
             Assert.Equal(-1, game.Drift);
@@ -61,7 +61,7 @@ namespace OregonTrailDotNet.Tests
             for (var i = 0; i < 3; i++)
                 game.Step(RaftSteerEnum.None);
 
-            // :1115 — before the window opens, the same lane-17 contact that will later mean landing means
+            // :1115 - before the window opens, the same lane-17 contact that will later mean landing means
             // hitting the bank: charged, bounced, and the run goes on.
             game.Step(RaftSteerEnum.Near);
             Assert.Equal(17, game.Lane);
@@ -124,7 +124,7 @@ namespace OregonTrailDotNet.Tests
             var hitsBefore = game.RockHits;
 
             // Raft box at lane 10: x 170..189, y 62..68. Post-drift rock box from (152, 66): x 171..190,
-            // y 63..68 — overlapped on both axes.
+            // y 63..68 - overlapped on both axes.
             var placed = game.Rocks[0];
             placed.X = 152;
             placed.Y = 66;
@@ -174,7 +174,7 @@ namespace OregonTrailDotNet.Tests
         public void LaneSixteen_IsRockProof(int seed)
         {
             // The property that makes the run fair (and non-fatal contact correct): :300 cannot spawn a rock past
-            // lane 15.9 and a rock's drift preserves its lane, so the starting lane can never be struck — on any
+            // lane 15.9 and a rock's drift preserves its lane, so the starting lane can never be struck - on any
             // seed, which is why the original is playable at all. (ARock_InTheRaftsLane is the positive control
             // proving rocks do strike off this lane.)
             var game = Parked(seed);
@@ -192,7 +192,7 @@ namespace OregonTrailDotNet.Tests
         [InlineData(42)]
         public void EverythingTheRiverCarries_StaysInItsLane(int seed)
         {
-            // Both drift vectors — a rock's (+8, -4) and bank scenery's (+6, -3) — must preserve the cross-river
+            // Both drift vectors - a rock's (+8, -4) and bank scenery's (+6, -3) - must preserve the cross-river
             // lane: that is what keeps rocks in their spawn lane and the signs riding the bank instead of sliding
             // into the water.
             var game = Parked(seed);
@@ -248,7 +248,7 @@ namespace OregonTrailDotNet.Tests
                 }
             }
 
-            Assert.True(spawnsSeen > 0, "the run saw no rocks at all — the invariant went unexercised");
+            Assert.True(spawnsSeen > 0, "the run saw no rocks at all - the invariant went unexercised");
         }
     }
 }

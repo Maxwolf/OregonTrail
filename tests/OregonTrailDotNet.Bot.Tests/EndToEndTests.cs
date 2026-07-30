@@ -24,7 +24,7 @@ namespace OregonTrailDotNet.Bot.Tests
 
         // A guaranteed qualifying finish: a full, healthy five-person Farmer party arriving in Oregon. Used to drive the
         // record/leaderboard/persistence pipeline deterministically, since a real driven game reaches Oregon only rarely
-        // (most parties die on the trail) — so asserting on a random training finish is inherently flaky.
+        // (most parties die on the trail) - so asserting on a random training finish is inherently flaky.
         private static RunResult WinningRun() => new()
         {
             Outcome = GameOutcomeEnum.Win,
@@ -49,7 +49,7 @@ namespace OregonTrailDotNet.Bot.Tests
             // No injected runner: this drives real games end-to-end through the recognizer/policy stack.
             new TrainingSession(db, db.Profiles.GetById(id)!, config).Run();
 
-            // Every game is recorded and the optimizer's learning state advances and persists — all independent of whether any
+            // Every game is recorded and the optimizer's learning state advances and persists - all independent of whether any
             // single random game happened to finish, so these hold on every run.
             var profile = db.Profiles.GetById(id)!;
             Assert.Equal(expectedGames, db.Runs.CountForProfile(id));
@@ -70,7 +70,7 @@ namespace OregonTrailDotNet.Bot.Tests
             var id = db.Profiles.Create("Odyssey", "cem");
 
             // Drive the pipeline with guaranteed finishes so the leaderboard/best-genome path is exercised deterministically.
-            // The genomes recorded are still the optimizer's real candidate vectors — only the game outcome is controlled.
+            // The genomes recorded are still the optimizer's real candidate vectors - only the game outcome is controlled.
             new TrainingSession(db, db.Profiles.GetById(id)!,
                 new TrainingConfig { PopulationSize = 8, GamesPerCandidate = 2, Generations = 2 },
                 playGame: (_, _) => WinningRun()).Run();
@@ -88,13 +88,13 @@ namespace OregonTrailDotNet.Bot.Tests
             Assert.False(string.IsNullOrEmpty(profile.BestGenomeJson));
 
             // Replaying the best genome (what "Watch a game" does) produces a valid, non-crashing run (a rare soft-lock is
-            // tolerated the same way training tolerates it — it is not a crash/bug).
+            // tolerated the same way training tolerates it - it is not a crash/bug).
             var policy = new GenomePolicy(StrategyGenome.FromJson(profile.BestGenomeJson!), $"{profile.Name} (bot)");
             var result = GamePlayer.PlayOnce(policy);
             Assert.True(result.Bug is null || result.Bug.Category == Diagnostics.BugCategoryEnum.SoftLock);
 
             // The party is named "<profile> 1..4", so the leader (crew #1, whose name brands the in-game high-score list)
-            // is "<profile> 1" — the "(bot)" tag passed to the policy is stripped for the shared party base name.
+            // is "<profile> 1" - the "(bot)" tag passed to the policy is stripped for the shared party base name.
             if (!string.IsNullOrEmpty(result.LeaderName))
                 Assert.Equal("Odyssey 1", result.LeaderName);
         }

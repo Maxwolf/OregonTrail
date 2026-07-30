@@ -92,7 +92,7 @@ namespace OregonTrailDotNet.Bot.Learning
 
             // Rest: the expert rule (stop when the weakest member has fallen to the genome's health threshold) plus the
             // network's state-adaptive nudge o[0]. At zero weights o[0] is 0, so this is exactly the expert decision.
-            // The schedule guard only applies mid-journey — near the trail's end (and in long, no-time-limit games where
+            // The schedule guard only applies mid-journey - near the trail's end (and in long, no-time-limit games where
             // DaysRemaining goes negative) recovery must stay available, especially during the endgame grind.
             var restMargin = (_setup.RestHealthThreshold - (int) state.LowestHealth) / 500.0 + o[0];
             if (available.Contains(TravelCommandsEnum.StopToRest) && restMargin > 0 &&
@@ -175,14 +175,14 @@ namespace OregonTrailDotNet.Bot.Learning
             return new[]
             {
                 Norm(s.Food, 2000),
-                // Ammo's inventory ceiling is 65,535 (the 1985 score cap), but decisions live in the hunting range —
+                // Ammo's inventory ceiling is 65,535 (the 1985 score cap), but decisions live in the hunting range -
                 // normalize to the first 1,000 bullets so the feature keeps its resolution where choices happen.
                 Norm(s.Ammo, 1000),
                 Norm(s.Cash, 1600),
                 Norm(s.Oxen, 20),
                 Norm(s.Clothing, 255),
                 Norm(s.Medicine, 99),
-                Norm((int) s.LowestHealth, 500), // the weakest member's health — the one at risk of dying next
+                Norm((int) s.LowestHealth, 500), // the weakest member's health - the one at risk of dying next
                 Norm(s.DaysElapsed, 246),
                 Norm(s.DaysRemaining, 246),
                 Norm(s.Miles, 2000),

@@ -7,7 +7,7 @@ namespace OregonTrailDotNet.Bot.Learning
     /// <summary>
     ///     Per-game supply decision state shared by every policy: when to walk into a fort store, when to browse emigrant
     ///     trades, and the loop guards that keep both bounded. Policies consult it first in ChooseTravel and fall back to
-    ///     their own tactics when it returns null. One instance per policy per game — the counters ARE the loop guards.
+    ///     their own tactics when it returns null. One instance per policy per game - the counters ARE the loop guards.
     /// </summary>
     internal sealed class SupplyPlanner
     {
@@ -22,7 +22,7 @@ namespace OregonTrailDotNet.Bot.Learning
         {
             if (SupplyTactics.IsDesperate(state))
             {
-                // The fort store is a GUARANTEED seller of the item that un-strands the wagon — take it before gambling
+                // The fort store is a GUARANTEED seller of the item that un-strands the wagon - take it before gambling
                 // on random emigrant offers, and bypass the once-per-stop guard (a party can strand at the very fort it
                 // already shopped at). One try per stranding episode so an unaffordable store can't ping-pong forever.
                 if (!_desperateStoreTried && available.Contains(TravelCommandsEnum.BuySupplies) && state.Cash >= 20)

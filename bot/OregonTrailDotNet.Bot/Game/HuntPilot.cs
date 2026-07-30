@@ -3,21 +3,21 @@ using OregonTrailDotNet.Presentation;
 namespace OregonTrailDotNet.Bot.Game
 {
     /// <summary>
-    ///     Works the rifle on the field hunt — the same hunt, on the same <see cref="HuntGame" />, that a player
+    ///     Works the rifle on the field hunt - the same hunt, on the same <see cref="HuntGame" />, that a player
     ///     works by eye. This is marksmanship, not strategy: it decides where to point and when to squeeze, exactly
     ///     the motor skill a person supplies with their hands. Whether to hunt at all, and when the bag is enough to
     ///     walk away, stay with the policy (<see cref="HuntStrategy" />) so the learned part of the bot keeps making
     ///     the decisions a person actually deliberates over.
     ///     <para>
-    ///         It aims by casting the bullet's own path — the original steps a round <c>AimVectors[Aim] * 2</c> per
-    ///         tick and stops it dead on scenery — and only fires when that path genuinely reaches the animal. The
+    ///         It aims by casting the bullet's own path - the original steps a round <c>AimVectors[Aim] * 2</c> per
+    ///         tick and stops it dead on scenery - and only fires when that path genuinely reaches the animal. The
     ///         rifle swings one compass point per three ticks the short way round, so pointing early and firing late
     ///         is the whole game.
     ///     </para>
     /// </summary>
     public static class HuntPilot
     {
-        /// <summary>Absolute-aim keys, indexed by compass heading (0 = N, clockwise) — the DOS port's keypad.</summary>
+        /// <summary>Absolute-aim keys, indexed by compass heading (0 = N, clockwise) - the DOS port's keypad.</summary>
         private static readonly ConsoleKey[] AimKeys =
         [
             ConsoleKey.NumPad8, ConsoleKey.NumPad9, ConsoleKey.NumPad6, ConsoleKey.NumPad3,
@@ -67,7 +67,7 @@ namespace OregonTrailDotNet.Bot.Game
             }
 
             // Nothing reachable. Point at whatever is on the field anyway so the swing is already made when it
-            // walks into the open — the rifle takes three ticks a step and a late start is a missed animal.
+            // walks into the open - the rifle takes three ticks a step and a late start is a missed animal.
             if (bestHeading < 0)
             {
                 var waiting = FirstActive(game);
@@ -97,7 +97,7 @@ namespace OregonTrailDotNet.Bot.Game
         /// <summary>
         ///     The heading whose bullet actually reaches this animal, or -1 if none does. Traced rather than
         ///     estimated, because the field's scenery is solid to a round and an animal standing behind a tree is
-        ///     simply not a shot — the same thing a player learns by watching one round after another stop short.
+        ///     simply not a shot - the same thing a player learns by watching one round after another stop short.
         /// </summary>
         private static int HeadingThatHits(HuntGame game, HuntGame.Animal animal)
         {

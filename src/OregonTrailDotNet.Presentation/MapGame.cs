@@ -3,7 +3,7 @@ namespace OregonTrailDotNet.Presentation
     /// <summary>What a landmark is, which is what the map draws it as.</summary>
     public enum MapMarkerEnum
     {
-        /// <summary>Independence — a star, labelled START.</summary>
+        /// <summary>Independence - a star, labelled START.</summary>
         Start,
 
         /// <summary>A fort: a hollow square.</summary>
@@ -12,10 +12,10 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>A named landmark: a filled square.</summary>
         Landmark,
 
-        /// <summary>A river crossing. <b>Unmarked</b> — the map draws nothing for these.</summary>
+        /// <summary>A river crossing. <b>Unmarked</b> - the map draws nothing for these.</summary>
         River,
 
-        /// <summary>The Willamette Valley — a star, labelled FINISH.</summary>
+        /// <summary>The Willamette Valley - a star, labelled FINISH.</summary>
         Finish
     }
 
@@ -32,13 +32,13 @@ namespace OregonTrailDotNet.Presentation
     ///     </code>
     ///     <para>
     ///         So the drawn route is two pieces: a polyline through <c>Q()</c>, the landmarks actually <i>visited</i>,
-    ///         and one partial segment for the leg in progress. The partial one is worth reading closely —
+    ///         and one partial segment for the leg in progress. The partial one is worth reading closely -
     ///         <c>Z = D*(X2-X1)/DD</c> uses <c>D</c>, the distance <b>remaining</b>, so at the start of a leg
     ///         <c>X = X2</c> and the segment has no length, and it reaches the destination exactly as <c>D</c> hits 0.
     ///         The line grows out of the landmark you left.
     ///     </para>
     ///     <para>
-    ///         It walks <c>Q()</c> rather than the landmark numbers because <b>the trail forks twice</b> — at South
+    ///         It walks <c>Q()</c> rather than the landmark numbers because <b>the trail forks twice</b> - at South
     ///         Pass, for Fort Bridger or straight on to the Green River, and at the Blue Mountains, for Fort Walla
     ///         Walla or straight to The Dalles. Two runs can draw different maps.
     ///     </para>
@@ -54,17 +54,17 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>
         ///     The eighteen landmarks and where they sit on the DOS map.
         ///     <para>
-        ///         The Apple II keeps these in <c>MP%</c> inside <c>VAR.BIN</c> — an integer array, so it hides from a
-        ///         string/real-only scan the same way <c>L%</c> did — but those are coordinates on the <i>Apple II's</i>
+        ///         The Apple II keeps these in <c>MP%</c> inside <c>VAR.BIN</c> - an integer array, so it hides from a
+        ///         string/real-only scan the same way <c>L%</c> did - but those are coordinates on the <i>Apple II's</i>
         ///         map, and the DOS one was redrawn rather than rescaled. Fitting a transform between them leaves
         ///         residuals up to 18px, so these are measured off <c>map.png</c> directly instead: the legend gives the
-        ///         exact marker glyphs (a fort is a 14x5 hollow rectangle, a landmark an 8x4 solid block — square on
+        ///         exact marker glyphs (a fort is a 14x5 hollow rectangle, a landmark an 8x4 solid block - square on
         ///         screen, since a 640-wide mode has half-width pixels), and template-matching those finds 6 forts and
         ///         6 landmarks, whose left-to-right order matches <c>MP%</c>'s exactly. The two stars were read off by
         ///         hand from the pixels.
         ///     </para>
         ///     <para>
-        ///         <b>The four river crossings have no marker at all</b> — the map simply does not draw them — so those
+        ///         <b>The four river crossings have no marker at all</b> - the map simply does not draw them - so those
         ///         four are the only fitted positions here, placed by the <c>MP%</c>-to-map transform. Nothing is drawn
         ///         at them; they exist because the route line bends there.
         ///     </para>
@@ -93,12 +93,12 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     <c>LM()</c> from <c>VAR.BIN</c>: how long each leg is, how fast it is walked, and where it ends.
-        ///     Indices are route numbers, not landmark numbers, which is what makes the forks expressible — routes 7
+        ///     Indices are route numbers, not landmark numbers, which is what makes the forks expressible - routes 7
         ///     and 8 both leave South Pass.
         ///     <para>
         ///         The columns are in the source's own order. The middle one is <c>MD</c>, the leg's base miles per
         ///         day, and it is not a constant: 20 across the plains, dropping to 12 from Fort Laramie on, where
-        ///         the trail starts to climb. <b>Nothing here uses it</b> — the map does not care how fast a leg is
+        ///         the trail starts to climb. <b>Nothing here uses it</b> - the map does not care how fast a leg is
         ///         walked. It is transcribed because it is the third column of the table the other two came from, and
         ///         leaving it out is how a half-copied table later gets mistaken for the whole one.
         ///     </para>
@@ -140,19 +140,19 @@ namespace OregonTrailDotNet.Presentation
             Reset();
         }
 
-        /// <summary><c>Q()</c> — the landmarks reached so far, in order, starting at Independence.</summary>
+        /// <summary><c>Q()</c> - the landmarks reached so far, in order, starting at Independence.</summary>
         public IReadOnlyList<int> Visited => _visited;
 
-        /// <summary><c>LM</c> — the landmark last reached.</summary>
+        /// <summary><c>LM</c> - the landmark last reached.</summary>
         public int From { get; private set; }
 
-        /// <summary><c>NM</c> — the landmark being travelled to, or -1 once the trail is done.</summary>
+        /// <summary><c>NM</c> - the landmark being travelled to, or -1 once the trail is done.</summary>
         public int To { get; private set; }
 
-        /// <summary><c>DD</c> — how long this leg is.</summary>
+        /// <summary><c>DD</c> - how long this leg is.</summary>
         public double LegMiles { get; private set; }
 
-        /// <summary><c>D</c> — how much of it is left.</summary>
+        /// <summary><c>D</c> - how much of it is left.</summary>
         public double MilesRemaining { get; private set; }
 
         /// <summary>Total miles walked this run.</summary>

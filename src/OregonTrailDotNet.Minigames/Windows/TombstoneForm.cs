@@ -9,12 +9,12 @@ namespace OregonTrailDotNet.Minigames.Windows
     /// <summary>
     ///     The tombstone, laid out the way the original laid it out.
     ///     <para>
-    ///         <c>TOMB.LIB</c> does not position letters at all — it opens a <i>text window</i> on the picture and
+    ///         <c>TOMB.LIB</c> does not position letters at all - it opens a <i>text window</i> on the picture and
     ///         prints into it (<c>&amp; DFW,6 AT 56,62,150,45</c> then <c>&amp; WIND,6</c>, in <c>INVERSE</c> so the
     ///         glyphs come out dark on the blank white panel the artist drew on the stone). The window is 150x45 over a
     ///         7x8 character cell, which is exactly <b>21 columns by 5 rows</b>; the epitaph is capped at 29 characters
-    ///         (<c>&amp; INP,29,"-09-AZ-az ,.'-"</c>), so it wraps to two rows and the four-line inscription —
-    ///         "Here lies", the name, a blank, then the epitaph — fills the window precisely.
+    ///         (<c>&amp; INP,29,"-09-AZ-az ,.'-"</c>), so it wraps to two rows and the four-line inscription -
+    ///         "Here lies", the name, a blank, then the epitaph - fills the window precisely.
     ///     </para>
     ///     <para>
     ///         The one clever bit: after printing the header the original calls <c>&amp; GCP,X,Y</c> to remember which
@@ -23,7 +23,7 @@ namespace OregonTrailDotNet.Minigames.Windows
     ///     </para>
     ///     <para>
     ///         <b>The window's size is the original's; its origin is not.</b> The inscription sits at the solved
-    ///         <c>63,69</c> from <see cref="TombstoneArt" />, not the BASIC's <c>56,62</c> — see the sweep-and-count
+    ///         <c>63,69</c> from <see cref="TombstoneArt" />, not the BASIC's <c>56,62</c> - see the sweep-and-count
     ///         comment there for how the origin was solved (render every origin, count glyph pixels straying off the
     ///         smooth carved face) and why eyeball or overlay checks discriminate nothing on an all-white stone. A
     ///         full 21-column row is the case that catches a bad origin, since short epitaphs never reach the edge.
@@ -68,7 +68,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>Initializes a new instance of the <see cref="TombstoneForm" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public TombstoneForm(IWindow window) : base(window)
         {
         }
@@ -80,7 +80,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         protected override int ReservedRows => 11;
 
         /// <summary>
-        ///     <i>Taps</i>, which is what the original plays here — <c>TOMB.LIB:50010</c> loads the stone and the
+        ///     <i>Taps</i>, which is what the original plays here - <c>TOMB.LIB:50010</c> loads the stone and the
         ///     score together (<c>&amp; DUN,"TS.PCK"</c> then <c>&amp; RFL,"TS.BIN"</c>) before printing the
         ///     inscription and waiting.
         ///     <para>
@@ -93,8 +93,8 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// </summary>
         protected override string? MusicCue => "tombstone";
 
-        // The DOS port has no tombstone bitmap — neither picture library holds one, because it draws that screen with
-        // BGI primitives — so this is the one screen that stays on the 1985 card.
+        // The DOS port has no tombstone bitmap - neither picture library holds one, because it draws that screen with
+        // BGI primitives - so this is the one screen that stays on the 1985 card.
         protected override void Build() => _stone = Art.Apple2Backdrop("tombstone.png");
 
         /// <inheritdoc />
@@ -137,7 +137,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             var overflowRows = Math.Max(0, lines.Count - rows);
             var text = new StringBuilder();
             text.AppendLine();
-            text.AppendLine("TOMBSTONE — the original opens a text window on the picture and prints into it:");
+            text.AppendLine("TOMBSTONE - the original opens a text window on the picture and prints into it:");
             text.AppendLine("  & DFW,6 AT 56,62,150,45 : & WIND,6 : INVERSE     (TOMB.LIB:50010, :50105)");
             text.AppendLine(
                 $"window {_x},{_y} {WindowW}x{WindowH}   cell {CellW}x{CellH}   {columns} cols x {rows} rows   " +

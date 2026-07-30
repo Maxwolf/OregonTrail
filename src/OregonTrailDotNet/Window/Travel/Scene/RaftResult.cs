@@ -7,8 +7,8 @@ using WolfCurses.Window.Form.Input;
 namespace OregonTrailDotNet.Window.Travel.Scene
 {
     /// <summary>
-    ///     The reckoning at the end of the Columbia run: what the river took, whether the landing was made, and —
-    ///     when the raft was destroyed or nobody is left standing — the handoff into the death flow. A safe or
+    ///     The reckoning at the end of the Columbia run: what the river took, whether the landing was made, and -
+    ///     when the raft was destroyed or nobody is left standing - the handoff into the death flow. A safe or
     ///     survivable run charges the day and carries on down the last leg to Oregon City.
     /// </summary>
     [ParentWindow(typeof(Travel))]
@@ -18,7 +18,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>Initializes a new instance of the <see cref="RaftResult" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public RaftResult(IWindow window) : base(window)
         {
         }
@@ -75,7 +75,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             UserData.RaftReport = null;
 
             // Nobody left: re-adding the travel window runs the arrival check, which sees the dead party and
-            // raises the game-over flow — the same path any fatal day on the trail takes.
+            // raises the game-over flow - the same path any fatal day on the trail takes.
             if (game.Vehicle.PassengersDead)
             {
                 ClearForm();

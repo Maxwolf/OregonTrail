@@ -3,16 +3,16 @@ namespace OregonTrailDotNet.Presentation
     /// <summary>How the party is trying to get across. This is the menu the player picks from.</summary>
     public enum CrossingMethodEnum
     {
-        /// <summary>"attempt to ford the river" — pull the wagon across a shallow part, oxen still attached.</summary>
+        /// <summary>"attempt to ford the river" - pull the wagon across a shallow part, oxen still attached.</summary>
         Ford,
 
-        /// <summary>"caulk wagon and float it across" — seal it and float it like a boat.</summary>
+        /// <summary>"caulk wagon and float it across" - seal it and float it like a boat.</summary>
         Float,
 
-        /// <summary>"take a ferry across" — offered only by rivers whose option column is 2.</summary>
+        /// <summary>"take a ferry across" - offered only by rivers whose option column is 2.</summary>
         Ferry,
 
-        /// <summary>"hire an Indian to help" — offered only by rivers whose option column is 1.</summary>
+        /// <summary>"hire an Indian to help" - offered only by rivers whose option column is 1.</summary>
         IndianGuide
     }
 
@@ -40,7 +40,7 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>The ferry parted from its moorings.</summary>
         BrokeLoose,
 
-        /// <summary>The crossing never happened — too shallow to float, or the ferry is not running.</summary>
+        /// <summary>The crossing never happened - too shallow to float, or the ferry is not running.</summary>
         Refused
     }
 
@@ -66,15 +66,15 @@ namespace OregonTrailDotNet.Presentation
     /// <param name="Depth">Base depth in feet; the live depth is this plus <c>2*AR</c>.</param>
     /// <param name="Width">Base width in feet; live width adds <c>15*AR</c>.</param>
     /// <param name="Speed">Base swiftness; live speed adds <c>AR</c>.</param>
-    /// <param name="Bottom">0 none, 1 muddy, 2 rough — only consulted when fording a shallow river.</param>
-    /// <param name="Option">0 none, 1 Indian guide, 2 ferry — the third menu entry this river offers.</param>
+    /// <param name="Bottom">0 none, 1 muddy, 2 rough - only consulted when fording a shallow river.</param>
+    /// <param name="Option">0 none, 1 Indian guide, 2 ferry - the third menu entry this river offers.</param>
     public readonly record struct RiverConfig(
         string Name, int Landmark, double Depth, int Width, double Speed, int Bottom, int Option);
 
     /// <summary>One scripted crossing: a river, a method, and the outcome to demonstrate.</summary>
     /// <param name="River">Which river.</param>
     /// <param name="Method">How they are trying to cross.</param>
-    /// <param name="Outcome">What happens — forced, so every visual state gets shown.</param>
+    /// <param name="Outcome">What happens - forced, so every visual state gets shown.</param>
     /// <param name="Lost">
     ///     Whether anything was actually lost, the original's <c>Z &gt; 0</c>. This is <b>not</b> the same as the
     ///     crossing going wrong, and it is what <c>CROSS.LIB:50020</c> branches on: a rough bottom can tip the wagon
@@ -89,12 +89,12 @@ namespace OregonTrailDotNet.Presentation
     ///     <c>CROSS.LIB.txt</c> (the animation). Pure logic; it draws nothing.
     ///     <para>
     ///         <b>The scene is four layers and one sprite.</b> <c>CROSS.LIB:50000</c> draws a framed box, fills it with
-    ///         the river, and blits <i>one</i> vehicle sprite into it — <c>&amp; IMAGE,I,102,63</c>, where <c>I</c> was
+    ///         the river, and blits <i>one</i> vehicle sprite into it - <c>&amp; IMAGE,I,102,63</c>, where <c>I</c> was
     ///         set by whichever branch of <c>RIVER.LIB</c> ran. That single variable is the whole of "which sprite":
     ///         <b>1 ferry, 2 fording wagon, 3 floating wagon, 4 wreck, 5 the river itself</b>.
     ///     </para>
     ///     <para>
-    ///         <b>Black means land.</b> The river picture is water with a black triangle in the bottom-right corner —
+    ///         <b>Black means land.</b> The river picture is water with a black triangle in the bottom-right corner -
     ///         the bank you are leaving. Once that is understood the two animation sweeps stop looking arbitrary and
     ///         become the same idea twice. <c>:50010</c> fans <b>blue</b> lines across that bottom-right triangle: the
     ///         near bank turns to water as you pull away from it. <c>:50030</c>, on success, fans <b>black</b> lines
@@ -104,7 +104,7 @@ namespace OregonTrailDotNet.Presentation
     ///     <para>
     ///         Failure is drawn per vehicle (<c>:50040</c>, <c>ON I GOSUB 50050,50060,50050</c>): the ferry and the
     ///         floating wagon are <b>swapped for the wreck sprite in place</b>, while the fording wagon instead gets a
-    ///         wedge of blue fanned <i>over</i> it — it is not replaced, it is swamped where it stands.
+    ///         wedge of blue fanned <i>over</i> it - it is not replaced, it is swamped where it stands.
     ///     </para>
     ///     <para>
     ///         Note the whole sequence is one <b>fall-through</b>: <c>:50000</c> has no <c>RETURN</c>, so it runs on
@@ -124,22 +124,22 @@ namespace OregonTrailDotNet.Presentation
         private const int Apple2FrameX1 = 54, Apple2FrameY1 = 20, Apple2FrameX2 = 222, Apple2FrameY2 = 140;
         private const int Apple2VehicleX = 102, Apple2VehicleY = 63;
 
-        /// <summary>`:50000` — <c>&amp; BOX,X1,Y1,X2,Y2</c> then three inset rectangles: the picture frame.</summary>
+        /// <summary>`:50000` - <c>&amp; BOX,X1,Y1,X2,Y2</c> then three inset rectangles: the picture frame.</summary>
         public static readonly int FrameX1 = ToX(Apple2FrameX1), FrameY1 = ToY(Apple2FrameY1);
 
         /// <summary>The frame's far corner.</summary>
         public static readonly int FrameX2 = ToX(Apple2FrameX2), FrameY2 = ToY(Apple2FrameY2);
 
-        /// <summary>`&amp; IMAGE,I,102,63` — where the vehicle sits, whichever vehicle it is.</summary>
+        /// <summary>`&amp; IMAGE,I,102,63` - where the vehicle sits, whichever vehicle it is.</summary>
         public static readonly int VehicleX = ToX(Apple2VehicleX), VehicleY = ToY(Apple2VehicleY);
 
-        /// <summary>`:50010` — the near-bank triangle, filled with water over 53 steps as the party pulls away.</summary>
+        /// <summary>`:50010` - the near-bank triangle, filled with water over 53 steps as the party pulls away.</summary>
         public const int CrossingSteps = 53;
 
-        /// <summary>`:50030` — the far-bank triangle, filled with land over 61 steps on a clean crossing.</summary>
+        /// <summary>`:50030` - the far-bank triangle, filled with land over 61 steps on a clean crossing.</summary>
         public const int LandingSteps = 61;
 
-        /// <summary>`:50060` — the wedge of water fanned over a fording wagon that got into trouble.</summary>
+        /// <summary>`:50060` - the wedge of water fanned over a fording wagon that got into trouble.</summary>
         public const int SwampSteps = 22;
 
         /// <summary>Ticks the framed scene holds before anything moves, and again once it is over.</summary>
@@ -147,7 +147,7 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     The <c>RC()</c> table, verbatim. <c>RIVER.LIB:50000</c> selects a row with
-        ///     <c>RC = (LM=2) + 2*(LM=9) + 3*(LM=12)</c> — so three named rivers get their own row and
+        ///     <c>RC = (LM=2) + 2*(LM=9) + 3*(LM=12)</c> - so three named rivers get their own row and
         ///     <b>every other crossing falls through to row 0</b>.
         /// </summary>
         public static readonly RiverConfig[] Rivers =
@@ -160,7 +160,7 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     Every case worth looking at, in order. Outcomes are <b>forced</b> rather than rolled, because the point
-        ///     of the workbench is to see all of them — the original's probabilities are documented on
+        ///     of the workbench is to see all of them - the original's probabilities are documented on
         ///     <see cref="RiskOf" /> for the HUD; the game's crossing scene does not replay these scenarios but rolls
         ///     its own dangers through its crossing simulation.
         /// </summary>
@@ -171,7 +171,7 @@ namespace OregonTrailDotNet.Presentation
             new(Rivers[1], CrossingMethodEnum.Ford, CrossingOutcomeEnum.StuckInMud, false,
                 "Bottom 1 (muddy). :50060 costs a day and forces Z=0, so it still lands normally."),
             new(Rivers[3], CrossingMethodEnum.Ford, CrossingOutcomeEnum.Tipped, false,
-                "Bottom 2 (rough), tipped but lost nothing — Z=0, so this too lands normally."),
+                "Bottom 2 (rough), tipped but lost nothing - Z=0, so this too lands normally."),
             new(Rivers[3], CrossingMethodEnum.Ford, CrossingOutcomeEnum.Tipped, true,
                 "The same tip, but :50205 took supplies. Z>0 now, and the disaster branch runs."),
             new(Rivers[0], CrossingMethodEnum.Ford, CrossingOutcomeEnum.SuppliesWet, false,
@@ -179,7 +179,7 @@ namespace OregonTrailDotNet.Presentation
             new(Rivers[2], CrossingMethodEnum.Ford, CrossingOutcomeEnum.TooDeep, true,
                 "Depth 20 ft. :50040 risks supplies, then oxen, then lives."),
             new(Rivers[0], CrossingMethodEnum.Float, CrossingOutcomeEnum.Refused, false,
-                "Under 1.5 ft, so :50080 refuses — nothing to float in."),
+                "Under 1.5 ft, so :50080 refuses - nothing to float in."),
             new(Rivers[2], CrossingMethodEnum.Float, CrossingOutcomeEnum.Success, false,
                 "Deep and slow enough to float. Always costs a day."),
             new(Rivers[3], CrossingMethodEnum.Float, CrossingOutcomeEnum.Capsized, true,
@@ -189,7 +189,7 @@ namespace OregonTrailDotNet.Presentation
             new(Rivers[2], CrossingMethodEnum.Ferry, CrossingOutcomeEnum.Success, false,
                 "$5 and a 2-6 day wait, and the safest way over."),
             new(Rivers[2], CrossingMethodEnum.Ferry, CrossingOutcomeEnum.BrokeLoose, true,
-                "Risk is .05*(RS>5) + .1*(RS>10) — it parts from its moorings."),
+                "Risk is .05*(RS>5) + .1*(RS>10) - it parts from its moorings."),
             new(Rivers[3], CrossingMethodEnum.IndianGuide, CrossingOutcomeEnum.Success, false,
                 "Costs 2-3 sets of clothing, sets IX=5, and reuses the float sprite.")
         ];
@@ -215,7 +215,7 @@ namespace OregonTrailDotNet.Presentation
         public bool Paused { get; private set; }
 
         /// <summary>
-        ///     <c>I</c> — the one variable that decides which sprite gets blitted. The Indian guide has <b>no sprite of
+        ///     <c>I</c> - the one variable that decides which sprite gets blitted. The Indian guide has <b>no sprite of
         ///     its own</b>: <c>:50140</c> sends it to the ford or the float branch depending on depth, so it borrows
         ///     whichever of those two the river calls for.
         /// </summary>
@@ -295,7 +295,7 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     The real probability this outcome would be rolled against, as a readable formula. <c>IX</c> is the risk
-        ///     divisor and is 1 for everything except the Indian guide, which sets it to <b>5</b> — the guide does not
+        ///     divisor and is 1 for everything except the Indian guide, which sets it to <b>5</b> - the guide does not
         ///     change what happens, only how often it goes wrong.
         /// </summary>
         public string RiskOf => Scenario.Outcome switch
@@ -324,7 +324,7 @@ namespace OregonTrailDotNet.Presentation
         {
             1 => "hire an Indian to help",
             2 => "take a ferry across",
-            _ => "(none — ford or float only)"
+            _ => "(none - ford or float only)"
         };
 
         /// <summary>Restarts at the first scenario.</summary>
@@ -395,7 +395,7 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     Converts one of <c>CROSS.LIB</c>'s x coordinates into the composition surface. Public so the drawing
-        ///     code can quote the BASIC's own numbers rather than re-deriving the shapes by hand — which is how the
+        ///     code can quote the BASIC's own numbers rather than re-deriving the shapes by hand - which is how the
         ///     near bank first came out as a band across the middle instead of a corner.
         /// </summary>
         public static int ToX(int apple2X) => apple2X * ScreenWidth / Art.Apple2Width;
@@ -405,7 +405,7 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     Fractional forms of the same conversion. The sweeps step one Apple II pixel at a time, and widening
-        ///     280 to 320 pushes adjacent lines about 1.3 pixels apart — enough to leave the filled banks visibly
+        ///     280 to 320 pushes adjacent lines about 1.3 pixels apart - enough to leave the filled banks visibly
         ///     striped. Drawing the fans at sub-step positions closes that up without changing their shape.
         /// </summary>
         public static int ToX(double apple2X) => (int) Math.Round(apple2X * ScreenWidth / Art.Apple2Width);

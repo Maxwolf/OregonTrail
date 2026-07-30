@@ -5,7 +5,7 @@ using Xunit;
 namespace OregonTrailDotNet.Tests
 {
     /// <summary>
-    ///     Pins the main menu's sound toggle — the original's "Turn sound off": printed as option 4 exactly as the
+    ///     Pins the main menu's sound toggle - the original's "Turn sound off": printed as option 4 exactly as the
     ///     DOS port numbered it, with management options at 5 and "End" last at 6. The menu is the same six choices
     ///     for every host, because a choice belongs to the game and not to the drawing; the presentation flag only
     ///     decides whether sound is audible. Toggling flips the one process-wide mute and is read back through the

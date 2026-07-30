@@ -31,8 +31,8 @@ namespace OregonTrailDotNet.Entity.Item
         ///     How many of the original's six price thresholds the party has passed, keyed to WHERE they are on the
         ///     trail rather than to which forts they happened to stop at.
         ///     <para>
-        ///         The original counts trail position outright — <c>Q = (LM&gt;2)+(LM&gt;4)+(LM&gt;7)+(LM&gt;10)+(LM&gt;12)+(LM&gt;13)</c>
-        ///         at <c>BUY.LIB:50003</c> — so the markup is the same however you got there. Counting departed forts
+        ///         The original counts trail position outright - <c>Q = (LM&gt;2)+(LM&gt;4)+(LM&gt;7)+(LM&gt;10)+(LM&gt;12)+(LM&gt;13)</c>
+        ///         at <c>BUY.LIB:50003</c> - so the markup is the same however you got there. Counting departed forts
         ///         instead let a fork dodge the price rise: taking Green River rather than Fort Bridger never splices a
         ///         settlement into the trail, so every store for the rest of the journey stayed a step cheap (Fort Hall
         ///         1.75x instead of 2.00x, and so on down to Walla Walla) on the branch that already saves 86 miles.
@@ -62,7 +62,7 @@ namespace OregonTrailDotNet.Entity.Item
 
                 // A fort a fork spliced out of the trail (Fort Bridger when the party takes Green River, Fort Walla
                 // Walla when it takes the Barlow road) is never reached and so never marks itself passed. But the
-                // party got past that stretch of country all the same, and the original charged them for it — its Q
+                // party got past that stretch of country all the same, and the original charged them for it - its Q
                 // counts trail position, not shopping trips. So an absent threshold inherits from the one before it,
                 // forward, which lets a run of skipped forts propagate. This is what stops a fork from buying at a
                 // permanently cheaper price than the branch that keeps its fort. Nothing inherits at Independence,

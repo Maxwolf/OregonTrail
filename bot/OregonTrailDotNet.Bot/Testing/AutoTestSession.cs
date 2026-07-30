@@ -27,7 +27,7 @@ namespace OregonTrailDotNet.Bot.Testing
         }
 
         /// <summary>
-        ///     Plays games — one of every model per round — until <paramref name="keepRunning" /> returns false, or (when
+        ///     Plays games - one of every model per round - until <paramref name="keepRunning" /> returns false, or (when
         ///     stop-on-problem is on) the first problem is found. <paramref name="onProgress" /> fires after every game with the
         ///     live report so a caller can render a dashboard.
         /// </summary>

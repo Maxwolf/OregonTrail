@@ -3,8 +3,8 @@ using WolfCurses.Graphics;
 namespace OregonTrailDotNet.Presentation
 {
     /// <summary>
-    ///     The picture strips the 1990 DOS port draws above whole text screens — the title lettering over the main
-    ///     menu, the family by their wagon over every party-naming prompt — extracted from the DOS art and embedded
+    ///     The picture strips the 1990 DOS port draws above whole text screens - the title lettering over the main
+    ///     menu, the family by their wagon over every party-naming prompt - extracted from the DOS art and embedded
     ///     under <c>art/</c>. Banners, not scenes: the text screens beneath stay ordinary menu and typed-input
     ///     forms (the headless bot drives them) and simply print one of these above their text when presentation
     ///     is on.

@@ -3,10 +3,10 @@ using WolfCurses.Graphics;
 namespace OregonTrailDotNet.Presentation
 {
     /// <summary>
-    ///     The landmark card and its caption box — the screen the 1985 game shows when the player looks around a
+    ///     The landmark card and its caption box - the screen the 1985 game shows when the player looks around a
     ///     stop, drawn at <c>OREGON TRAIL:305</c>: <c>&amp; BOX,X1,160,X2,180,3</c> then the name and arrival date
     ///     printed <c>INVERSE</c> (dark glyphs on the white box). The workbench's slideshow deliberately showed no
-    ///     date — it has no journey to date a card from — so the box lives here, where the game wires in its clock.
+    ///     date - it has no journey to date a card from - so the box lives here, where the game wires in its clock.
     /// </summary>
     public static class LandmarkArt
     {
@@ -19,7 +19,7 @@ namespace OregonTrailDotNet.Presentation
         public static PixelBuffer Card(int index) => Art.Load($"landmarks/p{index}.png");
 
         /// <summary>
-        ///     <c>Z$</c> — the landmark name as the caption prints it: <c>LM$</c> with a leading <c>"the "</c>
+        ///     <c>Z$</c> - the landmark name as the caption prints it: <c>LM$</c> with a leading <c>"the "</c>
         ///     stripped, mixed case kept (<c>OREGON TRAIL:260</c>). <c>the Kansas River crossing</c> captions as
         ///     <c>Kansas River crossing</c>.
         /// </summary>

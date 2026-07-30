@@ -137,7 +137,7 @@ namespace OregonTrailDotNet.Bot.Tests
             var gensCompleted = 0;
             session.Run(onGeneration: _ => gensCompleted++, shouldStop: () => played >= 12 + 5);
 
-            // The completed generation survives untouched; the abandoned one leaves no trace anywhere — its games are
+            // The completed generation survives untouched; the abandoned one leaves no trace anywhere - its games are
             // deleted, the profile's counter is rewound, and the optimizer never folded in the partial scores.
             Assert.Equal(1, gensCompleted);
             Assert.Equal(1, session.Optimizer.Generation);
@@ -256,7 +256,7 @@ namespace OregonTrailDotNet.Bot.Tests
         public void Negative_Generations_Trains_Open_Endedly_Until_ShouldStop()
         {
             // A negative generation count is the "train until I press Esc" mode: the loop must not run the count literally
-            // (which would be zero iterations) nor loop forever — it runs until shouldStop returns true. A stubbed game runner
+            // (which would be zero iterations) nor loop forever - it runs until shouldStop returns true. A stubbed game runner
             // keeps it fast and deterministic; shouldStop stands in for the Esc/Ctrl+C hook and ends it after 3 generations.
             using var db = new BotDatabase(_dbPath);
             var id = db.Profiles.Create("Endless", "cem");

@@ -106,7 +106,7 @@ namespace OregonTrailDotNet.Tests.Module
         public void TriggerEvent_BrokenPartOnNonSingletonVehicle_RendersWithoutNullReference()
         {
             // A vehicle that is NOT the game singleton's vehicle (as the detached-vehicle unit tests use). The broken-part
-            // prompt must describe the part on the event's source vehicle, not blindly reach for the singleton's — else it
+            // prompt must describe the part on the event's source vehicle, not blindly reach for the singleton's - else it
             // null-references. Executes synchronously through the random event window, so the prompt renders inside here.
             var vehicle = new VehicleEntity();
             Assert.NotSame(Game.Vehicle, vehicle);

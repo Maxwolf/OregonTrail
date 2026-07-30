@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
     /// <summary>
     ///     What crossing a river actually does, extracted verbatim from <see cref="CrossingTick" /> so the graphical
     ///     crossing scene runs the identical simulation: take the agreed payment, advance a random stretch of river
-    ///     per tick, run the day's skip-turn, and roll the crossing's dangers — the midstream one-shot for a ford or
+    ///     per tick, run the day's skip-turn, and roll the crossing's dangers - the midstream one-shot for a ford or
     ///     float, the per-tick category roll under a ferry or guide. Pinned by CrossingSimulationTests; nothing here
     ///     renders.
     /// </summary>
@@ -36,7 +36,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
         ///     When true, a midstream disaster is recorded on <see cref="PendingDisaster" /> instead of executing
         ///     immediately. The graphical scene sets this so it can show the wagon in trouble BEFORE the event
         ///     window covers the picture with its message; the text form leaves it off and keeps the original
-        ///     immediate order. The dice are rolled either way at the same moment — only the window is delayed.
+        ///     immediate order. The dice are rolled either way at the same moment - only the window is delayed.
         /// </summary>
         internal bool DeferMidstreamDisasters { get; set; }
 
@@ -52,7 +52,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
 
         /// <summary>
         ///     Parks the vehicle and takes the agreed payment. The ferryman charges only a party with strictly more
-        ///     cash than his fare; the Shoshoni guide takes an exact payment — greater-or-equal, matching the offer
+        ///     cash than his fare; the Shoshoni guide takes an exact payment - greater-or-equal, matching the offer
         ///     gate in IndianGuidePrompt, since a strict compare let a party with exactly the price cross free.
         /// </summary>
         internal void Begin()
@@ -192,7 +192,7 @@ namespace OregonTrailDotNet.Window.Travel.RiverCrossing
 
         /// <summary>
         ///     Lands the wagon now. The graphical scene's mercy rule: once a midstream disaster has played and its
-        ///     message has been read, the party has suffered enough — the rest of the river is skipped and the
+        ///     message has been read, the party has suffered enough - the rest of the river is skipped and the
         ///     crossing ends on the far shore. The text form never calls this.
         /// </summary>
         internal void FinishNow()

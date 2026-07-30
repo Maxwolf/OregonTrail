@@ -30,7 +30,7 @@ namespace OregonTrailDotNet.Bot.Testing
         /// <summary>The score of the game that reached the goal.</summary>
         public int ScoreAtGoal { get; set; }
 
-        /// <summary>Highest score this model has scored so far — climbs as the benchmark runs, even before the goal is met.</summary>
+        /// <summary>Highest score this model has scored so far - climbs as the benchmark runs, even before the goal is met.</summary>
         public int BestScore { get; set; }
     }
 }

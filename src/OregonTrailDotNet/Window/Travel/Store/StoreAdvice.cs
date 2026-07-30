@@ -15,7 +15,7 @@ namespace OregonTrailDotNet.Window.Travel.Store
     ///         original put it in front of the prompt rather than in a manual.
     ///     </para>
     ///     <para>
-    ///         Independence only. Out on the trail the forts quote a bare price and ask — no advice, no running bill —
+    ///         Independence only. Out on the trail the forts quote a bare price and ask - no advice, no running bill -
     ///         and that difference is the original's too.
     ///     </para>
     /// </summary>

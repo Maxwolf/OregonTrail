@@ -67,7 +67,7 @@ namespace OregonTrailDotNet.Bot.Ui
         {
             var profile = BotContext.ActiveProfileId >= 0
                 ? $"Active profile: {BotContext.ActiveProfileName}"
-                : "Active profile: (none — create or select one)";
+                : "Active profile: (none - create or select one)";
 
             return $"THE OREGON TRAIL BOT{Environment.NewLine}{profile}{Environment.NewLine}";
         }

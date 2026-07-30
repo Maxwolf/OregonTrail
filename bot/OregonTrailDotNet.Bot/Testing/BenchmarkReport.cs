@@ -31,7 +31,7 @@ namespace OregonTrailDotNet.Bot.Testing
         public int TotalGames { get; private set; }
         public string EndReason { get; set; } = "";
 
-        /// <summary>Highest single-game score seen so far across every model — a fun figure to watch climb during a run.</summary>
+        /// <summary>Highest single-game score seen so far across every model - a fun figure to watch climb during a run.</summary>
         public int BestScore { get; private set; }
 
         /// <summary>Which model scored <see cref="BestScore" /> (empty until any game scores above zero).</summary>
@@ -80,7 +80,7 @@ namespace OregonTrailDotNet.Bot.Testing
 
         public void MarkFinished() => _finishedAt ??= DateTime.UtcNow;
 
-        /// <summary>Renders the benchmark as a saveable report — models that reached the goal fastest-first, then any that didn't.</summary>
+        /// <summary>Renders the benchmark as a saveable report - models that reached the goal fastest-first, then any that didn't.</summary>
         public string Format()
         {
             var sb = new StringBuilder();

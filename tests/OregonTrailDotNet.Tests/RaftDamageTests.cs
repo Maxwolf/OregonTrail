@@ -61,7 +61,7 @@ namespace OregonTrailDotNet.Tests
         {
             BootParty();
 
-            // No oxen, no supplies: the only lines are the three companions drowning — under ten, no destruction.
+            // No oxen, no supplies: the only lines are the three companions drowning - under ten, no destruction.
             var report = RaftDamage.RockHit(new AlwaysHit());
 
             Assert.False(report.Destroyed);
@@ -77,7 +77,7 @@ namespace OregonTrailDotNet.Tests
         {
             BootParty();
 
-            // Three drownings + eight oxen is eleven loss lines in ONE event — past nine, the river wins outright.
+            // Three drownings + eight oxen is eleven loss lines in ONE event - past nine, the river wins outright.
             Game.Vehicle.Inventory[EntitiesEnum.Animal].AddQuantity(8);
 
             var report = RaftDamage.RockHit(new AlwaysHit());

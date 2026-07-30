@@ -31,7 +31,7 @@ namespace OregonTrailDotNet.Bot.Ui
             sb.AppendLine($"{Environment.NewLine}Select a profile:{Environment.NewLine}");
 
             if (_profiles.Count == 0)
-                sb.AppendLine("  (no profiles yet — create one first)");
+                sb.AppendLine("  (no profiles yet - create one first)");
             else
                 for (var i = 0; i < _profiles.Count; i++)
                 {

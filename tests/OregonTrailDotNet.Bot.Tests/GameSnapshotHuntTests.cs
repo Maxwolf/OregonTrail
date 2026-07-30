@@ -10,7 +10,7 @@ namespace OregonTrailDotNet.Bot.Tests
     ///     Proves the load-bearing plumbing behind the bot's "stop when the wagon is full" behavior actually works end to end:
     ///     <see cref="GameSnapshot.Capture" /> must read the meat bagged so far straight off the live hunt on the focused
     ///     Travel window (Capture -> BaggedThisHunt -> Travel.ActiveHunt -> HuntGame.Pounds, dressed). Without this, HuntBagged
-    ///     could silently read 0 forever — the bot would never stop early and every other test would still pass, since the
+    ///     could silently read 0 forever - the bot would never stop early and every other test would still pass, since the
     ///     HuntStrategy tests inject HuntBagged directly and the playthrough tests don't assert early stopping.
     /// </summary>
     public sealed class GameSnapshotHuntTests : IDisposable
@@ -31,7 +31,7 @@ namespace OregonTrailDotNet.Bot.Tests
 
         public void Dispose() => GameSimulationApp.Instance?.Destroy();
 
-        // Make the Travel window the focused one — exactly the situation during a real hunt, where the hunt scene is a
+        // Make the Travel window the focused one - exactly the situation during a real hunt, where the hunt scene is a
         // child of Travel. Boot leaves the main menu focused on top of Travel, so drop windows until Travel surfaces, then
         // return its shared UserData (a protected WolfCurses member) so a hunt can be seeded on the very instance
         // GameSnapshot.Capture will read back.
@@ -80,21 +80,21 @@ namespace OregonTrailDotNet.Bot.Tests
             travelInfo.Hunt = hunt;
 
             // Raw pounds only move when a bullet lands on an animal, and where the animals spawn is the hunt's own
-            // seeded roll — there is no bounded way to walk one under the muzzle from out here without writing a
+            // seeded roll - there is no bounded way to walk one under the muzzle from out here without writing a
             // second hunter. So the shot game is planted straight on the live object through Pounds' backing field:
             // what is under test is the wiring from that number to the snapshot, not how the number got there.
             typeof(HuntGame)
                 .GetField("<Pounds>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!
                 .SetValue(hunt, 350);
 
-            // The whole point: Capture reads that live hunt off the focused Travel window rather than a hardcoded 0 —
+            // The whole point: Capture reads that live hunt off the focused Travel window rather than a hardcoded 0 -
             // and reports DRESSED pounds, what actually reaches the wagon, because that is what the bot's carry cap is
             // stated against. 350 lb on the ground is 175 lb on the walk back.
             var snapshot = GameSnapshot.Capture(game);
             Assert.Equal(HuntGame.Bag(350), snapshot.HuntBagged);
             Assert.Equal(175, snapshot.HuntBagged);
 
-            // And it falls back to 0 the moment the hunt is over — which is what HuntSceneResult does with it.
+            // And it falls back to 0 the moment the hunt is over - which is what HuntSceneResult does with it.
             travelInfo.Hunt = null;
             Assert.Equal(0, GameSnapshot.Capture(game).HuntBagged);
         }

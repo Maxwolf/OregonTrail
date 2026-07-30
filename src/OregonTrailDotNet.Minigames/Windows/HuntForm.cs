@@ -18,7 +18,7 @@ namespace OregonTrailDotNet.Minigames.Windows
     {
         /// <summary>
         ///     The Apple II's expert aiming, verified against its own key table at <c>$ED1E</c>:
-        ///     <c>3B 50 4F 49 4B 2C 2E 2F</c> = <c>; P O I K , . /</c> — the ring of keys around <b>L</b>, which the
+        ///     <c>3B 50 4F 49 4B 2C 2E 2F</c> = <c>; P O I K , . /</c> - the ring of keys around <b>L</b>, which the
         ///     handler at <c>$ECC8</c> searches for the pressed key and uses the table index as an absolute heading.
         ///     Listed here in our compass order (0 = N, clockwise).
         /// </summary>
@@ -30,7 +30,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>
         ///     The <b>1990 DOS port's</b> expert aiming: the numeric keypad read as the compass it already looks like.
-        ///     The Apple II never used it — its ring is <see cref="ExpertKeys" /> — but both ports keep every aiming
+        ///     The Apple II never used it - its ring is <see cref="ExpertKeys" /> - but both ports keep every aiming
         ///     scheme live at once rather than switching modes, so adding this one alongside is in that spirit.
         ///     <para>
         ///         The top-row digits are mapped to the same headings purely as a convenience for keyboards with no
@@ -59,7 +59,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>Initializes a new instance of the <see cref="HuntForm" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public HuntForm(IWindow window) : base(window)
         {
         }
@@ -99,13 +99,13 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>
         ///     The 1990 DOS port's <b>novice</b> aiming, which rotates one step per press. Its instruction screen
-        ///     draws these as two keycaps — <c>&lt;</c> printed above <c>,</c>, and <c>&gt;</c> above <c>.</c> — so
+        ///     draws these as two keycaps - <c>&lt;</c> printed above <c>,</c>, and <c>&gt;</c> above <c>.</c> - so
         ///     they are the comma and period <i>keys</i>, exactly the two the Apple II's expert ring already uses for
         ///     absolute SW and S. The two ports collide on the same physical keys.
         ///     <para>
         ///         Since this workbench runs both schemes at once, the collision is resolved by shift: <b>unshifted
         ///         <c>,</c> and <c>.</c> aim absolutely</b> (Apple II), <b>shifted <c>&lt;</c> and <c>&gt;</c> rotate a
-        ///         step</b> (DOS). That reconciliation is ours — neither port had to make it — and it needs
+        ///         step</b> (DOS). That reconciliation is ours - neither port had to make it - and it needs
         ///         <c>KeyChar</c>, because <c>ConsoleKey.OemComma</c> is reported for both.
         ///     </para>
         /// </summary>
@@ -158,7 +158,7 @@ namespace OregonTrailDotNet.Minigames.Windows
                     Invalidate();
                     return;
                 case ConsoleKey.L:
-                    // Just the ground, leaving the hunt running — for judging the scatter without replaying.
+                    // Just the ground, leaving the hunt running - for judging the scatter without replaying.
                     RebuildScene();
                     SyncSprites();
                     Invalidate();
@@ -187,7 +187,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         ///     Walking is toggled here rather than from <see cref="OnSectionKey" /> because <b>ENTER never arrives as
         ///     a key press</b>: WolfCurses' <c>InputManager.SendConsoleKey</c> treats it as "submit the buffer" and
         ///     returns without calling <c>SendKeyPress</c>, so a <c>case ConsoleKey.Enter</c> in the key handler is
-        ///     dead code — which is exactly what it was, and why walking did nothing.
+        ///     dead code - which is exactly what it was, and why walking did nothing.
         ///     <para>
         ///         RETURN is the original's own binding for it: <c>HUNT.LIB</c>'s instruction screen prints "Return
         ///         Key" against "To start or stop walking", and the handler at <c>$EC7F</c> flips bit 7 of
@@ -207,7 +207,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             var compass = new[] { "N", "NE", "E", "SE", "S", "SW", "W", "NW" };
             var text = new StringBuilder();
             text.AppendLine();
-            text.AppendLine("HUNTING — the rifle turns one step per three ticks, the shorter way round.");
+            text.AppendLine("HUNTING - the rifle turns one step per three ticks, the shorter way round.");
             text.AppendLine(
                 $"tick {_game.Tick,4}/{HuntGame.TimeLimit}   aim {compass[_game.Aim],-2} -> {compass[_game.TargetAim],-2}   " +
                 $"bullets {_game.Bullets,2}   shot {_game.Pounds,4} lb   " +
@@ -242,7 +242,7 @@ namespace OregonTrailDotNet.Minigames.Windows
                 _animals[i].Y = animal.Y;
             }
 
-            // Carcasses accumulate, so each gets a sprite as it appears — underneath everything that still moves.
+            // Carcasses accumulate, so each gets a sprite as it appears - underneath everything that still moves.
             while (_carcasses.Count < _game.Carcasses.Count)
             {
                 var carcass = _game.Carcasses[_carcasses.Count];
@@ -268,7 +268,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>
         ///     Swaps in freshly scattered ground. The scene's background cannot be replaced in place, so the sprites
-        ///     are lifted off and rehung on a new one — carried across in their existing order, which is their draw
+        ///     are lifted off and rehung on a new one - carried across in their existing order, which is their draw
         ///     order, so carcasses stay behind the animals that are still on their feet.
         /// </summary>
         private void RebuildScene()
@@ -296,7 +296,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <summary>
         ///     The field, with the scenery painted straight in since none of it ever moves.
         ///     <para>
-        ///         <b>The ground is black</b>, in both ports — there is no grass. This port drew it green for a while,
+        ///         <b>The ground is black</b>, in both ports - there is no grass. This port drew it green for a while,
         ///         which was invention: the Apple II OR-blits its scenery onto a cleared hi-res screen (which is why
         ///         <c>apple2_hunt.py</c> decodes black as transparent), and a capture of the DOS hunt shows the same
         ///         thing, scenery and hunter standing on plain black.

@@ -5,12 +5,12 @@ namespace OregonTrailDotNet.Presentation
     /// <summary>
     ///     The tombstone inscription, laid out the way the original laid it out.
     ///     <para>
-    ///         <c>TOMB.LIB</c> does not position letters at all — it opens a <i>text window</i> on the picture and
+    ///         <c>TOMB.LIB</c> does not position letters at all - it opens a <i>text window</i> on the picture and
     ///         prints into it (<c>&amp; DFW,6 AT 56,62,150,45</c> then <c>&amp; WIND,6</c>, in <c>INVERSE</c> so the
     ///         glyphs come out dark on the blank white panel the artist drew on the stone). The window is 150x45 over
     ///         a 7x8 character cell, which is exactly <b>21 columns by 5 rows</b>; the epitaph is capped at 29
     ///         characters (<c>&amp; INP,29,"-09-AZ-az ,.'-"</c>), so it wraps to two rows and the four-line
-    ///         inscription — "Here lies", the name, a blank, then the epitaph — fills the window precisely.
+    ///         inscription - "Here lies", the name, a blank, then the epitaph - fills the window precisely.
     ///     </para>
     /// </summary>
     public static class TombstoneArt
@@ -27,7 +27,7 @@ namespace OregonTrailDotNet.Presentation
         // The origin is not the original's, and was not chosen by eye either. The carved face is an irregular blob,
         // not a rectangle: it narrows toward the top, so the "Here lies" row wants the block pushed right while a
         // full 21-column epitaph row wants it pushed left. Eyeballing satisfies whichever row you happen to be
-        // looking at. So it was solved instead — sweep every origin, render all four samples, and count glyph pixels
+        // looking at. So it was solved instead - sweep every origin, render all four samples, and count glyph pixels
         // landing on dark stone. 63,69 is the minimum at 8 stray pixels of 4655 (0.2%), against 48 at 60,67, 96 at
         // 81,67 and 180 at the BASIC's own 56,62. Do not "correct" this back to the literal.
 
@@ -49,7 +49,7 @@ namespace OregonTrailDotNet.Presentation
         /// <inheritdoc cref="CellW" />
         public const int CellH = 8;
 
-        /// <summary><c>&amp; INP,29,"-09-AZ-az ,.'-",0,A$</c> — the original epitaph's length cap.</summary>
+        /// <summary><c>&amp; INP,29,"-09-AZ-az ,.'-",0,A$</c> - the original epitaph's length cap.</summary>
         public const int EpitaphLimit = 29;
 
         /// <summary>Columns the text window holds.</summary>
@@ -64,7 +64,7 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     Word-wraps into the window's column count, which is what the text window did for free. A single word
-        ///     longer than a row is hard-broken at the column edge — the original's 29-character alphabet-capped
+        ///     longer than a row is hard-broken at the column edge - the original's 29-character alphabet-capped
         ///     input could not produce one, but the game's 38-character epitaphs can, and the text window would have
         ///     broken it exactly there rather than let it vanish off the stone.
         /// </summary>
@@ -110,11 +110,11 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     The inscription exactly as <c>TOMB.LIB</c> prints it: "Here lies", the name, a blank line, then the
-        ///     wrapped epitaph. <paramref name="epitaphRow" /> is the row the epitaph starts on — the value the
+        ///     wrapped epitaph. <paramref name="epitaphRow" /> is the row the epitaph starts on - the value the
         ///     original remembers with <c>&amp; GCP</c> so an edit can reprint just that row.
         ///     <para>
         ///         <paramref name="epitaphLimit" /> defaults to the original's 29; the game passes its own 38-char
-        ///         cap. A 38-character epitaph can wrap to three rows where 29 always fit in two — the blank spacer
+        ///         cap. A 38-character epitaph can wrap to three rows where 29 always fit in two - the blank spacer
         ///         is dropped in that case so the whole inscription still fits the five-row window.
         ///     </para>
         /// </summary>
@@ -149,7 +149,7 @@ namespace OregonTrailDotNet.Presentation
         /// <param name="stone">The 280x192 Apple II tombstone card; never mutated.</param>
         /// <param name="name">The dead party leader's name.</param>
         /// <param name="epitaph">The epitaph, clipped and wrapped as the original would.</param>
-        /// <param name="ink">The glyph colour — the authentic choice is <see cref="Palette.Apple2.Black" />.</param>
+        /// <param name="ink">The glyph colour - the authentic choice is <see cref="Palette.Apple2.Black" />.</param>
         public static PixelBuffer Inscribe(PixelBuffer stone, string name, string epitaph, Rgba32 ink)
         {
             var canvas = new PixelBuffer(stone.Width, stone.Height, (byte[]) stone.Data.Clone());

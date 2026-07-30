@@ -5,7 +5,7 @@ namespace OregonTrailDotNet.Bot.Learning
     /// <summary>
     ///     A greedy (1+λ) hill climber: keep a single current point, and each generation evaluate the current point plus λ
     ///     Gaussian-mutated neighbours, then move to whichever scored best. Fast and simple, but with no population it tends to
-    ///     get stuck in local optima — an instructive contrast to CEM/GA.
+    ///     get stuck in local optima - an instructive contrast to CEM/GA.
     /// </summary>
     public sealed class HillClimberOptimizer : IOptimizer
     {
@@ -91,7 +91,7 @@ namespace OregonTrailDotNet.Bot.Learning
             if (state.BestRaw != null && state.BestRaw.Length == _length)
                 BestVector = state.BestRaw;
 
-            // A champion scored under an older fitness shaping is not comparable on the new scale — drop it (the climber's
+            // A champion scored under an older fitness shaping is not comparable on the new scale - drop it (the climber's
             // current point remains a meaningful starting point) so the next batch's champion can take over.
             if (state.FitnessVersion != TrainingSession.FitnessVersion)
             {
@@ -107,7 +107,7 @@ namespace OregonTrailDotNet.Bot.Learning
             public double[]? BestRaw { get; set; }
             public double BestFitness { get; set; }
 
-            // Absent in blobs saved before versioning existed — deserializes to 0, which never matches a real version.
+            // Absent in blobs saved before versioning existed - deserializes to 0, which never matches a real version.
             public int FitnessVersion { get; set; }
         }
     }

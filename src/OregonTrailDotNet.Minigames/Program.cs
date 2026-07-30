@@ -6,14 +6,14 @@ namespace OregonTrailDotNet.Minigames
 {
     /// <summary>
     ///     Entry point for the minigame workbench. Same shape as the game's own <c>Program.Main</c>: nothing here draws
-    ///     frames or reads keys, because WolfCurses does both — the scene graph presents every changed frame to the
+    ///     frames or reads keys, because WolfCurses does both - the scene graph presents every changed frame to the
     ///     console itself, and the input manager drains the keyboard each tick and routes it to the focused form.
     /// </summary>
     internal static class Program
     {
         private static int Main(string[] args)
         {
-            Console.Title = "Oregon Trail — Minigame Workbench";
+            Console.Title = "Oregon Trail - Minigame Workbench";
             Console.CursorVisible = false;
             Console.CancelKeyPress += (_, e) =>
             {
@@ -43,6 +43,10 @@ namespace OregonTrailDotNet.Minigames
             // The workbench exists to look at the scenes, so it always draws and paces them.
             SceneHost.Graphical = true;
 
+            // And therefore it makes noise, so get the platform's audio library on its feet off-thread before the
+            // first cue asks for it. See AudioDevice.Warm - Linux is the one this is really for.
+            AudioDevice.Warm();
+
             MinigamesApp.Create();
 
             while (MinigamesApp.Instance != null)
@@ -52,7 +56,7 @@ namespace OregonTrailDotNet.Minigames
             }
 
             // Hands the sound device back. Without this a tune that is still playing carries on after the workbench
-            // has gone, since waveOut plays from a buffer the driver owns and does not care that we have exited.
+            // has gone, since every platform plays from a buffer it owns and does not care that we have exited.
             Music.Shutdown();
 
             Console.Clear();

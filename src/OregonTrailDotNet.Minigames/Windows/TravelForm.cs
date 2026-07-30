@@ -9,14 +9,14 @@ namespace OregonTrailDotNet.Minigames.Windows
     /// <summary>
     ///     The travel screen: the team walking, the world sliding past, and the ground changing colour under it.
     ///     <para>
-    ///         Everything here is assembled, because the original assembled it — there is no travel picture on either
+    ///         Everything here is assembled, because the original assembled it - there is no travel picture on either
     ///         disk. The layers, bottom to top, are a flooded ground box, a full-width horizon strip, the leg's one
     ///         piece of scenery, and the team. See <see cref="TravelGame" /> for where each came from in the BASIC.
     ///     </para>
     ///     <para>
     ///         Two liberties are taken, both because the DOS art is the better art and it is packed differently. The
-    ///         Apple II kept its two horizon strips on <i>separate floppy sides</i> — <c>PRAIRIE.IMA</c> with landmarks
-    ///         0-4 and <c>MOUNTAINS.IMA</c> with 5-17 — so the terrain changed at the disk flip and the code never chose
+    ///         Apple II kept its two horizon strips on <i>separate floppy sides</i> - <c>PRAIRIE.IMA</c> with landmarks
+    ///         0-4 and <c>MOUNTAINS.IMA</c> with 5-17 - so the terrain changed at the disk flip and the code never chose
     ///         it at all. The DOS port carries both strips in one <c>scenery</c> sheet, so here it is a key press.
     ///         And the DOS sheet has <b>no clouds</b>, where the Apple II's mountains table drew three; there is nothing
     ///         to composite, so the sky is flat.
@@ -25,7 +25,7 @@ namespace OregonTrailDotNet.Minigames.Windows
     [ParentWindow(typeof(MinigamesWindow))]
     public sealed class TravelForm : WorkbenchSceneForm
     {
-        // The sheet frame ids, backdrop layering and status-panel drawing live in TravelArt now — they are the
+        // The sheet frame ids, backdrop layering and status-panel drawing live in TravelArt now - they are the
         // pieces a game-side drive scene reuses verbatim.
         private const int FirstWalkFrame = TravelArt.FirstWalkFrame;
         private const int BrokenWagon = TravelArt.BrokenWagon;
@@ -41,7 +41,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <summary>
         ///     Which event picture is parked in the sky, or null for none.
         ///     <para>
-        ///         The events themselves are deliberately <b>not</b> wired up — nothing here rolls for weather or takes
+        ///         The events themselves are deliberately <b>not</b> wired up - nothing here rolls for weather or takes
         ///         a day off the clock. This is a cycle key so the art is loaded, positioned and checkable, ready for
         ///         whatever drives it later.
         ///     </para>
@@ -50,7 +50,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>Initializes a new instance of the <see cref="TravelForm" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public TravelForm(IWindow window) : base(window)
         {
         }
@@ -62,7 +62,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         ///     Faster than the workbench default, to pay back the small per-tick distances
         ///     <see cref="TravelGame.MilesPerTick" /> has to use so the walk cycle cannot alias. A leg runs about
         ///     16 seconds at a grueling pace and 40 at a steady one, and the team's legs cycle roughly two and a half
-        ///     times a second against one — which is the difference pace is meant to show and previously did not.
+        ///     times a second against one - which is the difference pace is meant to show and previously did not.
         /// </summary>
         protected override int DefaultTicksPerSecond => 15;
 
@@ -131,7 +131,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         {
             var text = new StringBuilder();
             text.AppendLine();
-            text.AppendLine("THE TRAIL — the team is nailed to one spot and the world slides past it.");
+            text.AppendLine("THE TRAIL - the team is nailed to one spot and the world slides past it.");
 
             var terrain = _game.Terrain == TravelTerrainEnum.Plains
                 ? "plains  (PRAIRIE.IMA, side A)"
@@ -151,9 +151,9 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             text.AppendLine(_game.Wagon switch
             {
-                TravelWagonEnum.Broken => "*** BROKEN WAGON *** — travelox frame 4. Nothing moves. B to cycle.",
-                TravelWagonEnum.Burning => "*** WAGON FIRE *** — travelox frame 5. Nothing moves. B to cycle.",
-                _ => $"walk frame {_game.WalkFrame}/3 — advanced once per stride, not once per tick, " +
+                TravelWagonEnum.Broken => "*** BROKEN WAGON *** - travelox frame 4. Nothing moves. B to cycle.",
+                TravelWagonEnum.Burning => "*** WAGON FIRE *** - travelox frame 5. Nothing moves. B to cycle.",
+                _ => $"walk frame {_game.WalkFrame}/3 - advanced once per stride, not once per tick, " +
                      "so the legs cycle faster the harder you drive."
             });
 
@@ -170,7 +170,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>
         ///     Steps through the event pictures and back to none, so every one can be seen in place. Cycling art is
-        ///     all this does — no event fires, nothing is lost and no time passes.
+        ///     all this does - no event fires, nothing is lost and no time passes.
         /// </summary>
         private void CycleEventIcon()
         {
@@ -196,7 +196,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             _scenery.Image = Art.Dos("scenery", _game.Scenery.SpriteId);
 
             // Everything stands on the ground line rather than at a hard-coded y, which is what keeps the composition
-            // together when a frame changes height — the broken wagon is 3px taller than the walking one.
+            // together when a frame changes height - the broken wagon is 3px taller than the walking one.
             _wagon.X = TravelGame.WagonX;
             _wagon.Y = TravelGame.GroundY - _wagon.Image.Height;
 
@@ -229,14 +229,14 @@ namespace OregonTrailDotNet.Minigames.Windows
             _scene.Sprites.Add(_scenery);
             _scene.Sprites.Add(_wagon);
 
-            // Last, so an event picture sits over the horizon strip rather than behind it — the original blits it
+            // Last, so an event picture sits over the horizon strip rather than behind it - the original blits it
             // after the scene is drawn, for the same reason.
             _scene.Sprites.Add(_eventIcon);
         }
 
         /// <summary>
         ///     Draws the prompt and the status panel over a composed frame, feeding TravelArt the workbench's
-        ///     stand-in readings — the game's drive scene feeds the same rows from the real simulation.
+        ///     stand-in readings - the game's drive scene feeds the same rows from the real simulation.
         /// </summary>
         private void DrawStatusPanel(PixelBuffer frame)
         {

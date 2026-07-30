@@ -25,7 +25,7 @@ namespace OregonTrailDotNet.Bot.Ui
             var top = BotContext.Db?.Leaderboard.Top(10) ?? new List<LeaderboardEntry>();
             if (top.Count == 0)
             {
-                sb.AppendLine("  No qualifying scores yet — train a profile and win some games!");
+                sb.AppendLine("  No qualifying scores yet - train a profile and win some games!");
                 sb.AppendLine("  (The original game's 10th place to beat is Elijah White at 250.)");
             }
             else

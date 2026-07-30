@@ -27,7 +27,7 @@ namespace OregonTrailDotNet.Window.MainMenu
 
         /// <summary>
         ///     Mutes and unmutes the music, the original's "Turn sound off", in the same slot 4 its DOS port used.
-        ///     Offered by every host — a menu choice belongs to the game, not to the drawing, so the bot plays the
+        ///     Offered by every host - a menu choice belongs to the game, not to the drawing, so the bot plays the
         ///     same six-option menu a player does; only whether sound is audible follows the presentation flag.
         /// </summary>
         [Description("Turn sound on/off")] ToggleSound = 4,

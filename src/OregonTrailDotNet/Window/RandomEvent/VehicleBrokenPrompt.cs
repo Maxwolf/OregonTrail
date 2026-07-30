@@ -42,7 +42,7 @@ namespace OregonTrailDotNet.Window.RandomEvent
         protected override string OnDialogPrompt()
         {
             // Describe the part on the vehicle the event actually targeted (the game vehicle during normal play), rather
-            // than assuming the global singleton's vehicle — the two can differ, which would null-reference here.
+            // than assuming the global singleton's vehicle - the two can differ, which would null-reference here.
             var vehicle = UserData.SourceEntity as Entity.Vehicle.Vehicle ?? GameSimulationApp.Instance.Vehicle;
 
             var brokenPrompt = new StringBuilder();

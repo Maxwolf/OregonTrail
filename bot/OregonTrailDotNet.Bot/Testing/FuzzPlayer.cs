@@ -7,7 +7,7 @@ namespace OregonTrailDotNet.Bot.Testing
     ///     Plays one live game for a given training model using a policy sampled from the model's own optimizer. With
     ///     <c>learn: false</c> (automated testing) it never folds results back, so it just keeps drawing varied candidates to
     ///     explore many game states. With <c>learn: true</c> (the benchmark) it accumulates each batch's fitness and folds it
-    ///     back into the optimizer between batches, so the models genuinely improve — turning "time to first win" into a real
+    ///     back into the optimizer between batches, so the models genuinely improve - turning "time to first win" into a real
     ///     learning race rather than a measurement of the zero-shot warm-start prior (which was identical across models).
     /// </summary>
     public sealed class FuzzPlayer

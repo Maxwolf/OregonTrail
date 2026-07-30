@@ -5,7 +5,7 @@ using WolfCurses.Window.Form.Input;
 
 namespace OregonTrailDotNet.Bot.Ui
 {
-    /// <summary>Confirms wiping the entire database — every bot, all training, and the leaderboard.</summary>
+    /// <summary>Confirms wiping the entire database - every bot, all training, and the leaderboard.</summary>
     [ParentWindow(typeof(BotMainMenu))]
     public sealed class EraseAllConfirm : InputForm<BotAppData>
     {

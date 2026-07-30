@@ -18,7 +18,7 @@ namespace OregonTrailDotNet.Bot.Game
         private static readonly HashSet<string> StoreForms = new() { "Store", "StorePurchase" };
 
         // The whole river-crossing subsystem; while inside it the per-crossing bounce counter must persist. Every screen
-        // that can send the player back to the river menu belongs here, including the refusals — a shallow river turns down
+        // that can send the player back to the river menu belongs here, including the refusals - a shallow river turns down
         // both floating and the ferry, and without the counter surviving those the bot can ask for the same impossible
         // crossing forever instead of noticing it is getting nowhere and fording instead.
         private static readonly HashSet<string> RiverForms = new()
@@ -110,7 +110,7 @@ namespace OregonTrailDotNet.Bot.Game
                     return Terminal();
 
                 // A wagon with no oxen (or an unrepairable broken part) can never move again, and the game will not end a
-                // stranded-but-alive party on its own — it would just bounce between the travel menu and this screen forever.
+                // stranded-but-alive party on its own - it would just bounce between the travel menu and this screen forever.
                 // Recognize the dead-end and finish the run as a failed journey.
                 if (_driver.FormName == "UnableToContinue" && ++strandedHits > 3)
                     return Stranded();
@@ -131,11 +131,11 @@ namespace OregonTrailDotNet.Bot.Game
 
                 // A rescued wagon (emigrant trade or fort store) can strand again later, so the dead-end detector counts
                 // only CONSECUTIVE stranding sightings: reset once the wagon can roll again. A hopeless stranding still
-                // terminates — nothing resets the counter while the team stays empty or the part stays broken.
+                // terminates - nothing resets the counter while the team stays empty or the part stays broken.
                 if (strandedHits > 0 && state.Oxen > 0 && state.BrokenPart == null)
                     strandedHits = 0;
 
-                // Screens that are steered rather than typed at — the field hunt and the Columbia raft. These are
+                // Screens that are steered rather than typed at - the field hunt and the Columbia raft. These are
                 // played with the keyboard exactly as a person plays them, so they get handled before the generic
                 // "press ENTER to advance a prompt" path below: on the hunt ENTER means start walking, and blindly
                 // sending it would have the bot wander off across the field.
@@ -177,7 +177,7 @@ namespace OregonTrailDotNet.Bot.Game
                 }
                 else
                 {
-                    // A form the recognizer has no handler for is a gap a developer must close — stop and report it exactly.
+                    // A form the recognizer has no handler for is a gap a developer must close - stop and report it exactly.
                     var unknownBefore = _recognizer.UnknownForms.Count;
                     var input = _recognizer.TypedInput(_driver, state);
                     if (_recognizer.UnknownForms.Count > unknownBefore)
@@ -215,7 +215,7 @@ namespace OregonTrailDotNet.Bot.Game
         private void PlayHuntTick(GameSnapshot state)
         {
             if (_driver.Watching)
-                _driver.StatusLine = $"  » hunting — {state.HuntBagged} lb bagged";
+                _driver.StatusLine = $"  » hunting - {state.HuntBagged} lb bagged";
 
             // Enough meat to fill the carry: ESC ends the hunt keeping the bag, exactly as it does for a player.
             if (HuntStrategy.HasEnoughFood(state))
@@ -271,7 +271,7 @@ namespace OregonTrailDotNet.Bot.Game
                 return $"{_driver.WindowName}|{_driver.FormName}";
 
             // A steered scene advances its own clock without moving the wagon or the calendar, so its tick joins the
-            // fingerprint — otherwise a perfectly healthy 2500-tick hunt looks exactly like a wedged screen and the
+            // fingerprint - otherwise a perfectly healthy 2500-tick hunt looks exactly like a wedged screen and the
             // soft-lock detector kills the run. A scene that genuinely stops advancing still trips it.
             var scene = SceneProgress(game);
 
@@ -352,7 +352,7 @@ namespace OregonTrailDotNet.Bot.Game
 
             // A stranded journey scores nothing and never finishes; model it as a failed run so the optimizer avoids it.
             // PartySize/PartyHealthValue must be filled in here: the fitness survival term reads them, and stranding is the
-            // dominant failed outcome — leaving them zero silently erased the survival gradient for almost every death.
+            // dominant failed outcome - leaving them zero silently erased the survival gradient for almost every death.
             return new RunResult
             {
                 Outcome = GameOutcomeEnum.Death,

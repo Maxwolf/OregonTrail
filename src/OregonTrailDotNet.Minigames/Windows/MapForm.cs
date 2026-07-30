@@ -7,7 +7,7 @@ using WolfCurses.Window.Form;
 namespace OregonTrailDotNet.Minigames.Windows
 {
     /// <summary>
-    ///     The trail map, filling in as the party walks it — the screen the original puts up for "Look at map".
+    ///     The trail map, filling in as the party walks it - the screen the original puts up for "Look at map".
     ///     <para>
     ///         The picture is the DOS port's <c>map.png</c> and the route is drawn over it, which is exactly what the
     ///         original does: <c>M0.PCK</c> is loaded as a backdrop and <c>MAP.LIB</c> <c>HPLOT</c>s the line on top.
@@ -23,14 +23,14 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>Initializes a new instance of the <see cref="MapForm" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public MapForm(IWindow window) : base(window)
         {
         }
 
         /// <summary>
         ///     Exactly what the layout costs, and no more: the window's own chrome line, the blank that starts the
-        ///     picture on a line of its own, one status line, and the two-line footer. Five — the picture takes every
+        ///     picture on a line of its own, one status line, and the two-line footer. Five - the picture takes every
         ///     other row.
         ///     <para>
         ///         There is no spare, deliberately, because on this section a spare row is map. The safety that buys
@@ -42,7 +42,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>
         ///     Left-aligned, because this is the one section that draws its picture before any text. See
-        ///     <see cref="SceneForm.CenterPicture" /> — centring would leave the columns beside the map holding
+        ///     <see cref="SceneForm.CenterPicture" /> - centring would leave the columns beside the map holding
         ///     whatever the previous screen put there, which is the menu.
         /// </summary>
         protected override bool CenterPicture => false;
@@ -53,7 +53,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// </summary>
         protected override int DefaultTicksPerSecond => 12;
 
-        /// <summary>Miles a tick buys — chosen for the run to take about 30 seconds end to end.</summary>
+        /// <summary>Miles a tick buys - chosen for the run to take about 30 seconds end to end.</summary>
         private const double MilesPerTick = 6.0;
 
         /// <inheritdoc />
@@ -101,11 +101,11 @@ namespace OregonTrailDotNet.Minigames.Windows
         /// <summary>
         ///     Picture first, then the words.
         ///     <para>
-        ///         The other sections print their heads-up above the artwork, which suits them — they are small scenes
+        ///         The other sections print their heads-up above the artwork, which suits them - they are small scenes
         ///         with a lot to say about them. This one is the opposite: the map is the whole point, it wants every
         ///         row it can get, and the readable-lettering problem is entirely a matter of how many rows are left
         ///         over. So the caption sits underneath and is kept to two lines, which is where the map gets the
-        ///         space from — enough of it that the close-up this section used to carry is gone.
+        ///         space from - enough of it that the close-up this section used to carry is gone.
         ///     </para>
         /// </summary>
         protected override string Compose()
@@ -130,7 +130,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             // from the map. The fork setting rides in the footer beside the key that changes it.
             text.AppendLine(_game.Finished
                 ? $"*** THE WILLAMETTE VALLEY *** {_game.MilesTravelled:0} miles, {_game.Visited.Count} landmarks"
-                : $"{_game.Visited.Count,2}/18  {_game.MilesTravelled,5:0} mi  —  " +
+                : $"{_game.Visited.Count,2}/18  {_game.MilesTravelled,5:0} mi  -  " +
                   $"{MapGame.Landmarks[_game.From].Name} to {MapGame.Landmarks[_game.To].Name}, " +
                   $"{_game.MilesRemaining,4:0} of {_game.LegMiles} to go");
 
@@ -149,7 +149,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         ///     </para>
         ///     <para>
         ///         <b>Works at the map's own 640-wide grid, unsqueezed.</b> Halving the width first is what makes the
-        ///         aspect true — a 640x200 mode has half-width pixels — but it costs half the horizontal detail, and
+        ///         aspect true - a 640x200 mode has half-width pixels - but it costs half the horizontal detail, and
         ///         in a terminal there is none to spare. It also strands the picture: at 320x200 the map is 1.6 wide
         ///         to 1 tall against a console nearer 2.7, so it fits by height and leaves the last third of the
         ///         window empty. At 640 it is 3.2 and fills the width instead, which is both the bigger picture and

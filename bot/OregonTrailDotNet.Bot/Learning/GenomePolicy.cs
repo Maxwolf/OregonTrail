@@ -54,8 +54,8 @@ namespace OregonTrailDotNet.Bot.Learning
             // stopping heals through natural recovery either way, and medicine now also treats the sick while moving, so the
             // old "only rest if we have medicine" gate perversely taught the optimizer to drop medicine to avoid resting.
             // The schedule guard (don't rest away the margin) only applies mid-journey: DaysRemaining goes negative in
-            // long games now that the 246-day forced ending is gone, and near the trail's end — especially during the
-            // endgame grind — recovery must stay available or lost health could never be won back.
+            // long games now that the 246-day forced ending is gone, and near the trail's end - especially during the
+            // endgame grind - recovery must stay available or lost health could never be won back.
             if (available.Contains(TravelCommandsEnum.StopToRest) && WantRecovery(state) &&
                 (state.DaysRemaining > 40 || state.NearTrailEnd))
                 return TravelCommandsEnum.StopToRest;

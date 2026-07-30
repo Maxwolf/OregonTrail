@@ -6,7 +6,7 @@ namespace OregonTrailDotNet.Bot.Tests
 {
     /// <summary>
     ///     Covers the "have I bagged enough?" rule the bot uses to stop a hunt early like a player would. The hunt costs a full
-    ///     day whenever it ends, so leaving early never saves time — it only wastes bullets past the carry cap, or throws away
+    ///     day whenever it ends, so leaving early never saves time - it only wastes bullets past the carry cap, or throws away
     ///     food below it. So the rule stops exactly at the carry cap: a strict win (same food, fewer bullets) that never cuts a
     ///     hungry party's haul short.
     /// </summary>
@@ -29,7 +29,7 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void BelowTheCarryCap_KeepsHunting_SinceTheDayIsAlreadySpent()
         {
-            // Even a solid haul below the cap is real food worth staying for — the day costs the same whether we leave now or
+            // Even a solid haul below the cap is real food worth staying for - the day costs the same whether we leave now or
             // fire until dark, and stopping short would only mean re-hunting sooner.
             Assert.False(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntGame.CarryCap - 1)));
         }
@@ -52,8 +52,8 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void OverTheCarryCap_StopsHunting_SinceTheExtraIsDiscarded()
         {
-            // A single big animal fills the cap several times over — the bison at the top of the species table runs
-            // 1700-2000 lb on the hoof, which is 850-1000 even after dressing — so every shot after it is wasted
+            // A single big animal fills the cap several times over - the bison at the top of the species table runs
+            // 1700-2000 lb on the hoof, which is 850-1000 even after dressing - so every shot after it is wasted
             // ammunition the party will want at the next river.
             Assert.True(HuntStrategy.HasEnoughFood(Hunt(bagged: HuntGame.CarryCap + 300)));
         }

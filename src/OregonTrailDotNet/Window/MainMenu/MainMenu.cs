@@ -73,7 +73,7 @@ namespace OregonTrailDotNet.Window.MainMenu
         }
 
         /// <summary>
-        ///     Flips the one process-wide mute and rebuilds the header so the menu reads the new state back —
+        ///     Flips the one process-wide mute and rebuilds the header so the menu reads the new state back -
         ///     the original relabelled its menu entry, but command labels are fixed, so the masthead answers.
         /// </summary>
         private void ToggleSound()

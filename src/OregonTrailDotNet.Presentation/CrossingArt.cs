@@ -25,9 +25,9 @@ namespace OregonTrailDotNet.Presentation
         public const int WreckSprite = 8;
 
         /// <summary>
-        ///     `:50010` — <c>FOR L = 0 TO 52: HPLOT 114+2*L,136 TO 218,77+L</c>. The fan pivots off the bottom-right
+        ///     `:50010` - <c>FOR L = 0 TO 52: HPLOT 114+2*L,136 TO 218,77+L</c>. The fan pivots off the bottom-right
         ///     corner: its start slides along the foot of the picture while its end slides down the right-hand side,
-        ///     so the region swept is the triangle <c>(114,136) (218,136) (218,77)</c> — which is exactly where the
+        ///     so the region swept is the triangle <c>(114,136) (218,136) (218,77)</c> - which is exactly where the
         ///     Apple II's river picture puts the bank. Run to completion it paints that bank; run partway in water it
         ///     is the party pulling away from it.
         /// </summary>
@@ -40,7 +40,7 @@ namespace OregonTrailDotNet.Presentation
         }
 
         /// <summary>
-        ///     `:50030` — <c>FOR L = 0 TO 60: HPLOT 58,24+L TO 58+2*L,24</c>, in <c>HCOLOR=4</c>, which is black, and
+        ///     `:50030` - <c>FOR L = 0 TO 60: HPLOT 58,24+L TO 58+2*L,24</c>, in <c>HCOLOR=4</c>, which is black, and
         ///     black is what that scene draws land in. The same primitive as the near bank, fired into the opposite
         ///     corner: the far shore coming into view, and the only thing that marks a clean crossing.
         /// </summary>
@@ -53,7 +53,7 @@ namespace OregonTrailDotNet.Presentation
         }
 
         /// <summary>
-        ///     `:50060` — <c>FOR L = 0 TO 21: HPLOT 80+2*L,71 TO 180,100-L</c>, a wedge of water fanned across the
+        ///     `:50060` - <c>FOR L = 0 TO 21: HPLOT 80+2*L,71 TO 180,100-L</c>, a wedge of water fanned across the
         ///     wagon's middle. It covers everything below y=71, so what is left showing is the top of the canvas:
         ///     swamped, not removed.
         /// </summary>

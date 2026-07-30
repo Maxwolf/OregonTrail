@@ -140,7 +140,7 @@ namespace OregonTrailDotNet.Tests.Module
             Assert.False(Game.Tombstone.FindTombstoneBetween(100, 200, out var beforeIt));
             Assert.Null(beforeIt);
 
-            // And a grave exactly at the start of the stretch was already passed on the previous turn — not crossed again.
+            // And a grave exactly at the start of the stretch was already passed on the previous turn - not crossed again.
             Assert.False(Game.Tombstone.FindTombstoneBetween(250, 350, out var alreadyPassed));
             Assert.Null(alreadyPassed);
         }

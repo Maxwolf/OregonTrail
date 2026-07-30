@@ -41,8 +41,8 @@ namespace OregonTrailDotNet.Window.Travel
 
         /// <summary>
         ///     The hunt currently in progress on this window, or NULL when the party is not hunting. Exposed so the
-        ///     headless bot can read the field it is shooting at — the same live simulation the player's picture is
-        ///     drawn from — and decide, like a player, when it has bagged enough and can leave.
+        ///     headless bot can read the field it is shooting at - the same live simulation the player's picture is
+        ///     drawn from - and decide, like a player, when it has bagged enough and can leave.
         /// </summary>
         internal Presentation.HuntGame ActiveHunt => UserData?.Hunt;
 
@@ -86,7 +86,7 @@ namespace OregonTrailDotNet.Window.Travel
                 GameSimulationApp.Instance.Trail.CurrentLocation is TollRoad)
                 SetForm(TravelInfo.DepartFormType);
             else if (GameSimulationApp.Instance.Trail.CurrentLocation is Entity.Location.Point.RiverCrossing river)
-                // The Columbia is run on a raft — the FLOAT minigame, for every host. Every other river keeps the
+                // The Columbia is run on a raft - the FLOAT minigame, for every host. Every other river keeps the
                 // crossing menu. This branch is on the location, never on whether anyone is watching: the raft's
                 // loss table and the crossing menu's are different games, and the party's last hundred miles must
                 // not depend on which host is playing.
@@ -194,7 +194,7 @@ namespace OregonTrailDotNet.Window.Travel
                     // original swapped the hunting slot on the menu for talking to the people who live there. Hunting is a
                     // thing you do out on the trail, which the Departed branch below allows.
                     //
-                    // Buy (9) is added before Talk (10) so the printed menu numbers ascend — the number IS the enum
+                    // Buy (9) is added before Talk (10) so the printed menu numbers ascend - the number IS the enum
                     // value (which the bot's trained policies depend on), so ordering is the only thing free to fix.
                     if (location.ShoppingAllowed)
                         AddCommand(BuySupplies, TravelCommandsEnum.BuySupplies);
@@ -223,7 +223,7 @@ namespace OregonTrailDotNet.Window.Travel
             PromptText = SceneGraph.PROMPT_TEXT_DEFAULT;
 
             // A scene form's tune must not outlive it. Scenes stop their own cue on dismissal, but SetForm has no
-            // teardown — any path that replaces a scene with a plain form would leave the music playing (the store's
+            // teardown - any path that replaces a scene with a plain form would leave the music playing (the store's
             // first-location exit did exactly that). Stopping here whenever a non-scene form takes over makes that
             // whole class of leak impossible; scene-to-scene handoffs keep their cue because the incoming scene
             // re-asserts it on its first compose.
@@ -274,13 +274,13 @@ namespace OregonTrailDotNet.Window.Travel
                 return;
 
             // Check if passengers in the vehicle are dead or the player reached the end of the trail. Like the 1985 game
-            // (which let a party idle for years), the journey itself has no time limit — only arrival or death ends it.
+            // (which let a party idle for years), the journey itself has no time limit - only arrival or death ends it.
             if (game.Trail.CurrentLocation.LastLocation || game.Vehicle.PassengersDead)
             {
                 GameOver = true;
 
                 // If the whole party died out here, leave a grave at this spot (with a random silly epitaph by default) so
-                // a future party can come across it — even for a bot, or a player who quits before the epitaph screen. The
+                // a future party can come across it - even for a bot, or a player who quits before the epitaph screen. The
                 // graveyard flow overwrites this grave's message if the player chooses to write their own.
                 if (game.Vehicle.PassengersDead)
                     game.Tombstone.Add(new Tombstone());
@@ -290,7 +290,7 @@ namespace OregonTrailDotNet.Window.Travel
             }
 
             // Check if player is just arriving at a new location. The first location's "Going back to 1848" moment
-            // is the opening, and with presentation on it plays graphically — the Independence card under the
+            // is the opening, and with presentation on it plays graphically - the Independence card under the
             // opening tune; every other arrival (and every headless host) keeps the text prompt.
             if ((game.Trail.CurrentLocation.Status == LocationStatusEnum.Arrived) && !game.Trail.CurrentLocation.ArrivalFlag &&
                 !GameOver)

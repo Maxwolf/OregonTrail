@@ -34,7 +34,7 @@ namespace OregonTrailDotNet
         /// </summary>
         // ReSharper disable once InconsistentNaming
         // Five colonists (leader + four companions), matching the original MECC game. Five members in Good health
-        // (500 each) plus the wagon (50), multiplied by the Farmer's x3, is exactly Stephen Meek's seeded 7650 — a
+        // (500 each) plus the wagon (50), multiplied by the Farmer's x3, is exactly Stephen Meek's seeded 7650 - a
         // strong conventional run. The true ceiling, matching the 1985 game's caps (20 oxen, 9 spare parts, 255
         // clothes, 65,535 bullets, 2,000 lb food, $360 leftover cash), is 13,860.
         public const int MAXPLAYERS = 5;
@@ -91,8 +91,8 @@ namespace OregonTrailDotNet
 
         /// <summary>
         ///     When true, the game opens a persistent SQLite database (game.db, next to the executable) so high scores and
-        ///     tombstones survive across runs. Off by default so headless hosts that drive the real simulation — the training
-        ///     bot and the test suite — stay purely in-memory and never touch the player's file. The real game turns it on in
+        ///     tombstones survive across runs. Off by default so headless hosts that drive the real simulation - the training
+        ///     bot and the test suite - stay purely in-memory and never touch the player's file. The real game turns it on in
         ///     <see cref="Program" /> before creating the simulation.
         /// </summary>
         internal static bool PersistenceEnabled { get; set; }
@@ -105,7 +105,7 @@ namespace OregonTrailDotNet
         ///     presentation layer existed. The real game turns it on in <see cref="Program" /> before creating the simulation;
         ///     it is a plain static, so it survives <see cref="Restart" />. See docs/minigame-integration-plan.md.
         ///     <para>
-        ///         What this must NEVER decide is which simulation runs. It picks between two drawings of the same game — the
+        ///         What this must NEVER decide is which simulation runs. It picks between two drawings of the same game - the
         ///         hunt and the Columbia raft each have exactly one implementation and every host plays it. Two of these
         ///         siblings were once two different games, and the training bot spent its whole life optimizing rules no
         ///         player ever saw; see <c>HuntSceneGateTests</c>.
@@ -203,7 +203,7 @@ namespace OregonTrailDotNet
         }
 
         /// <summary>
-        ///     Default constructor. The base simulation seeds its randomizer from the clock, so every game is different — this
+        ///     Default constructor. The base simulation seeds its randomizer from the clock, so every game is different - this
         ///     is the shipped game's path.
         /// </summary>
         private GameSimulationApp()
@@ -219,7 +219,7 @@ namespace OregonTrailDotNet
         }
 
         /// <summary>
-        ///     Creates a new game simulation with the default clock-seeded randomizer — the normal path the shipped game uses.
+        ///     Creates a new game simulation with the default clock-seeded randomizer - the normal path the shipped game uses.
         ///     Complains if an instance already exists.
         /// </summary>
         public static void Create()

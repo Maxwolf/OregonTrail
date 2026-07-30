@@ -111,7 +111,7 @@ namespace OregonTrailDotNet.Window.Travel.Trade
             // looking over an offer is free; it is accepting one that costs the day, which OnDialogResponse charges.
             GameSimulationApp.Instance.TakeTurn(true);
 
-            // Grabs all the data for the player current vehicle inventory (cash is excluded — it is not bartered).
+            // Grabs all the data for the player current vehicle inventory (cash is excluded - it is not bartered).
             _supplyPrompt.Clear();
             _supplyPrompt.AppendLine($"{Environment.NewLine}Your Supplies{Environment.NewLine}");
             _supplyPrompt.AppendLine(SupplyPanel.Build(includeCash: false));
@@ -201,7 +201,7 @@ namespace OregonTrailDotNet.Window.Travel.Trade
                         _offer.OfferedItem.Quantity);
 
                     // A wagon sitting on a broken part is repaired on the spot when the party now holds a matching
-                    // spare — completing the "trade for the part you need" rescue the stranding screens point toward.
+                    // spare - completing the "trade for the part you need" rescue the stranding screens point toward.
                     var vehicle = GameSimulationApp.Instance.Vehicle;
                     if ((vehicle.BrokenPart != null) && vehicle.TryUseSparePart())
                         vehicle.BrokenPart = null;

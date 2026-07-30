@@ -14,8 +14,8 @@ namespace OregonTrailDotNet.Tests
     ///     party left, <see cref="ContinueOnTrail" /> must stop and offer the <see cref="TombstoneQuestion" />.
     ///     Two things used to break this: (1) the <c>!CurrentLocation.ArrivalFlag</c> guard, which is always true mid-leg
     ///     because CurrentLocation is the just-departed location, silently suppressed every crossing; and (2) the scan cursor
-    ///     lived on the drive form and was re-seeded to the current odometer each leg, so the final stretch before a landmark —
-    ///     covered on the arriving turn, after which the drive form is torn down for the arrival screen — was never scanned.
+    ///     lived on the drive form and was re-seeded to the current odometer each leg, so the final stretch before a landmark -
+    ///     covered on the arriving turn, after which the drive form is torn down for the arrival screen - was never scanned.
     ///     Deaths are recorded at that landmark odometer, so that dropped stretch is exactly where saved graves sit.
     /// </summary>
     public sealed class TombstoneEncounterTests : SimulationTestBase
@@ -77,7 +77,7 @@ namespace OregonTrailDotNet.Tests
             StartDriving();
 
             // Reproduce a leg boundary: on the arriving turn the party rolled from mile 180 (last scan) to mile 220 (the
-            // landmark) and a grave — a previous party that died on arrival — sits at 220. The drive form was torn down for
+            // landmark) and a grave - a previous party that died on arrival - sits at 220. The drive form was torn down for
             // the arrival screen before it could scan (180, 220], leaving the cursor stuck at 180. Now a fresh drive form
             // starts the next leg.
             SetOdometer(game.Vehicle, 220);

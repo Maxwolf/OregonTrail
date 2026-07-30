@@ -7,7 +7,7 @@ using Xunit;
 namespace OregonTrailDotNet.Tests
 {
     /// <summary>
-    ///     Pins the fort menu against the bug a player caught at Fort Hall — and against the deeper contract under
+    ///     Pins the fort menu against the bug a player caught at Fort Hall - and against the deeper contract under
     ///     it: the printed number IS the command's enum value, which the bot's trained policies encode, so the
     ///     fort menu must print exactly 1-7 then 9 and 10 (HuntForFood's 8 deliberately absent) and in that order.
     ///     A "tidy" renumbering that closed the gap at 8 would render a perfectly ascending menu while silently
@@ -40,11 +40,11 @@ namespace OregonTrailDotNet.Tests
                 .Select(match => int.Parse(match.Groups[1].Value))
                 .ToList();
 
-            // The fingerprint: continue, supplies, map, pace, rations, rest, trade — then buy 9 and talk 10,
+            // The fingerprint: continue, supplies, map, pace, rations, rest, trade - then buy 9 and talk 10,
             // with hunting's 8 absent (no hunting inside a fort).
             Assert.Equal(new[] { 1, 2, 3, 4, 5, 6, 7, 9, 10 }, numbers.OrderBy(n => n).ToArray());
 
-            // And in a single-column layout (any normal console), the printed order is the ascending order —
+            // And in a single-column layout (any normal console), the printed order is the ascending order -
             // the Fort Hall regression printed 7, 10, 9.
             var lineStarts = Regex.Matches(menu, @"^\s*(\d+)\.\s+[A-Za-z]", RegexOptions.Multiline)
                 .Select(match => int.Parse(match.Groups[1].Value))

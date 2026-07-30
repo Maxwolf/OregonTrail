@@ -39,7 +39,7 @@ namespace OregonTrailDotNet.Tests
 
         /// <summary>
         ///     Moves the party out of Independence and onto the trail, so the store under test is a fort counter rather
-        ///     than Matt's. It is the location's STATUS that tells the two apart, not its index — the trail comes back
+        ///     than Matt's. It is the location's STATUS that tells the two apart, not its index - the trail comes back
         ///     round to Independence's index the moment the party departs.
         /// </summary>
         private static void LeaveIndependence()
@@ -112,7 +112,7 @@ namespace OregonTrailDotNet.Tests
         {
             // StoreGenerator.AddItem REPLACES a pending order for the same item, so re-opening the purchase screen must
             // quote against the full remaining capacity (and the money the old order reserved), not double-count the
-            // pending quantity — otherwise raising a 7-yoke order to 9 reads "You can afford 2" and wipes the order.
+            // pending quantity - otherwise raising a 7-yoke order to 9 reads "You can afford 2" and wipes the order.
             StartWithBalance(1600);
 
             var window = new TravelWindow(GameSimulationApp.Instance);
@@ -127,7 +127,7 @@ namespace OregonTrailDotNet.Tests
             // one-character field only ever accepted nine at a time, so nine is the quote.
             Assert.Contains("afford 9 yoke", form.OnRenderForm());
 
-            // Nine yoke is eighteen oxen — the receipt keeps counting individual animals.
+            // Nine yoke is eighteen oxen - the receipt keeps counting individual animals.
             form.OnInputBufferReturned("9");
             Assert.Equal(18, userData.Store.Transactions[EntitiesEnum.Animal].Quantity);
         }
@@ -136,7 +136,7 @@ namespace OregonTrailDotNet.Tests
         public void StorePurchase_CannotBuyASingleOx()
         {
             // The bug this guards: oxen were sold one at a time, so a player could order 1, or 3, or any odd number.
-            // Matt sells yokes — "There are 2 oxen in a yoke" — so every order is an even number of animals.
+            // Matt sells yokes - "There are 2 oxen in a yoke" - so every order is an even number of animals.
             StartWithBalance(1600);
 
             var window = new TravelWindow(GameSimulationApp.Instance);
@@ -177,12 +177,12 @@ namespace OregonTrailDotNet.Tests
             Assert.Contains("How many oxen do you want?", screen);
             Assert.DoesNotContain("yoke", screen);
 
-            // No advice and no running tab out on the trail either — Matt is the only shopkeeper in the game.
+            // No advice and no running tab out on the trail either - Matt is the only shopkeeper in the game.
             Assert.DoesNotContain("I recommend", screen);
             Assert.DoesNotContain("Bill so far", screen);
 
             // And one really is one. A fort buys immediately rather than running a tab, so the animal lands in the
-            // wagon and the receipt is flushed — which is the other half of what makes this a different counter.
+            // wagon and the receipt is flushed - which is the other half of what makes this a different counter.
             var oxenBefore = Game.Vehicle.Inventory[EntitiesEnum.Animal].Quantity;
             form.OnInputBufferReturned("1");
             Assert.Equal(oxenBefore + 1, Game.Vehicle.Inventory[EntitiesEnum.Animal].Quantity);
@@ -191,7 +191,7 @@ namespace OregonTrailDotNet.Tests
         [Fact]
         public void StorePurchase_AtAFort_HasAWiderQuantityFieldThanMatts()
         {
-            // Matt's fields are tight — one character for oxen, two for ammunition. The forts give three (four for
+            // Matt's fields are tight - one character for oxen, two for ammunition. The forts give three (four for
             // food), so the ninety-nine-box ceiling at Independence is not the ceiling for the whole game.
             StartWithBalance(1600);
             LeaveIndependence();
@@ -217,7 +217,7 @@ namespace OregonTrailDotNet.Tests
         public void StorePurchase_AmmunitionIsSoldByTheTwentyRoundBox_CappedAtNinetyNine()
         {
             // The original's counter sold boxes ("I sell ammunition in boxes of 20 bullets. Each box costs $2.00.")
-            // through a two-character field, so a single purchase topped out at 99 boxes — 1,980 bullets.
+            // through a two-character field, so a single purchase topped out at 99 boxes - 1,980 bullets.
             StartWithBalance(1600);
 
             var window = new TravelWindow(GameSimulationApp.Instance);
@@ -234,7 +234,7 @@ namespace OregonTrailDotNet.Tests
             // $1,600 would buy 800 boxes; the field allows 99.
             Assert.Contains("afford 99 boxes", screen);
 
-            // Ten boxes is two hundred bullets — inventory keeps counting single rounds.
+            // Ten boxes is two hundred bullets - inventory keeps counting single rounds.
             form.OnInputBufferReturned("10");
             Assert.Equal(200, userData.Store.Transactions[EntitiesEnum.Ammo].Quantity);
         }
@@ -271,7 +271,7 @@ namespace OregonTrailDotNet.Tests
         [Fact]
         public void MissingImportantItems_RequiresAFullYokeOfTwoOxen()
         {
-            // Matt's General Store must not let the party leave with fewer than 2 oxen (a $40 yoke) — the 1985 game's
+            // Matt's General Store must not let the party leave with fewer than 2 oxen (a $40 yoke) - the 1985 game's
             // forced minimum spend, which pins the farmer's best leftover cash at $360 and the score ceiling at 13,860.
             StartWithBalance(400);
 

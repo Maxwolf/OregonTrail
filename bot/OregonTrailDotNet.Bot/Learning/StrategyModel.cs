@@ -3,7 +3,7 @@ namespace OregonTrailDotNet.Bot.Learning
     /// <summary>
     ///     A training model over the interpretable <see cref="StrategyGenome" /> (profession, provisioning, thresholds, river
     ///     preferences). The four evolutionary variants (CEM, genetic, hill-climber, random) are all instances of this class
-    ///     that differ only in which <see cref="IOptimizer" /> they build — they share the same genes and the same
+    ///     that differ only in which <see cref="IOptimizer" /> they build - they share the same genes and the same
     ///     <see cref="GenomePolicy" /> decoding.
     /// </summary>
     public sealed class StrategyModel : ITrainingModel

@@ -4,20 +4,22 @@ using System.Runtime.Versioning;
 namespace OregonTrailDotNet.Presentation.Audio
 {
     /// <summary>
-    ///     Pushes a block of PCM at the sound card through <c>winmm</c>'s <c>waveOut</c> API.
+    ///     The Windows <see cref="IAudioDevice" />: pushes a block of PCM at the sound card through <c>winmm</c>'s
+    ///     <c>waveOut</c> API.
     ///     <para>
     ///         The whole tune is rendered up front and handed over as a single buffer, which is what makes this small
     ///         enough to be worth hand-rolling: <c>waveOutWrite</c> returns immediately and the driver plays the buffer
     ///         on its own, so there is no streaming thread, no ring buffer and no callback to service. The longest
-    ///         score on either disk is well under a minute, or about two megabytes at this rate.
+    ///         score on either disk is well under a minute, or about two megabytes at this rate. The other two
+    ///         backends are shaped around the same one-buffer handover, which is why the seam is this narrow.
     ///     </para>
     ///     <para>
     ///         Everything is best-effort. No device, no driver, or not Windows at all, and every method here quietly
-    ///         does nothing — neither the sprite workbench nor the game must fail to start because a machine has no
+    ///         does nothing - neither the sprite workbench nor the game must fail to start because a machine has no
     ///         sound card. <see cref="Ready" /> reports which way it went.
     ///     </para>
     /// </summary>
-    public sealed class WaveOutPlayer : IDisposable
+    internal sealed class WaveOutPlayer : IAudioDevice
     {
         private const int WaveMapper = -1;
         private const int WaveFormatPcm = 1;
@@ -26,6 +28,7 @@ namespace OregonTrailDotNet.Presentation.Audio
         private IntPtr _device;
         private IntPtr _buffer;
         private IntPtr _header;
+        private double _volume = 1;
 
         /// <summary>True when a device was opened and audio is actually going out.</summary>
         public bool Ready => _device != IntPtr.Zero;
@@ -41,7 +44,12 @@ namespace OregonTrailDotNet.Presentation.Audio
         /// <returns>True if the sound card took it.</returns>
         public bool Play(byte[] pcm, int sampleRate)
         {
-            if (!OperatingSystem.IsWindows() || pcm.Length == 0)
+            // A partial frame is undefined and Music.Remainder slices at a computed offset, so mask rather than
+            // trust. The rate check is the seam's, not winmm's: the wave mapper would reject a nonsense rate
+            // anyway, but all three backends decline it in code so the contract does not rest on that.
+            var usable = pcm.Length & ~1;
+
+            if (!OperatingSystem.IsWindows() || sampleRate <= 0 || usable == 0)
                 return false;
 
             lock (_gate)
@@ -67,12 +75,17 @@ namespace OregonTrailDotNet.Presentation.Audio
 
                 // Unmanaged, and deliberately not a pinned managed array: the driver keeps reading this buffer after
                 // the call returns, so its lifetime is ours to manage until waveOutReset says the device is done.
-                _buffer = Marshal.AllocHGlobal(pcm.Length);
-                Marshal.Copy(pcm, 0, _buffer, pcm.Length);
+                _buffer = Marshal.AllocHGlobal(usable);
+                Marshal.Copy(pcm, 0, _buffer, usable);
 
-                var header = new WaveHdr { Data = _buffer, BufferLength = pcm.Length };
+                var header = new WaveHdr { Data = _buffer, BufferLength = usable };
                 _header = Marshal.AllocHGlobal(Marshal.SizeOf<WaveHdr>());
                 Marshal.StructureToPtr(header, _header, false);
+
+                // Before the write, not after: the other two backends cannot retune audio they have already
+                // handed over, so the seam's rule is that Play starts at whatever SetVolume last asked for.
+                // Here it costs nothing to honour that, and it keeps all three backends honest about it.
+                ApplyVolumeLocked();
 
                 if (waveOutPrepareHeader(_device, _header, (uint) Marshal.SizeOf<WaveHdr>()) == 0 &&
                     waveOutWrite(_device, _header, (uint) Marshal.SizeOf<WaveHdr>()) == 0)
@@ -98,18 +111,24 @@ namespace OregonTrailDotNet.Presentation.Audio
         /// <param name="level">0 is silent, 1 is full.</param>
         public void SetVolume(double level)
         {
-            if (!OperatingSystem.IsWindows())
-                return;
-
             lock (_gate)
             {
-                if (_device == IntPtr.Zero)
-                    return;
-
-                // One 16-bit level per channel, packed into the low and high halves of a 32-bit word.
-                var scaled = (uint) (Math.Clamp(level, 0, 1) * 0xFFFF);
-                waveOutSetVolume(_device, (scaled << 16) | scaled);
+                // Remembered even with no device open, so a level set before the first Play is not dropped.
+                _volume = Math.Clamp(level, 0, 1);
+                ApplyVolumeLocked();
             }
+        }
+
+        /// <summary>Pushes the remembered level at the open device, if there is one. Caller holds the lock.</summary>
+        private void ApplyVolumeLocked()
+        {
+            if (!OperatingSystem.IsWindows() || _device == IntPtr.Zero)
+                return;
+
+            // One 16-bit level per channel, packed into the low and high halves of a 32-bit word. This is the
+            // device handle rather than a device id, so it moves this instance alone and not the machine.
+            var scaled = (uint) (_volume * 0xFFFF);
+            waveOutSetVolume(_device, (scaled << 16) | scaled);
         }
 
         /// <summary>Tears down whatever is currently open. The caller must already hold the lock.</summary>

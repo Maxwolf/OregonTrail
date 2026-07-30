@@ -12,7 +12,7 @@ namespace OregonTrailDotNet.Tests
     /// <summary>
     ///     Pins the OriginalTrail identity map against both of its consumers: every location the real trail can ever
     ///     visit (including fork branches) must resolve to an original landmark, and every asset a resolved stop
-    ///     references must actually be embedded. Scoped to TrailRegistry.OregonTrail deliberately — the debug
+    ///     references must actually be embedded. Scoped to TrailRegistry.OregonTrail deliberately - the debug
     ///     WinTrail's locations are exempt, which is also why lookups fail soft instead of throwing.
     ///     Derives from <see cref="SimulationTestBase" /> because constructing a Location touches the game singleton.
     /// </summary>

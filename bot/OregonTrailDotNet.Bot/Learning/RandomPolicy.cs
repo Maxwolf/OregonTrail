@@ -6,7 +6,7 @@ namespace OregonTrailDotNet.Bot.Learning
 {
     /// <summary>
     ///     A genuinely naive control: at every decision it picks a random LEGAL choice, with no strategy whatsoever. It is the
-    ///     honest weak floor the learning models are supposed to beat — unlike the expert-seeded "Random Search" optimizer,
+    ///     honest weak floor the learning models are supposed to beat - unlike the expert-seeded "Random Search" optimizer,
     ///     which samples the hand-tuned prior and is actually strong. Randomness is drawn from the live game's own seeded
     ///     <c>Randomizer</c>, so the baseline is automatically reproducible under the trainer's common-random-numbers seeds.
     /// </summary>

@@ -1,7 +1,7 @@
 root = true
 
 ###############################################################################
-# OregonTrailDotNet — repository code-style / naming conventions
+# OregonTrailDotNet - repository code-style / naming conventions
 #
 # The naming rules below are enforced at BUILD time because
 # Directory.Build.props sets <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>,
@@ -42,13 +42,13 @@ dotnet_naming_symbols.interface_symbols.applicable_accessibilities = *
 dotnet_naming_symbols.enum_symbols.applicable_kinds = enum
 dotnet_naming_symbols.enum_symbols.applicable_accessibilities = *
 
-# const fields (this also covers enum members) — claimed first so the
+# const fields (this also covers enum members) - claimed first so the
 # private-field underscore rule below never applies to them.
 dotnet_naming_symbols.const_field_symbols.applicable_kinds = field
 dotnet_naming_symbols.const_field_symbols.applicable_accessibilities = *
 dotnet_naming_symbols.const_field_symbols.required_modifiers = const
 
-# static readonly fields keep PascalCase (Migrations, ...) — claimed before the
+# static readonly fields keep PascalCase (Migrations, ...) - claimed before the
 # underscore rule so they are exempt from it.
 dotnet_naming_symbols.static_readonly_field_symbols.applicable_kinds = field
 dotnet_naming_symbols.static_readonly_field_symbols.applicable_accessibilities = *

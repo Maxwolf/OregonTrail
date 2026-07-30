@@ -7,8 +7,8 @@ namespace OregonTrailDotNet.Tests
 {
     /// <summary>
     ///     Enforces the per-tree encoding convention so a bulk edit can't quietly pollute a diff: the game tree
-    ///     (src/OregonTrailDotNet) is UTF-8 with BOM; every other tree — Presentation, Minigames, Assets, bot,
-    ///     tests — is UTF-8 without. The convention is documented in CLAUDE.md; this is what holds it.
+    ///     (src/OregonTrailDotNet) is UTF-8 with BOM; every other tree - Presentation, Minigames, Assets, bot,
+    ///     tests - is UTF-8 without. The convention is documented in CLAUDE.md; this is what holds it.
     /// </summary>
     public class EncodingConventionTests
     {

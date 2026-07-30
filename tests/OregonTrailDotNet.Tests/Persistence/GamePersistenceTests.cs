@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Tests.Persistence
     /// <summary>
     ///     Covers the game.db persistence layer: the high-score and tombstone stores, schema migration idempotency, and the
     ///     scoring/tombstone modules loading and saving through it. Each test uses its own temp database file (passed
-    ///     explicitly, so nothing touches the real game.db) and deletes it — and its WAL sidecars — on dispose.
+    ///     explicitly, so nothing touches the real game.db) and deletes it - and its WAL sidecars - on dispose.
     /// </summary>
     public sealed class GamePersistenceTests : IDisposable
     {
@@ -57,7 +57,7 @@ namespace OregonTrailDotNet.Tests.Persistence
                 db.Tombstones.Insert(0, 500, "Alice", "Watch the river", "Fort Kearney", "Chimney Rock", 40);
                 db.Tombstones.Insert(0, 620, "Bob", "Overwrote Alice", "Chimney Rock", "Fort Laramie", 15);
 
-                // A second-half grave lives alongside the first-half one — two graves total.
+                // A second-half grave lives alongside the first-half one - two graves total.
                 db.Tombstones.Insert(1, 1200, "Cara", "", "Fort Hall", "Fort Boise", 5);
             }
 

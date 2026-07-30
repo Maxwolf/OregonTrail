@@ -11,7 +11,7 @@ namespace OregonTrailDotNet.Minigames.Windows
     ///     mirror toggle for comparison.
     ///     <para>
     ///         This exists to settle assumptions rather than to look pretty. The sheets are packed by hand, not on a
-    ///         grid, so the cutter finds sprites by flood-filling content — and the frame <i>order</i> that falls out of
+    ///         grid, so the cutter finds sprites by flood-filling content - and the frame <i>order</i> that falls out of
     ///         that is what the hunt's aim and walk mapping is built on. Far easier to confirm by eye than by argument.
     ///     </para>
     /// </summary>
@@ -26,12 +26,12 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         private static readonly Sheet[] Sheets =
         [
-            new("float — raft, ferry, rocks, shore block (key: water blue)", "float", 9),
-            new("hunter — 8 aim directions x 3 walk, in N NE NW E W SE SW S order", "hunter", 24),
-            new("animals — 6 species x [dead, walk x3, mirrored walk x3, mirrored dead]", "animals", 48),
-            new("terrain — hunting-field scenery (the keypad tiles are filtered out)", "terrain", 14),
-            new("events — what an event paints into the sky; see EventIconEnum for which is which", "events", 7),
-            new("animations — every walk cycle at once, running the game's own frame maps", "", 0, true)
+            new("float - raft, ferry, rocks, shore block (key: water blue)", "float", 9),
+            new("hunter - 8 aim directions x 3 walk, in N NE NW E W SE SW S order", "hunter", 24),
+            new("animals - 6 species x [dead, walk x3, mirrored walk x3, mirrored dead]", "animals", 48),
+            new("terrain - hunting-field scenery (the keypad tiles are filtered out)", "terrain", 14),
+            new("events - what an event paints into the sky; see EventIconEnum for which is which", "events", 7),
+            new("animations - every walk cycle at once, running the game's own frame maps", "", 0, true)
         ];
 
         private int _sheet;
@@ -40,7 +40,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>Initializes a new instance of the <see cref="SpriteSheetForm" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public SpriteSheetForm(IWindow window) : base(window)
         {
         }
@@ -87,7 +87,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             var sheet = Sheets[_sheet];
             var text = new StringBuilder();
             text.AppendLine();
-            text.AppendLine($"SPRITE SHEET {_sheet + 1}/{Sheets.Length} — {sheet.Title}");
+            text.AppendLine($"SPRITE SHEET {_sheet + 1}/{Sheets.Length} - {sheet.Title}");
 
             if (sheet.Animation)
             {
@@ -116,8 +116,8 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>
         ///     Every walking thing in the game, gathered so a wrong frame order or a flipped mirror shows up as one
-        ///     cell limping while the rest stride. Built through <see cref="DosFrames" /> — the same lookup the hunt
-        ///     and travel screens draw with — because a private copy of the mapping would only ever agree with itself.
+        ///     cell limping while the rest stride. Built through <see cref="DosFrames" /> - the same lookup the hunt
+        ///     and travel screens draw with - because a private copy of the mapping would only ever agree with itself.
         /// </summary>
         private static Cycle[] BuildCycles()
         {

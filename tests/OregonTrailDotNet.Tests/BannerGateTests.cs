@@ -7,11 +7,11 @@ namespace OregonTrailDotNet.Tests
 {
     /// <summary>
     ///     Pins the two DOS picture banners: the title lettering over the main menu and the family over the
-    ///     party-naming screens. With presentation off (every headless host — the bot reads the menu and types
+    ///     party-naming screens. With presentation off (every headless host - the bot reads the menu and types
     ///     names into these forms) the renders are the plain text they always were; with it on the picture rides
-    ///     above the SAME text — banner + plain, byte for byte — except the menu, where the picture IS the title
-    ///     and replaces the plain-text masthead. (Banner content is renderer-dependent — a headless host may draw
-    ///     without ANSI — so frames are compared against the banner string, never against escape codes.)
+    ///     above the SAME text - banner + plain, byte for byte - except the menu, where the picture IS the title
+    ///     and replaces the plain-text masthead. (Banner content is renderer-dependent - a headless host may draw
+    ///     without ANSI - so frames are compared against the banner string, never against escape codes.)
     /// </summary>
     public class BannerGateTests : SimulationTestBase
     {
@@ -63,7 +63,7 @@ namespace OregonTrailDotNet.Tests
             var (input, confirm) = BuildNamingForms();
 
             // The plain text first, then the same forms with the flag on: the picture must sit ABOVE an
-            // unchanged question — banner + plain text, byte for byte — so the words the player answers (and
+            // unchanged question - banner + plain text, byte for byte - so the words the player answers (and
             // the bot scrapes) survive intact.
             var plainQuestion = input.OnRenderForm();
             var plainReadback = confirm.OnRenderForm();

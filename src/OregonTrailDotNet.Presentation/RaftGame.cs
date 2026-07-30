@@ -6,10 +6,10 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>No key. The raft keeps whatever drift it already had.</summary>
         None,
 
-        /// <summary>LEFT or UP — the same direction, because the river is drawn on a diagonal.</summary>
+        /// <summary>LEFT or UP - the same direction, because the river is drawn on a diagonal.</summary>
         Far,
 
-        /// <summary>RIGHT or DOWN — likewise one direction, toward the near bank and the landing.</summary>
+        /// <summary>RIGHT or DOWN - likewise one direction, toward the near bank and the landing.</summary>
         Near
     }
 
@@ -27,7 +27,7 @@ namespace OregonTrailDotNet.Presentation
     }
 
     /// <summary>
-    ///     The Columbia River raft, transcribed from <c>legacy/source/v1.1-sideB/FLOAT.txt</c>. Pure logic — it draws
+    ///     The Columbia River raft, transcribed from <c>legacy/source/v1.1-sideB/FLOAT.txt</c>. Pure logic - it draws
     ///     nothing and knows nothing about WolfCurses, so it can be stepped in a test or a loop as easily as on screen.
     ///     Every constant below is the original's, cited to its line; see <c>docs/minigames.md</c> for the derivation.
     ///     <para>
@@ -39,7 +39,7 @@ namespace OregonTrailDotNet.Presentation
     ///         these counters in <c>RaftDamage</c>/<c>RaftScene</c>, while the workbench just displays them.
     ///     </para>
     ///     <para>
-    ///         Making contact fatal was tried and is wrong — and instructively so. A rock's <c>(+8, -4)</c> drift
+    ///         Making contact fatal was tried and is wrong - and instructively so. A rock's <c>(+8, -4)</c> drift
     ///         preserves the lane coordinate, so it lives its whole life in the lane it spawned in, and <c>:300</c>
     ///         cannot spawn one past lane 15.9. Lane 16 is therefore untouchable... and <c>:1030</c> starts the raft
     ///         there. Fatal collisions turn the game into "press right once, then wait": 4000 runs, 4000 landings, no
@@ -65,19 +65,19 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>The near bank and the landing.</summary>
         public const int LastLane = 17;
 
-        /// <summary>`:1030` — the raft starts near the landing bank...</summary>
+        /// <summary>`:1030` - the raft starts near the landing bank...</summary>
         public const int StartLane = 16;
 
         /// <summary>...and is <i>already sliding away from it</i>. This is what makes the opening feel urgent.</summary>
         public const int StartDrift = -1;
 
-        /// <summary>`XI` — rocks travel this far right each tick.</summary>
+        /// <summary>`XI` - rocks travel this far right each tick.</summary>
         public const int RockDriftX = 8;
 
-        /// <summary>`YI` — and this far up (negative is up the screen).</summary>
+        /// <summary>`YI` - and this far up (negative is up the screen).</summary>
         public const int RockDriftY = -4;
 
-        /// <summary>`RF` — chance a free rock slot respawns, per slot per tick (`:1070`, `:1075`).</summary>
+        /// <summary>`RF` - chance a free rock slot respawns, per slot per tick (`:1070`, `:1075`).</summary>
         public const double RockSpawnChance = 0.15;
 
         /// <summary>Scenery drifts along the bank faster than the rocks do.</summary>
@@ -86,13 +86,13 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>Scenery vertical drift, up the screen.</summary>
         public const int SceneryDriftY = -3;
 
-        /// <summary>`:1115` — past this tick, touching the last lane is a landing rather than a crash.</summary>
+        /// <summary>`:1115` - past this tick, touching the last lane is a landing rather than a crash.</summary>
         public const int LandingOpensAfter = 205;
 
-        /// <summary>`:1116` — and past this one the chance is gone.</summary>
+        /// <summary>`:1116` - and past this one the chance is gone.</summary>
         public const int LandingClosesAfter = 225;
 
-        /// <summary>`:1070` — the tick the Willamette landing marker appears on the bank.</summary>
+        /// <summary>`:1070` - the tick the Willamette landing marker appears on the bank.</summary>
         public const int LandingAppearsTick = 175;
 
         /// <summary>Ticks the three direction signs appear on.</summary>
@@ -106,7 +106,7 @@ namespace OregonTrailDotNet.Presentation
         private const int RaftBoxX = 6, RaftBoxY = 18, RaftBoxW = 20, RaftBoxH = 7;
         private const int RockBoxX = 11, RockBoxY = 1, RockBoxW = 20, RockBoxH = 6;
 
-        // Where bank scenery enters, straight out of the listing — the signs at `:1145` (`SX = 62 : SY = 189`) and the
+        // Where bank scenery enters, straight out of the listing - the signs at `:1145` (`SX = 62 : SY = 189`) and the
         // landing at `:1146` (`TX = -8 : TY = 218`), which are NOT the same spot. Both work out at lane 20.4 and 19.8,
         // comfortably past the near bank at 17.5, so each rides the sand rather than the waterline; drifting +6/-3
         // holds that lane exactly, so they run along the bank. The landing starts below the bottom of the screen and
@@ -127,13 +127,13 @@ namespace OregonTrailDotNet.Presentation
             Reset();
         }
 
-        /// <summary>`HP` — which of the 18 lanes the raft is in.</summary>
+        /// <summary>`HP` - which of the 18 lanes the raft is in.</summary>
         public int Lane { get; private set; }
 
-        /// <summary>`DIR` — the drift the raft carries, one of -1, 0, +1.</summary>
+        /// <summary>`DIR` - the drift the raft carries, one of -1, 0, +1.</summary>
         public int Drift { get; private set; }
 
-        /// <summary>`TC` — ticks elapsed this run.</summary>
+        /// <summary>`TC` - ticks elapsed this run.</summary>
         public int Tick { get; private set; }
 
         /// <summary>The two rock slots.</summary>
@@ -187,7 +187,7 @@ namespace OregonTrailDotNet.Presentation
 
             Tick++;
 
-            // `:1090`-`:1110`. The keys do not move the raft — they nudge a drift that is then applied. Stopping dead
+            // `:1090`-`:1110`. The keys do not move the raft - they nudge a drift that is then applied. Stopping dead
             // takes one press against the drift; holding a lane takes alternating presses.
             if (steer == RaftSteerEnum.Far && Lane > FirstLane)
                 Drift = Math.Max(-1, Drift - 1);
@@ -212,7 +212,7 @@ namespace OregonTrailDotNet.Presentation
             if (Tick > LandingClosesAfter)
             {
                 Outcome = RaftOutcomeEnum.Missed;
-                LastEvent = "Missed the landing — supplies lost (0.50).";
+                LastEvent = "Missed the landing - supplies lost (0.50).";
                 return;
             }
 
@@ -229,7 +229,7 @@ namespace OregonTrailDotNet.Presentation
                     rock.X += RockDriftX;
                     rock.Y += RockDriftY;
 
-                    // `:600` — a rock lives only while it is still left of 240 and below row 10.
+                    // `:600` - a rock lives only while it is still left of 240 and below row 10.
                     if (!(rock.X < 240 && rock.Y > 10))
                         rock.Active = false;
 
@@ -239,7 +239,7 @@ namespace OregonTrailDotNet.Presentation
                 if (_random.NextDouble() >= RockSpawnChance)
                     continue;
 
-                // `:300` — mostly along the left edge, occasionally out of the bottom-left corner.
+                // `:300` - mostly along the left edge, occasionally out of the bottom-left corner.
                 if (_random.NextDouble() < 0.13)
                 {
                     rock.X = _random.Next(0, 10);
@@ -289,7 +289,7 @@ namespace OregonTrailDotNet.Presentation
 
         private void CheckShore()
         {
-            // `:400` — the banks are lanes 0 and 17.
+            // `:400` - the banks are lanes 0 and 17.
             if (Lane >= 1 && Lane <= 16)
                 return;
 
@@ -297,7 +297,7 @@ namespace OregonTrailDotNet.Presentation
             // off the bank rather than grinding along it.
             ShoreHits++;
             Drift = -Drift;
-            LastEvent = "The raft has hit the shore — drown 0.15 / oxen 0.30 / supplies 0.50.";
+            LastEvent = "The raft has hit the shore - drown 0.15 / oxen 0.30 / supplies 0.50.";
         }
 
         private void CheckRocks()
@@ -317,15 +317,15 @@ namespace OregonTrailDotNet.Presentation
                 // `:710` clears the rock that struck (`FL(ROCK) = 0`) so the slot can respawn, and plays on.
                 RockHits++;
                 rock.Active = false;
-                LastEvent = "The raft has hit a rock — drown 0.60 / oxen 0.60 / supplies 0.70.";
+                LastEvent = "The raft has hit a rock - drown 0.60 / oxen 0.60 / supplies 0.70.";
                 return;
             }
         }
 
-        /// <summary>`:1040` — lane index to screen column, in native Apple II hi-res pixels.</summary>
+        /// <summary>`:1040` - lane index to screen column, in native Apple II hi-res pixels.</summary>
         public static int LaneX(int lane) => 84 + 8 * lane;
 
-        /// <summary>`:1040` — lane index to screen row. Lane 0 sits partly off the top edge, exactly as it did.</summary>
+        /// <summary>`:1040` - lane index to screen row. Lane 0 sits partly off the top edge, exactly as it did.</summary>
         public static int LaneY(int lane) => 5 * lane - 6;
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace OregonTrailDotNet.Presentation
         ///     measured <i>across</i> the river. Lane 0 is the far bank and 17 the near one, and the value runs on past
         ///     both onto dry land, which is what lets a renderer decide where the water stops.
         ///     <para>
-        ///         Both of the original's drift vectors — a rock's <c>(+8, -4)</c> and bank scenery's <c>(+6, -3)</c> —
+        ///         Both of the original's drift vectors - a rock's <c>(+8, -4)</c> and bank scenery's <c>(+6, -3)</c> -
         ///         leave this value unchanged, i.e. everything the river carries stays in its lane and travels along the
         ///         bank. That is the check that this really is the axis the 1985 artist drew the river on.
         ///     </para>
@@ -345,7 +345,7 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>
         ///     Whether a raft sitting in the given lane would be struck by any live rock within the next
         ///     <paramref name="ticksAhead" /> ticks, rocks drifting on as they do. A query over the same boxes
-        ///     <see cref="CheckRocks" /> uses, exposed so a pilot steering this run can read the water ahead — which
+        ///     <see cref="CheckRocks" /> uses, exposed so a pilot steering this run can read the water ahead - which
         ///     is what a player does by looking at it. Changes nothing.
         /// </summary>
         /// <param name="lane">The lane to test.</param>

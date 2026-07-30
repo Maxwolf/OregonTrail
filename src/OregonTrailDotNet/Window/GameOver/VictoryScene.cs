@@ -10,7 +10,7 @@ namespace OregonTrailDotNet.Window.GameOver
 {
     /// <summary>
     ///     Victory: the Willamette Valley card with its tune (<c>WIN:601</c> plays the loaded score at the valley)
-    ///     over the congratulations text — the graphical sibling of <see cref="GameWin" />. Dismissal hands off to
+    ///     over the congratulations text - the graphical sibling of <see cref="GameWin" />. Dismissal hands off to
     ///     the untouched <see cref="FinalPoints" /> scoring table.
     /// </summary>
     [ParentWindow(typeof(GameOver))]
@@ -21,7 +21,7 @@ namespace OregonTrailDotNet.Window.GameOver
 
         /// <summary>Initializes a new instance of the <see cref="VictoryScene" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public VictoryScene(IWindow window) : base(window)
         {
         }
@@ -38,7 +38,7 @@ namespace OregonTrailDotNet.Window.GameOver
         /// <inheritdoc />
         protected override bool CenterPicture => false;
 
-        /// <summary>The valley's tune — the score the original's WIN screen plays.</summary>
+        /// <summary>The valley's tune - the score the original's WIN screen plays.</summary>
         protected override string MusicCue =>
             _stop != null && _stop.MusicSlug != null ? $"landmarks/{_stop.MusicSlug}" : null;
 

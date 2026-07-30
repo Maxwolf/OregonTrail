@@ -13,21 +13,21 @@ namespace OregonTrailDotNet.Minigames.Windows
     ///         The layering is the original's and is only four deep: a framed black box, the river filling it, the
     ///         bank drawn as a corner triangle, and <b>one</b> vehicle sprite. See <see cref="RiverCrossingGame" /> for
     ///         where each number comes from; the short version is that <c>I</c> picks the sprite and the two animated
-    ///         sweeps are the same primitive fired into opposite corners — water into the near bank as you leave, land
+    ///         sweeps are the same primitive fired into opposite corners - water into the near bank as you leave, land
     ///         into the far corner as you arrive.
     ///     </para>
     ///     <para>
     ///         Two departures from the 1985 art, both because this draws with the DOS port's sprites. The Apple II
     ///         keeps a dedicated river picture (<c>RIVER.IMA</c> image 5) whose bank is a flat <b>black</b> triangle;
-    ///         the DOS port has no river backdrop at all — its crossing sprites are keyed against the water colour
-    ///         because the water was drawn, not blitted — so the river is synthesized here, and the bank is given an
+    ///         the DOS port has no river backdrop at all - its crossing sprites are keyed against the water colour
+    ///         because the water was drawn, not blitted - so the river is synthesized here, and the bank is given an
     ///         earth colour instead of black so it reads as ground rather than as a hole in the frame.
     ///     </para>
     /// </summary>
     [ParentWindow(typeof(MinigamesWindow))]
     public sealed class RiverCrossingForm : WorkbenchSceneForm
     {
-        // The sprite ids, fan sweeps and drawing primitives live in CrossingArt now — they are the pieces a
+        // The sprite ids, fan sweeps and drawing primitives live in CrossingArt now - they are the pieces a
         // game-side crossing scene reuses verbatim.
         private const int FordSprite = CrossingArt.FordSprite;
         private const int FloatSprite = CrossingArt.FloatSprite;
@@ -45,7 +45,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>Initializes a new instance of the <see cref="RiverCrossingForm" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public RiverCrossingForm(IWindow window) : base(window)
         {
         }
@@ -99,7 +99,7 @@ namespace OregonTrailDotNet.Minigames.Windows
             var text = new StringBuilder();
             text.AppendLine();
             text.AppendLine(
-                $"RIVER CROSSING {_game.Index + 1}/{RiverCrossingGame.Scenarios.Length} — {river.Name}");
+                $"RIVER CROSSING {_game.Index + 1}/{RiverCrossingGame.Scenarios.Length} - {river.Name}");
             text.AppendLine(
                 $"depth {_game.LiveDepth,4:0.0} ft   width {_game.LiveWidth,4} ft   swiftness {_game.LiveSpeed,4:0.0}   " +
                 $"bottom {river.Bottom switch { 1 => "muddy", 2 => "rough", _ => "none " }}   rain AR {_game.Rain:0.00}");
@@ -129,14 +129,14 @@ namespace OregonTrailDotNet.Minigames.Windows
             var x2 = RiverCrossingGame.FrameX2;
             var y2 = RiverCrossingGame.FrameY2;
 
-            // :50110 — `& BOX` fills the rect, then three rectangles inset a pixel at a time make a solid white band.
+            // :50110 - `& BOX` fills the rect, then three rectangles inset a pixel at a time make a solid white band.
             // That band is drawn here as a fill rather than as three hairlines, because insetting in *this* space
             // does not survive the scale: 280 -> 320 stretches a 3-pixel border to about 3.4, so three converted
             // single-pixel rectangles cannot tile it and whatever they miss shows through as black.
             Fill(canvas, x1, y1, x2 - x1 + 1, y2 - y1 + 1, Frame);
 
             // The river, and the bank the party is leaving. On the Apple II both arrive together as image 5, blitted
-            // by `& IMAGE,5,58,24` at 161x113 — so it covers exactly 58..218 by 24..136. Sizing the water from that
+            // by `& IMAGE,5,58,24` at 161x113 - so it covers exactly 58..218 by 24..136. Sizing the water from that
             // rectangle rather than from an inset off the frame is what keeps it flush with the sweeps: the fans run
             // out to 218 and 136 too, and an inset that stopped a pixel short left a black hairline down the right
             // edge and along the bottom wherever the fans did not happen to reach.
@@ -147,13 +147,13 @@ namespace OregonTrailDotNet.Minigames.Windows
             Fill(canvas, waterX1, waterY1, waterX2 - waterX1 + 1, waterY2 - waterY1 + 1, Water);
 
             // The bank at rest is exactly the region :50010 sweeps, so it is drawn by running that same fan to
-            // completion in land — no second derivation to get wrong. The crossing then repaints the leading part of
+            // completion in land - no second derivation to get wrong. The crossing then repaints the leading part of
             // it in water, which is the animation.
             CrossingArt.NearBank(canvas, 1.0, Land);
             if (!_game.Refused)
                 CrossingArt.NearBank(canvas, Progress(CrossingPhaseEnum.Crossing), Water);
 
-            // :50030 — on a clean crossing, land fans into the opposite corner. That is the far shore arriving.
+            // :50030 - on a clean crossing, land fans into the opposite corner. That is the far shore arriving.
             if (!_game.Failed && !_game.Refused)
                 CrossingArt.FarBank(canvas, Progress(CrossingPhaseEnum.Outcome), Land);
 
@@ -184,7 +184,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             canvas.DrawImage(sprite, RiverCrossingGame.VehicleX, RiverCrossingGame.VehicleY);
 
-            // :50060 — the fording wagon is not replaced when it fails, it is swamped where it stands: a wedge of
+            // :50060 - the fording wagon is not replaced when it fails, it is swamped where it stands: a wedge of
             // water fanned over the top of it.
             if (!_game.ShowsSwamping || _game.Phase is not (CrossingPhaseEnum.Outcome or CrossingPhaseEnum.Done))
                 return;

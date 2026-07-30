@@ -11,13 +11,13 @@ namespace OregonTrailDotNet.Presentation
     ///     Base for every graphical scene, in the workbench and the game alike: a picture that is recomposed on a
     ///     clock and handed to the scene graph as a cached string.
     ///     <para>
-    ///         The split matters. <c>OnRenderForm</c> is called every system tick — hundreds of times a second — so it
+    ///         The split matters. <c>OnRenderForm</c> is called every system tick - hundreds of times a second - so it
     ///         only ever returns an already-built string; the expensive part (compose the scene, resample it to ANSI)
     ///         happens in <see cref="OnTick" />, gated to the scene's own frame rate. Rendering in the render method
     ///         would resample the picture on every tick and throw almost all of it away.
     ///     </para>
     ///     <para>
-    ///         Generic over the parent window's user data so the same machinery hosts forms under any window — the
+    ///         Generic over the parent window's user data so the same machinery hosts forms under any window - the
     ///         workbench's menu window, the game's Travel, Graveyard and GameOver windows. Host-specific behavior
     ///         (what ESC means, whether the speed keys exist) is a handful of virtuals, not a fork of this class.
     ///     </para>
@@ -50,7 +50,7 @@ namespace OregonTrailDotNet.Presentation
         ///     <para>
         ///         Raise it where a single step moves things a long way. A scene is then free to draw the in-between
         ///         positions using <see cref="FrameProgress" />, which keeps the simulation on the original's integer
-        ///         grid — the thing collision boxes and lane maths depend on — while the motion on screen stays smooth.
+        ///         grid - the thing collision boxes and lane maths depend on - while the motion on screen stays smooth.
         ///     </para>
         /// </summary>
         protected virtual int FramesPerStep => 1;
@@ -70,15 +70,15 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>
         ///     The tune that belongs on this screen, as an embedded score key under <c>music/</c> without its
         ///     extension (e.g. <c>landmarks/04-chimney-rock</c>, <c>tombstone</c>), or null for a scene the original
-        ///     played no music on — which is most of them.
+        ///     played no music on - which is most of them.
         ///     <para>
         ///         Scenes declare a cue and do nothing else about it: the base class starts it, swaps it when the
         ///         property's answer changes, stops it on the way out, and <see cref="Music" /> owns the one mute and
         ///         the one volume for the whole process. There is deliberately no way for a scene to have its own.
         ///     </para>
         ///     <para>
-        ///         Read every frame and safe to compute, so a scene whose music depends on what it is showing — the
-        ///         slideshow changes tune with the card — just returns a different string.
+        ///         Read every frame and safe to compute, so a scene whose music depends on what it is showing - the
+        ///         slideshow changes tune with the card - just returns a different string.
         ///     </para>
         /// </summary>
         protected virtual string? MusicCue => null;
@@ -98,14 +98,14 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     Logic steps per second. The base rate is fixed per scene; the workbench's subclass overrides this to
-        ///     read its per-section tuning store and binds the -/+ keys that adjust it. Game scenes stay fixed —
+        ///     read its per-section tuning store and binds the -/+ keys that adjust it. Game scenes stay fixed -
         ///     a player should not be able to fast-forward the Columbia.
         /// </summary>
         protected virtual int TicksPerSecond => DefaultTicksPerSecond;
 
         /// <summary>
-        ///     When true, every unclaimed key — and an empty ENTER, which only ever arrives through
-        ///     <see cref="OnInputBufferReturned" /> because the framework consumes it as buffer control — routes to
+        ///     When true, every unclaimed key - and an empty ENTER, which only ever arrives through
+        ///     <see cref="OnInputBufferReturned" /> because the framework consumes it as buffer control - routes to
         ///     <see cref="OnDismiss" /> instead of <see cref="OnSectionKey(ConsoleKeyInfo)" />. This is the contract
         ///     for still screens (cards, the map, the tombstone): "press any key" must include the ENTER this game
         ///     has trained its players to press. ESC routes there too.
@@ -122,7 +122,7 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     What ESC means here. Default is the workbench's: stop the music, drop back to the menu window
-        ///     underneath. Game scenes override — the hunt ends early keeping the bag, the raft ignores it, still
+        ///     underneath. Game scenes override - the hunt ends early keeping the bag, the raft ignores it, still
         ///     screens treat it as a dismiss (which <see cref="OnKeyPressed" /> already routes when
         ///     <see cref="DismissOnAnyKey" /> is set).
         /// </summary>
@@ -132,7 +132,7 @@ namespace OregonTrailDotNet.Presentation
             ClearForm();
         }
 
-        /// <summary>The finished frame — heads-up text plus the rendered picture — rebuilt on the clock.</summary>
+        /// <summary>The finished frame - heads-up text plus the rendered picture - rebuilt on the clock.</summary>
         private string Frame { get; set; } = string.Empty;
 
         /// <inheritdoc />
@@ -175,7 +175,7 @@ namespace OregonTrailDotNet.Presentation
 
             if (Animated)
             {
-                // Headless: the same logic, stepped straight through. Exactly one Advance per simulation tick —
+                // Headless: the same logic, stepped straight through. Exactly one Advance per simulation tick -
                 // deliberately keyed to the simulation's own pulse rather than to however often the host happens
                 // to poll, so the step count is a property of the game and not of the machine it runs on. No wall
                 // clock to wait on and no sub-frames, which exist only to draw the in-between positions when
@@ -199,8 +199,8 @@ namespace OregonTrailDotNet.Presentation
                     return;
 
                 // A long gap means something sat on top of this scene (an event window, a dialog) or the host
-                // stalled. Resume cleanly — restart the clock, drop any half-drawn sub-step, recompose once (which
-                // also re-evaluates the music cue) — rather than advancing into a catch-up frame. The threshold is
+                // stalled. Resume cleanly - restart the clock, drop any half-drawn sub-step, recompose once (which
+                // also re-evaluates the music cue) - rather than advancing into a catch-up frame. The threshold is
                 // generous so a slow-but-normal cadence (1 tick/sec scenes) never trips it.
                 if (_clock.Elapsed > TimeSpan.FromSeconds(Math.Max(1.0, 4 * interval.TotalSeconds)))
                 {
@@ -229,7 +229,7 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>
         ///     Takes the whole <see cref="ConsoleKeyInfo" /> rather than the bare key, because a scene may need to
-        ///     tell a shifted key from its unshifted twin — <c>ConsoleKey.OemComma</c> is reported for both <c>,</c>
+        ///     tell a shifted key from its unshifted twin - <c>ConsoleKey.OemComma</c> is reported for both <c>,</c>
         ///     and <c>&lt;</c>, and only <c>KeyChar</c> separates them. This is the overload the framework dispatches;
         ///     its base implementation is what forwards to the <see cref="ConsoleKey" /> one.
         /// </summary>
@@ -271,7 +271,7 @@ namespace OregonTrailDotNet.Presentation
         /// <inheritdoc />
         public override void OnInputBufferReturned(string input)
         {
-            // Scenes take keys, not lines — but ENTER only ever arrives here (the framework consumes it as buffer
+            // Scenes take keys, not lines - but ENTER only ever arrives here (the framework consumes it as buffer
             // control before OnKeyPressed can see it), so a dismissable still screen honours it as the dismiss.
             if (DismissOnAnyKey && string.IsNullOrWhiteSpace(input))
                 OnDismiss();
@@ -342,7 +342,7 @@ namespace OregonTrailDotNet.Presentation
         ///     <para>
         ///         Turn it off for a scene whose picture is the first thing it prints. Centring indents each row, and
         ///         the console is not cleared between frames, so those indented columns keep whatever the previous
-        ///         screen left there — the menu shows through down the side of the artwork. A scene that prints text
+        ///         screen left there - the menu shows through down the side of the artwork. A scene that prints text
         ///         above its picture never notices, because the text has already overwritten that area.
         ///     </para>
         /// </summary>
@@ -361,13 +361,17 @@ namespace OregonTrailDotNet.Presentation
             text.AppendLine($"{keys}");
             text.Append(FooterControlHints);
 
-            // Only where there is music to control. On the silent scenes — which is most of them, because the
-            // original was silent there too — offering a mute key would be inviting the reader to go looking for
+            // Only where there is music to control. On the silent scenes - which is most of them, because the
+            // original was silent there too - offering a mute key would be inviting the reader to go looking for
             // sound that was never meant to be playing.
             if (MusicCue == null)
                 return text.ToString();
 
-            text.Append(Music.Audible
+            // Muted counts as having audio. Muting hands the device back, so Audible alone goes false the instant
+            // F8 is pressed - which used to swap this line for "(no audio device)" on a machine that plainly has
+            // one, make the "unmute" wording below unreachable, and change the footer's width mid-scene, which is
+            // the jitter a scene is not allowed to have.
+            text.Append(Music.Audible || Music.Muted
                 ? $"   F8 {(Music.Muted ? "unmute" : "mute")}   F9/F10 vol {Music.Volume * 100:0}%"
                 : "   (no audio device)");
 
@@ -384,7 +388,7 @@ namespace OregonTrailDotNet.Presentation
         private void Recompose()
         {
             // Headless: no picture to resample and no device to play through. Compose() is skipped outright rather
-            // than composed-and-discarded — it is the expensive half of a scene, and the ANSI it returns would only
+            // than composed-and-discarded - it is the expensive half of a scene, and the ANSI it returns would only
             // be thrown away. Music is skipped for the same reason.
             if (!SceneHost.Graphical)
             {

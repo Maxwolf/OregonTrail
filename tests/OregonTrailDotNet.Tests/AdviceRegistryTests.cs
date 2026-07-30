@@ -7,7 +7,7 @@ namespace OregonTrailDotNet.Tests
 {
     /// <summary>
     ///     Pins the "Talk to people" gossip against the 1985 Apple II original (decoded from the disks' OREGON1/2.SEQ,
-    ///     preserved in legacy/source/GOSSIP.txt): 51 quotes in total, with the original speaker names — several of which
+    ///     preserved in legacy/source/GOSSIP.txt): 51 quotes in total, with the original speaker names - several of which
     ///     had drifted in this port (an invented "Sam Hendricks", "Jimmy" for Jim, dropped surnames and epithets).
     /// </summary>
     public class AdviceRegistryTests

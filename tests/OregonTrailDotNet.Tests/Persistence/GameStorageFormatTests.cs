@@ -9,7 +9,7 @@ namespace OregonTrailDotNet.Tests.Persistence
 {
     /// <summary>
     ///     Freezes the on-disk wire format of game.db. The persisted contract is the SQLite column names and the primitive
-    ///     values that round-trip through the stores — NOT any C# type, enum, field, or file name. That decoupling is why the
+    ///     values that round-trip through the stores - NOT any C# type, enum, field, or file name. That decoupling is why the
     ///     repo-wide *Enum / naming rename never touches storage: nothing serialized is derived from a renamed symbol. This
     ///     test pins that contract so a future change that DID alter a stored column name (or a stored value) fails loudly,
     ///     since it would silently break compatibility with existing players' game.db files.

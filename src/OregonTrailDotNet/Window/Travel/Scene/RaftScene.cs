@@ -13,7 +13,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
     ///     The Columbia run, exactly as FLOAT plays it: eighteen lanes down a diagonal river, momentum steering
     ///     (the arrows nudge a drift, they do not move the raft), rocks that live and die in their own lanes, three
     ///     direction signs going by on the bank, and a twenty-tick landing window after the third. The simulation is
-    ///     the workbench's validated <see cref="RaftGame" />; what this scene adds is the stakes — every collision
+    ///     the workbench's validated <see cref="RaftGame" />; what this scene adds is the stakes - every collision
     ///     runs the original's loss routines against the real party and wagon through <see cref="RaftDamage" />,
     ///     and the far shore is the last leg to Oregon City.
     /// </summary>
@@ -39,7 +39,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>Initializes a new instance of the <see cref="RaftScene" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public RaftScene(IWindow window) : base(window)
         {
         }
@@ -53,7 +53,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         /// <summary>A tick is a whole lane; nine a second puts the 225-tick run at the length the signs were cut for.</summary>
         protected override int DefaultTicksPerSecond => 9;
 
-        /// <summary>Four frames a step, easing everything from its previous position — motion instead of a grid.</summary>
+        /// <summary>Four frames a step, easing everything from its previous position - motion instead of a grid.</summary>
         protected override int FramesPerStep => 4;
 
         /// <inheritdoc />
@@ -102,7 +102,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         protected override void Advance()
         {
             // The run is over; hold the last picture for a second so the ending reads, then reckon up. The
-            // interpolation is collapsed first — without it the frames keep easing from the previous step's
+            // interpolation is collapsed first - without it the frames keep easing from the previous step's
             // positions and snapping back, which shook the whole picture against the bank.
             if (_destroyed || _game.Outcome != RaftOutcomeEnum.Running)
             {
@@ -136,7 +136,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
                 Suffer(RaftDamage.RockHit(_damageRandom));
             }
 
-            // Every collision sounded the DOS port's crash — rock and shore alike, raft-destroyed included —
+            // Every collision sounded the DOS port's crash - rock and shore alike, raft-destroyed included -
             // while a clean landing and even a missed one stayed silent in both originals
             // (docs/legacy-sounds.md §§1.2, 2).
             if (collided)
@@ -165,7 +165,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
             }
         }
 
-        /// <summary>There is no stepping off a raft midstream — ESC does nothing until the river is done.</summary>
+        /// <summary>There is no stepping off a raft midstream - ESC does nothing until the river is done.</summary>
         protected override void OnEscape()
         {
         }

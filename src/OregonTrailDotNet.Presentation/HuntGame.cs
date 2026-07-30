@@ -4,8 +4,8 @@ namespace OregonTrailDotNet.Presentation
     ///     The hunt, rebuilt from the disassembled <c>&amp; HUNT</c> machine code and its BASIC wrapper (see
     ///     <c>docs/minigames.md</c>). Pure logic, no drawing.
     ///     <para>
-    ///         Aim is eight compass points and rotation takes <b>time proportional to angular distance</b> — one step
-    ///         per three ticks, the shorter way round — rather than snapping. Both ports do this, five years apart, so
+    ///         Aim is eight compass points and rotation takes <b>time proportional to angular distance</b> - one step
+    ///         per three ticks, the shorter way round - rather than snapping. Both ports do this, five years apart, so
     ///         it is a deliberate feel decision and the single most important thing to get right here.
     ///     </para>
     /// </summary>
@@ -23,19 +23,19 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>Tallest the hunter gets.</summary>
         public const int HunterHeight = 27;
 
-        /// <summary>`$E6E4` — main-loop iterations a hunt lasts.</summary>
+        /// <summary>`$E6E4` - main-loop iterations a hunt lasts.</summary>
         public const int TimeLimit = 2500;
 
-        /// <summary>`$E0D6` — animals alive on the field at once.</summary>
+        /// <summary>`$E0D6` - animals alive on the field at once.</summary>
         public const int AnimalSlots = 2;
 
-        /// <summary>`$E156` — this many carcasses on the ground blocks all further spawns.</summary>
+        /// <summary>`$E156` - this many carcasses on the ground blocks all further spawns.</summary>
         public const int CarcassSpawnBlock = 4;
 
-        /// <summary>`$E15A` — spawn chance per free slot per tick. The shipped value rests on a byte-order bug.</summary>
+        /// <summary>`$E15A` - spawn chance per free slot per tick. The shipped value rests on a byte-order bug.</summary>
         public const double SpawnChance = 0.008;
 
-        /// <summary>`$EC21` — the key handler is polled every third tick, which is what paces rotation.</summary>
+        /// <summary>`$EC21` - the key handler is polled every third tick, which is what paces rotation.</summary>
         public const int TicksPerRotationStep = 3;
 
         /// <summary>The wrapper's carry cap: 100 lb back to the wagon, however much was shot.</summary>
@@ -51,8 +51,8 @@ namespace OregonTrailDotNet.Presentation
         ];
 
         /// <summary>
-        ///     Which stored hunter pose draws each aim, and whether it is mirrored. Only five poses exist — all facing
-        ///     left or away — and East/NE/SE are the mirror of West/NW/SW, via bit 7 of the pose byte.
+        ///     Which stored hunter pose draws each aim, and whether it is mirrored. Only five poses exist - all facing
+        ///     left or away - and East/NE/SE are the mirror of West/NW/SW, via bit 7 of the pose byte.
         /// </summary>
         public static readonly (int Pose, bool Mirror)[] AimPoses =
         [
@@ -87,10 +87,10 @@ namespace OregonTrailDotNet.Presentation
 
         /// <summary>Initializes a new instance of the <see cref="HuntGame" /> class.</summary>
         /// <param name="seed">Fixed seed for a reproducible run, or null for the clock.</param>
-        /// <param name="bullets">Rounds the hunter carries in — the original's arg 1, <c>Z = I(4)</c>.</param>
-        /// <param name="antleredDeer">Species 0 roams here — <c>LM &gt; 3 AND LM &lt; 13</c>, the original's arg 2.</param>
-        /// <param name="bear">Species 1 roams here — <c>LM &gt; 6</c>, arg 3.</param>
-        /// <param name="bison">Species 2 roams here — <c>LM &lt; 7</c>, arg 4.</param>
+        /// <param name="bullets">Rounds the hunter carries in - the original's arg 1, <c>Z = I(4)</c>.</param>
+        /// <param name="antleredDeer">Species 0 roams here - <c>LM &gt; 3 AND LM &lt; 13</c>, the original's arg 2.</param>
+        /// <param name="bear">Species 1 roams here - <c>LM &gt; 6</c>, arg 3.</param>
+        /// <param name="bison">Species 2 roams here - <c>LM &lt; 7</c>, arg 4.</param>
         public HuntGame(int? seed = null, int bullets = 20, bool antleredDeer = true, bool bear = true,
             bool bison = true)
         {
@@ -139,7 +139,7 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>
         ///     The scenery's solid footprints, supplied by whichever host grew the ground (an empty list is an open
         ///     field). Solid to everything: the original's bullet probe tested the drawn screen itself, so a tree
-        ///     stopped a shot dead, and no body could stand where scenery stood — cover has to be walked around,
+        ///     stopped a shot dead, and no body could stand where scenery stood - cover has to be walked around,
         ///     not shot through.
         /// </summary>
         public IReadOnlyList<HuntObstacle> Obstacles { get; set; } = [];
@@ -156,15 +156,15 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>Rounds left.</summary>
         public int Bullets { get; private set; }
 
-        /// <summary>Trigger pulls this hunt — the original decrements exactly one round per shot.</summary>
+        /// <summary>Trigger pulls this hunt - the original decrements exactly one round per shot.</summary>
         public int ShotsFired => StartingBullets - Bullets;
 
         /// <summary>Animals brought down this hunt.</summary>
         public int Kills { get; private set; }
 
         /// <summary>
-        ///     Raw pounds shot this hunt. The wrapper's dressing (halve anything from 3 lb up) and the caps — wagon
-        ///     space and the 100 lb carry — are applied <b>once, at the end of the hunt</b>, exactly as
+        ///     Raw pounds shot this hunt. The wrapper's dressing (halve anything from 3 lb up) and the caps - wagon
+        ///     space and the 100 lb carry - are applied <b>once, at the end of the hunt</b>, exactly as
         ///     <c>HUNT.LIB:50011-50015</c> does; applying them per kill integer-divides differently.
         /// </summary>
         public int Pounds { get; private set; }
@@ -253,7 +253,7 @@ namespace OregonTrailDotNet.Presentation
 
             _rotationTimer = 0;
 
-            // Shorter way round, one step at a time — the latency is the point.
+            // Shorter way round, one step at a time - the latency is the point.
             var difference = ((TargetAim - Aim + 8) % 8);
             Aim = (Aim + (difference <= 4 ? 1 : -1) + 8) % 8;
         }
@@ -274,7 +274,7 @@ namespace OregonTrailDotNet.Presentation
             var nextY = Math.Clamp(HunterY + vector.Y, 0, FieldHeight - 28);
 
             // Scenery is solid: the step is refused whole, so the hunter marks time against a trunk until the
-            // player turns him — walking behind cover is not a thing on this flat field. Only a step from open
+            // player turns him - walking behind cover is not a thing on this flat field. Only a step from open
             // ground is refused, though: the workbench can regrow the ground under his feet (its L key), and an
             // overlapped hunter must be able to walk out rather than lock in place.
             if (Blocked(nextX, nextY, HunterWidth, HunterHeight) &&
@@ -326,7 +326,7 @@ namespace OregonTrailDotNet.Presentation
                 return;
             }
 
-            // Cover absorbs the round before any animal behind it can be hit — the checks are ordered so a
+            // Cover absorbs the round before any animal behind it can be hit - the checks are ordered so a
             // bullet can never reach through a tree.
             if (Blocked(Shot.X, Shot.Y, 1, 1))
             {
@@ -355,13 +355,13 @@ namespace OregonTrailDotNet.Presentation
                 Pounds += shot;
                 Kills++;
 
-                LastEvent = $"Shot a {info.Name.ToLowerInvariant()} — {shot} lb.";
+                LastEvent = $"Shot a {info.Name.ToLowerInvariant()} - {shot} lb.";
                 return;
             }
         }
 
         /// <summary>
-        ///     Whether a rectangle overlaps any solid scenery — the same test the bullet and the walkers use, exposed
+        ///     Whether a rectangle overlaps any solid scenery - the same test the bullet and the walkers use, exposed
         ///     so a hunter driving this game can see the cover it has to shoot around. A query, not a rule: it reads
         ///     <see cref="Obstacles" /> and changes nothing.
         /// </summary>
@@ -380,7 +380,7 @@ namespace OregonTrailDotNet.Presentation
                     y >= box.Y + box.Height || box.Y >= y + height)
                     continue;
 
-                // No mask means the whole rectangle is solid; with one, only the sprite's drawn pixels are —
+                // No mask means the whole rectangle is solid; with one, only the sprite's drawn pixels are -
                 // the shipped terrain sprites are mostly transparent margin, and a hunt that collides with a
                 // tree's bounding air reads as hitting nothing.
                 if (box.Mask == null)
@@ -421,7 +421,7 @@ namespace OregonTrailDotNet.Presentation
         }
 
         /// <summary>
-        ///     `HUNT.LIB:50011` — <c>L = INT(L / (2 - (L &lt; 3)))</c>. Applesoft relationals are 1/0, so anything
+        ///     `HUNT.LIB:50011` - <c>L = INT(L / (2 - (L &lt; 3)))</c>. Applesoft relationals are 1/0, so anything
         ///     from three pounds up is halved and one- and two-pound kills pass through whole.
         /// </summary>
         public static int Bag(int pounds) => pounds < 3 ? pounds : pounds / 2;
@@ -434,7 +434,7 @@ namespace OregonTrailDotNet.Presentation
         {
             /// <summary>
             ///     Sprite width, taken from the extracted frames. The rabbit and squirrel are measured
-            ///     individually — the old shared 21 had the rabbit turning at scenery it visibly had not reached
+            ///     individually - the old shared 21 had the rabbit turning at scenery it visibly had not reached
             ///     and the squirrel's nose inside it.
             /// </summary>
             public int Width => Name switch

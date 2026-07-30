@@ -9,7 +9,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 {
     /// <summary>
     ///     The raft's instruction card: The Dalles over its own picture, with FLOAT's instruction text verbatim
-    ///     (<c>:1010/:1015</c>) — the original loads <c>L16.PCK</c> as the raft's backdrop the same way. Silent,
+    ///     (<c>:1010/:1015</c>) - the original loads <c>L16.PCK</c> as the raft's backdrop the same way. Silent,
     ///     because the raft has no melody: <c>FLOAT</c>'s only audio is the descending crash score it hand-pokes
     ///     at init and plays on a collision (docs/legacy-sounds.md §2), which this port renders as the crash
     ///     effect in <see cref="RaftScene" />.
@@ -21,7 +21,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>Initializes a new instance of the <see cref="RaftIntro" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public RaftIntro(IWindow window) : base(window)
         {
         }
@@ -45,7 +45,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         protected override void Build()
         {
             // The Dalles' card backs the instructions because the original's FLOAT loads L16.PCK as the raft's own
-            // backdrop — it is literally a raft on this river. No caption box: the party stands at the Columbia,
+            // backdrop - it is literally a raft on this river. No caption box: the party stands at the Columbia,
             // and naming the picture "The Dalles" here read as the wrong place.
             _picture = LandmarkArt.Card(16);
         }

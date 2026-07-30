@@ -54,7 +54,7 @@ namespace OregonTrailDotNet.Module.Time
         /// <summary>
         ///     Planning horizon (~20 weeks) used by the training bot's pacing features to judge whether a journey is on
         ///     schedule. The game itself does NOT enforce it: the 1985 original had no time limit (a party could idle for
-        ///     years and still finish), and neither does this port — only reaching Oregon or dying ends the trip.
+        ///     years and still finish), and neither does this port - only reaching Oregon or dying ends the trip.
         /// </summary>
         public const int MaxTravelDays = 246;
 

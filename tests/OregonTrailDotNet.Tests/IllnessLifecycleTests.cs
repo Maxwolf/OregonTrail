@@ -14,7 +14,7 @@ namespace OregonTrailDotNet.Tests
     /// <summary>
     ///     Pins the illness lifecycle the weather revival gave teeth: the ten-day countdown ends in an announced
     ///     WellAgain recovery whose heal actually zeroes the wear, and the turn for the worse both fires on the
-    ///     half-worn (the positive control) and never strikes below that line — from both sides, because a test
+    ///     half-worn (the positive control) and never strikes below that line - from both sides, because a test
     ///     that only watches a region where no strike can land proves nothing about the guard.
     /// </summary>
     public class IllnessLifecycleTests : SimulationTestBase
@@ -30,7 +30,7 @@ namespace OregonTrailDotNet.Tests
             });
 
             // Enough food that a lone ticked person never starves through either phase, and a set of clothes a
-            // head so the cold never bites — which is what keeps the daily wear low in the below-half phase.
+            // head so the cold never bites - which is what keeps the daily wear low in the below-half phase.
             Game.Vehicle.Inventory[EntitiesEnum.Food].AddQuantity(5000);
             Game.Vehicle.Inventory[EntitiesEnum.Clothes].AddQuantity(20);
         }
@@ -63,7 +63,7 @@ namespace OregonTrailDotNet.Tests
             // not just the sickness flag (at most one day's ordinary wear has landed since the heal).
             Assert.Equal("WellAgain", SceneEvents.LastEventName);
             Assert.True(person.Ailment < 15,
-                $"recovered with ailment {person.Ailment:0.0} — WellAgain announced but did not heal");
+                $"recovered with ailment {person.Ailment:0.0} - WellAgain announced but did not heal");
         }
 
         [Fact]
@@ -92,7 +92,7 @@ namespace OregonTrailDotNet.Tests
             // Phase one: sick but lightly worn. In this scenario the daily wear converges well below half (fed,
             // clothed, stopped wagon), so with the guard intact no crash can ever land; with the guard gone the
             // 5%/day roll strikes almost surely inside 150 days. The per-day sanity assert keeps the phase
-            // honest — if a future balance change pushes wear over the line, the test says so instead of
+            // honest - if a future balance change pushes wear over the line, the test says so instead of
             // silently testing nothing.
             person.Infect();
             var previous = SceneEvents.LastEventName;
@@ -102,7 +102,7 @@ namespace OregonTrailDotNet.Tests
                     person.Infect();
 
                 Assert.True(person.Ailment < half,
-                    $"the below-half phase drifted above the line (ailment {person.Ailment:0.0}) — re-tune the scenario");
+                    $"the below-half phase drifted above the line (ailment {person.Ailment:0.0}) - re-tune the scenario");
                 person.OnTick(false, false);
 
                 Assert.False(SceneEvents.LastEventName == "TurnForWorse" && previous != "TurnForWorse",
@@ -111,7 +111,7 @@ namespace OregonTrailDotNet.Tests
             }
 
             // Phase two, the positive control: hold the same person above the half-worn line and the 5%/day
-            // crash must actually land — proving the mechanism exists — and every strike must have found them
+            // crash must actually land - proving the mechanism exists - and every strike must have found them
             // at or past half. Top-ups stay modest so a strike's own 28-point damage can never stack to the
             // ailment cap (which would kill through StrikeDownWithIllness).
             var strikes = 0;
@@ -135,7 +135,7 @@ namespace OregonTrailDotNet.Tests
                 previous = SceneEvents.LastEventName;
             }
 
-            Assert.True(strikes > 0, "300 half-worn sick days never crashed — the turn-for-the-worse roll is dead");
+            Assert.True(strikes > 0, "300 half-worn sick days never crashed - the turn-for-the-worse roll is dead");
         }
     }
 }

@@ -72,7 +72,7 @@ namespace OregonTrailDotNet.Tests.Entity
             var vehicle = new VehicleEntity();
             vehicle.ResetVehicle(100);
 
-            // 7 pounds of food at $0.20/lb is $1.40, and $1.40 is what leaves the purse — the original quoted cents
+            // 7 pounds of food at $0.20/lb is $1.40, and $1.40 is what leaves the purse - the original quoted cents
             // ("My price is 20 cents a pound", "Bill so far: $270.00") and so do we.
             vehicle.Purchase(new SimItem(Resources.Food, 7));
 
@@ -87,7 +87,7 @@ namespace OregonTrailDotNet.Tests.Entity
             vehicle.ResetVehicle(100);
 
             // The regression this guards: money used to be a stack of whole dollar bills, so a pound of food at $0.20
-            // debited $99.80 and stored it straight back as $100 — and the pound arrived anyway. Repeated one pound at
+            // debited $99.80 and stored it straight back as $100 - and the pound arrived anyway. Repeated one pound at
             // a time it filled the wagon to its 2,000 lb ceiling for nothing, at every store in the game.
             vehicle.Purchase(new SimItem(Resources.Food, 1));
 

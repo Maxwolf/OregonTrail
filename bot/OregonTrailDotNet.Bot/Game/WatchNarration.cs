@@ -4,7 +4,7 @@ namespace OregonTrailDotNet.Bot.Game
 {
     /// <summary>
     ///     Turns the bot's next input into a short, human-readable "thought" for watch mode, so a viewer can see what the bot
-    ///     is about to do and, where it helps, why (e.g. "Food is low — hunting"). Purely cosmetic; never used in training.
+    ///     is about to do and, where it helps, why (e.g. "Food is low - hunting"). Purely cosmetic; never used in training.
     /// </summary>
     public static class WatchNarration
     {
@@ -28,7 +28,7 @@ namespace OregonTrailDotNet.Bot.Game
                 "InputPlayerNames" => input.Length == 0 ? "Rounding out the party" : $"Naming the wagon leader \"{input}\"",
                 "ConfirmPlayerNames" => "Confirming the party",
                 "SelectStartingMonthState" => $"Leaving in {Month(input)}",
-                "Store" => input == "9" ? "Done shopping — leaving the store" : $"Buying {StoreItem(input)}",
+                "Store" => input == "9" ? "Done shopping - leaving the store" : $"Buying {StoreItem(input)}",
                 "StorePurchase" => input == "0" ? "Skipping this item" : $"Purchasing {input}",
                 "ChangePace" => "Changing the pace",
                 "ChangeRations" => "Changing the rations",
@@ -66,9 +66,9 @@ namespace OregonTrailDotNet.Bot.Game
             TravelCommandsEnum.LookAtMap => "Looking at the map",
             TravelCommandsEnum.ChangePace => "Reconsidering the pace",
             TravelCommandsEnum.ChangeFoodRations => "Reconsidering the rations",
-            TravelCommandsEnum.StopToRest => $"Health is {state.Health} — stopping to rest",
+            TravelCommandsEnum.StopToRest => $"Health is {state.Health} - stopping to rest",
             TravelCommandsEnum.AttemptToTrade => "Looking for a trade",
-            TravelCommandsEnum.HuntForFood => $"Food is low ({state.Food} lb) — hunting for meat",
+            TravelCommandsEnum.HuntForFood => $"Food is low ({state.Food} lb) - hunting for meat",
             TravelCommandsEnum.BuySupplies => "Stopping to buy supplies",
             TravelCommandsEnum.TalkToPeople => "Chatting with the locals",
             _ => "Deciding what to do"

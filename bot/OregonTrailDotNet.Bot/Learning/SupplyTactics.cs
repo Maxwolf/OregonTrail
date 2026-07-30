@@ -5,7 +5,7 @@ namespace OregonTrailDotNet.Bot.Learning
 {
     /// <summary>
     ///     Shared mid-trail supply tactics: when to walk back into a fort store to restock, and when to accept an emigrant
-    ///     trade. Every policy (genome, neural, heuristic) applies the same rules — only the thresholds differ — so the
+    ///     trade. Every policy (genome, neural, heuristic) applies the same rules - only the thresholds differ - so the
     ///     capability lives here rather than being re-implemented three ways. These are the two levers that counter the
     ///     game's dominant failure: bleeding oxen until the wagon strands.
     /// </summary>
@@ -13,10 +13,10 @@ namespace OregonTrailDotNet.Bot.Learning
     {
         /// <summary>How many rescue-trade attempts a stranded party makes before giving up. Browsing costs no game DAYS,
         ///     but every Trading screen runs a skip-day party tick (twice per browse) that can sicken the very party being
-        ///     rescued — so the budget is modest, and it must also stay well under GamePlayer's per-run command cap.</summary>
+        ///     rescued - so the budget is modest, and it must also stay well under GamePlayer's per-run command cap.</summary>
         public const int MaxDesperateTradeAttempts = 15;
 
-        /// <summary>Store base price ($/unit) of each barterable item — the common yardstick for valuing a trade offer.</summary>
+        /// <summary>Store base price ($/unit) of each barterable item - the common yardstick for valuing a trade offer.</summary>
         public static double UnitValue(EntitiesEnum item) => item switch
         {
             EntitiesEnum.Animal => 20,
@@ -30,7 +30,7 @@ namespace OregonTrailDotNet.Bot.Learning
             _ => 0
         };
 
-        /// <summary>The wagon cannot roll — no oxen, or a broken part with no spare on hand — and only a trade (or, at a
+        /// <summary>The wagon cannot roll - no oxen, or a broken part with no spare on hand - and only a trade (or, at a
         ///     fort, the store) can fix it. This is the state 98% of failed games died in before these tactics existed.</summary>
         public static bool IsDesperate(GameSnapshot state) =>
             state.Oxen <= 0 || (state.BrokenPart is { } part && state.OwnedOf(part) <= 0);
@@ -63,7 +63,7 @@ namespace OregonTrailDotNet.Bot.Learning
             if (state.Trade is not { CanPay: true } trade)
                 return false;
 
-            // Desperation: the wagon is (or is about to be) immovable — take any payable offer of the fixing item. The
+            // Desperation: the wagon is (or is about to be) immovable - take any payable offer of the fixing item. The
             // one exception: never fix a broken part by handing over the whole team, which just re-strands the wagon.
             if (state.Oxen <= 0)
                 return trade.Offered == EntitiesEnum.Animal;

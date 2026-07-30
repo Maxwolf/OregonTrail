@@ -138,7 +138,7 @@ namespace OregonTrailDotNet.Bot.Tests
             Send("1"); Send("1"); Send("Doomed"); // create a CEM bot named "Doomed" (model -> name)
             Assert.True(BotContext.ActiveProfileId > 0);
 
-            // Decline first — nothing is deleted.
+            // Decline first - nothing is deleted.
             Send("9"); // Manage data
             Assert.Equal("ManageDataForm", FormName);
             Send("1"); // delete the active bot
@@ -147,7 +147,7 @@ namespace OregonTrailDotNet.Bot.Tests
             Send("N");
             Assert.True(BotContext.Db!.Profiles.NameExists("Doomed"));
 
-            // Confirm — it's gone.
+            // Confirm - it's gone.
             Send("9");
             Send("1");
             Send("Y");
@@ -213,7 +213,7 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void Automated_Testing_Config_Records_Duration_And_Stop_Toggle()
         {
-            // Reachable with no profile — automated testing uses its own transient bots.
+            // Reachable with no profile - automated testing uses its own transient bots.
             Send("7");
             Assert.Equal("AutoTestConfigForm", FormName);
             Assert.Contains("5 minutes", Screen); // default duration
@@ -239,7 +239,7 @@ namespace OregonTrailDotNet.Bot.Tests
         [Fact]
         public void Benchmark_Config_Records_Time_Limit_And_Goal()
         {
-            // Reachable with no profile — the benchmark uses its own transient bots.
+            // Reachable with no profile - the benchmark uses its own transient bots.
             Send("8");
             Assert.Equal("BenchmarkConfigForm", FormName);
             Assert.Contains("5 minutes", Screen); // default time limit
@@ -310,7 +310,7 @@ namespace OregonTrailDotNet.Bot.Tests
             Send("3"); // length menu
             Assert.Equal("TrainingConfigForm", FormName);
 
-            // Option 4 is "Train until I press Esc" — recorded as a negative generation sentinel. It tears the panel down,
+            // Option 4 is "Train until I press Esc" - recorded as a negative generation sentinel. It tears the panel down,
             // so submit it with the null-guarded tick pattern rather than the Send helper.
             BotSimulationApp.Instance!.InputManager.AddCharToInputBuffer('4');
             BotSimulationApp.Instance!.InputManager.SendInputBufferAsCommand();

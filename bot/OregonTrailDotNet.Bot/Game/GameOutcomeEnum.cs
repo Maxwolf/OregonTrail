@@ -8,7 +8,7 @@ namespace OregonTrailDotNet.Bot.Game
         /// <summary>Reached Oregon City.</summary>
         Win,
 
-        /// <summary>Whole party died — the game records no score.</summary>
+        /// <summary>Whole party died - the game records no score.</summary>
         Death,
 
         /// <summary>Ran out of time (>= 246 days) while still alive; the game tallies partial-progress points.</summary>

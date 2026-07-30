@@ -8,7 +8,7 @@ namespace OregonTrailDotNet.Module.Tombstone
 {
     /// <summary>
     ///     Keeps track of the trail's tombstones and supports saving them to the game database and loading them again. The
-    ///     trail only ever holds two graves — one for each half of the trail — keyed by <see cref="Tombstone.TrailHalf" />, so
+    ///     trail only ever holds two graves - one for each half of the trail - keyed by <see cref="Tombstone.TrailHalf" />, so
     ///     a party that dies in a half simply overwrites whatever grave was already there. Also has the methods to check for a
     ///     Tombstone at a particular spot on the trail.
     /// </summary>
@@ -66,7 +66,7 @@ namespace OregonTrailDotNet.Module.Tombstone
 
         /// <summary>
         ///     Creates a shallow copy of the tombstone item and places it in the grave slot for its half of the trail. The
-        ///     trail holds only two graves — one per half — so a fresh death in a half overwrites whatever grave was there.
+        ///     trail holds only two graves - one per half - so a fresh death in a half overwrites whatever grave was there.
         /// </summary>
         /// <param name="tombstoneItem">The tombstone Item.</param>
         public void Add(Tombstone tombstoneItem)
@@ -129,7 +129,7 @@ namespace OregonTrailDotNet.Module.Tombstone
         /// <summary>
         ///     Determines whether a grave sits in the stretch of trail the party just covered, i.e. its mile marker is greater
         ///     than <paramref name="fromExclusive" /> and less than or equal to <paramref name="toInclusive" />. A travel turn
-        ///     advances the odometer in a jump, so an exact match rarely lands on a grave — checking the range the turn covered
+        ///     advances the odometer in a jump, so an exact match rarely lands on a grave - checking the range the turn covered
         ///     is how the party reliably comes across the graves earlier parties left behind. The found grave is remembered in
         ///     <see cref="Encountered" /> so the graveyard view can show it.
         /// </summary>

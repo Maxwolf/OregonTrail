@@ -61,7 +61,7 @@ namespace OregonTrailDotNet.Tests.Window
         public void AnOfferNeverFavoursThePlayer_AndIsNeverWorseThanRoughlyHalf()
         {
             // The emigrant asks for between the honest rate and two and a fifth times it. So the party always sheds a
-            // little value on a swap and sometimes a lot — trading gets you what you need, never ahead. Quantities are
+            // little value on a swap and sometimes a lot - trading gets you what you need, never ahead. Quantities are
             // whole numbers, so allow a unit of rounding slack in each direction.
             foreach (var offer in Offers(3000))
             {
@@ -102,7 +102,7 @@ namespace OregonTrailDotNet.Tests.Window
         public void FoodBuysBulletsAtRoughlyTheHistoricRate_WhichIsWhatMakesHuntingPay()
         {
             // A hundred pounds of food is twenty dollars, and so is two hundred bullets. A party that can hunt can turn a
-            // day and a bullet into food and food back into more bullets than it started with — that loop is the reason
+            // day and a bullet into food and food back into more bullets than it started with - that loop is the reason
             // trading matters at all, and it only exists because the rate ignores how easy food is to come by.
             var swaps = Offers(6000)
                 .Where(o => (o.WantedItem.Category == EntitiesEnum.Food) &&
@@ -123,7 +123,7 @@ namespace OregonTrailDotNet.Tests.Window
         public void AnEmigrantNeverAsksForMoreSparePartsThanAWagonCouldHold()
         {
             // A spare part is worth half an ox, so at the worst of the haggling the value model asks four of them for one
-            // — and a wagon may only carry three. The original shipped exactly that and never checked, which is why
+            // - and a wagon may only carry three. The original shipped exactly that and never checked, which is why
             // "wants 4 wagon wheels" is a thing players remember; an offer nobody could accept just wasted their day.
             // The item's own ceiling clamps the demand back to three here, so the offer stays one the party can actually
             // take. This is a deliberate (small) departure from the original rather than an oversight.

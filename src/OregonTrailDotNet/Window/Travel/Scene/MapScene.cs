@@ -10,7 +10,7 @@ using WolfCurses.Window.Form;
 namespace OregonTrailDotNet.Window.Travel.Scene
 {
     /// <summary>
-    ///     The trail map: the DOS port's 640-wide map picture with the party's actual route plotted over it — the
+    ///     The trail map: the DOS port's 640-wide map picture with the party's actual route plotted over it - the
     ///     finished polyline through every location reached (fork branches and all, since the visited list encodes
     ///     which road was taken) and the current leg growing out of the last stop. The graphical sibling of
     ///     <see cref="Command.LookAtMap" />, silent like the original's map screen.
@@ -22,13 +22,13 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>Initializes a new instance of the <see cref="MapScene" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public MapScene(IWindow window) : base(window)
         {
         }
 
         /// <summary>
-        ///     Which form shows the map. Both dispatch sites — the travel menu and the fork's "see the map" — route
+        ///     Which form shows the map. Both dispatch sites - the travel menu and the fork's "see the map" - route
         ///     through here.
         /// </summary>
         internal static Type FormType =>
@@ -57,7 +57,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         {
             var trail = GameSimulationApp.Instance.Trail;
 
-            // Every location reached so far, in trail order — the mutable list already contains any fork branch
+            // Every location reached so far, in trail order - the mutable list already contains any fork branch
             // that was spliced in, so the polyline bends the way this run actually went. Unresolvable names (the
             // debug trail) simply drop out of the line.
             var visited = new List<(int X, int Y)>();
@@ -99,7 +99,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         /// <inheritdoc />
         protected override string Compose()
         {
-            // Native 640 width, stretched vertically to the console's shape — squeezing to 320 first costs half
+            // Native 640 width, stretched vertically to the console's shape - squeezing to 320 first costs half
             // the horizontal detail (which is half the lettering), and pre-scaling to the cell grid blurs it; the
             // renderer resolves finer than one pixel per cell. All four traps are minigames.md's, solved once.
             int columns, rows;

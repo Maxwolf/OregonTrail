@@ -78,10 +78,10 @@ namespace OregonTrailDotNet.Bot.Ui
 
         private static string GoalLabel(BenchmarkGoalEnum goal) => goal switch
         {
-            BenchmarkGoalEnum.MeekScore => "Meek test — reach Stephen Meek's 7650 (Trail Guide)",
+            BenchmarkGoalEnum.MeekScore => "Meek test - reach Stephen Meek's 7650 (Trail Guide)",
             BenchmarkGoalEnum.MaxScore =>
-                $"Max score test — reach the game's ceiling of {OregonTrailDotNet.Module.Scoring.ScoringModule.MaxPossibleScore:N0}",
-            _ => "First win — reach Oregon"
+                $"Max score test - reach the game's ceiling of {OregonTrailDotNet.Module.Scoring.ScoringModule.MaxPossibleScore:N0}",
+            _ => "First win - reach Oregon"
         };
 
         private static string DurationLabel(int minutes) =>

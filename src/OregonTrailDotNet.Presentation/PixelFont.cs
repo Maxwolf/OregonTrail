@@ -5,7 +5,7 @@ namespace OregonTrailDotNet.Presentation
     /// <summary>
     ///     A 5x7 bitmap font drawn straight into a <see cref="PixelBuffer" />.
     ///     <para>
-    ///         Text on the tombstone has to be part of the <i>picture</i>, not terminal characters printed near it —
+    ///         Text on the tombstone has to be part of the <i>picture</i>, not terminal characters printed near it -
     ///         the original positioned its letters in hi-res pixel coordinates on the stone, so matching that layout
     ///         means being able to place a glyph at an exact (x, y) in the same 280x192 space. Splicing characters
     ///         into an already-rendered ANSI frame would mean walking colour escapes to find a column, and would only
@@ -157,7 +157,7 @@ namespace OregonTrailDotNet.Presentation
         }
 
         /// <summary>
-        ///     Draws a line into a <b>fixed character cell</b> rather than with this font's own spacing — every glyph
+        ///     Draws a line into a <b>fixed character cell</b> rather than with this font's own spacing - every glyph
         ///     advances by <paramref name="cellWidth" /> whatever its shape.
         ///     <para>
         ///         This is how the original laid text out: it printed into a text window over the picture, and its

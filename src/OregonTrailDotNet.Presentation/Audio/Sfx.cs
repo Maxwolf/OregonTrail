@@ -1,16 +1,26 @@
 namespace OregonTrailDotNet.Presentation.Audio
 {
     /// <summary>
-    ///     The presentation layer's one-shot sound effects — the 1990 DOS port's complete effect set, recovered
+    ///     The presentation layer's one-shot sound effects - the 1990 DOS port's complete effect set, recovered
     ///     from <c>OREGON.EXE</c> and documented in <c>docs/legacy-sounds.md</c>: the severe-thunderstorm rumble,
     ///     the wagon-part breakdown whoops, the hunt's muzzle pop, and the crash a sinking wagon and a colliding
     ///     raft shared. Nothing here is sampled; every effect is synthesized from its original recipe.
     ///     <para>
-    ///         A separate facade with its own <see cref="WaveOutPlayer" /> on purpose: <c>winmm</c> mixes open
-    ///         devices in the OS, so a short effect plays over the running tune with no duck-and-resume plumbing,
-    ///         and none of <see cref="Music" />'s stop guards can cut an effect off (nor an effect restart a tune —
-    ///         <see cref="Music.Play" />'s idempotence would swallow the re-assert). Mute and volume are still
-    ///         <see cref="Music" />'s alone; this class only ever reads them, so the two facades cannot disagree.
+    ///         A separate facade with its own <see cref="IAudioDevice" /> on purpose: every platform this game
+    ///         runs on mixes open output streams for you, so a short effect plays over the running tune with no
+    ///         duck-and-resume plumbing, and none of <see cref="Music" />'s stop guards can cut an effect off (nor
+    ///         an effect restart a tune - <see cref="Music.Play" />'s idempotence would swallow the re-assert).
+    ///         Mute and volume are still <see cref="Music" />'s alone; this class only ever reads them, so the two
+    ///         facades cannot disagree.
+    ///     </para>
+    ///     <para>
+    ///         The one platform where two streams are not guaranteed is a Linux box whose ALSA configuration puts
+    ///         no mixer in front of the card, where the output is held by one stream at a time. Note which way
+    ///         round that falls, because it is the opposite of the obvious guess: no scene that fires an effect
+    ///         declares a tune, and the travel screen stops the music on its way in, so every effect in the game
+    ///         sounds at a moment when nothing is holding the card. The effect always wins it. That is precisely
+    ///         why this device is created as an <see cref="AudioStreamEnum.OneShot" /> - it gives the card back as
+    ///         soon as the effect has played out, and the next tune finds it free.
     ///     </para>
     ///     <para>
     ///         Everything is fire-and-forget: a new effect replaces whichever one is still sounding, exactly as a
@@ -21,29 +31,29 @@ namespace OregonTrailDotNet.Presentation.Audio
     {
         /// <summary>
         ///     Sample rate for effects. Double the music's, because the crash effect's last noise burst reaches
-        ///     ~20 kHz — hash on the PC speaker, foldover distortion at 22050.
+        ///     ~20 kHz - hash on the PC speaker, foldover distortion at 22050.
         /// </summary>
         public const int SampleRate = 44100;
 
         /// <summary>
         ///     How long each of the original's back-to-back noise <c>Sound()</c> calls is held. The DOS loop had no
-        ///     delay at all — its duration was CPU-bound — so this is the port's one tuning knob: 0.1 ms sits in
-        ///     the 0.5–2 s the effect took on period hardware.
+        ///     delay at all - its duration was CPU-bound - so this is the port's one tuning knob: 0.1 ms sits in
+        ///     the 0.5-2 s the effect took on period hardware.
         /// </summary>
         private const double NoiseTickMilliseconds = 0.1;
 
-        private static readonly WaveOutPlayer Player = new();
+        private static readonly IAudioDevice Player = AudioDevice.Create(AudioStreamEnum.OneShot);
         private static readonly Lock Gate = new();
 
         /// <summary>
-        ///     The name of the last effect requested, muted or not — the observable for hosts and tests, in the
+        ///     The name of the last effect requested, muted or not - the observable for hosts and tests, in the
         ///     way <see cref="Music.Playing" /> names the current tune.
         /// </summary>
         public static string? LastCue { get; private set; }
 
         /// <summary>
         ///     The severe thunderstorm: four lightning flashes, each two 20 ms tones between 100 and 239 Hz, then
-        ///     ~400 ms of low rumble — eighty 5 ms tones rolled from 0–129 Hz where a roll of 18 or under holds the
+        ///     ~400 ms of low rumble - eighty 5 ms tones rolled from 0-129 Hz where a roll of 18 or under holds the
         ///     previous pitch, because the original's <c>Sound()</c> left the timer untouched below 19 Hz. That
         ///     quirk is what makes it growl instead of chirp, so it is reproduced deliberately.
         /// </summary>
@@ -81,7 +91,7 @@ namespace OregonTrailDotNet.Presentation.Audio
 
         /// <summary>
         ///     The hunt's muzzle pop: one 10 ms tone. The original pitched it at the muzzle's screen row plus
-        ///     50 Hz — and screen rows grow downward, so a shot fired high in the field thuds and one fired low
+        ///     50 Hz - and screen rows grow downward, so a shot fired high in the field thuds and one fired low
         ///     cracks.
         /// </summary>
         /// <param name="hertz">The pitch, normally muzzle Y + 50; clamped to what the speaker could hold.</param>
@@ -89,7 +99,7 @@ namespace OregonTrailDotNet.Presentation.Audio
             effect.Tone(Math.Clamp(hertz, 19, 1000), 10));
 
         /// <summary>
-        ///     The crash a swamped wagon and a colliding raft shared — the original's <c>CrashEffect</c>: three
+        ///     The crash a swamped wagon and a colliding raft shared - the original's <c>CrashEffect</c>: three
         ///     quick chirps (one rising, two falling, each separated by 30 ms of air) and then three successively
         ///     higher-register bursts of random static.
         /// </summary>
@@ -126,9 +136,10 @@ namespace OregonTrailDotNet.Presentation.Audio
 
                 // A headless host has no business making noise. This matters now that the hunt and the raft are
                 // played by the training bot too: their gunshot and crash are fired from scene logic, not from a
-                // draw call, so without this guard a training run on a Windows box with a sound card would bang
-                // away for hours. LastCue is still recorded above, so anything observing which effect was asked
-                // for keeps working; only the waveOut device is spared.
+                // draw call, so without this guard a training run on a machine with a sound card would bang away
+                // for hours - on any of the three platforms, now that all three have a backend. LastCue is still
+                // recorded above, so anything observing which effect was asked for keeps working; only the
+                // device is spared.
                 if (!SceneHost.Graphical)
                     return;
 
@@ -137,13 +148,16 @@ namespace OregonTrailDotNet.Presentation.Audio
 
                 var effect = new EffectBuilder();
                 recipe(effect);
-                Player.Play(effect.ToPcm(), SampleRate);
+
+                // Level first, playback second: see the same ordering in Music.Play. ALSA bakes the gain into the
+                // samples, so a level set after handover would leave the front of the effect at full scale.
                 Player.SetVolume(Music.Volume);
+                Player.Play(effect.ToPcm(), SampleRate);
             }
         }
 
         /// <summary>
-        ///     Builds an effect as one continuous square wave whose frequency is re-tuned segment by segment —
+        ///     Builds an effect as one continuous square wave whose frequency is re-tuned segment by segment -
         ///     which is the PC speaker itself: one oscillator, retuned by every <c>Sound()</c>, gated by
         ///     <c>NoSound</c>. The phase carries across segments so a re-tune never resets the wave, and the only
         ///     softening applied is a ~1.5 ms fade at the effect's outer edges (the same liberty
@@ -176,7 +190,7 @@ namespace OregonTrailDotNet.Presentation.Audio
                 }
             }
 
-            /// <summary>Appends silence — the original's <c>NoSound</c> then <c>Delay</c>.</summary>
+            /// <summary>Appends silence - the original's <c>NoSound</c> then <c>Delay</c>.</summary>
             /// <param name="milliseconds">How long the gap is.</param>
             public void Silence(double milliseconds)
             {
@@ -189,7 +203,7 @@ namespace OregonTrailDotNet.Presentation.Audio
             ///     The original's linear glissando, stepping exactly as it did: a wide sweep moves
             ///     <c>Round(range/ms)</c> Hz every millisecond; a narrow one moves 1 Hz every
             ///     <c>ceil(ms/range)</c> milliseconds. The run ends when the pitch passes its target, so a wide
-            ///     sweep's true length is <c>ceil(range/step)</c> ms — faithfully a shade off the nominal figure.
+            ///     sweep's true length is <c>ceil(range/step)</c> ms - faithfully a shade off the nominal figure.
             /// </summary>
             /// <param name="fromHertz">Starting pitch.</param>
             /// <param name="toHertz">Target pitch.</param>
@@ -254,8 +268,8 @@ namespace OregonTrailDotNet.Presentation.Audio
             }
 
             /// <summary>
-            ///     Milliseconds to samples with the remainder carried, so runs of sub-sample segments — the noise
-            ///     ticks are four and a half samples each — keep the effect's total length exact.
+            ///     Milliseconds to samples with the remainder carried, so runs of sub-sample segments - the noise
+            ///     ticks are four and a half samples each - keep the effect's total length exact.
             /// </summary>
             private int SamplesFor(double milliseconds)
             {

@@ -10,8 +10,8 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 {
     /// <summary>
     ///     The end of a hunt: the wrapper applied once to the whole bag, in the original's own order
-    ///     (<c>HUNT.LIB:50011-50016</c>) — dress the meat by halving anything from three pounds up, zero it against
-    ///     a full wagon, clamp it to the space that remains, cap what one hunter can carry at 100 pounds — then the
+    ///     (<c>HUNT.LIB:50011-50016</c>) - dress the meat by halving anything from three pounds up, zero it against
+    ///     a full wagon, clamp it to the space that remains, cap what one hunter can carry at 100 pounds - then the
     ///     day charged and everything written back to the wagon on ENTER.
     ///     <para>
     ///         This is where the hunt's whole cost lands, and it is the same for every host: the bag into the food
@@ -28,7 +28,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>Initializes a new instance of the <see cref="HuntSceneResult" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public HuntSceneResult(IWindow window) : base(window)
         {
         }
@@ -38,7 +38,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
         {
             base.OnFormPostCreate();
 
-            // However the hunt went, it cost the day — the same charge the word hunt makes.
+            // However the hunt went, it cost the day - the same charge the word hunt makes.
             GameSimulationApp.Instance.TakeTurn(false);
         }
 

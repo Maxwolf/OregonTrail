@@ -7,7 +7,7 @@ Clone of popular 90's computer game for C#.
 ## Download and Play ##
 
 Ready-to-run builds are attached to every [release](https://github.com/Maxwolf/OregonTrail/releases/latest).
-There is nothing to install and no .NET runtime to fetch first — each archive holds one self-contained
+There is nothing to install and no .NET runtime to fetch first - each archive holds one self-contained
 executable with the runtime, the original MECC artwork, and the chiptunes all bundled inside.
 
 | Your machine | File |
@@ -20,9 +20,12 @@ executable with the runtime, the original MECC artwork, and the chiptunes all bu
 | Linux on ARM (64-bit, e.g. Raspberry Pi 4/5) | `OregonTrail-<version>-linux-arm64.tar.gz` |
 
 Unpack it, read the `FIRST-RUN.txt` inside, and run `OregonTrailDotNet`. Give it a terminal at least
-80 columns by 25 rows — macOS Terminal and most Linux terminals open one row short of that, and the
-game silently drops whatever does not fit. The artwork draws on all three platforms; music and sound
-effects are Windows-only, because the audio stack talks to Windows' own waveOut device.
+80 columns by 25 rows - macOS Terminal and most Linux terminals open one row short of that, and the
+game silently drops whatever does not fit. The artwork, the music and the sound effects all work on
+all three platforms - through waveOut on Windows, Core Audio on macOS, and ALSA on Linux. Linux is
+the only one with a prerequisite: sound needs `libasound` (the `libasound2` or `alsa-lib` package).
+It plays through your sound server if you have one and straight to the ALSA card if you do not; with
+no `libasound` and no card, the game runs exactly the same, silently.
 
 Versions are `year.month.day.hour` stamps in UTC, so `2026.7.29.17` was built at 17:00 UTC on the
 29th of July 2026.

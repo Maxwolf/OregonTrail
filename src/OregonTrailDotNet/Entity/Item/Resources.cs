@@ -23,7 +23,7 @@ namespace OregonTrailDotNet.Entity.Item
         ///     scoring program through a two-byte pair, so 65,535 is the effective original ceiling (1,310 base points).
         ///     Sold by the box of twenty for $2.00, as Matt sold it: "I sell ammunition in boxes of 20 bullets. Each box
         ///     costs $2.00. How many boxes do you want?" The price is held per bullet at a twentieth of the box so a box
-        ///     bills exactly $2.00 while quantity keeps counting single bullets everywhere else in the simulation —
+        ///     bills exactly $2.00 while quantity keeps counting single bullets everywhere else in the simulation -
         ///     hunting spends one per trigger pull, scoring pays a point per fifty, the supply panel lists them. Only the
         ///     shop counter speaks in boxes. The two-digit field is the original's as well, which caps a single purchase
         ///     at ninety-nine boxes: 1,980 bullets.

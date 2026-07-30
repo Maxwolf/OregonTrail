@@ -31,7 +31,7 @@ namespace OregonTrailDotNet.Window.Graveyard
             PromptText = SceneGraph.PROMPT_TEXT_DEFAULT;
 
             // A scene form's tune must not outlive it: SetForm has no teardown, so stop Taps whenever a plain form
-            // (the epitaph editor, the confirm dialog) takes over — the same guard Travel carries.
+            // (the epitaph editor, the confirm dialog) takes over - the same guard Travel carries.
             if (GameSimulationApp.PresentationEnabled &&
                 CurrentForm is not OregonTrailDotNet.Presentation.SceneForm<TombstoneInfo>)
                 OregonTrailDotNet.Presentation.Audio.Music.Stop();

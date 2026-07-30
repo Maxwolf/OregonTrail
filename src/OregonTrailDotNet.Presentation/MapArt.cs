@@ -5,7 +5,7 @@ namespace OregonTrailDotNet.Presentation
     /// <summary>
     ///     The trail map's drawing, shared by every host that shows it: route plotting over the DOS
     ///     <c>map.png</c> backdrop and the vertical stretch that shapes the 640-wide picture to a console.
-    ///     The picture is exactly what the original does — <c>M0.PCK</c> is loaded as a backdrop and
+    ///     The picture is exactly what the original does - <c>M0.PCK</c> is loaded as a backdrop and
     ///     <c>MAP.LIB</c> <c>HPLOT</c>s the line on top; see <see cref="MapGame" /> for the three lines of
     ///     BASIC this is.
     /// </summary>
@@ -16,7 +16,7 @@ namespace OregonTrailDotNet.Presentation
         ///     <para>
         ///         Returns the frame <b>unsqueezed</b>, deliberately: the landmark coordinates are in this space, and
         ///         the caller decides whether it wants the whole thing halved for an overview or a slice of it at full
-        ///         width. Squeezing here instead is what broke it — the caller then halved an already halved frame and
+        ///         width. Squeezing here instead is what broke it - the caller then halved an already halved frame and
         ///         ran straight off the end of it.
         ///     </para>
         /// </summary>
@@ -54,7 +54,7 @@ namespace OregonTrailDotNet.Presentation
         }
 
         /// <summary>
-        ///     The same plot from bare coordinates, for a host whose journey is not a <see cref="MapGame" /> — the
+        ///     The same plot from bare coordinates, for a host whose journey is not a <see cref="MapGame" /> - the
         ///     real game feeds its own visited locations (mapped through <see cref="OriginalTrail" />) and live leg
         ///     progress. A null leg endpoint skips the in-progress segment.
         /// </summary>
@@ -85,7 +85,7 @@ namespace OregonTrailDotNet.Presentation
         ///     Resamples to an exact size, scaling each axis on its own.
         ///     <para>
         ///         Used only to stretch the map vertically onto the shape of the console, so it is very nearly always
-        ///         magnifying — and box-averaging degrades to plain row replication when it magnifies, which is what
+        ///         magnifying - and box-averaging degrades to plain row replication when it magnifies, which is what
         ///         one-bit line art wants. Nothing is blended that does not have to be.
         ///     </para>
         /// </summary>
@@ -126,7 +126,7 @@ namespace OregonTrailDotNet.Presentation
         /// <summary>
         ///     A one-pixel line, which is all <c>HPLOT ... TO ...</c> is. Bresenham rather than the original's
         ///     slope-and-step, because the BASIC's <c>L = (Y2-Y1)/(X2-X1)</c> divides by zero on a vertical leg and
-        ///     nothing on this trail happens to be vertical — a fragility not worth reproducing.
+        ///     nothing on this trail happens to be vertical - a fragility not worth reproducing.
         /// </summary>
         public static void Line(PixelBuffer canvas, int x1, int y1, int x2, int y2)
         {

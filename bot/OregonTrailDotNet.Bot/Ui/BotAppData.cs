@@ -7,7 +7,7 @@ namespace OregonTrailDotNet.Bot.Ui
     ///     Shared user-data for every form in the bot control-panel window stack. Because a
     ///     <see cref="WolfCurses.Window.WindowData" /> instance is discarded when the window is torn down, anything that must
     ///     survive the handoff into a training/watch game session lives on the process-wide
-    ///     <see cref="OregonTrailDotNet.Bot.BotContext" /> instead — this object only carries in-flight form state.
+    ///     <see cref="OregonTrailDotNet.Bot.BotContext" /> instead - this object only carries in-flight form state.
     /// </summary>
     public sealed class BotAppData : WindowData
     {

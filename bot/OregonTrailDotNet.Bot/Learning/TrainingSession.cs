@@ -16,25 +16,25 @@ namespace OregonTrailDotNet.Bot.Learning
     {
         /// <summary>Bumped whenever <see cref="Fitness" /> changes scale or semantics. Optimizers stamp it into their
         ///     persisted learning state so a champion's BestFitness measured under an old objective is never compared against
-        ///     new-scale fitness on resume — a stale cross-scale champion could otherwise never be displaced and the profile
+        ///     new-scale fitness on resume - a stale cross-scale champion could otherwise never be displaced and the profile
         ///     would keep replaying it as its "best" genome forever.</summary>
         // v6: the game's score ceiling moved from ~8,715 to the 1985-faithful 13,860 (clothes cap 50->255, bullets
-        // 99->65,535, no 246-day limit, $40 oxen minimum) and policies gained the endgame trade grind — score-scale
+        // 99->65,535, no 246-day limit, $40 oxen minimum) and policies gained the endgame trade grind - score-scale
         // change, so champions measured under the old ceiling must not survive a resume.
         internal const int FitnessVersion = 6;
 
         /// <summary>Weight of the real game score inside the win branch of <see cref="Fitness" />. At 1x the optimizer
-        ///     settled on the most RELIABLE win it could find — Banker (x1 multiplier, $1600 restocking warchest), ~2750
-        ///     points tops — because higher-multiplier professions win somewhat less often and lost on expected value. The
+        ///     settled on the most RELIABLE win it could find - Banker (x1 multiplier, $1600 restocking warchest), ~2750
+        ///     points tops - because higher-multiplier professions win somewhat less often and lost on expected value. The
         ///     amplified weight lowers the win-rate bar a score-chasing strategy must clear: at 3x, a Carpenter (x2) beats a
-        ///     58%-win-rate Banker from ~35% win rate, and a Meek-grade Farmer (x3, 7650) from ~21% — pushing training
+        ///     58%-win-rate Banker from ~35% win rate, and a Meek-grade Farmer (x3, 7650) from ~21% - pushing training
         ///     toward the best score AND winning, not merely finishing. Pushed much higher, one lucky high-score win would
         ///     dominate a candidate's 64-game mean and selection would degrade into score-lottery noise.</summary>
         internal const double WinScoreWeight = 3.0;
 
         /// <summary>Weight of a candidate's single best WINNING score, added on top of its mean fitness. The mean is an
         ///     expected-value objective, and measured play shows the reliable Banker (43% wins, ~1300-point wins) beats the
-        ///     score-multiplier professions on EV no matter how the per-game score is weighted — Carpenter's 1.7x score
+        ///     score-multiplier professions on EV no matter how the per-game score is weighted - Carpenter's 1.7x score
         ///     edge never overcomes its 2.3x win-rate deficit, so training kept abandoning high-score play. Crediting the
         ///     best win a candidate produced (every candidate plays the same seeds, so the comparison is fair) rewards the
         ///     high-ceiling strategies for their peaks and keeps them in the gene pool. Wins only: a Timeout's partial
@@ -79,7 +79,7 @@ namespace OregonTrailDotNet.Bot.Learning
 
         /// <summary>Runs the configured number of generations, invoking <paramref name="onGeneration" /> after each and
         ///     stopping early if <paramref name="shouldStop" /> returns true. A negative <see cref="TrainingConfig.Generations" />
-        ///     means "run open-endedly" — the loop only ends when <paramref name="shouldStop" /> says so (the Esc/Ctrl+C hook).
+        ///     means "run open-endedly" - the loop only ends when <paramref name="shouldStop" /> says so (the Esc/Ctrl+C hook).
         ///     <paramref name="shouldStop" /> is polled between GAMES, not just between generations: a stop mid-batch abandons
         ///     the in-progress generation and discards its partial results (the optimizer can only learn from a fully scored
         ///     generation, and a half-evaluated one would otherwise pollute the run history and get replayed on resume).
@@ -235,7 +235,7 @@ namespace OregonTrailDotNet.Bot.Learning
 
         private void PersistOptimizer()
         {
-            // The genome saved for replay/leaderboard is the optimizer's ROBUST champion — its best vector by shaped fitness
+            // The genome saved for replay/leaderboard is the optimizer's ROBUST champion - its best vector by shaped fitness
             // (averaged over the generation's common-random-numbers seeds), falling back to its current best-guess mean. This
             // replaces the old "single luckiest raw-score game" genome, which under un-seeded noise was mostly luck rather than
             // a policy worth watching. The best RAW SCORE is still tracked separately (for the "best ever" stat and leaderboard).
@@ -251,8 +251,8 @@ namespace OregonTrailDotNet.Bot.Learning
         //     trying to finish - stalling was the accessible optimum, so nothing ever learned to push for Oregon.)
         //   - score, amplified (see WinScoreWeight): among wins, the game's own tally is the objective, so a Meek-grade
         //     finish beats grinding out the cheapest reliable one.
-        //   - partyHealth: survivors weighted by their average health (0..2500), credited on every run and — off the finish
-        //     line — scaled by trail progress, so "keep them alive AND get them down the trail" is the gradient rather than
+        //   - partyHealth: survivors weighted by their average health (0..2500), credited on every run and - off the finish
+        //     line - scaled by trail progress, so "keep them alive AND get them down the trail" is the gradient rather than
         //     "park at the trailhead and keep everyone fat".
         //   - progress: a gentle distance tie-breaker so that, among equally-alive parties, getting further still ranks higher.
         // The leaderboard and best-score tracking continue to use the real game score (result.Score) untouched; only the
@@ -270,8 +270,8 @@ namespace OregonTrailDotNet.Bot.Learning
             if (result.Outcome == GameOutcomeEnum.Win)
             {
                 // Reaching Oregon strictly dominates: the flat bonus exceeds the best possible non-win fitness (500 progress
-                // + 2500 survival = 3000) even after the worst-case death penalty (4 x 150 = 600) — the score term only adds
-                // (it is never negative) — so the optimizer can never prefer stalling or parking over a genuine finish.
+                // + 2500 survival = 3000) even after the worst-case death penalty (4 x 150 = 600) - the score term only adds
+                // (it is never negative) - so the optimizer can never prefer stalling or parking over a genuine finish.
                 // Within wins, the AMPLIFIED game score is the objective: it packages everything a top finish means
                 // (survivors x health x profession multiplier, plus supplies and cash carried through), so weighting it up
                 // steers training toward Meek-grade scores instead of the cheapest reliable finish. The per-death penalty

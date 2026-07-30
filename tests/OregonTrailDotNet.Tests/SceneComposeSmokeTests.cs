@@ -8,7 +8,7 @@ using Xunit;
 namespace OregonTrailDotNet.Tests
 {
     /// <summary>
-    ///     Compose smoke for the crossing scene — the one animated scene without a frame test (the drive, hunt and
+    ///     Compose smoke for the crossing scene - the one animated scene without a frame test (the drive, hunt and
     ///     raft scenes have theirs beside their gate tests). This guards the Build path and the first frame of the
     ///     ferry and ford pictures; the disaster branches (wreck swap, swamp wedge, far-bank fan) render only from
     ///     live midstream state and stay covered by play.

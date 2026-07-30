@@ -19,7 +19,7 @@ namespace OregonTrailDotNet.Minigames.Windows
     public sealed class RaftForm : WorkbenchSceneForm
     {
         // The sprite ids, the marker-block split and the synthesized river all live in RaftArt now, comments and
-        // all — they are the pieces a game-side raft scene reuses verbatim.
+        // all - they are the pieces a game-side raft scene reuses verbatim.
         private RaftGame _game = null!;
         private SpriteScene _scene = null!;
         private Sprite _raft = null!;
@@ -33,7 +33,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
         /// <summary>Initializes a new instance of the <see cref="RaftForm" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public RaftForm(IWindow window) : base(window)
         {
         }
@@ -42,14 +42,14 @@ namespace OregonTrailDotNet.Minigames.Windows
         protected override int ReservedRows => 9;
 
         /// <summary>
-        ///     Deliberately far slower than the other sections. A tick here is not a frame of animation — it is a whole
+        ///     Deliberately far slower than the other sections. A tick here is not a frame of animation - it is a whole
         ///     lane, a seventeenth of the river, so at the workbench's usual 20/sec the raft crosses the Columbia in
         ///     under a second and no key press can land in time.
         ///     <para>
         ///         The original cannot be read off the listing: <c>:1070</c>-<c>:1180</c> has no delay in it, so it ran
         ///         at whatever Applesoft managed, and every pass costs it two spawn rolls, up to six <c>&amp;</c> sprite
         ///         blits and four collision rectangles. That is a handful of passes a second, not twenty. Nine puts the
-        ///         225-tick run at about twenty-five seconds, which is the length the landing windows are cut for —
+        ///         225-tick run at about twenty-five seconds, which is the length the landing windows are cut for -
         ///         <c>:1145</c> spaces the three signs sixty ticks apart, and they want to read as landmarks going by
         ///         rather than as a flicker.
         ///     </para>
@@ -96,7 +96,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         }
 
         /// <summary>
-        ///     Four frames to a step. A step moves the raft a whole lane — about ten pixels once scaled — and slides
+        ///     Four frames to a step. A step moves the raft a whole lane - about ten pixels once scaled - and slides
         ///     every rock <c>(+8, -4)</c>, so drawing only on the step reads as a chunky hop rather than a river.
         ///     Quartering it puts the raft at roughly 2px a frame, which reads as motion instead of as a grid.
         ///     <para>
@@ -105,7 +105,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         ///         throughput. Going higher buys very little smoothness for a lot more bandwidth.
         ///     </para>
         ///     <para>
-        ///         The cost is that what is drawn trails the simulation by up to one step — around 110ms here, 55ms on
+        ///         The cost is that what is drawn trails the simulation by up to one step - around 110ms here, 55ms on
         ///         average. That is the price of interpolating between two known positions rather than guessing at the
         ///         next one, and it is much the better trade: extrapolating would make the raft visibly snap backwards
         ///         every time the player changed the drift.
@@ -156,7 +156,7 @@ namespace OregonTrailDotNet.Minigames.Windows
 
             var text = new StringBuilder();
             text.AppendLine();
-            text.AppendLine("COLUMBIA RIVER — guide the raft, then land at the Willamette trail.");
+            text.AppendLine("COLUMBIA RIVER - guide the raft, then land at the Willamette trail.");
 
             var drift = _game.Drift switch
             {
@@ -174,10 +174,10 @@ namespace OregonTrailDotNet.Minigames.Windows
                 RaftOutcomeEnum.Landed => "*** LANDED ***  R to run it again.",
                 RaftOutcomeEnum.Missed => "*** MISSED THE LANDING ***  R to run it again.",
                 _ when _game.LandingWindowOpen =>
-                    $"*** LANDING OPEN *** reach lane {RaftGame.LastLane} — " +
+                    $"*** LANDING OPEN *** reach lane {RaftGame.LastLane} - " +
                     $"{RaftGame.LandingClosesAfter - _game.Tick} ticks left!",
                 _ when _game.Tick > RaftGame.LandingAppearsTick =>
-                    $"The landing is in sight — it opens in {RaftGame.LandingOpensAfter - _game.Tick + 1} ticks.",
+                    $"The landing is in sight - it opens in {RaftGame.LandingOpensAfter - _game.Tick + 1} ticks.",
                 _ => _game.LastEvent
             });
 
@@ -206,7 +206,7 @@ namespace OregonTrailDotNet.Minigames.Windows
         ///     Puts one sprite somewhere between where it was and where it is.
         ///     <para>
         ///         A slot that has just filled has no previous position to ease from, and must <b>not</b> be eased from
-        ///         where the last occupant died — that is usually most of a screen away, and would sweep the new rock
+        ///         where the last occupant died - that is usually most of a screen away, and would sweep the new rock
         ///         right across the water in front of the player. Instead the missing position is reconstructed by
         ///         stepping the spawn point back along the drift, so the rock slides in from off the edge rather than
         ///         popping into place and then sitting still for a step.

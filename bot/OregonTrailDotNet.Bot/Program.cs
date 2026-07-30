@@ -12,7 +12,7 @@ namespace OregonTrailDotNet.Bot
 {
     /// <summary>
     ///     Entry point and top-level mode state machine. Alternates between the WolfCurses control panel (interactive menu) and
-    ///     game sessions (headless training or a watchable playthrough). Only one WolfCurses app is alive at a time — a control
+    ///     game sessions (headless training or a watchable playthrough). Only one WolfCurses app is alive at a time - a control
     ///     panel form records a request and tears itself down, then this loop acts on the request and rebuilds the panel.
     /// </summary>
     internal static class Program
@@ -166,7 +166,7 @@ namespace OregonTrailDotNet.Bot
                         return _stopRequested;
                     },
                     // A 16x64-game generation runs ~10+ seconds with nothing on screen; redraw a live bar on the same
-                    // console line as games finish (throttled — the console can't usefully show ~100 updates a second).
+                    // console line as games finish (throttled - the console can't usefully show ~100 updates a second).
                     onGame: tick =>
                     {
                         if (tick.GamesPlayed % 16 != 0 && tick.GamesPlayed != tick.GamesTotal)
@@ -177,11 +177,11 @@ namespace OregonTrailDotNet.Bot
                         Console.Write($"\r{bar}  {tick.GamesPlayed,4}/{tick.GamesTotal} games   wins {tick.WinsSoFar,3}");
                     });
 
-                // Esc can land mid-generation, leaving the progress bar on the current line — wipe it before summarizing.
+                // Esc can land mid-generation, leaving the progress bar on the current line - wipe it before summarizing.
                 Console.Write($"\r{new string(' ', 79)}\r");
                 Console.WriteLine(_stopRequested
-                    ? "\nStopped — completed generations saved; the interrupted one was discarded."
-                    : "\nTraining complete — progress saved.");
+                    ? "\nStopped - completed generations saved; the interrupted one was discarded."
+                    : "\nTraining complete - progress saved.");
             }
             catch (BotBugException bug)
             {
@@ -232,7 +232,7 @@ namespace OregonTrailDotNet.Bot
                     return;
                 }
 
-                // A crash or detected bug is a developer-stop condition — always surface it and end the session.
+                // A crash or detected bug is a developer-stop condition - always surface it and end the session.
                 if (result.Bug != null)
                 {
                     Console.WriteLine(result.Bug.Format());
@@ -348,7 +348,7 @@ namespace OregonTrailDotNet.Bot
             Console.WriteLine();
             Console.WriteLine(savedPath != null
                 ? $"Report saved to: {savedPath}"
-                : "(Could not save the report to disk — it is shown above.)");
+                : "(Could not save the report to disk - it is shown above.)");
             Pause();
             TrySetCursorVisible(false);
         }
@@ -363,7 +363,7 @@ namespace OregonTrailDotNet.Bot
 
                 var lines = new List<string>
                 {
-                    "AUTOMATED TESTING — one bot of every model, hunting game bugs",
+                    "AUTOMATED TESTING - one bot of every model, hunting game bugs",
                     $"elapsed {(int) elapsed.TotalMinutes}:{elapsed.Seconds:00}   limit {limit}   (press Esc to stop)",
                     "",
                     $"{"Model",-24}{"Games",7}{"Wins",6}{"Deaths",8}{"Timeouts",10}{"Problems",10}"
@@ -385,11 +385,11 @@ namespace OregonTrailDotNet.Bot
             }
             catch (IOException)
             {
-                // No real console (redirected) — skip rendering.
+                // No real console (redirected) - skip rendering.
             }
             catch (ArgumentOutOfRangeException)
             {
-                // Console resized very small — skip this frame.
+                // Console resized very small - skip this frame.
             }
         }
 
@@ -405,7 +405,7 @@ namespace OregonTrailDotNet.Bot
             }
             catch (Exception)
             {
-                // Disk not writable (e.g. read-only deployment) — the report is still shown on screen.
+                // Disk not writable (e.g. read-only deployment) - the report is still shown on screen.
                 return null;
             }
         }
@@ -457,7 +457,7 @@ namespace OregonTrailDotNet.Bot
             Console.WriteLine();
             Console.WriteLine(savedPath != null
                 ? $"Report saved to: {savedPath}"
-                : "(Could not save the report to disk — it is shown above.)");
+                : "(Could not save the report to disk - it is shown above.)");
             Pause();
             TrySetCursorVisible(false);
         }
@@ -472,7 +472,7 @@ namespace OregonTrailDotNet.Bot
 
                 var lines = new List<string>
                 {
-                    $"BENCHMARK — how long each model takes to reach {report.GoalLabel}",
+                    $"BENCHMARK - how long each model takes to reach {report.GoalLabel}",
                     $"elapsed {BenchmarkReport.FormatDuration(elapsed)}   limit {limit}   (press Esc to stop)",
                     "",
                     $"{"Model",-24}{"Games",7}{"Best",8}{"Reached",20}"
@@ -481,7 +481,7 @@ namespace OregonTrailDotNet.Bot
                 {
                     var status = r.Reached
                         ? $"{BenchmarkReport.FormatDuration(r.TimeToGoal)} (g{r.GamesToGoal})"
-                        : "— not yet —";
+                        : "- not yet -";
                     lines.Add($"{Truncate(r.DisplayName, 23),-24}{r.Games,7}{r.BestScore,8}{status,20}");
                 }
                 lines.Add("");
@@ -501,11 +501,11 @@ namespace OregonTrailDotNet.Bot
             }
             catch (IOException)
             {
-                // No real console (redirected) — skip rendering.
+                // No real console (redirected) - skip rendering.
             }
             catch (ArgumentOutOfRangeException)
             {
-                // Console resized very small — skip this frame.
+                // Console resized very small - skip this frame.
             }
         }
 
@@ -589,11 +589,11 @@ namespace OregonTrailDotNet.Bot
             }
             catch (IOException)
             {
-                // No real console — skip.
+                // No real console - skip.
             }
             catch (ArgumentOutOfRangeException)
             {
-                // Console resized smaller than the height computed above mid-render — skip this frame, like the
+                // Console resized smaller than the height computed above mid-render - skip this frame, like the
                 // auto-test and benchmark dashboard renderers do. Without this the whole control-panel loop crashed.
             }
         }
@@ -606,7 +606,7 @@ namespace OregonTrailDotNet.Bot
             }
             catch (InvalidOperationException)
             {
-                // Input is redirected (no interactive console) — treat as no key.
+                // Input is redirected (no interactive console) - treat as no key.
                 return false;
             }
         }
@@ -621,7 +621,7 @@ namespace OregonTrailDotNet.Bot
             }
             catch (InvalidOperationException)
             {
-                // Input redirected — nothing to wait on.
+                // Input redirected - nothing to wait on.
             }
         }
 
@@ -633,7 +633,7 @@ namespace OregonTrailDotNet.Bot
             }
             catch (IOException)
             {
-                // No real console (redirected) — nothing to clear.
+                // No real console (redirected) - nothing to clear.
             }
         }
 

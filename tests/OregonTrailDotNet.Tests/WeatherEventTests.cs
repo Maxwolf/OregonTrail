@@ -11,9 +11,9 @@ using Xunit;
 namespace OregonTrailDotNet.Tests
 {
     /// <summary>
-    ///     The four weather events were dead content for years — nothing ever rolled or triggered them — and code
+    ///     The four weather events were dead content for years - nothing ever rolled or triggered them - and code
     ///     that just came back from the dead is where latent crashes live. Each execution test asserts evidence
-    ///     only a real execution produces (the random-event window with the right form attached — a blizzard's
+    ///     only a real execution produces (the random-event window with the right form attached - a blizzard's
     ///     skip-day countdown proves its days actually landed), and the gate tests pin both halves of the design
     ///     rule that revived them: a stopped party is never struck, and a storm parks the wagon so the rest days
     ///     that follow are storm-proof.
@@ -50,7 +50,7 @@ namespace OregonTrailDotNet.Tests
             Game.EventDirector.TriggerEvent(Game.Vehicle, eventType);
 
             // Evidence only an execution produces: the random-event window is up with the form the event's own
-            // flow chooses — a blizzard's lost days attach the skip-day countdown (proof DaysToSkip landed), the
+            // flow chooses - a blizzard's lost days attach the skip-day countdown (proof DaysToSkip landed), the
             // others hold the executor's message. The recorder is secondary (it writes before execution).
             var window = Game.WindowManager.FocusedWindow;
             Assert.NotNull(window);
@@ -73,7 +73,7 @@ namespace OregonTrailDotNet.Tests
             Game.EventDirector.TriggerEvent(Game.Vehicle, typeof(Blizzard));
 
             // The other half of the no-chaining rule: the skip-day form stops the wagon, and a stopped wagon is
-            // exempt from the sky (the invariant below) — so the storm's own rest days can never roll a second
+            // exempt from the sky (the invariant below) - so the storm's own rest days can never roll a second
             // storm on top of the first.
             Assert.Equal(VehicleStatusEnum.Stopped, Game.Vehicle.Status);
         }

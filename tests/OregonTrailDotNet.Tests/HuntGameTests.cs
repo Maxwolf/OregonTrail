@@ -7,11 +7,11 @@ using Xunit;
 namespace OregonTrailDotNet.Tests
 {
     /// <summary>
-    ///     Pins the hunt simulation the game's field hunt runs on — pure, seedable logic that until now was only
+    ///     Pins the hunt simulation the game's field hunt runs on - pure, seedable logic that until now was only
     ///     ever validated by playing it. The rules that matter to the wagon: exactly one bullet per trigger pull,
     ///     raw pounds accumulating per kill with the dressing applied once at hunt's end, the roster gated by the
     ///     country, rotation paced at one step per three ticks the shorter way round, the spawn block once four
-    ///     carcasses litter the field, and the scenery standing solid — bodies walk around it and bullets die in it.
+    ///     carcasses litter the field, and the scenery standing solid - bodies walk around it and bullets die in it.
     /// </summary>
     public class HuntGameTests
     {
@@ -32,7 +32,7 @@ namespace OregonTrailDotNet.Tests
             Assert.Equal(1, game.ShotsFired);
             Assert.True(game.Shot.Active);
 
-            // A second pull while the bullet is out costs nothing — the original allows one in the air.
+            // A second pull while the bullet is out costs nothing - the original allows one in the air.
             game.Fire();
             Assert.Equal(19, game.Bullets);
             Assert.Equal("A bullet is already in flight.", game.LastEvent);
@@ -116,7 +116,7 @@ namespace OregonTrailDotNet.Tests
         [Fact]
         public void Bag_HalvesFromThreePoundsUp_ExactlyAsTheBasicDid()
         {
-            // HUNT.LIB:50011 — L = INT(L / (2 - (L < 3))): one- and two-pound kills pass whole.
+            // HUNT.LIB:50011 - L = INT(L / (2 - (L < 3))): one- and two-pound kills pass whole.
             Assert.Equal(0, HuntGame.Bag(0));
             Assert.Equal(1, HuntGame.Bag(1));
             Assert.Equal(2, HuntGame.Bag(2));
@@ -221,7 +221,7 @@ namespace OregonTrailDotNet.Tests
             while (game.Shot.Active)
                 game.Step();
 
-            // The round died in the wood — not past it at the field's edge, where a clean miss ends.
+            // The round died in the wood - not past it at the field's edge, where a clean miss ends.
             Assert.Equal("The shot hit cover.", game.LastEvent);
             Assert.True(game.Shot.Y >= 40);
             Assert.Equal(0, game.Kills);

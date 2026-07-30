@@ -12,7 +12,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
     ///     fires the one bullet the rifle keeps in the air, and RETURN starts and stops walking.
     ///     <para>
     ///         There is one hunt and every host plays it. This screen used to be the graphical half of a pair, with
-    ///         a word-typing hunt behind the same menu entry for headless hosts — a genuinely different game with its
+    ///         a word-typing hunt behind the same menu entry for headless hosts - a genuinely different game with its
     ///         own species, its own hit rule and ammunition charged per kill rather than per shot, which meant the
     ///         training bot spent its whole life optimizing an economy no player ever saw. That fork is gone.
     ///     </para>
@@ -22,7 +22,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
     {
         /// <summary>Initializes a new instance of the <see cref="HuntSceneHelp" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public HuntSceneHelp(IWindow window) : base(window)
         {
         }

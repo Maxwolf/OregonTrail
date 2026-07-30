@@ -9,11 +9,11 @@ using WolfCurses.Window.Form;
 namespace OregonTrailDotNet.Window.Travel.Scene
 {
     /// <summary>
-    ///     The opening: "Going back to 1848..." over the Independence card while the opening tune plays — the
+    ///     The opening: "Going back to 1848..." over the Independence card while the opening tune plays - the
     ///     graphical sibling of <see cref="Dialog.LocationArrive" />'s first-location prompt, shown once when the
     ///     player leaves Matt's store and the journey truly begins. This is where <c>song-00</c> belongs (the
     ///     original's <c>:1005</c> loader never plays it on a stop; it is the opening's tune), and where the
-    ///     Independence picture belongs — arrivals elsewhere show their card after the look-around question instead.
+    ///     Independence picture belongs - arrivals elsewhere show their card after the look-around question instead.
     /// </summary>
     [ParentWindow(typeof(Travel))]
     public sealed class OpeningCard : SceneForm<TravelInfo>
@@ -23,7 +23,7 @@ namespace OregonTrailDotNet.Window.Travel.Scene
 
         /// <summary>Initializes a new instance of the <see cref="OpeningCard" /> class.</summary>
         /// <param name="window">The parent window.</param>
-        // ReSharper disable once UnusedMember.Global — created by the form factory.
+        // ReSharper disable once UnusedMember.Global - created by the form factory.
         public OpeningCard(IWindow window) : base(window)
         {
         }
