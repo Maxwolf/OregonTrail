@@ -2,7 +2,7 @@
 
 Clone of popular 90's computer game for C#.
 
-![Oregon Trail Main Menu](https://raw.githubusercontent.com/Maxwolf/OregonTrail/master/media/TitleScreen.jpg)
+![Oregon Trail Title Screen](https://raw.githubusercontent.com/Maxwolf/OregonTrail/master/media/oregonclone_title.jpg)
 
 ## Download and Play ##
 
@@ -65,6 +65,8 @@ git push origin v2026.7.29.17
 
 The workflow can also be started by hand from the Actions tab, where it stamps the current UTC hour
 and only publishes a release if asked to.
+
+![Oregon Trail Gameplay](https://raw.githubusercontent.com/Maxwolf/OregonTrail/master/media/oregonclone_gameplay.gif)
 
 ## Simulation Features ##
 
