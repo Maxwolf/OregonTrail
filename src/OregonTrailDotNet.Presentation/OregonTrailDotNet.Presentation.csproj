@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>OregonTrailDotNet.Presentation</RootNamespace>
@@ -16,7 +16,7 @@
          GameSimulationApp.PresentationEnabled). It references only WolfCurses and the embedded-asset library,
          never the game, so the dependency arrow always points game -> presentation -> assets.
          See docs/minigame-integration-plan.md. -->
-    <PackageReference Include="WolfCurses" Version="2026.7.22.16" />
+    <PackageReference Include="WolfCurses" Version="2026.11.17.3" />
     <ProjectReference Include="..\OregonTrailDotNet.Assets\OregonTrailDotNet.Assets.csproj" />
   </ItemGroup>
 

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>OregonTrailDotNet.Minigames</RootNamespace>
@@ -16,7 +16,7 @@
          minigame can be built and felt in isolation. The one project it does lean on is the shared assets
          library, which carries the art and music as embedded resources so this ships as a single executable
          with no loose files to load. -->
-    <PackageReference Include="WolfCurses" Version="2026.7.22.16" />
+    <PackageReference Include="WolfCurses" Version="2026.11.17.3" />
     <ProjectReference Include="..\OregonTrailDotNet.Assets\OregonTrailDotNet.Assets.csproj" />
     <ProjectReference Include="..\OregonTrailDotNet.Presentation\OregonTrailDotNet.Presentation.csproj" />
   </ItemGroup>

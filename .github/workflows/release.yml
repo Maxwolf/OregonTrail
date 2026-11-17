@@ -48,7 +48,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  DOTNET_VERSION: '10.0.x'
+  DOTNET_VERSION: '11.0.x'
   DOTNET_NOLOGO: 'true'
   DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
 
@@ -141,7 +141,7 @@ jobs:
   #     build host is not Windows, and nothing downstream can put it back - a
   #     GitHub artifact upload flattens every file to 0644 regardless. So a
   #     Linux or macOS archive has to be tarred on a Linux or macOS runner.
-  #   * macOS kills an unsigned arm64 binary on sight. The .NET 10 SDK ad-hoc
+  #   * macOS kills an unsigned arm64 binary on sight. The .NET SDK (10 on) ad-hoc
   #     signs it from any host (the signer is managed now, gated on the target
   #     RID), but building on a Mac means codesign is there to *verify* that
   #     before the archive ships, which publish.ps1 does.

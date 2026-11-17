@@ -230,6 +230,12 @@ namespace OregonTrailDotNet.Window.Travel
             if (GameSimulationApp.PresentationEnabled && CurrentForm is not SceneForm<TravelInfo>)
                 Presentation.Audio.Music.Stop();
 
+            // Tearing the simulation down also lands here: WolfCurses (2026.11 on) clears every attached form on
+            // Destroy so each one hears OnFormClosing, and that runs after OnPreDestroy has already dropped the
+            // trail and the vehicle. There is no location left to build a menu from, and nobody left to read it.
+            if (GameSimulationApp.Instance == null)
+                return;
+
             // Update menu with proper choices.
             UpdateLocation();
         }
